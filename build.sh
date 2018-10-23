@@ -46,6 +46,6 @@ src/main/bash/bin/skb-framework -h
 
 mkdir -p src/main/bash/doc/manual
 mkdir -p src/main/bash/man/man1
-src/main/bash/bin/skb-framework -D -e bm -S off -- -b --adoc --text
+src/main/bash/bin/skb-framework -D -e bm -S off -- -b --adoc --text --manp
 
 gradle -c distribution.settings
