@@ -28,6 +28,24 @@
 ## @version    v0.0.0
 ##
 
+HAVE_GRADLE=1
+HAVE_MAVEN=1
+HAVE_ADOC=1
+HAVE_ADOC_PDF=1
+
+if [[ $(command -v gradle) && "$(gradle --version | grep "Gradle 4" | wc -l)" != "1" ]]; then
+    HAVE_GRADLE=0
+fi
+if [[ $(command -v mvn) ]]; then
+    HAVE_MAVEN=0
+fi
+if [[ $(command -v asciidoctor) ]]; then
+    HAVE_ADOC=0
+fi
+if [[ $(command -v asciidoctor-pdf) ]]; then
+    HAVE_ADOC=0
+fi
+
 if [[ ! $(command -v gradle) ]]; then
     printf "%s\n\n" "requires gradle"
     exit 1
