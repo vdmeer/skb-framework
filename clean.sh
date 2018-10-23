@@ -28,4 +28,36 @@
 ## @version    v0.0.0
 ##
 
+if [[ ! $(command -v gradle) ]]; then
+    printf "%s\n\n" "requires gradle"
+    exit 1
+fi
+if [[ "$(gradle --version | grep "Gradle 4" | wc -l)" != "1" ]]; then
+    printf "%s\n\n" "requires gradle version 4"
+    exit 1
+fi
+
 gradle -c distribution.settings clean
+
+if [[ -d src/main/bash/bin/java ]]; then
+    rm src/main/bash/bin/java/*
+    rmdir src/main/bash/bin/java
+fi
+
+if [[ -d src/main/bash/doc/manual ]]; then
+    rm src/main/bash/doc/manual/*
+    rmdir src/main/bash/doc/manual
+    rmdir src/main/bash/doc
+fi
+
+if [[ -d src/main/bash/man/man1 ]]; then
+    rm src/main/bash/man/man1/*
+    rmdir src/main/bash/man/man1
+    rmdir src/main/bash/man
+fi
+
+if [[ $(command -v mvn) ]]; then
+    mvn clean
+else
+    printf "\n%s\n\n" "did not find maven, could not clean sitse"
+fi
