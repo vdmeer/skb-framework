@@ -1,0 +1,32 @@
+== List of runtime options
+
+*-B*, *--build-mode* - run application in mode 'build':: 
+Sets <mode>
+
+*-D*, *--dev-mode* - run application in mode 'dev':: 
+Sets <mode>
+
+*-L*, *--loader-level* LEVEL - sets console level for the loader:: 
+Sets <loader-level>
+
+*-P*, *--print-mode* MODE - sets the print mode: ansi, text, text-anon:: 
+Sets <task-level>
+
+*-r*, *--run-scenario* FILE - run shell commands from scenario file:: 
+Runs a scenario from a file, i.e. the commands in the scenario file. 
+The file is automatically loaded from the scenario directory. 
+The file extension is optional.
+
+*-S*, *--shell-level* LEVEL - sets console level for the shell:: 
+Sets <shell-level>
+
+*--strict* - most warnings are treated as errors:: 
+Runs the program in strict mode. 
+Here, all missing task dependencies are treated as errors. 
+Errors cause the program to fail initialization. 
+If not in strict mode, missing task dependencies result in the respective task not being loaded. 
+
+*-T*, *--task-level* LEVEL - sets console level for tasks:: 
+Sets <task-level>
+
+

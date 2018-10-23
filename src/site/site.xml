@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="SKB-FRAMEWORK">
+    <bannerLeft>
+        <name/>
+        <title/>
+    </bannerLeft>
+
+    <body>
+        <head>
+            <![CDATA[<link href="https://fonts.googleapis.com/css?family=Lora|Roboto+Condensed" rel="stylesheet" />]]>
+        </head>
+
+        <menu name="SKB FRAMEWORK">
+            <item href="index.html" name="Wellcome" />
+            <item href="elements.html" name="Elements" collapse="false">
+                <item href="elements/options.html" name="Options" />
+                <item href="elements/commands.html" name="Commands" />
+                <item href="elements/parameters.html" name="Parameters" />
+                <item href="elements/dependencies.html" name="Dependencies" />
+                <item href="elements/tasks.html" name="Tasks" />
+            </item>
+            <item href="element-details.html" name="Element Details" collapse="false">
+                <item href="elements/option-exit-list.html" name="Exit Option List" />
+                <item href="elements/option-run-list.html" name="Runtime Option List" />
+                <item href="elements/command-list.html" name="Command List" />
+                <item href="elements/parameter-list.html" name="Parameter List" />
+                <item href="elements/dependency-list.html" name="Dependency List" />
+                <item href="elements/task-list.html" name="Task List" />
+            </item>
+        </menu>
+
+        <breadcrumbs>
+            <item name="vdmeer" href="http://www.vandermeer.de/"/>
+            <item name="skb" href="https://vdmeer.github.io/skb/"/>
+            <item name="bash" href="https://vdmeer.github.io/skb/"/>
+            <item name="framework" href="index.html"/>
+        </breadcrumbs>
+
+        <footer>
+            <![CDATA[
+                <p>
+                    Copyright &copy; 2018 Sven van der Meer. All rights reserved.
+                </p>
+                <p>
+                    <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+                </p>
+            ]]>
+        </footer>
+    </body>
+
+    <publishDate position="right"/>
+    <version position="right"/>
+    <poweredBy>
+        <logo name="maven-site" href="https://maven.apache.org/plugins/maven-site-plugin" img="images/logos/build-by-maven-black.png"/>
+        <logo name="asciidoctor" href="https://asciidoctor.org" img="images/logos/asciidoctor-transparent.png"/>
+    </poweredBy>
+
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.5</version>
+    </skin>
+</project>

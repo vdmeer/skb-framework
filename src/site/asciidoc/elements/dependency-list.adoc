@@ -1,0 +1,53 @@
+== List of dependencies
+
+*asciidoctor* - ADOC processor:: 
+Asciidoctor is a tool (or rather tool chain) that takes files written in AsciiDoc (or ADOC) and produces various output formats. 
+These formats are supported by backends 
+Standard backends are PDF and HTML 
+Others are supported by plugins. 
+For details on Asciidoctor and its installation see https://asciidoctor.org/ .
+
+*asciidoctor-pdf* - ADOC processor with PDF backend:: 
+PDF plugin for Asciidoctor to create PDF output.
+
+*biber* - bibliography processor in LaTeX:: 
+Dependency pyyaml...
+
+*bibtex* - bibliography processor in LaTeX:: 
+Dependency pyyaml...
+
+*cloc* - ued to count Lines Of Code, static code analysis:: 
+Dependency pyyaml...
+
+*gradle* - software build environment:: 
+Dependency pyyaml...
+
+*jre8* - JAVA Runtime Environment (JRE) 8:: 
+Dependency JRE8...
+
+*maven* - software build environment:: 
+Apache Maven is required by some tasks to build artifacts. 
+One example is the SKB site, which is build using the Maven site plugin. 
+The dependency here requires an installed version 3 or lager of Apache Maven. 
+For Maven documentation and installation see https://maven.apache.org/.
+
+*pdflatex* - LaTeX processor:: 
+Dependency pyyaml...
+
+*pgrep* - lookup proccesses by name:: 
+Dependency pyyaml...
+
+*pkill* - kill proccesses by name:: 
+Dependency pyyaml...
+
+*python3* - Python language version 3:: 
+Used by a variety of tasks that are implemented in Python3.
+All of them require a python3 installation to be executed.
+
+*pyyaml* - YAML processor for Python3:: 
+Used by a some tasks that use Python3 to process YAML files.
+All of them require a python3 installation and PY-YAML installed to be executed.
+To install _pyyaml_, run for instance pip as `pip3 install pyyaml`
+For further information see the pyyaml home page: https://github.com/yaml/pyyaml .
+
+

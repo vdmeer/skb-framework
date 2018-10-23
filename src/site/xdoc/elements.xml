@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+    <properties>
+        <title>Elements</title>
+        <author email="vdmeer dot sven at mykolab dot com">Sven van der Meer</author>
+    </properties>
+
+    <body>
+        <section name="Details">
+            <p class="narrow large">
+                BLA FOO
+            </p>
+
+            <subsection name="Bla Foo">
+                <p class="narrow large">
+                    Bla foo
+                </p>
+            </subsection>
+
+        </section>
+    </body>
+</document>

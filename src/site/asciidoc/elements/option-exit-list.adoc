@@ -1,0 +1,40 @@
+== List of exit options
+
+*-c*, *--clean-cache* - cleans the application cache:: 
+Shows <something>
+
+*-d*, *--dependency* DEP - print a help screen for a dependency:: 
+Shows <something>
+
+*-e*, *--execute-task* ID - executes task ID, put arguments after '--':: 
+Prints the program name, the string 'version' and the actual version of the program. 
+The version is taken from `$HOME/etc/version.txt`
+
+*-h*, *--help* - print a help screen with CLI options:: 
+Shows a help screen with all command line options. 
+The options are sorted alphabetically.
+
+*-m*, *--manual* - print a manual:: 
+Prints this manual. 
+The text is typest using bold and italic terminal features. 
+Descriptions of parameters and tasks are taken from the actual parameter and task definitions. 
+It is the same text as in the actual system manual.
+
+*-o*, *--option* OPT - print a help screen for a CLI option:: 
+Shows <something>
+
+*-p*, *--parameter* PARAM - print a help screen for a parameter:: 
+Shows <something>
+
+*-s*, *--settings* - show current runtime settings:: 
+Prints current settings after processing all environment settings. 
+Note: setting identifiers differ from parameter names, they do not have the prefix 'SB_'.
+
+*-V*, *--validate* - validate:: 
+Validates <something>
+
+*-v*, *--version* - show program version:: 
+Prints the program name, the string 'version' and the actual version of the program. 
+The version is taken from `$HOME/etc/version.txt`
+
+
