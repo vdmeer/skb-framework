@@ -134,7 +134,7 @@ if [[ ! -z "${RTMAP_TASK_LOADED["list-commands"]}" ]]; then
             rm $FILE
         fi
         set +e
-        ${DMAP_TASK_EXEC["list-commands"]} -l -p $MODE > ${CONFIG_MAP["FW_HOME"]}/etc/command-help.$MODE
+        ${DMAP_TASK_EXEC["list-commands"]} -l -P $MODE > ${CONFIG_MAP["FW_HOME"]}/etc/command-help.$MODE
         set -e
     done
 else
@@ -149,7 +149,7 @@ if [[ ! -z "${RTMAP_TASK_LOADED["list-options"]}" ]]; then
             rm $FILE
         fi
         set +e
-        ${DMAP_TASK_EXEC["list-options"]} -a -l -p $MODE > ${CONFIG_MAP["FW_HOME"]}/etc/option-help.$MODE
+        ${DMAP_TASK_EXEC["list-options"]} -a -l -P $MODE > ${CONFIG_MAP["FW_HOME"]}/etc/option-help.$MODE
         set -e
     done
 else
