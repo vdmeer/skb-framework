@@ -39,7 +39,8 @@
 ##
 PrintAppMode() {
     case "${CONFIG_MAP["APP_MODE"]}" in
-        dev)    PrintColor red              "${CONFIG_MAP["APP_MODE"]}" ;;
+        all)    PrintColor red              "${CONFIG_MAP["APP_MODE"]}" ;; 
+        dev)    PrintColor yellow           "${CONFIG_MAP["APP_MODE"]}" ;;
         build)  PrintColor light-blue       "${CONFIG_MAP["APP_MODE"]}" ;;
         use)    PrintColor green            "${CONFIG_MAP["APP_MODE"]}" ;;
     esac

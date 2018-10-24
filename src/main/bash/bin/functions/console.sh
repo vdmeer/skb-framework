@@ -94,7 +94,7 @@ ConsoleFatal() {
             SPRINT=$(printf "%s [" "$1")
             SPRINT+=$(PrintColor red "Fatal")
             SPRINT+=$(printf "] %s" "$2")
-            printf "%s" "$SPRINT" 1>&2
+            printf %b "$SPRINT" 1>&2
             printf "\n" 1>&2
             ;;
         off)
@@ -133,7 +133,7 @@ ConsoleError() {
             SPRINT=$(printf "%s [" "$1")
             SPRINT+=$(PrintColor light-red "Error")
             SPRINT+=$(printf "] %s" "$2")
-            printf "%s" "$SPRINT" 1>&2
+            printf %b "$SPRINT" 1>&2
             printf "\n" 1>&2
             ;;
         *)
@@ -226,7 +226,7 @@ ConsoleWarnStrict() {
                 SPRINT+=$(printf "/")
                 SPRINT+=$(PrintColor yellow "strict")
                 SPRINT+=$(printf "] %s" "$2")
-                printf "%s" "$SPRINT" 1>&2
+                printf %b "$SPRINT" 1>&2
                 printf "\n" 1>&2
                 ;;
             *)
@@ -255,7 +255,7 @@ ConsoleWarnStrict() {
                 SPRINT+=$(printf "/")
                 SPRINT+=$(PrintColor light-red "strict")
                 SPRINT+=$(printf "] %s" "$2")
-                printf "%s" "$SPRINT" 1>&2
+                printf %b "$SPRINT" 1>&2
                 printf "\n" 1>&2
                 ;;
             *)
@@ -294,7 +294,7 @@ ConsoleWarn() {
             SPRINT=$(printf "%s [" "$1")
             SPRINT+=$(PrintColor yellow "Warning")
             SPRINT+=$(printf "] %s" "$2")
-            printf "$SPRINT" 1>&2
+            printf %b "$SPRINT" 1>&2
             printf "\n" 1>&2
             ;;
         *)
@@ -378,7 +378,7 @@ ConsoleInfo() {
             SPRINT=$(printf "%s [" "$1")
             SPRINT+=$(PrintColor light-blue "Info")
             SPRINT+=$(printf "] %s" "$2")
-            printf "$SPRINT" 1>&2
+            printf %b "$SPRINT" 1>&2
             printf "\n" 1>&2
             if [[ "$2" == "done" ]]; then
                 printf "\n" 1>&2
@@ -414,7 +414,7 @@ ConsoleDebug() {
         all | debug | trace)
             SPRINT=$(PrintEffect bold "    >")
             SPRINT+=$(printf " %s" "$1")
-            printf "$SPRINT" 1>&2
+            printf %b "$SPRINT" 1>&2
             printf "\n" 1>&2
             ;;
         *)
@@ -447,7 +447,7 @@ ConsoleTrace() {
         all | trace)
             SPRINT=$(PrintEffect italic "    >")
             SPRINT+=$(printf " %s" "$1")
-            printf "$SPRINT" 1>&2
+            printf %b "$SPRINT" 1>&2
             printf "\n" 1>&2
             ;;
         *)
