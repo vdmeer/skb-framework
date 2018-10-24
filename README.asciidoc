@@ -1,0 +1,47 @@
+== SKB Framework
+This program is a flexible, metadata driven application framework.
+It is written in BASH and runs on most UNIX platforms that have BASH version 4 installed.
+We have tested it on
+
+* Ubuntu 14/16/18
+* Cygwin on Windows 7 and 10
+* WSL with Ubuntu 18 installed
+
+
+=== Requirements
+
+=== to use use
+The program requires:
+
+* BASH version 4, since we are using associative arrays (hash maps) for internal configuration
+* GNU getopt, all CLI parsing is done using getopt from GNU
+* BC, for some calculations, mostly runtime
+
+=== to build distributions
+
+To build distribution packages (DEB, RPM, tarball):
+
+* Gradle 4, the build uses gradle, a gradlew is provided
+
+=== to build all artifacts
+
+Generating nicely formated text paragraphs and list requires:
+
+* Gradle 4, the build is done with gradle (gradlew is provided)
+
+Not mandatory, but required to build all documentation artifacts are:
+
+* asciidoctor, to create HTML and man page from ADOC sources
+* asciidoctor-pdf, to create PDF from ADOC sources
+
+To generate the site for the program requires:
+
+* Java JDK 8, since we are using Maven
+* Apache Maven, since the site is written as a Maven site
+
+
+=== other requirements
+All other requirements depend on the tasks the framework is loading.
+For instance, a task that runs Apache Maven will require mvn installed.
+
+

@@ -1,8 +1,8 @@
-local/
+gradle/
 build/
 target/
 .classpath
 .settings/
 .project
 .gradle
-*.7z
+
