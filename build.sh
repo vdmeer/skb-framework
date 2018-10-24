@@ -28,77 +28,145 @@
 ## @version    v0.0.0
 ##
 
-HAVE_GRADLE=1
-HAVE_MAVEN=1
-HAVE_ADOC=1
-HAVE_ADOC_PDF=1
+HAVE_GRADLE=false
+HAVE_MAVEN=false
+HAVE_ADOC=false
+HAVE_ADOC_PDF=false
 
-if [[ $(command -v gradle) && "$(gradle --version | grep "Gradle 4" | wc -l)" != "1" ]]; then
-    HAVE_GRADLE=0
+if [[ $(command -v gradle) && "$(gradle --version | grep "Gradle 4" | wc -l)" == "1" ]]; then
+    printf "%s %s\n" "found gradle" "$(gradle --version | grep "Gradle 4")"
+    HAVE_GRADLE=true
+else
+    printf "%s\n" "did not find gradle version >4, cannot build distribution"
 fi
+
 if [[ $(command -v mvn) ]]; then
-    HAVE_MAVEN=0
+    printf "%s %s\n" "found maven" "$(mvn -v | grep "Apache Maven")"
+    HAVE_MAVEN=true
+else
+    printf "%s\n" "did not find maven (required for site), cannot build distribution"
 fi
 if [[ $(command -v asciidoctor) ]]; then
-    HAVE_ADOC=0
+    printf "%s %s\n" "found maven" "$(asciidoctor -v | grep "Asciidoctor")"
+    HAVE_ADOC=true
+else
+    printf "%s\n" "did not find asciidoctor (required for manual), cannot build distribution"
 fi
+
 if [[ $(command -v asciidoctor-pdf) ]]; then
-    HAVE_ADOC=0
+    printf "%s %s\n" "found maven" "$(asciidoctor-pdf -v | grep "Asciidoctor")"
+    HAVE_ADOC_PDF=true
+else
+    printf "%s\n" "did not find asciidoctor-pdf (required for manual), cannot build distribution"
 fi
 
-if [[ ! $(command -v gradle) ]]; then
-    printf "%s\n\n" "requires gradle"
-    exit 1
+if [[ $HAVE_GADLE == false ]]; then
+    printf "%s\n" "cannot build distro, no gradle"
+elif [[ $HAVE_MAVEN == false ]]; then
+    printf "%s\n" "cannot build distro, no maven"
+elif [[ $HAVE_ADOC == false ]]; then
+    printf "%s\n" "cannot build distro, no asciidoctor"
+elif [[ $HAVE_ADOC_PDF == false ]]; then
+    printf "%s\n" "cannot build distro, no asciidoctor-pdf"
+else
+    printf "%s\n" "everyting found for building distribution"
 fi
-if [[ "$(gradle --version | grep "Gradle 4" | wc -l)" != "1" ]]; then
-    printf "%s\n\n" "requires gradle version 4"
-    exit 1
-fi
 
-gradle -c java.settings clean
-gradle -c java.settings
+printf "\n"
 
-mkdir -p src/main/bash/doc/manual
-mkdir -p src/main/bash/man/man1
-mkdir -p src/main/bash/cache
+gradle_clean(){ 
+    if [[ $HAVE_GRADLE == true ]]; then
+        printf "%s\n\n" "gradle clean"
+        gradle -c java.settings clean
+        printf "\n\n"
+    fi
+}
 
-mkdir -p src/main/bash/bin/java
-cp build/libs/skb-framework-tool-0.0.0-all.jar src/main/bash/bin/java
+gradle_java(){ 
+    if [[ $HAVE_GRADLE == true ]]; then
+        printf "%s\n\n" "building/copying SKB Tool (java)"
+        gradle -c java.settings
+        mkdir -p src/main/bash/bin/java
+        cp build/libs/skb-framework-tool-0.0.0-all.jar src/main/bash/bin/java
+        printf "\n\n"
+    fi
+}
 
-#TOOL_DIR=`(cd build/libs;pwd)`
-export SF_SKB_FW_TOOL=$TOOL_DIR/skb-framework-tool-0.0.0-all.jar
-src/main/bash/bin/skb-framework -c
-src/main/bash/bin/skb-framework -D -e bdh -S off -L off
-src/main/bash/bin/skb-framework -h
+skb_fw_help(){ 
+    src/main/bash/bin/skb-framework -D -e bdh -S off -L off -T debug
+    src/main/bash/bin/skb-framework -h
+}
 
-mkdir -p src/main/bash/doc/manual
-mkdir -p src/main/bash/man/man1
-src/main/bash/bin/skb-framework -D -e bm -S off -L off -- -b --adoc --text --manp
+skb_fw_manual(){ 
+    if [[ -f src/main/bash/bin/java/skb-framework-tool-0.0.0-all.jar ]]; then
+        src/main/bash/bin/skb-framework -e bm -S off -L off -T debug -- -b --src
+        printf "\n\n"
+    else
+        printf "%s\n\n" "no Tool jar, cannot build framework text sources"
+    fi
+
+    mkdir -p src/main/bash/doc/manual
+    src/main/bash/bin/skb-framework -D -e bm -S off -L off -T debug -- -b --adoc --text
+    printf "\n\n"
+
+    if [[ $HAVE_ADOC == true ]]; then
+        mkdir -p src/main/bash/man/man1
+        src/main/bash/bin/skb-framework -D -e bm -S off -L off -T debug -- -b --manp --html
+        printf "\n\n"
+    else
+        printf "%s\n\n" "no asciidoctor, cannot build manual: manp, html"
+    fi
+
+    if [[ $HAVE_ADOC_PDF == true ]]; then
+        src/main/bash/bin/skb-framework -D -e bm -S off -L off -T debug -- -b --pdf
+        printf "\n\n"
+    else
+        printf "%s\n\n" "no asciidoctor-pdf, cannot build manual: pdf"
+    fi
+}
+
+skb_fw_site_sources(){
+    printf "%s\n\n" "creating site sources"
+
+    src/main/bash/bin/skb-framework -L off -S off -T info -e de -- --options --print-mode adoc > ./src/site/asciidoc/elements/options.adoc
+    printf "== List of exit options\n" > ./src/site/asciidoc/elements/option-exit-list.adoc
+    src/main/bash/bin/skb-framework -L off -S off -T info -e "do" -- --exit --print-mode adoc >> ./src/site/asciidoc/elements/option-exit-list.adoc
+    printf "== List of runtime options\n" > ./src/site/asciidoc/elements/option-run-list.adoc
+    src/main/bash/bin/skb-framework -L off -S off -T info -e "do" -- --run --print-mode adoc >> ./src/site/asciidoc/elements/option-run-list.adoc
+
+    src/main/bash/bin/skb-framework -L off -S off -T info -e de -- --commands --print-mode adoc > ./src/site/asciidoc/elements/commands.adoc
+    printf "== List of shell commands\n" > ./src/site/asciidoc/elements/command-list.adoc
+    src/main/bash/bin/skb-framework -L off -S off -T info -e dc -- --all --print-mode adoc >> ./src/site/asciidoc/elements/command-list.adoc
+
+    src/main/bash/bin/skb-framework -L off -S off -T info -e de -- --parameters --print-mode adoc > ./src/site/asciidoc/elements/parameters.adoc
+    printf "== List of parameters\n" > ./src/site/asciidoc/elements/parameter-list.adoc
+    src/main/bash/bin/skb-framework -L off -S off -T info -e dp -- --all --print-mode adoc >> ./src/site/asciidoc/elements/parameter-list.adoc
+
+    src/main/bash/bin/skb-framework -L off -S off -T info -e de -- --dependencies --print-mode adoc > ./src/site/asciidoc/elements/dependencies.adoc
+    printf "== List of dependencies\n" > ./src/site/asciidoc/elements/dependency-list.adoc
+    src/main/bash/bin/skb-framework -L off -S off -T info -e dd -- --all --print-mode adoc >> ./src/site/asciidoc/elements/dependency-list.adoc
+
+    src/main/bash/bin/skb-framework -L off -S off -T info -e de -- --tasks --print-mode adoc > ./src/site/asciidoc/elements/tasks.adoc
+    printf "== List of tasks\n" > ./src/site/asciidoc/elements/task-list.adoc
+    src/main/bash/bin/skb-framework -L off -S off -T info -e dt -- --all --print-mode adoc >> ./src/site/asciidoc/elements/task-list.adoc
+
+    printf "%s\n\n" "done"
+}
+
+gradle_clean
+gradle_java
+skb_fw_help
+skb_fw_manual
+skb_fw_site_sources
+
+
+
+exit 0
+
 
 gradle -c distribution.settings
 
 
-src/main/bash/bin/skb-framework -L off -S off -T info -e de -- --options --print-mode adoc > ./src/site/asciidoc/elements/options.adoc
-printf "== List of exit options\n" > ./src/site/asciidoc/elements/option-exit-list.adoc
-src/main/bash/bin/skb-framework -L off -S off -T info -e "do" -- --exit --print-mode adoc >> ./src/site/asciidoc/elements/option-exit-list.adoc
-printf "== List of runtime options\n" > ./src/site/asciidoc/elements/option-run-list.adoc
-src/main/bash/bin/skb-framework -L off -S off -T info -e "do" -- --run --print-mode adoc >> ./src/site/asciidoc/elements/option-run-list.adoc
-
-src/main/bash/bin/skb-framework -L off -S off -T info -e de -- --commands --print-mode adoc > ./src/site/asciidoc/elements/commands.adoc
-printf "== List of shell commands\n" > ./src/site/asciidoc/elements/command-list.adoc
-src/main/bash/bin/skb-framework -L off -S off -T info -e dc -- --all --print-mode adoc >> ./src/site/asciidoc/elements/command-list.adoc
-
-src/main/bash/bin/skb-framework -L off -S off -T info -e de -- --parameters --print-mode adoc > ./src/site/asciidoc/elements/parameters.adoc
-printf "== List of parameters\n" > ./src/site/asciidoc/elements/parameter-list.adoc
-src/main/bash/bin/skb-framework -L off -S off -T info -e dp -- --all --print-mode adoc >> ./src/site/asciidoc/elements/parameter-list.adoc
-
-src/main/bash/bin/skb-framework -L off -S off -T info -e de -- --dependencies --print-mode adoc > ./src/site/asciidoc/elements/dependencies.adoc
-printf "== List of dependencies\n" > ./src/site/asciidoc/elements/dependency-list.adoc
-src/main/bash/bin/skb-framework -L off -S off -T info -e dd -- --all --print-mode adoc >> ./src/site/asciidoc/elements/dependency-list.adoc
-
-src/main/bash/bin/skb-framework -L off -S off -T info -e de -- --tasks --print-mode adoc > ./src/site/asciidoc/elements/tasks.adoc
-printf "== List of tasks\n" > ./src/site/asciidoc/elements/task-list.adoc
-src/main/bash/bin/skb-framework -L off -S off -T info -e dt -- --all --print-mode adoc >> ./src/site/asciidoc/elements/task-list.adoc
 
 
 if [[ $(command -v mvn) ]]; then
