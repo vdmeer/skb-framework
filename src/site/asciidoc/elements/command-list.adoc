@@ -1,2 +1,66 @@
 == List of shell commands
 
+*bye* - exit shell:: 
+Exits the shell and the program. 
+If the program was not started in forced mode (see CLI option `--force`), the temporary configuration file will be removed. 
+The exit status is `0`.
+
+*cls*, *clear-screen* - clear screen:: 
+Clear screen.
+
+
+*es*, *execute-scenario* SCENARIO - executes a scenario:: 
+Clear screen.
+
+
+*exit* - exit shell:: 
+Exits the shell and the program. 
+If the program was not started in forced mode (see CLI option `--force`), the temporary configuration file will be removed. 
+The exit status is `0`.
+
+*h*, *help* - show help screen:: 
+Shows a help screen with all shell commands. 
+The commands are grouped as: _history_, _exit_, _help_, _tasks_, _scenarios_, and _misc_. 
+The help screen uses colors for arguments: green for optional arguments and red for mandatory arguments. 
+Note: for commands with multiple arguments, the sequence is important!
+
+*!*, *history* NUMBER - show history or run history command:: 
+Shows the history of shell commands. 
+Each command, once executed, is automatically added to the history, if the previous command was not exactly the same. 
+The history accepts an optional parameter _NUMBER_. 
+When a number (an integer) is given, the command with that number in the history will be executed. 
+If the number does not exist in the history, an error is printed.
+
+*ls*, *list-scenarios* - list scenarios:: 
+Clear screen.
+
+
+*p*, *print-mode* MODE - set the print mode:: 
+Prints the current time as HH:mm:ss. 
+This can come in handy when no other clock or watch is available. 
+It is a separate command because the prompt should not be overloaded.
+
+*q*, *quit* - quit shell:: 
+Exits the shell and the program. 
+If the program was not started in forced mode (see CLI option `--force`), the temporary configuration file will be removed. 
+The exit status is `0`.
+
+*sl*, *shell-level* LEVEL - sets a new (console) level for the shell:: 
+Wait for the given number of seconds before the next command is executed. 
+The action here is a simply sleep.
+
+*strict* - alter strict mode:: 
+Exits the shell and the program. 
+If the program was not started in forced mode (see CLI option `--force`), the temporary configuration file will be removed. 
+The exit status is `0`.
+
+*tl*, *task-level* LEVEL - sets a new (console) level for tasks:: 
+Wait for the given number of seconds before the next command is executed. 
+The action here is a simply sleep.
+
+*t*, *time* - wait for SEC seconds:: 
+Prints the current time as HH:mm:ss. 
+This can come in handy when no other clock or watch is available. 
+It is a separate command because the prompt should not be overloaded.
+
+

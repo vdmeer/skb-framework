@@ -1,2 +1,136 @@
 == List of tasks
 
+*build-cache*, *bdc* - builds cache for screens and maps:: 
+Builds the maps.
+
+
+*build-help*, *bdh* - builds help files for loader and shell:: 
+Builds the maps.
+
+
+*build-manual*, *bm* - builds the manual for different targets:: 
+Builds the manual
+Without options, nothing happens
+All options can be used at the same time, task will run in right order.
+`test` will automatically build if target does not exist
+ADOC and text (--adoc, --text) will be shown using `cat`
+Man page (--man) will be shown using `man`
+PDF (--pdf) will be shown using a PDF viewer
+HTML (--html) will be shown using web browser
+Build all targets: bman --all -b -c
+
+*clean*, *cl* - removes built artifacts:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*cloc-inst*, *cloci* - counts lines of code of an installation:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*describe-application*, *da* - describes the application:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*describe-command*, *dc* - describes a shell command:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*describe-dependency*, *dd* - describes a dependency:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*describe-element*, *de* - describes the elements of an application:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*describe-option*, *do* - describes CLI options:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*describe-parameter*, *dp* - describes a parameter:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*describe-task*, *dt* - describes a task:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*execute-program*, *ep* - executes a program with several options:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*list-commands*, *lc* - lists shell commands:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*list-dependencies*, *ld* - lists dependencies:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*list-options*, *lo* - lists CLI options:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*list-parameters*, *lp* - lists parameters:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*list-tasks*, *lt* - lists tasks:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*manual*, *m* - shows the manual in various versions:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*repeat-scenario*, *rs* - repeats the execution of a scenario:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*repeat-task*, *rt* - repeats the execution of a task:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*settings*, *set* - shows settings with optional filters:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*start-browser*, *sb* - start browser with an optional URL:: 
+Starts a browser (or uses an existing instance) to show a URL. 
+This task uses the parameter `EXEC_BROWSER` as a template. 
+It substitutes the URL in the parameter value with the requested URL.
+
+*start-pdf*, *spdf* - start a PDF reader with a PDF document:: 
+Starts a PDF reader
+
+*start-xterm*, *sx* - starts a new Xterm:: 
+Starts an XTERM
+
+*validate-installation*, *vi* - validates an installation:: 
+Builds the maps.
+
+
+*wait*, *w* - sleep for specified time:: 
+Wait for the given number of seconds before the next command is executed. 
+The action here is a simply sleep.
+
+
