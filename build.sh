@@ -56,7 +56,10 @@ HAVE_MAVEN=false
 HAVE_ADOC=false
 HAVE_ADOC_PDF=false
 
-if [[ $(command -v gradle) && "$(gradle --version | grep "Gradle 4" | wc -l)" == "1" ]]; then
+if [[ -x gradlew ]]; then
+    printf "%s\n" "found gradlew, should work"
+    HAVE_GRADLE=true
+elif [[ $(command -v gradle) && "$(gradle --version | grep "Gradle 4" | wc -l)" == "1" ]]; then
     printf "%s %s\n" "found gradle" "$(gradle --version | grep "Gradle 4")"
     HAVE_GRADLE=true
 else
