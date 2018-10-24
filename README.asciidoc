@@ -14,8 +14,10 @@ The framework is written in `bash` and runs on most UNIX platforms that have `ba
 We have tested it on
 
 * Ubuntu 14/16/18
+* Debian 3
+* Raspian (on PI model B and B+)
 * Cygwin on Windows 7 and 10
-* WSL with Ubuntu 18 installed
+* Windows 10 WSL with Ubuntu 18 installed
 
 
 === Requirements
@@ -48,4 +50,6 @@ To generate the site for the program requires:
 
 * `Java` JDK 8, since we are using Maven
 * Apache `Maven`, since the site is written as a Maven site
+
+
 

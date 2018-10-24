@@ -6,3 +6,8 @@ target/
 .project
 .gradle
 
+src/main/bash/doc/
+src/main/bash/man/
+src/main/bash/bin/java
+src/main/bash/etc/command-help.*
+src/main/bash/etc/option-help.*

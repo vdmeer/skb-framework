@@ -235,7 +235,7 @@ PrintOptions() {
                 else
                     printf "${OPTION_TABLE[$ID]}"
                 fi
-                DescribeOptionDescription $ID 3
+                DescribeOptionDescription $ID 3 none
                 ;;
             table)
                 if [[ -z "${OPTION_TABLE[$ID]:-}" ]]; then

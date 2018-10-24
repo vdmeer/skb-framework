@@ -34,6 +34,8 @@
 
 ## put bugs into errors, safer and globbing for finding files
 set -o errexit -o pipefail -o noclobber -o nounset
+
+## we want files recursivey
 shopt -s globstar
 
 

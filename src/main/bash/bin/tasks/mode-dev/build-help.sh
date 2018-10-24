@@ -130,7 +130,7 @@ ConsoleDebug "target: command help"
 if [[ ! -z "${RTMAP_TASK_LOADED["list-commands"]}" ]]; then
     for MODE in $PRINT_MODES; do
         FILE=${CONFIG_MAP["FW_HOME"]}/etc/command-help.$MODE
-            if [[ -f $FILE ]]; then
+        if [[ -f $FILE ]]; then
             rm $FILE
         fi
         set +e

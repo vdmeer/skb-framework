@@ -174,7 +174,8 @@ DescribeOption() {
 ## function: DescribeOptionDescription
 ## - describes the option description
 ## $1: option ID
-## optional $2: indentation adjustment
+## $2: indentation adjustment, 0 or empty for none
+## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
 ##
 DescribeOptionDescription() {
     local ID=$1
@@ -189,9 +190,11 @@ DescribeOptionDescription() {
         DESCRIPTION=${DMAP_OPT_DESCR[$ID]}
         if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
             printf "%s" "$DESCRIPTION"
-            DESCR_EFFECTIVE=${#DESCRIPTION}
-            PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
-            printf '%*s' "$PADDING"
+            if [[ -z ${3:-} ]]; then
+                DESCR_EFFECTIVE=${#DESCRIPTION}
+                PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
+                printf '%*s' "$PADDING"
+            fi
         else
             DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
             printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"

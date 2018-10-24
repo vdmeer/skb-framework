@@ -51,6 +51,8 @@ _ts=$(date +%s.%N)
 ## test for core requirements
 ## - test for BASH 4, if not found we cannot continue (we are using associative arrays)
 ## - test for getopt, we use it for command line argument parsing
+## - test for bc, for time calculations
+## test for mktemp, required to create temporary files and directories
 ##
 ## - exit with code 1 if we did not find a core requirements
 ##
@@ -62,6 +64,14 @@ fi
 if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
     printf " ==> getopt failed, require for command line parsing\n\n"
     exit 2
+fi
+if [[ ! $(command -v bc) ]]; then
+    printf " ==> did not find bc, require for calculations\n\n"
+    exit 3
+fi
+if [[ ! $(command -v mktemp) ]]; then
+    printf " ==> did not find mktemp, require to create temporary files and directories\n\n"
+    exit 3
 fi
 
 
@@ -163,6 +173,26 @@ else
     ConsoleFatal " ->" "no application version found, tried \$HOME/etc/version.txt"
     printf "\n"
     exit 5
+fi
+
+if [[ ! -z ${TMP:-} ]]; then
+    TMP_DIRECTORY=${TMP}/${CONFIG_MAP["APP_SCRIPT"]}
+else
+    TMP_DIRECTORY=${TMPDIR:-/tmp}/${CONFIG_MAP["APP_SCRIPT"]}
+fi
+if [[ ! -d $TMP_DIRECTORY ]]; then
+    mkdir $TMP_DIRECTORY 2> /dev/null
+    __errno=$?
+    if [[ $__errno != 0 ]]; then
+        ConsoleFatal " ->" "could not create temporary directory $TMP_DIRECTORY, please check owner and permissions"
+        printf "\n"
+        exit 6
+    fi
+fi
+if [[ ! -w $TMP_DIRECTORY ]]; then
+    ConsoleFatal " ->" "cannot write to temporary directory $TMP_DIRECTORY, please check owner and permissions"
+    printf "\n"
+    exit 7
 fi
 
 
@@ -335,11 +365,7 @@ fi
 ## set temporary configuration file (used by shell and tasks)
 ## - write runtime configurations to temporary configuration file
 ##
-tmp_dir=${TMPDIR:-/tmp}/${CONFIG_MAP["APP_SCRIPT"]}
-if [[ ! -d $tmp_dir ]]; then
-    mkdir $tmp_dir
-fi
-CONFIG_MAP["FW_L1_CONFIG"]=$(mktemp "$tmp_dir/$(date +"%H-%M-%S")-${CONFIG_MAP["APP_MODE"]}-XXX")
+CONFIG_MAP["FW_L1_CONFIG"]=$(mktemp "$TMP_DIRECTORY/$(date +"%H-%M-%S")-${CONFIG_MAP["APP_MODE"]}-XXX")
 export FW_L1_CONFIG=${CONFIG_MAP["FW_L1_CONFIG"]}
 WriteL1Config
 
@@ -372,8 +398,8 @@ fi
 if [[ -f $FW_L1_CONFIG ]]; then
     rm $FW_L1_CONFIG >& /dev/null
 fi
-if [[ -d $tmp_dir && $(ls $tmp_dir | wc -l) == 0 ]]; then
-    rmdir $tmp_dir
+if [[ -d $TMP_DIRECTORY && $(ls $TMP_DIRECTORY | wc -l) == 0 ]]; then
+    rmdir $TMP_DIRECTORY
 fi
 
 ConsoleMessage "\n\nhave a nice day\n\n\n"
