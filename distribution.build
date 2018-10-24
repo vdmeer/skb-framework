@@ -45,10 +45,6 @@ ospackage {
         fileMode 0444
         into 'scenarios'
     }
-    from('build/libs') {
-        fileMode 0555
-        into 'bin/java'
-    }
 }
 
 task deb(type: Deb) {
@@ -88,9 +84,5 @@ task tgz(type: Tar){
     from('src/main/bash/scenarios') {
         fileMode 0664
         into  project.ext.startDir + '/scenarios'
-    }
-    from('build/libs') {
-        fileMode 0444
-        into  project.ext.startDir + '/bin/java'
     }
 }
