@@ -1,6 +1,16 @@
-== SKB Framework
-This program is a flexible, metadata driven application framework.
-It is written in BASH and runs on most UNIX platforms that have BASH version 4 installed.
+
+:release-version: 0.3.2
+= SKB Framework
+v{release-version}
+:page-layout: base
+:toc: preamble
+
+a flexible, metadata driven application framework.
+
+
+== Overview
+
+The framework is written in `bash` and runs on most UNIX platforms that have `bash` version 4 installed.
 We have tested it on
 
 * Ubuntu 14/16/18
@@ -10,38 +20,32 @@ We have tested it on
 
 === Requirements
 
-=== to use use
+==== to use
 The program requires:
 
-* BASH version 4, since we are using associative arrays (hash maps) for internal configuration
-* GNU getopt, all CLI parsing is done using getopt from GNU
-* BC, for some calculations, mostly runtime
+* `bash` version 4, since we are using associative arrays (hash maps) for internal configuration
+* GNU `getopt`, all CLI parsing is done using getopt from GNU
+* `bc`, for some calculations, mostly runtime
 
-=== to build distributions
+==== to build distributions
 
 To build distribution packages (DEB, RPM, tarball):
 
-* Gradle 4, the build uses gradle, a gradlew is provided
+* `gradle` version 4, the build uses gradle, a gradlew is provided
 
-=== to build all artifacts
+==== to build all artifacts
 
 Generating nicely formated text paragraphs and list requires:
 
-* Gradle 4, the build is done with gradle (gradlew is provided)
+* `gradle` version 4, the build is done with gradle (gradlew is provided)
 
 Not mandatory, but required to build all documentation artifacts are:
 
-* asciidoctor, to create HTML and man page from ADOC sources
-* asciidoctor-pdf, to create PDF from ADOC sources
+* `asciidoctor`, to create HTML and man page from ADOC sources
+* `asciidoctor-pdf`, to create PDF from ADOC sources
 
 To generate the site for the program requires:
 
-* Java JDK 8, since we are using Maven
-* Apache Maven, since the site is written as a Maven site
-
-
-=== other requirements
-All other requirements depend on the tasks the framework is loading.
-For instance, a task that runs Apache Maven will require mvn installed.
-
+* `Java` JDK 8, since we are using Maven
+* Apache `Maven`, since the site is written as a Maven site
 
