@@ -120,7 +120,6 @@ ShellCmdExecuteTask() {
     TE=$(date +%s.%N)
 
     if $DO_EXTRAS; then
-        TE=$(date +%s.%N)
         if [[ $ERRNO != 0 ]]; then
             ConsoleError " ->" "error executing: '$ID $TARG'"
         fi
