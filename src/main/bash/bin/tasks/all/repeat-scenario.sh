@@ -42,7 +42,7 @@ set -o errexit -o pipefail -o noclobber -o nounset
 ##
 if [[ -z ${FW_HOME:-} || -z ${FW_L1_CONFIG-} ]]; then
     printf " ==> please run from framework or application\n\n"
-    exit 10
+    exit 50
 fi
 source $FW_L1_CONFIG
 CONFIG_MAP["RUNNING_IN"]="task"
@@ -75,7 +75,7 @@ CLI_LONG_OPTIONS=help,scenario:,times:
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name repeat-scenario -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
     ConsoleError "  ->" "unknown CLI options"
-    exit 1
+    exit 51
 fi
 eval set -- "$PARSED"
 
@@ -109,7 +109,7 @@ while true; do
             ;;
         *)
             ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
-            exit 2
+            exit 52
     esac
 done
 
@@ -125,7 +125,7 @@ ConsoleInfo "  -->" "rs: starting task"
 
 if [[ -z $SCENARIO ]]; then
     ConsoleError "  ->" "a scenario is required"
-    exit 3
+    exit 60
 fi
 
 FILE=${CONFIG_MAP["FW_HOME"]}/${APP_PATH_MAP["SCENARIOS"]}/$SCENARIO.scn
@@ -137,14 +137,14 @@ fi
 case $TIMES in
     '' | *[!0-9.]* | '.' | *.*.*)
         ConsoleError " ->" "repeat times requires a number, got '$TIMES'"
-        exit 5
+        exit 61
         ;;
 esac
 
 case $WAIT in
     '' | *[!0-9.]* | '.' | *.*.*)
         ConsoleError " ->" "wait requires a number, got '$WAIT'"
-        exit 5
+        exit 62
         ;;
 esac
 

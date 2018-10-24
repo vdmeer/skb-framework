@@ -42,7 +42,7 @@ set -o errexit -o pipefail -o noclobber -o nounset
 ##
 if [[ -z ${FW_HOME:-} || -z ${FW_L1_CONFIG-} ]]; then
     printf " ==> please run from framework or application\n\n"
-    exit 10
+    exit 50
 fi
 source $FW_L1_CONFIG
 CONFIG_MAP["RUNNING_IN"]="task"
@@ -76,7 +76,7 @@ CLI_LONG_OPTIONS=help,times:,wait:
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name repeat-task -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
     ConsoleError "  ->" "unknown CLI options"
-    exit 1
+    exit 51
 fi
 eval set -- "$PARSED"
 
@@ -104,7 +104,7 @@ while true; do
             TASK=${1-}
             if [[ ! -n "$TASK" ]]; then
                 ConsoleError "  ->" "a task identifier / name is required"
-                exit 3
+                exit 60
             fi
             shift
             ARGS=$(printf '%s' "$*")
@@ -112,7 +112,7 @@ while true; do
             ;;
         *)
             ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
-            exit 2
+            exit 52
     esac
 done
 
@@ -137,20 +137,20 @@ done
 
 if [[ $__found == false ]]; then
     ConsoleError "  ->" "unknown or unloaded task '$TASK'"
-    exit 4
+    exit 61
 fi
 
 case $TIMES in
     '' | *[!0-9.]* | '.' | *.*.*)
         ConsoleError " ->" "repeat times requires a number, got '$TIMES'"
-        exit 5
+        exit 62
         ;;
 esac
 
 case $WAIT in
     '' | *[!0-9.]* | '.' | *.*.*)
         ConsoleError " ->" "wait requires a number, got '$WAIT'"
-        exit 5
+        exit 63
         ;;
 esac
 

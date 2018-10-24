@@ -42,7 +42,7 @@ set -o errexit -o pipefail -o noclobber -o nounset
 ##
 if [[ -z ${FW_HOME:-} || -z ${FW_L1_CONFIG-} ]]; then
     printf " ==> please run from framework or application\n\n"
-    exit 10
+    exit 50
 fi
 source $FW_L1_CONFIG
 CONFIG_MAP["RUNNING_IN"]="task"
@@ -79,7 +79,7 @@ CLI_LONG_OPTIONS=all,def-table,help,print-mode:,requested
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-parameters -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
     ConsoleError "  ->" "unknown CLI options"
-    exit 1
+    exit 51
 fi
 eval set -- "$PARSED"
 
@@ -122,7 +122,7 @@ while true; do
             ;;
         *)
             ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
-            exit 2
+            exit 52
     esac
 done
 

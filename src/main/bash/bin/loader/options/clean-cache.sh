@@ -32,9 +32,16 @@
 ## DO NOT CHANGE CODE BELOW, unless you know what you are doing
 ##
 
-for file in ${CONFIG_MAP["CACHE_DIR"]}/**; do
-    if [[ -f $file ]]; then
-        rm $file
-    fi
-done
+printf "cleaning ${CONFIG_MAP["CACHE_DIR"]}\n"
+if [[ -d ${CONFIG_MAP["CACHE_DIR"]} ]]; then
+    for file in ${CONFIG_MAP["CACHE_DIR"]}/**; do
+        if [[ -f $file ]]; then
+            rm $file
+        fi
+    done
+fi
+if [[ -d ${CONFIG_MAP["CACHE_DIR"]}/tasks ]]; then
+    rm -r ${CONFIG_MAP["CACHE_DIR"]}/tasks
+fi
+printf "done\n\n"
 DO_EXIT=true

@@ -178,3 +178,31 @@ BuildTaskHelpLine() {
 
     printf "$SPRINT\n"
 }
+
+
+
+##
+## function: TaskGetCachedHelp
+## - returns a file name with cached help screen for current print-mode, none if none found
+## $1: task ID - must be long version
+##
+TaskGetCachedHelp() {
+    local ID=${1:-}
+    if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "help-cache - unknown task ID '$ID'"
+        return
+    fi
+
+    local REMPATH=${APP_PATH_MAP["TASK_DECL"]}
+
+    local TPATH=${DMAP_TASK_DECL[$ID]}
+    TPATH=${TPATH#*$REMPATH/}
+    TPATH=${TPATH%/*}
+
+    local FILE=${CONFIG_MAP["CACHE_DIR"]}/tasks/$TPATH/$ID.${CONFIG_MAP["PRINT_MODE"]}
+    if [[ -f $FILE ]]; then
+        printf $FILE
+    else
+        printf ""
+    fi
+}

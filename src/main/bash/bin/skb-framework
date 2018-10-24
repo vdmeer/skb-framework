@@ -54,7 +54,7 @@ if [[ -z ${__FW_LOADER_FLAVOR:-} ]]; then
     if [[ -z ${SF_HOME:-} ]]; then
         printf "  unable to set home \$SF_HOME (tried environment, readlink, and dirname \$0)\n"
         printf "  please set SF_HOME\n\n"
-        exit 1
+        exit 10
     fi
     FW_HOME=$SF_HOME
 fi
@@ -75,11 +75,11 @@ fi
 if [[ -z ${FW_HOME:-} ]]; then
     printf "  unable to set framework home \$FW_HOME (tried environment, readlink, and dirname \$0)\n"
     printf "  please set SF_HOME\n\n"
-    exit 1
+    exit 10
 elif [[ ! -x $FW_HOME/bin/loader/loader.sh ]]; then
     printf "  did find/set \$FW_HOME, but did not find loader\n"
     printf "  tried $FW_HOME/bin/loader/loader.sh\n\n"
-    exit 1
+    exit 11
 fi
 
 $FW_HOME/bin/loader/loader.sh $*

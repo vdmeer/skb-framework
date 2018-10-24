@@ -42,7 +42,7 @@ set -o errexit -o pipefail -o noclobber -o nounset
 ##
 if [[ -z ${FW_HOME:-} || -z ${FW_L1_CONFIG-} ]]; then
     printf " ==> please run from framework or application\n\n"
-    exit 10
+    exit 50
 fi
 source $FW_L1_CONFIG
 CONFIG_MAP["RUNNING_IN"]="task"
@@ -72,7 +72,7 @@ CLI_LONG_OPTIONS=help,file:
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name start-pdf -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
     ConsoleError "  ->" "unknown CLI options"
-    exit 1
+    exit 51
 fi
 eval set -- "$PARSED"
 
@@ -95,7 +95,7 @@ while true; do
             ;;
         *)
             ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
-            exit 2
+            exit 52
     esac
 done
 
@@ -112,18 +112,18 @@ ConsoleInfo "  -->" "spdf: starting task"
 if [[ -z "${CONFIG_MAP["PDF_READER"]:-}" ]]; then
     ConsoleError "  ->" "no setting for PDF_READER, cannot start any"
     ConsoleInfo "  -->" "spdf: done"
-    exit 3
+    exit 60
 fi
 if [[ ! -n "$FILE" ]]; then
     ConsoleError "  ->" "empty file? - '$FILE'"
     ConsoleInfo "  -->" "spdf: done"
-    exit 4
+    exit 61
 fi
 FILE=$(PathToCygwin $FILE)
 if [[ ! -r "$FILE" ]]; then
     ConsoleError "  ->" "cannot read file '$FILE'"
     ConsoleInfo "  -->" "spdf: done"
-    exit 4
+    exit 62
 fi
 
 SCRIPT=${CONFIG_MAP["PDF_READER"]}

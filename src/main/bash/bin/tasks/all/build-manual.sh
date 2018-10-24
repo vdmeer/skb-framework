@@ -45,7 +45,7 @@ shopt -s globstar
 ##
 if [[ -z ${FW_HOME:-} || -z ${FW_L1_CONFIG-} ]]; then
     printf " ==> please run from framework or application\n\n"
-    exit 10
+    exit 50
 fi
 source $FW_L1_CONFIG
 CONFIG_MAP["RUNNING_IN"]="task"
@@ -98,7 +98,7 @@ CLI_LONG_OPTIONS+=,no-authors,no-bugs,no-commands,no-copying,no-deps,no,exitstat
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-manual -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
     ConsoleError "  ->" "unknown CLI options"
-    exit 1
+    exit 51
 fi
 eval set -- "$PARSED"
 
@@ -249,7 +249,7 @@ while true; do
             ;;
         *)
             ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
-            exit 2
+            exit 52
     esac
 done
 
@@ -269,7 +269,7 @@ fi
 if [[ $DO_BUILD == true || $DO_TEST == true ]]; then
     if [[ ! -n "$TARGET" ]]; then
         ConsoleError " ->" "build/test required, but no target set"
-        exit 3
+        exit 60
     fi
 fi
 
@@ -310,7 +310,7 @@ ValidateSrc(){
     if (( $__errno > 0 )); then
         ConsoleError " ->" "bm: found documentation errors, cannot continue"
         ConsoleInfo "  -->" "bm: done"
-        exit 4
+        exit 61
     fi
     CONFIG_MAP["STRICT"]=$STRICT
 }

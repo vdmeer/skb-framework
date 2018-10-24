@@ -42,7 +42,7 @@ set -o errexit -o pipefail -o noclobber -o nounset
 ##
 if [[ -z ${FW_HOME:-} || -z ${FW_L1_CONFIG-} ]]; then
     printf " ==> please run from framework or application\n\n"
-    exit 10
+    exit 50
 fi
 source $FW_L1_CONFIG
 CONFIG_MAP["RUNNING_IN"]="task"
@@ -67,6 +67,15 @@ UNLOADED=
 APP_MODE=
 ORIGIN=
 STATUS=
+
+NO_ALL=
+NO_BUILD=
+NO_DESCR=
+NO_LIST=
+NO_START=
+
+ODL=
+
 ALL=
 CLI_SET=false
 
@@ -76,12 +85,12 @@ CLI_SET=false
 ## set CLI options and parse CLI
 ##
 CLI_OPTIONS=ahlm:o:P:s:u
-CLI_LONG_OPTIONS=all,mode:,help,loaded,origin:,print-mode:,status:,unloaded
+CLI_LONG_OPTIONS=all,mode:,help,loaded,origin:,print-mode:,status:,unloaded,no-a,no-b,no-d,no-dl,no-l,no-s,odl
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-tasks -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
     ConsoleError "  ->" "unknown CLI options"
-    exit 1
+    exit 51
 fi
 eval set -- "$PARSED"
 
@@ -93,22 +102,29 @@ while true; do
             CLI_SET=true
             shift
             ;;
-        -m | --mode)
-            APP_MODE="$2"
-            CLI_SET=true
-            shift 2
-            ;;
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                            $PRINT_PADDING
-            BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                          $PRINT_PADDING
-            printf "\n   filters\n"
-            BuildTaskHelpLine a all         "<none>"    "all tasks, disables all other filters"                                 $PRINT_PADDING
-            BuildTaskHelpLine l loaded      "<none>"    "only loaded tasks"                                                     $PRINT_PADDING
-            BuildTaskHelpLine m mode        "MODE"      "only tasks for application mode: dev, build, use"                      $PRINT_PADDING
-            BuildTaskHelpLine o origin      "ORIGIN"    "only tasks from origin: f(w), a(pp)"                                   $PRINT_PADDING
-            BuildTaskHelpLine s status      "STATUS"    "only tasks with status: success, warnings, errors, not attempted"      $PRINT_PADDING
-            BuildTaskHelpLine u unloaded    "<none>"    "only unloaded tasks"                                                   $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "list-tasks")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                            $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                          $PRINT_PADDING
+                printf "\n   filters\n"
+                BuildTaskHelpLine a         all         "<none>"    "all tasks, disables all other filters"                             $PRINT_PADDING
+                BuildTaskHelpLine l         loaded      "<none>"    "only loaded tasks"                                                 $PRINT_PADDING
+                BuildTaskHelpLine m         mode        "MODE"      "only tasks for application mode: dev, build, use"                  $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-a        "<none>"    "activate all '--no-' filters"                                      $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-b        "<none>"    "exclude tasks starting with 'build-'"                              $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-d        "<none>"    "exclude tasks starting with 'describe-'"                           $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-dl       "<none>"    "exclude tasks starting with 'describe-' or 'list-'"                $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-l        "<none>"    "exclude tasks starting with 'list-'"                               $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-s        "<none>"    "exclude tasks starting with 'start-'"                              $PRINT_PADDING
+                BuildTaskHelpLine o         origin      "ORIGIN"    "only tasks from origin: f(w), a(pp)"                               $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  odl         "<none>"    "show only tasks starting with 'describe-' or 'list-'"              $PRINT_PADDING
+                BuildTaskHelpLine s         status      "STATUS"    "only tasks with status: success, warnings, errors, not attempted"  $PRINT_PADDING
+                BuildTaskHelpLine u         unloaded    "<none>"    "only unloaded tasks"                                               $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -l | --loaded)
@@ -116,10 +132,51 @@ while true; do
             CLI_SET=true
             shift
             ;;
+        -m | --mode)
+            APP_MODE="$2"
+            CLI_SET=true
+            shift 2
+            ;;
+        --no-a)
+            NO_ALL=yes
+            CLI_SET=true
+            shift
+            ;;
+        --no-b)
+            NO_BUILD=yes
+            CLI_SET=true
+            shift
+            ;;
+        --no-d)
+            NO_DESCR=yes
+            CLI_SET=true
+            shift
+            ;;
+        --no-dl)
+            NO_DESCR=yes
+            NO_LIST=yes
+            CLI_SET=true
+            shift
+            ;;
+        --no-l)
+            NO_LIST=yes
+            CLI_SET=true
+            shift
+            ;;
+        --no-s)
+            NO_START=yes
+            CLI_SET=true
+            shift
+            ;;
         -o | --origin)
             ORIGIN="$2"
             CLI_SET=true
             shift 2
+            ;;
+        --odl)
+            ODL=yes
+            CLI_SET=true
+            shift
             ;;
         -P | --print-mode)
             PRINT_MODE="$2"
@@ -143,7 +200,7 @@ while true; do
             ;;
         *)
             ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
-            exit 2
+            exit 52
     esac
 done
 
@@ -158,6 +215,11 @@ if [[ "$ALL" == "yes" ]]; then
     APP_MODE=
     ORIGIN=
     STATUS=
+    NO_ALL=
+    NO_BUILD=
+    NO_DESCR=
+    NO_LIST=
+    NO_START=
 elif [[ $CLI_SET == false ]]; then
     APP_MODE=${CONFIG_MAP["APP_MODE"]}
     LOADED=yes
@@ -172,7 +234,7 @@ else
                 ;;
             *)
                 ConsoleError "  ->" "unknown origin: $ORIGIN"
-                exit 3
+                exit 60
         esac
     fi
     if [[ -n "$APP_MODE" ]]; then
@@ -188,7 +250,7 @@ else
                 ;;
             *)
                 ConsoleError "  ->" "unknown application mode: $APP_MODE"
-                exit 3
+                exit 61
         esac
     fi
     if [[ -n "$STATUS" ]]; then
@@ -207,8 +269,14 @@ else
                 ;;
             *)
                 ConsoleError "  ->" "unknown status: $STATUS"
-                exit 3
+                exit 62
         esac
+    fi
+    if [[ -n "$NO_ALL" ]]; then
+        NO_BUILD=yes
+        NO_DESCR=yes
+        NO_LIST=yes
+        NO_START=yes
     fi
 fi
 
@@ -235,6 +303,43 @@ else
     printf "O D B U S${EFFECTS["REVERSE_OFF"]}\n\n"
 
     for ID in ${!DMAP_TASK_ORIGIN[@]}; do
+        if [[ -n "$ODL" ]]; then
+            case "$ID" in
+                "describe-"* | "list-"*)
+                    ;;
+                *)
+                    continue
+                    ;;
+            esac
+        fi
+        if [[ -n "$NO_BUILD" ]]; then
+            case "$ID" in
+                "build-"*)
+                    continue
+                    ;;
+            esac
+        fi
+        if [[ -n "$NO_DESCR" ]]; then
+            case "$ID" in
+                "describe-"*)
+                    continue
+                    ;;
+            esac
+        fi
+        if [[ -n "$NO_LIST" ]]; then
+            case "$ID" in
+                "list-"*)
+                    continue
+                    ;;
+            esac
+        fi
+        if [[ -n "$NO_START" ]]; then
+            case "$ID" in
+                "start-"*)
+                    continue
+                    ;;
+            esac
+        fi
         if [[ -n "$LOADED" ]]; then
             if [[ -z "${RTMAP_TASK_LOADED[$ID]:-}" ]]; then
                 continue

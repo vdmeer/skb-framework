@@ -42,7 +42,7 @@ set -o errexit -o pipefail -o noclobber -o nounset
 ##
 if [[ -z ${FW_HOME:-} || -z ${FW_L1_CONFIG-} ]]; then
     printf " ==> please run from framework or application\n\n"
-    exit 10
+    exit 50
 fi
 source $FW_L1_CONFIG
 CONFIG_MAP["RUNNING_IN"]="task"
@@ -82,7 +82,7 @@ CLI_LONG_OPTIONS=all,mode:,help,id:,loaded,origin:,print-mode:,status:,unloaded
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-task -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
     ConsoleError "  ->" "unknown CLI options"
-    exit 1
+    exit 51
 fi
 eval set -- "$PARSED"
 
@@ -150,7 +150,7 @@ while true; do
             ;;
         *)
             ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
-            exit 2
+            exit 52
     esac
 done
 
@@ -179,11 +179,11 @@ else
         TASK_ID=$(GetTaskID $TASK_ID)
         if [[ -z ${TASK_ID:-} ]]; then
             ConsoleError " ->" "unknown task: $ORIG_TASK"
-            exit 3
+            exit 60
         else
             if [[ -z ${DMAP_TASK_ORIGIN[$TASK_ID]:-} ]]; then
                 ConsoleError " ->" "unknown task: $ORIG_TASK"
-                exit 3
+                exit 61
             fi
         fi
     fi
@@ -197,7 +197,7 @@ else
                 ;;
             *)
                 ConsoleError " ->" "unknown origin: $ORIGIN"
-                exit 3
+                exit 62
         esac
     fi
     if [[ -n "$APP_MODE" ]]; then
@@ -213,7 +213,7 @@ else
                 ;;
             *)
                 ConsoleError "  ->" "unknown application mode: $APP_MODE"
-                exit 3
+                exit 64
         esac
     fi
     if [[ -n "$STATUS" ]]; then
@@ -229,7 +229,7 @@ else
                 ;;
             *)
                 ConsoleError "  ->" "unknown status: $STATUS"
-                exit 3
+                exit 65
         esac
     fi
 fi

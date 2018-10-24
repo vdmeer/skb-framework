@@ -52,26 +52,26 @@ _ts=$(date +%s.%N)
 ## - test for BASH 4, if not found we cannot continue (we are using associative arrays)
 ## - test for getopt, we use it for command line argument parsing
 ## - test for bc, for time calculations
-## test for mktemp, required to create temporary files and directories
+## - test for mktemp, required to create temporary files and directories
 ##
-## - exit with code 1 if we did not find a core requirements
+## - exit with code 12-15 if we did not find a core requirements
 ##
 if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then
     printf " ==> no bash version >4, required for associative arrays\n\n"
-    exit 1
+    exit 12
 fi
 ! getopt --test > /dev/null 
 if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
     printf " ==> getopt failed, require for command line parsing\n\n"
-    exit 2
+    exit 13
 fi
 if [[ ! $(command -v bc) ]]; then
     printf " ==> did not find bc, require for calculations\n\n"
-    exit 3
+    exit 14
 fi
 if [[ ! $(command -v mktemp) ]]; then
     printf " ==> did not find mktemp, require to create temporary files and directories\n\n"
-    exit 3
+    exit 15
 fi
 
 
@@ -118,14 +118,17 @@ source $FW_HOME/bin/loader/init/parse-cli.sh
 
 ##
 ## set flavor and application settings from calling script
-##
-#### - exit with code 4: if no flavor set, not setting found (internal error), no FLAOVOR_HOME set, or not a directoy
-#### - exit with code 5: if script name or application name are missing
+## - exit with code 16: if no flavor set, not setting found (internal error)
+## - exit with code 17: if no FLAOVOR_HOME set
+## - exit with code 18: if FLAOVOR_HOME not a directoy
+## - exit with code 20: if application script name is missing
+## - exit with code 21: if application name is missing
+## - exit with code 22: if version file is missing
 ##
 if [[ -z ${__FW_LOADER_FLAVOR:-} ]]; then
     ConsoleFatal " ->" "interal error: no flavor set"
     printf "\n"
-    exit 4
+    exit 16
 else
     CONFIG_MAP["FLAVOR"]=$__FW_LOADER_FLAVOR
     CONFIG_SRC["FLAVOR"]="E"
@@ -133,7 +136,7 @@ else
         ## did not find FLAVOR
         ConsoleFatal " ->" "internal error: did not find setting for flavor"
         printf "\n"
-        exit 4
+        exit 16
     fi
 
     FLAVOR_HOME="${CONFIG_MAP["FLAVOR"]}_HOME"
@@ -142,12 +145,12 @@ else
     if [[ -z ${CONFIG_MAP["HOME"]:-} ]]; then
         ConsoleFatal " ->" "did not find environment setting for application home, tried \$${CONFIG_MAP["FLAVOR"]}_HOME"
         printf "\n"
-        exit 4
+        exit 17
     elif [[ ! -d ${CONFIG_MAP["HOME"]} ]]; then
         ## found home, but is no directory
         ConsoleFatal " ->" "\$${CONFIG_MAP["FLAVOR"]}_HOME set as ${CONFIG_MAP["HOME"]} does not point to a directory"
         printf "\n"
-        exit 4
+        exit 18
     fi
 fi
 export FLAVOR_HOME=${CONFIG_MAP["HOME"]}
@@ -155,14 +158,14 @@ export FLAVOR_HOME=${CONFIG_MAP["HOME"]}
 if [[ -z ${__FW_LOADER_SCRIPTNAME:-} ]]; then
     ConsoleFatal " ->" "interal error: no application script name set"
     printf "\n"
-    exit 5
+    exit 20
 else
     CONFIG_MAP["APP_SCRIPT"]=${__FW_LOADER_SCRIPTNAME##*/}
 fi
 if [[ -z "${__FW_LOADER_APPNAME:-}" ]]; then
     ConsoleFatal " ->" "interal error: no application name set"
     printf "\n"
-    exit 5
+    exit 21
 else
     CONFIG_MAP["APP_NAME"]=$__FW_LOADER_APPNAME
 fi
@@ -172,9 +175,16 @@ if [[ -f ${CONFIG_MAP["HOME"]}/etc/version.txt ]]; then
 else
     ConsoleFatal " ->" "no application version found, tried \$HOME/etc/version.txt"
     printf "\n"
-    exit 5
+    exit 22
 fi
 
+
+
+##
+## test and create temporary directory
+## - exit with code 23: if directory could not created (and does not exist)
+## - exit with code 24: if directory is not writeable
+##
 if [[ ! -z ${TMP:-} ]]; then
     TMP_DIRECTORY=${TMP}/${CONFIG_MAP["APP_SCRIPT"]}
 else
@@ -186,13 +196,13 @@ if [[ ! -d $TMP_DIRECTORY ]]; then
     if [[ $__errno != 0 ]]; then
         ConsoleFatal " ->" "could not create temporary directory $TMP_DIRECTORY, please check owner and permissions"
         printf "\n"
-        exit 6
+        exit 23
     fi
 fi
 if [[ ! -w $TMP_DIRECTORY ]]; then
     ConsoleFatal " ->" "cannot write to temporary directory $TMP_DIRECTORY, please check owner and permissions"
     printf "\n"
-    exit 7
+    exit 24
 fi
 
 
@@ -215,9 +225,10 @@ esac
 
 ##
 ## declare and set parameters, from here on we have setting stuff loaded
+## - exit with code 25 on errors
 ##
 DeclareParameters
-if ConsoleHasErrors; then printf "\n"; exit 4; fi
+if ConsoleHasErrors; then printf "\n"; exit 25; fi
 source $FW_HOME/bin/loader/init/process-settings.sh
 ProcessSettings
 
@@ -228,15 +239,15 @@ ProcessSettings
 ## - set some runtime values but don't call any options)
 ## - test mode
 ##
-## - exit with code 2 if option declaration failed
-## - exit with code 3 if parseCLI failed
+## - exit with code 26 if option declaration failed
+## - exit with code 27 if parseCLI failed
 ##
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/opt-decl.map ]]; then
     ConsoleInfo "-->" "declaring options from cache"
     source ${CONFIG_MAP["CACHE_DIR"]}/opt-decl.map
 else
     DeclareOptions
-    if ConsoleHasErrors; then printf "\n"; exit 2; fi
+    if ConsoleHasErrors; then printf "\n"; exit 26; fi
 fi
 declare -A OPT_CLI_MAP
 for ID in ${!DMAP_OPT_ORIGIN[@]}; do
@@ -244,7 +255,7 @@ for ID in ${!DMAP_OPT_ORIGIN[@]}; do
 done
 
 ParseCli $@
-if ConsoleHasErrors; then printf "\n"; exit 3; fi
+if ConsoleHasErrors; then printf "\n"; exit 27; fi
 case "${CONFIG_MAP["PRINT_MODE"]:-}" in
     ansi | text | adoc)
         ConsoleInfo "-->" "found print mode '${CONFIG_MAP["PRINT_MODE"]}'"
@@ -273,23 +284,32 @@ fi
 
 
 ##
-## declare shell artifacts
+## declare shell artifacts: commands, error codes
+## - exit with code 28 if command declaration failed
+## - exit with code 29 if error-code declaration failed
 ##
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/cmd-decl.map ]]; then
     ConsoleInfo "-->" "declaring commands from cache"
     source ${CONFIG_MAP["CACHE_DIR"]}/cmd-decl.map
 else
     DeclareCommands
+    if ConsoleHasErrors; then printf "\n"; exit 28; fi
 fi
-# DeclareErrorCodes ###
+# if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/ec-decl.map ]]; then
+#     ConsoleInfo "-->" "declaring error-codes from cache"
+#     source ${CONFIG_MAP["CACHE_DIR"]}/ec-decl.map
+# else
+#     DeclareErrorCodes
+#     if ConsoleHasErrors; then printf "\n"; exit 29; fi
+# fi
 
 
 
 ##
-## Declare core artifacts: dependencies, tasks
-## - exit with code 4 if parameters failed
-## - exit with code 5 if dependencies failed
-## - exit with code 6 if tasks failed
+## Declare core artifacts: dependencies, tasks; check tasks
+## - exit with code 30: if dependencies failed
+## - exit with code 31: if tasks failed
+## - exit with code 32: if task tests failed
 ##
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/dep-decl.map ]]; then
     ConsoleInfo "-->" "declaring dependencies from cache"
@@ -297,7 +317,7 @@ if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/dep-decl.map ]]; then
 else
     ConsoleInfo "-->" "declaring dependencies from source"
     DeclareDependencies
-    if ConsoleHasErrors; then printf "\n"; exit 5; fi
+    if ConsoleHasErrors; then printf "\n"; exit 30; fi
 fi
 
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/task-decl.map ]]; then
@@ -306,16 +326,34 @@ if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/task-decl.map ]]; then
 else
     ConsoleInfo "-->" "declaring tasks from source"
     DeclareTasks
-    if ConsoleHasErrors; then printf "\n"; exit 6; fi
+    if ConsoleHasErrors; then printf "\n"; exit 31; fi
 fi
 source $FW_HOME/bin/loader/init/process-tasks.sh
 ProcessTasks
-if ConsoleHasErrors; then printf "\n"; exit 7; fi
+if ConsoleHasErrors; then printf "\n"; exit 32; fi
+
+
+
+##
+## Declare scenarios
+## - exit with code 33: if declaration(s) failed
+##
+# if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/scn-decl.map ]]; then
+#     ConsoleInfo "-->" "declaring scenarios from cache"
+#     source ${CONFIG_MAP["CACHE_DIR"]}/scn-decl.map
+# else
+#     ConsoleInfo "-->" "declaring scenarios from source"
+#     DeclareScenarios
+#     if ConsoleHasErrors; then printf "\n"; exit 33; fi
+# fi
 
 
 
 ##
 ## test if all -LEVELS are set to correct values
+## - exit with code 34: if loader level unknown
+## - exit with code 35: if shell level unknown
+## - exit with code 36: if task level unknown
 ##
 case "${CONFIG_MAP["LOADER-LEVEL"]}" in
     off | all | fatal | error | warn-strict | warn | info | debug | trace)
@@ -323,6 +361,7 @@ case "${CONFIG_MAP["LOADER-LEVEL"]}" in
     *)
         ConsoleError "-->" "unknown loader-level: ${CONFIG_MAP["LOADER-LEVEL"]}"
         printf "    use: off, all, fatal, error, warn-strict, warn, info, debug, trace\n\n"
+        exit 34
         ;;
 esac
 case "${CONFIG_MAP["SHELL-LEVEL"]}" in
@@ -331,6 +370,7 @@ case "${CONFIG_MAP["SHELL-LEVEL"]}" in
     *)
         ConsoleError "-->" "unknown shell-level: ${CONFIG_MAP["SHELL-LEVEL"]}"
         printf "    use: off, all, fatal, error, warn-strict, warn, info, debug, trace\n\n"
+        exit 35
         ;;
 esac
 case "${CONFIG_MAP["TASK-LEVEL"]}" in
@@ -339,6 +379,7 @@ case "${CONFIG_MAP["TASK-LEVEL"]}" in
     *)
         ConsoleError "-->" "unknown task-level: ${CONFIG_MAP["TASK-LEVEL"]}"
         printf "    use: off, all, fatal, error, warn-strict, warn, info, debug, trace\n\n"
+        exit 36
         ;;
 esac
 
@@ -346,10 +387,12 @@ esac
 
 ##
 ## do cli options
+## - exit with code 37: on option errors
+##
 ##
 source $FW_HOME/bin/loader/init/do-options.sh
 DoOptions
-if ConsoleHasErrors; then printf "\n"; exit 9; fi
+if ConsoleHasErrors; then printf "\n"; exit 37; fi
 
 if [[ $DO_EXIT == true ]]; then
     _te=$(date +%s.%N)
