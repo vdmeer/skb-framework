@@ -72,7 +72,9 @@ ShellCmdExecuteTask() {
             ;;
         w | wait)
             DO_EXTRAS=false
-            DO_WAIT=true
+            if [[ "$TARG" != "-h" && "$TARG" != "--help" ]]; then
+                DO_WAIT=true
+            fi
     esac
     case "$TARG" in
         "-h" | "--help" | "-h "* | "--help "* | *" -h" | *" --help")
@@ -141,7 +143,7 @@ ShellCmdExecuteTask() {
         printf "\n\n"
     elif $DO_WAIT; then
         RUNTIME=$(echo "$TE-$TS" | bc -l)
-        printf "    wait: $RUNTIME seconds\n"
+        printf "    wait: $RUNTIME seconds\n\n"
     else
         printf "\n"
     fi
