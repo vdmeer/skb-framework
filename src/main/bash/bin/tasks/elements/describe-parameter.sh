@@ -99,18 +99,22 @@ while true; do
             shift
             ;;
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
-            BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "describe-parameter")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
 
-            printf "\n   filters\n"
-            BuildTaskHelpLine a all         "<none>"    "all parameters, disables all other filters"            $PRINT_PADDING
-            BuildTaskHelpLine d default     "<none>"    "only parameters with a defined default value"          $PRINT_PADDING
-            BuildTaskHelpLine i id          "ID"        "parameter identifier"                                  $PRINT_PADDING
-            BuildTaskHelpLine o origin      "ORIGIN"    "only parameters from origin: f(w), a(pp)"              $PRINT_PADDING
-            BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                           $PRINT_PADDING
-            BuildTaskHelpLine s status      "STATUS"    "only parameter for status: o, f, e, d"                 $PRINT_PADDING
-
+                printf "\n   filters\n"
+                BuildTaskHelpLine a all         "<none>"    "all parameters, disables all other filters"            $PRINT_PADDING
+                BuildTaskHelpLine d default     "<none>"    "only parameters with a defined default value"          $PRINT_PADDING
+                BuildTaskHelpLine i id          "ID"        "parameter identifier"                                  $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "only parameters from origin: f(w), a(pp)"              $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                           $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "only parameter for status: o, f, e, d"                 $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -i | --id)

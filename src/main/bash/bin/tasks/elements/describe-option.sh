@@ -92,14 +92,19 @@ while true; do
             shift
             ;;
         -h | --help)
+            CACHED_HELP=$(TaskGetCachedHelp "describe-option")
+            if [[ -z ${CACHED_HELP:-} ]]; then
             printf "\n   options\n"
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
-            BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
-            printf "\n   filters\n"
-            BuildTaskHelpLine a all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
-            BuildTaskHelpLine e exit        "<none>"    "only exit options"                             $PRINT_PADDING
-            BuildTaskHelpLine i id          "ID"        "option identifier"                             $PRINT_PADDING
-            BuildTaskHelpLine r run         "<none>"    "only runtime options"                          $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
+                printf "\n   filters\n"
+                BuildTaskHelpLine a all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
+                BuildTaskHelpLine e exit        "<none>"    "only exit options"                             $PRINT_PADDING
+                BuildTaskHelpLine i id          "ID"        "option identifier"                             $PRINT_PADDING
+                BuildTaskHelpLine r run         "<none>"    "only runtime options"                          $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -e | --exit)

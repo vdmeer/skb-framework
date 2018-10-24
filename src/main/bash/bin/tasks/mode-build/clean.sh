@@ -85,10 +85,15 @@ while true; do
             FORCE=true
             ;;
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine f force       "<none>"    "force mode, not questions asked"                   $PRINT_PADDING
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
-            BuildTaskHelpLine s simulate    "<none>"    "print only, removes nothing, overwrites force"     $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "clean")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine f force       "<none>"    "force mode, not questions asked"                   $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpLine s simulate    "<none>"    "print only, removes nothing, overwrites force"     $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -s | --simulate)

@@ -91,19 +91,23 @@ while true; do
             shift
             ;;
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                            $PRINT_PADDING
-            BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                          $PRINT_PADDING
-            printf "\n   filters\n"
-            BuildTaskHelpLine a        all       "<none>"    "all manual versions"                              $PRINT_PADDING
-            BuildTaskHelpLine "<none>" adoc      "<none>"    "ADOC manual"                                      $PRINT_PADDING
-            BuildTaskHelpLine "<none>" ansi      "<none>"    "text manual with ansi colors andeffects"          $PRINT_PADDING
-            BuildTaskHelpLine "<none>" html      "<none>"    "HTML manual"                                      $PRINT_PADDING
-            BuildTaskHelpLine "<none>" manp      "<none>"    "manual page ${CONFIG_MAP["APP_SCRIPT"]}(1)"       $PRINT_PADDING
-            BuildTaskHelpLine "<none>" pdf       "<none>"    "PDF manual"                                       $PRINT_PADDING
-            BuildTaskHelpLine "<none>" text      "<none>"    "plain text manual"                                $PRINT_PADDING
-            BuildTaskHelpLine "<none>" text-anon "<none>"    "annotated text manual"                            $PRINT_PADDING
-
+            CACHED_HELP=$(TaskGetCachedHelp "manual")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                            $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                          $PRINT_PADDING
+                printf "\n   filters\n"
+                BuildTaskHelpLine a        all       "<none>"    "all manual versions"                              $PRINT_PADDING
+                BuildTaskHelpLine "<none>" adoc      "<none>"    "ADOC manual"                                      $PRINT_PADDING
+                BuildTaskHelpLine "<none>" ansi      "<none>"    "text manual with ansi colors andeffects"          $PRINT_PADDING
+                BuildTaskHelpLine "<none>" html      "<none>"    "HTML manual"                                      $PRINT_PADDING
+                BuildTaskHelpLine "<none>" manp      "<none>"    "manual page ${CONFIG_MAP["APP_SCRIPT"]}(1)"       $PRINT_PADDING
+                BuildTaskHelpLine "<none>" pdf       "<none>"    "PDF manual"                                       $PRINT_PADDING
+                BuildTaskHelpLine "<none>" text      "<none>"    "plain text manual"                                $PRINT_PADDING
+                BuildTaskHelpLine "<none>" text-anon "<none>"    "annotated text manual"                            $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -P | --print-mode)

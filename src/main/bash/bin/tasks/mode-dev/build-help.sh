@@ -86,9 +86,14 @@ while true; do
             shift
             ;;
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine c clean   "<none>"    "added by convention, does nothing"                 $PRINT_PADDING
-            BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                        $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "build-help")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine c clean   "<none>"    "added by convention, does nothing"                 $PRINT_PADDING
+                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                        $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
 

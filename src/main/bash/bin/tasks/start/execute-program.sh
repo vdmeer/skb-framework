@@ -88,11 +88,16 @@ while true; do
             shift
             ;;
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine b background  "<none>"    "run program in background"                     $PRINT_PADDING
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
-            BuildTaskHelpLine t title       "TITLE"     "title for the XTerm, default: program name"    $PRINT_PADDING
-            BuildTaskHelpLine x xterm       "<none>"    "start a new XTerm and execute program"         $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "execute-program")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine b background  "<none>"    "run program in background"                     $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
+                BuildTaskHelpLine t title       "TITLE"     "title for the XTerm, default: program name"    $PRINT_PADDING
+                BuildTaskHelpLine x xterm       "<none>"    "start a new XTerm and execute program"         $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -t | --title)

@@ -91,18 +91,23 @@ PRINT_PADDING=25
 while true; do
     case "$1" in
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
-            BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "describe-element")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
 
-            printf "\n   filters\n"
-            BuildTaskHelpLine a all                 "<none>"   "all application aspects"              $PRINT_PADDING
-            BuildTaskHelpLine "<none>" commands     "<none>"   "include application description"      $PRINT_PADDING
-            BuildTaskHelpLine "<none>" dependencies "<none>"   "include authors"                      $PRINT_PADDING
-            BuildTaskHelpLine "<none>" exitstatus   "<none>"   "include bugs"                         $PRINT_PADDING
-            BuildTaskHelpLine "<none>" options      "<none>"   "include copying"                      $PRINT_PADDING
-            BuildTaskHelpLine "<none>" parameters   "<none>"   "include resources"                    $PRINT_PADDING
-            BuildTaskHelpLine "<none>" tasks        "<none>"   "include security"                     $PRINT_PADDING
+                printf "\n   filters\n"
+                BuildTaskHelpLine a all                 "<none>"   "all application aspects"              $PRINT_PADDING
+                BuildTaskHelpLine "<none>" commands     "<none>"   "include application description"      $PRINT_PADDING
+                BuildTaskHelpLine "<none>" dependencies "<none>"   "include authors"                      $PRINT_PADDING
+                BuildTaskHelpLine "<none>" exitstatus   "<none>"   "include bugs"                         $PRINT_PADDING
+                BuildTaskHelpLine "<none>" options      "<none>"   "include copying"                      $PRINT_PADDING
+                BuildTaskHelpLine "<none>" parameters   "<none>"   "include resources"                    $PRINT_PADDING
+                BuildTaskHelpLine "<none>" tasks        "<none>"   "include security"                     $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
 

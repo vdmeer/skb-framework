@@ -87,9 +87,14 @@ while true; do
             shift 2
             ;;
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                    $PRINT_PADDING
-            BuildTaskHelpLine t title   "TITLE"     "title for the XTerm, default: command name"    $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "start-xterm")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                    $PRINT_PADDING
+                BuildTaskHelpLine t title   "TITLE"     "title for the XTerm, default: command name"    $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -t | --title)

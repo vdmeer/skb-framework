@@ -78,15 +78,15 @@ TARGET=""
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=abcdhlt
-CLI_LONG_OPTIONS=all,build,clean,decl,help,tab
+CLI_OPTIONS=abcdfht
+CLI_LONG_OPTIONS=all,build,clean,decl,full,help,tab
 CLI_LONG_OPTIONS+=,cmd-decl,cmd-tab
 CLI_LONG_OPTIONS+=,dep-decl,dep-tab
 CLI_LONG_OPTIONS+=,es-decl,es-tab
 CLI_LONG_OPTIONS+=,opt-decl,opt-tab
 CLI_LONG_OPTIONS+=,param-tab
 CLI_LONG_OPTIONS+=,task-decl,task-tab
-CLI_LONG_OPTIONS+=,tasks,full
+CLI_LONG_OPTIONS+=,tasks
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-cache -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -107,34 +107,39 @@ while true; do
             shift
             ;;
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine a all     "<none>"    "set all targets, except tasks"                     $PRINT_PADDING
-            BuildTaskHelpLine b build   "<none>"    "builds cache, requires a target"                   $PRINT_PADDING
-            BuildTaskHelpLine c clean   "<none>"    "removes all cached maps and screens"               $PRINT_PADDING
-            BuildTaskHelpLine d decl    "<none>"    "set all declaration targets"                       $PRINT_PADDING
-            BuildTaskHelpLine f full    "<none>"    "set all targets, including tasks"                  $PRINT_PADDING
-            BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                        $PRINT_PADDING
-            BuildTaskHelpLine t tab     "<none>"    "set all table targets"                             $PRINT_PADDING
-            printf "\n   targets\n"
+            CACHED_HELP=$(TaskGetCachedHelp "build-cache")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine a all     "<none>"    "set all targets, except tasks"                     $PRINT_PADDING
+                BuildTaskHelpLine b build   "<none>"    "builds cache, requires a target"                   $PRINT_PADDING
+                BuildTaskHelpLine c clean   "<none>"    "removes all cached maps and screens"               $PRINT_PADDING
+                BuildTaskHelpLine d decl    "<none>"    "set all declaration targets"                       $PRINT_PADDING
+                BuildTaskHelpLine f full    "<none>"    "set all targets, including tasks"                  $PRINT_PADDING
+                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpLine t tab     "<none>"    "set all table targets"                             $PRINT_PADDING
+                printf "\n   targets\n"
 
-            BuildTaskHelpLine "<none>" cmd-decl     "<none>"    "target: command declarations"              $PRINT_PADDING
-            BuildTaskHelpLine "<none>" cmd-tab      "<none>"    "target: command table"                     $PRINT_PADDING
+                BuildTaskHelpLine "<none>" cmd-decl     "<none>"    "target: command declarations"              $PRINT_PADDING
+                BuildTaskHelpLine "<none>" cmd-tab      "<none>"    "target: command table"                     $PRINT_PADDING
 
-            BuildTaskHelpLine "<none>" es-decl      "<none>"    "target: exit-status declarations"          $PRINT_PADDING
-            BuildTaskHelpLine "<none>" es-tab       "<none>"    "target: exit-status table"                 $PRINT_PADDING
+                BuildTaskHelpLine "<none>" es-decl      "<none>"    "target: exit-status declarations"          $PRINT_PADDING
+                BuildTaskHelpLine "<none>" es-tab       "<none>"    "target: exit-status table"                 $PRINT_PADDING
 
-            BuildTaskHelpLine "<none>" opt-decl     "<none>"    "target: option declarations"               $PRINT_PADDING
-            BuildTaskHelpLine "<none>" opt-tab      "<none>"    "target: option table"                      $PRINT_PADDING
+                BuildTaskHelpLine "<none>" opt-decl     "<none>"    "target: option declarations"               $PRINT_PADDING
+                BuildTaskHelpLine "<none>" opt-tab      "<none>"    "target: option table"                      $PRINT_PADDING
 
-            BuildTaskHelpLine "<none>" dep-decl     "<none>"    "target: dependency decclarations"          $PRINT_PADDING
-            BuildTaskHelpLine "<none>" dep-tab      "<none>"    "target: dependency table"                  $PRINT_PADDING
+                BuildTaskHelpLine "<none>" dep-decl     "<none>"    "target: dependency decclarations"          $PRINT_PADDING
+                BuildTaskHelpLine "<none>" dep-tab      "<none>"    "target: dependency table"                  $PRINT_PADDING
 
-            BuildTaskHelpLine "<none>" param-tab    "<none>"    "target: parameter table"                   $PRINT_PADDING
+                BuildTaskHelpLine "<none>" param-tab    "<none>"    "target: parameter table"                   $PRINT_PADDING
 
-            BuildTaskHelpLine "<none>" task-decl    "<none>"    "target: task declarations"                 $PRINT_PADDING
-            BuildTaskHelpLine "<none>" task-tab     "<none>"    "target: task table"                        $PRINT_PADDING
+                BuildTaskHelpLine "<none>" task-decl    "<none>"    "target: task declarations"                 $PRINT_PADDING
+                BuildTaskHelpLine "<none>" task-tab     "<none>"    "target: task table"                        $PRINT_PADDING
 
-            BuildTaskHelpLine "<none>" tasks        "<none>"    "target: help screens for all(!) tasks"     $PRINT_PADDING
+                BuildTaskHelpLine "<none>" tasks        "<none>"    "target: help screens for all(!) tasks"     $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
 

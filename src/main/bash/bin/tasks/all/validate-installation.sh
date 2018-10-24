@@ -85,21 +85,26 @@ PRINT_PADDING=19
 while true; do
     case "$1" in
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine h help    "<none>"    "print help screen and exit"        $PRINT_PADDING
-            BuildTaskHelpLine s strict  "<none>"    "run in strict mode"                $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "validate-installation")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"        $PRINT_PADDING
+                BuildTaskHelpLine s strict  "<none>"    "run in strict mode"                $PRINT_PADDING
 
-            printf "\n   targets\n"
-            BuildTaskHelpLine a all "<none>" "set all targets" $PRINT_PADDING
+                printf "\n   targets\n"
+                BuildTaskHelpLine a all "<none>" "set all targets" $PRINT_PADDING
 
-            BuildTaskHelpLine "<none>" man-src "<none>" "target: manual source" $PRINT_PADDING
+                BuildTaskHelpLine "<none>" man-src "<none>" "target: manual source" $PRINT_PADDING
 
-            BuildTaskHelpLine "<none>"  cmd     "<none>" "target: commands"         $PRINT_PADDING
-            BuildTaskHelpLine "<none>"  dep     "<none>" "target: dependencies"     $PRINT_PADDING
-            BuildTaskHelpLine "<none>"  es      "<none>" "target: exit-status"      $PRINT_PADDING
-            BuildTaskHelpLine "<none>"  opt     "<none>" "target: options"          $PRINT_PADDING
-            BuildTaskHelpLine "<none>"  param   "<none>" "target: parameters"       $PRINT_PADDING
-            BuildTaskHelpLine "<none>"  task    "<none>" "target: tasks"            $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  cmd     "<none>" "target: commands"         $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  dep     "<none>" "target: dependencies"     $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  es      "<none>" "target: exit-status"      $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  opt     "<none>" "target: options"          $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  param   "<none>" "target: parameters"       $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  task    "<none>" "target: tasks"            $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
 

@@ -80,9 +80,14 @@ PRINT_PADDING=19
 while true; do
     case "$1" in
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine h help    "<none>"    "print help screen and exit"        $PRINT_PADDING
-            BuildTaskHelpLine f file    "FILE"      "PDF file to open in reader"        $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "start-pdf")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"        $PRINT_PADDING
+                BuildTaskHelpLine f file    "FILE"      "PDF file to open in reader"        $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -f | --file)

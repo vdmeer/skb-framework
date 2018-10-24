@@ -84,11 +84,16 @@ PRINT_PADDING=25
 while true; do
     case "$1" in
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
-            BuildTaskHelpLine l list        "<none>"    "table format"                      $PRINT_PADDING
-            BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
-            BuildTaskHelpLine t table       "<none>"    "help screen format"                $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "list-commands")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
+                BuildTaskHelpLine l list        "<none>"    "table format"                      $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
+                BuildTaskHelpLine t table       "<none>"    "help screen format"                $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -l | --list)

@@ -83,11 +83,16 @@ PRINT_PADDING=27
 while true; do
     case "$1" in
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
-            BuildTaskHelpLine s scenario    SCENARIO    "the scenario to repeat"            $PRINT_PADDING
-            BuildTaskHelpLine t times       INT         "repeat INT times"                  $PRINT_PADDING
-            BuildTaskHelpLine w wait        SEC         "wait SEC seconds between repeats"  $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "repeat-scenario")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
+                BuildTaskHelpLine s scenario    SCENARIO    "the scenario to repeat"            $PRINT_PADDING
+                BuildTaskHelpLine t times       INT         "repeat INT times"                  $PRINT_PADDING
+                BuildTaskHelpLine w wait        SEC         "wait SEC seconds between repeats"  $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -s | --scenario)

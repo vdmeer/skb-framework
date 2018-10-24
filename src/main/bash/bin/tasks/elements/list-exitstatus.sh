@@ -96,18 +96,23 @@ while true; do
             shift
             ;;
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
-            BuildTaskHelpLine l list        "<none>"    "table format"                      $PRINT_PADDING
-            BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
-            BuildTaskHelpLine t table       "<none>"    "help screen format"                $PRINT_PADDING
-            printf "\n   filters\n"
-            BuildTaskHelpLine a         all         "<none>"    "all, disables all other filters, default"      $PRINT_PADDING
-            BuildTaskHelpLine "<none>"  app         "<none>"    "only application status"                       $PRINT_PADDING
-            BuildTaskHelpLine f         fw          "<none>"    "only framework status"                         $PRINT_PADDING
-            BuildTaskHelpLine "<none>"  loader      "<none>"    "only loader status"                            $PRINT_PADDING
-            BuildTaskHelpLine s         shell       "<none>"    "only shell status"                             $PRINT_PADDING
-            BuildTaskHelpLine "<none>"  task        "<none>"    "only task status"                              $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "list-exitstatus")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
+                BuildTaskHelpLine l list        "<none>"    "table format"                      $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
+                BuildTaskHelpLine t table       "<none>"    "help screen format"                $PRINT_PADDING
+                printf "\n   filters\n"
+                BuildTaskHelpLine a         all         "<none>"    "all, disables all other filters, default"      $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  app         "<none>"    "only application status"                       $PRINT_PADDING
+                BuildTaskHelpLine f         fw          "<none>"    "only framework status"                         $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  loader      "<none>"    "only loader status"                            $PRINT_PADDING
+                BuildTaskHelpLine s         shell       "<none>"    "only shell status"                             $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  task        "<none>"    "only task status"                              $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -l | --list)

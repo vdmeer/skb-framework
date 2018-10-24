@@ -100,17 +100,22 @@ while true; do
             shift 2
             ;;
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                $PRINT_PADDING
-            BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"              $PRINT_PADDING
-            printf "\n   filters\n"
-            BuildTaskHelpLine a all         "<none>"    "all tasks, disables all other filters"                 $PRINT_PADDING
-            BuildTaskHelpLine i id          "ID"        "task identifier"                                       $PRINT_PADDING
-            BuildTaskHelpLine l loaded      "<none>"    "only loaded tasks"                                     $PRINT_PADDING
-            BuildTaskHelpLine m mode        "MODE"      "only tasks for application mode: dev, build, use"      $PRINT_PADDING
-            BuildTaskHelpLine o origin      "ORIGIN"    "only tasks from origin: f(w), a(pp)"                   $PRINT_PADDING
-            BuildTaskHelpLine s status      "STATUS"    "only tasks for status: success, warnings, errors"      $PRINT_PADDING
-            BuildTaskHelpLine u unloaded    "<none>"    "only unloaded tasks"                                   $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "describe-task")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"              $PRINT_PADDING
+                printf "\n   filters\n"
+                BuildTaskHelpLine a all         "<none>"    "all tasks, disables all other filters"                 $PRINT_PADDING
+                BuildTaskHelpLine i id          "ID"        "task identifier"                                       $PRINT_PADDING
+                BuildTaskHelpLine l loaded      "<none>"    "only loaded tasks"                                     $PRINT_PADDING
+                BuildTaskHelpLine m mode        "MODE"      "only tasks for application mode: dev, build, use"      $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "only tasks from origin: f(w), a(pp)"                   $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "only tasks for status: success, warnings, errors"      $PRINT_PADDING
+                BuildTaskHelpLine u unloaded    "<none>"    "only unloaded tasks"                                   $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -i | --id)

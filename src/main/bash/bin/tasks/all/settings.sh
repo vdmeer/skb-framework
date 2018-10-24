@@ -91,16 +91,21 @@ while true; do
             shift
             ;;
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                            $PRINT_PADDING
-            BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                          $PRINT_PADDING
-            printf "\n   filters\n"
-            BuildTaskHelpLine a all         "<none>"    "all settings, disables all other filters"              $PRINT_PADDING
-            BuildTaskHelpLine c cli         "<none>"    "only settings from CLI options"                        $PRINT_PADDING
-            BuildTaskHelpLine d default     "<none>"    "only settings from default value"                      $PRINT_PADDING
-            BuildTaskHelpLine e env         "<none>"    "only settings from environment"                        $PRINT_PADDING
-            BuildTaskHelpLine f file        "<none>"    "only settings from configuration file"                 $PRINT_PADDING
-            BuildTaskHelpLine i internal    "<none>"    "only internal settings"                                $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "settings")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                            $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                          $PRINT_PADDING
+                printf "\n   filters\n"
+                BuildTaskHelpLine a all         "<none>"    "all settings, disables all other filters"              $PRINT_PADDING
+                BuildTaskHelpLine c cli         "<none>"    "only settings from CLI options"                        $PRINT_PADDING
+                BuildTaskHelpLine d default     "<none>"    "only settings from default value"                      $PRINT_PADDING
+                BuildTaskHelpLine e env         "<none>"    "only settings from environment"                        $PRINT_PADDING
+                BuildTaskHelpLine f file        "<none>"    "only settings from configuration file"                 $PRINT_PADDING
+                BuildTaskHelpLine i internal    "<none>"    "only internal settings"                                $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -P | --print-mode)

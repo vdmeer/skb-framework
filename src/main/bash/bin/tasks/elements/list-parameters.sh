@@ -97,13 +97,18 @@ while true; do
             TABLE=false
             ;;
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine d def-table   "<none>"    "print default value table"                     $PRINT_PADDING
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
-            BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                  $PRINT_PADDING
-            printf "\n   filters\n"
-            BuildTaskHelpLine a all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
-            BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                   $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "list-parameters")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine d def-table   "<none>"    "print default value table"                     $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                  $PRINT_PADDING
+                printf "\n   filters\n"
+                BuildTaskHelpLine a all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                   $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -r | --requested)

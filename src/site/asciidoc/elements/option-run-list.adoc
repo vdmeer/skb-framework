@@ -1,5 +1,8 @@
 == List of runtime options
 
+*-A*, *--all-mode* - run application in mode 'all':: 
+Sets <mode> all
+
 *-B*, *--build-mode* - run application in mode 'build':: 
 Sets <mode>
 

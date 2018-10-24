@@ -93,15 +93,20 @@ while true; do
             shift
             ;;
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
-            BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                  $PRINT_PADDING
-            printf "\n   filters\n"
-            BuildTaskHelpLine a all         "<none>"    "all dependencies, disables all other filters"                              $PRINT_PADDING
-            BuildTaskHelpLine o origin      "ORIGIN"    "only dependencies from origin: f(w), a(pp)"                                $PRINT_PADDING
-            BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                                                $PRINT_PADDING
-            BuildTaskHelpLine s status      "STATUS"    "only dependencies with status: success, warnings, errors, not attempted"   $PRINT_PADDING
-            BuildTaskHelpLine t tested      "<none>"    "only tested dependencies"                                                  $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "list-dependencies")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                  $PRINT_PADDING
+                printf "\n   filters\n"
+                BuildTaskHelpLine a all         "<none>"    "all dependencies, disables all other filters"                              $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "only dependencies from origin: f(w), a(pp)"                                $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                                                $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "only dependencies with status: success, warnings, errors, not attempted"   $PRINT_PADDING
+                BuildTaskHelpLine t tested      "<none>"    "only tested dependencies"                                                  $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -o | --origin)

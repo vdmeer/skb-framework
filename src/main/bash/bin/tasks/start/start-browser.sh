@@ -80,9 +80,14 @@ PRINT_PADDING=19
 while true; do
     case "$1" in
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine h help    "<none>"    "print help screen and exit"            $PRINT_PADDING
-            BuildTaskHelpLine u url    "URL"        "optional URL to load in browser"       $PRINT_PADDING
+            CACHED_HELP=$(TaskGetCachedHelp "start-browser")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"            $PRINT_PADDING
+                BuildTaskHelpLine u url    "URL"        "optional URL to load in browser"       $PRINT_PADDING
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
         -u | --url)

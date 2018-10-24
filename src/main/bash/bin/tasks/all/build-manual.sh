@@ -115,35 +115,40 @@ while true; do
             DO_CLEAN=true
             ;;
         -h | --help)
-            printf "\n   options\n"
-            BuildTaskHelpLine a all         "<none>"    "set all targets, overwrites other options"         $PRINT_PADDING
-            BuildTaskHelpLine b build       "<none>"    "builds a manual (manpage), requires a target"      $PRINT_PADDING
-            BuildTaskHelpLine c clean       "<none>"    "removes all target artifacts"                      $PRINT_PADDING
-            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
-            BuildTaskHelpLine l loaded      "<none>"    "only show loaded tasks"                            $PRINT_PADDING
-            BuildTaskHelpLine p primary     "<none>"    "set all primary targets"                           $PRINT_PADDING
-            BuildTaskHelpLine r requested   "<none>"    "only show requested dependencies and parameters"   $PRINT_PADDING
-            BuildTaskHelpLine s secondary   "<none>"    "set all secondary targets"                         $PRINT_PADDING
-            BuildTaskHelpLine t test        "<none>"    "test a manual (show results), requires a target"   $PRINT_PADDING
-            printf "\n   targets\n"
-            BuildTaskHelpLine "<none>" adoc  "<none>" "secondary target: text versions: ansi, text"         $PRINT_PADDING
-            BuildTaskHelpLine "<none>" html  "<none>" "secondary target: HTML file"                         $PRINT_PADDING
-            BuildTaskHelpLine "<none>" manp  "<none>" "secondary target: man page file"                     $PRINT_PADDING
-            BuildTaskHelpLine "<none>" pdf   "<none>" "secondary target: PDF file)"                         $PRINT_PADDING
-            BuildTaskHelpLine "<none>" text  "<none>" "secondary target: text versions: ansi, text"         $PRINT_PADDING
-            BuildTaskHelpLine "<none>" src   "<none>" "primary target: text source files from ADOC"         $PRINT_PADDING
-            printf "\n   filters\n"
-            BuildTaskHelpLine "<none>" no-authors       "<none>" "do not include authors"                   $PRINT_PADDING_FILTERS
-            BuildTaskHelpLine "<none>" no-bugs          "<none>" "do not include bugs"                      $PRINT_PADDING_FILTERS
-            BuildTaskHelpLine "<none>" no-commands      "<none>" "do not include commands"                  $PRINT_PADDING_FILTERS
-            BuildTaskHelpLine "<none>" no-copying       "<none>" "do not include copying"                   $PRINT_PADDING_FILTERS
-            BuildTaskHelpLine "<none>" no-deps          "<none>" "do not include dependencies"              $PRINT_PADDING_FILTERS
-            BuildTaskHelpLine "<none>" no-exitstatus    "<none>" "do not include exit status"               $PRINT_PADDING_FILTERS
-            BuildTaskHelpLine "<none>" no-options       "<none>" "do not include options"                   $PRINT_PADDING_FILTERS
-            BuildTaskHelpLine "<none>" no-params        "<none>" "do not include parameters"                $PRINT_PADDING_FILTERS
-            BuildTaskHelpLine "<none>" no-resources     "<none>" "do not include resources"                 $PRINT_PADDING_FILTERS
-            BuildTaskHelpLine "<none>" no-security      "<none>" "do not include security"                  $PRINT_PADDING_FILTERS
-            BuildTaskHelpLine "<none>" no-tasks         "<none>" "do not include tasks"                     $PRINT_PADDING_FILTERS
+            CACHED_HELP=$(TaskGetCachedHelp "build-manual")
+            if [[ -z ${CACHED_HELP:-} ]]; then
+                printf "\n   options\n"
+                BuildTaskHelpLine a all         "<none>"    "set all targets, overwrites other options"         $PRINT_PADDING
+                BuildTaskHelpLine b build       "<none>"    "builds a manual (manpage), requires a target"      $PRINT_PADDING
+                BuildTaskHelpLine c clean       "<none>"    "removes all target artifacts"                      $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpLine l loaded      "<none>"    "only show loaded tasks"                            $PRINT_PADDING
+                BuildTaskHelpLine p primary     "<none>"    "set all primary targets"                           $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "only show requested dependencies and parameters"   $PRINT_PADDING
+                BuildTaskHelpLine s secondary   "<none>"    "set all secondary targets"                         $PRINT_PADDING
+                BuildTaskHelpLine t test        "<none>"    "test a manual (show results), requires a target"   $PRINT_PADDING
+                printf "\n   targets\n"
+                BuildTaskHelpLine "<none>" adoc  "<none>" "secondary target: text versions: ansi, text"         $PRINT_PADDING
+                BuildTaskHelpLine "<none>" html  "<none>" "secondary target: HTML file"                         $PRINT_PADDING
+                BuildTaskHelpLine "<none>" manp  "<none>" "secondary target: man page file"                     $PRINT_PADDING
+                BuildTaskHelpLine "<none>" pdf   "<none>" "secondary target: PDF file)"                         $PRINT_PADDING
+                BuildTaskHelpLine "<none>" text  "<none>" "secondary target: text versions: ansi, text"         $PRINT_PADDING
+                BuildTaskHelpLine "<none>" src   "<none>" "primary target: text source files from ADOC"         $PRINT_PADDING
+                printf "\n   filters\n"
+                BuildTaskHelpLine "<none>" no-authors       "<none>" "do not include authors"                   $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-bugs          "<none>" "do not include bugs"                      $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-commands      "<none>" "do not include commands"                  $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-copying       "<none>" "do not include copying"                   $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-deps          "<none>" "do not include dependencies"              $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-exitstatus    "<none>" "do not include exit status"               $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-options       "<none>" "do not include options"                   $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-params        "<none>" "do not include parameters"                $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-resources     "<none>" "do not include resources"                 $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-security      "<none>" "do not include security"                  $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-tasks         "<none>" "do not include tasks"                     $PRINT_PADDING_FILTERS
+            else
+                cat $CACHED_HELP
+            fi
             exit 0
             ;;
 
