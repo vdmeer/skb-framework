@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+##
+## Identity for error code 004
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    v0.0.0
+##
+
+ORIGIN=app
+PROBLEM=external
+DESCRIPTION="app: no /opt/skb/framework"

@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-##
-## Identity for error code 029
-##
-## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    v0.0.0
-##
-
-DESCRIPTION="loader: errors in error-code declarations"

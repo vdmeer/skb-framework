@@ -1,0 +1,2 @@
+        task: was started w/o finding tmp configuration file                  
+                                                                              

@@ -447,6 +447,9 @@ BuildManualCore() {
 
     if [[ "$NO_EXITSTATUS" == false ]]; then
         DescribeElementExitStatus
+        set +e
+        ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode $TARGET
+        set -e
     fi
 
     if [[ "$NO_SECURITY" == false ]]; then
@@ -508,8 +511,8 @@ BuildSrc() {
 
         ConsoleDebug "build src - commands"
         BuildSrcPath ${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["COMMANDS"]} l2
-#         ConsoleDebug "build src - error codes"
-#         BuildSrcPath ${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["EXITCODES"]} l2
+        ConsoleDebug "build src - error status"
+        BuildSrcPath ${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["EXITSTATUS"]} l2
         ConsoleDebug "build src - options"
         BuildSrcPath ${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["OPTIONS"]} l2
 

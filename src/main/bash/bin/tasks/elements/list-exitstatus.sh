@@ -1,0 +1,316 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## list-command - list exitstatus
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    v0.0.0
+##
+
+
+##
+## DO NOT CHANGE CODE BELOW, unless you know what you are doing
+##
+
+## put bugs into errors, safer
+set -o errexit -o pipefail -o noclobber -o nounset
+
+
+##
+## Test if we are run from parent with configuration
+## - load configuration
+##
+if [[ -z ${FW_HOME:-} || -z ${FW_L1_CONFIG-} ]]; then
+    printf " ==> please run from framework or application\n\n"
+    exit 50
+fi
+source $FW_L1_CONFIG
+CONFIG_MAP["RUNNING_IN"]="task"
+
+
+##
+## load main functions
+## - reset errors and warnings
+##
+source $FW_HOME/bin/functions/_include
+source $FW_HOME/bin/functions/describe/exitstatus.sh
+ConsoleResetErrors
+ConsoleResetWarnings
+
+
+##
+## set local variables
+##
+PRINT_MODE=
+LIST=false
+TABLE=true
+APP=no
+FW=no
+LOADER=no
+SHELL=no
+TASK=no
+ALL=
+CLI_SET=false
+
+
+
+##
+## set CLI options and parse CLI
+##
+CLI_OPTIONS=afhlP:tst
+CLI_LONG_OPTIONS=help,list,print-mode:,table,all,app,fw,loader,shell,task
+
+! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-exitstatus -- "$@")
+if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
+    ConsoleError "  ->" "unknown CLI options"
+    exit 51
+fi
+eval set -- "$PARSED"
+
+PRINT_PADDING=25
+while true; do
+    case "$1" in
+        -a | --all)
+            ALL=yes
+            CLI_SET=true
+            shift
+            ;;
+        -h | --help)
+            printf "\n   options\n"
+            BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
+            BuildTaskHelpLine l list        "<none>"    "table format"                      $PRINT_PADDING
+            BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
+            BuildTaskHelpLine t table       "<none>"    "help screen format"                $PRINT_PADDING
+            printf "\n   filters\n"
+            BuildTaskHelpLine a         all         "<none>"    "all, disables all other filters, default"      $PRINT_PADDING
+            BuildTaskHelpLine "<none>"  app         "<none>"    "only application status"                       $PRINT_PADDING
+            BuildTaskHelpLine f         fw          "<none>"    "only framework status"                         $PRINT_PADDING
+            BuildTaskHelpLine "<none>"  loader      "<none>"    "only loader status"                            $PRINT_PADDING
+            BuildTaskHelpLine s         shell       "<none>"    "only shell status"                             $PRINT_PADDING
+            BuildTaskHelpLine "<none>"  task        "<none>"    "only task status"                              $PRINT_PADDING
+            exit 0
+            ;;
+        -l | --list)
+            shift
+            LIST=true
+            TABLE=false
+            ;;
+        -P | --print-mode)
+            PRINT_MODE="$2"
+            shift 2
+            ;;
+        -t | --table)
+            shift
+            TABLE=true
+            ;;
+
+        --app)
+            APP=yes
+            CLI_SET=true
+            shift
+            ;;
+        -f | --fw)
+            FW=yes
+            CLI_SET=true
+            shift
+            ;;
+        --loader)
+            LOADER=yes
+            CLI_SET=true
+            shift
+            ;;
+        -s | --shell)
+            SHELL=yes
+            CLI_SET=true
+            shift
+            ;;
+        --task)
+            TASK=yes
+            CLI_SET=true
+            shift
+            ;;
+
+        --)
+            shift
+            break
+            ;;
+        *)
+            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            exit 52
+    esac
+done
+
+
+
+############################################################################################
+## check CLI
+############################################################################################
+if [[ $LIST == false && $TABLE == false ]]; then
+    ConsoleError "  ->" "no mode set: use list and/or table"
+    exit 60
+fi
+
+if [[ "$ALL" == "yes" || $CLI_SET == false ]]; then
+    APP=yes
+    FW=yes
+    LOADER=yes
+    SHELL=yes
+    TASK=yes
+fi
+
+declare -A ES_TABLE
+FILE=${CONFIG_MAP["CACHE_DIR"]}/es-tab.${CONFIG_MAP["PRINT_MODE"]}
+if [[ -n "$PRINT_MODE" ]]; then
+    FILE=${CONFIG_MAP["CACHE_DIR"]}/es-tab.$PRINT_MODE
+fi
+if [[ -f $FILE ]]; then
+    source $FILE
+fi
+
+
+############################################################################################
+## top and bottom functions for list and table
+############################################################################################
+function TableTop() {
+    printf "\n "
+    for ((x = 1; x < $COLUMNS; x++)); do
+        printf %s "${CHAR_MAP["TOP_LINE"]}"
+    done
+    printf "\n ${EFFECTS["REVERSE_ON"]}#"
+    printf "%*s" "$((ES_PADDING - 1))" ''
+    printf "Description"
+    printf '%*s' "$((DESCRIPTION_LENGTH - 11))" ''
+    printf "Origin  Problem "
+    printf "${EFFECTS["REVERSE_OFF"]}\n\n"
+}
+
+function TableBottom() {
+    printf " "
+    for ((x = 1; x < $COLUMNS; x++)); do
+        printf %s "${CHAR_MAP["MID_LINE"]}"
+    done
+    printf "\n\n"
+
+    printf " "
+    for ((x = 1; x < $COLUMNS; x++)); do
+        printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
+    done
+    printf "\n\n"
+}
+
+function ListTop() {
+    printf "\n  Exit Status (Error Codes)\n\n"
+}
+
+function ListBottom() {
+    :
+}
+
+
+
+############################################################################################
+## exitstatus print function
+## $1: list | table
+############################################################################################
+PrintExitstatus() {
+    local i
+    local keys
+
+    for ID in ${!DMAP_ES[@]}; do
+        if [[ "$APP" == "no" ]]; then
+            if [[ "${DMAP_ES[$ID]}" == "app" ]]; then
+                continue
+            fi
+        fi
+        if [[ "$FW" == "no" ]]; then
+            if [[ "${DMAP_ES[$ID]}" == "fw" ]]; then
+                continue
+            fi
+        fi
+        if [[ "$LOADER" == "no" ]]; then
+            if [[ "${DMAP_ES[$ID]}" == "loader" ]]; then
+                continue
+            fi
+        fi
+        if [[ "$SHELL" == "no" ]]; then
+            if [[ "${DMAP_ES[$ID]}" == "shell" ]]; then
+                continue
+            fi
+        fi
+        if [[ "$TASK" == "no" ]]; then
+            if [[ "${DMAP_ES[$ID]}" == "task" ]]; then
+                continue
+            fi
+        fi
+        keys=(${keys[@]:-} $ID)
+    done
+    keys=($(printf '%s\n' "${keys[@]:-}"|sort))
+
+    for i in ${!keys[@]}; do
+        ID=${keys[$i]}
+        case $1 in
+            list)
+                printf "   "
+                if [[ -z "${ES_TABLE[$ID]:-}" ]]; then
+                    ExitstatusInTable $ID $PRINT_MODE
+                else
+                    printf "${ES_TABLE[$ID]}"
+                fi
+                DescribeExitstatusDescription $ID 3 none
+                ;;
+            table)
+                if [[ -z "${ES_TABLE[$ID]:-}" ]]; then
+                    ExitstatusInTable $ID $PRINT_MODE
+                else
+                    printf "${ES_TABLE[$ID]}"
+                fi
+                DescribeExitstatusDescription $ID
+                DescribeExitstatusStatus $ID
+                ;;
+        esac
+        printf "\n"
+    done
+}
+
+
+
+############################################################################################
+##
+## ready to go
+##
+############################################################################################
+ConsoleInfo "  -->" "les: starting task"
+
+if [[ $LIST == true ]]; then
+    ListTop
+    PrintExitstatus list
+    ListBottom
+fi
+if [[ $TABLE == true ]]; then
+    TableTop
+    PrintExitstatus table
+    TableBottom
+fi
+
+ConsoleInfo "  -->" "les: done"
+exit $TASK_ERRORS

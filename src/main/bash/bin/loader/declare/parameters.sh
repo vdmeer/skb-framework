@@ -40,9 +40,6 @@ declare -A DMAP_PARAM_DESCR             # map [id]="descr-tag-line"
 
 declare -A DMAP_PARAM_IS                # map [id]=none, file, dir, dir-cd
 
-# declare -A DMAP_PARAM_FILES             # array for parameters that are files
-# declare -A DMAP_PARAM_DIRS              # array for parameters that are directories
-# declare -A DMAP_PARAM_DIRS_CD           # array for parameters that are directies subject to reas and write
 
 
 ##
@@ -85,7 +82,7 @@ DeclareParametersOrigin() {
             source "$file"
 
             if [[ -z "${DESCRIPTION:-}" ]]; then
-                ConsoleError " ->" "declare param - param '$ID' has no description"
+                ConsoleError " ->" "declare param - '$ID' has no description"
                 HAVE_ERRORS=true
             fi
 

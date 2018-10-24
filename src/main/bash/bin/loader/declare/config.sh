@@ -57,6 +57,11 @@ WriteL1Config() {
     declare -p DMAP_OPT_ARG >> $file
 
 
+    declare -p DMAP_ES >> $file
+    declare -p DMAP_ES_PROBLEM >> $file
+    declare -p DMAP_ES_DESCR >> $file
+
+
     declare -p DMAP_CMD >> $file
     declare -p DMAP_CMD_SHORT >> $file
     declare -p DMAP_CMD_ARG >> $file

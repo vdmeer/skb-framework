@@ -288,9 +288,9 @@ fi
 
 
 ##
-## declare shell artifacts: commands, error codes
+## declare shell artifacts: commands, exit status
 ## - exit with code 28 if command declaration failed
-## - exit with code 29 if error-code declaration failed
+## - exit with code 29 if exit-status declaration failed
 ##
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/cmd-decl.map ]]; then
     ConsoleInfo "-->" "declaring commands from cache"
@@ -299,13 +299,13 @@ else
     DeclareCommands
     if ConsoleHasErrors; then printf "\n"; exit 28; fi
 fi
-# if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/ec-decl.map ]]; then
-#     ConsoleInfo "-->" "declaring error-codes from cache"
-#     source ${CONFIG_MAP["CACHE_DIR"]}/ec-decl.map
-# else
-#     DeclareErrorCodes
-#     if ConsoleHasErrors; then printf "\n"; exit 29; fi
-# fi
+if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/es-decl.map ]]; then
+    ConsoleInfo "-->" "declaring exit-status from cache"
+    source ${CONFIG_MAP["CACHE_DIR"]}/es-decl.map
+else
+    DeclareExitStatus
+    if ConsoleHasErrors; then printf "\n"; exit 29; fi
+fi
 
 
 

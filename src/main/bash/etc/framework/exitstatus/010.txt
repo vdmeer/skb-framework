@@ -1,0 +1,3 @@
+        fw: unable to set home \$SF_HOME  (tried  environment,  readlink,  and
+        dirname \$0)                                                          
+                                                                              

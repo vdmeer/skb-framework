@@ -72,12 +72,7 @@ CLI_SET=false
 ## set CLI options and parse CLI
 ##
 CLI_OPTIONS=ahs
-CLI_LONG_OPTIONS=all,help,strict,man-src,cmd,dep,opt,param,task
-CLI_LONG_OPTIONS+=,cmd-decl,cmd-tab
-CLI_LONG_OPTIONS+=,dep-decl,dep-tab
-CLI_LONG_OPTIONS+=,opt-decl,opt-tab,opt-list
-CLI_LONG_OPTIONS+=,param-decl,param-tab
-CLI_LONG_OPTIONS+=,task-decl,task-tab
+CLI_LONG_OPTIONS=all,help,strict,man-src,cmd,dep,es,opt,param,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name validate-installation -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -99,11 +94,12 @@ while true; do
 
             BuildTaskHelpLine "<none>" man-src "<none>" "target: manual source" $PRINT_PADDING
 
-            BuildTaskHelpLine "<none>" cmd "<none>" "target: commands" $PRINT_PADDING
-            BuildTaskHelpLine "<none>" dep "<none>" "target: dependencies" $PRINT_PADDING
-            BuildTaskHelpLine "<none>" opt "<none>" "target: options" $PRINT_PADDING
-            BuildTaskHelpLine "<none>" param "<none>" "target: parameters" $PRINT_PADDING
-            BuildTaskHelpLine "<none>" task "<none>" "target: tasks" $PRINT_PADDING
+            BuildTaskHelpLine "<none>"  cmd     "<none>" "target: commands"         $PRINT_PADDING
+            BuildTaskHelpLine "<none>"  dep     "<none>" "target: dependencies"     $PRINT_PADDING
+            BuildTaskHelpLine "<none>"  es      "<none>" "target: exit-status"      $PRINT_PADDING
+            BuildTaskHelpLine "<none>"  opt     "<none>" "target: options"          $PRINT_PADDING
+            BuildTaskHelpLine "<none>"  param   "<none>" "target: parameters"       $PRINT_PADDING
+            BuildTaskHelpLine "<none>"  task    "<none>" "target: tasks"            $PRINT_PADDING
             exit 0
             ;;
 
@@ -131,6 +127,11 @@ while true; do
         --dep)
             shift
             TARGET=$TARGET" dep"
+            CLI_SET=true
+            ;;
+        --es)
+            shift
+            TARGET=$TARGET" es"
             CLI_SET=true
             ;;
         --opt)
@@ -165,9 +166,9 @@ done
 ## test CLI
 ############################################################################################
 if [[ $DO_ALL == true ]]; then
-    TARGET="man-src cmd dep opt param task"
+    TARGET="man-src cmd dep es opt param task"
 elif [[ $CLI_SET == false ]]; then
-    TARGET="man-src cmd dep opt param task"
+    TARGET="man-src cmd dep es opt param task"
 fi
 
 
@@ -413,6 +414,60 @@ ValidateDependency() {
 
 ############################################################################################
 ##
+## function: Validate EXIT STATUS
+##
+############################################################################################
+ValidateExitstatusDocs() {
+    ConsoleDebug "validating exit-status docs"
+
+    local ID
+    local SOURCE
+    for ID in ${!DMAP_ES[@]}; do
+        SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["EXITSTATUS"]}/$ID
+        if [[ ! -f $SOURCE.adoc ]]; then
+            ConsoleWarnStrict " ->" "exit-status '$ID' without ADOC file"
+        elif [[ ! -r $SOURCE.adoc ]]; then
+            ConsoleWarnStrict " ->" "exit-status '$ID' ADOC file not readable"
+        fi
+        if [[ ! -f $SOURCE.txt ]]; then
+            ConsoleWarnStrict " ->" "exit-status '$ID' without TXT file"
+        elif [[ ! -r $SOURCE.txt ]]; then
+            ConsoleWarnStrict " ->" "exit-status '$ID' TXT file not readable"
+        fi
+    done
+
+    ConsoleDebug "done"
+}
+
+ValidateExitstatus() {
+    ConsoleDebug "validating exit-status"
+
+    ValidateCommandDocs
+
+    local ID
+    local ORIGIN_PATH=${CONFIG_MAP["FW_HOME"]}
+    local files
+    local file
+
+    ## check that files in the exit-status folder have a corresponding exit-status declaration
+    if [[ -d $ORIGIN_PATH/${FW_PATH_MAP["EXITSTATUS"]} ]]; then
+        files=$(find -P $ORIGIN_PATH/${FW_PATH_MAP["EXITSTATUS"]} -type f)
+        for file in $files; do
+            ID=${file##*/}
+            ID=${ID%.*}
+            if [[ -z ${DMAP_ES[$ID]:-} ]]; then
+                ConsoleError " ->" "validate/es - found extra file FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}, exit-status '$ID' not declared"
+            fi
+        done
+    fi
+
+    ConsoleDebug "done"
+}
+
+
+
+############################################################################################
+##
 ## function: Validate OPTION
 ##
 ############################################################################################
@@ -427,14 +482,14 @@ ValidateOptionDocs() {
         if [[ "$OPT_PATH" != "" ]]; then
             SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["OPTIONS"]}/$OPT_PATH/$ID
             if [[ ! -f $SOURCE.adoc ]]; then
-                ConsoleWarnStrict " ->" "exit option '$ID' without ADOC file"
+                ConsoleWarnStrict " ->" "option '$ID' without ADOC file"
             elif [[ ! -r $SOURCE.adoc ]]; then
-                ConsoleWarnStrict " ->" "exit option '$ID' ADOC file not readable"
+                ConsoleWarnStrict " ->" "option '$ID' ADOC file not readable"
             fi
             if [[ ! -f $SOURCE.txt ]]; then
-                ConsoleWarnStrict " ->" "exit option '$ID' without TXT file"
+                ConsoleWarnStrict " ->" "option '$ID' without TXT file"
             elif [[ ! -r $SOURCE.txt ]]; then
-                ConsoleWarnStrict " ->" "exit option '$ID' TXT file not readable"
+                ConsoleWarnStrict " ->" "option '$ID' TXT file not readable"
             fi
         fi
     done
@@ -632,6 +687,7 @@ for TODO in $TARGET; do
             ConsoleInfo "  -->" "validating manual source"
             ValidateManualSource
             ValidateCommandDocs
+            ValidateExitstatusDocs
             ValidateOptionDocs
             ValidateDependencyDocs
             ValidateParameterDocs
@@ -646,6 +702,11 @@ for TODO in $TARGET; do
         dep)
             ConsoleInfo "  -->" "validating dependency"
             ValidateDependency
+            ConsoleInfo "  -->" "done"
+            ;;
+        es)
+            ConsoleInfo "  -->" "validating exit-status"
+            ValidateExitstatus
             ConsoleInfo "  -->" "done"
             ;;
         opt)

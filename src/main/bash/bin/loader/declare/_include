@@ -40,6 +40,7 @@ source $FW_HOME/bin/loader/declare/config.sh
 source $FW_HOME/bin/loader/declare/commands.sh
 source $FW_HOME/bin/loader/declare/config-maps.sh
 source $FW_HOME/bin/loader/declare/dependencies.sh
+source $FW_HOME/bin/loader/declare/exitstatus.sh
 source $FW_HOME/bin/loader/declare/options.sh
 source $FW_HOME/bin/loader/declare/parameters.sh
 source $FW_HOME/bin/loader/declare/tasks.sh

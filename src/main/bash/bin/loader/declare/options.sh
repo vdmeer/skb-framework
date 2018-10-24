@@ -41,10 +41,13 @@ declare -A DMAP_OPT_DESCR               # map [id]="descr-tag-line"
 
 
 ##
-## function: DeclareOptionsOrigin
+## function: DeclareOptions
 ## - declares CLI options from FW_HOME directory
 ##
-DeclareOptionsOrigin() {
+DeclareOptions() {
+    ConsoleInfo "-->" "declare options"
+    ConsoleResetErrors
+
     if [[ ! -d $FW_HOME/${FW_PATH_MAP["OPTIONS"]} ]]; then
         ConsoleError " ->" "declare-opt - did not find option directory, tried \$FW_HOME/${FW_PATH_MAP["OPTIONS"]}"
         ConsoleInfo "-->" "done"
@@ -74,7 +77,7 @@ DeclareOptionsOrigin() {
                 source "$file"
 
                 if [[ -z "${DESCRIPTION:-}" ]]; then
-                    ConsoleError " ->" "declare option - option '$ID' has no description"
+                    ConsoleError " ->" "declare option - '$ID' has no description"
                     HAVE_ERRORS=true
                 fi
 
@@ -94,17 +97,4 @@ DeclareOptionsOrigin() {
             fi
         done
     fi
-}
-
-
-
-##
-## function: DeclareOptions
-## - declares options from FW_HOME
-##
-DeclareOptions() {
-    ConsoleInfo "-->" "declare options"
-    ConsoleResetErrors
-
-    DeclareOptionsOrigin
 }

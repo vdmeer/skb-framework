@@ -42,10 +42,13 @@ declare -A DMAP_CMD_DESCR               # map [id]="descr-tag-line"
 
 
 ##
-## function: DeclareCommandsOrigin
+## function: DeclareCommands
 ## - declares Shell commands from FW_HOME directory
 ##
-DeclareCommandsOrigin() {
+DeclareCommands() {
+    ConsoleInfo "-->" "declare commands"
+    ConsoleResetErrors
+
     if [[ ! -d $FW_HOME/${FW_PATH_MAP["COMMANDS"]} ]]; then
         ConsoleError " ->" "declare-cmd - did not find command directory, tried \$FW_HOME/${FW_PATH_MAP["COMMANDS"]}"
         ConsoleInfo "-->" "done"
@@ -76,7 +79,7 @@ DeclareCommandsOrigin() {
                 source "$file"
 
                 if [[ -z "${DESCRIPTION:-}" ]]; then
-                    ConsoleError " ->" "declare command - command '$ID' has no description"
+                    ConsoleError " ->" "declare command - '$ID' has no description"
                     HAVE_ERRORS=true
                 fi
 
@@ -97,17 +100,4 @@ DeclareCommandsOrigin() {
             fi
         done
     fi
-}
-
-
-
-##
-## function: DeclareCommands
-## - declares commands from FW_HOME
-##
-DeclareCommands() {
-    ConsoleInfo "-->" "declare commands"
-    ConsoleResetErrors
-
-    DeclareCommandsOrigin
 }

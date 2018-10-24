@@ -165,15 +165,15 @@ DeclareTasksOrigin() {
                 EXECUTABLE=${CONFIG_MAP[$ORIGIN]}/$EXEC_PATH/$ID.sh
             fi
             if [[ ! -f $EXECUTABLE ]]; then
-                ConsoleError " ->" "declare task - task '$ID' without script (executable)"
+                ConsoleError " ->" "declare task - '$ID' without script (executable)"
                 HAVE_ERRORS=true
             elif [[ ! -x $EXECUTABLE ]]; then
-                ConsoleError " ->" "declare task - task '$ID' script not executable"
+                ConsoleError " ->" "declare task - '$ID' script not executable"
                 HAVE_ERRORS=true
             fi
 
             if [[ -z "${MODES:-}" ]]; then
-                ConsoleError " ->" "declare task - task '$ID' has no modes defined"
+                ConsoleError " ->" "declare task - '$ID' has no modes defined"
                 HAVE_ERRORS=true
             else
                 for mode in $MODES; do
@@ -182,7 +182,7 @@ DeclareTasksOrigin() {
                             ConsoleDebug "task '$ID' found mode '$mode'"
                             ;;
                         *)
-                            ConsoleError " ->" "declare task - task '$ID' with unknown mode '$mode'"
+                            ConsoleError " ->" "declare task - '$ID' with unknown mode '$mode'"
                             HAVE_ERRORS=true
                             ;;
                     esac
@@ -190,16 +190,16 @@ DeclareTasksOrigin() {
             fi
 
             if [[ -z "${DESCRIPTION:-}" ]]; then
-                ConsoleError " ->" "declare task - task '$ID' has no description"
+                ConsoleError " ->" "declare task - '$ID' has no description"
                 HAVE_ERRORS=true
             fi
 
             if [[ ! -z ${DMAP_CMD[$ID]:-} ]]; then
-                ConsoleError " ->" "declare task - task '$ID' already used as long shell command"
+                ConsoleError " ->" "declare task - '$ID' already used as long shell command"
                 HAVE_ERRORS=true
             fi
             if [[ ! -z ${DMAP_CMD[$SHORT]:-} ]]; then
-                ConsoleError " ->" "declare task - task '$ID' short '$SHORT' already used as long shell command"
+                ConsoleError " ->" "declare task - '$ID' short '$SHORT' already used as long shell command"
                 HAVE_ERRORS=true
             fi
 
@@ -208,7 +208,7 @@ DeclareTasksOrigin() {
                 HAVE_ERRORS=true
             fi
             if [[ ! -z ${DMAP_CMD_SHORT[$SHORT]:-} ]]; then
-                ConsoleError " ->" "declare task - task '$ID' short '$SHORT' already used as short shell command"
+                ConsoleError " ->" "declare task - '$ID' short '$SHORT' already used as short shell command"
                 HAVE_ERRORS=true
             fi
 

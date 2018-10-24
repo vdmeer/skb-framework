@@ -201,7 +201,7 @@ PrintCommands() {
                 else
                     printf "${COMMAND_TABLE[$ID]}"
                 fi
-                DescribeCommandStatus $ID 3 none
+                DescribeCommandDescription $ID 3 none
                 ;;
             table)
                 if [[ -z "${COMMAND_TABLE[$ID]:-}" ]]; then
@@ -209,7 +209,7 @@ PrintCommands() {
                 else
                     printf "${COMMAND_TABLE[$ID]}"
                 fi
-                DescribeCommandStatus $ID
+                DescribeCommandDescription $ID
                 ;;
         esac
         printf "\n"

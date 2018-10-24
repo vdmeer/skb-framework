@@ -138,7 +138,7 @@ else
         fi
         if [[ ! -n "${DMAP_CMD[$CMD_ID]:-}" ]]; then
             ConsoleError " ->" "describe-command - unknown command ID '$CMD_ID'"
-            return
+            exit 60
         fi
     fi
 fi

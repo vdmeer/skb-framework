@@ -77,12 +77,12 @@ DeclareDependenciesOrigin() {
             source "$file"
 
             if [[ -z "${DESCRIPTION:-}" ]]; then
-                ConsoleError " ->" "declare dependency - dependency '$ID' has no description"
+                ConsoleError " ->" "declare dependency - '$ID' has no description"
                 HAVE_ERRORS=true
             fi
 
             if [[ -z "${COMMAND:-}" ]]; then
-                ConsoleError " ->" "declare dependency - dependency '$ID' has no command to test"
+                ConsoleError " ->" "declare dependency - '$ID' has no command to test"
                 HAVE_ERRORS=true
             fi
 

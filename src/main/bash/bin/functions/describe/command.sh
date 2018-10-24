@@ -167,13 +167,13 @@ CommandStringLength() {
 
 
 ##
-## function: DescribeCommandStatus
-## - describes the command status for the task screen
+## function: DescribeCommandDescription
+## - describes the command description
 ## $1: command ID
 ## $2: indentation adjustment, 0 or empty for none
 ## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
 ##
-DescribeCommandStatus() {
+DescribeCommandDescription() {
     local ID=$1
     local ADJUST=${2:-0}
     local DESCRIPTION
