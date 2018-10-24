@@ -148,7 +148,7 @@ ParseCli() {
                 shift
                 ;;
             --)
-            shift
+                shift
                 if [[ -z ${1:-} ]]; then
                     break
                 fi
