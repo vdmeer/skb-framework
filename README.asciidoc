@@ -18,16 +18,22 @@ We have tested it on
 * Raspian (on PI model B and B+)
 * Cygwin on Windows 7 and 10
 * Windows 10 WSL with Ubuntu 18 installed
+* Mac OS X
 
 
 === Requirements
 
 ==== to use
-The program requires:
+The program has a few mandatory external dependencies, listed below.
+All of them are part of a standard Linux system with GNU tools.
+On some system, a manual installation can be required.
+For instance, Raspian does not install `bc` by default.
+Mac OS might rerquire special attention to install GNU tools, e.g. with `brew`.
 
 * `bash` version 4, since we are using associative arrays (hash maps) for internal configuration
 * GNU `getopt`, all CLI parsing is done using getopt from GNU
 * `bc`, for some calculations, mostly runtime
+* `mktemp`, for creating temporary files and directories
 
 ==== to build distributions
 
