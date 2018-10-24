@@ -394,8 +394,8 @@ if [[ $DO_BUILD == true ]]; then
                     if [[ ! -d ${CONFIG_MAP["CACHE_DIR"]}/tasks ]]; then
                         mkdir ${CONFIG_MAP["CACHE_DIR"]}/tasks
                     fi
-                    REMPATH=${APP_PATH_MAP["TASK_DECL"]}
-                    TMP_FILE=$(mktemp)
+                    REMPATH=${APP_PATH_MAP["TASK_DECL"]}    # needed for substitutions
+                    TMP_FILE=$(mktemp)                      # need tmp file to avoid recursive -h in tasks
                     for ID in ${!DMAP_TASK_ORIGIN[@]}; do
                         TPATH=${DMAP_TASK_DECL[$ID]}
                         TPATH=${TPATH#*$REMPATH/}

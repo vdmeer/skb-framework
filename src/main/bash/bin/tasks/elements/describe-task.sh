@@ -202,13 +202,16 @@ else
     fi
     if [[ -n "$APP_MODE" ]]; then
         case $APP_MODE in
-            d | dev)
+            A| a | All | all)
+                APP_MODE=all
+                ;;
+            D| d | Dev | dev)
                 APP_MODE=dev
                 ;;
-            b| build)
+            B | b| Build | build)
                 APP_MODE=build
                 ;;
-            u | use)
+            U | u | Use | use)
                 APP_MODE=use
                 ;;
             *)
@@ -270,13 +273,15 @@ for ID in ${!DMAP_TASK_ORIGIN[@]}; do
         #=
     fi
     if [[ -n "$APP_MODE" ]]; then
-        case ${DMAP_TASK_MODES[$ID]} in
-            *$APP_MODE*)
-                ;;
-            *)
-                continue
-                ;;
-        esac
+        if [[ "$APP_MODE" != "all" ]]; then
+            case ${DMAP_TASK_MODES[$ID]} in
+                *$APP_MODE*)
+                    ;;
+                *)
+                    continue
+                    ;;
+            esac
+        fi
     fi
     if [[ -n "$ORIGIN" ]]; then
         if [[ ! "$ORIGIN" == "${DMAP_TASK_ORIGIN[$ID]}" ]]; then
