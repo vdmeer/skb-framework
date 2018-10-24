@@ -219,6 +219,10 @@ case "$@" in
         CONFIG_MAP["APP_MODE"]="build"
         CONFIG_SRC["APP_MODE"]="O"
         ;;
+    *"-A"*)
+        CONFIG_MAP["APP_MODE"]="all"
+        CONFIG_SRC["APP_MODE"]="O"
+        ;;
 esac
 
 

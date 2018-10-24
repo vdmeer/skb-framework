@@ -43,13 +43,13 @@ ParseCli() {
     ConsoleInfo "-->" "parse-cli"
     ConsoleResetErrors
 
-    local CLI_OPTIONS=BcDd:e:hL:mo:p:P:r:sS:T:vV
+    local CLI_OPTIONS=ABcDd:e:hL:mo:p:P:r:sS:T:vV
 
     local CLI_LONG_OPTIONS=loader-level:,shell-level:,task-level:
     CLI_LONG_OPTIONS+=,manual,run-scenario:,settings,version,validate,help
     CLI_LONG_OPTIONS+=,option:,parameter:,dependency:
     CLI_LONG_OPTIONS+=,strict
-    CLI_LONG_OPTIONS+=,print-mode:,clean-cache,execute-task:,build-mode,dev-mode
+    CLI_LONG_OPTIONS+=,print-mode:,clean-cache,execute-task:,build-mode,dev-mode,all-mode
 
     ConsoleDebug "running getopt"
     local PARSED
@@ -68,6 +68,11 @@ ParseCli() {
     ConsoleDebug "looping through options"
     while true; do
         case "$1" in
+            -A | --all-mode)
+#                 CONFIG_MAP["APP_MODE"]="all"
+#                 CONFIG_SRC["APP_MODE"]="O"
+                shift 1
+                ;;
             -B | --build-mode)
 #                 CONFIG_MAP["APP_MODE"]="build"
 #                 CONFIG_SRC["APP_MODE"]="O"

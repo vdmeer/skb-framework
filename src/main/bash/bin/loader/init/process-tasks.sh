@@ -291,8 +291,8 @@ ProcessTaskReqParam() {
                     esac
                     if [[ $FOUND == true ]]; then
                         SetArtifactStatus task $ID S
-#                         RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} param"
-                        RTMAP_TASK_LOADED[$ID]=ok
+                        RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} param"
+#                         RTMAP_TASK_LOADED[$ID]=ok
                         ConsoleDebug "process-task/param - processed '$ID' for parameter '$PARAM' with success"
                     fi
                 fi
@@ -317,8 +317,8 @@ ProcessTaskReqParam() {
                         SetArtifactStatus task $ID E
                     else
                         SetArtifactStatus task $ID W
-#                                 RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} param"
-                        RTMAP_TASK_LOADED[$ID]=ok
+                        RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} param"
+#                         RTMAP_TASK_LOADED[$ID]=ok
                         ConsoleDebug "process-task/param - processed '$ID' for parameter '$PARAM' with warn"
                     fi
                 else
@@ -347,8 +347,8 @@ ProcessTaskReqParam() {
                     esac
                     if [[ $FOUND ]]; then
                         SetArtifactStatus task $ID S
-#                             RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} param"
-                        RTMAP_TASK_LOADED[$ID]=ok
+                        RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} param"
+#                         RTMAP_TASK_LOADED[$ID]=ok
                         ConsoleDebug "process-task/param - processed '$ID' for parameter '$PARAM' with success"
                     else
                         RTMAP_TASK_UNLOADED[$ID]="${RTMAP_TASK_UNLOADED[$ID]:-} par-set::$PARAM"
@@ -416,8 +416,8 @@ ProcessTaskReqDep() {
                 TestDependency $DEP
                 if [[ "${RTMAP_TASK_TESTED[$DEP]:-}" == "ok" ]]; then
                     SetArtifactStatus task $ID S
-#                                 RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"
-                    RTMAP_TASK_LOADED[$ID]=ok
+                    RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"
+#                     RTMAP_TASK_LOADED[$ID]=ok
                     ConsoleDebug "process-task/dep - processed '$ID' for dependency '$DEP' with success"
                 else
                     ConsoleError " ->" "process-task/dep - $ID dependency '$DEP' not found"
@@ -440,8 +440,8 @@ ProcessTaskReqDep() {
                 if [[ "${RTMAP_TASK_TESTED[$DEP]:-}" == "ok" ]]; then
                     RTMAP_TASK_TESTED[$DEP]="ok"
                     SetArtifactStatus task $ID S
-#                                 RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"
-                    RTMAP_TASK_LOADED[$ID]=ok
+                    RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"
+#                     RTMAP_TASK_LOADED[$ID]=ok
                     ConsoleDebug "process-task/dep - processed '$ID' for dependency '$DEP' with success"
                 else
                     ConsoleWarnStrict " ->" "process-task/dep - $ID dependency '$DEP' not found"
@@ -450,8 +450,8 @@ ProcessTaskReqDep() {
                         SetArtifactStatus task $ID E
                     else
                         SetArtifactStatus task $ID W
-#                                     RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"
-                        RTMAP_TASK_LOADED[$ID]=ok
+                        RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"
+#                         RTMAP_TASK_LOADED[$ID]=ok
                         ConsoleDebug "process-task/dep - processed '$ID' for dependency '$DEP' with warn"
                     fi
                 fi
@@ -485,8 +485,8 @@ ProcessTaskReqTask() {
                     SetArtifactStatus task $ID E
                 else
                     SetArtifactStatus task $ID S
-#                             RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} task"
-                    RTMAP_TASK_LOADED[$ID]=ok
+                    RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} task"
+#                     RTMAP_TASK_LOADED[$ID]=ok
                     ConsoleDebug "process-task/task - processed '$ID' for task '$TASK' with success"
                 fi
             fi
@@ -508,14 +508,14 @@ ProcessTaskReqTask() {
                         SetArtifactStatus task $ID E
                     else
                         SetArtifactStatus task $ID W
-#                                 RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} task"
-                        RTMAP_TASK_LOADED[$ID]=ok
+                        RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} task"
+#                         RTMAP_TASK_LOADED[$ID]=ok
                         ConsoleDebug "process-task/task - processed '$ID' for task '$TASK' with warn"
                     fi
                 else
                     SetArtifactStatus task $ID S
-#                             RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} task"
-                    RTMAP_TASK_LOADED[$ID]=ok
+                    RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} task"
+#                     RTMAP_TASK_LOADED[$ID]=ok
                     ConsoleDebug "process-task/task - processed '$ID' for task '$TASK' with success"
                 fi
             fi
@@ -543,8 +543,8 @@ ProcessTaskReqDir() {
                 SetArtifactStatus task $ID E
             else
                 SetArtifactStatus task $ID S
-#                         RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dir"
-                RTMAP_TASK_LOADED[$ID]=ok
+                RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dir"
+#                 RTMAP_TASK_LOADED[$ID]=ok
                 ConsoleDebug "process-task/dir - processed '$ID' for directory '$DIR' with success"
             fi
         done
@@ -560,14 +560,14 @@ ProcessTaskReqDir() {
                     SetArtifactStatus task $ID E
                 else
                     SetArtifactStatus task $ID W
-#                             RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dir"
-                    RTMAP_TASK_LOADED[$ID]=ok
+                    RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dir"
+#                     RTMAP_TASK_LOADED[$ID]=ok
                     ConsoleDebug "process-task/dir - processed '$ID' for directory '$DIR' with warn"
                 fi
             else
                 SetArtifactStatus task $ID S
-#                         RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dir"
-                RTMAP_TASK_LOADED[$ID]=ok
+                RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dir"
+#                 RTMAP_TASK_LOADED[$ID]=ok
                 ConsoleDebug "process-task/dir - processed '$ID' for directory '$DIR' with success"
             fi
         done
@@ -594,8 +594,8 @@ ProcessTaskReqFile() {
                 SetArtifactStatus task $ID E
             else
                 SetArtifactStatus task $ID S
-#                         RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} file"
-                RTMAP_TASK_LOADED[$ID]=ok
+                RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} file"
+#                 RTMAP_TASK_LOADED[$ID]=ok
                 ConsoleDebug "process-task/file - processed '$ID' for file '$FILE' with success"
             fi
         done
@@ -611,14 +611,14 @@ ProcessTaskReqFile() {
                     SetArtifactStatus task $ID E
                 else
                     SetArtifactStatus task $ID W
-#                             RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} file"
-                    RTMAP_TASK_LOADED[$ID]=ok
+                    RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} file"
+#                     RTMAP_TASK_LOADED[$ID]=ok
                     ConsoleDebug "process-task/file - processed '$ID' for file '$FILE' with warn"
                 fi
             else
                 SetArtifactStatus task $ID S
-#                         RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} file"
-                RTMAP_TASK_LOADED[$ID]=ok
+                RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} file"
+#                 RTMAP_TASK_LOADED[$ID]=ok
                 ConsoleDebug "process-task/file - processed '$ID' for file '$FILE' with success"
             fi
         done
@@ -647,24 +647,33 @@ ProcessTasks() {
     done
 
     ## run for decl, params, dep, dir, file first
+    local LOAD_TASK
     for ID in "${!DMAP_TASK_ORIGIN[@]}"; do
-        case ${DMAP_TASK_MODES[$ID]} in
-            *${CONFIG_MAP["APP_MODE"]}*)
-#                 RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} mode"
-                RTMAP_TASK_LOADED[$ID]=ok
-                ConsoleDebug "process-task/mode - processed '$ID' for mode with success"
-                SetArtifactStatus task $ID S
+        LOAD_TASK=false
+        if [[ "${CONFIG_MAP["APP_MODE"]}" == "all" ]]; then
+            LOAD_TASK=true
+        else 
+            case ${DMAP_TASK_MODES[$ID]} in
+                *${CONFIG_MAP["APP_MODE"]}*)
+                    LOAD_TASK=true
+                    ;;
+            esac
+        fi
 
-                ProcessTaskReqParam $ID
-                ProcessTaskReqDep $ID
-                ProcessTaskReqDir $ID
-                ProcessTaskReqFile $ID
-                ;;
-            *)
-                ConsoleDebug "task '$ID' not defined for current mode '${CONFIG_MAP["APP_MODE"]}', not loaded"
-                SetArtifactStatus task $ID N
-                ;;
-        esac
+        if [[ $LOAD_TASK == true ]]; then
+            RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} mode"
+#            RTMAP_TASK_LOADED[$ID]=ok
+            ConsoleDebug "process-task/mode - processed '$ID' for mode with success"
+            SetArtifactStatus task $ID S
+
+            ProcessTaskReqParam $ID
+            ProcessTaskReqDep $ID
+            ProcessTaskReqDir $ID
+            ProcessTaskReqFile $ID
+        else
+            ConsoleDebug "task '$ID' not defined for current mode '${CONFIG_MAP["APP_MODE"]}', not loaded"
+            SetArtifactStatus task $ID N
+        fi
     done
 
     ## run for tasks again
