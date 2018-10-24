@@ -32,8 +32,9 @@
 ## DO NOT CHANGE CODE BELOW, unless you know what you are doing
 ##
 
-## put bugs into errors, safer
+## put bugs into errors, safer and globbing for finding files
 set -o errexit -o pipefail -o noclobber -o nounset
+shopt -s globstar
 
 
 ##
@@ -292,23 +293,25 @@ ConsoleInfo "  -->" "bm: starting task"
 
 
 ############################################################################################
-## validate documentation first, exit in errors
+## validate documentation source, exit on errors
 ############################################################################################
-STRICT=${CONFIG_MAP["STRICT"]}
-CONFIG_MAP["STRICT"]=on
-ConsoleResetErrors
+ValidateSrc(){
+    STRICT=${CONFIG_MAP["STRICT"]}
+    CONFIG_MAP["STRICT"]=on
+    ConsoleResetErrors
 
-set +e
-${DMAP_TASK_EXEC["validate-installation"]} --strict --man-src
-__errno=$?
-set -e
+    set +e
+    ${DMAP_TASK_EXEC["validate-installation"]} --strict --man-src
+    __errno=$?
+    set -e
 
-if (( $__errno > 0 )); then
-    ConsoleError " ->" "bm: found documentation errors, cannot continue"
-    ConsoleInfo "  -->" "bm: done"
-    exit 4
-fi
-CONFIG_MAP["STRICT"]=$STRICT
+    if (( $__errno > 0 )); then
+        ConsoleError " ->" "bm: found documentation errors, cannot continue"
+        ConsoleInfo "  -->" "bm: done"
+        exit 4
+    fi
+    CONFIG_MAP["STRICT"]=$STRICT
+}
 
 
 
@@ -481,10 +484,12 @@ BuildSrcPath() {
     local FILE
     local TARGET
 
-    for FILE in $(cd $ADOC_PATH; find -type f | grep "\.adoc"); do
+    for FILE in $ADOC_PATH/**/*.adoc; do
         TARGET=${FILE%.*}
-        (cd $ADOC_PATH; rm $TARGET.txt)
-        (cd $ADOC_PATH; java -jar `PathToCygwin $JAR` `PathToCygwin $FILE` $LEVEL > $TARGET.txt)
+        if [[ -f $TARGET.txt ]]; then
+            rm $TARGET.txt
+        fi
+        java -jar `PathToCygwin $JAR` `PathToCygwin $FILE` $LEVEL > $TARGET.txt
         ConsoleTrace "  wrote file $TARGET.txt"
     done
 }
@@ -722,22 +727,20 @@ if [[ $DO_CLEAN == true ]]; then
     ConsoleInfo "  -->" "clean all targets"
 
     ConsoleDebug "scanning $MAN_PAGE_DIR"
-    files=$(find -P $MAN_PAGE_DIR -type f)
-    if [[ -n "$files" ]]; then
-        for file in $files; do
+    for file in $MAN_PAGE_DIR/**; do
+        if [[ -f $file ]]; then
             rm $file
             ConsoleTrace "  removed file $file"
-        done
-    fi
+        fi
+    done
 
     ConsoleDebug "scanning $MAN_DOC_DIR"
-    files=$(find -P $MAN_DOC_DIR -type f)
-    if [[ -n "$files" ]]; then
-        for file in $files; do
+    for file in $MAN_DOC_DIR/**; do
+        if [[ -f $file ]]; then
             rm $file
             ConsoleTrace "  removed file $file"
-        done
-    fi
+        fi
+    done
 
     ConsoleInfo "  -->" "done clean"
 fi
@@ -747,6 +750,7 @@ if [[ $DO_BUILD == true ]]; then
         *src*)  BuildSrc ;;
     esac
 
+    ValidateSrc
     ConsoleInfo "  -->" "build for target(s): $TARGET"
     for TODO in $TARGET; do
         case $TODO in

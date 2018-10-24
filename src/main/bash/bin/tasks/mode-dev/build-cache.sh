@@ -222,12 +222,11 @@ PRINT_MODES="ansi text"
 
 if [[ $DO_CLEAN == true ]]; then
     if [[ -d ${CONFIG_MAP["CACHE_DIR"]} ]]; then
-        files=$(find -P ${CONFIG_MAP["CACHE_DIR"]} -type f)
-        if [[ -n "$files" ]]; then
-            for file in $files; do
+        for file in ${CONFIG_MAP["CACHE_DIR"]}/**; do
+            if [[ -f $file ]]; then
                 rm $file
-            done
-        fi
+            fi
+        done
     fi
 fi
 
