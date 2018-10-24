@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+##
+## Identity for error code 031
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    v0.0.0
+##
+
+DESCRIPTION="loader: task declaration error"

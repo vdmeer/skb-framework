@@ -1,0 +1,14 @@
+Available tasks (from `bin/tasks` in the program home directory) are loaded. 
+Several tests are run for each task while loading. 
+If any of those tests failed, this error code will be used on exit. 
+Any error here is a development issue (or bug). 
+Detailed error messages with have been printed.
++
+A setting that was marked as required was not found during initialization. 
+A more detailed error message will have been printed, e.g. naming the missing parameter or parameters.
++
+During initialization, all parameters for directories are tested. 
+One or more of those tests failed. 
+This can happen for parameters that do not (but should) point to a (readable) directory. 
+It can also happen for directories that will be created if they do not exist, and the creation failed. 
+In any case, detailed error message will have been printed.

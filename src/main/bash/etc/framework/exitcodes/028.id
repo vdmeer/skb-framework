@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+##
+## Identity for error code 028
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    v0.0.0
+##
+
+DESCRIPTION="loader: errors in command declarations"

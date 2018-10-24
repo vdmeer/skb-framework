@@ -1,0 +1,1 @@
+app: unable to set applicatin home (tried environment, readlink, and dirname \$0)

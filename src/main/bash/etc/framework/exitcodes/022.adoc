@@ -1,0 +1,1 @@
+no application version found, tried \$HOME/etc/version.txt

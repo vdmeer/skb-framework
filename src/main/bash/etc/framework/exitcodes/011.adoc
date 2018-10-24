@@ -1,0 +1,1 @@
+fw: did find/set \$FW_HOME, but did not find loader

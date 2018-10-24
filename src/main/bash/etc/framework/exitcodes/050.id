@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+##
+## Identity for error code 050
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    v0.0.0
+##
+
+DESCRIPTION="task: was started w/o finding tmp configuration file"
