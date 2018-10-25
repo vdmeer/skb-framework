@@ -185,7 +185,7 @@ DescribeOptionDescription() {
     local PADDING
 
     if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
-        ConsoleError " ->" "describe-opt/status - unknown option '$ID'"
+        ConsoleError " ->" "describe-opt/descr - unknown option '$ID'"
     else
         DESCRIPTION=${DMAP_OPT_DESCR[$ID]}
         if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
@@ -228,19 +228,6 @@ DescribeOptionStatus() {
 
 
 ##
-## function: OptionStringLength
-## - returns the length of an option string
-## $*: same as for DescribeOption
-##
-OptionStringLength() {
-    local SPRINT
-    SPRINT=$(DescribeOption $*)
-    printf ${#SPRINT}
-}
-
-
-
-##
 ## function: OptionInTable
 ## - main option details for table views
 ## $1: ID
@@ -250,15 +237,17 @@ OptionInTable() {
     local ID=$1
     local PRINT_MODE=${2:-}
 
-    local padding
-    local str_len
+    local PADDING
+    local PAD_STR
+    local PAD_STR_LEN
     local SPRINT
 
     SPRINT=" "$(DescribeOption $ID standard sl-indent $PRINT_MODE)
 
-    str_len=$(OptionStringLength $ID standard sl-indent text)
-    padding=$((OPT_PADDING - $str_len))
-    SPRINT=$SPRINT$(printf '%*s' "$padding")
+    PAD_STR=$(DescribeOption $ID standard sl-indent text)
+    PAD_STR_LEN=${#PAD_STR}
+    PADDING=$((OPT_PADDING - $PAD_STR_LEN))
+    SPRINT=$SPRINT$(printf '%*s' "$PADDING")
 
     printf "$SPRINT"
 }

@@ -6,6 +6,6 @@
 ## @version    v0.0.0
 ##
 
-
+SHORT=s
 
 DESCRIPTION="most warnings are treated as errors"

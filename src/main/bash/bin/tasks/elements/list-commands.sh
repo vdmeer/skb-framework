@@ -62,16 +62,15 @@ ConsoleResetWarnings
 ## set local variables
 ##
 PRINT_MODE=
-LIST=false
-TABLE=true
+LS_FORMAT=list
 
 
 
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=hlP:t
-CLI_LONG_OPTIONS=help,list,print-mode:,table
+CLI_OPTIONS=hP:T
+CLI_LONG_OPTIONS=help,print-mode:,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-commands -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -88,26 +87,20 @@ while true; do
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
-                BuildTaskHelpLine l list        "<none>"    "table format"                      $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
-                BuildTaskHelpLine t table       "<none>"    "help screen format"                $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
             exit 0
             ;;
-        -l | --list)
-            shift
-            LIST=true
-            TABLE=false
-            ;;
         -P | --print-mode)
             PRINT_MODE="$2"
             shift 2
             ;;
-        -t | --table)
+        -T | --table)
             shift
-            TABLE=true
+            LS_FORMAT=table
             ;;
 
         --)
@@ -125,11 +118,6 @@ done
 ############################################################################################
 ## check CLI
 ############################################################################################
-if [[ $LIST == false && $TABLE == false ]]; then
-    ConsoleError "  ->" "no mode set: use list and/or table"
-    exit 60
-fi
-
 declare -A COMMAND_TABLE
 FILE=${CONFIG_MAP["CACHE_DIR"]}/cmd-tab.${CONFIG_MAP["PRINT_MODE"]}
 if [[ -n "$PRINT_MODE" ]]; then
@@ -185,7 +173,6 @@ function ListBottom() {
 
 ############################################################################################
 ## command print function
-## $1: list | table
 ############################################################################################
 PrintCommands() {
     local i
@@ -198,7 +185,7 @@ PrintCommands() {
 
     for i in ${!keys[@]}; do
         ID=${keys[$i]}
-        case $1 in
+        case $LS_FORMAT in
             list)
                 printf "   "
                 if [[ -z "${COMMAND_TABLE[$ID]:-}" ]]; then
@@ -230,16 +217,22 @@ PrintCommands() {
 ############################################################################################
 ConsoleInfo "  -->" "lc: starting task"
 
-if [[ $LIST == true ]]; then
-    ListTop
-    PrintCommands list
-    ListBottom
-fi
-if [[ $TABLE == true ]]; then
-    TableTop
-    PrintCommands table
-    TableBottom
-fi
+case $LS_FORMAT in
+    list)
+        ListTop
+        PrintCommands
+        ListBottom
+        ;;
+    table)
+        TableTop
+        PrintCommands
+        TableBottom
+        ;;
+    *)
+        ConsoleFatal "  ->" "internal error: unknown list format '$LS_FORMAT'"
+        exit 69
+        ;;
+esac
 
 ConsoleInfo "  -->" "lc: done"
 exit $TASK_ERRORS

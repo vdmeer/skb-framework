@@ -62,6 +62,8 @@ ConsoleResetWarnings
 ## set local variables
 ##
 PRINT_MODE=
+LS_FORMAT=list
+
 TESTED=
 ORIGIN=
 REQUESTED=
@@ -74,8 +76,8 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=aho:P:rs:t
-CLI_LONG_OPTIONS=all,help,origin:,print-mode:,requested,status:,tested
+CLI_OPTIONS=aho:P:rs:Tt
+CLI_LONG_OPTIONS=all,help,origin:,print-mode:,requested,status:,tested,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-dependencies -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -96,8 +98,9 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "list-dependencies")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                  $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine a all         "<none>"    "all dependencies, disables all other filters"                              $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only dependencies from origin: f(w), a(pp)"                                $PRINT_PADDING
@@ -111,11 +114,6 @@ while true; do
             ;;
         -o | --origin)
             ORIGIN="$2"
-            CLI_SET=true
-            shift 2
-            ;;
-        -P | --print-mode)
-            PRINT_MODE="$2"
             CLI_SET=true
             shift 2
             ;;
@@ -135,6 +133,16 @@ while true; do
             shift
             ;;
 
+        -P | --print-mode)
+            PRINT_MODE="$2"
+            CLI_SET=true
+            shift 2
+            ;;
+        -T | --table)
+            shift
+            LS_FORMAT=table
+            ;;
+
         --)
             shift
             break
@@ -148,7 +156,7 @@ done
 
 
 ############################################################################################
-## test CLI
+## test CLI, init CACHE, test columns
 ############################################################################################
 if [[ "$ALL" == "yes" ]]; then
     TESTED=
@@ -169,7 +177,7 @@ else
                 ;;
             *)
                 ConsoleError "  ->" "unknown origin: $ORIGIN"
-                exit 60
+                exit 61
         esac
     fi
     if [[ -n "$STATUS" ]]; then
@@ -188,23 +196,33 @@ else
                 ;;
             *)
                 ConsoleError "  ->" "unknown status: $STATUS"
-                exit 61
+                exit 62
         esac
     fi
 fi
 
 
+declare -A DEP_TABLE
+FILE=${CONFIG_MAP["CACHE_DIR"]}/dep-tab.${CONFIG_MAP["PRINT_MODE"]}
+if [[ -n "$PRINT_MODE" ]]; then
+    FILE=${CONFIG_MAP["CACHE_DIR"]}/dep-tab.$PRINT_MODE
+fi
+if [[ -f $FILE ]]; then
+    source $FILE
+fi
 
-############################################################################################
-##
-## ready to go
-##
-############################################################################################
-ConsoleInfo "  -->" "ld: starting task"
 
 if (( $DEP_LINE_MIN_LENGTH > $COLUMNS )); then
     ConsoleError "  ->" "not enough columns for table, need $DEP_LINE_MIN_LENGTH found $COLUMNS"
-else
+    exit 60
+fi
+
+
+
+############################################################################################
+## top and bottom functions for list and table
+############################################################################################
+function TableTop() {
     printf "\n "
     for ((x = 1; x < $COLUMNS; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
@@ -214,6 +232,48 @@ else
     printf "Description"
     printf '%*s' "$((DESCRIPTION_LENGTH - 11))" ''
     printf "O S${EFFECTS["REVERSE_OFF"]}\n\n"
+}
+
+function TableBottom() {
+    printf " "
+    for ((x = 1; x < $COLUMNS; x++)); do
+        printf %s "${CHAR_MAP["MID_LINE"]}"
+    done
+    printf "\n\n"
+
+    printf " flags: (O) origin, (S) status\n"
+
+    printf " colors: "
+    PrintColor light-green ${CHAR_MAP["LEGEND"]}
+    printf " success, "
+    PrintColor light-blue ${CHAR_MAP["LEGEND"]}
+    printf " not attempted, "
+    PrintColor light-red ${CHAR_MAP["LEGEND"]}
+    printf " errors"
+
+    printf "\n\n "
+    for ((x = 1; x < $COLUMNS; x++)); do
+        printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
+    done
+    printf "\n\n"
+}
+
+function ListTop() {
+    printf "\n  Dependencies\n"
+}
+
+function ListBottom() {
+    printf "\n"
+}
+
+
+
+############################################################################################
+## dependency print function
+############################################################################################
+PrintDependencies() {
+    local i
+    local keys
 
     for ID in ${!DMAP_DEP_ORIGIN[@]}; do
         if [[ -n "$REQUESTED" ]]; then
@@ -245,48 +305,57 @@ else
     done
     keys=($(printf '%s\n' "${keys[@]:-}"|sort))
 
-    declare -A DEP_TABLE
-    FILE=${CONFIG_MAP["CACHE_DIR"]}/dep-tab.${CONFIG_MAP["PRINT_MODE"]}
-    if [[ -n "$PRINT_MODE" ]]; then
-        FILE=${CONFIG_MAP["CACHE_DIR"]}/dep-tab.$PRINT_MODE
-    fi
-    if [[ -f $FILE ]]; then
-        source $FILE
-    fi
-
     for i in ${!keys[@]}; do
         ID=${keys[$i]}
-        if [[ -z "${DEP_TABLE[$ID]:-}" ]]; then
-            DependencyInTable $ID $PRINT_MODE
-        else
-            printf "${DEP_TABLE[$ID]}"
-        fi
-        DescribeDependencyStatus $ID $PRINT_MODE
+        case $LS_FORMAT in
+            list)
+                printf "   "
+                if [[ -z "${DEP_TABLE[$ID]:-}" ]]; then
+                    DependencyInTable $ID $PRINT_MODE
+                else
+                    printf "${DEP_TABLE[$ID]}"
+                fi
+                DescribeDependencyDescription $ID 3 none
+                ;;
+            table)
+                if [[ -z "${DEP_TABLE[$ID]:-}" ]]; then
+                    DependencyInTable $ID $PRINT_MODE
+                else
+                    printf "${DEP_TABLE[$ID]}"
+                fi
+                DescribeDependencyDescription $ID
+                DescribeDependencyStatus $ID $PRINT_MODE
+                ;;
+        esac
         printf "\n"
     done
+}
 
-    printf " "
-    for ((x = 1; x < $COLUMNS; x++)); do
-        printf %s "${CHAR_MAP["MID_LINE"]}"
-    done
-    printf "\n\n"
 
-    printf " flags: (O) origin, (S) status\n"
 
-    printf " colors: "
-    PrintColor light-green ${CHAR_MAP["LEGEND"]}
-    printf " success, "
-    PrintColor light-blue ${CHAR_MAP["LEGEND"]}
-    printf " not attempted, "
-    PrintColor light-red ${CHAR_MAP["LEGEND"]}
-    printf " errors"
+############################################################################################
+##
+## ready to go
+##
+############################################################################################
+ConsoleInfo "  -->" "ld: starting task"
 
-    printf "\n\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
-        printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
-    done
-    printf "\n\n"
-fi
+case $LS_FORMAT in
+    list)
+        ListTop
+        PrintDependencies
+        ListBottom
+        ;;
+    table)
+        TableTop
+        PrintDependencies
+        TableBottom
+        ;;
+    *)
+        ConsoleFatal "  ->" "internal error: unknown list format '$LS_FORMAT'"
+        exit 69
+        ;;
+esac
 
 ConsoleInfo "  -->" "ld: done"
 exit $TASK_ERRORS

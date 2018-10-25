@@ -62,8 +62,8 @@ ConsoleResetWarnings
 ## set local variables
 ##
 PRINT_MODE=
-TABLE=true
-DEFAULT_TABLE=false
+LS_FORMAT=list
+
 REQUESTED=
 CLI_SET=false
 ALL=
@@ -73,8 +73,8 @@ ALL=
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=adhP:r
-CLI_LONG_OPTIONS=all,def-table,help,print-mode:,requested
+CLI_OPTIONS=aDhP:rT
+CLI_LONG_OPTIONS=all,def-table,help,print-mode:,requested,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-parameters -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -91,18 +91,18 @@ while true; do
             CLI_SET=true
             shift
             ;;
-        -d | --def-table)
+        -D | --def-table)
             shift
-            DEFAULT_TABLE=true
-            TABLE=false
+            LS_FORMAT=default-table
             ;;
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "list-parameters")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine d def-table   "<none>"    "print default value table"                     $PRINT_PADDING
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                  $PRINT_PADDING
+                BuildTaskHelpLine D def-table   "<none>"    "print default value table"         $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine a all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
                 BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                   $PRINT_PADDING
@@ -116,9 +116,14 @@ while true; do
             CLI_SET=true
             shift
             ;;
+
         -P | --print-mode)
             PRINT_MODE="$2"
             shift 2
+            ;;
+        -T | --table)
+            shift
+            LS_FORMAT=table
             ;;
 
         --)
@@ -134,7 +139,7 @@ done
 
 
 ############################################################################################
-## test CLI
+## test CLI, init CACHE, test columns
 ############################################################################################
 if [[ "$ALL" == "yes" ]]; then
     REQUESTED=
@@ -142,16 +147,6 @@ if [[ "$ALL" == "yes" ]]; then
 elif [[ $CLI_SET == false ]]; then
     ALL=
 fi
-
-for ID in ${!DMAP_PARAM_ORIGIN[@]}; do
-    if [[ -n "$REQUESTED" ]]; then
-        if [[ -z "${RTMAP_REQUESTED_PARAM[$ID]:-}" ]]; then
-            continue
-        fi
-    fi
-    keys=(${keys[@]:-} $ID)
-done
-keys=($(printf '%s\n' "${keys[@]:-}"|sort))
 
 declare -A PARAM_TABLE
 FILE=${CONFIG_MAP["CACHE_DIR"]}/param-tab.${CONFIG_MAP["PRINT_MODE"]}
@@ -163,12 +158,17 @@ if [[ -f $FILE ]]; then
 fi
 
 
+if (( $PARAM_LINE_MIN_LENGTH > $COLUMNS )); then
+    ConsoleError "  ->" "not enough columns for table, need $PARAM_LINE_MIN_LENGTH found $COLUMNS"
+    exit 60
+fi
+
+
+
 ############################################################################################
-##
-## function: TABLE
-##
+## top and bottom functions for list and table
 ############################################################################################
-PrintTable() {
+function TableTop() {
     printf "\n "
     for ((x = 1; x < $COLUMNS; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
@@ -178,18 +178,9 @@ PrintTable() {
     printf "Description"
     printf '%*s' "$((DESCRIPTION_LENGTH - 11))" ''
     printf "O D S${EFFECTS["REVERSE_OFF"]}\n\n"
+}
 
-    for i in ${!keys[@]}; do
-        ID=${keys[$i]}
-        if [[ -z "${PARAM_TABLE[$ID]:-}" ]]; then
-            ParameterInTable $ID $PRINT_MODE
-        else
-            printf "${PARAM_TABLE[$ID]}"
-        fi
-        DescribeParameterStatus $ID $PRINT_MODE
-        printf "\n"
-    done
-
+function TableBottom() {
     printf " "
     for ((x = 1; x < $COLUMNS; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
@@ -205,38 +196,85 @@ PrintTable() {
     printf "\n\n"
 }
 
-
-
-############################################################################################
-##
-## function: DEFAULT_TABLE
-##
-############################################################################################
-PrintDefaultTable() {
-    local DEFAULT_VALUE
-
+function DefaultTableTop() {
+    printf "\n "
+    for ((x = 1; x < $COLUMNS; x++)); do
+        printf %s "${CHAR_MAP["TOP_LINE"]}"
+    done
     printf "\n ${EFFECTS["REVERSE_ON"]}Parameter"
     printf "%*s" "$((PARAM_PADDING - 9))" ''
     printf "Default Value"
     printf '%*s' "$((DESCRIPTION_LENGTH - 8))" ''
     printf "${EFFECTS["REVERSE_OFF"]}\n\n"
+}
 
-    for i in ${!keys[@]}; do
-        SPRINT=""
-        ID=${keys[$i]}
-        if [[ -z "${PARAM_TABLE[$ID]:-}" ]]; then
-            ParameterInTable $ID $PRINT_MODE
-        else
-            printf "${PARAM_TABLE[$ID]}"
-        fi
-        printf "%s\n" "$(DescribeParameterDefValue $ID $PRINT_MODE)"
-    done
-
+function DefaultTableBottom() {
     printf "\n "
     for ((x = 1; x < $COLUMNS; x++)); do
         printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
     done
     printf "\n\n"
+}
+
+function ListTop() {
+    printf "\n  Parameters\n"
+}
+
+function ListBottom() {
+    printf "\n"
+}
+
+
+
+############################################################################################
+## parameter print function
+############################################################################################
+PrintParameters() {
+    local i
+    local keys
+
+    for ID in ${!DMAP_PARAM_ORIGIN[@]}; do
+        if [[ -n "$REQUESTED" ]]; then
+            if [[ -z "${RTMAP_REQUESTED_PARAM[$ID]:-}" ]]; then
+                continue
+            fi
+        fi
+        keys=(${keys[@]:-} $ID)
+    done
+    keys=($(printf '%s\n' "${keys[@]:-}"|sort))
+
+    for i in ${!keys[@]}; do
+        ID=${keys[$i]}
+        case $LS_FORMAT in
+            list)
+                printf "   "
+                if [[ -z "${PARAM_TABLE[$ID]:-}" ]]; then
+                    ParameterInTable $ID $PRINT_MODE
+                else
+                    printf "${PARAM_TABLE[$ID]}"
+                fi
+                DescribeParameterDescription $ID 3 none
+                ;;
+            table)
+                if [[ -z "${PARAM_TABLE[$ID]:-}" ]]; then
+                    ParameterInTable $ID $PRINT_MODE
+                else
+                    printf "${PARAM_TABLE[$ID]}"
+                fi
+                DescribeParameterDescription $ID
+                DescribeParameterStatus $ID $PRINT_MODE
+                ;;
+            default-table)
+                if [[ -z "${PARAM_TABLE[$ID]:-}" ]]; then
+                    ParameterInTable $ID $PRINT_MODE
+                else
+                    printf "${PARAM_TABLE[$ID]}"
+                fi
+                printf "%s" "$(DescribeParameterDefValue $ID $PRINT_MODE)"
+                ;;
+        esac
+        printf "\n"
+    done
 }
 
 
@@ -248,15 +286,27 @@ PrintDefaultTable() {
 ############################################################################################
 ConsoleInfo "  -->" "lp: starting task"
 
-if (( $PARAM_LINE_MIN_LENGTH > $COLUMNS )); then
-    ConsoleError "  ->" "not enough columns for table, need $PARAM_LINE_MIN_LENGTH found $COLUMNS"
-    else
-    if [[ $TABLE == true ]]; then
-        PrintTable
-    else
-        PrintDefaultTable
-    fi
-fi
+case $LS_FORMAT in
+    list)
+        ListTop
+        PrintParameters
+        ListBottom
+        ;;
+    table)
+        TableTop
+        PrintParameters
+        TableBottom
+        ;;
+    default-table)
+        DefaultTableTop
+        PrintParameters
+        DefaultTableBottom
+        ;;
+    *)
+        ConsoleFatal "  ->" "internal error: unknown list format '$LS_FORMAT'"
+        exit 69
+        ;;
+esac
 
 ConsoleInfo "  -->" "lp: done"
 exit $TASK_ERRORS

@@ -66,6 +66,45 @@ ConsoleMessage() {
 
 
 ##
+## function: ConsoleIsMessage
+## - returns message status: true if on, false if off
+##
+ConsoleIsMessage(){
+    local QUIET=
+    case ${CONFIG_MAP["RUNNING_IN"]} in
+        loader)
+            QUIET=${CONFIG_MAP["LOADER_QUIET"]}
+            ;;
+        shell)
+            QUIET=${CONFIG_MAP["SHELL_QUIET"]}
+            ;;
+        task)
+            QUIET=${CONFIG_MAP["TASK_QUIET"]}
+            ;;
+    esac
+
+    case $QUIET in
+        on)     return 1;;
+        off)    return 0;;
+    esac
+}
+
+
+
+##
+## function: ConsoleIsPrompt
+## - returns shell-prompt status: true if on, false if off
+##
+ConsoleIsPrompt(){
+    case ${CONFIG_MAP["SHELL_SNP"]} in
+        on)     return 1;;
+        off)    return 0;;
+    esac
+}
+
+
+
+##
 ## function: ConsoleFatal
 ## - prints a fatal error message with [Fatal] tag, increases *_ERRORS
 ## - $1: error prefix, e.g. script name with colon

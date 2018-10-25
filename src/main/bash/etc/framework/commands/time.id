@@ -6,6 +6,6 @@
 ## @version    v0.0.0
 ##
 
-SHORT=t
+SHORT=T
 
-DESCRIPTION="wait for SEC seconds"
+DESCRIPTION="prints the current time as HH:mm:ss"

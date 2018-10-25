@@ -154,19 +154,6 @@ DescribeCommand() {
 
 
 ##
-## function: CommandStringLength
-## - returns the length of a command string
-## $*: same as for DescribeCommand
-##
-CommandStringLength() {
-    local SPRINT
-    SPRINT=$(DescribeCommand $@)
-    printf ${#SPRINT}
-}
-
-
-
-##
 ## function: DescribeCommandDescription
 ## - describes the command description
 ## $1: command ID
@@ -181,7 +168,7 @@ DescribeCommandDescription() {
     local PADDING
 
     if [[ -z ${DMAP_CMD[$ID]:-} ]]; then
-        ConsoleError " ->" "describe-cmd/status - unknown command '$ID'"
+        ConsoleError " ->" "describe-cmd/descr - unknown command '$ID'"
     else
         DESCRIPTION=${DMAP_CMD_DESCR[$ID]}
         if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
@@ -210,15 +197,17 @@ CommandInTable() {
     local ID=$1
     local PRINT_MODE=${2:-}
 
-    local padding
-    local str_len
+    local PADDING
+    local PAD_STR
+    local PAD_STR_LEN
     local SPRINT
 
     SPRINT=" "$(DescribeCommand $ID standard "none" $PRINT_MODE)
 
-    str_len=$(CommandStringLength $ID standard "none" text)
-    padding=$((CMD_PADDING - $str_len))
-    SPRINT=$SPRINT$(printf '%*s' "$padding")
+    PAD_STR=$(DescribeCommand $ID standard "none" text)
+    PAD_STR_LEN=${#PAD_STR}
+    PADDING=$((CMD_PADDING - $PAD_STR_LEN))
+    SPRINT=$SPRINT$(printf '%*s' "$PADDING")
 
     printf "$SPRINT"
 }

@@ -67,14 +67,18 @@ ShellCmdExecuteTask() {
     local DO_HELP=false
     local DO_WAIT=false
     case $ID in
-        list-* | describe-* | s | "s "* | settings | "settings "*)
+        list-* | describe-* | set | "set "* | setting | "setting "* | m | "m "* | manual | "manual "*)
             DO_EXTRAS=false
             ;;
-        w | wait)
+        w | "w "* | wait | "wait "*)
             DO_EXTRAS=false
             if [[ "$TARG" != "-h" && "$TARG" != "--help" ]]; then
                 DO_WAIT=true
             fi
+            ;;
+        *)
+            if ConsoleIsMessage; then DO_EXTRAS=true; else DO_EXTRAS=false; fi
+            ;;
     esac
     case "$TARG" in
         "-h" | "--help" | "-h "* | "--help "* | *" -h" | *" --help")

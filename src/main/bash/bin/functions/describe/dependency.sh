@@ -131,30 +131,50 @@ DescribeDependency() {
 
 
 ##
+## function: DescribeDependencyDescription
+## - describes the dependency description
+## $1: dependency ID
+## $2: indentation adjustment, 0 or empty for none
+## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
+##
+DescribeDependencyDescription() {
+    local ID=$1
+    local ADJUST=${2:-0}
+    local DESCRIPTION
+    local DESCR_EFFECTIVE
+    local PADDING
+
+    if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-dep/descr - unknown dependency '$ID'"
+    else
+        DESCRIPTION=${DMAP_DEP_DESCR[$ID]}
+        if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
+            printf "%s" "$DESCRIPTION"
+            if [[ -z ${3:-} ]]; then
+                DESCR_EFFECTIVE=${#DESCRIPTION}
+                PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
+                printf '%*s' "$PADDING"
+            fi
+        else
+            DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
+            printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+        fi
+    fi
+}
+
+
+
+##
 ## function: DescribeDependencyStatus
 ## - describes the dependency status for the dependency screen
 ## $1: dependency ID
 ##
 DescribeDependencyStatus() {
     local ID=$1
-    local ORIGIN
-    local STATUS
 
     if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
         ConsoleError " ->" "help-dep/status - unknown dependency '$ID'"
     else
-
-        DESCRIPTION=${DMAP_DEP_DESCR[$ID]}
-        if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
-            printf "%s" "$DESCRIPTION"
-            DESCR_EFFECTIVE=${#DESCRIPTION}
-            PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE))
-            printf '%*s' "$PADDING"
-        else
-            DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4))
-            printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
-        fi
-
         printf "%s " "${DMAP_DEP_ORIGIN[$ID]:0:1}"
 
         case ${RTMAP_DEP_STATUS[$ID]} in
@@ -169,19 +189,6 @@ DescribeDependencyStatus() {
 
 
 ##
-## function: DependencyStringLength
-## - returns the length of a dependency string
-## $*: same as for DescribeDependency
-##
-DependencyStringLength() {
-    local SPRINT
-    SPRINT=$(DescribeDependency $*)
-    printf ${#SPRINT}
-}
-
-
-
-##
 ## function: DependencyInTable
 ## - main dependency details for table views
 ## $1: ID
@@ -191,15 +198,17 @@ DependencyInTable() {
     local ID=$1
     local PRINT_MODE=${2:-}
 
-    local padding
-    local str_len
+    local PADDING
+    local PAD_STR
+    local PAD_STR_LEN
     local SPRINT
 
     SPRINT=" "$(DescribeDependency $ID standard "none" $PRINT_MODE)
 
-    str_len=$(DependencyStringLength $ID standard "none" text)
-    padding=$((DEP_PADDING - $str_len))
-    SPRINT=$SPRINT$(printf '%*s' "$padding")
+    PAD_STR=$(DescribeDependency $ID standard "none" text)
+    PAD_STR_LEN=${#PAD_STR}
+    PADDING=$((DEP_PADDING - $PAD_STR_LEN))
+    SPRINT=$SPRINT$(printf '%*s' "$PADDING")
 
     printf "$SPRINT"
 }

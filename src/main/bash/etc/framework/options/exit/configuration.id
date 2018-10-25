@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 ##
-## Identity for CLI option settings
+## Identity for CLI option configuration
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    v0.0.0
 ##
 
-SHORT=s
+SHORT=c
 
-DESCRIPTION="show current runtime settings"
+DESCRIPTION="show current runtime configuration"

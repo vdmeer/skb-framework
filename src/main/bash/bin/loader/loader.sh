@@ -107,6 +107,7 @@ CONFIG_MAP["LOADER_QUIET"]="off"                    # message level for loader, 
 CONFIG_MAP["SHELL_QUIET"]="off"                     # message level for shell, change with --sq
 CONFIG_MAP["TASK_QUIET"]="off"                      # message level for tasks, change with --tq
 
+CONFIG_MAP["SHELL_SNP"]="off"                       # shell shows prompt, change with --snp
 
 
 source $FW_HOME/bin/functions/_include

@@ -53,7 +53,7 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/functions/_include
-source $FW_HOME/bin/functions/describe/_include
+source $FW_HOME/bin/functions/describe/elements.sh
 ConsoleResetErrors
 ConsoleResetWarnings
 

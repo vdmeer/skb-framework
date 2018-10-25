@@ -148,6 +148,40 @@ DescribeTask() {
 
 
 ##
+## function: DescribeTaskDescription
+## - describes the task description
+## $1: task ID
+## $2: indentation adjustment, 0 or empty for none
+## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
+##
+DescribeTaskDescription() {
+    local ID=$1
+    local ADJUST=${2:-0}
+    local DESCRIPTION
+    local DESCR_EFFECTIVE
+    local PADDING
+
+    if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-task/descr - unknown task '$ID'"
+    else
+        DESCRIPTION=${DMAP_TASK_DESCR[$ID]}
+        if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
+            printf "%s" "$DESCRIPTION"
+            if [[ -z ${3:-} ]]; then
+                DESCR_EFFECTIVE=${#DESCRIPTION}
+                PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
+                printf '%*s' "$PADDING"
+            fi
+        else
+            DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
+            printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+        fi
+    fi
+}
+
+
+
+##
 ## function: DescribeTaskStatus
 ## - describes the task status for the task screen
 ## $1: task ID
@@ -155,36 +189,12 @@ DescribeTask() {
 ##
 DescribeTaskStatus() {
     local ID=$1
-    local SHORT
     local MODE
     local STATUS
-    local DESCRIPTION
-    local DESCR_EFFECTIVE
-    local PADDING
-
-    if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
-        for SHORT in ${!DMAP_TASK_SHORT[@]}; do
-            if [[ "$SHORT" == "$ID" ]]; then
-                ID=${DMAP_TASK_SHORT[$SHORT]}
-                break
-            fi
-        done
-    fi
 
     if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
         ConsoleError " ->" "describe-task/status - unknown task '$ID'"
     else
-        DESCRIPTION=${DMAP_TASK_DESCR[$ID]}
-        if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
-            printf "%s" "$DESCRIPTION"
-            DESCR_EFFECTIVE=${#DESCRIPTION}
-            PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE))
-            printf '%*s' "$PADDING"
-        else
-            DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4))
-            printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
-        fi
-
         printf "%s " "${DMAP_TASK_ORIGIN[$ID]:0:1}"
 
         MODE=${DMAP_TASK_MODES[$ID]}
@@ -228,19 +238,6 @@ DescribeTaskStatus() {
 
 
 ##
-## function: TaskStringLength
-## - returns the length of a task string
-## $*: same as for DescribeTask
-##
-TaskStringLength() {
-    local SPRINT
-    SPRINT=$(DescribeTask $*)
-    printf ${#SPRINT}
-}
-
-
-
-##
 ## function: TaskInTable
 ## - main task details for table views
 ## $1: ID
@@ -270,15 +267,17 @@ TaskInTable() {
         fi
     done
 
-    local padding
-    local str_len
+    local PADDING
+    local PAD_STR
+    local PAD_STR_LEN
     local SPRINT
 
     SPRINT=" "$(DescribeTask $ID standard "none" $PRINT_MODE)
 
-    str_len=$(TaskStringLength $ID standard "none" text)
-    padding=$((TASK_PADDING - $str_len))
-    SPRINT=$SPRINT$(printf '%*s' "$padding")
+    PAD_STR=$(DescribeTask $ID standard "none" text)
+    PAD_STR_LEN=${#PAD_STR}
+    PADDING=$((TASK_PADDING - $PAD_STR_LEN))
+    SPRINT=$SPRINT$(printf '%*s' "$PADDING")
 
     printf "$SPRINT"
 }

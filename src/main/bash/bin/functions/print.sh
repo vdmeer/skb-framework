@@ -90,8 +90,24 @@ PrintStrict() {
 PrintQuiet() {
     local QUIET=$1
     case "$QUIET" in
-        on)     PrintColor light-red    $QUIET;;
-        off)    PrintColor green        $QUIET;;
-        *)      PrintColor light-purple $QUIET;;
+        on)     PrintColor light-red        $QUIET;;
+        off)    PrintColor light-green      $QUIET;;
+        *)      PrintColor light-purple     $QUIET;;
     esac
 }
+
+
+
+##
+## function: PrintShellSNP
+## - prints the shell no-prompt- setting
+##
+PrintShellSNP() {
+    case "${CONFIG_MAP["SHELL_SNP"]}" in
+        on)     PrintColor light-red "on" ;;
+        off)    PrintColor light-green "off" ;;
+    esac
+}
+
+
+

@@ -62,8 +62,8 @@ ConsoleResetWarnings
 ## set local variables
 ##
 PRINT_MODE=
-LIST=false
-TABLE=true
+LS_FORMAT=list
+
 EXIT=
 RUN=
 ALL=
@@ -74,8 +74,8 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=aehlP:rt
-CLI_LONG_OPTIONS=all,exit,help,list,print-mode:,run,table
+CLI_OPTIONS=aehP:rT
+CLI_LONG_OPTIONS=all,exit,help,print-mode:,run,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-options -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -97,9 +97,8 @@ while true; do
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
-                BuildTaskHelpLine l list        "<none>"    "table format"                      $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
-                BuildTaskHelpLine t table       "<none>"    "help screen format"                $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine a all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
                 BuildTaskHelpLine e exit        "<none>"    "only exit options"                             $PRINT_PADDING
@@ -114,11 +113,6 @@ while true; do
             CLI_SET=true
             shift
             ;;
-        -l | --list)
-            shift
-            LIST=true
-            TABLE=false
-            ;;
         -P | --print-mode)
             PRINT_MODE="$2"
             shift 2
@@ -128,9 +122,9 @@ while true; do
             CLI_SET=true
             shift
             ;;
-        -t | --table)
+        -T | --table)
             shift
-            TABLE=true
+            LS_FORMAT=table
             ;;
 
         --)
@@ -146,13 +140,8 @@ done
 
 
 ############################################################################################
-## check CLI
+## check CLI, init CACHE
 ############################################################################################
-if [[ $LIST == false && $TABLE == false ]]; then
-    ConsoleError "  ->" "no mode set: use list and/or table"
-    exit 60
-fi
-
 if [[ "$ALL" == "yes" ]]; then
     EXIT=yes
     RUN=yes
@@ -208,7 +197,6 @@ function ListBottom() {
 
 ############################################################################################
 ## option print function
-## $1: list | table
 ############################################################################################
 PrintOptions() {
     local i
@@ -232,7 +220,7 @@ PrintOptions() {
 
     for i in ${!keys[@]}; do
         ID=${keys[$i]}
-        case $1 in
+        case $LS_FORMAT in
             list)
                 printf "   "
                 if [[ -z "${OPTION_TABLE[$ID]:-}" ]]; then
@@ -249,7 +237,7 @@ PrintOptions() {
                     printf "${OPTION_TABLE[$ID]}"
                 fi
                 DescribeOptionDescription $ID
-                DescribeOptionStatus $ID
+                DescribeOptionStatus $ID $PRINT_MODE
                 ;;
         esac
         printf "\n"
@@ -265,16 +253,22 @@ PrintOptions() {
 ############################################################################################
 ConsoleInfo "  -->" "lo: starting task"
 
-if [[ $LIST == true ]]; then
-    ListTop
-    PrintOptions list
-    ListBottom
-fi
-if [[ $TABLE == true ]]; then
-    TableTop
-    PrintOptions table
-    TableBottom
-fi
+case $LS_FORMAT in
+    list)
+        ListTop
+        PrintOptions
+        ListBottom
+        ;;
+    table)
+        TableTop
+        PrintOptions
+        TableBottom
+        ;;
+    *)
+        ConsoleFatal "  ->" "internal error: unknown list format '$LS_FORMAT'"
+        exit 69
+        ;;
+esac
 
 ConsoleInfo "  -->" "lo: done"
 exit $TASK_ERRORS

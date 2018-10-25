@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## settings - shows settings
+## list-configuration - list configuration
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    v0.0.0
@@ -53,7 +53,6 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/functions/_include
-source $FW_HOME/bin/functions/describe/task.sh
 ConsoleResetErrors
 ConsoleResetWarnings
 
@@ -62,8 +61,12 @@ ConsoleResetWarnings
 ## set local variables
 ##
 PRINT_MODE=
+LS_FORMAT=list
+
 FILTER=
 ALL=
+
+CHANGE_SET=false
 CLI_SET=false
 
 
@@ -71,11 +74,11 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=acdefhiP:
-CLI_LONG_OPTIONS=all,help,print-mode:
+CLI_OPTIONS=acdefhiP:T
+CLI_LONG_OPTIONS=all,help,print-mode:,table
 CLI_LONG_OPTIONS+=,cli,default,file,env,internal
 
-! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name settings -- "$@")
+! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-configuration -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
     ConsoleError "  ->" "unknown CLI options"
     exit 51
@@ -91,11 +94,12 @@ while true; do
             shift
             ;;
         -h | --help)
-            CACHED_HELP=$(TaskGetCachedHelp "settings")
+            CACHED_HELP=$(TaskGetCachedHelp "list-configuration")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                            $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                          $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"              $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "print as table with more information"      $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine a all         "<none>"    "all settings, disables all other filters"              $PRINT_PADDING
                 BuildTaskHelpLine c cli         "<none>"    "only settings from CLI options"                        $PRINT_PADDING
@@ -112,6 +116,10 @@ while true; do
             PRINT_MODE="$2"
             CLI_SET=true
             shift 2
+            ;;
+        -T | --table)
+            shift
+            LS_FORMAT=table
             ;;
 
         -c | --cli)
@@ -153,20 +161,12 @@ done
 
 
 ############################################################################################
-## test CLI
+## test CLI, set columns, test columns, write L1 if necessary
 ############################################################################################
 if [[ $ALL == true  || $CLI_SET == false ]]; then
     FILTER="cli default env file internal"
 fi
 
-
-
-############################################################################################
-##
-## ready to go
-##
-############################################################################################
-ConsoleInfo "  -->" "set: starting task"
 
 STATUS_PADDING=17
 STATUS_STATUS_LENGHT=1
@@ -177,7 +177,65 @@ VALUE_LENGTH=$((COLUMNS - STATUS_PADDING - STATUS_STATUS_LENGHT - 1))
 
 if (( $STATUS_LINE_MIN_LENGTH > $COLUMNS )); then
     ConsoleError "  ->" "not enough columns for table, need $STATUS_LINE_MIN_LENGTH found $COLUMNS"
-else
+    exit 60
+fi
+
+
+
+############################################################################################
+## top and bottom functions for list and table
+############################################################################################
+function TableTop() {
+    printf "\n "
+    for ((x = 1; x < $COLUMNS; x++)); do
+        printf %s "${CHAR_MAP["TOP_LINE"]}"
+    done
+    printf "\n ${EFFECTS["REVERSE_ON"]}Name"
+    printf "%*s" "$((STATUS_PADDING - 4))" ''
+    printf "Value"
+    printf '%*s' "$((VALUE_LENGTH - 5))" ''
+    printf "S${EFFECTS["REVERSE_OFF"]}\n\n"
+}
+
+function TableBottom() {
+    printf " "
+    for ((x = 1; x < $COLUMNS; x++)); do
+        printf %s "${CHAR_MAP["MID_LINE"]}"
+    done
+    printf "\n\n"
+
+    printf " source:"
+    printf " internal ";        PrintColor light-blue   ${CHAR_MAP["LEGEND"]}
+    printf " , CLI ";           PrintColor light-cyan   ${CHAR_MAP["LEGEND"]}
+    printf " , environment ";   PrintColor light-green  ${CHAR_MAP["LEGEND"]}
+    printf " , file ";          PrintColor yellow       ${CHAR_MAP["LEGEND"]}
+    printf " default ";         PrintColor light-red    ${CHAR_MAP["LEGEND"]}
+
+    printf "\n\n "
+    for ((x = 1; x < $COLUMNS; x++)); do
+        printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
+    done
+    printf "\n\n"
+}
+
+function ListTop() {
+    printf "\n  Configuration\n"
+}
+
+function ListBottom() {
+    printf "\n"
+}
+
+
+
+############################################################################################
+## configuration print function
+############################################################################################
+PrintConfiguration() {
+    local i
+    local keys
+    local found
+
     for ID in ${!CONFIG_MAP[@]}; do
         found=false
         for fil in $FILTER; do
@@ -217,20 +275,22 @@ else
     done
     keys=($(printf '%s\n' "${keys[@]:-}"|sort))
 
-
-    printf "\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
-        printf %s "${CHAR_MAP["TOP_LINE"]}"
-    done
-    printf "\n ${EFFECTS["REVERSE_ON"]}Name"
-    printf "%*s" "$((STATUS_PADDING - 4))" ''
-    printf "Value"
-    printf '%*s' "$((VALUE_LENGTH - 5))" ''
-    printf "S${EFFECTS["REVERSE_OFF"]}\n\n"
+    local INDENT
+    local str_len
+    local padding
+    local sc_str
+    case $LS_FORMAT in
+        list)
+            INDENT="   "
+            ;;
+        table)
+            INDENT=""
+            ;;
+    esac
 
     for i in ${!keys[@]}; do
         ID=${keys[$i]}
-        printf " %s" "$ID"
+        printf " %s%s" "$INDENT" "$ID"
         str_len=${#ID}
         padding=$((STATUS_PADDING - $str_len))
         printf '%*s' "$padding"
@@ -242,6 +302,9 @@ else
                 ;;
             LOADER_QUIET | SHELL_QUIET | TASK_QUIET)
                 PrintQuiet "$sc_str"
+                ;;
+            SHELL_SNP)
+                PrintShellSNP
                 ;;
             STRICT)
                 PrintStrict
@@ -262,42 +325,55 @@ else
                 ;;
         esac
 
-        str_len=${#sc_str}
-        if [[ "$ID" == "SHELL_PROMPT" ]]; then
-            str_len=${CONFIG_MAP["PROMPT_LENGTH"]}
-        fi
-        PADDING=$((VALUE_LENGTH - str_len))
-        printf '%*s' "$PADDING"
+        case $LS_FORMAT in
+            list)
+                ;;
+            table)
+                str_len=${#sc_str}
+                if [[ "$ID" == "SHELL_PROMPT" ]]; then
+                    str_len=${CONFIG_MAP["PROMPT_LENGTH"]}
+                fi
+                PADDING=$((VALUE_LENGTH - str_len))
+                printf '%*s' "$PADDING"
 
-        case ${CONFIG_SRC[$ID]:-} in
-            "E")    PrintColor green        ${CHAR_MAP["DIAMOND"]} ;;
-            "F")    PrintColor yellow       ${CHAR_MAP["DIAMOND"]} ;;
-            "D")    PrintColor light-red    ${CHAR_MAP["DIAMOND"]} ;;
-            "O")    PrintColor light-cyan   ${CHAR_MAP["DIAMOND"]} ;;
-            *)      PrintColor light-blue   ${CHAR_MAP["DIAMOND"]} ;;
+                case ${CONFIG_SRC[$ID]:-} in
+                    "E")    PrintColor green        ${CHAR_MAP["DIAMOND"]} ;;
+                    "F")    PrintColor yellow       ${CHAR_MAP["DIAMOND"]} ;;
+                    "D")    PrintColor light-red    ${CHAR_MAP["DIAMOND"]} ;;
+                    "O")    PrintColor light-cyan   ${CHAR_MAP["DIAMOND"]} ;;
+                    *)      PrintColor light-blue   ${CHAR_MAP["DIAMOND"]} ;;
+                esac
+                ;;
         esac
         printf "\n"
     done
+}
 
-    printf " "
-    for ((x = 1; x < $COLUMNS; x++)); do
-        printf %s "${CHAR_MAP["MID_LINE"]}"
-    done
-    printf "\n\n"
 
-    printf " source:"
-    printf " internal ";        PrintColor light-blue   ${CHAR_MAP["LEGEND"]}
-    printf " , CLI ";           PrintColor light-cyan   ${CHAR_MAP["LEGEND"]}
-    printf " , environment ";   PrintColor light-green  ${CHAR_MAP["LEGEND"]}
-    printf " , file ";          PrintColor yellow       ${CHAR_MAP["LEGEND"]}
-    printf " default ";         PrintColor light-red    ${CHAR_MAP["LEGEND"]}
 
-    printf "\n\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
-        printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
-    done
-    printf "\n\n"
-fi
+############################################################################################
+##
+## ready to go
+##
+############################################################################################
+ConsoleInfo "  -->" "lcfg: starting task"
 
-ConsoleInfo "  -->" "set: done"
+case $LS_FORMAT in
+    list)
+        ListTop
+        PrintConfiguration
+        ListBottom
+        ;;
+    table)
+        TableTop
+        PrintConfiguration
+        TableBottom
+        ;;
+    *)
+        ConsoleFatal "  ->" "internal error: unknown list format '$LS_FORMAT'"
+        exit 69
+        ;;
+esac
+
+ConsoleInfo "  -->" "lcfg: done"
 exit $TASK_ERRORS

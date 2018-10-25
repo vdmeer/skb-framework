@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ##
-# Identity for Shell command strict
+## Identity for CLI option snp
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    v0.0.0
@@ -8,4 +8,4 @@
 
 
 
-DESCRIPTION="alter strict mode"
+DESCRIPTION="shell-no-prompt: switch off shell prompt"

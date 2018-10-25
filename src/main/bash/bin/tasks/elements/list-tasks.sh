@@ -62,6 +62,8 @@ ConsoleResetWarnings
 ## set local variables
 ##
 PRINT_MODE=
+LS_FORMAT=list
+
 LOADED=
 UNLOADED=
 APP_MODE=
@@ -84,8 +86,8 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=ahlm:o:P:s:u
-CLI_LONG_OPTIONS=all,mode:,help,loaded,origin:,print-mode:,status:,unloaded,no-a,no-b,no-d,no-dl,no-l,no-s,odl
+CLI_OPTIONS=ahlm:o:P:s:Tu
+CLI_LONG_OPTIONS=all,mode:,help,loaded,origin:,print-mode:,status:,unloaded,no-a,no-b,no-d,no-dl,no-l,no-s,odl,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-tasks -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -106,8 +108,9 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "list-tasks")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                            $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                          $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine a         all         "<none>"    "all tasks, disables all other filters"                             $PRINT_PADDING
                 BuildTaskHelpLine l         loaded      "<none>"    "only loaded tasks"                                                 $PRINT_PADDING
@@ -178,6 +181,11 @@ while true; do
             CLI_SET=true
             shift
             ;;
+
+        -T | --table)
+            shift
+            LS_FORMAT=table
+            ;;
         -P | --print-mode)
             PRINT_MODE="$2"
             CLI_SET=true
@@ -207,7 +215,7 @@ done
 
 
 ############################################################################################
-## test CLI
+## test CLI, init CACHE, check columns
 ############################################################################################
 if [[ "$ALL" == "yes" ]]; then
     LOADED=
@@ -234,7 +242,7 @@ else
                 ;;
             *)
                 ConsoleError "  ->" "unknown origin: $ORIGIN"
-                exit 60
+                exit 61
         esac
     fi
     if [[ -n "$APP_MODE" ]]; then
@@ -253,7 +261,7 @@ else
                 ;;
             *)
                 ConsoleError "  ->" "unknown application mode: $APP_MODE"
-                exit 61
+                exit 62
         esac
     fi
     if [[ -n "$STATUS" ]]; then
@@ -272,7 +280,7 @@ else
                 ;;
             *)
                 ConsoleError "  ->" "unknown status: $STATUS"
-                exit 62
+                exit 63
         esac
     fi
     if [[ -n "$NO_ALL" ]]; then
@@ -284,17 +292,27 @@ else
 fi
 
 
+declare -A TASK_TABLE
+FILE=${CONFIG_MAP["CACHE_DIR"]}/task-tab.${CONFIG_MAP["PRINT_MODE"]}
+if [[ -n "$PRINT_MODE" ]]; then
+    FILE=${CONFIG_MAP["CACHE_DIR"]}/task-tab.$PRINT_MODE
+fi
+if [[ -f $FILE ]]; then
+    source $FILE
+fi
 
-############################################################################################
-##
-## ready to go
-##
-############################################################################################
-ConsoleInfo "  -->" "lt: starting task"
 
 if (( $TASK_LINE_MIN_LENGTH > $COLUMNS )); then
     ConsoleError "  ->" "not enough columns for table, need $TASK_LINE_MIN_LENGTH found $COLUMNS"
-else
+    exit 60
+fi
+
+
+
+############################################################################################
+## top and bottom functions for list and table
+############################################################################################
+function TableTop() {
     printf "\n "
     for ((x = 1; x < $COLUMNS; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
@@ -304,7 +322,56 @@ else
     printf "Description"
     printf '%*s' "$((DESCRIPTION_LENGTH - 11))" ''
     printf "O D B U S${EFFECTS["REVERSE_OFF"]}\n\n"
+}
 
+function TableBottom() {
+    printf " "
+    for ((x = 1; x < $COLUMNS; x++)); do
+        printf %s "${CHAR_MAP["MID_LINE"]}"
+    done
+    printf "\n\n"
+
+    printf " flags: (O) Origin, (D) development, (B) build, (U) use, (S) status\n"
+    printf " - icons: "
+    PrintColor light-green ${CHAR_MAP["AVAILABLE"]}
+    printf " defined, "
+    PrintColor light-red ${CHAR_MAP["NOT_AVAILABLE"]}
+    printf " not defined"
+
+    printf "\n"
+    printf " - colors: "
+    PrintColor light-green ${CHAR_MAP["LEGEND"]}
+    printf " success, "
+    PrintColor light-blue ${CHAR_MAP["LEGEND"]}
+    printf " not attempted, "
+    PrintColor yellow ${CHAR_MAP["LEGEND"]}
+    printf " warnings, "
+    PrintColor light-red ${CHAR_MAP["LEGEND"]}
+    printf " errors, "
+    PrintColor light-cyan ${CHAR_MAP["LEGEND"]}
+    printf " reverted"
+
+    printf "\n\n "
+    for ((x = 1; x < $COLUMNS; x++)); do
+        printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
+    done
+    printf "\n\n"
+}
+
+function ListTop() {
+    printf "\n  Tasks\n"
+}
+
+function ListBottom() {
+    printf "\n"
+}
+
+
+
+############################################################################################
+## task print function
+############################################################################################
+PrintTasks() {
     for ID in ${!DMAP_TASK_ORIGIN[@]}; do
         if [[ -n "$ODL" ]]; then
             case "$ID" in
@@ -384,58 +451,56 @@ else
     done
     keys=($(printf '%s\n' "${keys[@]:-}"|sort))
 
-    declare -A TASK_TABLE
-    FILE=${CONFIG_MAP["CACHE_DIR"]}/task-tab.${CONFIG_MAP["PRINT_MODE"]}
-    if [[ -n "$PRINT_MODE" ]]; then
-        FILE=${CONFIG_MAP["CACHE_DIR"]}/task-tab.$PRINT_MODE
-    fi
-    if [[ -f $FILE ]]; then
-        source $FILE
-    fi
-
     for i in ${!keys[@]}; do
         ID=${keys[$i]}
-        if [[ -z "${TASK_TABLE[$ID]:-}" ]]; then
-            TaskInTable $ID $PRINT_MODE
-        else
-            printf "${TASK_TABLE[$ID]}"
-        fi
-        DescribeTaskStatus $ID $PRINT_MODE
+
+        case $LS_FORMAT in
+            list)
+                printf "   "
+                if [[ -z "${TASK_TABLE[$ID]:-}" ]]; then
+                    TaskInTable $ID $PRINT_MODE
+                else
+                    printf "${TASK_TABLE[$ID]}"
+                fi
+                DescribeTaskDescription $ID 3 none
+                ;;
+            table)
+                if [[ -z "${TASK_TABLE[$ID]:-}" ]]; then
+                    TaskInTable $ID $PRINT_MODE
+                else
+                    printf "${TASK_TABLE[$ID]}"
+                fi
+                DescribeTaskDescription $ID
+                DescribeTaskStatus $ID $PRINT_MODE
+                ;;
+        esac
         printf "\n"
     done
+}
 
-    printf " "
-    for ((x = 1; x < $COLUMNS; x++)); do
-        printf %s "${CHAR_MAP["MID_LINE"]}"
-    done
-    printf "\n\n"
+############################################################################################
+##
+## ready to go
+##
+############################################################################################
+ConsoleInfo "  -->" "lt: starting task"
 
-    printf " flags: (O) Origin, (D) development, (B) build, (U) use, (S) status\n"
-    printf " - icons: "
-    PrintColor light-green ${CHAR_MAP["AVAILABLE"]}
-    printf " defined, "
-    PrintColor light-red ${CHAR_MAP["NOT_AVAILABLE"]}
-    printf " not defined"
-
-    printf "\n"
-    printf " - colors: "
-    PrintColor light-green ${CHAR_MAP["LEGEND"]}
-    printf " success, "
-    PrintColor light-blue ${CHAR_MAP["LEGEND"]}
-    printf " not attempted, "
-    PrintColor yellow ${CHAR_MAP["LEGEND"]}
-    printf " warnings, "
-    PrintColor light-red ${CHAR_MAP["LEGEND"]}
-    printf " errors, "
-    PrintColor light-cyan ${CHAR_MAP["LEGEND"]}
-    printf " reverted"
-
-    printf "\n\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
-        printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
-    done
-    printf "\n\n"
-fi
+case $LS_FORMAT in
+    list)
+        ListTop
+        PrintTasks
+        ListBottom
+        ;;
+    table)
+        TableTop
+        PrintTasks
+        TableBottom
+        ;;
+    *)
+        ConsoleFatal "  ->" "internal error: unknown list format '$LS_FORMAT'"
+        exit 69
+        ;;
+esac
 
 ConsoleInfo "  -->" "lt: done"
 exit $TASK_ERRORS

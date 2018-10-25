@@ -54,7 +54,6 @@ CONFIG_MAP["RUNNING_IN"]="shell"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/loader/declare/config.sh
-source $FW_HOME/bin/loader/init/process-settings.sh
 source $FW_HOME/bin/shell/commands/_include
 source $FW_HOME/bin/functions/_include
 source $FW_HOME/bin/functions/describe/task.sh
@@ -72,8 +71,10 @@ TASK=                           # a task ID from input
 SCMD=                           # a shell-command from input
 SARG=                           # argument(s), if any, for a shell command
 STIME=                          # time a command was entered
+RELOAD_CFG=false                # flag to reload configuration, e.g. after a change of settings
 declare -A HISTORY              # the shell's history of executed commands
 HISTORY[-1]="help"              # dummy first entry, size calcuation doesn't seem to work otherwise
+
 
 
 ##
@@ -101,61 +102,23 @@ FWInterpreter() {
             ShellAddCmdHistory
             ;;
 
-        shell-level | sl)
-            printf "\n    shell-level/sl requires a new level as argument\n\n"
-            ;;
-        "shell-level "*)
-            SARG=${SCMD#*shell-level }
-            ShellCmdShellLevel
-            ShellAddCmdHistory
-            ;;
-        "sl "*)
-            SARG=${SCMD#*sl }
-            ShellCmdShellLevel
-            ShellAddCmdHistory
-            ;;
-
-        task-level | tl)
-            printf "\n    task-level/tl requires a new level as argument\n\n"
-            ;;
-        "task-level "*)
-            SARG=${SCMD#*task-level }
-            ShellCmdTaskLevel
-            ShellAddCmdHistory
-            ;;
-        "tl "*)
-            SARG=${SCMD#*tl }
-            ShellCmdTaskLevel
-            ShellAddCmdHistory
-            ;;
-
         clear-screen | "clear-screen "* | cls | "cls "*)
             printf "\033c"
             ShellAddCmdHistory
             ;;
 
-        print-mode | p)
-            printf "\n    print-mode/p requires a new mode as argument\n\n"
-            ;;
-        "print-mode "*)
-            SARG=${SCMD#*print-mode }
-            ShellCmdPrintMode
-            ShellAddCmdHistory
-            ;;
-        "p "*)
-            SARG=${SCMD#*p }
-            ShellCmdPrintMode
-            ShellAddCmdHistory
-            ;;
-
-
-        strict | "strict "*)
-            ShellCmdStrict
-            ShellAddCmdHistory
-            ;;
-
-        time | "time "* | t | "t "*)
+        time | "time "* | T | "T "*)
             printf "\n    %s\n\n" "$STIME"
+            ShellAddCmdHistory
+            ;;
+
+        configuration | "configuration "* | c | "c "*)
+            ${DMAP_TASK_EXEC["list-configuration"]}
+            ShellAddCmdHistory
+            ;;
+
+        tasks | "tasks "* | t | "t "*)
+            ${DMAP_TASK_EXEC["list-tasks"]}
             ShellAddCmdHistory
             ;;
 
@@ -165,6 +128,10 @@ FWInterpreter() {
             SARG="$SCMD"
             ShellCmdExecuteTask
             ShellAddCmdHistory
+
+            case "$SCMD" in
+                "set "* | "setting "*) RELOAD_CFG=true;;
+            esac
             ;;
     esac
 }
@@ -199,7 +166,12 @@ FWShell() {
                 FWInterpreter
                 ;;
         esac
-        ConsoleMessage "${CONFIG_MAP["SHELL_PROMPT"]}"
+
+        if [[ $RELOAD_CFG == true ]]; then
+            source $FW_L1_CONFIG
+            RELOAD_CFG=false
+        fi
+        if ConsoleIsPrompt; then ConsoleMessage "${CONFIG_MAP["SHELL_PROMPT"]}"; fi
     done
 }
 
@@ -210,6 +182,6 @@ FWShell() {
 ## - redirect input to #3 while running the shell
 ##
 exec 3</dev/tty || exec 3<&0
-ConsoleMessage "${CONFIG_MAP["SHELL_PROMPT"]}"
+if ConsoleIsPrompt; then ConsoleMessage "${CONFIG_MAP["SHELL_PROMPT"]}"; fi
 FWShell
 exec 3<&-

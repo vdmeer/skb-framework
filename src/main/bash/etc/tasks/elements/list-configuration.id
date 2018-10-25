@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 ##
-## Identity for task list-exitstatus
+## Identity for task list-configuration
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    v0.0.0
 ##
 
-SHORT=les
+SHORT=lcfg
 MODES="dev build use"
-DESCRIPTION="lists exit status, error codes"
+DESCRIPTION="list current configuration"
 EXEC_PATH=bin/tasks/elements

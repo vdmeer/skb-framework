@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ##
-## Identity for task settings
+## Identity for task setting
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    v0.0.0
@@ -8,5 +8,5 @@
 
 SHORT=set
 MODES="dev build use"
-DESCRIPTION="shows settings with optional filters"
+DESCRIPTION="change settings"
 EXEC_PATH=bin/tasks/all

@@ -43,14 +43,14 @@ ParseCli() {
     ConsoleInfo "-->" "parse-cli"
     ConsoleResetErrors
 
-    local CLI_OPTIONS=ABcDd:e:hL:mo:p:P:r:sS:T:vV
+    local CLI_OPTIONS=ABCcDd:e:hL:mo:p:P:r:sS:T:vV
 
     local CLI_LONG_OPTIONS=loader-level:,shell-level:,task-level:
-    CLI_LONG_OPTIONS+=,manual,run-scenario:,settings,version,validate,help
+    CLI_LONG_OPTIONS+=,manual,run-scenario:,configuration,version,validate,help
     CLI_LONG_OPTIONS+=,option:,parameter:,dependency:
     CLI_LONG_OPTIONS+=,strict
     CLI_LONG_OPTIONS+=,print-mode:,clean-cache,execute-task:,build-mode,dev-mode,all-mode
-    CLI_LONG_OPTIONS+=,lq,sq,tq
+    CLI_LONG_OPTIONS+=,lq,sq,tq,snp
 
     ConsoleDebug "running getopt"
     local PARSED
@@ -79,7 +79,7 @@ ParseCli() {
 #                 CONFIG_SRC["APP_MODE"]="O"
                 shift 1
                 ;;
-            -c | --clean-cache)
+            -C | --clean-cache)
                 OPT_CLI_MAP["clean-cache"]=true
                 shift 1
                 ;;
@@ -131,8 +131,8 @@ ParseCli() {
                 OPT_CLI_MAP["run-scenario"]="$2"
                 shift 2
                 ;;
-            -s | --settings)
-                OPT_CLI_MAP["settings"]=true
+            -c | --configuration)
+                OPT_CLI_MAP["configuration"]=true
                 shift
                 ;;
             -S | --shell-level)
@@ -140,12 +140,17 @@ ParseCli() {
                 CONFIG_SRC["SHELL_LEVEL"]="O"
                 shift 2
                 ;;
+            --snp)
+                CONFIG_MAP["SHELL_SNP"]="on"
+                CONFIG_SRC["SHELL_SNP"]="O"
+                shift
+                ;;
             --sq)
                 CONFIG_MAP["SHELL_QUIET"]="on"
                 CONFIG_SRC["SHELL_QUIET"]="O"
                 shift
                 ;;
-            --strict)
+            -s | --strict)
                 CONFIG_MAP["STRICT"]="on"
                 CONFIG_SRC["STRICT"]="O"
                 shift

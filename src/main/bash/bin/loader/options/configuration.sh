@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Shell: function for shell command - strict
+## Loader: commands to run on CLI --configuration
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    v0.0.0
@@ -33,16 +33,7 @@
 ##
 
 
-##
-## function: ShellCmdStrict
-## - alter the strict mode of the application
-##
-ShellCmdStrict() {
-    if [[ "${CONFIG_MAP["STRICT"]}" == "off" ]]; then
-        CONFIG_MAP["STRICT"]="on"
-    else
-        CONFIG_MAP["STRICT"]="off"
-    fi
-    WriteL1Config
-    printf "  set strict mode to ${CONFIG_MAP["STRICT"]} and wrote CONFIG_MAP\n"
-}
+CONFIG_MAP["LOADER_QUIET"]=on
+CONFIG_MAP["SHELL_QUIET"]=on
+OPT_CLI_MAP["execute-task"]="list-configuration "$CLI_EXTRA_ARGS
+DO_EXIT_2=true

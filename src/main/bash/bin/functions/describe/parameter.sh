@@ -168,6 +168,40 @@ DescribeParameterDefValue() {
 
 
 ##
+## function: DescribeParameterDescription
+## - describes the parameter description
+## $1: parameter ID
+## $2: indentation adjustment, 0 or empty for none
+## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
+##
+DescribeParameterDescription() {
+    local ID=$1
+    local ADJUST=${2:-0}
+    local DESCRIPTION
+    local DESCR_EFFECTIVE
+    local PADDING
+
+    if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-param/descr - unknown parameter '$ID'"
+    else
+        DESCRIPTION=${DMAP_PARAM_DESCR[$ID]}
+        if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
+            printf "%s" "$DESCRIPTION"
+            if [[ -z ${3:-} ]]; then
+                DESCR_EFFECTIVE=${#DESCRIPTION}
+                PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
+                printf '%*s' "$PADDING"
+            fi
+        else
+            DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
+            printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+        fi
+    fi
+}
+
+
+
+##
 ## function: DescribeParameterStatus
 ## - describes the parameter status for the parameter screen
 ## $1: param ID
@@ -175,23 +209,10 @@ DescribeParameterDefValue() {
 ##
 DescribeParameterStatus() {
     local ID=$1
-    local DEFAULT
-    local STATUS
 
     if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
         ConsoleError " ->" "describe-parameter/status - unknown '$ID'"
     else
-        DESCRIPTION=${DMAP_PARAM_DESCR[$ID]}
-        if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
-            printf "%s" "$DESCRIPTION"
-            DESCR_EFFECTIVE=${#DESCRIPTION}
-            PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE))
-            printf '%*s' "$PADDING"
-        else
-            DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4))
-            printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
-        fi
-
         printf "%s " "${DMAP_PARAM_ORIGIN[$ID]:0:1}"
 
         if [[ -n "${DMAP_PARAM_DEFVAL[$ID]:-}" ]]; then
@@ -213,19 +234,6 @@ DescribeParameterStatus() {
 
 
 ##
-## function: ParameterStringLength
-## - returns the length of a parameter string
-## $*: same as for DescribeParameter
-##
-ParameterStringLength() {
-    local SPRINT
-    SPRINT=$(DescribeParameter $*)
-    printf ${#SPRINT}
-}
-
-
-
-##
 ## function: ParameterInTable
 ## - main parameter details for table views
 ## $1: ID
@@ -235,15 +243,17 @@ ParameterInTable() {
     local ID=$1
     local PRINT_MODE=${2:-}
 
-    local padding
-    local str_len
+    local PADDING
+    local PAD_STR
+    local PAD_STR_LEN
     local SPRINT
 
     SPRINT=" "$(DescribeParameter $ID standard "none" $PRINT_MODE)
 
-    str_len=$(ParameterStringLength $ID standard "none" text)
-    padding=$((PARAM_PADDING - $str_len))
-    SPRINT=$SPRINT$(printf '%*s' "$padding")
+    PAD_STR=$(DescribeParameter $ID standard "none" text)
+    PAD_STR_LEN=${#PAD_STR}
+    PADDING=$((PARAM_PADDING - $PAD_STR_LEN))
+    SPRINT=$SPRINT$(printf '%*s' "$PADDING")
 
     printf "$SPRINT"
 }

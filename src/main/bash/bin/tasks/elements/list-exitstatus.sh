@@ -62,8 +62,8 @@ ConsoleResetWarnings
 ## set local variables
 ##
 PRINT_MODE=
-LIST=false
-TABLE=true
+LS_FORMAT=list
+
 APP=no
 FW=no
 LOADER=no
@@ -77,8 +77,8 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=afhlP:tst
-CLI_LONG_OPTIONS=help,list,print-mode:,table,all,app,fw,loader,shell,task
+CLI_OPTIONS=afhlP:sTt
+CLI_LONG_OPTIONS=help,print-mode:,table,all,app,fw,loader,shell,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-exitstatus -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -100,33 +100,27 @@ while true; do
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
-                BuildTaskHelpLine l list        "<none>"    "table format"                      $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
-                BuildTaskHelpLine t table       "<none>"    "help screen format"                $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine a         all         "<none>"    "all, disables all other filters, default"      $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  app         "<none>"    "only application status"                       $PRINT_PADDING
                 BuildTaskHelpLine f         fw          "<none>"    "only framework status"                         $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  loader      "<none>"    "only loader status"                            $PRINT_PADDING
+                BuildTaskHelpLine l         loader      "<none>"    "only loader status"                            $PRINT_PADDING
                 BuildTaskHelpLine s         shell       "<none>"    "only shell status"                             $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  task        "<none>"    "only task status"                              $PRINT_PADDING
+                BuildTaskHelpLine t         task        "<none>"    "only task status"                              $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
             exit 0
             ;;
-        -l | --list)
-            shift
-            LIST=true
-            TABLE=false
-            ;;
         -P | --print-mode)
             PRINT_MODE="$2"
             shift 2
             ;;
-        -t | --table)
+        -T | --table)
             shift
-            TABLE=true
+            LS_FORMAT=table
             ;;
 
         --app)
@@ -139,7 +133,7 @@ while true; do
             CLI_SET=true
             shift
             ;;
-        --loader)
+        -l | --loader)
             LOADER=yes
             CLI_SET=true
             shift
@@ -149,7 +143,7 @@ while true; do
             CLI_SET=true
             shift
             ;;
-        --task)
+        -t | --task)
             TASK=yes
             CLI_SET=true
             shift
@@ -170,11 +164,6 @@ done
 ############################################################################################
 ## check CLI
 ############################################################################################
-if [[ $LIST == false && $TABLE == false ]]; then
-    ConsoleError "  ->" "no mode set: use list and/or table"
-    exit 60
-fi
-
 if [[ "$ALL" == "yes" || $CLI_SET == false ]]; then
     APP=yes
     FW=yes
@@ -235,7 +224,6 @@ function ListBottom() {
 
 ############################################################################################
 ## exitstatus print function
-## $1: list | table
 ############################################################################################
 PrintExitstatus() {
     local i
@@ -273,7 +261,7 @@ PrintExitstatus() {
 
     for i in ${!keys[@]}; do
         ID=${keys[$i]}
-        case $1 in
+        case $LS_FORMAT in
             list)
                 printf "   "
                 if [[ -z "${ES_TABLE[$ID]:-}" ]]; then
@@ -306,16 +294,22 @@ PrintExitstatus() {
 ############################################################################################
 ConsoleInfo "  -->" "les: starting task"
 
-if [[ $LIST == true ]]; then
-    ListTop
-    PrintExitstatus list
-    ListBottom
-fi
-if [[ $TABLE == true ]]; then
-    TableTop
-    PrintExitstatus table
-    TableBottom
-fi
+case $LS_FORMAT in
+    list)
+        ListTop
+        PrintExitstatus
+        ListBottom
+        ;;
+    table)
+        TableTop
+        PrintExitstatus
+        TableBottom
+        ;;
+    *)
+        ConsoleFatal "  ->" "internal error: unknown list format '$LS_FORMAT'"
+        exit 69
+        ;;
+esac
 
 ConsoleInfo "  -->" "les: done"
 exit $TASK_ERRORS

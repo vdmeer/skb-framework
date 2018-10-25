@@ -133,19 +133,6 @@ DescribeExitstatus() {
 
 
 ##
-## function: ExitstatusStringLength
-## - returns the length of an exitstatus string
-## $*: same as for DescribeExitstatus
-##
-ExitstatusStringLength() {
-    local SPRINT
-    SPRINT=$(DescribeExitstatus $@)
-    printf ${#SPRINT}
-}
-
-
-
-##
 ## function: DescribeExitstatusDescription
 ## - describes the exitstatus description
 ## $1: exitstatus ID
@@ -226,15 +213,17 @@ ExitstatusInTable() {
     local ID=$1
     local PRINT_MODE=${2:-}
 
-    local padding
-    local str_len
+    local PADDING
+    local PAD_STR
+    local PAD_STR_LEN
     local SPRINT
 
     SPRINT=" "$(DescribeExitstatus $ID standard "none" $PRINT_MODE)
 
-    str_len=$(ExitstatusStringLength $ID standard "none" text)
-    padding=$((ES_PADDING - $str_len))
-    SPRINT=$SPRINT$(printf '%*s' "$padding")
+    PAD_STR=$(DescribeExitstatus $ID standard "none" text)
+    PAD_STR_LEN=${#PAD_STR}
+    PADDING=$((ES_PADDING - $PAD_STR_LEN))
+    SPRINT=$SPRINT$(printf '%*s' "$PADDING")
 
     printf "$SPRINT"
 }
