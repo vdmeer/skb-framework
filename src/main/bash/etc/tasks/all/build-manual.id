@@ -13,7 +13,7 @@ EXEC_PATH=bin/tasks/all
 
 TaskRequire $ID param SKB_FW_TOOL opt
 
-TaskRequire $ID dep jre8 opt
+TaskRequire $ID dep jre opt
 TaskRequire $ID dep asciidoctor opt
 TaskRequire $ID dep asciidoctor-pdf opt
 

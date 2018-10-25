@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## include file, source all files in this directory
+## Functions for build-mvn-site (Maven site)
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    v0.0.0
@@ -33,10 +33,18 @@
 ##
 
 
-source $FW_HOME/bin/functions/print-ansi.sh
-source $FW_HOME/bin/functions/console.sh
-source $FW_HOME/bin/functions/misc.sh
-source $FW_HOME/bin/functions/mvn-site.sh
-source $FW_HOME/bin/functions/print.sh
-source $FW_HOME/bin/functions/prompt.sh
-source $FW_HOME/bin/functions/tasks.sh
+
+##
+## function: MvnSiteFixAdoc()
+## - fixes HTML files generated from ADOC sources by the Maven site plugin
+##   -- add a text to the HTML title of the page (empty otherwise)
+##   -- add text to the active bread crumb list item (empty otherwise)
+## $1: file name, with leading directory if required
+## $2: text to add to title and bread crumbs
+##
+MvnSiteFixAdoc() {
+    sed -i.bak 's,<li class="active "></li>,'"<li class=\"active \">${2}</li>"',g' $1.html
+    rm $1.html.bak
+    sed -i.bak 's,x2013; </title>,'"x2013; $2</title>"',g' $1.html
+    rm $1.html.bak
+}

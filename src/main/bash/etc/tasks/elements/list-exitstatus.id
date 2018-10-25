@@ -10,3 +10,5 @@ SHORT=les
 MODES="dev build use"
 DESCRIPTION="lists exit status, error codes"
 EXEC_PATH=bin/tasks/elements
+
+TaskRequire $ID param CACHE_DIR

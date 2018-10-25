@@ -510,7 +510,7 @@ BuildSrc() {
         ConsoleError " ->" "src: no setting for SKB_FW_TOOL found, cannot build"
         return
     fi
-    if [[ ! -z ${RTMAP_TASK_TESTED["jre8"]:-} ]]; then
+    if [[ ! -z ${RTMAP_TASK_TESTED["jre"]:-} ]]; then
         ConsoleDebug "build src - manual"
         BuildSrcPath ${CONFIG_MAP["MANUAL_SRC"]} l1
 
@@ -529,7 +529,7 @@ BuildSrc() {
         BuildSrcPath ${CONFIG_MAP["HOME"]}/${APP_PATH_MAP["TASK_DECL"]} l2
 
     else
-        ConsoleError " ->" "src: dependency 'jre8' not loaded, could not build"
+        ConsoleError " ->" "src: dependency 'jre' not loaded, could not build"
     fi
     ConsoleInfo "  -->" "done: build src"
 }

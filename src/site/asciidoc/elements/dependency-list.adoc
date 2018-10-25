@@ -1,5 +1,4 @@
 == List of dependencies
-
 *asciidoctor* - ADOC processor:: 
 Asciidoctor is a tool (or rather tool chain) that takes files written in AsciiDoc (or ADOC) and produces various output formats. 
 These formats are supported by backends 
@@ -22,7 +21,10 @@ Dependency pyyaml...
 *gradle* - software build environment:: 
 Dependency pyyaml...
 
-*jre8* - JAVA Runtime Environment (JRE) 8:: 
+*jdk* - JAVA Development Kit (JDK) 8:: 
+Dependency JRE8...
+
+*jre* - JAVA Runtime Environment (JRE) 8:: 
 Dependency JRE8...
 
 *maven* - software build environment:: 
@@ -49,5 +51,4 @@ Used by a some tasks that use Python3 to process YAML files.
 All of them require a python3 installation and PY-YAML installed to be executed.
 To install _pyyaml_, run for instance pip as `pip3 install pyyaml`
 For further information see the pyyaml home page: https://github.com/yaml/pyyaml .
-
 

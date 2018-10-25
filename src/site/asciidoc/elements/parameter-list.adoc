@@ -1,5 +1,4 @@
 == List of parameters
-
 *BROWSER* - command for browser:: 
 Sets the command and URL substitution to start a web browser with a given URL.  
 The URL substitution string has the form `%URL%`. 
@@ -16,6 +15,13 @@ default value: `/var/cache/skb-framework`
 A tool...
 +
 default value: `$FW_HOME/etc/manual`
+
+*MVN_SITES* - Maven sites:: 
+Sets the directory for the SKB sites. 
+These sites are build using the Maven site plugin. 
+If not present, the tasks that build sites will not execute.
++
+default value: none defined
 
 *PDF_READER* - command for pdf reader:: 
 Name of a PDF reader.
@@ -44,13 +50,6 @@ The folder structure for the library is not fixed.
 +
 default value: none defined
 
-*SKB_SITES* - SKB sites:: 
-Sets the directory for the SKB sites. 
-These sites are build using the Maven site plugin. 
-If not present, the tasks that build sites will not execute.
-+
-default value: none defined
-
 *TARGET* - target folder:: 
 Sets the directory in which the program should build policies and policy artifacts. 
 This directory will be created if it does not exist. 
@@ -68,5 +67,4 @@ For `mintty` on Cygwin this variable should be `mintty -t %TITLE% %COMMAND%`.
 For an XFCE4 terminal, e.g. on Ubuntu, this variable should be `xfce4-terminal --disable-server --title='%TITLE%' -x %COMMAND%`.
 +
 default value: none defined
-
 

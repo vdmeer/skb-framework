@@ -10,3 +10,5 @@ SHORT=lo
 MODES="dev build use"
 DESCRIPTION="lists CLI options"
 EXEC_PATH=bin/tasks/elements
+
+TaskRequire $ID param CACHE_DIR

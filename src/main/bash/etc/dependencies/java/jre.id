@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 ##
-## Identity for site sf
+## Identity for dependency jre8
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    v0.0.0
 ##
+
+DESCRIPTION="JAVA Runtime Environment (JRE) 8"
+COMMAND="java"

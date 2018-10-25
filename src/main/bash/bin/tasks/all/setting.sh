@@ -109,10 +109,6 @@ while true; do
             CLI_SET=true
             shift 2
             ;;
-        -T | --table)
-            shift
-            LS_FORMAT=table
-            ;;
 
         --pm)
             case "$2" in

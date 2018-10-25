@@ -1,5 +1,4 @@
 == List of exit options
-
 *-C*, *--clean-cache* - cleans the application cache:: 
 Shows <something>
 
@@ -36,5 +35,4 @@ Validates <something>
 *-v*, *--version* - show program version:: 
 Prints the program name, the string 'version' and the actual version of the program. 
 The version is taken from `$HOME/etc/version.txt`
-
 

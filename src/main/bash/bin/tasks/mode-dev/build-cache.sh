@@ -117,8 +117,8 @@ while true; do
                 BuildTaskHelpLine f full    "<none>"    "set all targets, including tasks"                  $PRINT_PADDING
                 BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                        $PRINT_PADDING
                 BuildTaskHelpLine t tab     "<none>"    "set all table targets"                             $PRINT_PADDING
-                printf "\n   targets\n"
 
+                printf "\n   targets\n"
                 BuildTaskHelpLine "<none>" cmd-decl     "<none>"    "target: command declarations"              $PRINT_PADDING
                 BuildTaskHelpLine "<none>" cmd-tab      "<none>"    "target: command table"                     $PRINT_PADDING
 

@@ -169,6 +169,7 @@ FWShell() {
 
         if [[ $RELOAD_CFG == true ]]; then
             source $FW_L1_CONFIG
+            CONFIG_MAP["RUNNING_IN"]="shell"
             RELOAD_CFG=false
         fi
         if ConsoleIsPrompt; then ConsoleMessage "${CONFIG_MAP["SHELL_PROMPT"]}"; fi

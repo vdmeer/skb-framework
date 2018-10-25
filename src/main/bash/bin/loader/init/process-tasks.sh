@@ -46,10 +46,22 @@ declare -A RTMAP_DEP_STATUS         # map/export for dependency status: [id]=[N]
 declare -A RTMAP_TASK_TESTED        # array/export for tested dependencies
 RTMAP_TASK_TESTED["DUMMY"]=dummy
 
-declare -A RTMAP_REQUESTED_DEP      # map for required dependencies
-declare -A RTMAP_REQUESTED_PARAM    # map for required parameters
+declare -A RTMAP_REQUESTED_DEP      # map for requested dependencies
+declare -A RTMAP_REQUESTED_PARAM    # map for requested parameters
+
+##
+## Add standard parameters settable from the outside as requested
+##
+RTMAP_REQUESTED_PARAM["SHELL_PROMPT"]="SHELL_PROMPT"
+RTMAP_REQUESTED_PARAM["CACHE_DIR"]="CACHE_DIR"
+
+
+
 RTMAP_REQUESTED_DEP["DUMMY"]=dummy
-RTMAP_REQUESTED_PARAM["DUMMY"]=dummy
+
+
+
+
 
 
 
@@ -262,7 +274,7 @@ ProcessTaskReqParam() {
             else
                 RTMAP_REQUESTED_PARAM[$PARAM]=$PARAM
                 if [[ -z "${CONFIG_MAP[$PARAM]:-}" ]]; then
-                    ConsoleError " ->" "process-task/param - $ID with unset parameter '$PARAM'"
+                    ConsoleError " ->" "process-task/param - $ID with unset parameter '$PARAM', set as '${CONFIG_MAP["FLAVOR"]}_$PARAM'"
                     RTMAP_TASK_UNLOADED[$ID]="${RTMAP_TASK_UNLOADED[$ID]:-} par-set::$PARAM"
                     SetArtifactStatus task $ID E
                 else

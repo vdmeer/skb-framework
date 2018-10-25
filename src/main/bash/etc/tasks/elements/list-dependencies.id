@@ -11,4 +11,4 @@ MODES="dev build use"
 DESCRIPTION="lists dependencies"
 EXEC_PATH=bin/tasks/elements
 
-TaskRequire $ID param CACHE_DIR opt
+TaskRequire $ID param CACHE_DIR

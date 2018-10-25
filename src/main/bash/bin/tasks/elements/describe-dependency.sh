@@ -103,7 +103,7 @@ while true; do
                 BuildTaskHelpLine a all         "<none>"    "all dependencies, disables all other filters"                              $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "dependency identifier"                                                     $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only dependencies from origin: f(w), a(pp)"                                $PRINT_PADDING
-                BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                                                $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                                               $PRINT_PADDING
                 BuildTaskHelpLine s status      "STATUS"    "only dependencies with status: success, warnings, errors, not attempted"   $PRINT_PADDING
                 BuildTaskHelpLine t tested      "<none>"    "only tested dependencies"                                                  $PRINT_PADDING
             else

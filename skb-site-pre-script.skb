@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+##
+## Pre script for site skb-framework
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    v0.0.0
+##
+
+function MvnSitePostScript(){
+    if [[ -f src/site/asciidoc/elements/options.adoc ]]; then
+        rm src/site/asciidoc/elements/options.adoc
+    fi
+    if [[ -f src/site/asciidoc/elements/option-exit-list.adoc ]]; then
+        rm src/site/asciidoc/elements/option-exit-list.adoc
+    fi
+    if [[ -f src/site/asciidoc/elements/option-run-list.adoc ]]; then
+        rm src/site/asciidoc/elements/option-run-list.adoc
+    fi
+    ${DMAP_TASK_EXEC["describe-element"]} --options --print-mode adoc > src/site/asciidoc/elements/options.adoc
+    printf "== List of exit options\n" > src/site/asciidoc/elements/option-exit-list.adoc
+    ${DMAP_TASK_EXEC["describe-option"]} --exit --print-mode adoc >> src/site/asciidoc/elements/option-exit-list.adoc
+    printf "== List of runtime options\n" > src/site/asciidoc/elements/option-run-list.adoc
+    ${DMAP_TASK_EXEC["describe-option"]} --run --print-mode adoc >> src/site/asciidoc/elements/option-run-list.adoc
+
+
+    if [[ -f src/site/asciidoc/elements/commands.adoc ]]; then
+        rm src/site/asciidoc/elements/commands.adoc
+    fi
+        if [[ -f src/site/asciidoc/elements/command-list.adoc ]]; then
+        rm src/site/asciidoc/elements/command-list.adoc
+    fi
+    ${DMAP_TASK_EXEC["describe-element"]} --commands --print-mode adoc > src/site/asciidoc/elements/commands.adoc
+    printf "== List of shell commands\n" > src/site/asciidoc/elements/command-list.adoc
+    ${DMAP_TASK_EXEC["describe-command"]} --all --print-mode adoc >> src/site/asciidoc/elements/command-list.adoc
+
+
+    if [[ -f src/site/asciidoc/elements/parameters.adoc ]]; then
+        rm src/site/asciidoc/elements/parameters.adoc
+    fi
+    if [[ -f src/site/asciidoc/elements/parameter-list.adoc ]]; then
+        rm src/site/asciidoc/elements/parameter-list.adoc
+    fi
+    ${DMAP_TASK_EXEC["describe-element"]} --parameters --print-mode adoc > src/site/asciidoc/elements/parameters.adoc
+    printf "== List of parameters\n" > src/site/asciidoc/elements/parameter-list.adoc
+    ${DMAP_TASK_EXEC["describe-parameter"]} --all --print-mode adoc >> src/site/asciidoc/elements/parameter-list.adoc
+
+
+    if [[ -f src/site/asciidoc/elements/dependencies.adoc ]]; then
+        rm src/site/asciidoc/elements/dependencies.adoc
+    fi
+    if [[ -f src/site/asciidoc/elements/dependency-list.adoc ]]; then
+        rm src/site/asciidoc/elements/dependency-list.adoc
+    fi
+    ${DMAP_TASK_EXEC["describe-element"]} --dependencies --print-mode adoc > src/site/asciidoc/elements/dependencies.adoc
+    printf "== List of dependencies\n" > src/site/asciidoc/elements/dependency-list.adoc
+    ${DMAP_TASK_EXEC["describe-dependency"]} --all --print-mode adoc >> src/site/asciidoc/elements/dependency-list.adoc
+
+
+    if [[ -f src/site/asciidoc/elements/tasks.adoc ]]; then
+        rm src/site/asciidoc/elements/tasks.adoc
+    fi
+    if [[ -f src/site/asciidoc/elements/task-list.adoc ]]; then
+        rm src/site/asciidoc/elements/task-list.adoc
+    fi
+    ${DMAP_TASK_EXEC["describe-element"]} --tasks --print-mode adoc > src/site/asciidoc/elements/tasks.adoc
+    printf "== List of tasks\n" > src/site/asciidoc/elements/task-list.adoc
+    ${DMAP_TASK_EXEC["describe-task"]} --all --print-mode adoc >> src/site/asciidoc/elements/task-list.adoc
+}
