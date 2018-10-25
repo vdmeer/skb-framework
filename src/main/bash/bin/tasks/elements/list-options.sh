@@ -184,9 +184,7 @@ function TableBottom() {
 }
 
 function ListTop() {
-    printf "\n%s - the %s\n\n" "${CONFIG_MAP["APP_SCRIPT"]}" "${CONFIG_MAP["APP_NAME"]}"
-    printf "  Usage:  %s [options]\n\n" "${CONFIG_MAP["APP_SCRIPT"]}"
-    printf "  Options\n"
+    printf "\n  Options\n"
 }
 
 function ListBottom() {

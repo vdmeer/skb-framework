@@ -42,7 +42,7 @@ ShellCmdExecuteTask() {
     COLUMNS=$((COLUMNS - 2))
 
     local TASK=$(echo $SARG | cut -d' ' -f1)
-    ID=$(GetTaskID $TASK)
+    local ID=$(GetTaskID $TASK)
 
     if [[ ! -n "$ID" ]]; then
         ConsoleError " ->" "unknown task '$SARG'"
@@ -92,6 +92,8 @@ ShellCmdExecuteTask() {
     local TS
     local TE
     local SPRINT
+    local ET_INT
+    local BC_CALC
 
     if $DO_EXTRAS; then
         printf "\n "
@@ -130,8 +132,20 @@ ShellCmdExecuteTask() {
         printf "\n"
         PrintEffect bold "  done"
         TIME=$(date +"%T")
-        RUNTIME=$(echo "$TE-$TS" | bc -l)
-        PrintEffect italic " $TIME, $RUNTIME seconds, status: $ERRNO"
+
+        ET_INT=$(echo "scale=0;($TE-$TS)/1" | bc -l)
+        if (( ET_INT == 0 )); then
+            BC_CALC=$(echo "scale=4;($TE-$TS)/1" | bc -l)
+            RUNTIME=$(printf "0%s seconds\n" "$BC_CALC")
+        elif (( ET_INT < 60 )); then
+            BC_CALC=$(echo "scale=4;($TE-$TS)/1" | bc -l)
+            RUNTIME=$(printf "%s seconds\n" "$BC_CALC")
+        else
+            local BC_CALC=$(echo "scale=2;($TE-$TS)/60" | bc -l)
+            RUNTIME=$(printf "%s minutes\n" "$BC_CALC")
+        fi
+
+        PrintEffect italic " $TIME, $RUNTIME, status: $ERRNO"
         printf " - "
         if [[ $ERRNO == 0 ]]; then
             PrintColor light-green "success"

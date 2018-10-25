@@ -150,8 +150,7 @@ function TableBottom() {
     done
     printf "\n\n"
 
-    printf " All other input will be treated as an attempt to run a task with parameters.\n"
-    printf " 'list-tasks' or 'lt' for a list of all tasks.\n\n"
+    printf " All other input will be treated as an attempt to run a task with arguments.\n\n"
 
     printf " "
     for ((x = 1; x < $COLUMNS; x++)); do
@@ -165,8 +164,7 @@ function ListTop() {
 }
 
 function ListBottom() {
-    printf "\n\n  All other input will be treated as an attempt to run a task with parameters.\n"
-    printf "  'list-tasks' or 'lt' for a list of all tasks.\n\n"
+    printf "\n\n  All other input will be treated as an attempt to run a task with arguments.\n\n"
 }
 
 

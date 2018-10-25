@@ -153,8 +153,10 @@ if [[ ! -z "${RTMAP_TASK_LOADED["list-options"]}" ]]; then
         if [[ -f $FILE ]]; then
             rm $FILE
         fi
+        printf "\n%s - the %s\n\n" "${CONFIG_MAP["APP_SCRIPT"]}" "${CONFIG_MAP["APP_NAME"]}" > ${CONFIG_MAP["FW_HOME"]}/etc/option-help.$MODE
+        printf "  Usage:  %s [options]\n" "${CONFIG_MAP["APP_SCRIPT"]}" >> ${CONFIG_MAP["FW_HOME"]}/etc/option-help.$MODE
         set +e
-        ${DMAP_TASK_EXEC["list-options"]} --all --print-mode $MODE > ${CONFIG_MAP["FW_HOME"]}/etc/option-help.$MODE
+        ${DMAP_TASK_EXEC["list-options"]} --all --print-mode $MODE >> ${CONFIG_MAP["FW_HOME"]}/etc/option-help.$MODE
         set -e
     done
 else
