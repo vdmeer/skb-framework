@@ -1,7 +1,11 @@
 == List of exit options
 
-*-c*, *--clean-cache* - cleans the application cache:: 
+*-C*, *--clean-cache* - cleans the application cache:: 
 Shows <something>
+
+*-c*, *--configuration* - show current runtime configuration:: 
+Prints current settings after processing all environment settings. 
+Note: setting identifiers differ from parameter names, they do not have the prefix 'SB_'.
 
 *-d*, *--dependency* DEP - print a help screen for a dependency:: 
 Shows <something>
@@ -25,10 +29,6 @@ Shows <something>
 
 *-p*, *--parameter* PARAM - print a help screen for a parameter:: 
 Shows <something>
-
-*-s*, *--settings* - show current runtime settings:: 
-Prints current settings after processing all environment settings. 
-Note: setting identifiers differ from parameter names, they do not have the prefix 'SB_'.
 
 *-V*, *--validate* - validate:: 
 Validates <something>

@@ -79,6 +79,11 @@ This task will clean, i.e. remove all create artifacts.
 It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
 Then it will remove the `target` directory.
 
+*list-configuration*, *lcfg* - list current configuration:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
 *list-dependencies*, *ld* - lists dependencies:: 
 This task will clean, i.e. remove all create artifacts. 
 It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
@@ -119,7 +124,7 @@ This task will clean, i.e. remove all create artifacts.
 It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
 Then it will remove the `target` directory.
 
-*settings*, *set* - shows settings with optional filters:: 
+*setting*, *set* - change settings:: 
 This task will clean, i.e. remove all create artifacts. 
 It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
 Then it will remove the `target` directory.

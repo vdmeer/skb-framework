@@ -9,6 +9,11 @@ The exit status is `0`.
 Clear screen.
 
 
+*c*, *configuration* - shows current configuration:: 
+Prints the current time as HH:mm:ss. 
+This can come in handy when no other clock or watch is available. 
+It is a separate command because the prompt should not be overloaded.
+
 *es*, *execute-scenario* SCENARIO - executes a scenario:: 
 Clear screen.
 
@@ -35,30 +40,17 @@ If the number does not exist in the history, an error is printed.
 Clear screen.
 
 
-*p*, *print-mode* MODE - set the print mode:: 
-Prints the current time as HH:mm:ss. 
-This can come in handy when no other clock or watch is available. 
-It is a separate command because the prompt should not be overloaded.
-
 *q*, *quit* - quit shell:: 
 Exits the shell and the program. 
 If the program was not started in forced mode (see CLI option `--force`), the temporary configuration file will be removed. 
 The exit status is `0`.
 
-*sl*, *shell-level* LEVEL - sets a new (console) level for the shell:: 
-Wait for the given number of seconds before the next command is executed. 
-The action here is a simply sleep.
+*t*, *tasks* - prints list of available (loaded) tasks:: 
+Prints the current time as HH:mm:ss. 
+This can come in handy when no other clock or watch is available. 
+It is a separate command because the prompt should not be overloaded.
 
-*strict* - alter strict mode:: 
-Exits the shell and the program. 
-If the program was not started in forced mode (see CLI option `--force`), the temporary configuration file will be removed. 
-The exit status is `0`.
-
-*tl*, *task-level* LEVEL - sets a new (console) level for tasks:: 
-Wait for the given number of seconds before the next command is executed. 
-The action here is a simply sleep.
-
-*t*, *time* - wait for SEC seconds:: 
+*T*, *time* - prints the current time as HH:mm:ss:: 
 Prints the current time as HH:mm:ss. 
 This can come in handy when no other clock or watch is available. 
 It is a separate command because the prompt should not be overloaded.

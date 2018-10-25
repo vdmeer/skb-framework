@@ -26,10 +26,13 @@ The file extension is optional.
 *-S*, *--shell-level* LEVEL - sets console level for the shell:: 
 Sets <shell-level>
 
+*--snp* - shell-no-prompt: switch off shell prompt:: 
+Sets <mode> all
+
 *--sq* - quiet shell, no messages from shell:: 
 Sets <mode> all
 
-*--strict* - most warnings are treated as errors:: 
+*-s*, *--strict* - most warnings are treated as errors:: 
 Runs the program in strict mode. 
 Here, all missing task dependencies are treated as errors. 
 Errors cause the program to fail initialization. 
