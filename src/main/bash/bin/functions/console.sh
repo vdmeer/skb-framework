@@ -41,24 +41,24 @@
 ## $1: the message
 ##
 ConsoleMessage() {
-    local LEVEL=
+    local QUIET=
     case ${CONFIG_MAP["RUNNING_IN"]} in
         loader)
-            LEVEL=${CONFIG_MAP["LOADER-LEVEL"]}
+            QUIET=${CONFIG_MAP["LOADER_QUIET"]}
             ;;
         shell)
-            LEVEL=${CONFIG_MAP["SHELL-LEVEL"]}
+            QUIET=${CONFIG_MAP["SHELL_QUIET"]}
             ;;
         task)
-            LEVEL=${CONFIG_MAP["TASK-LEVEL"]}
+            QUIET=${CONFIG_MAP["TASK_QUIET"]}
             ;;
     esac
 
-    case $LEVEL in
-        all | fatal | error | warn-strict | warn | info | debug | trace)
+    case $QUIET in
+        off)
             printf %b "$1" 1>&2
             ;;
-        off)
+        on)
             ;;
     esac
 }
@@ -77,15 +77,15 @@ ConsoleFatal() {
     case ${CONFIG_MAP["RUNNING_IN"]} in
         loader)
             LOADER_ERRORS=$(($LOADER_ERRORS + 1))
-            LEVEL=${CONFIG_MAP["LOADER-LEVEL"]}
+            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
             ;;
         shell)
             SHELL_ERRORS=$(($SHELL_ERRORS + 1))
-            LEVEL=${CONFIG_MAP["SHELL-LEVEL"]}
+            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
             ;;
         task)
             TASK_ERRORS=$(($TASK_ERRORS + 1))
-            LEVEL=${CONFIG_MAP["TASK-LEVEL"]}
+            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
             ;;
     esac
 
@@ -116,15 +116,15 @@ ConsoleError() {
     case ${CONFIG_MAP["RUNNING_IN"]} in
         loader)
             LOADER_ERRORS=$(($LOADER_ERRORS + 1))
-            LEVEL=${CONFIG_MAP["LOADER-LEVEL"]}
+            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
             ;;
         shell)
             SHELL_ERRORS=$(($SHELL_ERRORS + 1))
-            LEVEL=${CONFIG_MAP["SHELL-LEVEL"]}
+            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
             ;;
         task)
             TASK_ERRORS=$(($TASK_ERRORS + 1))
-            LEVEL=${CONFIG_MAP["TASK-LEVEL"]}
+            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
             ;;
     esac
 
@@ -208,15 +208,15 @@ ConsoleWarnStrict() {
         case ${CONFIG_MAP["RUNNING_IN"]} in
             loader)
                 LOADER_ERRORS=$(($LOADER_ERRORS + 1))
-                LEVEL=${CONFIG_MAP["LOADER-LEVEL"]}
+                LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
                 ;;
             shell)
                 SHELL_ERRORS=$(($SHELL_ERRORS + 1))
-                LEVEL=${CONFIG_MAP["SHELL-LEVEL"]}
+                LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
                 ;;
             task)
                 TASK_ERRORS=$(($TASK_ERRORS + 1))
-                LEVEL=${CONFIG_MAP["TASK-LEVEL"]}
+                LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
                 ;;
         esac
         case $LEVEL in
@@ -237,15 +237,15 @@ ConsoleWarnStrict() {
         case ${CONFIG_MAP["RUNNING_IN"]} in
             loader)
                 LOADER_WARNINGS=$(($LOADER_WARNINGS + 1))
-                LEVEL=${CONFIG_MAP["LOADER-LEVEL"]}
+                LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
                 ;;
             shell)
                 SHELL_WARNINGS=$(($SHELL_WARNINGS + 1))
-                LEVEL=${CONFIG_MAP["SHELL-LEVEL"]}
+                LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
                 ;;
             task)
                 TASK_WARNINGS=$(($TASK_WARNINGS + 1))
-                LEVEL=${CONFIG_MAP["TASK-LEVEL"]}
+                LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
                 ;;
         esac
         case $LEVEL in
@@ -278,18 +278,18 @@ ConsoleWarn() {
     case ${CONFIG_MAP["RUNNING_IN"]} in
         loader)
             LOADER_WARNINGS=$(($LOADER_WARNINGS + 1))
-            LEVEL=${CONFIG_MAP["LOADER-LEVEL"]}
+            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
             ;;
         shell)
             SHELL_WARNINGS=$(($SHELL_WARNINGS + 1))
-            LEVEL=${CONFIG_MAP["SHELL-LEVEL"]}
+            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
             ;;
         task)
             TASK_WARNINGS=$(($TASK_WARNINGS + 1))
-            LEVEL=${CONFIG_MAP["TASK-LEVEL"]}
+            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
             ;;
     esac
-    case ${CONFIG_MAP["LOADER-LEVEL"]} in
+    case ${CONFIG_MAP["LOADER_LEVEL"]} in
         all | warn | info | debug | trace)
             SPRINT=$(printf "%s [" "$1")
             SPRINT+=$(PrintColor yellow "Warning")
@@ -364,13 +364,13 @@ ConsoleInfo() {
     local SPRINT
     case ${CONFIG_MAP["RUNNING_IN"]} in
         loader)
-            LEVEL=${CONFIG_MAP["LOADER-LEVEL"]}
+            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
             ;;
         shell)
-            LEVEL=${CONFIG_MAP["SHELL-LEVEL"]}
+            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
             ;;
         task)
-            LEVEL=${CONFIG_MAP["TASK-LEVEL"]}
+            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
             ;;
     esac
     case $LEVEL in
@@ -401,13 +401,13 @@ ConsoleDebug() {
     local SPRINT
     case ${CONFIG_MAP["RUNNING_IN"]} in
         loader)
-            LEVEL=${CONFIG_MAP["LOADER-LEVEL"]}
+            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
             ;;
         shell)
-            LEVEL=${CONFIG_MAP["SHELL-LEVEL"]}
+            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
             ;;
         task)
-            LEVEL=${CONFIG_MAP["TASK-LEVEL"]}
+            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
             ;;
     esac
     case $LEVEL in
@@ -434,13 +434,13 @@ ConsoleTrace() {
     local SPRINT
     case ${CONFIG_MAP["RUNNING_IN"]} in
         loader)
-            LEVEL=${CONFIG_MAP["LOADER-LEVEL"]}
+            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
             ;;
         shell)
-            LEVEL=${CONFIG_MAP["SHELL-LEVEL"]}
+            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
             ;;
         task)
-            LEVEL=${CONFIG_MAP["TASK-LEVEL"]}
+            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
             ;;
     esac
     case $LEVEL in
@@ -466,13 +466,13 @@ ConsoleIsDebug() {
     local LEVEL=
     case ${CONFIG_MAP["RUNNING_IN"]} in
         loader)
-            LEVEL=${CONFIG_MAP["LOADER-LEVEL"]}
+            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
             ;;
         shell)
-            LEVEL=${CONFIG_MAP["SHELL-LEVEL"]}
+            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
             ;;
         task)
-            LEVEL=${CONFIG_MAP["TASK-LEVEL"]}
+            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
             ;;
     esac
     case $LEVEL in
@@ -489,13 +489,13 @@ ConsoleIsTrace() {
     local LEVEL=
     case ${CONFIG_MAP["RUNNING_IN"]} in
         loader)
-            LEVEL=${CONFIG_MAP["LOADER-LEVEL"]}
+            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
             ;;
         shell)
-            LEVEL=${CONFIG_MAP["SHELL-LEVEL"]}
+            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
             ;;
         task)
-            LEVEL=${CONFIG_MAP["TASK-LEVEL"]}
+            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
             ;;
     esac
     case $LEVEL in

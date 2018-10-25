@@ -12,6 +12,9 @@ Sets <mode>
 *-L*, *--loader-level* LEVEL - sets console level for the loader:: 
 Sets <loader-level>
 
+*--lq* - quiet loader, no messages from loader:: 
+Sets <mode> all
+
 *-P*, *--print-mode* MODE - sets the print mode: ansi, text, text-anon:: 
 Sets <task-level>
 
@@ -23,6 +26,9 @@ The file extension is optional.
 *-S*, *--shell-level* LEVEL - sets console level for the shell:: 
 Sets <shell-level>
 
+*--sq* - quiet shell, no messages from shell:: 
+Sets <mode> all
+
 *--strict* - most warnings are treated as errors:: 
 Runs the program in strict mode. 
 Here, all missing task dependencies are treated as errors. 
@@ -31,5 +37,8 @@ If not in strict mode, missing task dependencies result in the respective task n
 
 *-T*, *--task-level* LEVEL - sets console level for tasks:: 
 Sets <task-level>
+
+*--tq* - quiet tasks, no messages from tasks:: 
+Sets <mode> all
 
 

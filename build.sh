@@ -155,30 +155,30 @@ gradle_java(){
 }
 
 skb_fw_help(){ 
-    src/main/bash/bin/skb-framework -D -e bdh -S off -L error -T debug
+    src/main/bash/bin/skb-framework -A -e bdh --sq --lq -T debug
     src/main/bash/bin/skb-framework -h
 }
 
 skb_fw_manual(){ 
     if [[ -f src/main/bash/bin/java/skb-framework-tool-0.0.0-all.jar ]]; then
-        src/main/bash/bin/skb-framework -e bm -S off -L error -T debug -- -b --src
+        src/main/bash/bin/skb-framework -e bm --sq --lq -T debug -- -b --src
         printf "\n\n"
     else
         printf "%s\n\n" "no Tool jar, cannot build framework text sources"
     fi
 
-    src/main/bash/bin/skb-framework -D -e bm -S off -L error -T debug -- -b --adoc --text
+    src/main/bash/bin/skb-framework -A -e bm --sq --lq -T debug -- -b --adoc --text
     printf "\n\n"
 
     if [[ $HAVE_ADOC == true ]]; then
-        src/main/bash/bin/skb-framework -D -e bm -S off -L error -T debug -- -b --manp --html
+        src/main/bash/bin/skb-framework -A -e bm --sq --lq -T debug -- -b --manp --html
         printf "\n\n"
     else
         printf "%s\n\n" "no asciidoctor, cannot build manual: manp, html"
     fi
 
     if [[ $HAVE_ADOC_PDF == true ]]; then
-        src/main/bash/bin/skb-framework -D -e bm -S off -L error -T debug -- -b --pdf
+        src/main/bash/bin/skb-framework -A -e bm --sq --lq -T debug -- -b --pdf
         printf "\n\n"
     else
         printf "%s\n\n" "no asciidoctor-pdf, cannot build manual: pdf"
@@ -189,31 +189,31 @@ skb_fw_site_sources(){
     printf "%s\n\n" "creating site sources"
 
     rm ./src/site/asciidoc/elements/options.adoc ./src/site/asciidoc/elements/option-exit-list.adoc ./src/site/asciidoc/elements/option-run-list.adoc
-    src/main/bash/bin/skb-framework -L error -S off -T info -e de -- --options --print-mode adoc > ./src/site/asciidoc/elements/options.adoc
+    src/main/bash/bin/skb-framework --sq --lq -T info -e de -- --options --print-mode adoc > ./src/site/asciidoc/elements/options.adoc
     printf "== List of exit options\n" > ./src/site/asciidoc/elements/option-exit-list.adoc
-    src/main/bash/bin/skb-framework -L error -S off -T info -e "do" -- --exit --print-mode adoc >> ./src/site/asciidoc/elements/option-exit-list.adoc
+    src/main/bash/bin/skb-framework --sq --lq -T info -e "do" -- --exit --print-mode adoc >> ./src/site/asciidoc/elements/option-exit-list.adoc
     printf "== List of runtime options\n" > ./src/site/asciidoc/elements/option-run-list.adoc
-    src/main/bash/bin/skb-framework -L error -S off -T info -e "do" -- --run --print-mode adoc >> ./src/site/asciidoc/elements/option-run-list.adoc
+    src/main/bash/bin/skb-framework --sq --lq -T info -e "do" -- --run --print-mode adoc >> ./src/site/asciidoc/elements/option-run-list.adoc
 
     rm ./src/site/asciidoc/elements/commands.adoc ./src/site/asciidoc/elements/command-list.adoc
-    src/main/bash/bin/skb-framework -L error -S off -T info -e de -- --commands --print-mode adoc > ./src/site/asciidoc/elements/commands.adoc
+    src/main/bash/bin/skb-framework --sq --lq -T info -e de -- --commands --print-mode adoc > ./src/site/asciidoc/elements/commands.adoc
     printf "== List of shell commands\n" > ./src/site/asciidoc/elements/command-list.adoc
-    src/main/bash/bin/skb-framework -L error -S off -T info -e dc -- --all --print-mode adoc >> ./src/site/asciidoc/elements/command-list.adoc
+    src/main/bash/bin/skb-framework --sq --lq -T info -e dc -- --all --print-mode adoc >> ./src/site/asciidoc/elements/command-list.adoc
 
     rm ./src/site/asciidoc/elements/parameters.adoc ./src/site/asciidoc/elements/parameter-list.adoc
-    src/main/bash/bin/skb-framework -L error -S off -T info -e de -- --parameters --print-mode adoc > ./src/site/asciidoc/elements/parameters.adoc
+    src/main/bash/bin/skb-framework --sq --lq -T info -e de -- --parameters --print-mode adoc > ./src/site/asciidoc/elements/parameters.adoc
     printf "== List of parameters\n" > ./src/site/asciidoc/elements/parameter-list.adoc
-    src/main/bash/bin/skb-framework -L error -S off -T info -e dp -- --all --print-mode adoc >> ./src/site/asciidoc/elements/parameter-list.adoc
+    src/main/bash/bin/skb-framework --sq --lq -T info -e dp -- --all --print-mode adoc >> ./src/site/asciidoc/elements/parameter-list.adoc
 
     rm ./src/site/asciidoc/elements/dependencies.adoc ./src/site/asciidoc/elements/dependency-list.adoc
-    src/main/bash/bin/skb-framework -L error -S off -T info -e de -- --dependencies --print-mode adoc > ./src/site/asciidoc/elements/dependencies.adoc
+    src/main/bash/bin/skb-framework --sq --lq -T info -e de -- --dependencies --print-mode adoc > ./src/site/asciidoc/elements/dependencies.adoc
     printf "== List of dependencies\n" > ./src/site/asciidoc/elements/dependency-list.adoc
-    src/main/bash/bin/skb-framework -L error -S off -T info -e dd -- --all --print-mode adoc >> ./src/site/asciidoc/elements/dependency-list.adoc
+    src/main/bash/bin/skb-framework --sq --lq -T info -e dd -- --all --print-mode adoc >> ./src/site/asciidoc/elements/dependency-list.adoc
 
     rm ./src/site/asciidoc/elements/tasks.adoc ./src/site/asciidoc/elements/task-list.adoc
-    src/main/bash/bin/skb-framework -L error -S off -T info -e de -- --tasks --print-mode adoc > ./src/site/asciidoc/elements/tasks.adoc
+    src/main/bash/bin/skb-framework --sq --lq -T info -e de -- --tasks --print-mode adoc > ./src/site/asciidoc/elements/tasks.adoc
     printf "== List of tasks\n" > ./src/site/asciidoc/elements/task-list.adoc
-    src/main/bash/bin/skb-framework -L error -S off -T info -e dt -- --all --print-mode adoc >> ./src/site/asciidoc/elements/task-list.adoc
+    src/main/bash/bin/skb-framework --sq --lq -T info -e dt -- --all --print-mode adoc >> ./src/site/asciidoc/elements/task-list.adoc
 
     printf "%s\n\n" "done"
 }
@@ -299,6 +299,8 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+TS=$(date +%s.%N)
+
 if [[ ${T_CLEAN:-} == true ]]; then
     clean
 fi
@@ -323,3 +325,10 @@ fi
 if [[ ${T_DIST:-} == true ]]; then
     distro
 fi
+
+TE=$(date +%s.%N)
+
+TIME=$(date +"%T")
+RUNTIME=$(echo "($TE-$TS)/60" | bc -l)
+printf "done $TIME, in $RUNTIME minutes\n\n"
+

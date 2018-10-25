@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+##
+## Identity for CLI option lq
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    v0.0.0
+##
+
+
+
+DESCRIPTION="quiet loader, no messages from loader"

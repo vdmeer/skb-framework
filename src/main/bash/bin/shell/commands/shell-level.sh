@@ -40,7 +40,7 @@
 ShellCmdShellLevel() {
     case $SARG in
         all | fatal | error | warn-strict | warn | info | debug | trace)
-            CONFIG_MAP["SHELL-LEVEL"]=$SARG
+            CONFIG_MAP["SHELL_LEVEL"]=$SARG
             printf "  set shell level to $SARG\n"
             ;;
         *)

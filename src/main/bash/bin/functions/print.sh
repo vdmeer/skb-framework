@@ -80,3 +80,18 @@ PrintStrict() {
         off)    PrintColor light-green "off" ;;
     esac
 }
+
+
+
+##
+## function: PrintQuiet
+## - prints the quiet setting
+##
+PrintQuiet() {
+    local QUIET=$1
+    case "$QUIET" in
+        on)     PrintColor light-red    $QUIET;;
+        off)    PrintColor green        $QUIET;;
+        *)      PrintColor light-purple $QUIET;;
+    esac
+}

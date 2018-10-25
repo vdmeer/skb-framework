@@ -33,7 +33,7 @@
 ##
 
 
-CONFIG_MAP["LOADER-LEVEL"]=off
-CONFIG_MAP["SHELL-LEVEL"]=off
+CONFIG_MAP["LOADER_QUIET"]=on
+CONFIG_MAP["SHELL_QUIET"]=on
 OPT_CLI_MAP["execute-task"]="validate-installation -sa"
 DO_EXIT_2=true

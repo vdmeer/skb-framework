@@ -237,8 +237,11 @@ else
 
         sc_str=${CONFIG_MAP[$ID]}
         case $ID in
-            LOADER-LEVEL | SHELL-LEVEL | TASK-LEVEL)
+            LOADER_LEVEL | SHELL_LEVEL | TASK_LEVEL)
                 PrintConsoleLevel "$sc_str"
+                ;;
+            LOADER_QUIET | SHELL_QUIET | TASK_QUIET)
+                PrintQuiet "$sc_str"
                 ;;
             STRICT)
                 PrintStrict

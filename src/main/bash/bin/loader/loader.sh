@@ -96,11 +96,18 @@ CONFIG_MAP["RUNNING_IN"]="loader"                   # we are in the loader, shel
 CONFIG_MAP["SYSTEM"]=$(uname -s | cut -c1-6)        # set system, e.g. for Cygwin path conversions
 CONFIG_MAP["CONFIG_FILE"]="$HOME/.skb"              # config file, in user's home directory
 CONFIG_MAP["STRICT"]=off                            # not strict, yet (change with --strict)
-CONFIG_MAP["LOADER-LEVEL"]="error"                  # output level for loader, change with --loader-level, set to "debug" for early code debugging
-CONFIG_MAP["SHELL-LEVEL"]="error"                   # output level for shell, change with --shell-level
-CONFIG_MAP["TASK-LEVEL"]="error"                    # output level for tasks, change with --task-level
 CONFIG_MAP["APP_MODE"]=use                          # default application mode is use, change with --app-mode
 CONFIG_MAP["PRINT_MODE"]=ansi                       # default print mode is ansi, change with --print-mode
+
+CONFIG_MAP["LOADER_LEVEL"]="error"                  # output level for loader, change with --loader-level, set to "debug" for early code debugging
+CONFIG_MAP["SHELL_LEVEL"]="error"                   # output level for shell, change with --shell-level
+CONFIG_MAP["TASK_LEVEL"]="error"                    # output level for tasks, change with --task-level
+
+CONFIG_MAP["LOADER_QUIET"]="off"                    # message level for loader, change with --lq
+CONFIG_MAP["SHELL_QUIET"]="off"                     # message level for shell, change with --sq
+CONFIG_MAP["TASK_QUIET"]="off"                      # message level for tasks, change with --tq
+
+
 
 source $FW_HOME/bin/functions/_include
 ConsoleResetErrors
@@ -359,29 +366,29 @@ if ConsoleHasErrors; then printf "\n"; exit 32; fi
 ## - exit with code 35: if shell level unknown
 ## - exit with code 36: if task level unknown
 ##
-case "${CONFIG_MAP["LOADER-LEVEL"]}" in
+case "${CONFIG_MAP["LOADER_LEVEL"]}" in
     off | all | fatal | error | warn-strict | warn | info | debug | trace)
         ;;
     *)
-        ConsoleError "-->" "unknown loader-level: ${CONFIG_MAP["LOADER-LEVEL"]}"
+        ConsoleError "-->" "unknown loader-level: ${CONFIG_MAP["LOADER_LEVEL"]}"
         printf "    use: off, all, fatal, error, warn-strict, warn, info, debug, trace\n\n"
         exit 34
         ;;
 esac
-case "${CONFIG_MAP["SHELL-LEVEL"]}" in
+case "${CONFIG_MAP["SHELL_LEVEL"]}" in
     off | all | fatal | error | warn-strict | warn | info | debug | trace)
         ;;
     *)
-        ConsoleError "-->" "unknown shell-level: ${CONFIG_MAP["SHELL-LEVEL"]}"
+        ConsoleError "-->" "unknown shell-level: ${CONFIG_MAP["SHELL_LEVEL"]}"
         printf "    use: off, all, fatal, error, warn-strict, warn, info, debug, trace\n\n"
         exit 35
         ;;
 esac
-case "${CONFIG_MAP["TASK-LEVEL"]}" in
+case "${CONFIG_MAP["TASK_LEVEL"]}" in
     off | all | fatal | error | warn-strict | warn | info | debug | trace)
         ;;
     *)
-        ConsoleError "-->" "unknown task-level: ${CONFIG_MAP["TASK-LEVEL"]}"
+        ConsoleError "-->" "unknown task-level: ${CONFIG_MAP["TASK_LEVEL"]}"
         printf "    use: off, all, fatal, error, warn-strict, warn, info, debug, trace\n\n"
         exit 36
         ;;

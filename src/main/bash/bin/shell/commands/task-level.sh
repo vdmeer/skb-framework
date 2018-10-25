@@ -40,7 +40,7 @@
 ShellCmdTaskLevel() {
     case $SARG in
         all | fatal | error | warn-strict | warn | info | debug | trace)
-            CONFIG_MAP["TASK-LEVEL"]=$SARG
+            CONFIG_MAP["TASK_LEVEL"]=$SARG
             WriteL1Config
             printf "  set task level to $SARG and wrote CONFIG_MAP\n"
             ;;

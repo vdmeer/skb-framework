@@ -50,6 +50,7 @@ ParseCli() {
     CLI_LONG_OPTIONS+=,option:,parameter:,dependency:
     CLI_LONG_OPTIONS+=,strict
     CLI_LONG_OPTIONS+=,print-mode:,clean-cache,execute-task:,build-mode,dev-mode,all-mode
+    CLI_LONG_OPTIONS+=,lq,sq,tq
 
     ConsoleDebug "running getopt"
     local PARSED
@@ -100,9 +101,14 @@ ParseCli() {
                 shift 1
                 ;;
             -L | --loader-level)
-                CONFIG_MAP["LOADER-LEVEL"]="$2"
-                CONFIG_SRC["LOADER-LEVEL"]="O"
+                CONFIG_MAP["LOADER_LEVEL"]="$2"
+                CONFIG_SRC["LOADER_LEVEL"]="O"
                 shift 2
+                ;;
+            --lq)
+                CONFIG_MAP["LOADER_QUIET"]="on"
+                CONFIG_SRC["LOADER_QUIET"]="O"
+                shift
                 ;;
             -m | --manual)
                 OPT_CLI_MAP["manual"]=true
@@ -130,9 +136,14 @@ ParseCli() {
                 shift
                 ;;
             -S | --shell-level)
-                CONFIG_MAP["SHELL-LEVEL"]="$2"
-                CONFIG_SRC["SHELL-LEVEL"]="O"
+                CONFIG_MAP["SHELL_LEVEL"]="$2"
+                CONFIG_SRC["SHELL_LEVEL"]="O"
                 shift 2
+                ;;
+            --sq)
+                CONFIG_MAP["SHELL_QUIET"]="on"
+                CONFIG_SRC["SHELL_QUIET"]="O"
+                shift
                 ;;
             --strict)
                 CONFIG_MAP["STRICT"]="on"
@@ -140,9 +151,14 @@ ParseCli() {
                 shift
                 ;;
             -T | --task-level)
-                CONFIG_MAP["TASK-LEVEL"]="$2"
-                CONFIG_SRC["TASK-LEVEL"]="O"
+                CONFIG_MAP["TASK_LEVEL"]="$2"
+                CONFIG_SRC["TASK_LEVEL"]="O"
                 shift 2
+                ;;
+            --tq)
+                CONFIG_MAP["TASK_QUIET"]="on"
+                CONFIG_SRC["TASK_QUIET"]="O"
+                shift
                 ;;
             -V | --validate)
                 OPT_CLI_MAP["validate"]=true
