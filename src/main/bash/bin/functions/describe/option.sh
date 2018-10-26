@@ -43,32 +43,21 @@ DESCRIPTION_LENGTH=$((COLUMNS - OPT_PADDING - OPT_STATUS_LENGHT - 1))
 ##
 ## DescribeOption
 ## - describes a option using print options and print features
-## $1: option id
+## $1: option id, mustbe long form
 ## $2: print option: standard, full
 ## $3: print features: none, line-indent, sl-indent, enter, post-line, (adoc, ansi, text*)
 ## optional $4: print mode (adoc, ansi, text)
 ##
 DescribeOption() {
     local ID=${1:-}
-    local PRINT_OPTION=${2:-}
-    local PRINT_FEATURE=${3:-}
-    local SPRINT=""
-    local SHORT
-
-    if [[ -z "${DMAP_OPT_ORIGIN[$ID]:-}" ]]; then
-        for SHORT in ${!DMAP_OPT_SHORT[@]}; do
-            if [[ "${DMAP_OPT_SHORT[$SHORT]}" == "$ID" ]]; then
-                ID=$SHORT
-                break
-            fi
-        done
-    fi
-
     if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
-        ConsoleError " ->" "describe-option - unknown option ID '$ID'"
+        ConsoleError " ->" "describe-opt - unknown option '$ID'"
         return
     fi
 
+    local PRINT_OPTION=${2:-}
+    local PRINT_FEATURE=${3:-}
+    local SPRINT=""
     local FEATURE
     local SOURCE=""
     local LINE_INDENT=""
@@ -105,7 +94,7 @@ DescribeOption() {
     local DESCRIPTION=${DMAP_OPT_DESCR[$ID]:-}
 
     local LONG=$ID
-    SHORT=${DMAP_OPT_SHORT[$ID]:-}
+    local SHORT=${DMAP_OPT_SHORT[$ID]:-}
     local ARGUMENT=${DMAP_OPT_ARG[$ID]:-}
 
     local TEMPLATE=""
@@ -173,32 +162,33 @@ DescribeOption() {
 ##
 ## function: DescribeOptionDescription
 ## - describes the option description
-## $1: option ID
+## $1: option ID, mustbe long form
 ## $2: indentation adjustment, 0 or empty for none
 ## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
 ##
 DescribeOptionDescription() {
     local ID=$1
+    if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-opt/descr - unknown option '$ID'"
+        return
+    fi
+
     local ADJUST=${2:-0}
     local DESCRIPTION
     local DESCR_EFFECTIVE
     local PADDING
 
-    if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
-        ConsoleError " ->" "describe-opt/descr - unknown option '$ID'"
-    else
-        DESCRIPTION=${DMAP_OPT_DESCR[$ID]}
-        if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
-            printf "%s" "$DESCRIPTION"
-            if [[ -z ${3:-} ]]; then
-                DESCR_EFFECTIVE=${#DESCRIPTION}
-                PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
-                printf '%*s' "$PADDING"
-            fi
-        else
-            DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
-            printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+    local DESCRIPTION=${DMAP_OPT_DESCR[$ID]}
+    if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
+        printf "%s" "$DESCRIPTION"
+        if [[ -z ${3:-} ]]; then
+            DESCR_EFFECTIVE=${#DESCRIPTION}
+            PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
+            printf '%*s' "$PADDING"
         fi
+    else
+        DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
+        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
     fi
 }
 
@@ -207,22 +197,21 @@ DescribeOptionDescription() {
 ##
 ## function: DescribeOptionStatus
 ## - describes the option status
-## $1: option ID
+## $1: option ID, mustbe long form
 ##
 DescribeOptionStatus() {
     local ID=$1
-    local ORIGIN
-
     if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
         ConsoleError " ->" "describe-opt/status - unknown option '$ID'"
-    else
-        ORIGIN=${DMAP_OPT_ORIGIN[$ID]}
-        case $ORIGIN in
-            exit)   PrintColor green $ORIGIN ;;
-            run)    PrintColor light-blue $ORIGIN ;;
-            *)      ConsoleError " ->" "describe-opt/status - unknown origin '$ORIGIN'"
-        esac
+        return
     fi
+
+    local ORIGIN=${DMAP_OPT_ORIGIN[$ID]}
+    case $ORIGIN in
+        exit)   PrintColor green $ORIGIN ;;
+        run)    PrintColor light-blue $ORIGIN ;;
+        *)      ConsoleError " ->" "describe-opt/status - unknown origin '$ORIGIN'"
+    esac
 }
 
 
@@ -230,19 +219,22 @@ DescribeOptionStatus() {
 ##
 ## function: OptionInTable
 ## - main option details for table views
-## $1: ID
+## $1: ID, mustbe long form
 ## optional $2: print mode (adoc, ansi, text)
 ##
 OptionInTable() {
     local ID=$1
-    local PRINT_MODE=${2:-}
+    if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-opt/table - unknown option '$ID'"
+        return
+    fi
 
+    local PRINT_MODE=${2:-}
     local PADDING
     local PAD_STR
     local PAD_STR_LEN
-    local SPRINT
 
-    SPRINT=" "$(DescribeOption $ID standard sl-indent $PRINT_MODE)
+    local SPRINT=" "$(DescribeOption $ID standard sl-indent $PRINT_MODE)
 
     PAD_STR=$(DescribeOption $ID standard sl-indent text)
     PAD_STR_LEN=${#PAD_STR}

@@ -270,7 +270,7 @@ PrintParameters() {
                 else
                     printf "${PARAM_TABLE[$ID]}"
                 fi
-                printf "%s" "$(DescribeParameterDefValue $ID $PRINT_MODE)"
+                printf "%s" "$(DescribeParameterDefValue $ID)"
                 ;;
         esac
         printf "\n"

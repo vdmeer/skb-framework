@@ -49,15 +49,14 @@ DESCRIPTION_LENGTH=$((COLUMNS - DEP_PADDING - DEP_STATUS_LENGHT - 1))
 ##
 DescribeDependency() {
     local ID=${1:-}
-    local PRINT_OPTION=${2:-}
-    local PRINT_FEATURE=${3:-}
-    local SPRINT=""
-
     if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
-        ConsoleError " ->" "describe-dependency - unknown dependency ID '$ID'"
+        ConsoleError " ->" "describe-dep - unknown dependency '$ID'"
         return
     fi
 
+    local PRINT_OPTION=${2:-}
+    local PRINT_FEATURE=${3:-}
+    local SPRINT=""
     local FEATURE
     local SOURCE=""
     local LINE_INDENT=""
@@ -139,26 +138,27 @@ DescribeDependency() {
 ##
 DescribeDependencyDescription() {
     local ID=$1
+    if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-dep/descr - unknown dependency '$ID'"
+        return
+    fi
+
     local ADJUST=${2:-0}
     local DESCRIPTION
     local DESCR_EFFECTIVE
     local PADDING
 
-    if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
-        ConsoleError " ->" "describe-dep/descr - unknown dependency '$ID'"
-    else
-        DESCRIPTION=${DMAP_DEP_DESCR[$ID]}
-        if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
-            printf "%s" "$DESCRIPTION"
-            if [[ -z ${3:-} ]]; then
-                DESCR_EFFECTIVE=${#DESCRIPTION}
-                PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
-                printf '%*s' "$PADDING"
-            fi
-        else
-            DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
-            printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+    local DESCRIPTION=${DMAP_DEP_DESCR[$ID]}
+    if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
+        printf "%s" "$DESCRIPTION"
+        if [[ -z ${3:-} ]]; then
+            DESCR_EFFECTIVE=${#DESCRIPTION}
+            PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
+            printf '%*s' "$PADDING"
         fi
+    else
+        DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
+        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
     fi
 }
 
@@ -171,19 +171,18 @@ DescribeDependencyDescription() {
 ##
 DescribeDependencyStatus() {
     local ID=$1
-
     if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
-        ConsoleError " ->" "help-dep/status - unknown dependency '$ID'"
-    else
-        printf "%s " "${DMAP_DEP_ORIGIN[$ID]:0:1}"
-
-        case ${RTMAP_DEP_STATUS[$ID]} in
-            "N")        PrintColor light-blue ${CHAR_MAP["DIAMOND"]} ;;
-            "S")        PrintColor green ${CHAR_MAP["DIAMOND"]} ;;
-            "E")        PrintColor light-red ${CHAR_MAP["DIAMOND"]} ;;
-            "W")        PrintColor yellow ${CHAR_MAP["DIAMOND"]} ;;
-        esac
+        ConsoleError " ->" "describe-dep/status - unknown dependency '$ID'"
+        return
     fi
+
+    printf "%s " "${DMAP_DEP_ORIGIN[$ID]:0:1}"
+    case ${RTMAP_DEP_STATUS[$ID]} in
+        "N")        PrintColor light-blue ${CHAR_MAP["DIAMOND"]} ;;
+        "S")        PrintColor green ${CHAR_MAP["DIAMOND"]} ;;
+        "E")        PrintColor light-red ${CHAR_MAP["DIAMOND"]} ;;
+        "W")        PrintColor yellow ${CHAR_MAP["DIAMOND"]} ;;
+    esac
 }
 
 
@@ -196,14 +195,18 @@ DescribeDependencyStatus() {
 ##
 DependencyInTable() {
     local ID=$1
+    if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-dep/table - unknown dependency '$ID'"
+        return
+    fi
+
     local PRINT_MODE=${2:-}
 
     local PADDING
     local PAD_STR
     local PAD_STR_LEN
-    local SPRINT
 
-    SPRINT=" "$(DescribeDependency $ID standard "none" $PRINT_MODE)
+    local SPRINT=" "$(DescribeDependency $ID standard "none" $PRINT_MODE)
 
     PAD_STR=$(DescribeDependency $ID standard "none" text)
     PAD_STR_LEN=${#PAD_STR}

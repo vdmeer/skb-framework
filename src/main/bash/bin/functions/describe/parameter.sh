@@ -50,15 +50,15 @@ DESCRIPTION_LENGTH=$((COLUMNS - PARAM_PADDING - PARAM_STATUS_LENGHT - 1))
 ##
 DescribeParameter() {
     local ID=${1:-}
-    local PRINT_OPTION="${2:-}"
-    local PRINT_FEATURE="${3:-}"
-    local SPRINT=""
-
     if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
         ConsoleError " ->" "describe-param - unknown parameter '$ID'"
         return
     fi
 
+    local PRINT_OPTION="${2:-}"
+    local PRINT_FEATURE="${3:-}"
+
+    local SPRINT=""
     local FEATURE
     local SOURCE=""
     local LINE_INDENT=""
@@ -147,9 +147,14 @@ DescribeParameter() {
 ## function: DescribeParameterDefValue
 ## - describes the parameter default value
 ## $1: param ID
-## optional $2: print mode (adoc, ansi, text)
 ##
 DescribeParameterDefValue() {
+    local ID=$1
+    if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-parameter/defval - unknown '$ID'"
+        return
+    fi
+
     local DEFAULT_VALUE=${DMAP_PARAM_DEFVAL[$ID]}
     if [[ "$DEFAULT_VALUE" == "" ]]; then
         DEFAULT_VALUE="none defined"
@@ -176,26 +181,27 @@ DescribeParameterDefValue() {
 ##
 DescribeParameterDescription() {
     local ID=$1
+    if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-parameter/descr - unknown '$ID'"
+        return
+    fi
+
     local ADJUST=${2:-0}
     local DESCRIPTION
     local DESCR_EFFECTIVE
     local PADDING
 
-    if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
-        ConsoleError " ->" "describe-param/descr - unknown parameter '$ID'"
-    else
-        DESCRIPTION=${DMAP_PARAM_DESCR[$ID]}
-        if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
-            printf "%s" "$DESCRIPTION"
-            if [[ -z ${3:-} ]]; then
-                DESCR_EFFECTIVE=${#DESCRIPTION}
-                PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
-                printf '%*s' "$PADDING"
-            fi
-        else
-            DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
-            printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+    local DESCRIPTION=${DMAP_PARAM_DESCR[$ID]}
+    if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
+        printf "%s" "$DESCRIPTION"
+        if [[ -z ${3:-} ]]; then
+            DESCR_EFFECTIVE=${#DESCRIPTION}
+            PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
+            printf '%*s' "$PADDING"
         fi
+    else
+        DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
+        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
     fi
 }
 
@@ -209,26 +215,26 @@ DescribeParameterDescription() {
 ##
 DescribeParameterStatus() {
     local ID=$1
-
     if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
         ConsoleError " ->" "describe-parameter/status - unknown '$ID'"
-    else
-        printf "%s " "${DMAP_PARAM_ORIGIN[$ID]:0:1}"
-
-        if [[ -n "${DMAP_PARAM_DEFVAL[$ID]:-}" ]]; then
-            PrintColor green ${CHAR_MAP["AVAILABLE"]}
-        else
-            PrintColor light-red ${CHAR_MAP["NOT_AVAILABLE"]}
-        fi
-        printf " "
-        case ${CONFIG_SRC[$ID]:-} in
-            "O")        PrintColor light-blue ${CHAR_MAP["DIAMOND"]} ;;
-            "E")        PrintColor green ${CHAR_MAP["DIAMOND"]} ;;
-            "F")        PrintColor brown ${CHAR_MAP["DIAMOND"]} ;;
-            "D")        PrintColor yellow ${CHAR_MAP["DIAMOND"]} ;;
-            *)          printf "${CHAR_MAP["DIAMOND"]}"
-        esac
+        return
     fi
+
+    printf "%s " "${DMAP_PARAM_ORIGIN[$ID]:0:1}"
+
+    if [[ -n "${DMAP_PARAM_DEFVAL[$ID]:-}" ]]; then
+        PrintColor green ${CHAR_MAP["AVAILABLE"]}
+    else
+        PrintColor light-red ${CHAR_MAP["NOT_AVAILABLE"]}
+    fi
+    printf " "
+    case ${CONFIG_SRC[$ID]:-} in
+        "O")        PrintColor light-blue ${CHAR_MAP["DIAMOND"]} ;;
+        "E")        PrintColor green ${CHAR_MAP["DIAMOND"]} ;;
+        "F")        PrintColor brown ${CHAR_MAP["DIAMOND"]} ;;
+        "D")        PrintColor yellow ${CHAR_MAP["DIAMOND"]} ;;
+        *)          printf "${CHAR_MAP["DIAMOND"]}"
+    esac
 }
 
 
@@ -241,14 +247,18 @@ DescribeParameterStatus() {
 ##
 ParameterInTable() {
     local ID=$1
+    if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-parameter/table - unknown '$ID'"
+        return
+    fi
+
     local PRINT_MODE=${2:-}
 
     local PADDING
     local PAD_STR
     local PAD_STR_LEN
-    local SPRINT
 
-    SPRINT=" "$(DescribeParameter $ID standard "none" $PRINT_MODE)
+    local SPRINT=" "$(DescribeParameter $ID standard "none" $PRINT_MODE)
 
     PAD_STR=$(DescribeParameter $ID standard "none" text)
     PAD_STR_LEN=${#PAD_STR}

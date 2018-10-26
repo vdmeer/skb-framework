@@ -100,7 +100,7 @@ while true; do
                 printf "\n   filters\n"
                 BuildTaskHelpLine a all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
                 BuildTaskHelpLine e exit        "<none>"    "only exit options"                             $PRINT_PADDING
-                BuildTaskHelpLine i id          "ID"        "option identifier"                             $PRINT_PADDING
+                BuildTaskHelpLine i id          "ID"        "long option identifier"                        $PRINT_PADDING
                 BuildTaskHelpLine r run         "<none>"    "only runtime options"                          $PRINT_PADDING
             else
                 cat $CACHED_HELP

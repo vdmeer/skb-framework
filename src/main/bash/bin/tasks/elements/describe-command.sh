@@ -97,7 +97,7 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine a all         "<none>"    "all commands, disables all other filters"  $PRINT_PADDING
-                BuildTaskHelpLine i id          "ID"        "command identifier"                        $PRINT_PADDING
+                BuildTaskHelpLine i id          "ID"        "long command identifier"                   $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi

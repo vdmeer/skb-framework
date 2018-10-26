@@ -112,8 +112,9 @@ ShellCmdExecuteTask() {
         fi
         printf "\n\n"
     elif $DO_HELP; then
-        SPRINT=$(DescribeTask $TASK full ${CONFIG_MAP["PRINT_MODE"]})
-        printf "\n   %s\n" "$SPRINT"
+        
+        SPRINT=$(DescribeTask $ID full ${CONFIG_MAP["PRINT_MODE"]})
+        printf "\n\n   %s\n" "$SPRINT"
     else
         printf "\n"
     fi

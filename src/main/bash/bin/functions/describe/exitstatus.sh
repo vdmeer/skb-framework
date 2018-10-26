@@ -50,16 +50,15 @@ DESCRIPTION_LENGTH=$((COLUMNS - ES_PADDING - ES_STATUS_LENGHT - 1))
 ##
 DescribeExitstatus() {
     local ID=${1:-}
-    local PRINT_OPTION=${2:-}
-    local PRINT_FEATURE=${3:-}
-
-    local SPRINT=""
-
     if [[ ! -n "${DMAP_ES[$ID]:-}" ]]; then
         ConsoleError " ->" "describe-exitstatus - unknown exitstatus ID '$ID'"
         return
     fi
 
+    local PRINT_OPTION=${2:-}
+    local PRINT_FEATURE=${3:-}
+
+    local SPRINT=""
     local FEATURE
     local SOURCE=""
     local LINE_INDENT=""
@@ -141,26 +140,27 @@ DescribeExitstatus() {
 ##
 DescribeExitstatusDescription() {
     local ID=$1
+    if [[ -z ${DMAP_ES[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-exitstatus/descr - unknown exitstatus '$ID'"
+        return
+    fi
+
     local ADJUST=${2:-0}
     local DESCRIPTION
     local DESCR_EFFECTIVE
     local PADDING
 
-    if [[ -z ${DMAP_ES[$ID]:-} ]]; then
-        ConsoleError " ->" "describe-exitstatus/status - unknown exitstatus '$ID'"
-    else
-        DESCRIPTION=${DMAP_ES_DESCR[$ID]}
-        if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
-            printf "%s" "$DESCRIPTION"
-            if [[ -z ${3:-} ]]; then
-                DESCR_EFFECTIVE=${#DESCRIPTION}
-                PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
-                printf '%*s' "$PADDING"
-            fi
-        else
-            DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
-            printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+    local DESCRIPTION=${DMAP_ES_DESCR[$ID]}
+    if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
+        printf "%s" "$DESCRIPTION"
+        if [[ -z ${3:-} ]]; then
+            DESCR_EFFECTIVE=${#DESCRIPTION}
+            PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
+            printf '%*s' "$PADDING"
         fi
+    else
+        DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
+        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
     fi
 }
 
@@ -173,32 +173,31 @@ DescribeExitstatusDescription() {
 ##
 DescribeExitstatusStatus() {
     local ID=$1
-    local ORIGIN
-    local PROBLEM
-
     if [[ -z ${DMAP_ES[$ID]:-} ]]; then
-        ConsoleError " ->" "describe-exit/status - unknown exitstatus '$ID'"
-    else
-        ORIGIN=${DMAP_ES[$ID]}
-        case $ORIGIN in
-            all)        PrintColor green $ORIGIN; printf "   " ;;
-            app)        PrintColor green $ORIGIN; printf "   " ;;
-            fw)         PrintColor light-blue $ORIGIN; printf "    " ;;
-            loader)     PrintColor light-blue $ORIGIN ;;
-            shell)      PrintColor light-blue $ORIGIN; printf " " ;;
-            task)       PrintColor light-blue $ORIGIN; printf "  " ;;
-            *)          ConsoleError " ->" "describe-exit/status - unknown origin '$ORIGIN'"
-        esac
-
-        printf "  "
-
-        PROBLEM=${DMAP_ES_PROBLEM[$ID]}
-        case $PROBLEM in
-            external)   PrintColor green $PROBLEM ;;
-            internal)   PrintColor light-blue $PROBLEM ;;
-            *)          ConsoleError " ->" "describe-exit/status - unknown problem '$PROBLEM'"
-        esac
+        ConsoleError " ->" "describe-exitstatus/status - unknown exitstatus '$ID'"
+        return
     fi
+
+    local PROBLEM
+    local ORIGIN=${DMAP_ES[$ID]}
+    case $ORIGIN in
+        all)        PrintColor green $ORIGIN; printf "   " ;;
+        app)        PrintColor green $ORIGIN; printf "   " ;;
+        fw)         PrintColor light-blue $ORIGIN; printf "    " ;;
+        loader)     PrintColor light-blue $ORIGIN ;;
+        shell)      PrintColor light-blue $ORIGIN; printf " " ;;
+        task)       PrintColor light-blue $ORIGIN; printf "  " ;;
+        *)          ConsoleError " ->" "describe-exit/status - unknown origin '$ORIGIN'"
+    esac
+
+    printf "  "
+
+    PROBLEM=${DMAP_ES_PROBLEM[$ID]}
+    case $PROBLEM in
+        external)   PrintColor green $PROBLEM ;;
+        internal)   PrintColor light-blue $PROBLEM ;;
+        *)          ConsoleError " ->" "describe-exit/status - unknown problem '$PROBLEM'"
+    esac
 }
 
 
@@ -211,8 +210,13 @@ DescribeExitstatusStatus() {
 ##
 ExitstatusInTable() {
     local ID=$1
-    local PRINT_MODE=${2:-}
 
+    if [[ -z ${DMAP_ES[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-exitstatus/table - unknown exitstatus '$ID'"
+        return
+    fi
+
+    local PRINT_MODE=${2:-}
     local PADDING
     local PAD_STR
     local PAD_STR_LEN

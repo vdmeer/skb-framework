@@ -43,31 +43,23 @@ DESCRIPTION_LENGTH=$((COLUMNS - TASK_PADDING - TASK_STATUS_LENGHT - 1))
 ##
 ## DescribeTask
 ## - describes a task using print options and print features
-## $1: task id
+## $1: task id, mustbe long form
 ## $2: print option: standard, full
 ## $3: print features: none, line-indent, enter, post-line, (adoc, ansi, text*)
 ## optional $4: print mode (adoc, ansi, text)
 ##
 DescribeTask() {
     local ID=${1:-}
-    local PRINT_OPTION="${2:-}"
-    local PRINT_FEATURE="${3:-}"
-    local SPRINT=""
-
-    local SHORT
-    if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
-        for SHORT in ${!DMAP_TASK_SHORT[@]}; do
-            if [[ "$SHORT" == "$ID" ]]; then
-                ID=${DMAP_TASK_SHORT[$SHORT]}
-                break
-            fi
-        done
-    fi
     if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
         ConsoleError " ->" "describe-task - unknown task ID '$ID'"
         return
     fi
 
+    local PRINT_OPTION="${2:-}"
+    local PRINT_FEATURE="${3:-}"
+    local SPRINT=""
+
+    local SHORT
     for SHORT in ${!DMAP_TASK_SHORT[@]}; do
         if [[ "${DMAP_TASK_SHORT[$SHORT]}" == "$ID" ]]; then
             break
@@ -150,32 +142,33 @@ DescribeTask() {
 ##
 ## function: DescribeTaskDescription
 ## - describes the task description
-## $1: task ID
+## $1: task ID, must be long form
 ## $2: indentation adjustment, 0 or empty for none
 ## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
 ##
 DescribeTaskDescription() {
     local ID=$1
+    if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-task/descr - unknown task ID '$ID'"
+        return
+    fi
+
     local ADJUST=${2:-0}
     local DESCRIPTION
     local DESCR_EFFECTIVE
     local PADDING
 
-    if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
-        ConsoleError " ->" "describe-task/descr - unknown task '$ID'"
-    else
-        DESCRIPTION=${DMAP_TASK_DESCR[$ID]}
-        if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
-            printf "%s" "$DESCRIPTION"
-            if [[ -z ${3:-} ]]; then
-                DESCR_EFFECTIVE=${#DESCRIPTION}
-                PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
-                printf '%*s' "$PADDING"
-            fi
-        else
-            DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
-            printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+    local DESCRIPTION=${DMAP_TASK_DESCR[$ID]}
+    if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
+        printf "%s" "$DESCRIPTION"
+        if [[ -z ${3:-} ]]; then
+            DESCR_EFFECTIVE=${#DESCRIPTION}
+            PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
+            printf '%*s' "$PADDING"
         fi
+    else
+        DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
+        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
     fi
 }
 
@@ -184,55 +177,56 @@ DescribeTaskDescription() {
 ##
 ## function: DescribeTaskStatus
 ## - describes the task status for the task screen
-## $1: task ID
+## $1: task ID, must be long form
 ## optional $2: print mode (adoc, ansi, text)
 ##
 DescribeTaskStatus() {
     local ID=$1
+    if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-task/descr - unknown task ID '$ID'"
+        return
+    fi
+
     local MODE
     local STATUS
 
-    if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
-        ConsoleError " ->" "describe-task/status - unknown task '$ID'"
-    else
-        printf "%s " "${DMAP_TASK_ORIGIN[$ID]:0:1}"
+    printf "%s " "${DMAP_TASK_ORIGIN[$ID]:0:1}"
 
-        MODE=${DMAP_TASK_MODES[$ID]}
-        case "$MODE" in
-            *dev*)
-                PrintColor green ${CHAR_MAP["AVAILABLE"]}
-                ;;
-            *)
-                PrintColor light-red ${CHAR_MAP["NOT_AVAILABLE"]}
-                ;;
-        esac
-        printf " "
-        case "$MODE" in
-            *build*)
-                PrintColor green ${CHAR_MAP["AVAILABLE"]}
-                ;;
-            *)
-                PrintColor light-red ${CHAR_MAP["NOT_AVAILABLE"]}
-                ;;
-        esac
-        printf " "
-        case "$MODE" in
-            *use*)
-                PrintColor green ${CHAR_MAP["AVAILABLE"]}
-                ;;
-            *)
-                PrintColor light-red ${CHAR_MAP["NOT_AVAILABLE"]}
-                ;;
-        esac
+    MODE=${DMAP_TASK_MODES[$ID]}
+    case "$MODE" in
+        *dev*)
+            PrintColor green ${CHAR_MAP["AVAILABLE"]}
+            ;;
+        *)
+            PrintColor light-red ${CHAR_MAP["NOT_AVAILABLE"]}
+            ;;
+    esac
+    printf " "
+    case "$MODE" in
+        *build*)
+            PrintColor green ${CHAR_MAP["AVAILABLE"]}
+            ;;
+        *)
+            PrintColor light-red ${CHAR_MAP["NOT_AVAILABLE"]}
+            ;;
+    esac
+    printf " "
+    case "$MODE" in
+        *use*)
+            PrintColor green ${CHAR_MAP["AVAILABLE"]}
+            ;;
+        *)
+            PrintColor light-red ${CHAR_MAP["NOT_AVAILABLE"]}
+            ;;
+    esac
 
-        printf " "
-        case ${RTMAP_TASK_STATUS[$ID]} in
-            "N")        PrintColor light-blue ${CHAR_MAP["DIAMOND"]} ;;
-            "S")        PrintColor green ${CHAR_MAP["DIAMOND"]} ;;
-            "E")        PrintColor light-red ${CHAR_MAP["DIAMOND"]} ;;
-            "W")        PrintColor yellow ${CHAR_MAP["DIAMOND"]} ;;
-        esac
-    fi
+    printf " "
+    case ${RTMAP_TASK_STATUS[$ID]} in
+        "N")        PrintColor light-blue ${CHAR_MAP["DIAMOND"]} ;;
+        "S")        PrintColor green ${CHAR_MAP["DIAMOND"]} ;;
+        "E")        PrintColor light-red ${CHAR_MAP["DIAMOND"]} ;;
+        "W")        PrintColor yellow ${CHAR_MAP["DIAMOND"]} ;;
+    esac
 }
 
 
@@ -240,39 +234,22 @@ DescribeTaskStatus() {
 ##
 ## function: TaskInTable
 ## - main task details for table views
-## $1: ID
+## $1: ID, mustbe long form
 ## optional $2: print mode (adoc, ansi, text)
 ##
 TaskInTable() {
     local ID=$1
-    local PRINT_MODE=${2:-}
-
-    local SHORT
     if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
-        for SHORT in ${!DMAP_TASK_SHORT[@]}; do
-            if [[ "$SHORT" == "$ID" ]]; then
-                ID=${DMAP_TASK_SHORT[$SHORT]}
-                break
-            fi
-        done
-    fi
-    if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
-        ConsoleError " ->" "unknown task ID '$ID'"
+        ConsoleError " ->" "describe-task/table - unknown task ID '$ID'"
         return
     fi
 
-    for SHORT in ${!DMAP_TASK_SHORT[@]}; do
-        if [[ "${DMAP_TASK_SHORT[$SHORT]}" == "$ID" ]]; then
-            break
-        fi
-    done
-
+    local PRINT_MODE=${2:-}
     local PADDING
     local PAD_STR
     local PAD_STR_LEN
-    local SPRINT
 
-    SPRINT=" "$(DescribeTask $ID standard "none" $PRINT_MODE)
+    local SPRINT=" "$(DescribeTask $ID standard "none" $PRINT_MODE)
 
     PAD_STR=$(DescribeTask $ID standard "none" text)
     PAD_STR_LEN=${#PAD_STR}

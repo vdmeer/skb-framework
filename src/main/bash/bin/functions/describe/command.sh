@@ -43,29 +43,23 @@ DESCRIPTION_LENGTH=$((COLUMNS - CMD_PADDING - CMD_STATUS_LENGHT - 1))
 ##
 ## DescribeCommand
 ## - describes a command using print options and print features
-## $1: command id
+## $1: command id, mustbe long form
 ## $2: print option: standard, full
 ## $3: print features: none, line-indent, enter, post-line, (adoc, ansi, text*)
 ## optional $4: print mode (adoc, ansi, text)
 ##
 DescribeCommand() {
     local ID=${1:-}
+    if [[ -z ${DMAP_CMD[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-cmd - unknown command '$ID'"
+        return
+    fi
+
     local PRINT_OPTION=${2:-}
     local PRINT_FEATURE=${3:-}
 
     local SPRINT=""
     local SHORT
-
-    if [[ "${DMAP_CMD[$ID]:-}" == "--" ]]; then
-        if [[ ! -z "${DMAP_CMD_SHORT[$ID]:-}" ]]; then
-            ID="${DMAP_CMD_SHORT[$ID]}"
-        fi
-    fi
-    if [[ ! -n "${DMAP_CMD[$ID]:-}" ]]; then
-        ConsoleError " ->" "describe-command - unknown command ID '$ID'"
-        return
-    fi
-
     local FEATURE
     local SOURCE=""
     local LINE_INDENT=""
@@ -156,32 +150,33 @@ DescribeCommand() {
 ##
 ## function: DescribeCommandDescription
 ## - describes the command description
-## $1: command ID
+## $1: command ID, mustbe long form
 ## $2: indentation adjustment, 0 or empty for none
 ## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
 ##
 DescribeCommandDescription() {
     local ID=$1
+    if [[ -z ${DMAP_CMD[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-cmd/descr - unknown command '$ID'"
+        return
+    fi
+
     local ADJUST=${2:-0}
     local DESCRIPTION
     local DESCR_EFFECTIVE
     local PADDING
 
-    if [[ -z ${DMAP_CMD[$ID]:-} ]]; then
-        ConsoleError " ->" "describe-cmd/descr - unknown command '$ID'"
-    else
-        DESCRIPTION=${DMAP_CMD_DESCR[$ID]}
-        if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
-            printf "%s" "$DESCRIPTION"
-            if [[ -z ${3:-} ]]; then
-                DESCR_EFFECTIVE=${#DESCRIPTION}
-                PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
-                printf '%*s' "$PADDING"
-            fi
-        else
-            DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
-            printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+    local DESCRIPTION=${DMAP_CMD_DESCR[$ID]}
+    if [[ "${#DESCRIPTION}" -le "$DESCRIPTION_LENGTH" ]]; then
+        printf "%s" "$DESCRIPTION"
+        if [[ -z ${3:-} ]]; then
+            DESCR_EFFECTIVE=${#DESCRIPTION}
+            PADDING=$((DESCRIPTION_LENGTH - DESCR_EFFECTIVE - ADJUST))
+            printf '%*s' "$PADDING"
         fi
+    else
+        DESCR_EFFECTIVE=$((DESCRIPTION_LENGTH - 4 - ADJUST))
+        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
     fi
 }
 
@@ -190,19 +185,22 @@ DescribeCommandDescription() {
 ##
 ## function: CommandInTable
 ## - main command details for table views
-## $1: ID
+## $1: ID, mustbe long form
 ## optional $2: print mode (adoc, ansi, text)
 ##
 CommandInTable() {
     local ID=$1
+    if [[ -z ${DMAP_CMD[$ID]:-} ]]; then
+        ConsoleError " ->" "describe-cmd/table - unknown command '$ID'"
+        return
+    fi
+
     local PRINT_MODE=${2:-}
 
     local PADDING
     local PAD_STR
     local PAD_STR_LEN
-    local SPRINT
-
-    SPRINT=" "$(DescribeCommand $ID standard "none" $PRINT_MODE)
+    local SPRINT=" "$(DescribeCommand $ID standard "none" $PRINT_MODE)
 
     PAD_STR=$(DescribeCommand $ID standard "none" text)
     PAD_STR_LEN=${#PAD_STR}
