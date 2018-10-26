@@ -6,7 +6,7 @@
 ## @version    v0.0.0
 ##
 
-DESCRIPTION="Maven sites"
+DESCRIPTION="list of Maven sites, entries separated with whitespaces"
 DEFAULT_VALUE=
 
-
+IS_DIRECTORY_LIST=yes

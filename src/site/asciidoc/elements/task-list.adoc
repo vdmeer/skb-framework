@@ -74,6 +74,11 @@ This task will clean, i.e. remove all create artifacts.
 It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
 Then it will remove the `target` directory.
 
+*describe-scenario*, *ds* - describes a scenario:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
 *describe-task*, *dt* - describes a task:: 
 This task will clean, i.e. remove all create artifacts. 
 It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
@@ -110,6 +115,11 @@ It starts calling the `--clean` option of all tasks starting with `build-` and `
 Then it will remove the `target` directory.
 
 *list-parameters*, *lp* - lists parameters:: 
+This task will clean, i.e. remove all create artifacts. 
+It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
+Then it will remove the `target` directory.
+
+*list-scenarios*, *ls* - lists scenarios:: 
 This task will clean, i.e. remove all create artifacts. 
 It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
 Then it will remove the `target` directory.

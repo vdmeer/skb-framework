@@ -96,7 +96,7 @@ CONFIG_MAP["RUNNING_IN"]="loader"                   # we are in the loader, shel
 CONFIG_MAP["SYSTEM"]=$(uname -s | cut -c1-6)        # set system, e.g. for Cygwin path conversions
 CONFIG_MAP["CONFIG_FILE"]="$HOME/.skb"              # config file, in user's home directory
 CONFIG_MAP["STRICT"]=off                            # not strict, yet (change with --strict)
-CONFIG_MAP["APP_MODE"]=use                          # default application mode is use, change with --app-mode
+CONFIG_MAP["APP_MODE"]=use                          # default application mode is use, change with --all-mode, --build-mode, --dev-mode
 CONFIG_MAP["PRINT_MODE"]=ansi                       # default print mode is ansi, change with --print-mode
 
 CONFIG_MAP["LOADER_LEVEL"]="error"                  # output level for loader, change with --loader-level, set to "debug" for early code debugging
@@ -107,6 +107,7 @@ CONFIG_MAP["LOADER_QUIET"]="off"                    # message level for loader, 
 CONFIG_MAP["SHELL_QUIET"]="off"                     # message level for shell, change with --sq
 CONFIG_MAP["TASK_QUIET"]="off"                      # message level for tasks, change with --tq
 
+CONFIG_MAP["SCENARIO_PATH"]=""                      # empty scenario path, set from ENV or file (parameter)
 CONFIG_MAP["SHELL_SNP"]="off"                       # shell shows prompt, change with --snp
 
 

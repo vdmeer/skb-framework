@@ -83,5 +83,4 @@ elif [[ ! -x $FW_HOME/bin/loader/loader.sh ]]; then
 fi
 
 $FW_HOME/bin/loader/loader.sh $*
-__errno=$?
-exit $__errno
+exit $?

@@ -16,7 +16,7 @@ A tool...
 +
 default value: `$FW_HOME/etc/manual`
 
-*MVN_SITES* - Maven sites:: 
+*MVN_SITES* - list of Maven sites, entries separated with whitespaces:: 
 Sets the directory for the SKB sites. 
 These sites are build using the Maven site plugin. 
 If not present, the tasks that build sites will not execute.
@@ -25,6 +25,13 @@ default value: none defined
 
 *PDF_READER* - command for pdf reader:: 
 Name of a PDF reader.
++
+default value: none defined
+
+*SCENARIO_PATH* - path for scenarios, entries separated with whitespaces:: 
+Sets the directory for the SKB sites. 
+These sites are build using the Maven site plugin. 
+If not present, the tasks that build sites will not execute.
 +
 default value: none defined
 

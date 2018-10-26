@@ -35,10 +35,6 @@ The history accepts an optional parameter _NUMBER_.
 When a number (an integer) is given, the command with that number in the history will be executed. 
 If the number does not exist in the history, an error is printed.
 
-*ls*, *list-scenarios* - list scenarios:: 
-Clear screen.
-
-
 *q*, *quit* - quit shell:: 
 Exits the shell and the program. 
 If the program was not started in forced mode (see CLI option `--force`), the temporary configuration file will be removed. 

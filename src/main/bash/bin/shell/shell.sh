@@ -83,11 +83,6 @@ HISTORY[-1]="help"              # dummy first entry, size calcuation doesn't see
 ##
 FWInterpreter() {
     case "$SCMD" in
-        list-scenarios | "list-scenarios "* | ls | "ls "*)
-            ShellCmdListScenarios
-            ShellAddCmdHistory
-            ;;
-
         execute-scenario | es)
             printf "\n    execute-scenario/rs requires a scenario as argument\n\n"
             ;;

@@ -264,7 +264,7 @@ declare -A MVN_SITE_LIST
 declare -A MVN_SITE_PATH
 for site in ${CONFIG_MAP["MVN_SITES"]}; do
     LoadSite $site
-done 
+done
 
 if [[ $DO_LIST == true ]]; then
     printf "\n  Sites\n"

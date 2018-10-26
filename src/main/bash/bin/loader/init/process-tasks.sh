@@ -188,7 +188,7 @@ SetArtifactStatus() {
 ##
 ProcessTaskTestFile() {
     if [[ ! -f "${CONFIG_MAP[$1]}" ]]; then
-        ConsoleWarnStrict "  ->" "test files for task $3: not a regular file for setting '$1' as '${CONFIG_MAP[$1]}'"
+        ConsoleWarnStrict " ->" "test file/task $3: not a regular file for setting '$1' as '${CONFIG_MAP[$1]}'"
         if [[ ( "$2" == opt && "${CONFIG_MAP["STRICT"]}" == "on" ) || "$2" == man ]]; then
             return 1
         else
@@ -196,7 +196,7 @@ ProcessTaskTestFile() {
         fi
     fi
     if [[ ! -r "${CONFIG_MAP[$1]}" ]]; then
-        ConsoleWarnStrict "  ->" "test files for task $3: file not readable for setting '$1' as '${CONFIG_MAP[$1]}'"
+        ConsoleWarnStrict " ->" "test file/task $3: file not readable for setting '$1' as '${CONFIG_MAP[$1]}'"
         if [[ ( "$2" == opt && "${CONFIG_MAP["STRICT"]}" == "on" ) || "$2" == man ]]; then
             return 1
         else
@@ -204,6 +204,36 @@ ProcessTaskTestFile() {
         fi
     fi
     return 0
+}
+
+
+
+##
+## function ProcessTaskTestFileList
+## - tests a file list for existence of every file included
+## $1: setting ID (parameter ID)
+## $2: man | opt
+## $3: task ID for messages
+##
+ProcessTaskTestFileList() {
+    local FILE
+    local RESULT=0
+
+    for FILE in ${CONFIG_MAP[$1]}; do
+        if [[ ! -f "$FILE" ]]; then
+            ConsoleWarnStrict " ->" "test file-list/task $3/param $1: not a regular file '$FILE'"
+            if [[ ( "$2" == opt && "${CONFIG_MAP["STRICT"]}" == "on" ) || "$2" == man ]]; then
+                RESULT=1
+            fi
+        fi
+        if [[ ! -r "$FILE" ]]; then
+            ConsoleWarnStrict "  ->" "test file-list/task $3/param $1: file nor readable '$FILE'"
+            if [[ ( "$2" == opt && "${CONFIG_MAP["STRICT"]}" == "on" ) || "$2" == man ]]; then
+                RESULT=1
+            fi
+        fi
+    done
+    echo $RESULT
 }
 
 
@@ -217,7 +247,7 @@ ProcessTaskTestFile() {
 ##
 ProcessTaskTestDir() {
     if [[ ! -d "${CONFIG_MAP[$1]}" ]]; then
-        ConsoleWarnStrict "  ->" "test directories for task $3: not a redable directory for $1 as ${CONFIG_MAP[$1]}"
+        ConsoleWarnStrict " ->" "test directories for task $3: not a redable directory for $1 as '${CONFIG_MAP[$1]}'"
         if [[ ( "$2" == opt && "${CONFIG_MAP["STRICT"]}" == "on" ) || "$2" == man ]]; then
             return 1
         else
@@ -225,6 +255,30 @@ ProcessTaskTestDir() {
         fi
     fi
     return 0
+}
+
+
+
+##
+## function ProcessTaskTestDirList
+## - tests a file for existence
+## $1: setting ID (parameter ID)
+## $2: man | opt
+## $3: task ID for messages
+##
+ProcessTaskTestDirList() {
+    local DIR
+    local RESULT=0
+
+    for DIR in ${CONFIG_MAP[$1]}; do
+        if [[ ! -d "$DIR" ]]; then
+            ConsoleWarnStrict " ->" "test directory-list/task $3/param $1: not a directory '$DIR'"
+            if [[ ( "$2" == opt && "${CONFIG_MAP["STRICT"]}" == "on" ) || "$2" == man ]]; then
+                RESULT=1
+            fi
+        fi
+    done
+    echo $RESULT
 }
 
 
@@ -241,7 +295,7 @@ ProcessTaskTestDirCD() {
     mkdir $MD_OPT ${CONFIG_MAP[$1]} 2> /dev/null
     MD_ERR=$?
     if (( $MD_ERR != 0 )) || [[ ! -d ${CONFIG_MAP[$1]} ]]; then
-        ConsoleWarnStrict "  ->" "test directories-cd for task $3: not a directory for $1 as ${CONFIG_MAP[$1]}, tried mkdir"
+        ConsoleWarnStrict " ->" "test directories-cd for task $3: not a directory for $1 as ${CONFIG_MAP[$1]}, tried mkdir"
         if [[ ( "$2" == opt && "${CONFIG_MAP["STRICT"]}" == "on" ) || "$2" == man ]]; then
             return 1
         else
@@ -280,23 +334,30 @@ ProcessTaskReqParam() {
                 else
                     case ${DMAP_PARAM_IS[$PARAM]:-} in
                         file)
-                            ProcessTaskTestFile "$PARAM" man $ID
-                            if [[ $? ]]; then
+                            if [[ "$(ProcessTaskTestFile "$PARAM" man $ID)" == "0" ]]; then
+                                FOUND=true
+                            fi
+                            ;;
+                        file-list)
+                            if [[ "$(ProcessTaskTestFileList "$PARAM" man $ID)" == "0" ]]; then
                                 FOUND=true
                             fi
                             ;;
                         dir)
-                            ProcessTaskTestDir "$PARAM" man $ID
-                            if [[ $? ]]; then
+                            if [[ "$(ProcessTaskTestDir "$PARAM" man $ID)" == "0" ]]; then
                                 FOUND=true
-                                fi
+                            fi
+                            ;;
+                        dir-list)
+                            if [[ "$(ProcessTaskTestDirList "$PARAM" man $ID)" == "0" ]]; then
+                                FOUND=true
+                            fi
                             ;;
                         dir-cd)
-                            ProcessTaskTestDirCD "$PARAM" man $ID
-                            if [[ $? ]]; then
+                            if [[ "$(ProcessTaskTestDirCD "$PARAM" man $ID)" == "0" ]]; then
                                 FOUND=true
-                                fi
-                                ;;
+                            fi
+                            ;;
                         *)
                             FOUND=true
                             ;;
@@ -336,22 +397,29 @@ ProcessTaskReqParam() {
                 else
                     case ${DMAP_PARAM_IS[$PARAM]:-} in
                         file)
-                            ProcessTaskTestFile "$PARAM" opt $ID
-                            if [[ $? ]]; then
+                            if [[ "$(ProcessTaskTestFile "$PARAM" opt $ID)" == "0" ]]; then
+                                FOUND=true
+                            fi
+                            ;;
+                        file-list)
+                            if [[ "$(ProcessTaskTestFileList "$PARAM" opt $ID)" == "0" ]]; then
                                 FOUND=true
                             fi
                             ;;
                         dir)
-                            ProcessTaskTestDir "$PARAM" opt $ID
-                            if [[ $? ]]; then
+                            if [[ "$(ProcessTaskTestDir "$PARAM" opt $ID)" == "0" ]]; then
                                 FOUND=true
-                                fi
+                            fi
+                            ;;
+                        dir-list)
+                            if [[ "$(ProcessTaskTestDirList "$PARAM" opt $ID)" == "0" ]]; then
+                                FOUND=true
+                            fi
                             ;;
                         dir-cd)
-                            ProcessTaskTestDirCD "$PARAM" opt $ID
-                            if [[ $? ]]; then
+                            if [[ "$(ProcessTaskTestDirCD "$PARAM" opt $ID)" == "0" ]]; then
                                 FOUND=true
-                                fi
+                            fi
                                 ;;
                         *)
                             FOUND=true
@@ -711,7 +779,7 @@ ProcessTasks() {
             if [[ "${CONFIG_SRC[$ID]:-}" == "D" ]]; then                    ## if the setting is from default value, i.e. not environment or file
                 if [[ -z ${RTMAP_REQUESTED_PARAM[$ID]:-} ]]; then           ## if the parameter is NOT required by any task (and not file/directory in next line)
                     case ${DMAP_PARAM_IS[$ID]:-} in
-                        file | dir | dir-cd)                                ## if parameter is file or directory
+                        file | dir | dir-cd | file-list | dir-list)         ## if parameter is file or directory
                             unset CONFIG_MAP['$ID']                             ## then remove it
                             unset CONFIG_SRC['$ID']                             ## and the source note
                             ;;

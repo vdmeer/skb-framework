@@ -8,3 +8,5 @@
 
 DESCRIPTION="directory for caching settings"
 DEFAULT_VALUE="/var/cache/${CONFIG_MAP["APP_SCRIPT"]}"
+
+IS_DIRECTORY=yes

@@ -243,7 +243,6 @@ ConsoleWarnStrict() {
 
     if [[ ${CONFIG_MAP["STRICT"]} == "on" ]]; then
         ## all warnings are errors
-
         case ${CONFIG_MAP["RUNNING_IN"]} in
             loader)
                 LOADER_ERRORS=$(($LOADER_ERRORS + 1))

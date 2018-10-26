@@ -38,7 +38,7 @@ declare -A DMAP_PARAM_DECL              # map [id]=decl-file w/o .id eding
 declare -A DMAP_PARAM_DEFVAL            # map [id]="default value"
 declare -A DMAP_PARAM_DESCR             # map [id]="descr-tag-line"
 
-declare -A DMAP_PARAM_IS                # map [id]=none, file, dir, dir-cd
+declare -A DMAP_PARAM_IS                # map [id]=none, file, dir, dir-cd, file-list, dir-list
 
 
 
@@ -60,7 +60,9 @@ DeclareParametersOrigin() {
         local DESCRIPTION
         local DEFAULT_VALUE
         local IS_FILE
+        local IS_FILE_LIST
         local IS_DIRECTORY
+        local IS_DIRECTORY_LIST
         local IS_DIRECTORY_CD
         local files
         local file
@@ -77,7 +79,9 @@ DeclareParametersOrigin() {
             DESCRIPTION=
             DEFAULT_VALUE=
             IS_FILE=
+            IS_FILE_LIST=
             IS_DIRECTORY=
+            IS_DIRECTORY_LIST=
             IS_DIRECTORY_CD=
             source "$file"
 
@@ -106,8 +110,14 @@ DeclareParametersOrigin() {
                 if [[ ! -z ${IS_FILE:-} ]]; then
                     DMAP_PARAM_IS[$ID]=file
                 fi
+                if [[ ! -z ${IS_FILE_LIST:-} ]]; then
+                    DMAP_PARAM_IS[$ID]=file-list
+                fi
                 if [[ ! -z ${IS_DIRECTORY:-} ]]; then
                     DMAP_PARAM_IS[$ID]=dir
+                fi
+                if [[ ! -z ${IS_DIRECTORY_LIST:-} ]]; then
+                    DMAP_PARAM_IS[$ID]=dir-list
                 fi
                 if [[ ! -z ${IS_DIRECTORY_CD:-} ]]; then
                     DMAP_PARAM_IS[$ID]=dir-cd
