@@ -36,6 +36,10 @@
 set -o errexit -o pipefail -o noclobber -o nounset
 
 
+## we want files recursivey
+shopt -s globstar
+
+
 ##
 ## Test if we are run from parent with configuration
 ## - load configuration
@@ -72,7 +76,7 @@ CLI_SET=false
 ## set CLI options and parse CLI
 ##
 CLI_OPTIONS=ahs
-CLI_LONG_OPTIONS=all,help,strict,man-src,cmd,dep,es,opt,param,task
+CLI_LONG_OPTIONS=all,help,strict,msrc,cmd,dep,es,opt,param,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name validate-installation -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -94,7 +98,7 @@ while true; do
                 printf "\n   targets\n"
                 BuildTaskHelpLine a all "<none>" "set all targets" $PRINT_PADDING
 
-                BuildTaskHelpLine "<none>" man-src "<none>" "target: manual source" $PRINT_PADDING
+                BuildTaskHelpLine "<none>" msrc     "<none>" "target: manual source" $PRINT_PADDING
 
                 BuildTaskHelpLine "<none>"  cmd     "<none>" "target: commands"         $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  dep     "<none>" "target: dependencies"     $PRINT_PADDING
@@ -118,9 +122,9 @@ while true; do
             DO_ALL=true
             CLI_SET=true
             ;;
-        --man-src)
+        --msrc)
             shift
-            TARGET=$TARGET" man-src"
+            TARGET=$TARGET" msrc"
             CLI_SET=true
             ;;
 
@@ -171,9 +175,9 @@ done
 ## test CLI
 ############################################################################################
 if [[ $DO_ALL == true ]]; then
-    TARGET="man-src cmd dep es opt param task"
+    TARGET="msrc cmd dep es opt param task"
 elif [[ $CLI_SET == false ]]; then
-    TARGET="man-src cmd dep es opt param task"
+    TARGET="msrc cmd dep es opt param task"
 fi
 
 
@@ -186,7 +190,6 @@ fi
 ValidateManualSource() {
     ConsoleDebug "validating manual source"
 
-    local files
     local found
     local EXPECTED
     local EXP
@@ -206,8 +209,10 @@ ValidateManualSource() {
             fi
         done
 
-        files=$(find -P ${CONFIG_MAP["MANUAL_SRC"]}/tags -type f)
-        for FILE in $files; do
+        for FILE in ${CONFIG_MAP["MANUAL_SRC"]}/tags/**; do
+            if [[ -d "$FILE" ]]; then
+                continue
+            fi
             found=false
             for EXP in $EXPECTED; do
                 tmp=$EXP".txt"
@@ -238,8 +243,10 @@ ValidateManualSource() {
             fi
         done
 
-        files=$(find -P ${CONFIG_MAP["MANUAL_SRC"]}/framework -type f)
-        for FILE in $files; do
+        for FILE in ${CONFIG_MAP["MANUAL_SRC"]}/framework/**; do
+            if [[ -d "$FILE" ]]; then
+                continue
+            fi
             found=false
             for EXP in $EXPECTED; do
                 tmp=$EXP".adoc"
@@ -274,8 +281,10 @@ ValidateManualSource() {
             fi
         done
 
-        files=$(find -P ${CONFIG_MAP["MANUAL_SRC"]}/application -type f)
-        for FILE in $files; do
+        for FILE in ${CONFIG_MAP["MANUAL_SRC"]}/application/**; do
+            if [[ -d "$FILE" ]]; then
+                continue
+            fi
             found=false
             for EXP in $EXPECTED; do
                 tmp=$EXP".adoc"
@@ -332,14 +341,15 @@ ValidateCommand() {
 
     local ID
     local ORIGIN_PATH=${CONFIG_MAP["FW_HOME"]}
-    local files
-    local file
+    local FILE
 
     ## check that files in the command folder have a corresponding command declaration
     if [[ -d $ORIGIN_PATH/${FW_PATH_MAP["COMMANDS"]} ]]; then
-        files=$(find -P $ORIGIN_PATH/${FW_PATH_MAP["COMMANDS"]} -type f)
-        for file in $files; do
-            ID=${file##*/}
+        for FILE in $ORIGIN_PATH/${FW_PATH_MAP["COMMANDS"]}/**; do
+            if [[ -d "$FILE" ]]; then
+                continue
+            fi
+            ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_CMD[$ID]:-} ]]; then
                 ConsoleError " ->" "validate/cmd - found extra file FW_HOME/${FW_PATH_MAP["COMMANDS"]}, command '$ID' not declared"
@@ -385,14 +395,15 @@ ValidateDependencyOrigin() {
 
     local ID
     local ORIGIN_PATH=${CONFIG_MAP[$ORIGIN]}
-    local files
-    local file
+    local FILE
 
     ## check that files in the dependency folder have a corresponding dependency declaration
     if [[ -d $ORIGIN_PATH/${APP_PATH_MAP["DEP_DECL"]} ]]; then
-        files=$(find -P $ORIGIN_PATH/${APP_PATH_MAP["DEP_DECL"]} -type f)
-        for file in $files; do
-            ID=${file##*/}
+        for FILE in $ORIGIN_PATH/${APP_PATH_MAP["DEP_DECL"]}/**; do
+            if [[ -d "$FILE" ]]; then
+                continue
+            fi
+            ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
                 ConsoleError " ->" "validate/dep - found extra file $ORIGIN/${APP_PATH_MAP["DEP_DECL"]}, dependency '$ID' not declared"
@@ -451,14 +462,15 @@ ValidateExitstatus() {
 
     local ID
     local ORIGIN_PATH=${CONFIG_MAP["FW_HOME"]}
-    local files
-    local file
+    local FILE
 
     ## check that files in the exit-status folder have a corresponding exit-status declaration
     if [[ -d $ORIGIN_PATH/${FW_PATH_MAP["EXITSTATUS"]} ]]; then
-        files=$(find -P $ORIGIN_PATH/${FW_PATH_MAP["EXITSTATUS"]} -type f)
-        for file in $files; do
-            ID=${file##*/}
+        for FILE in $ORIGIN_PATH/${FW_PATH_MAP["EXITSTATUS"]}/**; do
+            if [[ -d "$FILE" ]]; then
+                continue
+            fi
+            ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_ES[$ID]:-} ]]; then
                 ConsoleError " ->" "validate/es - found extra file FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}, exit-status '$ID' not declared"
@@ -509,14 +521,15 @@ ValidateOption() {
 
     local ID
     local ORIGIN_PATH=${CONFIG_MAP["FW_HOME"]}
-    local files
-    local file
+    local FILE
 
     ## check that files in the option folder have a corresponding option declaration
     if [[ -d $ORIGIN_PATH/${FW_PATH_MAP["OPTIONS"]} ]]; then
-        files=$(find -P $ORIGIN_PATH/${FW_PATH_MAP["OPTIONS"]} -type f)
-        for file in $files; do
-            ID=${file##*/}
+        for FILE in $ORIGIN_PATH/${FW_PATH_MAP["OPTIONS"]}/**; do
+            if [[ -d "$FILE" ]]; then
+                continue
+            fi
+            ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
                 ConsoleError " ->" "validate/opt - found extra file FW_HOME/${FW_PATH_MAP["OPTIONS"]}, option '$ID' not declared"
@@ -562,14 +575,15 @@ ValidateParameterOrigin() {
 
     local ID
     local ORIGIN_PATH=${CONFIG_MAP[$ORIGIN]}
-    local files
-    local file
+    local FILE
 
     ## check that files in the parameter folder have a corresponding parameter declaration
     if [[ -d $ORIGIN_PATH/${APP_PATH_MAP["PARAM_DECL"]} ]]; then
-        files=$(find -P $ORIGIN_PATH/${APP_PATH_MAP["PARAM_DECL"]} -type f)
-        for file in $files; do
-            ID=${file##*/}
+        for FILE in $ORIGIN_PATH/${APP_PATH_MAP["PARAM_DECL"]}/**; do
+            if [[ -d "$FILE" ]]; then
+                continue
+            fi
+            ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
                 ConsoleError " ->" "validate/param - found extra file $ORIGIN/${APP_PATH_MAP["PARAM_DECL"]}, parameter '$ID' not declared"
@@ -627,14 +641,15 @@ ValidateTaskOrigin() {
 
     local ID
     local ORIGIN_PATH=${CONFIG_MAP[$ORIGIN]}
-    local files
-    local file
+    local FILE
 
     ## check that files in the task folder have a corresponding task declaration
     if [[ -d $ORIGIN_PATH/${APP_PATH_MAP["TASK_DECL"]} ]]; then
-        files=$(find -P $ORIGIN_PATH/${APP_PATH_MAP["TASK_DECL"]} -type f)
-        for file in $files; do
-            ID=${file##*/}
+        for FILE in $ORIGIN_PATH/${APP_PATH_MAP["TASK_DECL"]}/**; do
+            if [[ -d "$FILE" ]]; then
+                continue
+            fi
+            ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_TASK_DECL[$ID]:-} ]]; then
                 ConsoleError " ->" "validate/task - found extra file $ORIGIN/${APP_PATH_MAP["TASK_DECL"]}, task '$ID' not declared"
@@ -644,9 +659,11 @@ ValidateTaskOrigin() {
 
     ## check for extra files in task executables directory
     if [[ -d $ORIGIN_PATH/${APP_PATH_MAP["TASK_SCRIPT"]} ]]; then
-        files=$(find -P $ORIGIN_PATH/${APP_PATH_MAP["TASK_SCRIPT"]}  -type f)
-        for file in $files; do
-            ID=${file##*/}
+        for FILE in $ORIGIN_PATH/${APP_PATH_MAP["TASK_SCRIPT"]}/**; do
+            if [[ -d "$FILE" ]]; then
+                continue
+            fi
+            ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_TASK_EXEC[$ID]:-} ]]; then
                 ConsoleError " ->" "validate/task - found extra file $ORIGIN/${APP_PATH_MAP["TASK_SCRIPT"]}, task '$ID' not declared"
@@ -688,7 +705,7 @@ fi
 for TODO in $TARGET; do
     ConsoleDebug "target: $TODO"
     case $TODO in
-        man-src)
+        msrc)
             ConsoleInfo "  -->" "validating manual source"
             ValidateManualSource
             ValidateCommandDocs

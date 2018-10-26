@@ -308,7 +308,7 @@ ValidateSrc(){
     ConsoleResetErrors
 
     set +e
-    ${DMAP_TASK_EXEC["validate-installation"]} --strict --man-src
+    ${DMAP_TASK_EXEC["validate-installation"]} --strict --msrc
     __errno=$?
     set -e
 
