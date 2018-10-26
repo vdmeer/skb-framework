@@ -76,7 +76,7 @@ PROFILE=
 ##
 CLI_OPTIONS=abchi:ltT
 CLI_LONG_OPTIONS=all,build,clean,help,id:,list,test
-CLI_LONG_OPTIONS+=,init,ad,site,stage,profile:,targets
+CLI_LONG_OPTIONS+=,ad,site,stage,profile:,targets
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-mvn-site -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -117,7 +117,6 @@ while true; do
 
                 printf "\n   targets\n"
                 BuildTaskHelpLine t        targets  "<none>"    "mvn: all targets"                  $PRINT_PADDING
-                BuildTaskHelpLine "<none>" init     "<none>"    "mvn: initialize"                   $PRINT_PADDING
                 BuildTaskHelpLine "<none>" ad       "<none>"    "mvn: site:attach-descriptor"       $PRINT_PADDING
                 BuildTaskHelpLine "<none>" site     "<none>"    "mvn: site"                         $PRINT_PADDING
                 BuildTaskHelpLine "<none>" stage    "<none>"    "mvn: site:stage"                   $PRINT_PADDING
@@ -144,11 +143,7 @@ while true; do
 
 
         -t | --targets)
-            TARGETS="init ad site stage"
-            shift
-            ;;
-        --init)
-            TARGETS+=" init"
+            TARGETS="ad site stage"
             shift
             ;;
         --ad)
@@ -231,7 +226,7 @@ BuildSite(){
     ConsoleDebug "\n\n"
     case "$TARGETS" in
         *"stage"*)
-            mvn site:stage
+            mvn initialize site:stage
             ;;
     esac
 }
@@ -288,10 +283,7 @@ if [[ $DO_CLEAN == true ]]; then
 fi
 
 if [[ $DO_BUILD == true ]]; then
-    MVN_TARGET=""
-    case "$TARGETS" in
-        *"init"*)     MVN_TARGET+=" "initialize;;
-    esac
+    MVN_TARGET="initialize"
     case "$TARGETS" in
         *"ad"*)     MVN_TARGET+=" "site:attach-descriptor;;
     esac

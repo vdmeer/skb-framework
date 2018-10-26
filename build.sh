@@ -40,7 +40,6 @@ help(){
     printf "\n    help      - build help files"
     printf "\n    manual    - build manual files"
     printf "\n    tool      - build SKB Tool (gradle)"
-    printf "\n    site-src  - build site sources"
     printf "\n    site      - buildsite (maven)"
     printf "\n\n"
 
@@ -59,9 +58,9 @@ HAVE_ADOC_PDF=false
 if [[ -x gradlew ]]; then
     printf "%s\n" "found gradlew, should work"
     HAVE_GRADLE=true
-elif [[ $(command -v gradle) && "$(gradle --version | grep "Gradle 4" | wc -l)" == "1" ]]; then
-    printf "%s %s\n" "found gradle" "$(gradle --version | grep "Gradle 4")"
-    HAVE_GRADLE=true
+# elif [[ $(command -v gradle) && "$(gradle --version | grep "Gradle 4" | wc -l)" == "1" ]]; then
+#     printf "%s %s\n" "found gradle" "$(gradle --version | grep "Gradle 4")"
+#     HAVE_GRADLE=true
 else
     printf "%s\n" "did not find gradle version >4, cannot build distribution"
 fi
@@ -145,7 +144,7 @@ clean(){
 gradle_java(){ 
     if [[ $HAVE_GRADLE == true ]]; then
         printf "%s\n\n" "building/copying SKB Tool (java)"
-        gradle -c java.settings
+        ./gradlew -c java.settings
         mkdir -p src/main/bash/bin/java
         cp build/libs/skb-framework-tool-0.0.0-all.jar src/main/bash/bin/java
         printf "\n\n"
@@ -155,74 +154,39 @@ gradle_java(){
 }
 
 skb_fw_help(){ 
-    src/main/bash/bin/skb-framework -A -e bdh --sq --lq -T debug
+    src/main/bash/bin/skb-framework -A -e build-help --sq --lq -T debug
     src/main/bash/bin/skb-framework -h
 }
 
 skb_fw_manual(){ 
     if [[ -f src/main/bash/bin/java/skb-framework-tool-0.0.0-all.jar ]]; then
-        src/main/bash/bin/skb-framework -e bm --sq --lq -T debug -- -b --src
+        src/main/bash/bin/skb-framework -e build-manual --sq --lq -T debug -- -b --src
         printf "\n\n"
     else
         printf "%s\n\n" "no Tool jar, cannot build framework text sources"
     fi
 
-    src/main/bash/bin/skb-framework -A -e bm --sq --lq -T debug -- -b --adoc --text
+    src/main/bash/bin/skb-framework -A -e build-manual --sq --lq -T debug -- -b --adoc --text
     printf "\n\n"
 
     if [[ $HAVE_ADOC == true ]]; then
-        src/main/bash/bin/skb-framework -A -e bm --sq --lq -T debug -- -b --manp --html
+        src/main/bash/bin/skb-framework -A -e build-manual --sq --lq -T debug -- -b --manp --html
         printf "\n\n"
     else
         printf "%s\n\n" "no asciidoctor, cannot build manual: manp, html"
     fi
 
     if [[ $HAVE_ADOC_PDF == true ]]; then
-        src/main/bash/bin/skb-framework -A -e bm --sq --lq -T debug -- -b --pdf
+        src/main/bash/bin/skb-framework -A -e build-manual --sq --lq -T debug -- -b --pdf
         printf "\n\n"
     else
         printf "%s\n\n" "no asciidoctor-pdf, cannot build manual: pdf"
     fi
 }
 
-skb_fw_site_sources(){
-    printf "%s\n\n" "creating site sources"
-
-    rm ./src/site/asciidoc/elements/options.adoc ./src/site/asciidoc/elements/option-exit-list.adoc ./src/site/asciidoc/elements/option-run-list.adoc
-    src/main/bash/bin/skb-framework --sq --lq -T info -e de -- --options --print-mode adoc > ./src/site/asciidoc/elements/options.adoc
-    printf "== List of exit options\n" > ./src/site/asciidoc/elements/option-exit-list.adoc
-    src/main/bash/bin/skb-framework --sq --lq -T info -e "do" -- --exit --print-mode adoc >> ./src/site/asciidoc/elements/option-exit-list.adoc
-    printf "== List of runtime options\n" > ./src/site/asciidoc/elements/option-run-list.adoc
-    src/main/bash/bin/skb-framework --sq --lq -T info -e "do" -- --run --print-mode adoc >> ./src/site/asciidoc/elements/option-run-list.adoc
-
-    rm ./src/site/asciidoc/elements/commands.adoc ./src/site/asciidoc/elements/command-list.adoc
-    src/main/bash/bin/skb-framework --sq --lq -T info -e de -- --commands --print-mode adoc > ./src/site/asciidoc/elements/commands.adoc
-    printf "== List of shell commands\n" > ./src/site/asciidoc/elements/command-list.adoc
-    src/main/bash/bin/skb-framework --sq --lq -T info -e dc -- --all --print-mode adoc >> ./src/site/asciidoc/elements/command-list.adoc
-
-    rm ./src/site/asciidoc/elements/parameters.adoc ./src/site/asciidoc/elements/parameter-list.adoc
-    src/main/bash/bin/skb-framework --sq --lq -T info -e de -- --parameters --print-mode adoc > ./src/site/asciidoc/elements/parameters.adoc
-    printf "== List of parameters\n" > ./src/site/asciidoc/elements/parameter-list.adoc
-    src/main/bash/bin/skb-framework --sq --lq -T info -e dp -- --all --print-mode adoc >> ./src/site/asciidoc/elements/parameter-list.adoc
-
-    rm ./src/site/asciidoc/elements/dependencies.adoc ./src/site/asciidoc/elements/dependency-list.adoc
-    src/main/bash/bin/skb-framework --sq --lq -T info -e de -- --dependencies --print-mode adoc > ./src/site/asciidoc/elements/dependencies.adoc
-    printf "== List of dependencies\n" > ./src/site/asciidoc/elements/dependency-list.adoc
-    src/main/bash/bin/skb-framework --sq --lq -T info -e dd -- --all --print-mode adoc >> ./src/site/asciidoc/elements/dependency-list.adoc
-
-    rm ./src/site/asciidoc/elements/tasks.adoc ./src/site/asciidoc/elements/task-list.adoc
-    src/main/bash/bin/skb-framework --sq --lq -T info -e de -- --tasks --print-mode adoc > ./src/site/asciidoc/elements/tasks.adoc
-    printf "== List of tasks\n" > ./src/site/asciidoc/elements/task-list.adoc
-    src/main/bash/bin/skb-framework --sq --lq -T info -e dt -- --all --print-mode adoc >> ./src/site/asciidoc/elements/task-list.adoc
-
-    printf "%s\n\n" "done"
-}
-
 skb_fw_site(){ 
     if [[ $HAVE_MAVEN == true ]]; then
-        printf "%s\n\n" "building mvn site"
-        mvn clean site
-        printf "\n\n"
+        src/main/bash/bin/skb-framework -A -e build-mvn-site --sq --lq -T debug -- -bt --id fw
     else
         printf "%s\n\n" "no maven found, cannot build site"
     fi
@@ -231,7 +195,7 @@ skb_fw_site(){
 distro(){ 
     if [[ $HAVE_GRADLE == true ]]; then
         printf "%s\n\n" "building distributions"
-        gradle -c distribution.settings
+        ./gradlew -c distribution.settings
         printf "\n\n"
         printf "%s\n" "distributions in ./build/distributions"
         ls -l ./build/distributions
@@ -255,7 +219,6 @@ while [[ $# -gt 0 ]]; do
             T_HELP=true
             T_MANUAL=true
             T_TOOL=true
-            T_SITE_SRC=true
             T_SITE=true
             shift
             ;;
@@ -279,10 +242,6 @@ while [[ $# -gt 0 ]]; do
             T_TOOL=true
             shift
             ;;
-        site-src)
-            T_SITE_SRC=true
-            shift
-            ;;
         site)
             T_SITE=true
             shift
@@ -300,6 +259,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 TS=$(date +%s.%N)
+export SF_MVN_SITES=$PWD
 
 if [[ ${T_CLEAN:-} == true ]]; then
     clean
@@ -314,10 +274,6 @@ fi
 if [[ ${T_MANUAL:-} == true ]]; then
     makeDirs
     skb_fw_manual
-fi
-if [[ ${T_SITE_SRC:-} == true ]]; then
-    makeDirs
-    skb_fw_site_sources
 fi
 if [[ ${T_SITE:-} == true ]]; then
     skb_fw_site
