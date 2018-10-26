@@ -1,0 +1,164 @@
+== List of exit status
+*000* - success:: 
+Success. 
+If any command line option was used, then processing this option was successful. 
+If the shell was started, then it terminated successfully.
+
+*003* - app: /opt/skb/framework without executable:: 
+app: /opt/skb/framework without executable
+
+*004* - app: no /opt/skb/framework:: 
+app: no /opt/skb/framework
+
+*005* - app: $SKB_FRAMEWORK_HOME without executable:: 
+app: \$SKB_FRAMEWORK_HOME without executable
+
+*006* - app: $SKB_FRAMEWORK_HOME but not directory:: 
+app: \$SKB_FRAMEWORK_HOME but not directory
+
+*007* - app: unable to set applicatin home (tried environment, readlink, and dirname $0):: 
+app: unable to set applicatin home (tried environment, readlink, and dirname \$0)
+
+*010* - fw: unable to set home $SF_HOME (tried environment, readlink, and dirname $0):: 
+fw: unable to set home \$SF_HOME (tried environment, readlink, and dirname \$0)
+
+*011* - fw: did find/set $FW_HOME, but did not find loader:: 
+fw: did find/set \$FW_HOME, but did not find loader
+
+*012* - loader: no bash version 4:: 
+The program was not executed with _bash_ version 4 (or later). 
+Since it uses associative arrays, _bash_ 4 is a requirement to run the program. 
+Please install _bash_ version 4 or later.
+
+*013* - loader: no GNU getopt:: 
+Getop missing or error
+
+*014* - loader: no bc:: 
+BC not found
+
+*015* - loader: no mktemp:: 
+MKTMP not found
+
+*016* - loader: no flavor set:: 
+Unknown base name or flavor. 
+The start script is used for multiple programs. 
+At the beginning of the initialization, it detects the current flavor (using the script name). 
+If the flavor found is not known, it will exit with this status.
+This should not happen in an installed version. 
+If it does, than the installation was broken (build) or manipulated (after installation).
+
+*017* - loader: no environment setting for application home:: 
+The program requires a setting for its home directory. 
+The setting can be done in the environment or via a configuration file. 
+If the setting is not found, the initialization will terminate with this code. 
+See parameters (_HOME_) for details.
+
+*018* - loader: application home not a directory:: 
+No home directory found. 
+The setting for home directory did either not point to a directory or the directory is not accessible. 
+Check the setting or the directory.
+
+*020* - loader: no application script name set:: 
+loader: no application script name set
+
+*021* - loader: no application name set:: 
+loader: no application name set
+
+*022* - loader: no application version found, tried $HOME/etc/version.txt:: 
+no application version found, tried \$HOME/etc/version.txt
+
+*023* - loader: could not create TMP DIR:: 
+loader: could not create TMP DIR
+
+*024* - loader: TMP DIR not writable:: 
+loader: TMP DIR not writable
+
+
+*025* - loader: errors in parameter declarations:: 
+parameter declaration failed
+
+*026* - loader: errors in options declarations:: 
+option declaration failed
+
+*027* - loader: errors parsing CLI:: 
+Internal error: unresolved CLI options. 
+This error points to a bug in the software. 
+It means that the shell or a task were presented with unexpected CLI options. 
+Those options should have been processed by the program.
++
+The program detected an unknown argument in the command line. 
+Some CLI optiont (or argument) was used that the program does not understand. 
+If `--help` does not show this option, than it is unknown. 
+If the help screen does show the options, than there is a bug in the software.
+
+*028* - loader: errors in command declarations:: 
+command declaration failed
+
+*029* - loader: errors in error-code declarations:: 
+error code declaration failed
+
+*030* - loader: dependency declaration error:: 
+dependency declaration failed
+
+*031* - loader: task declaration error:: 
+task declaration failed
+
+*032* - loader: task testing errors:: 
+Available tasks (from `bin/tasks` in the program home directory) are loaded. 
+Several tests are run for each task while loading. 
+If any of those tests failed, this error code will be used on exit. 
+Any error here is a development issue (or bug). 
+Detailed error messages with have been printed.
++
+A setting that was marked as required was not found during initialization. 
+A more detailed error message will have been printed, e.g. naming the missing parameter or parameters.
++
+During initialization, all parameters for directories are tested. 
+One or more of those tests failed. 
+This can happen for parameters that do not (but should) point to a (readable) directory. 
+It can also happen for directories that will be created if they do not exist, and the creation failed. 
+In any case, detailed error message will have been printed.
+
+*033* - loader: scenario declaration error:: 
+scenario declaration failed
+
+*034* - loader: loader level unknown:: 
+loader level unknown
+
+*035* - loader: shell level unknown:: 
+shell level unknown
+
+*036* - loader: task level unknown:: 
+task level unknown
+
+*037* - loader: errors processing CLI options:: 
+Internal error: unresolved CLI options. 
+This error points to a bug in the software. 
+It means that the shell or a task were presented with unexpected CLI options. 
+Those options should have been processed by the program.
++
+The program detected an unknown argument in the command line. 
+Some CLI optiont (or argument) was used that the program does not understand. 
+If `--help` does not show this option, than it is unknown. 
+If the help screen does show the options, than there is a bug in the software.
+
+*039* - loader: scenario file not found:: 
+A given scenario (file) was not found. 
+The program was started with the `--scenario`option and a given file. 
+However the file does not exist or is not readable. 
+Check the CLI option and the file and run again.
+
+*040* - shell: was started w/o finding tmp configuration file:: 
+shell: was started w/o finding tmp configuration file
+
+*050* - task: was started w/o finding tmp configuration file:: 
+task: was started w/o finding tmp configuration file
+
+*051* - task: error from getopt parsing command line:: 
+task: error from getopt parsing command line
+
+*052* - task: internal CLI parsing error:: 
+A task has found an error in its command line. 
+This happens when a task is parsing the command line and detects one or more unknown options. 
+Detailed error messages should have been printed.
+

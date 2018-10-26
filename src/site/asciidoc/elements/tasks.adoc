@@ -1,5 +1,3 @@
-
-
 == TASKS
-Tasks ...
 
+include::{skb-site-main-dir}/main/bash/etc/manual/framework/tasks.adoc[]

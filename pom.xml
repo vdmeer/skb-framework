@@ -36,7 +36,8 @@
         <skb.dep-version.doxia-site-renderer>1.7</skb.dep-version.doxia-site-renderer>
 
         <!-- SITE and ADOC/SITE PROPERTIES -->
-        <skb.site.prefix>https://vdmeer.github.io/skb/</skb.site.prefix>
+        <skb.site.prefix>https://vdmeer.github.io/skb-framework/</skb.site.prefix>
+        <skb-site-main-dir>${project.basedir}/src</skb-site-main-dir>
         <release-version>${project.version}</release-version>
     </properties>
 

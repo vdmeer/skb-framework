@@ -1,15 +1,13 @@
-
-
 == OPTIONS
-Options ...
 
-
+include::{skb-site-main-dir}/main/bash/etc/manual/framework/options.adoc[]
 
 === Runtime OPTIONS
-Runtime options
 
+include::{skb-site-main-dir}/main/bash/etc/manual/framework/run-options.adoc[]
 
 
 === Exit OPTIONS
-Exit options ...
+
+include::{skb-site-main-dir}/main/bash/etc/manual/framework/exit-options.adoc[]
 
