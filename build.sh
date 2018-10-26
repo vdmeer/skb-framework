@@ -58,9 +58,6 @@ HAVE_ADOC_PDF=false
 if [[ -x gradlew ]]; then
     printf "%s\n" "found gradlew, should work"
     HAVE_GRADLE=true
-# elif [[ $(command -v gradle) && "$(gradle --version | grep "Gradle 4" | wc -l)" == "1" ]]; then
-#     printf "%s %s\n" "found gradle" "$(gradle --version | grep "Gradle 4")"
-#     HAVE_GRADLE=true
 else
     printf "%s\n" "did not find gradle version >4, cannot build distribution"
 fi
@@ -155,7 +152,7 @@ gradle_java(){
 
 skb_fw_help(){ 
     src/main/bash/bin/skb-framework -A -e build-help --sq --lq -T debug
-    src/main/bash/bin/skb-framework -h
+#     src/main/bash/bin/skb-framework -h
 }
 
 skb_fw_manual(){ 
@@ -259,6 +256,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 TS=$(date +%s.%N)
+TIME_START=$(date +"%T")
 export SF_MVN_SITES=$PWD
 
 if [[ ${T_CLEAN:-} == true ]]; then
@@ -286,5 +284,6 @@ TE=$(date +%s.%N)
 
 TIME=$(date +"%T")
 RUNTIME=$(echo "($TE-$TS)/60" | bc -l)
-printf "done $TIME, in $RUNTIME minutes\n\n"
+printf "started: $TIME_START\n"
+printf "finihed: $TIME, in $RUNTIME minutes\n\n"
 

@@ -22,4 +22,7 @@ function MvnSitePostScript(){
 
     MvnSiteFixAdoc target/site/elements/tasks               Tasks
     MvnSiteFixAdoc target/site/elements/task-list           "Task List"
+
+    MvnSiteFixAdoc target/site/elements/exit-status         "Exit Status"
+    MvnSiteFixAdoc target/site/elements/exit-status-list    "Exit Status List"
 }
