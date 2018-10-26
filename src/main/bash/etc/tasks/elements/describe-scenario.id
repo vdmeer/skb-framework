@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+##
+## Identity for task describe-scenario
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    v0.0.0
+##
+
+SHORT=ds
+MODES="dev build use"
+DESCRIPTION="describes a scenario"
+EXEC_PATH=bin/tasks/elements
