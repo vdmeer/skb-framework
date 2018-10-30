@@ -180,7 +180,7 @@ else
                 ORIGIN=FW_HOME
                 ;;
             A | a | app | application)
-                ORIGIN=${CONFIG_MAP["FLAVOR"]}_HOME
+                ORIGIN=APP__HOME
                 ;;
             *)
                 ConsoleError " ->" "dp: unknown origin: $ORIGIN"

@@ -424,8 +424,8 @@ ValidateDependency() {
 
     ValidateDependencyDocs
     ValidateDependencyOrigin FW_HOME
-    if [[ "${CONFIG_MAP["FW_HOME"]}" != "${CONFIG_MAP["HOME"]}" ]]; then
-        ValidateDependencyOrigin HOME
+    if [[ "${CONFIG_MAP["FW_HOME"]}" != "${CONFIG_MAP["APP_HOME"]}" ]]; then
+        ValidateDependencyOrigin APP_HOME
     fi
 
     ConsoleDebug "done"
@@ -604,8 +604,8 @@ ValidateParameter() {
 
     ValidateParameterDocs
     ValidateParameterOrigin FW_HOME
-    if [[ "${CONFIG_MAP["FW_HOME"]}" != "${CONFIG_MAP["HOME"]}" ]]; then
-        ValidateParameterOrigin HOME
+    if [[ "${CONFIG_MAP["FW_HOME"]}" != "${CONFIG_MAP["APP_HOME"]}" ]]; then
+        ValidateParameterOrigin APP_HOME
     fi
 
     ConsoleDebug "done"
@@ -688,8 +688,8 @@ ValidateScenario() {
     local ORIG_PATH
     local COUNT=1
     ValidateScenarioOrigin ${CONFIG_MAP["FW_HOME"]} FW_HOME
-    if [[ "${CONFIG_MAP["FW_HOME"]}" != "$FLAVOR_HOME" ]]; then
-        ValidateScenarioOrigin ${CONFIG_MAP["HOME"]} HOME
+    if [[ "${CONFIG_MAP["FW_HOME"]}" != "${CONFIG_MAP["APP_HOME"]}" ]]; then
+        ValidateScenarioOrigin ${CONFIG_MAP["APP_HOME"]} APP_HOME
     fi
     if [[ -n "${CONFIG_MAP["SCENARIO_PATH"]:-}" ]]; then
         for ORIG_PATH in ${CONFIG_MAP["SCENARIO_PATH"]}; do
@@ -775,8 +775,8 @@ ValidateTask() {
 
     ValidateTaskDocs
     ValidateTaskOrigin FW_HOME
-    if [[ "${CONFIG_MAP["FW_HOME"]}" != "${CONFIG_MAP["HOME"]}" ]]; then
-        ValidateTaskOrigin HOME
+    if [[ "${CONFIG_MAP["FW_HOME"]}" != "${CONFIG_MAP["APP_HOME"]}" ]]; then
+        ValidateTaskOrigin APP_HOME
     fi
 
     ConsoleDebug "done"

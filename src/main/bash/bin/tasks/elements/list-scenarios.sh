@@ -238,11 +238,15 @@ else
                 ORIGIN=FW_HOME
                 ;;
             A | a | app | application)
-                ORIGIN=${CONFIG_MAP["FLAVOR"]}_HOME
+                ORIGIN=APP_HOME
                 ;;
             *)
-                ConsoleError "  ->" "ls: unknown origin: $ORIGIN"
-                exit 61
+                case $ORIGIN in
+                    *[!0-9]*)
+                        ConsoleError "  ->" "ls: unknown origin: $ORIGIN"
+                        exit 61
+                    ;;
+                esac
         esac
     fi
     if [[ -n "$APP_MODE" ]]; then

@@ -99,7 +99,7 @@ ScenarioRequire() {
 ## function: DeclareScenarioOrigin
 ## - declares scenarios from origin (a directory)
 ## $1: origin path
-## $2: origin name, e.g. FW_HOME, HOME, or 1 for 1st path
+## $2: origin name, e.g. FW_HOME, APP_HOME, or 1 for 1st path
 ##
 DeclareScenarioOrigin() {
     local ORIGIN_PATH=$1
@@ -200,7 +200,7 @@ DeclareScenarioOrigin() {
 
 ##
 ## function: DeclareScenarios
-## - declares scenarios from multiple sources, writes to FLAVOR_HOME
+## - declares scenarios from multiple sources
 ##
 DeclareScenarios() {
     local ORIG_PATH
@@ -210,8 +210,8 @@ DeclareScenarios() {
     ConsoleResetErrors
 
     DeclareScenarioOrigin ${CONFIG_MAP["FW_HOME"]} FW_HOME
-    if [[ "${CONFIG_MAP["FW_HOME"]}" != "$FLAVOR_HOME" ]]; then
-        DeclareScenarioOrigin ${CONFIG_MAP["HOME"]} HOME
+    if [[ "${CONFIG_MAP["FW_HOME"]}" != ${CONFIG_MAP["APP_HOME"]} ]]; then
+        DeclareScenarioOrigin ${CONFIG_MAP["APP_HOME"]} APP_HOME
     fi
     if [[ -n "${CONFIG_MAP["SCENARIO_PATH"]:-}" ]]; then
         for ORIG_PATH in ${CONFIG_MAP["SCENARIO_PATH"]}; do

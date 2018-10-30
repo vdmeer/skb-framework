@@ -45,7 +45,7 @@ declare -A DMAP_PARAM_IS                # map [id]=none, file, dir, dir-cd, file
 ##
 ## function: DeclareParametersOrigin
 ## - declares parameters from origin
-## $1: origin, CONFIG_MAP identifier, i.e. FW_HOME or HOME
+## $1: origin, CONFIG_MAP identifier, i.e. FW_HOME or APP_HOME
 ##
 DeclareParametersOrigin() {
     local ORIGIN=$1
@@ -133,15 +133,15 @@ DeclareParametersOrigin() {
 
 ##
 ## function: DeclareParameters
-## - declares parameters from multiple sources, writes to FLAVOR_HOME
+## - declares parameters from multiple sources
 ##
 DeclareParameters() {
     ConsoleInfo "-->" "declare parameters"
     ConsoleResetErrors
 
     DeclareParametersOrigin FW_HOME
-    if [[ "${CONFIG_MAP["FW_HOME"]}" != "$FLAVOR_HOME" ]]; then
-        DeclareParametersOrigin HOME
+    if [[ "${CONFIG_MAP["FW_HOME"]}" != "${CONFIG_MAP["APP_HOME"]}" ]]; then
+        DeclareParametersOrigin APP_HOME
     fi
     ConsoleInfo "-->" "done"
 }

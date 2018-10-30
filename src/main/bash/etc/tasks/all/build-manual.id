@@ -27,6 +27,6 @@ TaskRequire $ID task describe-dependency
 
 TaskRequire $ID param MANUAL_SRC opt
 
-TaskRequire $ID dir ${CONFIG_MAP["HOME"]}/doc/manual
-TaskRequire $ID dir ${CONFIG_MAP["HOME"]}/man/man1
+TaskRequire $ID dir ${CONFIG_MAP["APP_HOME"]}/doc/manual
+TaskRequire $ID dir ${CONFIG_MAP["APP_HOME"]}/man/man1
 

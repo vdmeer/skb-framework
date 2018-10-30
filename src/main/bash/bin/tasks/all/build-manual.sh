@@ -522,11 +522,11 @@ BuildSrc() {
         BuildSrcPath ${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["OPTIONS"]} l2
 
         ConsoleDebug "bdm/src - dependencies"
-        BuildSrcPath ${CONFIG_MAP["HOME"]}/${APP_PATH_MAP["DEP_DECL"]} l2
+        BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["DEP_DECL"]} l2
         ConsoleDebug "bdm/src - parameters"
-        BuildSrcPath ${CONFIG_MAP["HOME"]}/${APP_PATH_MAP["PARAM_DECL"]} l2
+        BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["PARAM_DECL"]} l2
         ConsoleDebug "bdm/src - tasks"
-        BuildSrcPath ${CONFIG_MAP["HOME"]}/${APP_PATH_MAP["TASK_DECL"]} l2
+        BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["TASK_DECL"]} l2
 
     else
         ConsoleError " ->" "bdm/src: dependency 'jre' not loaded, could not build"
@@ -541,10 +541,10 @@ BuildSrc() {
 ## set variables for files
 ##
 ############################################################################################
-MAN_PAGE_DIR=${CONFIG_MAP["HOME"]}/man/man1
+MAN_PAGE_DIR=${CONFIG_MAP["APP_HOME"]}/man/man1
 MAN_PAGE_FILE=$MAN_PAGE_DIR/${CONFIG_MAP["APP_SCRIPT"]}.1
 
-MAN_DOC_DIR=${CONFIG_MAP["HOME"]}/doc/manual
+MAN_DOC_DIR=${CONFIG_MAP["APP_HOME"]}/doc/manual
 MAN_ADOC_FILE=$MAN_DOC_DIR/${CONFIG_MAP["APP_SCRIPT"]}.adoc
 MAN_HTML_FILE=$MAN_DOC_DIR/${CONFIG_MAP["APP_SCRIPT"]}.html
 MAN_PDF_FILE=$MAN_DOC_DIR/${CONFIG_MAP["APP_SCRIPT"]}.pdf

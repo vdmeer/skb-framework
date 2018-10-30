@@ -121,7 +121,7 @@ TaskRequire() {
 ##
 ## function: DeclareTasksOrigin
 ## - declares tasks from origin
-## $1: origin, CONFIG_MAP identifier, i.e. FW_HOME or HOME
+## $1: origin, CONFIG_MAP identifier, i.e. FW_HOME or APP_HOME
 ##
 DeclareTasksOrigin() {
     local ORIGIN=$1
@@ -243,15 +243,15 @@ DeclareTasksOrigin() {
 
 ##
 ## function: DeclareTasks
-## - declares tasks from multiple sources, writes to FLAVOR_HOME
+## - declares tasks from multiple sources
 ##
 DeclareTasks() {
     ConsoleInfo "-->" "declare tasks"
     ConsoleResetErrors
 
     DeclareTasksOrigin FW_HOME
-    if [[ "${CONFIG_MAP["FW_HOME"]}" != "$FLAVOR_HOME" ]]; then
-        DeclareTasksOrigin HOME
+    if [[ "${CONFIG_MAP["FW_HOME"]}" != ${CONFIG_MAP["APP_HOME"]} ]]; then
+        DeclareTasksOrigin APP_HOME
     fi
     ConsoleInfo "-->" "done"
 }

@@ -160,7 +160,7 @@ DescribeParameterDefValue() {
         DEFAULT_VALUE="none defined"
     else
         DEFAULT_VALUE=${DEFAULT_VALUE/${CONFIG_MAP["FW_HOME"]}/\$FW_HOME}
-        DEFAULT_VALUE=${DEFAULT_VALUE/${CONFIG_MAP["HOME"]}/\$HOME}
+        DEFAULT_VALUE=${DEFAULT_VALUE/${CONFIG_MAP["APP_HOME"]}/\$APP_HOME}
         if [[ "${2:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
             DEFAULT_VALUE="\`"$DEFAULT_VALUE"\`"
         else

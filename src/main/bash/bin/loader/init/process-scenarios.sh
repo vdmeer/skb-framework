@@ -120,7 +120,6 @@ ProcessScenarios() {
 
     ## initialize the status maps
     for ID in "${!DMAP_SCN_ORIGIN[@]}"; do
-echo $ID
         RTMAP_SCN_STATUS[$ID]="N"
     done
 
@@ -140,7 +139,6 @@ echo $ID
             RTMAP_SCN_LOADED[$ID]="${RTMAP_SCN_LOADED[$ID]:-} mode"
 #            RTMAP_SCN_LOADED[$ID]=ok
             ConsoleDebug "process-scenario/mode - processed '$ID' for mode with success"
-echo $ID
             SetArtifactStatus scn $ID S
 
             ProcessScenarioReqTask $ID

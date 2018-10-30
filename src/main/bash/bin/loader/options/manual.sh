@@ -33,13 +33,13 @@
 ##
 
 
-_file="${CONFIG_MAP["HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.${CONFIG_MAP["PRINT_MODE"]}"
+_file="${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.${CONFIG_MAP["PRINT_MODE"]}"
 if [[ -f $_file ]]; then
     tput smcup
     clear
     less -r -C -f -M -d $_file
     tput rmcup
 else
-    ConsoleError " ->" "manual - no manual file, tried \$HOME/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.${CONFIG_MAP["PRINT_MODE"]}"
+    ConsoleError " ->" "manual - no manual file, tried \$APP_HOME/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.${CONFIG_MAP["PRINT_MODE"]}"
 fi
 DO_EXIT=true

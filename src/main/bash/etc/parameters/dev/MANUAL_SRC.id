@@ -7,6 +7,6 @@
 ##
 
 DESCRIPTION="source folder for the manual"
-DEFAULT_VALUE=${CONFIG_MAP["HOME"]}/etc/manual
+DEFAULT_VALUE=${CONFIG_MAP["APP_HOME"]}/etc/manual
 
 IS_DIRECTORY=yes

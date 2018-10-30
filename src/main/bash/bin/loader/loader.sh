@@ -149,20 +149,20 @@ else
     fi
 
     FLAVOR_HOME="${CONFIG_MAP["FLAVOR"]}_HOME"
-    CONFIG_MAP["HOME"]=${!FLAVOR_HOME:-}
-    CONFIG_SRC["HOME"]="E"
-    if [[ -z ${CONFIG_MAP["HOME"]:-} ]]; then
+    CONFIG_MAP["APP_HOME"]=${!FLAVOR_HOME:-}
+    CONFIG_SRC["APP_HOME"]="E"
+    if [[ -z ${CONFIG_MAP["APP_HOME"]:-} ]]; then
         ConsoleFatal " ->" "did not find environment setting for application home, tried \$${CONFIG_MAP["FLAVOR"]}_HOME"
         printf "\n"
         exit 17
-    elif [[ ! -d ${CONFIG_MAP["HOME"]} ]]; then
+    elif [[ ! -d ${CONFIG_MAP["APP_HOME"]} ]]; then
         ## found home, but is no directory
-        ConsoleFatal " ->" "\$${CONFIG_MAP["FLAVOR"]}_HOME set as ${CONFIG_MAP["HOME"]} does not point to a directory"
+        ConsoleFatal " ->" "\$${CONFIG_MAP["FLAVOR"]}_HOME set as ${CONFIG_MAP["APP_HOME"]} does not point to a directory"
         printf "\n"
         exit 18
     fi
 fi
-export FLAVOR_HOME=${CONFIG_MAP["HOME"]}
+# export FLAVOR_HOME=${CONFIG_MAP["APP_HOME"]}
 
 if [[ -z ${__FW_LOADER_SCRIPTNAME:-} ]]; then
     ConsoleFatal " ->" "interal error: no application script name set"
@@ -179,10 +179,10 @@ else
     CONFIG_MAP["APP_NAME"]=$__FW_LOADER_APPNAME
 fi
 source $FW_HOME/bin/loader/declare/app-maps.sh
-if [[ -f ${CONFIG_MAP["HOME"]}/etc/version.txt ]]; then
-    CONFIG_MAP["VERSION"]=$(cat ${CONFIG_MAP["HOME"]}/etc/version.txt)
+if [[ -f ${CONFIG_MAP["APP_HOME"]}/etc/version.txt ]]; then
+    CONFIG_MAP["VERSION"]=$(cat ${CONFIG_MAP["APP_HOME"]}/etc/version.txt)
 else
-    ConsoleFatal " ->" "no application version found, tried \$HOME/etc/version.txt"
+    ConsoleFatal " ->" "no application version found, tried \$APP_HOME/etc/version.txt"
     printf "\n"
     exit 22
 fi

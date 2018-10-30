@@ -44,7 +44,7 @@ declare -A DMAP_DEP_REQ_DEP             # map [id]=(dep-id, ...)
 ##
 ## function: DeclareDependenciesOrigin
 ## - declares dependencies from origin
-## $1: origin, CONFIG_MAP identifier, i.e. FW_HOME or HOME
+## $1: origin, CONFIG_MAP identifier, i.e. FW_HOME or APP_HOME
 ##
 DeclareDependenciesOrigin() {
     local ORIGIN=$1
@@ -142,15 +142,15 @@ DeclareDependenciesOrigin() {
 
 ##
 ## function: DeclareDependencies
-## - declares dependencies from multiple sources, writes to FLAVOR_HOME
+## - declares dependencies from multiple sources
 ##
 DeclareDependencies() {
     ConsoleInfo "-->" "declare dependencies"
     ConsoleResetErrors
 
     DeclareDependenciesOrigin FW_HOME
-    if [[ "${CONFIG_MAP["FW_HOME"]}" != "$FLAVOR_HOME" ]]; then
-        DeclareDependenciesOrigin HOME
+    if [[ "${CONFIG_MAP["FW_HOME"]}" != "${CONFIG_MAP["APP_HOME"]}" ]]; then
+        DeclareDependenciesOrigin APP_HOME
     fi
     ValidateDependencyRequirements
     ConsoleInfo "-->" "done"

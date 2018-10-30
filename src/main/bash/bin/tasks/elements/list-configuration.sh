@@ -315,12 +315,12 @@ PrintConfiguration() {
             FLAVOR)
                 PrintEffect bold "$sc_str"
                 ;;
-            FW_HOME | HOME)
+            FW_HOME | APP_HOME)
                 printf '%s' "$sc_str"
                 ;;
             *)
                 sc_str=${sc_str/${CONFIG_MAP["FW_HOME"]}/\$FW_HOME}
-                sc_str=${sc_str/${CONFIG_MAP["HOME"]}/\$HOME}
+                sc_str=${sc_str/${CONFIG_MAP["APP_HOME"]}/\$APP_HOME}
                 printf '%s' "$sc_str"
                 ;;
         esac

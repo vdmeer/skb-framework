@@ -44,7 +44,7 @@ declare -A FW_PATH_MAP                              # map/export for standard pa
 
 
 ##
-## MAP for paths in HOME
+## MAP for paths in APP_HOME
 ##
 declare -A APP_PATH_MAP                             # map/export for standard paths of an application
     APP_PATH_MAP["PARAM_DECL"]="etc/parameters"                         # path for parameter declarations

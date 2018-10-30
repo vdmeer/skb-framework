@@ -186,50 +186,50 @@ ConsoleInfo "  -->" "man: starting task"
 for fil in $FILTER; do
     case "$fil" in
         adoc | ansi | text | text-anon)
-            if [[ -f ${CONFIG_MAP["HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.$fil ]]; then
+            if [[ -f ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.$fil ]]; then
                 set +e
                 tput smcup
                 clear
-                less -r -C -f -M -d "${CONFIG_MAP["HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.$fil"
+                less -r -C -f -M -d "${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.$fil"
                 tput rmcup
                 set -e
             else
-                ConsoleError "  ->" "man: did not find manual file: ${CONFIG_MAP["HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.$fil"
+                ConsoleError "  ->" "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.$fil"
             fi
             ;;
         html)
-            if [[ -f ${CONFIG_MAP["HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.html ]]; then
+            if [[ -f ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.html ]]; then
                 if [[ ! -z "${RTMAP_TASK_LOADED["start-browser"]}" ]]; then
                     set +e
-                    ${DMAP_TASK_EXEC["start-browser"]} --url file://$(PathToCygwin ${CONFIG_MAP["HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.html)
+                    ${DMAP_TASK_EXEC["start-browser"]} --url file://$(PathToCygwin ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.html)
                     set -e
                 else
                     ConsoleError " ->" "man/html: cannot test, task 'start-browser' not loaded"
                 fi
             else
-                ConsoleError " -->" "man: did not find manual file: ${CONFIG_MAP["HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.html"
+                ConsoleError " -->" "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.html"
             fi
             ;;
         manp)
-            if [[ -f ${CONFIG_MAP["HOME"]}/man/man1/${CONFIG_MAP["APP_SCRIPT"]}.1 ]]; then
+            if [[ -f ${CONFIG_MAP["APP_HOME"]}/man/man1/${CONFIG_MAP["APP_SCRIPT"]}.1 ]]; then
                 set +e
-                man -M ${CONFIG_MAP["HOME"]}/man ${CONFIG_MAP["APP_SCRIPT"]}
+                man -M ${CONFIG_MAP["APP_HOME"]}/man ${CONFIG_MAP["APP_SCRIPT"]}
                 set -e
             else
-                ConsoleError " -->" "man: did not find manual file: ${CONFIG_MAP["HOME"]}/man/man1/${CONFIG_MAP["APP_SCRIPT"]}.1"
+                ConsoleError " -->" "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/man/man1/${CONFIG_MAP["APP_SCRIPT"]}.1"
             fi
             ;;
         pdf)
-            if [[ -f ${CONFIG_MAP["HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf ]]; then
+            if [[ -f ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf ]]; then
                 if [[ ! -z "${RTMAP_TASK_LOADED["start-pdf"]}" ]]; then
                     set +e
-                    ${DMAP_TASK_EXEC["start-pdf"]} --file ${CONFIG_MAP["HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf
+                    ${DMAP_TASK_EXEC["start-pdf"]} --file ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf
                     set -e
                 else
                     ConsoleError " ->" "man/pdf: cannot show PDF manual, task 'start-pdf' not loaded"
                 fi
             else
-                ConsoleError "  ->" "man: did not find manual file: ${CONFIG_MAP["HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf"
+                ConsoleError "  ->" "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf"
             fi
             ;;
     esac
