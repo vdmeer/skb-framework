@@ -100,4 +100,5 @@ DeclareCommands() {
             fi
         done
     fi
+    ConsoleInfo "-->" "done"
 }

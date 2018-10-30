@@ -74,7 +74,7 @@ DMAP_TASK_REQ_FILE_OPT["DUMMY"]=$FW_HOME/etc/version.txt
 ## - sets requirements for task, realizes DSL for tasks
 ## $1: task-id
 ## $2: requirement type, one of: param, dep, dir, file, task
-## $3: requirement value, param-id, dep-id, directory, file, task-id
+## $3: requirement value, one of: param-id, dep-id, directory, file, task-id
 ## $4: warning, if set to anything
 ##
 TaskRequire() {
@@ -132,7 +132,6 @@ DeclareTasksOrigin() {
         ConsoleWarn " ->" "declare task - did not find task directory '$TASK_PATH' at origin '$ORIGIN'"
     else
         local ID
-        local TEST_ID
         local SHORT
         local EXECUTABLE
         local EXEC_PATH
@@ -231,8 +230,10 @@ DeclareTasksOrigin() {
                 DMAP_TASK_DESCR[$ID]="$DESCRIPTION"
                 if [[ ! -z ${SHORT:-} ]]; then
                     DMAP_TASK_SHORT[$SHORT]=$ID
+                    ConsoleDebug "declared $ORIGIN:::$ID with short '$SHORT'"
+                else
+                    ConsoleDebug "declared $ORIGIN:::$ID without short"
                 fi
-                ConsoleDebug "declared $ORIGIN:::$ID with short '$SHORT'"
             fi
         done
     fi
@@ -252,4 +253,5 @@ DeclareTasks() {
     if [[ "${CONFIG_MAP["FW_HOME"]}" != "$FLAVOR_HOME" ]]; then
         DeclareTasksOrigin HOME
     fi
+    ConsoleInfo "-->" "done"
 }

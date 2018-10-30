@@ -43,4 +43,6 @@ source $FW_HOME/bin/loader/declare/dependencies.sh
 source $FW_HOME/bin/loader/declare/exitstatus.sh
 source $FW_HOME/bin/loader/declare/options.sh
 source $FW_HOME/bin/loader/declare/parameters.sh
+source $FW_HOME/bin/loader/declare/scenarios.sh
+source $FW_HOME/bin/loader/declare/status.sh
 source $FW_HOME/bin/loader/declare/tasks.sh

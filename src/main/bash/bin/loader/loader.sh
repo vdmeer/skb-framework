@@ -350,23 +350,27 @@ if ConsoleHasErrors; then printf "\n"; exit 32; fi
 ##
 ## Declare scenarios
 ## - exit with code 33: if declaration(s) failed
+## - exit with code 34: if scenario tests failed
 ##
 # if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/scn-decl.map ]]; then
 #     ConsoleInfo "-->" "declaring scenarios from cache"
 #     source ${CONFIG_MAP["CACHE_DIR"]}/scn-decl.map
 # else
-#     ConsoleInfo "-->" "declaring scenarios from source"
-#     DeclareScenarios
-#     if ConsoleHasErrors; then printf "\n"; exit 33; fi
+    ConsoleInfo "-->" "declaring scenarios from source"
+    DeclareScenarios
+    if ConsoleHasErrors; then printf "\n"; exit 33; fi
 # fi
+source $FW_HOME/bin/loader/init/process-scenarios.sh
+ProcessScenarios
+if ConsoleHasErrors; then printf "\n"; exit 34; fi
 
 
 
 ##
 ## test if all -LEVELS are set to correct values
-## - exit with code 34: if loader level unknown
-## - exit with code 35: if shell level unknown
-## - exit with code 36: if task level unknown
+## - exit with code 35: if loader level unknown
+## - exit with code 36: if shell level unknown
+## - exit with code 37: if task level unknown
 ##
 case "${CONFIG_MAP["LOADER_LEVEL"]}" in
     off | all | fatal | error | warn-strict | warn | info | debug | trace)
@@ -374,7 +378,7 @@ case "${CONFIG_MAP["LOADER_LEVEL"]}" in
     *)
         ConsoleError "-->" "unknown loader-level: ${CONFIG_MAP["LOADER_LEVEL"]}"
         printf "    use: off, all, fatal, error, warn-strict, warn, info, debug, trace\n\n"
-        exit 34
+        exit 35
         ;;
 esac
 case "${CONFIG_MAP["SHELL_LEVEL"]}" in
@@ -383,7 +387,7 @@ case "${CONFIG_MAP["SHELL_LEVEL"]}" in
     *)
         ConsoleError "-->" "unknown shell-level: ${CONFIG_MAP["SHELL_LEVEL"]}"
         printf "    use: off, all, fatal, error, warn-strict, warn, info, debug, trace\n\n"
-        exit 35
+        exit 36
         ;;
 esac
 case "${CONFIG_MAP["TASK_LEVEL"]}" in
@@ -392,7 +396,7 @@ case "${CONFIG_MAP["TASK_LEVEL"]}" in
     *)
         ConsoleError "-->" "unknown task-level: ${CONFIG_MAP["TASK_LEVEL"]}"
         printf "    use: off, all, fatal, error, warn-strict, warn, info, debug, trace\n\n"
-        exit 36
+        exit 37
         ;;
 esac
 
@@ -400,12 +404,12 @@ esac
 
 ##
 ## do cli options
-## - exit with code 37: on option errors
+## - exit with code 38: on option errors
 ##
 ##
 source $FW_HOME/bin/loader/init/do-options.sh
 DoOptions
-if ConsoleHasErrors; then printf "\n"; exit 37; fi
+if ConsoleHasErrors; then printf "\n"; exit 38; fi
 
 if [[ $DO_EXIT == true ]]; then
     _te=$(date +%s.%N)

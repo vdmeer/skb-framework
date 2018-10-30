@@ -510,7 +510,7 @@ BuildSrc() {
         ConsoleError " ->" "bdm/src: no setting for SKB_FW_TOOL found, cannot build"
         return
     fi
-    if [[ ! -z ${RTMAP_TASK_TESTED["jre"]:-} ]]; then
+    if [[ ! -z ${RTMAP_DEP_TESTED["jre"]:-} ]]; then
         ConsoleDebug "bdm/src - manual"
         BuildSrcPath ${CONFIG_MAP["MANUAL_SRC"]} l1
 
@@ -612,7 +612,7 @@ BuildHtml() {
     if [[ ! -f $MAN_ADOC_FILE ]]; then
         BuildText adoc
     fi
-    if [[ ! -z ${RTMAP_TASK_TESTED["asciidoctor"]:-} ]]; then
+    if [[ ! -z ${RTMAP_DEP_TESTED["asciidoctor"]:-} ]]; then
         if [[ -f $MAN_HTML_FILE ]]; then
             rm $MAN_HTML_FILE
         fi
@@ -656,7 +656,7 @@ BuildManp() {
     if [[ ! -f $MAN_ADOC_FILE ]]; then
         BuildText adoc
     fi
-    if [[ ! -z ${RTMAP_TASK_TESTED["asciidoctor"]:-} ]]; then
+    if [[ ! -z ${RTMAP_DEP_TESTED["asciidoctor"]:-} ]]; then
         if [[ -f $MAN_PAGE_FILE ]]; then
             rm $MAN_PAGE_FILE
         fi
@@ -694,7 +694,7 @@ BuildPdf() {
     if [[ ! -f $MAN_ADOC_FILE ]]; then
         BuildText adoc
     fi
-    if [[ ! -z ${RTMAP_TASK_TESTED["asciidoctor-pdf"]:-} ]]; then
+    if [[ ! -z ${RTMAP_DEP_TESTED["asciidoctor-pdf"]:-} ]]; then
         if [[ -f $MAN_PDF_FILE ]]; then
             rm $MAN_PDF_FILE
         fi

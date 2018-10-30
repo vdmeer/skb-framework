@@ -40,4 +40,5 @@ source $FW_HOME/bin/functions/describe/elements.sh
 source $FW_HOME/bin/functions/describe/exitstatus.sh
 source $FW_HOME/bin/functions/describe/option.sh
 source $FW_HOME/bin/functions/describe/parameter.sh
+source $FW_HOME/bin/functions/describe/scenario.sh
 source $FW_HOME/bin/functions/describe/task.sh

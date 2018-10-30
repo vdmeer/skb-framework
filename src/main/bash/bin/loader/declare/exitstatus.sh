@@ -95,4 +95,5 @@ DeclareExitStatus() {
             fi
         done
     fi
+    ConsoleInfo "-->" "done"
 }

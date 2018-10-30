@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 ##
-## Identity for error code 036
+## Scenario ID for: build-inst
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    v0.0.0
 ##
 
-ORIGIN=loader
-PROBLEM=external
-DESCRIPTION="loader: task level unknown"
+SHORT=bi
+MODES="dev build use"
+DESCRIPTION="builds installation artifacts"

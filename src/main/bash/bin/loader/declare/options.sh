@@ -97,4 +97,5 @@ DeclareOptions() {
             fi
         done
     fi
+    ConsoleInfo "-->" "done"
 }

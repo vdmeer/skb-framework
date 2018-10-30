@@ -35,16 +35,16 @@
 
 
 declare -A RTMAP_TASK_STATUS        # map [id]="status" -> Not Error Warn Success
-declare -A RTMAP_TASK_LOADED        # array of loaded tasks [id]=ok
-declare -A RTMAP_TASK_UNLOADED      # map of loaded tasks [id]=ok
+declare -A RTMAP_TASK_LOADED        # map of loaded tasks [id]=ok
+declare -A RTMAP_TASK_UNLOADED      # map of unloaded tasks [id]=ok
 
 RTMAP_TASK_LOADED["DUMMY"]=dummy
 RTMAP_TASK_UNLOADED["DUMMY"]=dummy
 
 
 declare -A RTMAP_DEP_STATUS         # map/export for dependency status: [id]=[N]ot-done, [S]uccess, [W]arning(s), [E]rrors
-declare -A RTMAP_TASK_TESTED        # array/export for tested dependencies
-RTMAP_TASK_TESTED["DUMMY"]=dummy
+declare -A RTMAP_DEP_TESTED         # array/export for tested task dependencies
+RTMAP_DEP_TESTED["DUMMY"]=dummy
 
 declare -A RTMAP_REQUESTED_DEP      # map for requested dependencies
 declare -A RTMAP_REQUESTED_PARAM    # map for requested parameters
@@ -55,127 +55,7 @@ declare -A RTMAP_REQUESTED_PARAM    # map for requested parameters
 RTMAP_REQUESTED_PARAM["SHELL_PROMPT"]="SHELL_PROMPT"
 RTMAP_REQUESTED_PARAM["CACHE_DIR"]="CACHE_DIR"
 
-
-
 RTMAP_REQUESTED_DEP["DUMMY"]=dummy
-
-
-
-
-
-
-
-
-##
-## function: MissingReqIsError
-## - determines if a missing requirement is an error
-## - true or false
-## $1: warning argument
-##
-MissingReqIsError() {
-    if [[ -n "$WARN" ]]; then
-        if [[ "${CONFIG_MAP["STRICT"]}" == "on" ]]; then
-            return 0
-        else
-            return 1
-        fi
-    else
-        return 0
-    fi
-}
-
-
-
-##
-## funct: CalculateNewArtifactStatus
-## - calculates the new status
-## $1: old status
-## $2: new status
-##
-CalculateNewArtifactStatus() {
-    local ST_OLD=$1
-    local ST_NEW=$2
-
-    case "$ST_OLD" in
-        N)
-            echo "$ST_NEW"
-            ;;
-        E)
-            case "$ST_NEW" in
-                N)  echo N ;;
-                *)  echo E ;;
-            esac
-            ;;
-        W)
-            case "$ST_NEW" in
-                N | S | W)  echo W ;;
-                E)          echo E ;;
-            esac
-            ;;
-        S)
-            case "$ST_NEW" in
-                N | S)      echo S ;;
-                W)          echo W ;;
-                E)          echo E ;;
-            esac
-            ;;
-    esac
-}
-
-
-
-##
-## function: SetArtifactStatus
-## - sets the status of an artifact if new status is higher than old one
-## $1: type, one of: task, dep
-## $2: artifact ID
-## $3: new status: (N, notdone), (S, success), (W, warning), (E, error)
-##
-SetArtifactStatus() {
-    local ARTIFACT_TYPE=$1
-    local ID=$2
-    local STATUS=$3
-
-    local OLD
-
-    case "$ARTIFACT_TYPE" in
-        dep)
-            if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
-                ConsoleError " ->" "set-artifact-status - unknown dependency '$ID'"
-                return
-            fi
-            OLD=${RTMAP_DEP_STATUS[$ID]:-}
-            ;;
-        task)
-            ID=$(GetTaskID $ID)
-            if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
-                ConsoleError " ->" "set-artifact-status - unknown task '$ID'"
-                return
-            fi
-            OLD=${RTMAP_TASK_STATUS[$ID]:-}
-            ;;
-        *)
-            ConsoleError " ->" "set-artifact-status - unknown artifact type '$ARTIFACT_TYPE'"
-            return
-            ;;
-    esac
-
-    case "$STATUS" in
-        N | notdone)    STATUS=N ;;
-        S | success)    STATUS=S ;;
-        W | warning)    STATUS=W ;;
-        E | error)      STATUS=E ;;
-        *)
-            ConsoleError " ->" "set-artifact-status - unknown status '$STATUS'"
-            return
-            ;;
-    esac
-
-    case "$ARTIFACT_TYPE" in
-        dep)    RTMAP_DEP_STATUS[$ID]=$(CalculateNewArtifactStatus $OLD $STATUS) ;;
-        task)   RTMAP_TASK_STATUS[$ID]=$(CalculateNewArtifactStatus $OLD $STATUS) ;;
-    esac
-}
 
 
 
@@ -451,21 +331,21 @@ TestDependency() {
     local DEP=$1
 
     RTMAP_REQUESTED_DEP[$DEP]=[$DEP]
-    if [[ "${RTMAP_TASK_TESTED[$DEP]:-}" == "ok" ]]; then
+    if [[ "${RTMAP_DEP_TESTED[$DEP]:-}" == "ok" ]]; then
         ConsoleDebug "process-task/dep - dependency '$DEP' already tested"
     else
         ConsoleDebug "process-task/dep - testing dependency '$DEP'"
         local COMMAND=${DMAP_DEP_CMD[$DEP]}
         if [[ "${COMMAND:0:1}" == "/" ]];then
             if [[ -n "$($COMMAND)" ]]; then
-                RTMAP_TASK_TESTED[$DEP]="ok"
+                RTMAP_DEP_TESTED[$DEP]="ok"
                 SetArtifactStatus dep $DEP S
             else
                 SetArtifactStatus dep $DEP E
             fi
         else
             if [[ -x "$(command -v $COMMAND)" ]]; then
-                RTMAP_TASK_TESTED[$DEP]="ok"
+                RTMAP_DEP_TESTED[$DEP]="ok"
                 SetArtifactStatus dep $DEP S
             else
                 SetArtifactStatus dep $DEP E
@@ -494,7 +374,7 @@ ProcessTaskReqDep() {
                 SetArtifactStatus task $ID E
             else
                 TestDependency $DEP
-                if [[ "${RTMAP_TASK_TESTED[$DEP]:-}" == "ok" ]]; then
+                if [[ "${RTMAP_DEP_TESTED[$DEP]:-}" == "ok" ]]; then
                     SetArtifactStatus task $ID S
                     RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"
 #                     RTMAP_TASK_LOADED[$ID]=ok
@@ -517,8 +397,7 @@ ProcessTaskReqDep() {
                 SetArtifactStatus task $ID E
             else
                 TestDependency $DEP
-                if [[ "${RTMAP_TASK_TESTED[$DEP]:-}" == "ok" ]]; then
-                    RTMAP_TASK_TESTED[$DEP]="ok"
+                if [[ "${RTMAP_DEP_TESTED[$DEP]:-}" == "ok" ]]; then
                     SetArtifactStatus task $ID S
                     RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"
 #                     RTMAP_TASK_LOADED[$ID]=ok

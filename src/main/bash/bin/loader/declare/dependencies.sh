@@ -153,4 +153,5 @@ DeclareDependencies() {
         DeclareDependenciesOrigin HOME
     fi
     ValidateDependencyRequirements
+    ConsoleInfo "-->" "done"
 }

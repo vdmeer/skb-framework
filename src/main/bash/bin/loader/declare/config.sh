@@ -59,7 +59,6 @@ WriteL1Config() {
 
     declare -p DMAP_ES >> $file
     declare -p DMAP_ES_PROBLEM >> $file
-    declare -p DMAP_ES_DESCR >> $file
 
 
     declare -p DMAP_CMD >> $file
@@ -70,7 +69,6 @@ WriteL1Config() {
     declare -p DMAP_PARAM_ORIGIN >> $file
     declare -p DMAP_PARAM_DECL >> $file
     declare -p DMAP_PARAM_DEFVAL >> $file
-    declare -p DMAP_PARAM_DESCR >> $file
     declare -p DMAP_PARAM_IS >> $file
 
 
@@ -79,7 +77,7 @@ WriteL1Config() {
     declare -p DMAP_DEP_REQ_DEP >> $file
     declare -p DMAP_DEP_CMD >> $file
 
-    declare -p RTMAP_TASK_TESTED >> $file
+    declare -p RTMAP_DEP_TESTED >> $file
     declare -p RTMAP_DEP_STATUS >> $file
 
 
@@ -87,7 +85,6 @@ WriteL1Config() {
     declare -p DMAP_TASK_DECL >> $file
     declare -p DMAP_TASK_SHORT >> $file
     declare -p DMAP_TASK_EXEC >> $file
-    declare -p DMAP_TASK_DESCR >> $file
     declare -p DMAP_TASK_MODES >> $file
 
     declare -p DMAP_TASK_REQ_PARAM_MAN >> $file
@@ -105,11 +102,30 @@ WriteL1Config() {
     declare -p RTMAP_TASK_LOADED >> $file
     declare -p RTMAP_TASK_UNLOADED >> $file
 
+
+    declare -p DMAP_SCN_ORIGIN >> $file
+    declare -p DMAP_SCN_DECL >> $file
+    declare -p DMAP_SCN_SHORT >> $file
+    declare -p DMAP_SCN_EXEC >> $file
+    declare -p DMAP_SCN_MODES >> $file
+
+    declare -p DMAP_SCN_REQ_TASK_MAN >> $file
+    declare -p DMAP_SCN_REQ_TASK_OPT >> $file
+
+    declare -p RTMAP_SCN_STATUS >> $file
+    declare -p RTMAP_SCN_LOADED >> $file
+    declare -p RTMAP_SCN_UNLOADED >> $file
+
+
     declare -p RTMAP_REQUESTED_DEP >> $file
     declare -p RTMAP_REQUESTED_PARAM >> $file
 
     declare -p DMAP_CMD_DESCR >> $file
     declare -p DMAP_DEP_DESCR >> $file
+    declare -p DMAP_ES_DESCR >> $file
     declare -p DMAP_OPT_DESCR >> $file
     declare -p DMAP_PARAM_DESCR >> $file
+    declare -p DMAP_TASK_DESCR >> $file
+    declare -p DMAP_SCN_DESCR >> $file
+
 }

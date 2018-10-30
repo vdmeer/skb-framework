@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## include file, source all files in this directory
+## Functions for scenarios
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    v0.0.0
@@ -33,11 +33,27 @@
 ##
 
 
-source $FW_HOME/bin/functions/print-ansi.sh
-source $FW_HOME/bin/functions/console.sh
-source $FW_HOME/bin/functions/misc.sh
-source $FW_HOME/bin/functions/mvn-site.sh
-source $FW_HOME/bin/functions/print.sh
-source $FW_HOME/bin/functions/prompt.sh
-source $FW_HOME/bin/functions/scenarios.sh
-source $FW_HOME/bin/functions/tasks.sh
+##
+## function: GetScenarioID
+## - returns a scenario ID for a given ID or SHORT, empty string if not declared
+## $1: ID to process
+##
+GetScenarioID() {
+    local ID=$1
+
+    if [[ ! -z ${ID:-} ]]; then
+        if [[ -z ${DMAP_SCN_ORIGIN[$ID]:-} ]]; then
+            for SHORT in ${!DMAP_SCN_SHORT[@]}; do
+                if [[ "$SHORT" == "$ID" ]]; then
+                    printf ${DMAP_SCN_SHORT[$SHORT]}
+                fi
+            done
+        else
+            printf $ID
+        fi
+    else
+        printf ""
+    fi
+}
+
+

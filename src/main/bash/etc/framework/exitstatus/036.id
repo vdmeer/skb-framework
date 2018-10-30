@@ -8,4 +8,4 @@
 
 ORIGIN=loader
 PROBLEM=external
-DESCRIPTION="loader: task level unknown"
+DESCRIPTION="loader: shell level unknown"

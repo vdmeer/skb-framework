@@ -75,7 +75,7 @@ CLI_SET=false
 ## set CLI options and parse CLI
 ##
 CLI_OPTIONS=ahs
-CLI_LONG_OPTIONS=all,help,strict,msrc,cmd,dep,es,opt,param,task
+CLI_LONG_OPTIONS=all,help,strict,msrc,cmd,dep,es,opt,param,scn,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name validate-installation -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -104,6 +104,7 @@ while true; do
                 BuildTaskHelpLine "<none>"  es      "<none>" "target: exit-status"      $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  opt     "<none>" "target: options"          $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  param   "<none>" "target: parameters"       $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  scn     "<none>" "target: scenarios"        $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  task    "<none>" "target: tasks"            $PRINT_PADDING
             else
                 cat $CACHED_HELP
@@ -152,6 +153,11 @@ while true; do
             TARGET=$TARGET" param"
             CLI_SET=true
             ;;
+        --scn)
+            shift
+            TARGET=$TARGET" scn"
+            CLI_SET=true
+            ;;
         --task)
             shift
             TARGET=$TARGET" task"
@@ -174,9 +180,9 @@ done
 ## test CLI
 ############################################################################################
 if [[ $DO_ALL == true ]]; then
-    TARGET="msrc cmd dep es opt param task"
+    TARGET="msrc cmd dep es opt param scn task"
 elif [[ $CLI_SET == false ]]; then
-    TARGET="msrc cmd dep es opt param task"
+    TARGET="msrc cmd dep es opt param scn task"
 fi
 
 
@@ -609,6 +615,97 @@ ValidateParameter() {
 
 ############################################################################################
 ##
+## function: Validate SCENARIO
+##
+############################################################################################
+ValidateScenarioDocs() {
+    ConsoleDebug "validating scenario docs"
+
+    local ID
+    local SOURCE
+    for ID in ${!DMAP_SCN_DECL[@]}; do
+        SOURCE=${DMAP_SCN_DECL[$ID]}
+        if [[ ! -f $SOURCE.adoc ]]; then
+            ConsoleWarnStrict " ->" "vi: scenario '$ID' without ADOC file"
+        elif [[ ! -r $SOURCE.adoc ]]; then
+            ConsoleWarnStrict " ->" "vi: scenario '$ID' ADOC file not readable"
+        fi
+        if [[ ! -f $SOURCE.txt ]]; then
+            ConsoleWarnStrict " ->" "vi: scenario '$ID' without TXT file"
+        elif [[ ! -r $SOURCE.txt ]]; then
+            ConsoleWarnStrict " ->" "vi: scenario '$ID' TXT file not readable"
+        fi
+    done
+
+    ConsoleDebug "done"
+}
+
+ValidateScenarioOrigin() {
+    local ORIGIN_PATH=$1
+    local ORIGIN=$2
+    ConsoleDebug "validating scenario $ORIGIN"
+
+    local ID
+    local SCN_PATH=$ORIGIN_PATH/${APP_PATH_MAP["SCENARIOS"]}
+    local FILE
+
+    ## check that files in the scenario folder have a corresponding scenario declaration
+    if [[ -d $SCN_PATH/${APP_PATH_MAP["SCENARIOS"]} ]]; then
+        for FILE in $SCN_PATH/${APP_PATH_MAP["SCENARIOS"]}/**; do
+            if [[ -d "$FILE" ]]; then
+                continue
+            fi
+            ID=${FILE##*/}
+            ID=${ID%.*}
+            if [[ -z ${DMAP_SCN_DECL[$ID]:-} ]]; then
+                ConsoleError " ->" "vi: validate/scn - found extra file $ORIGIN/${APP_PATH_MAP["SCENARIOS"]}, scenario '$ID' not declared"
+            fi
+        done
+    fi
+
+    ## check for extra files in scenario executables directory
+    if [[ -d $SCN_PATH/${APP_PATH_MAP["SCENARIOS"]} ]]; then
+        for FILE in $SCN_PATH/${APP_PATH_MAP["SCENARIOS"]}/**; do
+            if [[ -d "$FILE" ]]; then
+                continue
+            fi
+            ID=${FILE##*/}
+            ID=${ID%.*}
+            if [[ -z ${DMAP_SCN_EXEC[$ID]:-} ]]; then
+                ConsoleError " ->" "vi: validate/scn - found extra file $ORIGIN/${APP_PATH_MAP["SCN_SCRIPT"]}, scenario '$ID' not declared"
+            fi
+        done
+    fi
+
+    ConsoleDebug "done"
+}
+
+ValidateScenario() {
+    ConsoleDebug "validating scenario"
+
+    ValidateScenarioDocs
+
+    local ORIG_PATH
+    local COUNT=1
+    ValidateScenarioOrigin ${CONFIG_MAP["FW_HOME"]} FW_HOME
+    if [[ "${CONFIG_MAP["FW_HOME"]}" != "$FLAVOR_HOME" ]]; then
+        ValidateScenarioOrigin ${CONFIG_MAP["HOME"]} HOME
+    fi
+    if [[ -n "${CONFIG_MAP["SCENARIO_PATH"]:-}" ]]; then
+        for ORIG_PATH in ${CONFIG_MAP["SCENARIO_PATH"]}; do
+            ValidateScenarioOrigin $ORIG_PATH $COUNT
+            COUNT=$(($COUNT + 1))
+        done
+    fi
+
+
+    ConsoleDebug "done"
+}
+
+
+
+############################################################################################
+##
 ## function: Validate TASK
 ##
 ############################################################################################
@@ -738,6 +835,11 @@ for TODO in $TARGET; do
         param)
             ConsoleInfo "  -->" "validating parameter"
             ValidateParameter
+            ConsoleInfo "  -->" "done"
+            ;;
+        scn)
+            ConsoleInfo "  -->" "validating scenario"
+            ValidateScenario
             ConsoleInfo "  -->" "done"
             ;;
         task)

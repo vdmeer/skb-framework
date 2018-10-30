@@ -53,7 +53,7 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/functions/_include
-source $FW_HOME/bin/functions/describe/task.sh
+source $FW_HOME/bin/functions/describe/scenario.sh
 ConsoleResetErrors
 ConsoleResetWarnings
 
@@ -62,7 +62,7 @@ ConsoleResetWarnings
 ## set local variables
 ##
 PRINT_MODE=
-TASK_ID=
+SCN_ID=
 LOADED=
 UNLOADED=
 APP_MODE=
@@ -106,20 +106,20 @@ while true; do
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"              $PRINT_PADDING
                 printf "\n   filters\n"
-                BuildTaskHelpLine a all         "<none>"    "all tasks, disables all other filters"                 $PRINT_PADDING
-                BuildTaskHelpLine i id          "ID"        "task identifier"                                       $PRINT_PADDING
-                BuildTaskHelpLine l loaded      "<none>"    "only loaded tasks"                                     $PRINT_PADDING
-                BuildTaskHelpLine m mode        "MODE"      "only tasks for application mode: dev, build, use"      $PRINT_PADDING
-                BuildTaskHelpLine o origin      "ORIGIN"    "only tasks from origin: f(w), a(pp)"                   $PRINT_PADDING
-                BuildTaskHelpLine s status      "STATUS"    "only tasks for status: success, warnings, errors"      $PRINT_PADDING
-                BuildTaskHelpLine u unloaded    "<none>"    "only unloaded tasks"                                   $PRINT_PADDING
+                BuildTaskHelpLine a all         "<none>"    "all scenarios, disables all other filters"                 $PRINT_PADDING
+                BuildTaskHelpLine i id          "ID"        "scenario identifier"                                       $PRINT_PADDING
+                BuildTaskHelpLine l loaded      "<none>"    "only loaded scenarios"                                     $PRINT_PADDING
+                BuildTaskHelpLine m mode        "MODE"      "only scenarios for application mode: dev, build, use"      $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "only scenarios from origin: f(w), a(pp)"                   $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "only scenarios for status: success, warnings, errors"      $PRINT_PADDING
+                BuildTaskHelpLine u unloaded    "<none>"    "only unloaded scenarios"                                   $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
             exit 0
             ;;
         -i | --id)
-            TASK_ID="$2"
+            SCN_ID="$2"
             CLI_SET=true
             shift 2
             ;;
@@ -169,7 +169,7 @@ if [[ ! -n "$PRINT_MODE" ]]; then
 fi
 
 if [[ "$ALL" == "yes" ]]; then
-    TASK_ID=
+    SCN_ID=
     LOADED=
     UNLOADED=
     APP_MODE=
@@ -179,15 +179,15 @@ elif [[ $CLI_SET == false ]]; then
     APP_MODE=${CONFIG_MAP["APP_MODE"]}
     LOADED=yes
 else
-    if [[ -n "$TASK_ID" ]]; then
-        ORIG_TASK=$TASK_ID
-        TASK_ID=$(GetTaskID $TASK_ID)
-        if [[ -z ${TASK_ID:-} ]]; then
-            ConsoleError " ->" "ds: unknown task: $ORIG_TASK"
+    if [[ -n "$SCN_ID" ]]; then
+        ORIG_SCN=$SCN_ID
+        SCN_ID=$(GetScenarioID $SCN_ID)
+        if [[ -z ${SCN_ID:-} ]]; then
+            ConsoleError " ->" "ds: unknown scenario: $ORIG_SCN"
             exit 60
         else
-            if [[ -z ${DMAP_TASK_ORIGIN[$TASK_ID]:-} ]]; then
-                ConsoleError " ->" "ds: unknown task: $ORIG_TASK"
+            if [[ -z ${DMAP_SCN_ORIGIN[$SCN_ID]:-} ]]; then
+                ConsoleError " ->" "ds: unknown scenario: $ORIG_SCN"
                 exit 61
             fi
         fi
@@ -250,25 +250,25 @@ fi
 ############################################################################################
 ConsoleInfo "  -->" "ds: starting task"
 
-for ID in ${!DMAP_TASK_ORIGIN[@]}; do
-    if [[ -n "$TASK_ID" ]]; then
-        if [[ ! "$TASK_ID" == "$ID" ]]; then
+for ID in ${!DMAP_SCN_ORIGIN[@]}; do
+    if [[ -n "$SCN_ID" ]]; then
+        if [[ ! "$SCN_ID" == "$ID" ]]; then
             continue
         fi
     fi
     if [[ -n "$LOADED" ]]; then
-        if [[ -z "${RTMAP_TASK_LOADED[$ID]:-}" ]]; then
+        if [[ -z "${RTMAP_SCN_LOADED[$ID]:-}" ]]; then
             continue
         fi
     fi
     if [[ -n "$UNLOADED" ]]; then
-        if [[ -z "${RTMAP_TASK_UNLOADED[$ID]:-}" ]]; then
+        if [[ -z "${RTMAP_SCN_UNLOADED[$ID]:-}" ]]; then
             continue
         fi
 
     fi
     if [[ -n "$STATUS" ]]; then
-        case ${RTMAP_TASK_STATUS[$ID]} in
+        case ${RTMAP_SCN_STATUS[$ID]} in
             $STATUS)
                 ;;
             *)
@@ -279,7 +279,7 @@ for ID in ${!DMAP_TASK_ORIGIN[@]}; do
     fi
     if [[ -n "$APP_MODE" ]]; then
         if [[ "$APP_MODE" != "all" ]]; then
-            case ${DMAP_TASK_MODES[$ID]} in
+            case ${DMAP_SCN_MODES[$ID]} in
                 *$APP_MODE*)
                     ;;
                 *)
@@ -289,7 +289,7 @@ for ID in ${!DMAP_TASK_ORIGIN[@]}; do
         fi
     fi
     if [[ -n "$ORIGIN" ]]; then
-        if [[ ! "$ORIGIN" == "${DMAP_TASK_ORIGIN[$ID]}" ]]; then
+        if [[ ! "$ORIGIN" == "${DMAP_SCN_ORIGIN[$ID]}" ]]; then
             continue
         fi
     fi
@@ -299,7 +299,7 @@ keys=($(printf '%s\n' "${keys[@]:-}"|sort))
 
 for i in ${!keys[@]}; do
     ID=${keys[$i]}
-    DescribeTask $ID full "$PRINT_MODE line-indent" $PRINT_MODE
+    DescribeScenario $ID full "$PRINT_MODE line-indent" $PRINT_MODE
 done
 
 ConsoleInfo "  -->" "ds: done"

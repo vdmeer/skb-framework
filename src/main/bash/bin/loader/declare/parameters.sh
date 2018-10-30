@@ -143,4 +143,5 @@ DeclareParameters() {
     if [[ "${CONFIG_MAP["FW_HOME"]}" != "$FLAVOR_HOME" ]]; then
         DeclareParametersOrigin HOME
     fi
+    ConsoleInfo "-->" "done"
 }

@@ -53,7 +53,7 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/functions/_include
-source $FW_HOME/bin/functions/describe/task.sh
+source $FW_HOME/bin/functions/describe/scenario.sh
 ConsoleResetErrors
 ConsoleResetWarnings
 
@@ -112,19 +112,19 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
                 BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
                 printf "\n   filters\n"
-                BuildTaskHelpLine a         all         "<none>"    "all tasks, disables all other filters"                             $PRINT_PADDING
-                BuildTaskHelpLine l         loaded      "<none>"    "only loaded tasks"                                                 $PRINT_PADDING
-                BuildTaskHelpLine m         mode        "MODE"      "only tasks for application mode: dev, build, use"                  $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-a        "<none>"    "activate all '--no-' filters"                                      $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-b        "<none>"    "exclude tasks starting with 'build-'"                              $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-d        "<none>"    "exclude tasks starting with 'describe-'"                           $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-dl       "<none>"    "exclude tasks starting with 'describe-' or 'list-'"                $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-l        "<none>"    "exclude tasks starting with 'list-'"                               $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-s        "<none>"    "exclude tasks starting with 'start-'"                              $PRINT_PADDING
-                BuildTaskHelpLine o         origin      "ORIGIN"    "only tasks from origin: f(w), a(pp)"                               $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  odl         "<none>"    "show only tasks starting with 'describe-' or 'list-'"              $PRINT_PADDING
-                BuildTaskHelpLine s         status      "STATUS"    "only tasks with status: success, warnings, errors, not attempted"  $PRINT_PADDING
-                BuildTaskHelpLine u         unloaded    "<none>"    "only unloaded tasks"                                               $PRINT_PADDING
+                BuildTaskHelpLine a         all         "<none>"    "all scenarios, disables all other filters"                             $PRINT_PADDING
+                BuildTaskHelpLine l         loaded      "<none>"    "only loaded scenarios"                                                 $PRINT_PADDING
+                BuildTaskHelpLine m         mode        "MODE"      "only scenarios for application mode: dev, build, use"                  $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-a        "<none>"    "activate all '--no-' filters"                                          $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-b        "<none>"    "exclude scenarios starting with 'build-'"                              $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-d        "<none>"    "exclude scenarios starting with 'describe-'"                           $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-dl       "<none>"    "exclude scenarios starting with 'describe-' or 'list-'"                $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-l        "<none>"    "exclude scenarios starting with 'list-'"                               $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-s        "<none>"    "exclude scenarios starting with 'start-'"                              $PRINT_PADDING
+                BuildTaskHelpLine o         origin      "ORIGIN"    "only scenarios from origin: f(w), a(pp)"                               $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  odl         "<none>"    "show only scenarios starting with 'describe-' or 'list-'"              $PRINT_PADDING
+                BuildTaskHelpLine s         status      "STATUS"    "only scenarios with status: success, warnings, errors, not attempted"  $PRINT_PADDING
+                BuildTaskHelpLine u         unloaded    "<none>"    "only unloaded scenarios"                                               $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
@@ -292,18 +292,18 @@ else
 fi
 
 
-declare -A TASK_TABLE
-FILE=${CONFIG_MAP["CACHE_DIR"]}/task-tab.${CONFIG_MAP["PRINT_MODE"]}
+declare -A SCN_TABLE
+FILE=${CONFIG_MAP["CACHE_DIR"]}/scn-tab.${CONFIG_MAP["PRINT_MODE"]}
 if [[ -n "$PRINT_MODE" ]]; then
-    FILE=${CONFIG_MAP["CACHE_DIR"]}/task-tab.$PRINT_MODE
+    FILE=${CONFIG_MAP["CACHE_DIR"]}/scn-tab.$PRINT_MODE
 fi
 if [[ -f $FILE ]]; then
     source $FILE
 fi
 
 
-if (( $TASK_LINE_MIN_LENGTH > $COLUMNS )); then
-    ConsoleError "  ->" "ls: not enough columns for table, need $TASK_LINE_MIN_LENGTH found $COLUMNS"
+if (( $SCN_LINE_MIN_LENGTH > $COLUMNS )); then
+    ConsoleError "  ->" "ls: not enough columns for table, need $SCN_LINE_MIN_LENGTH found $COLUMNS"
     exit 60
 fi
 
@@ -317,8 +317,8 @@ function TableTop() {
     for ((x = 1; x < $COLUMNS; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
     done
-    printf "\n ${EFFECTS["REVERSE_ON"]}Task"
-    printf "%*s" "$((TASK_PADDING - 4))" ''
+    printf "\n ${EFFECTS["REVERSE_ON"]}Scenario"
+    printf "%*s" "$((SCN_PADDING - 8))" ''
     printf "Description"
     printf '%*s' "$((DESCRIPTION_LENGTH - 11))" ''
     printf "O D B U S${EFFECTS["REVERSE_OFF"]}\n\n"
@@ -359,7 +359,7 @@ function TableBottom() {
 }
 
 function ListTop() {
-    printf "\n  Tasks\n"
+    printf "\n  Scenarios\n"
 }
 
 function ListBottom() {
@@ -369,10 +369,10 @@ function ListBottom() {
 
 
 ############################################################################################
-## task print function
+## scenario print function
 ############################################################################################
-PrintTasks() {
-    for ID in ${!DMAP_TASK_ORIGIN[@]}; do
+PrintScenarios() {
+    for ID in ${!DMAP_SCN_ORIGIN[@]}; do
         if [[ -n "$ODL" ]]; then
             case "$ID" in
                 "describe-"* | "list-"*)
@@ -411,18 +411,18 @@ PrintTasks() {
             esac
         fi
         if [[ -n "$LOADED" ]]; then
-            if [[ -z "${RTMAP_TASK_LOADED[$ID]:-}" ]]; then
+            if [[ -z "${RTMAP_SCN_LOADED[$ID]:-}" ]]; then
                 continue
             fi
         fi
         if [[ -n "$UNLOADED" ]]; then
-            if [[ -z "${RTMAP_TASK_UNLOADED[$ID]:-}" ]]; then
+            if [[ -z "${RTMAP_SCN_UNLOADED[$ID]:-}" ]]; then
                 continue
             fi
 
         fi
         if [[ -n "$STATUS" ]]; then
-            case ${RTMAP_TASK_STATUS[$ID]} in
+            case ${RTMAP_SCN_STATUS[$ID]} in
                 $STATUS)
                     ;;
                 *)
@@ -433,7 +433,7 @@ PrintTasks() {
         fi
         if [[ -n "$APP_MODE" ]]; then
             if [[ "$APP_MODE" != "all" ]]; then
-                case ${DMAP_TASK_MODES[$ID]} in
+                case ${DMAP_SCN_MODES[$ID]} in
                     *$APP_MODE*)
                         ;;
                     *)
@@ -443,7 +443,7 @@ PrintTasks() {
             fi
         fi
         if [[ -n "$ORIGIN" ]]; then
-            if [[ ! "$ORIGIN" == "${DMAP_TASK_ORIGIN[$ID]}" ]]; then
+            if [[ ! "$ORIGIN" == "${DMAP_SCN_ORIGIN[$ID]}" ]]; then
                 continue
             fi
         fi
@@ -457,21 +457,21 @@ PrintTasks() {
         case $LS_FORMAT in
             list)
                 printf "   "
-                if [[ -z "${TASK_TABLE[$ID]:-}" ]]; then
-                    TaskInTable $ID $PRINT_MODE
+                if [[ -z "${SCN_TABLE[$ID]:-}" ]]; then
+                    ScenarioInTable $ID $PRINT_MODE
                 else
-                    printf "${TASK_TABLE[$ID]}"
+                    printf "${SCN_TABLE[$ID]}"
                 fi
-                DescribeTaskDescription $ID 3 none
+                DescribeScenarioDescription $ID 3 none
                 ;;
             table)
-                if [[ -z "${TASK_TABLE[$ID]:-}" ]]; then
-                    TaskInTable $ID $PRINT_MODE
+                if [[ -z "${SCN_TABLE[$ID]:-}" ]]; then
+                    ScenarioInTable $ID $PRINT_MODE
                 else
-                    printf "${TASK_TABLE[$ID]}"
+                    printf "${SCN_TABLE[$ID]}"
                 fi
-                DescribeTaskDescription $ID
-                DescribeTaskStatus $ID $PRINT_MODE
+                DescribeScenarioDescription $ID
+                DescribeScenarioStatus $ID $PRINT_MODE
                 ;;
         esac
         printf "\n"
@@ -488,12 +488,12 @@ ConsoleInfo "  -->" "ls: starting task"
 case $LS_FORMAT in
     list)
         ListTop
-        PrintTasks
+        PrintScenarios
         ListBottom
         ;;
     table)
         TableTop
-        PrintTasks
+        PrintScenarios
         TableBottom
         ;;
     *)

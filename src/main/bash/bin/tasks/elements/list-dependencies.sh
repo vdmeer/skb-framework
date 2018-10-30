@@ -282,7 +282,7 @@ PrintDependencies() {
             fi
         fi
         if [[ -n "$TESTED" ]]; then
-            if [[ -z "${RTMAP_TASK_TESTED[$ID]:-}" ]]; then
+            if [[ -z "${RTMAP_DEP_TESTED[$ID]:-}" ]]; then
                 continue
             fi
         fi

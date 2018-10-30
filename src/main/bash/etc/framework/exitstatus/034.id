@@ -8,4 +8,4 @@
 
 ORIGIN=loader
 PROBLEM=external
-DESCRIPTION="loader: loader level unknown"
+DESCRIPTION="loader: scenario declaration error"
