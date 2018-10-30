@@ -67,6 +67,7 @@ DEPENDENCIES=
 EXITSTATUS=
 OPTIONS=
 PARAMETERS=
+SCENARIOS=
 TASKS=
 ALL=
 CLI_SET=false
@@ -78,7 +79,7 @@ CLI_SET=false
 ##
 CLI_OPTIONS=ahP:
 CLI_LONG_OPTIONS=all,help,print-mode:
-CLI_LONG_OPTIONS+=,commands,dependencies,exitstatus,options,parameters,tasks
+CLI_LONG_OPTIONS+=,cmd,dep,es,opt,param,scn,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-element -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -98,13 +99,14 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
 
                 printf "\n   filters\n"
-                BuildTaskHelpLine a all                 "<none>"   "all application aspects"              $PRINT_PADDING
-                BuildTaskHelpLine "<none>" commands     "<none>"   "include application description"      $PRINT_PADDING
-                BuildTaskHelpLine "<none>" dependencies "<none>"   "include authors"                      $PRINT_PADDING
-                BuildTaskHelpLine "<none>" exitstatus   "<none>"   "include bugs"                         $PRINT_PADDING
-                BuildTaskHelpLine "<none>" options      "<none>"   "include copying"                      $PRINT_PADDING
-                BuildTaskHelpLine "<none>" parameters   "<none>"   "include resources"                    $PRINT_PADDING
-                BuildTaskHelpLine "<none>" tasks        "<none>"   "include security"                     $PRINT_PADDING
+                BuildTaskHelpLine a all             "<none>"   "all elements"               $PRINT_PADDING
+                BuildTaskHelpLine "<none>" cmd      "<none>"   "include commands"           $PRINT_PADDING
+                BuildTaskHelpLine "<none>" dep      "<none>"   "include dependencies"       $PRINT_PADDING
+                BuildTaskHelpLine "<none>" es       "<none>"   "include exit status"        $PRINT_PADDING
+                BuildTaskHelpLine "<none>" opt      "<none>"   "include options"            $PRINT_PADDING
+                BuildTaskHelpLine "<none>" param    "<none>"   "include parameters"         $PRINT_PADDING
+                BuildTaskHelpLine "<none>" scn      "<none>"   "include scenarios"          $PRINT_PADDING
+                BuildTaskHelpLine "<none>" task     "<none>"   "include tasks "             $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
@@ -121,32 +123,37 @@ while true; do
             CLI_SET=true
             shift
             ;;
-        --commands)
+        --cmd)
             COMMANDS=yes
             CLI_SET=true
             shift
             ;;
-        --dependencies)
+        --dep)
             DEPENDENCIES=yes
             CLI_SET=true
             shift
             ;;
-        --exitstatus)
+        --es)
             EXITSTATUS=yes
             CLI_SET=true
             shift
             ;;
-        --options)
+        --opt)
             OPTIONS=yes
             CLI_SET=true
             shift
             ;;
-        --parameters)
+        --param)
             PARAMETERS=yes
             CLI_SET=true
             shift
             ;;
-        --tasks)
+        --scn)
+            SCENARIOS=yes
+            CLI_SET=true
+            shift
+            ;;
+        --task)
             TASKS=yes
             CLI_SET=true
             shift
@@ -178,6 +185,7 @@ if [[ "$ALL" == "yes" || $CLI_SET == false ]]; then
     EXITSTATUS=yes
     OPTIONS=yes
     PARAMETERS=yes
+    SCENARIOS=yes
     TASKS=yes
 fi
 
@@ -214,6 +222,10 @@ fi
 
 if [[ "$EXITSTATUS" == "yes" ]]; then
     DescribeElementExitStatus
+fi
+
+if [[ "$SCENARIOS" == "yes" ]]; then
+    DescribeElementScenarios
 fi
 
 ConsoleInfo "  -->" "de: done"

@@ -231,7 +231,7 @@ for ID in ${!DMAP_DEP_ORIGIN[@]}; do
         fi
     fi
     if [[ -n "$TESTED" ]]; then
-        if [[ -z "${RTMAP_DEP_TESTED[$ID]:-}" ]]; then
+        if [[ "${RTMAP_DEP_STATUS[$ID]:-}" != "S" ]]; then
             continue
         fi
     fi

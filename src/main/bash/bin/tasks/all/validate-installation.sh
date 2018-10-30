@@ -234,7 +234,7 @@ ValidateManualSource() {
     if [[ ! -d ${CONFIG_MAP["MANUAL_SRC"]}/framework ]]; then
         ConsoleError " ->" "did not find tag directory"
     else
-        EXPECTED="framework/commands framework/dependencies framework/exit-options framework/exit-status framework/options framework/parameters framework/run-options framework/tasks"
+        EXPECTED="framework/commands framework/dependencies framework/exit-options framework/exit-status framework/options framework/parameters framework/run-options framework/tasks framework/scenarios"
         for FILE in $EXPECTED; do
             if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.adoc ]]; then
                 ConsoleWarnStrict "  ->" "vi: missing file $FILE.adoc"

@@ -108,6 +108,3 @@ PrintShellSNP() {
         off)    PrintColor light-green "off" ;;
     esac
 }
-
-
-

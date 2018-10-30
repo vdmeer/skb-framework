@@ -84,6 +84,7 @@ NO_OPTIONS=false
 NO_PARAMS=false
 NO_RESOURCES=false
 NO_SECURITY=false
+NO_SCENARIOS=false
 NO_TASKS=false
 
 
@@ -93,7 +94,7 @@ NO_TASKS=false
 ##
 CLI_OPTIONS=abchprst
 CLI_LONG_OPTIONS=build,clean,help,test,all,adoc,html,manp,pdf,text,src,requested
-CLI_LONG_OPTIONS+=,no-authors,no-bugs,no-commands,no-copying,no-deps,no,exitstatus,no-options,no-params,no-resources,no-security,no-tasks
+CLI_LONG_OPTIONS+=,no-authors,no-bugs,no-commands,no-copying,no-deps,no,exitstatus,no-options,no-params,no-scenarios,no-resources,no-security,no-tasks
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-manual -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -143,6 +144,7 @@ while true; do
                 BuildTaskHelpLine "<none>" no-exitstatus    "<none>" "do not include exit status"               $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-options       "<none>" "do not include options"                   $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-params        "<none>" "do not include parameters"                $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-scenarios     "<none>" "do not include scenarios"                 $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-resources     "<none>" "do not include resources"                 $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-security      "<none>" "do not include security"                  $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-tasks         "<none>" "do not include tasks"                     $PRINT_PADDING_FILTERS
@@ -237,6 +239,10 @@ while true; do
         --no-resources)
             shift
             NO_RESOURCES=true
+            ;;
+        --no-params)
+            shift
+            NO_SCENARIOS=true
             ;;
         --no-security)
             shift
@@ -457,6 +463,14 @@ BuildManualCore() {
         set -e
     fi
 
+    if [[ "$NO_SCENARIOS" == false ]]; then
+        DescribeElementScenarios
+#         set +e
+#         ${DMAP_TASK_EXEC["describe-scenario"]} --l --print-mode $TARGET
+#         set -e
+    fi
+
+
     if [[ "$NO_SECURITY" == false ]]; then
         DescribeApplicationSecurity
     fi
@@ -510,7 +524,7 @@ BuildSrc() {
         ConsoleError " ->" "bdm/src: no setting for SKB_FW_TOOL found, cannot build"
         return
     fi
-    if [[ ! -z ${RTMAP_DEP_TESTED["jre"]:-} ]]; then
+    if [[ "${RTMAP_DEP_STATUS["jre"]:-}" == "S" ]]; then
         ConsoleDebug "bdm/src - manual"
         BuildSrcPath ${CONFIG_MAP["MANUAL_SRC"]} l1
 
@@ -612,7 +626,7 @@ BuildHtml() {
     if [[ ! -f $MAN_ADOC_FILE ]]; then
         BuildText adoc
     fi
-    if [[ ! -z ${RTMAP_DEP_TESTED["asciidoctor"]:-} ]]; then
+    if [[ "${RTMAP_DEP_STATUS["asciidoctor"]:-}" == "S" ]]; then
         if [[ -f $MAN_HTML_FILE ]]; then
             rm $MAN_HTML_FILE
         fi
@@ -656,7 +670,7 @@ BuildManp() {
     if [[ ! -f $MAN_ADOC_FILE ]]; then
         BuildText adoc
     fi
-    if [[ ! -z ${RTMAP_DEP_TESTED["asciidoctor"]:-} ]]; then
+    if [[ "${RTMAP_DEP_STATUS["asciidoctor"]:-}" == "S" ]]; then
         if [[ -f $MAN_PAGE_FILE ]]; then
             rm $MAN_PAGE_FILE
         fi
@@ -694,7 +708,7 @@ BuildPdf() {
     if [[ ! -f $MAN_ADOC_FILE ]]; then
         BuildText adoc
     fi
-    if [[ ! -z ${RTMAP_DEP_TESTED["asciidoctor-pdf"]:-} ]]; then
+    if [[ "${RTMAP_DEP_STATUS["asciidoctor-pdf"]:-}" == "S" ]]; then
         if [[ -f $MAN_PDF_FILE ]]; then
             rm $MAN_PDF_FILE
         fi

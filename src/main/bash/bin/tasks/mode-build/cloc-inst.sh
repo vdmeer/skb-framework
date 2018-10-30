@@ -108,7 +108,7 @@ done
 ############################################################################################
 ConsoleInfo "  -->" "cloci: starting task"
 
-if [[ ! -z ${RTMAP_DEP_TESTED["cloc"]:-} ]]; then
+if [[ "${RTMAP_DEP_STATUS["cloc"]:-}" == "S" ]]; then
     cloc $(PathToCygwin ${CONFIG_MAP["FW_HOME"]}) --force-lang="Bourne Again Shell",sh
 else
     ConsoleError " ->" "cloci: dependency 'cloc' not loaded, cannot count"

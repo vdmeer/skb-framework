@@ -77,7 +77,6 @@ WriteL1Config() {
     declare -p DMAP_DEP_REQ_DEP >> $file
     declare -p DMAP_DEP_CMD >> $file
 
-    declare -p RTMAP_DEP_TESTED >> $file
     declare -p RTMAP_DEP_STATUS >> $file
 
 

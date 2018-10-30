@@ -67,7 +67,7 @@ ShellCmdExecuteTask() {
     local DO_HELP=false
     local DO_WAIT=false
     case $ID in
-        list-* | describe-* | set | "set "* | setting | "setting "* | m | "m "* | manual | "manual "*)
+        list-* | describe-* | set | "set "* | setting | "setting "* | m | "m "* | manual | "manual "* | stats | "stats "* | statistics | "statistics "*)
             DO_EXTRAS=false
             ;;
         w | "w "* | wait | "wait "*)

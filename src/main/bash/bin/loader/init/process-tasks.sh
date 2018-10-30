@@ -43,8 +43,6 @@ RTMAP_TASK_UNLOADED["DUMMY"]=dummy
 
 
 declare -A RTMAP_DEP_STATUS         # map/export for dependency status: [id]=[N]ot-done, [S]uccess, [W]arning(s), [E]rrors
-declare -A RTMAP_DEP_TESTED         # array/export for tested task dependencies
-RTMAP_DEP_TESTED["DUMMY"]=dummy
 
 declare -A RTMAP_REQUESTED_DEP      # map for requested dependencies
 declare -A RTMAP_REQUESTED_PARAM    # map for requested parameters
@@ -55,7 +53,7 @@ declare -A RTMAP_REQUESTED_PARAM    # map for requested parameters
 RTMAP_REQUESTED_PARAM["SHELL_PROMPT"]="SHELL_PROMPT"
 RTMAP_REQUESTED_PARAM["CACHE_DIR"]="CACHE_DIR"
 
-RTMAP_REQUESTED_DEP["DUMMY"]=dummy
+# RTMAP_REQUESTED_DEP["DUMMY"]=dummy
 
 
 
@@ -245,7 +243,6 @@ ProcessTaskReqParam() {
                     if [[ $FOUND == true ]]; then
                         SetArtifactStatus task $ID S
                         RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} param"
-#                         RTMAP_TASK_LOADED[$ID]=ok
                         ConsoleDebug "process-task/param - processed '$ID' for parameter '$PARAM' with success"
                     fi
                 fi
@@ -271,7 +268,7 @@ ProcessTaskReqParam() {
                     else
                         SetArtifactStatus task $ID W
                         RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} param"
-#                         RTMAP_TASK_LOADED[$ID]=ok
+
                         ConsoleDebug "process-task/param - processed '$ID' for parameter '$PARAM' with warn"
                     fi
                 else
@@ -308,7 +305,6 @@ ProcessTaskReqParam() {
                     if [[ $FOUND ]]; then
                         SetArtifactStatus task $ID S
                         RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} param"
-#                         RTMAP_TASK_LOADED[$ID]=ok
                         ConsoleDebug "process-task/param - processed '$ID' for parameter '$PARAM' with success"
                     else
                         RTMAP_TASK_UNLOADED[$ID]="${RTMAP_TASK_UNLOADED[$ID]:-} par-set::$PARAM"
@@ -331,21 +327,19 @@ TestDependency() {
     local DEP=$1
 
     RTMAP_REQUESTED_DEP[$DEP]=[$DEP]
-    if [[ "${RTMAP_DEP_TESTED[$DEP]:-}" == "ok" ]]; then
+    if [[ "${RTMAP_DEP_STATUS[$DEP]:-}" != "N" ]]; then
         ConsoleDebug "process-task/dep - dependency '$DEP' already tested"
     else
         ConsoleDebug "process-task/dep - testing dependency '$DEP'"
         local COMMAND=${DMAP_DEP_CMD[$DEP]}
         if [[ "${COMMAND:0:1}" == "/" ]];then
             if [[ -n "$($COMMAND)" ]]; then
-                RTMAP_DEP_TESTED[$DEP]="ok"
                 SetArtifactStatus dep $DEP S
             else
-                SetArtifactStatus dep $DEP E
+                 SetArtifactStatus dep $DEP E
             fi
         else
             if [[ -x "$(command -v $COMMAND)" ]]; then
-                RTMAP_DEP_TESTED[$DEP]="ok"
                 SetArtifactStatus dep $DEP S
             else
                 SetArtifactStatus dep $DEP E
@@ -374,10 +368,9 @@ ProcessTaskReqDep() {
                 SetArtifactStatus task $ID E
             else
                 TestDependency $DEP
-                if [[ "${RTMAP_DEP_TESTED[$DEP]:-}" == "ok" ]]; then
+                if [[ "${RTMAP_DEP_STATUS[$DEP]:-}" == "S" ]]; then
                     SetArtifactStatus task $ID S
                     RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"
-#                     RTMAP_TASK_LOADED[$ID]=ok
                     ConsoleDebug "process-task/dep - processed '$ID' for dependency '$DEP' with success"
                 else
                     ConsoleError " ->" "process-task/dep - $ID dependency '$DEP' not found"
@@ -397,10 +390,9 @@ ProcessTaskReqDep() {
                 SetArtifactStatus task $ID E
             else
                 TestDependency $DEP
-                if [[ "${RTMAP_DEP_TESTED[$DEP]:-}" == "ok" ]]; then
+                if [[ "${RTMAP_DEP_STATUS[$DEP]:-}" == "S" ]]; then
                     SetArtifactStatus task $ID S
                     RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"
-#                     RTMAP_TASK_LOADED[$ID]=ok
                     ConsoleDebug "process-task/dep - processed '$ID' for dependency '$DEP' with success"
                 else
                     ConsoleWarnStrict " ->" "process-task/dep - $ID dependency '$DEP' not found"
@@ -410,7 +402,6 @@ ProcessTaskReqDep() {
                     else
                         SetArtifactStatus task $ID W
                         RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"
-#                         RTMAP_TASK_LOADED[$ID]=ok
                         ConsoleDebug "process-task/dep - processed '$ID' for dependency '$DEP' with warn"
                     fi
                 fi
@@ -445,7 +436,6 @@ ProcessTaskReqTask() {
                 else
                     SetArtifactStatus task $ID S
                     RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} task"
-#                     RTMAP_TASK_LOADED[$ID]=ok
                     ConsoleDebug "process-task/task - processed '$ID' for task '$TASK' with success"
                 fi
             fi
@@ -468,13 +458,11 @@ ProcessTaskReqTask() {
                     else
                         SetArtifactStatus task $ID W
                         RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} task"
-#                         RTMAP_TASK_LOADED[$ID]=ok
                         ConsoleDebug "process-task/task - processed '$ID' for task '$TASK' with warn"
                     fi
                 else
                     SetArtifactStatus task $ID S
                     RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} task"
-#                     RTMAP_TASK_LOADED[$ID]=ok
                     ConsoleDebug "process-task/task - processed '$ID' for task '$TASK' with success"
                 fi
             fi
@@ -503,7 +491,6 @@ ProcessTaskReqDir() {
             else
                 SetArtifactStatus task $ID S
                 RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dir"
-#                 RTMAP_TASK_LOADED[$ID]=ok
                 ConsoleDebug "process-task/dir - processed '$ID' for directory '$DIR' with success"
             fi
         done
@@ -520,13 +507,11 @@ ProcessTaskReqDir() {
                 else
                     SetArtifactStatus task $ID W
                     RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dir"
-#                     RTMAP_TASK_LOADED[$ID]=ok
                     ConsoleDebug "process-task/dir - processed '$ID' for directory '$DIR' with warn"
                 fi
             else
                 SetArtifactStatus task $ID S
                 RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dir"
-#                 RTMAP_TASK_LOADED[$ID]=ok
                 ConsoleDebug "process-task/dir - processed '$ID' for directory '$DIR' with success"
             fi
         done
@@ -554,7 +539,6 @@ ProcessTaskReqFile() {
             else
                 SetArtifactStatus task $ID S
                 RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} file"
-#                 RTMAP_TASK_LOADED[$ID]=ok
                 ConsoleDebug "process-task/file - processed '$ID' for file '$FILE' with success"
             fi
         done
@@ -571,13 +555,11 @@ ProcessTaskReqFile() {
                 else
                     SetArtifactStatus task $ID W
                     RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} file"
-#                     RTMAP_TASK_LOADED[$ID]=ok
                     ConsoleDebug "process-task/file - processed '$ID' for file '$FILE' with warn"
                 fi
             else
                 SetArtifactStatus task $ID S
                 RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} file"
-#                 RTMAP_TASK_LOADED[$ID]=ok
                 ConsoleDebug "process-task/file - processed '$ID' for file '$FILE' with success"
             fi
         done
@@ -621,7 +603,6 @@ ProcessTasks() {
 
         if [[ $LOAD_TASK == true ]]; then
             RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} mode"
-#            RTMAP_TASK_LOADED[$ID]=ok
             ConsoleDebug "process-task/mode - processed '$ID' for mode with success"
             SetArtifactStatus task $ID S
 

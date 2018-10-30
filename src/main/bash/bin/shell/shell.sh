@@ -112,6 +112,11 @@ FWInterpreter() {
             ShellAddCmdHistory
             ;;
 
+        statistic | "statistic "* | s | "s "*)
+            ${DMAP_TASK_EXEC["statistics"]}
+            ShellAddCmdHistory
+            ;;
+
         tasks | "tasks "* | t | "t "*)
             ${DMAP_TASK_EXEC["list-tasks"]}
             ShellAddCmdHistory

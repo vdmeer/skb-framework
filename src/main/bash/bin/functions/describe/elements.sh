@@ -188,6 +188,28 @@ DescribeElementDependencies() {
 
 
 ##
+## DescribeElementScenarios
+## - description for scenarios
+##
+DescribeElementScenarios() {
+    case $TARGET in
+        adoc)
+            printf "\n\n== SCENARIOS\n"
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/scenarios.adoc
+            printf "\n\n"
+            ;;
+        ansi | text*)
+            printf "  "
+            PrintEffect bold "SCENARIOS" $TARGET
+            printf "\n"
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/scenarios.txt
+            ;;
+    esac
+}
+
+
+
+##
 ## DescribeElementTasks
 ## - description for tasks
 ##

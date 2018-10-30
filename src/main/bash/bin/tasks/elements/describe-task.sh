@@ -105,6 +105,7 @@ while true; do
                 printf "\n   options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"              $PRINT_PADDING
+
                 printf "\n   filters\n"
                 BuildTaskHelpLine a all         "<none>"    "all tasks, disables all other filters"                 $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "task identifier"                                       $PRINT_PADDING
