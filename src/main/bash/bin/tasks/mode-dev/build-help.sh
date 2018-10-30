@@ -73,7 +73,7 @@ CLI_LONG_OPTIONS=clean,help
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-help -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "bdh: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -102,7 +102,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "bdh: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -128,7 +128,7 @@ PRINT_MODES="ansi text"
 ConsoleInfo "  -->" "build help for options and commands"
 
 if [[ ! -d "${CONFIG_MAP["FW_HOME"]}/etc" ]]; then
-    ConsoleError " ->" "\$FW_HOME/etc does not exist"
+    ConsoleError " ->" "bdh: \$FW_HOME/etc does not exist"
 fi
 
 ConsoleDebug "target: command help"
@@ -143,7 +143,7 @@ if [[ ! -z "${RTMAP_TASK_LOADED["list-commands"]}" ]]; then
         set -e
     done
 else
-    ConsoleError " ->" "cmd-list: did not find task 'list-commands', not loaded?"
+    ConsoleError " ->" "bdh/cmd-list: did not find task 'list-commands', not loaded?"
 fi
 
 ConsoleDebug "target: option help"
@@ -160,7 +160,7 @@ if [[ ! -z "${RTMAP_TASK_LOADED["list-options"]}" ]]; then
         set -e
     done
 else
-    ConsoleError " ->" "opt-list: did not find task 'list-options', not loaded?"
+    ConsoleError " ->" "bdh/opt-list: did not find task 'list-options', not loaded?"
 fi
 
 ConsoleInfo "  -->" "bdh: done"

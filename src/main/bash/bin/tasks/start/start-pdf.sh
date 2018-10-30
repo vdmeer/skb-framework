@@ -71,7 +71,7 @@ CLI_LONG_OPTIONS=help,file:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name start-pdf -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "sp: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -99,7 +99,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "sp: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -112,22 +112,22 @@ done
 ##
 ############################################################################################
 ERRNO=0
-ConsoleInfo "  -->" "spdf: starting task"
+ConsoleInfo "  -->" "sp: starting task"
 
 if [[ -z "${CONFIG_MAP["PDF_READER"]:-}" ]]; then
-    ConsoleError "  ->" "no setting for PDF_READER, cannot start any"
-    ConsoleInfo "  -->" "spdf: done"
+    ConsoleError "  ->" "sp: no setting for PDF_READER, cannot start any"
+    ConsoleInfo "  -->" "sp: done"
     exit 60
 fi
 if [[ ! -n "$FILE" ]]; then
-    ConsoleError "  ->" "empty file? - '$FILE'"
-    ConsoleInfo "  -->" "spdf: done"
+    ConsoleError "  ->" "sp: empty file? - '$FILE'"
+    ConsoleInfo "  -->" "sp: done"
     exit 61
 fi
 FILE=$(PathToCygwin $FILE)
 if [[ ! -r "$FILE" ]]; then
-    ConsoleError "  ->" "cannot read file '$FILE'"
-    ConsoleInfo "  -->" "spdf: done"
+    ConsoleError "  ->" "sp: cannot read file '$FILE'"
+    ConsoleInfo "  -->" "sp: done"
     exit 62
 fi
 
@@ -136,5 +136,5 @@ SCRIPT=${SCRIPT//%FILE%/$FILE}
 $SCRIPT &
 ERRNO=$?
 
-ConsoleInfo "  -->" "spdf: done"
+ConsoleInfo "  -->" "sp: done"
 exit $ERRNO

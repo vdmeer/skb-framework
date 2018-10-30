@@ -71,7 +71,7 @@ CLI_LONG_OPTIONS=help,url:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name start-browser -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "sb: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -99,7 +99,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "sb: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -115,7 +115,7 @@ ERRNO=0
 ConsoleInfo "  -->" "sb: starting task"
 
 if [[ -z "${CONFIG_MAP["BROWSER"]:-}" ]]; then
-    ConsoleError "  ->" "no setting for BROWSER, cannot start any"
+    ConsoleError "  ->" "sb: no setting for BROWSER, cannot start any"
     ConsoleInfo "  -->" "sb: done"
     exit 60
 fi

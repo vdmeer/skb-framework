@@ -82,7 +82,7 @@ CLI_LONG_OPTIONS+=,app,authors,bugs,copying,resources,security
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-application -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "da: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -157,7 +157,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "da: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

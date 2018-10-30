@@ -57,7 +57,6 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/functions/_include
-# source $FW_HOME/bin/functions/describe/_include
 ConsoleResetErrors
 ConsoleResetWarnings
 
@@ -80,7 +79,7 @@ CLI_LONG_OPTIONS=all,help,strict,msrc,cmd,dep,es,opt,param,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name validate-installation -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "vi: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -164,7 +163,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "vi: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -198,14 +197,14 @@ ValidateManualSource() {
     local DIR=${CONFIG_MAP["MANUAL_SRC"]}
 
     if [[ ! -d ${CONFIG_MAP["MANUAL_SRC"]}/tags ]]; then
-        ConsoleError " ->" "did not find tag directory"
+        ConsoleError " ->" "vi: did not find tag directory"
     else
         EXPECTED="tags/name tags/authors"
         for FILE in $EXPECTED; do
             if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "missing file $FILE.txt"
+                ConsoleWarnStrict "  ->" "vi: missing file $FILE.txt"
             elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "cannot read file $FILE.txt"
+                ConsoleWarnStrict "  ->" "vi: cannot read file $FILE.txt"
             fi
         done
 
@@ -221,7 +220,7 @@ ValidateManualSource() {
                 fi
             done
             if [[ $found == false ]]; then
-                ConsoleWarnStrict "  ->" "found extra file tags/${FILE##*/}"
+                ConsoleWarnStrict "  ->" "vi: found extra file tags/${FILE##*/}"
             fi
         done
     fi
@@ -232,14 +231,14 @@ ValidateManualSource() {
         EXPECTED="framework/commands framework/dependencies framework/exit-options framework/exit-status framework/options framework/parameters framework/run-options framework/tasks"
         for FILE in $EXPECTED; do
             if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.adoc ]]; then
-                ConsoleWarnStrict "  ->" "missing file $FILE.adoc"
+                ConsoleWarnStrict "  ->" "vi: missing file $FILE.adoc"
             elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.adoc ]]; then
-                ConsoleWarnStrict "  ->" "cannot read file $FILE.adoc"
+                ConsoleWarnStrict "  ->" "vi: cannot read file $FILE.adoc"
             fi
             if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "missing file $FILE.txt"
+                ConsoleWarnStrict "  ->" "vi: missing file $FILE.txt"
             elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "cannot read file $FILE.txt"
+                ConsoleWarnStrict "  ->" "vi: cannot read file $FILE.txt"
             fi
         done
 
@@ -259,7 +258,7 @@ ValidateManualSource() {
                 fi
             done
             if [[ $found == false ]]; then
-                ConsoleWarnStrict "  ->" "found extra file framework/${FILE##*/}"
+                ConsoleWarnStrict "  ->" "vi: found extra file framework/${FILE##*/}"
             fi
         done
     fi
@@ -270,14 +269,14 @@ ValidateManualSource() {
         EXPECTED="application/description application/authors application/bugs application/copying application/resources application/security"
         for FILE in $EXPECTED; do
             if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.adoc ]]; then
-                ConsoleWarnStrict "  ->" "missing file $FILE.adoc"
+                ConsoleWarnStrict "  ->" "vi: missing file $FILE.adoc"
             elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.adoc ]]; then
-                ConsoleWarnStrict "  ->" "cannot read file $FILE.adoc"
+                ConsoleWarnStrict "  ->" "vi: cannot read file $FILE.adoc"
             fi
             if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "missing file $FILE.txt"
+                ConsoleWarnStrict "  ->" "vi: missing file $FILE.txt"
             elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "cannot read file $FILE.txt"
+                ConsoleWarnStrict "  ->" "vi: cannot read file $FILE.txt"
             fi
         done
 
@@ -297,7 +296,7 @@ ValidateManualSource() {
                 fi
             done
             if [[ $found == false ]]; then
-                ConsoleWarnStrict "  ->" "found extra file application/${FILE##*/}"
+                ConsoleWarnStrict "  ->" "vi: found extra file application/${FILE##*/}"
             fi
         done
     fi
@@ -320,14 +319,14 @@ ValidateCommandDocs() {
     for ID in ${!DMAP_CMD[@]}; do
         SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["COMMANDS"]}/$ID
         if [[ ! -f $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "commands '$ID' without ADOC file"
+            ConsoleWarnStrict " ->" "vi: commands '$ID' without ADOC file"
         elif [[ ! -r $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "commands '$ID' ADOC file not readable"
+            ConsoleWarnStrict " ->" "vi: commands '$ID' ADOC file not readable"
         fi
         if [[ ! -f $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "commands '$ID' without TXT file"
+            ConsoleWarnStrict " ->" "vi: commands '$ID' without TXT file"
         elif [[ ! -r $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "commands '$ID' TXT file not readable"
+            ConsoleWarnStrict " ->" "vi: commands '$ID' TXT file not readable"
         fi
     done
 
@@ -352,7 +351,7 @@ ValidateCommand() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_CMD[$ID]:-} ]]; then
-                ConsoleError " ->" "validate/cmd - found extra file FW_HOME/${FW_PATH_MAP["COMMANDS"]}, command '$ID' not declared"
+                ConsoleError " ->" "vi: validate/cmd - found extra file FW_HOME/${FW_PATH_MAP["COMMANDS"]}, command '$ID' not declared"
             fi
         done
     fi
@@ -375,14 +374,14 @@ ValidateDependencyDocs() {
     for ID in ${!DMAP_DEP_DECL[@]}; do
         SOURCE=${DMAP_DEP_DECL[$ID]}
         if [[ ! -f $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "dependency '$ID' without ADOC file"
+            ConsoleWarnStrict " ->" "vi: dependency '$ID' without ADOC file"
         elif [[ ! -r $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "dependency '$ID' ADOC file not readable"
+            ConsoleWarnStrict " ->" "vi: dependency '$ID' ADOC file not readable"
         fi
         if [[ ! -f $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "dependency '$ID' without TXT file"
+            ConsoleWarnStrict " ->" "vi: dependency '$ID' without TXT file"
         elif [[ ! -r $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "dependency '$ID' TXT file not readable"
+            ConsoleWarnStrict " ->" "vi: dependency '$ID' TXT file not readable"
         fi
     done
 
@@ -406,7 +405,7 @@ ValidateDependencyOrigin() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
-                ConsoleError " ->" "validate/dep - found extra file $ORIGIN/${APP_PATH_MAP["DEP_DECL"]}, dependency '$ID' not declared"
+                ConsoleError " ->" "vi: validate/dep - found extra file $ORIGIN/${APP_PATH_MAP["DEP_DECL"]}, dependency '$ID' not declared"
             fi
         done
     fi
@@ -441,14 +440,14 @@ ValidateExitstatusDocs() {
     for ID in ${!DMAP_ES[@]}; do
         SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["EXITSTATUS"]}/$ID
         if [[ ! -f $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "exit-status '$ID' without ADOC file"
+            ConsoleWarnStrict " ->" "vi: exit-status '$ID' without ADOC file"
         elif [[ ! -r $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "exit-status '$ID' ADOC file not readable"
+            ConsoleWarnStrict " ->" "vi: exit-status '$ID' ADOC file not readable"
         fi
         if [[ ! -f $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "exit-status '$ID' without TXT file"
+            ConsoleWarnStrict " ->" "vi: exit-status '$ID' without TXT file"
         elif [[ ! -r $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "exit-status '$ID' TXT file not readable"
+            ConsoleWarnStrict " ->" "vi: exit-status '$ID' TXT file not readable"
         fi
     done
 
@@ -473,7 +472,7 @@ ValidateExitstatus() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_ES[$ID]:-} ]]; then
-                ConsoleError " ->" "validate/es - found extra file FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}, exit-status '$ID' not declared"
+                ConsoleError " ->" "vi: validate/es - found extra file FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}, exit-status '$ID' not declared"
             fi
         done
     fi
@@ -499,14 +498,14 @@ ValidateOptionDocs() {
         if [[ "$OPT_PATH" != "" ]]; then
             SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["OPTIONS"]}/$OPT_PATH/$ID
             if [[ ! -f $SOURCE.adoc ]]; then
-                ConsoleWarnStrict " ->" "option '$ID' without ADOC file"
+                ConsoleWarnStrict " ->" "vi: option '$ID' without ADOC file"
             elif [[ ! -r $SOURCE.adoc ]]; then
-                ConsoleWarnStrict " ->" "option '$ID' ADOC file not readable"
+                ConsoleWarnStrict " ->" "vi: option '$ID' ADOC file not readable"
             fi
             if [[ ! -f $SOURCE.txt ]]; then
-                ConsoleWarnStrict " ->" "option '$ID' without TXT file"
+                ConsoleWarnStrict " ->" "vi: option '$ID' without TXT file"
             elif [[ ! -r $SOURCE.txt ]]; then
-                ConsoleWarnStrict " ->" "option '$ID' TXT file not readable"
+                ConsoleWarnStrict " ->" "vi: option '$ID' TXT file not readable"
             fi
         fi
     done
@@ -532,7 +531,7 @@ ValidateOption() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
-                ConsoleError " ->" "validate/opt - found extra file FW_HOME/${FW_PATH_MAP["OPTIONS"]}, option '$ID' not declared"
+                ConsoleError " ->" "vi: validate/opt - found extra file FW_HOME/${FW_PATH_MAP["OPTIONS"]}, option '$ID' not declared"
             fi
         done
     fi
@@ -555,14 +554,14 @@ ValidateParameterDocs() {
     for ID in ${!DMAP_PARAM_DECL[@]}; do
         SOURCE=${DMAP_PARAM_DECL[$ID]}
         if [[ ! -f $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "parameter '$ID' without ADOC file"
+            ConsoleWarnStrict " ->" "vi: parameter '$ID' without ADOC file"
         elif [[ ! -r $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "parameter '$ID' ADOC file not readable"
+            ConsoleWarnStrict " ->" "vi: parameter '$ID' ADOC file not readable"
         fi
         if [[ ! -f $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "parameter '$ID' without TXT file"
+            ConsoleWarnStrict " ->" "vi: parameter '$ID' without TXT file"
         elif [[ ! -r $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "parameter '$ID' TXT file not readable"
+            ConsoleWarnStrict " ->" "vi: parameter '$ID' TXT file not readable"
         fi
     done
 
@@ -586,7 +585,7 @@ ValidateParameterOrigin() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
-                ConsoleError " ->" "validate/param - found extra file $ORIGIN/${APP_PATH_MAP["PARAM_DECL"]}, parameter '$ID' not declared"
+                ConsoleError " ->" "vi: validate/param - found extra file $ORIGIN/${APP_PATH_MAP["PARAM_DECL"]}, parameter '$ID' not declared"
             fi
         done
     fi
@@ -621,14 +620,14 @@ ValidateTaskDocs() {
     for ID in ${!DMAP_TASK_DECL[@]}; do
         SOURCE=${DMAP_TASK_DECL[$ID]}
         if [[ ! -f $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "task '$ID' without ADOC file"
+            ConsoleWarnStrict " ->" "vi: task '$ID' without ADOC file"
         elif [[ ! -r $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "task '$ID' ADOC file not readable"
+            ConsoleWarnStrict " ->" "vi: task '$ID' ADOC file not readable"
         fi
         if [[ ! -f $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "task '$ID' without TXT file"
+            ConsoleWarnStrict " ->" "vi: task '$ID' without TXT file"
         elif [[ ! -r $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "task '$ID' TXT file not readable"
+            ConsoleWarnStrict " ->" "vi: task '$ID' TXT file not readable"
         fi
     done
 
@@ -652,7 +651,7 @@ ValidateTaskOrigin() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_TASK_DECL[$ID]:-} ]]; then
-                ConsoleError " ->" "validate/task - found extra file $ORIGIN/${APP_PATH_MAP["TASK_DECL"]}, task '$ID' not declared"
+                ConsoleError " ->" "vi: validate/task - found extra file $ORIGIN/${APP_PATH_MAP["TASK_DECL"]}, task '$ID' not declared"
             fi
         done
     fi
@@ -666,7 +665,7 @@ ValidateTaskOrigin() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_TASK_EXEC[$ID]:-} ]]; then
-                ConsoleError " ->" "validate/task - found extra file $ORIGIN/${APP_PATH_MAP["TASK_SCRIPT"]}, task '$ID' not declared"
+                ConsoleError " ->" "vi: validate/task - found extra file $ORIGIN/${APP_PATH_MAP["TASK_SCRIPT"]}, task '$ID' not declared"
             fi
         done
     fi
@@ -747,7 +746,7 @@ for TODO in $TARGET; do
             ConsoleInfo "  -->" "done"
             ;;
         *)
-            ConsoleError " ->" "vi - unknown target $TODO"
+            ConsoleError " ->" "vi: unknown target $TODO"
     esac
     ConsoleDebug "done target - $TODO"
 done

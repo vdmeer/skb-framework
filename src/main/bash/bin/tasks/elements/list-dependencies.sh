@@ -81,7 +81,7 @@ CLI_LONG_OPTIONS=all,help,origin:,print-mode:,requested,status:,tested,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-dependencies -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "ld: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -148,7 +148,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "ld: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -176,7 +176,7 @@ else
                 ORIGIN=${CONFIG_MAP["FLAVOR"]}_HOME
                 ;;
             *)
-                ConsoleError "  ->" "unknown origin: $ORIGIN"
+                ConsoleError "  ->" "ld: unknown origin: $ORIGIN"
                 exit 61
         esac
     fi
@@ -195,7 +195,7 @@ else
                 STATUS=N
                 ;;
             *)
-                ConsoleError "  ->" "unknown status: $STATUS"
+                ConsoleError "  ->" "ld: unknown status: $STATUS"
                 exit 62
         esac
     fi
@@ -213,7 +213,7 @@ fi
 
 
 if (( $DEP_LINE_MIN_LENGTH > $COLUMNS )); then
-    ConsoleError "  ->" "not enough columns for table, need $DEP_LINE_MIN_LENGTH found $COLUMNS"
+    ConsoleError "  ->" "ld: not enough columns for table, need $DEP_LINE_MIN_LENGTH found $COLUMNS"
     exit 60
 fi
 
@@ -352,7 +352,7 @@ case $LS_FORMAT in
         TableBottom
         ;;
     *)
-        ConsoleFatal "  ->" "internal error: unknown list format '$LS_FORMAT'"
+        ConsoleFatal "  ->" "ld: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac

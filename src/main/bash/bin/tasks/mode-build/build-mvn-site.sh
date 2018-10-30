@@ -80,7 +80,7 @@ CLI_LONG_OPTIONS+=,ad,site,stage,profile:,targets
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-mvn-site -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "bdms: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -104,7 +104,6 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "build-mvn-site")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine a all     "<none>"    "all sites, for build only"                                 $PRINT_PADDING
                 BuildTaskHelpLine b build   "<none>"    "builds site(s), requires a target and site ID or all"      $PRINT_PADDING
                 BuildTaskHelpLine c clean   "<none>"    "cleans all site(s)"                                        $PRINT_PADDING
                 BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                                $PRINT_PADDING
@@ -168,7 +167,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "bdms: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -176,8 +175,16 @@ done
 
 
 ############################################################################################
-## test CLI
+## test CLI and settings
 ############################################################################################
+if [[ "${RTMAP_DEP_STATUS["maven"]}" != "S" ]]; then
+    ConsoleError "  ->" "bdms: dependency Maven not loaded, cannot proceed"
+    exit 60
+fi
+if [[ -z "${MVN_SITES:-}" ]]; then
+    ConsoleError "  ->" "bdms: no settings found for MVN_SITES, cannot proceed"
+    exit 61
+fi
 
 
 
@@ -189,15 +196,15 @@ LoadSite(){
     local Description
 
     if [[ ! -d "$1" ]]; then
-        ConsoleError "  ->" "not a directory: '$1'"
+        ConsoleError "  ->" "bdms: not a directory: '$1'"
         return
     fi
     if [[ ! -f "$1/skb-site.id" ]]; then
-        ConsoleError "  ->" "no ID file in directory: '$1', looking for 'skb-site'"
+        ConsoleError "  ->" "bdms: no ID file in directory: '$1', looking for 'skb-site'"
         return
     fi
     if [[ ! -f "$1/pom.xml" ]]; then
-        ConsoleError "  ->" "no POM file in directory: '$1'"
+        ConsoleError "  ->" "bdms: no POM file in directory: '$1'"
         return
     fi
     source $1/skb-site.id
@@ -243,10 +250,10 @@ TestSite(){
             ${DMAP_TASK_EXEC["start-browser"]} --url file://$(PathToCygwin ${MVN_SITE_PATH[$1]}/target/site/index.html)
             set -e
         else
-            ConsoleError " ->" "test: no index file - ${MVN_SITE_PATH[$1]}/target/site/index.html"
+            ConsoleError " ->" "bdms/test: no index file - ${MVN_SITE_PATH[$1]}/target/site/index.html"
         fi
     else
-        ConsoleError " ->" "test: cannot test, task 'start-browser' not loaded"
+        ConsoleError " ->" "bdms/test: cannot test, task 'start-browser' not loaded"
     fi
 }
 
@@ -257,7 +264,7 @@ TestSite(){
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "bms: starting task"
+ConsoleInfo "  -->" "bdms: starting task"
 ConsoleResetErrors
 
 declare -A MVN_SITE_LIST
@@ -299,15 +306,15 @@ if [[ $DO_BUILD == true ]]; then
         elif [[ -n "$SITE_ID" ]]; then
             ConsoleInfo "  -->" "building site '$SITE_ID'"
             if [[ -z "${MVN_SITE_LIST[$SITE_ID]:-}" ]]; then
-                ConsoleError "  ->" "unknown site '$SITE_ID'"
+                ConsoleError "  ->" "bdms: unknown site '$SITE_ID'"
             else
                 BuildSite $SITE_ID
             fi
         else
-            ConsoleError "  ->" "no side given for build, use --all or --id"
+            ConsoleError "  ->" "bdms: no side given for build, use --all or --id"
         fi
     else
-        ConsoleError "  ->" "no targets given for build"
+        ConsoleError "  ->" "bdms: no targets given for build"
     fi
 fi
 
@@ -320,14 +327,14 @@ if [[ $DO_TEST == true ]]; then
     elif [[ -n "$SITE_ID" ]]; then
         ConsoleInfo "  -->" "test site '$SITE_ID'"
         if [[ -z "${MVN_SITE_LIST[$SITE_ID]:-}" ]]; then
-            ConsoleError "  ->" "unknown site '$SITE_ID'"
+            ConsoleError "  ->" "bdms: unknown site '$SITE_ID'"
         else
             TestSite $SITE_ID
         fi
     else
-        ConsoleError "  ->" "no side given for build, use --all or --id"
+        ConsoleError "  ->" "bdms: no side given for build, use --all or --id"
     fi
 fi
 
-ConsoleInfo "  -->" "mvs: done"
+ConsoleInfo "  -->" "bdms: done"
 exit $TASK_ERRORS

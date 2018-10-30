@@ -6,13 +6,13 @@
 ## @version    v0.0.0
 ##
 
-SHORT=bms
-MODES="dev"
+SHORT=bdms
+MODES="dev build"
 DESCRIPTION="builds one or more Maven sites"
-EXEC_PATH=bin/tasks/mode-dev
+EXEC_PATH=bin/tasks/mode-build
 
-TaskRequire $ID param MVN_SITES
+TaskRequire $ID param MVN_SITES opt
 
-TaskRequire $ID dep maven
+TaskRequire $ID dep maven opt
 
 TaskRequire $ID task start-browser opt

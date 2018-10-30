@@ -74,7 +74,7 @@ CLI_LONG_OPTIONS=help,command:,title:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name start-xterm -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "sx: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -113,7 +113,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "sx: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -129,7 +129,7 @@ ERRNO=0
 ConsoleInfo "  -->" "sx: starting task"
 
 if [[ -z "${CONFIG_MAP["XTERM"]:-}" ]]; then
-    ConsoleError "  ->" "no setting for XTERM, cannot start any"
+    ConsoleError "  ->" "sx: no setting for XTERM, cannot start any"
     ConsoleInfo "  -->" "sx: done"
     exit 60
 fi

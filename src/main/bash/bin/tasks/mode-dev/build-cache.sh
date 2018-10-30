@@ -90,7 +90,7 @@ CLI_LONG_OPTIONS+=,tasks
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-cache -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "bdc: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -221,7 +221,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "bdc: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -279,7 +279,7 @@ if [[ $DO_BUILD == true ]]; then
         mkdir -p ${CONFIG_MAP["CACHE_DIR"]}
     fi
     if [[ ! -d "${CONFIG_MAP["CACHE_DIR"]}" ]]; then
-        ConsoleError " ->" "cache directory ${CONFIG_MAP["CACHE_DIR"]} does not exist"
+        ConsoleError " ->" "bdc: cache directory ${CONFIG_MAP["CACHE_DIR"]} does not exist"
     else
         for TODO in $TARGET; do
             ConsoleDebug "target: $TODO"
@@ -461,7 +461,7 @@ if [[ $DO_BUILD == true ]]; then
                     ;;
 
                 *)
-                    ConsoleError " ->" "bdc - unknown target $TODO"
+                    ConsoleError " ->" "bdc: unknown target $TODO"
             esac
             ConsoleDebug "done target - $TODO"
         done

@@ -81,7 +81,7 @@ CLI_LONG_OPTIONS=all,mode:,help,id:,loaded,origin:,print-mode:,status:,unloaded
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-task -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "dt: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -154,7 +154,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "dt: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -183,11 +183,11 @@ else
         ORIG_TASK=$TASK_ID
         TASK_ID=$(GetTaskID $TASK_ID)
         if [[ -z ${TASK_ID:-} ]]; then
-            ConsoleError " ->" "unknown task: $ORIG_TASK"
+            ConsoleError " ->" "dt: unknown task: $ORIG_TASK"
             exit 60
         else
             if [[ -z ${DMAP_TASK_ORIGIN[$TASK_ID]:-} ]]; then
-                ConsoleError " ->" "unknown task: $ORIG_TASK"
+                ConsoleError " ->" "dt: unknown task: $ORIG_TASK"
                 exit 61
             fi
         fi
@@ -201,7 +201,7 @@ else
                 ORIGIN=${CONFIG_MAP["FLAVOR"]}_HOME
                 ;;
             *)
-                ConsoleError " ->" "unknown origin: $ORIGIN"
+                ConsoleError " ->" "dt: unknown origin: $ORIGIN"
                 exit 62
         esac
     fi
@@ -220,7 +220,7 @@ else
                 APP_MODE=use
                 ;;
             *)
-                ConsoleError "  ->" "unknown application mode: $APP_MODE"
+                ConsoleError "  ->" "dt: unknown application mode: $APP_MODE"
                 exit 64
         esac
     fi
@@ -236,7 +236,7 @@ else
                 STATUS=W
                 ;;
             *)
-                ConsoleError "  ->" "unknown status: $STATUS"
+                ConsoleError "  ->" "dt: unknown status: $STATUS"
                 exit 65
         esac
     fi

@@ -80,7 +80,7 @@ CLI_LONG_OPTIONS=all,help,id:,origin:,print-mode:,status:,tested,requested
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-dependency -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "dd: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -147,7 +147,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "dd: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -173,7 +173,7 @@ elif [[ $CLI_SET == false ]]; then
 else
     if [[ -n "$DEP_ID" ]]; then
         if [[ -z ${DMAP_DEP_ORIGIN[$DEP_ID]:-} ]]; then
-            ConsoleError " ->" "unknown dependency: $DEP_ID"
+            ConsoleError " ->" "dd: unknown dependency: $DEP_ID"
         fi
     fi
     if [[ -n "$ORIGIN" ]]; then
@@ -185,7 +185,7 @@ else
                 ORIGIN=${CONFIG_MAP["FLAVOR"]}_HOME
                 ;;
             *)
-                ConsoleError "  ->" "unknown origin: $ORIGIN"
+                ConsoleError "  ->" "dd: unknown origin: $ORIGIN"
                 exit 60
         esac
     fi
@@ -204,7 +204,7 @@ else
                 STATUS=N
                 ;;
             *)
-                ConsoleError "  ->" "unknown status: $STATUS"
+                ConsoleError "  ->" "dd: unknown status: $STATUS"
                 exit 61
         esac
     fi

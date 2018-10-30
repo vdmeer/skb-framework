@@ -6,7 +6,7 @@
 ## @version    v0.0.0
 ##
 
-SHORT=m
+SHORT=man
 MODES="dev build use"
 DESCRIPTION="shows the manual in various versions"
 EXEC_PATH=bin/tasks/all

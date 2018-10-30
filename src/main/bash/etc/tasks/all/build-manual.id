@@ -6,7 +6,7 @@
 ## @version    v0.0.0
 ##
 
-SHORT=bm
+SHORT=bdm
 MODES="dev build use"
 DESCRIPTION="builds the manual for different targets"
 EXEC_PATH=bin/tasks/all

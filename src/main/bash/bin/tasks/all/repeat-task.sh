@@ -75,7 +75,7 @@ CLI_LONG_OPTIONS=help,times:,wait:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name repeat-task -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "rt: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -108,7 +108,7 @@ while true; do
             shift
             TASK=${1-}
             if [[ ! -n "$TASK" ]]; then
-                ConsoleError "  ->" "a task identifier / name is required"
+                ConsoleError "  ->" "rt: a task identifier / name is required"
                 exit 60
             fi
             shift
@@ -116,7 +116,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "rt: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -141,20 +141,20 @@ for ID in "${!RTMAP_TASK_LOADED[@]}"; do
 done
 
 if [[ $__found == false ]]; then
-    ConsoleError "  ->" "unknown or unloaded task '$TASK'"
+    ConsoleError "  ->" "rt: unknown or unloaded task '$TASK'"
     exit 61
 fi
 
 case $TIMES in
     '' | *[!0-9.]* | '.' | *.*.*)
-        ConsoleError " ->" "repeat times requires a number, got '$TIMES'"
+        ConsoleError " ->" "rt: repeat times requires a number, got '$TIMES'"
         exit 62
         ;;
 esac
 
 case $WAIT in
     '' | *[!0-9.]* | '.' | *.*.*)
-        ConsoleError " ->" "wait requires a number, got '$WAIT'"
+        ConsoleError " ->" "rt: wait requires a number, got '$WAIT'"
         exit 63
         ;;
 esac

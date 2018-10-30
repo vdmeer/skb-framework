@@ -78,7 +78,7 @@ CLI_LONG_OPTIONS=all,exit,help,id:,print-mode:,run
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-option -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "ds: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -132,7 +132,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "ds: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -163,7 +163,7 @@ else
         fi
 
         if [[ -z ${DMAP_OPT_ORIGIN[$OPT_ID]:-} ]]; then
-            ConsoleError " ->" "unknown option ID '$OPT_ID'"
+            ConsoleError " ->" "ds: unknown option ID '$OPT_ID'"
             exit 60
         fi
     fi

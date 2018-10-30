@@ -78,7 +78,7 @@ CLI_LONG_OPTIONS=all,def-table,help,print-mode:,requested,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-parameters -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "lp: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -131,7 +131,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "lp: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -159,7 +159,7 @@ fi
 
 
 if (( $PARAM_LINE_MIN_LENGTH > $COLUMNS )); then
-    ConsoleError "  ->" "not enough columns for table, need $PARAM_LINE_MIN_LENGTH found $COLUMNS"
+    ConsoleError "  ->" "lp: not enough columns for table, need $PARAM_LINE_MIN_LENGTH found $COLUMNS"
     exit 60
 fi
 
@@ -303,7 +303,7 @@ case $LS_FORMAT in
         DefaultTableBottom
         ;;
     *)
-        ConsoleFatal "  ->" "internal error: unknown list format '$LS_FORMAT'"
+        ConsoleFatal "  ->" "lp: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac

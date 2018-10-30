@@ -163,7 +163,7 @@ skb_fw_manual(){
         printf "%s\n\n" "no Tool jar, cannot build framework text sources"
     fi
 
-    src/main/bash/bin/skb-framework -A -e build-manual --sq --lq -T debug -- -b --adoc --text
+    src/main/bash/bin/skb-framework -A -e build-manual --sq --lq -T debug -- -b --adoc --text -r
     printf "\n\n"
 
     if [[ $HAVE_ADOC == true ]]; then
@@ -284,6 +284,6 @@ TE=$(date +%s.%N)
 
 TIME=$(date +"%T")
 RUNTIME=$(echo "($TE-$TS)/60" | bc -l)
-printf "started: $TIME_START\n"
-printf "finihed: $TIME, in $RUNTIME minutes\n\n"
+printf "started:  $TIME_START\n"
+printf "finished: $TIME, in $RUNTIME minutes\n\n"
 

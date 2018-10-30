@@ -71,7 +71,7 @@ CLI_LONG_OPTIONS=force,help,simulate
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name cloc-inst -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "cloci: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -94,7 +94,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "cloci: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -111,7 +111,7 @@ ConsoleInfo "  -->" "cloci: starting task"
 if [[ ! -z ${RTMAP_TASK_TESTED["cloc"]:-} ]]; then
     cloc $(PathToCygwin ${CONFIG_MAP["FW_HOME"]}) --force-lang="Bourne Again Shell",sh
 else
-    ConsoleError " ->" "cloc: dependency 'cloc' not loaded, cannot count"
+    ConsoleError " ->" "cloci: dependency 'cloc' not loaded, cannot count"
 fi
 
 ConsoleInfo "  -->" "cloci: done"

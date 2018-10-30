@@ -80,7 +80,7 @@ CLI_LONG_OPTIONS+=,cli,default,file,env,internal
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-configuration -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "lcfg: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -153,7 +153,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "lcfg: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -176,7 +176,7 @@ COLUMNS=$((COLUMNS - 2))
 VALUE_LENGTH=$((COLUMNS - STATUS_PADDING - STATUS_STATUS_LENGHT - 1))
 
 if (( $STATUS_LINE_MIN_LENGTH > $COLUMNS )); then
-    ConsoleError "  ->" "not enough columns for table, need $STATUS_LINE_MIN_LENGTH found $COLUMNS"
+    ConsoleError "  ->" "lcfg: not enough columns for table, need $STATUS_LINE_MIN_LENGTH found $COLUMNS"
     exit 60
 fi
 
@@ -370,7 +370,7 @@ case $LS_FORMAT in
         TableBottom
         ;;
     *)
-        ConsoleFatal "  ->" "internal error: unknown list format '$LS_FORMAT'"
+        ConsoleFatal "  ->" "lcfg: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac

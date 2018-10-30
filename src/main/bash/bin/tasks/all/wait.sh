@@ -72,7 +72,7 @@ CLI_LONG_OPTIONS=help,seconds:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name wait -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "wait: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -101,7 +101,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "wait: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -118,7 +118,7 @@ ConsoleInfo "  -->" "wait: starting task"
 
 case $SECONDS in
     '' | *[!0-9.]* | '.' | *.*.*)
-        ConsoleError " ->" "wait requires a number, got '$SECONDS'"
+        ConsoleError " ->" "wait: requires a number, got '$SECONDS'"
         exit 60
         ;;
 esac

@@ -79,7 +79,7 @@ CLI_LONG_OPTIONS=all,exit,help,print-mode:,run,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-options -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "lo: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -132,7 +132,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "lo: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -263,7 +263,7 @@ case $LS_FORMAT in
         TableBottom
         ;;
     *)
-        ConsoleFatal "  ->" "internal error: unknown list format '$LS_FORMAT'"
+        ConsoleFatal "  ->" "lo: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac

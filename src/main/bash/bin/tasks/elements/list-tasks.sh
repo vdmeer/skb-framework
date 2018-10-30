@@ -91,7 +91,7 @@ CLI_LONG_OPTIONS=all,mode:,help,loaded,origin:,print-mode:,status:,unloaded,no-a
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-tasks -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "lt: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -207,7 +207,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "lt: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -241,7 +241,7 @@ else
                 ORIGIN=${CONFIG_MAP["FLAVOR"]}_HOME
                 ;;
             *)
-                ConsoleError "  ->" "unknown origin: $ORIGIN"
+                ConsoleError "  ->" "lt: unknown origin: $ORIGIN"
                 exit 61
         esac
     fi
@@ -260,7 +260,7 @@ else
                 APP_MODE=use
                 ;;
             *)
-                ConsoleError "  ->" "unknown application mode: $APP_MODE"
+                ConsoleError "  ->" "lt: unknown application mode: $APP_MODE"
                 exit 62
         esac
     fi
@@ -279,7 +279,7 @@ else
                 STATUS=N
                 ;;
             *)
-                ConsoleError "  ->" "unknown status: $STATUS"
+                ConsoleError "  ->" "lt: unknown status: $STATUS"
                 exit 63
         esac
     fi
@@ -303,7 +303,7 @@ fi
 
 
 if (( $TASK_LINE_MIN_LENGTH > $COLUMNS )); then
-    ConsoleError "  ->" "not enough columns for table, need $TASK_LINE_MIN_LENGTH found $COLUMNS"
+    ConsoleError "  ->" "lt: not enough columns for table, need $TASK_LINE_MIN_LENGTH found $COLUMNS"
     exit 60
 fi
 
@@ -497,7 +497,7 @@ case $LS_FORMAT in
         TableBottom
         ;;
     *)
-        ConsoleFatal "  ->" "internal error: unknown list format '$LS_FORMAT'"
+        ConsoleFatal "  ->" "lt: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac

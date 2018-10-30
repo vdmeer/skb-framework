@@ -76,7 +76,7 @@ CLI_LONG_OPTIONS=all,help,id:,print-mode:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-exitstatus -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "des: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -118,7 +118,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "des: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -137,7 +137,7 @@ if [[ "$ALL" == "yes" ]]; then
 else
     if [[ -n "$ES_ID" ]]; then
         if [[ ! -n "${DMAP_ES[$ES_ID]:-}" ]]; then
-            ConsoleError " ->" "describe-exitstatus - unknown exit status ID '$ES_ID'"
+            ConsoleError " ->" "des: unknown exit status ID '$ES_ID'"
             exit 60
         fi
     fi

@@ -172,15 +172,15 @@ DescribeElementParameters() {
 DescribeElementDependencies() {
     case $TARGET in
         adoc)
-            printf "\n\n== PARAMETERS\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/parameters.adoc
+            printf "\n\n== DEPENDENCIES\n"
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/dependencies.adoc
             printf "\n\n"
             ;;
         ansi | text*)
             printf "  "
-            PrintEffect bold "PARAMETERS" $TARGET
+            PrintEffect bold "DEPENDENCIES" $TARGET
             printf "\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/parameters.txt
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/dependencies.txt
             ;;
     esac
 }

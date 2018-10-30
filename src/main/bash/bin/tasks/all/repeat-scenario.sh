@@ -74,7 +74,7 @@ CLI_LONG_OPTIONS=help,scenario:,times:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name repeat-scenario -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "unknown CLI options"
+    ConsoleError "  ->" "rs: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -113,7 +113,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "rs: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -129,26 +129,26 @@ ERRNO=0
 ConsoleInfo "  -->" "rs: starting task"
 
 if [[ -z $SCENARIO ]]; then
-    ConsoleError "  ->" "a scenario is required"
+    ConsoleError "  ->" "rs: a scenario is required"
     exit 60
 fi
 
 FILE=${CONFIG_MAP["FW_HOME"]}/${APP_PATH_MAP["SCENARIOS"]}/$SCENARIO.scn
 if [[ ! -f $FILE ]]; then
-    ConsoleError " ->" "did not find scenario $SCENARIO"
+    ConsoleError " ->" "rs: did not find scenario $SCENARIO"
     return
 fi
 
 case $TIMES in
     '' | *[!0-9.]* | '.' | *.*.*)
-        ConsoleError " ->" "repeat times requires a number, got '$TIMES'"
+        ConsoleError " ->" "rs: repeat times requires a number, got '$TIMES'"
         exit 61
         ;;
 esac
 
 case $WAIT in
     '' | *[!0-9.]* | '.' | *.*.*)
-        ConsoleError " ->" "wait requires a number, got '$WAIT'"
+        ConsoleError " ->" "rs: wait requires a number, got '$WAIT'"
         exit 62
         ;;
 esac
