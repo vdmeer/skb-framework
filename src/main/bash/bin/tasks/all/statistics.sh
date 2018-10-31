@@ -77,7 +77,7 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=ahP:
+CLI_OPTIONS=ahP:cdeopst
 CLI_LONG_OPTIONS=all,help,print-mode:
 CLI_LONG_OPTIONS+=,all,ov,cmd,dep,es,opt,param,scn,task
 
@@ -100,14 +100,14 @@ while true; do
 
                 printf "\n   filters\n"
                 BuildTaskHelpLine a all             "<none>"   "activate all filters"       $PRINT_PADDING
-                BuildTaskHelpLine "<none>" cmd      "<none>"   "for commands"               $PRINT_PADDING
-                BuildTaskHelpLine "<none>" dep      "<none>"   "for dependencies"           $PRINT_PADDING
-                BuildTaskHelpLine "<none>" es       "<none>"   "for exit status"            $PRINT_PADDING
-                BuildTaskHelpLine "<none>" opt      "<none>"   "for options"                $PRINT_PADDING
+                BuildTaskHelpLine c cmd             "<none>"   "for commands"               $PRINT_PADDING
+                BuildTaskHelpLine d dep             "<none>"   "for dependencies"           $PRINT_PADDING
+                BuildTaskHelpLine e es              "<none>"   "for exit status"            $PRINT_PADDING
+                BuildTaskHelpLine o opt             "<none>"   "for options"                $PRINT_PADDING
                 BuildTaskHelpLine "<none>" ov       "<none>"   "overview"                   $PRINT_PADDING
-                BuildTaskHelpLine "<none>" param    "<none>"   "for parameters"             $PRINT_PADDING
-                BuildTaskHelpLine "<none>" scn      "<none>"   "for scenarios"              $PRINT_PADDING
-                BuildTaskHelpLine "<none>" task     "<none>"   "for tasks"                  $PRINT_PADDING
+                BuildTaskHelpLine p param           "<none>"   "for parameters"             $PRINT_PADDING
+                BuildTaskHelpLine s scn             "<none>"   "for scenarios"              $PRINT_PADDING
+                BuildTaskHelpLine t task            "<none>"   "for tasks"                  $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
@@ -124,22 +124,22 @@ while true; do
             CLI_SET=true
             shift
             ;;
-        --cmd)
+        -c | --cmd)
             COMMANDS=yes
             CLI_SET=true
             shift
             ;;
-        --dep)
+        -d | --dep)
             DEPENDENCIES=yes
             CLI_SET=true
             shift
             ;;
-        --es)
+        -e | --es)
             EXITSTATUS=yes
             CLI_SET=true
             shift
             ;;
-        --opt)
+        -o | --opt)
             OPTIONS=yes
             CLI_SET=true
             shift
@@ -149,17 +149,17 @@ while true; do
             CLI_SET=true
             shift
             ;;
-        --param)
+        -p | --param)
             PARAMETERS=yes
             CLI_SET=true
             shift
             ;;
-        --scn)
+        -s | --scn)
             SCENARIOS=yes
             CLI_SET=true
             shift
             ;;
-        --task)
+        -t | --task)
             TASKS=yes
             CLI_SET=true
             shift
@@ -201,21 +201,17 @@ fi
 
 
 ############################################################################################
-##
-## ready to go
-##
+## statistics OVERVIEW
 ############################################################################################
-ConsoleInfo "  -->" "stats: starting task"
-
-if [[ "$OVERVIEW" == "yes" ]]; then
-    DEP_TESTED=0
+StatsOverview(){
+    local DEP_TESTED=0
     for DEP in ${!RTMAP_DEP_STATUS[@]}; do
         case ${RTMAP_DEP_STATUS[$DEP]} in
             E | W | S)  DEP_TESTED=$((DEP_TESTED + 1)) ;;
         esac
     done
 
-    COUNT_PARAM_DEFVAL=0
+    local COUNT_PARAM_DEFVAL=0
     for PARAM in ${!DMAP_PARAM_DEFVAL[@]}; do
         if [[ -n "${DMAP_PARAM_DEFVAL[$PARAM]:-}" ]]; then
             COUNT_PARAM_DEFVAL=$((COUNT_PARAM_DEFVAL + 1))
@@ -237,60 +233,39 @@ if [[ "$OVERVIEW" == "yes" ]]; then
     printf "   Options:                  % 3s        Commands:                 % 3s\n" "${#DMAP_OPT_ORIGIN[@]}"        "${#DMAP_CMD[@]}"
     printf "  ───────────────────────────────      ───────────────────────────────\n"
     printf "\n"
-fi
+}
 
-if [[ "$OPTIONS" == "yes" ]]; then
-    COUNT_OPT_ARG=0
-    for OPT in ${!DMAP_OPT_ARG[@]}; do
-        if [[ -n "${DMAP_OPT_ARG[$OPT]:-}" ]]; then
-            COUNT_OPT_ARG=$((COUNT_OPT_ARG + 1))
-        fi
-    done
-    COUNT_OPT_EXIT=0
-    COUNT_OPT_RUN=0
-    for OPT in ${!DMAP_OPT_ORIGIN[@]}; do
-        if [[ "${DMAP_OPT_ORIGIN[$OPT]}" == "exit" ]]; then
-            COUNT_OPT_EXIT=$((COUNT_OPT_EXIT + 1))
-        fi
-        if [[ "${DMAP_OPT_ORIGIN[$OPT]}" == "run" ]]; then
-            COUNT_OPT_RUN=$((COUNT_OPT_RUN + 1))
+
+
+############################################################################################
+## statistics COMMANDS
+############################################################################################
+StatsCommands(){
+    local COUNT_CMD_ARG=0
+    for CMD in ${!DMAP_CMD_ARG[@]}; do
+        if [[ -n "${DMAP_CMD_ARG[$CMD]:-}" ]]; then
+            COUNT_CMD_ARG=$((COUNT_CMD_ARG + 1))
         fi
     done
 
     printf "\n  "
-    PrintEffect bold "Options"
+    PrintEffect bold "Commands"
     printf "\n"
     printf "  ────────────────────────────────────────────────────────────────────\n"
-    printf "   Declared:                 % 3s\n" "${#DMAP_OPT_ORIGIN[@]}"
-    printf "   - as exit option:         % 3s        - with short:             % 3s\n" "$COUNT_OPT_EXIT"   "${#DMAP_OPT_SHORT[@]}"
-    printf "   - as runtime option:      % 3s        - with argument:          % 3s\n" "$COUNT_OPT_RUN"    "$COUNT_OPT_ARG"
+    printf "   Declared:                 % 3s        - with short:             % 3s\n" "${#DMAP_CMD[@]}"   "${#DMAP_CMD_SHORT[@]}"
+    printf "                                        - with argument:          % 3s\n"                      "$COUNT_CMD_ARG"
     printf "  ────────────────────────────────────────────────────────────────────\n"
     printf "\n"
-fi
+}
 
-if [[ "$PARAMETERS" == "yes" ]]; then 
-    printf "\n  "
-    PrintEffect bold "Parameters"
-    printf "\n"
-    printf "  ────────────────────────────────────────────────────────────────────\n"
-    printf "   Declared:                 % 3s\n" "${#DMAP_PARAM_ORIGIN[@]}"
-    printf "  ────────────────────────────────────────────────────────────────────\n"
-    printf "\n"
-fi
 
-if [[ "$TASKS" == "yes" ]]; then
-    printf "\n  "
-    PrintEffect bold "Tasks"
-    printf "\n"
-    printf "  ────────────────────────────────────────────────────────────────────\n"
-    printf "   Declared:                 % 3s\n" "${#DMAP_TASK_ORIGIN[@]}"
-    printf "  ────────────────────────────────────────────────────────────────────\n"
-    printf "\n"
-fi
 
-if [[ "$DEPENDENCIES" == "yes" ]]; then
-    COUNT_DEP_FW=0
-    COUNT_DEP_APP=0
+############################################################################################
+## statistics DEPENDENCIES
+############################################################################################
+StatsDependencies(){
+    local COUNT_DEP_FW=0
+    local COUNT_DEP_APP=0
     for DEP in ${!DMAP_DEP_ORIGIN[@]}; do
         if [[ "${DMAP_DEP_ORIGIN[$DEP]}" == "FW_HOME" ]]; then
             COUNT_DEP_FW=$((COUNT_DEP_FW + 1))
@@ -299,18 +274,19 @@ if [[ "$DEPENDENCIES" == "yes" ]]; then
             COUNT_DEP_APP=$((COUNT_DEP_APP + 1))
         fi
     done
-    COUNT_DEP_REQ_DEP=0
+
+    local COUNT_DEP_REQ_DEP=0
     for DEP in ${!DMAP_DEP_REQ_DEP[@]}; do
         if [[ -n "${DMAP_DEP_REQ_DEP[$DEP]}" ]]; then
             COUNT_DEP_REQ_DEP=$((COUNT_DEP_REQ_DEP + 1))
         fi
     done
 
-    DEP_TESTED=0
-    DEP_NOT_TESTED=0
-    COUNT_DEP_ERROR=0
-    COUNT_DEP_WARN=0
-    COUNT_DEP_SUCCESS=0
+    local DEP_TESTED=0
+    local DEP_NOT_TESTED=0
+    local COUNT_DEP_ERROR=0
+    local COUNT_DEP_WARN=0
+    local COUNT_DEP_SUCCESS=0
     for DEP in ${!RTMAP_DEP_STATUS[@]}; do
         case ${RTMAP_DEP_STATUS[$DEP]} in
             N)  DEP_NOT_TESTED=$((DEP_NOT_TESTED + 1)) ;;
@@ -340,33 +316,20 @@ if [[ "$DEPENDENCIES" == "yes" ]]; then
     printf "   Requested:                % 3s          -- with success:        % 3s\n" "${#RTMAP_REQUESTED_DEP[@]}"     "$COUNT_DEP_SUCCESS"
     printf "  ────────────────────────────────────────────────────────────────────\n"
     printf "\n"
-fi
+}
 
-if [[ "$COMMANDS" == "yes" ]]; then
-    COUNT_CMD_ARG=0
-    for CMD in ${!DMAP_CMD_ARG[@]}; do
-        if [[ -n "${DMAP_CMD_ARG[$CMD]:-}" ]]; then
-            COUNT_CMD_ARG=$((COUNT_CMD_ARG + 1))
-        fi
-    done
 
-    printf "\n  "
-    PrintEffect bold "Commands"
-    printf "\n"
-    printf "  ────────────────────────────────────────────────────────────────────\n"
-    printf "   Declared:                 % 3s        - with short:             % 3s\n" "${#DMAP_CMD[@]}"   "${#DMAP_CMD_SHORT[@]}"
-    printf "                                        - with argument:          % 3s\n"                      "$COUNT_CMD_ARG"
-    printf "  ────────────────────────────────────────────────────────────────────\n"
-    printf "\n"
-fi
 
-if [[ "$EXITSTATUS" == "yes" ]]; then
-    COUNT_ES_ALL=0
-    COUNT_ES_APP=0
-    COUNT_ES_FW=0
-    COUNT_ES_LOADER=0
-    COUNT_ES_SHELL=0
-    COUNT_ES_TASK=0
+############################################################################################
+## statistics EXITSTATUS
+############################################################################################
+StatsExitStatus(){
+    local COUNT_ES_ALL=0
+    local COUNT_ES_APP=0
+    local COUNT_ES_FW=0
+    local COUNT_ES_LOADER=0
+    local COUNT_ES_SHELL=0
+    local COUNT_ES_TASK=0
     for ES in ${!DMAP_ES[@]}; do
         case ${DMAP_ES[$ES]} in
             all)        COUNT_ES_ALL=$((COUNT_ES_ALL + 1)) ;;
@@ -379,8 +342,8 @@ if [[ "$EXITSTATUS" == "yes" ]]; then
         esac
     done
 
-    COUNT_ES_INT=0
-    COUNT_ES_EXT=0
+    local COUNT_ES_INT=0
+    local COUNT_ES_EXT=0
     for ES in ${!DMAP_ES_PROBLEM[@]}; do
         case ${DMAP_ES_PROBLEM[$ES]} in
             external)   COUNT_ES_INT=$((COUNT_ES_INT + 1)) ;;
@@ -402,9 +365,173 @@ if [[ "$EXITSTATUS" == "yes" ]]; then
     printf "   - origin: task:           % 3s\n"                                       "$COUNT_ES_TASK"
     printf "  ────────────────────────────────────────────────────────────────────\n"
     printf "\n"
-fi
+}
 
-if [[ "$SCENARIOS" == "yes" ]]; then
+
+
+############################################################################################
+## statistics OPTIONS
+############################################################################################
+StatsOptions(){
+    local COUNT_OPT_ARG=0
+    for OPT in ${!DMAP_OPT_ARG[@]}; do
+        if [[ -n "${DMAP_OPT_ARG[$OPT]:-}" ]]; then
+            COUNT_OPT_ARG=$((COUNT_OPT_ARG + 1))
+        fi
+    done
+
+    local COUNT_OPT_EXIT=0
+    local COUNT_OPT_RUN=0
+    for OPT in ${!DMAP_OPT_ORIGIN[@]}; do
+        if [[ "${DMAP_OPT_ORIGIN[$OPT]}" == "exit" ]]; then
+            COUNT_OPT_EXIT=$((COUNT_OPT_EXIT + 1))
+        fi
+        if [[ "${DMAP_OPT_ORIGIN[$OPT]}" == "run" ]]; then
+            COUNT_OPT_RUN=$((COUNT_OPT_RUN + 1))
+        fi
+    done
+
+    printf "\n  "
+    PrintEffect bold "Options"
+    printf "\n"
+    printf "  ────────────────────────────────────────────────────────────────────\n"
+    printf "   Declared:                 % 3s\n" "${#DMAP_OPT_ORIGIN[@]}"
+    printf "   - as exit option:         % 3s        - with short:             % 3s\n" "$COUNT_OPT_EXIT"   "${#DMAP_OPT_SHORT[@]}"
+    printf "   - as runtime option:      % 3s        - with argument:          % 3s\n" "$COUNT_OPT_RUN"    "$COUNT_OPT_ARG"
+    printf "  ────────────────────────────────────────────────────────────────────\n"
+    printf "\n"
+}
+
+
+
+############################################################################################
+## statistics PARAMETERS
+############################################################################################
+StatsParameters(){
+    local COUNT_PARAM_DEFVAL=0
+    for PARAM in ${!DMAP_PARAM_DEFVAL[@]}; do
+        if [[ -n "${DMAP_PARAM_DEFVAL[$PARAM]:-}" ]]; then
+            COUNT_PARAM_DEFVAL=$((COUNT_PARAM_DEFVAL + 1))
+        fi
+    done
+
+    local COUNT_PARAM_FW=0
+    local COUNT_PARAM_APP=0
+    for PARAM in ${!DMAP_PARAM_ORIGIN[@]}; do
+        if [[ "${DMAP_PARAM_ORIGIN[$PARAM]}" == "FW_HOME" ]]; then
+            COUNT_PARAM_FW=$((COUNT_PARAM_FW + 1))
+        fi
+        if [[ "${DMAP_PARAM_ORIGIN[$PARAM]}" == "APP_HOME" ]]; then
+            COUNT_PARAM_APP=$((COUNT_PARAM_APP + 1))
+        fi
+    done
+
+    local COUNT_PARAM_SET=0
+    local COUNT_PARAM_SET_NOT=0
+    local COUNT_PARAM_SET_OPTION=0
+    local COUNT_PARAM_SET_ENV=0
+    local COUNT_PARAM_SET_FILE=0
+    local COUNT_PARAM_SET_DEFVAL=0
+    for PARAM in ${!DMAP_PARAM_ORIGIN[@]}; do
+        if [[ -z "${CONFIG_SRC[$PARAM]:-}" ]]; then
+            COUNT_PARAM_SET_NOT=$((COUNT_PARAM_SET_NOT + 1))
+        else
+            case ${CONFIG_SRC[$PARAM]} in
+                O)
+                    COUNT_PARAM_SET=$((COUNT_PARAM_SET + 1))
+                    COUNT_PARAM_SET_OPTION=$((COUNT_PARAM_SET_OPTION + 1))
+                    ;;
+                E)
+                    COUNT_PARAM_SET=$((COUNT_PARAM_SET + 1))
+                    COUNT_PARAM_SET_ENV=$((COUNT_PARAM_SET_ENV + 1))
+                    ;;
+                F)
+                    COUNT_PARAM_SET=$((COUNT_PARAM_SET + 1))
+                    COUNT_PARAM_SET_FILE=$((COUNT_PARAM_SET_FILE + 1))
+                    ;;
+                D)
+                    COUNT_PARAM_SET=$((COUNT_PARAM_SET + 1))
+                    COUNT_PARAM_SET_DEFVAL=$((COUNT_PARAM_SET_DEFVAL + 1))
+                    ;;
+            esac
+        fi
+    done
+
+    printf "\n  "
+    PrintEffect bold "Parameters"
+    printf "\n"
+    printf "  ────────────────────────────────────────────────────────────────────\n"
+    printf "   Declared:                 % 3s\n" "${#DMAP_PARAM_ORIGIN[@]}"
+    printf "   - with default value:     % 3s        Values set:               % 3s\n" "$COUNT_PARAM_DEFVAL"            "$COUNT_PARAM_SET"
+    printf "   - origin: framework:      % 3s        - from option:            % 3s\n" "$COUNT_PARAM_FW"                "$COUNT_PARAM_SET_OPTION"
+    printf "   - origin: app:            % 3s        - from environment:       % 3s\n" "$COUNT_PARAM_APP"               "$COUNT_PARAM_SET_ENV"
+    printf "   Requested                 % 3s        - from file:              % 3s\n" "${#RTMAP_REQUESTED_PARAM[@]}"   "$COUNT_PARAM_SET_FILE"
+    printf "   Not set                   % 3s        - as default value:       % 3s\n" "$COUNT_PARAM_SET_NOT"           "$COUNT_PARAM_SET_DEFVAL"
+    printf "  ────────────────────────────────────────────────────────────────────\n"
+    printf "\n"
+}
+
+
+
+############################################################################################
+## statistics TASKS
+############################################################################################
+StatsTasks(){
+    local COUNT_TASK_FW=0
+    local COUNT_TASK_APP=0
+    local COUNT_TASK_DEV=0
+    local COUNT_TASK_BUILD=0
+    local COUNT_TASK_USE=0
+    local COUNT_TASK_LOAD_N=0
+    local COUNT_TASK_LOAD_E=0
+    local COUNT_TASK_LOAD_W=0
+    local COUNT_TASK_LOAD_S=0
+    for TASK in ${!DMAP_TASK_ORIGIN[@]}; do
+        if [[ "${DMAP_TASK_ORIGIN[$TASK]}" == "FW_HOME" ]]; then
+            COUNT_TASK_FW=$((COUNT_TASK_FW + 1))
+        fi
+        if [[ "${DMAP_TASK_ORIGIN[$TASK]}" == "APP_HOME" ]]; then
+            COUNT_TASK_APP=$((COUNT_TASK_APP + 1))
+        fi
+
+        case "${DMAP_TASK_MODES[$TASK]}" in
+            *dev*)      COUNT_TASK_DEV=$((COUNT_TASK_DEV + 1)) ;;
+        esac
+        case "${DMAP_TASK_MODES[$TASK]}" in
+            *build*)    COUNT_TASK_BUILD=$((COUNT_TASK_BUILD + 1)) ;;
+        esac
+        case "${DMAP_TASK_MODES[$TASK]}" in
+            *use*)      COUNT_TASK_USE=$((COUNT_TASK_USE + 1)) ;;
+        esac
+
+        case ${RTMAP_TASK_STATUS[$TASK]} in
+            N)      COUNT_TASK_LOAD_N=$((COUNT_TASK_LOAD_N + 1)) ;;
+            E)      COUNT_TASK_LOAD_E=$((COUNT_TASK_LOAD_E + 1)) ;;
+            W)      COUNT_TASK_LOAD_W=$((COUNT_TASK_LOAD_W + 1)) ;;
+            S)      COUNT_TASK_LOAD_S=$((COUNT_TASK_LOAD_S + 1)) ;;
+        esac
+    done
+
+    printf "\n  "
+    PrintEffect bold "Tasks"
+    printf "\n"
+    printf "  ────────────────────────────────────────────────────────────────────\n"
+    printf "   Declared:                 % 3s        Not loaded:               % 3s\n" "${#DMAP_TASK_ORIGIN[@]}"        "$COUNT_TASK_LOAD_N"
+    printf "   - origin: framework:      % 3s        Unloaded:                 % 3s\n" "$COUNT_TASK_FW"                 "$((${#RTMAP_TASK_UNLOADED[@]} -1))"
+    printf "   - origin: app:            % 3s        Loaded:                   % 3s\n" "$COUNT_TASK_APP"                "${#RTMAP_TASK_LOADED[@]}"
+    printf "   - mode: dev:              % 3s        - errors:                 % 3s\n" "$COUNT_TASK_DEV"                "$COUNT_TASK_LOAD_E"
+    printf "   - mode: build:            % 3s        - warnings:               % 3s\n" "$COUNT_TASK_BUILD"              "$COUNT_TASK_LOAD_W"
+    printf "   - mode: use:              % 3s        - success:                % 3s\n" "$COUNT_TASK_USE"                "$COUNT_TASK_LOAD_S"
+    printf "  ────────────────────────────────────────────────────────────────────\n"
+    printf "\n"
+}
+
+
+
+############################################################################################
+## statistics SCENARIOS
+############################################################################################
+StatsScenarios(){
     printf "\n  "
     PrintEffect bold "Scenarios"
     printf "\n"
@@ -412,6 +539,47 @@ if [[ "$SCENARIOS" == "yes" ]]; then
     printf "   Declared:                 % 3s\n" "${#DMAP_SCN_ORIGIN[@]}"
     printf "  ────────────────────────────────────────────────────────────────────\n"
     printf "\n"
+}
+
+
+
+############################################################################################
+##
+## ready to go
+##
+############################################################################################
+ConsoleInfo "  -->" "stats: starting task"
+
+if [[ "$OVERVIEW" == "yes" ]]; then
+    StatsOverview
+fi
+
+if [[ "$COMMANDS" == "yes" ]]; then
+    StatsCommands
+fi
+
+if [[ "$DEPENDENCIES" == "yes" ]]; then
+    StatsDependencies
+fi
+
+if [[ "$EXITSTATUS" == "yes" ]]; then
+    StatsExitStatus
+fi
+
+if [[ "$OPTIONS" == "yes" ]]; then
+    StatsOptions
+fi
+
+if [[ "$PARAMETERS" == "yes" ]]; then 
+    StatsParameters
+fi
+
+if [[ "$TASKS" == "yes" ]]; then
+    StatsTasks
+fi
+
+if [[ "$SCENARIOS" == "yes" ]]; then
+    StatsScenarios
 fi
 
 ConsoleInfo "  -->" "stats: done"
