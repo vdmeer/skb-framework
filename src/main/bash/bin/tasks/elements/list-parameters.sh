@@ -64,7 +64,11 @@ ConsoleResetWarnings
 PRINT_MODE=
 LS_FORMAT=list
 
+DEFAULT=
+ORIGIN=
 REQUESTED=
+STATUS=
+
 CLI_SET=false
 ALL=
 
@@ -73,8 +77,8 @@ ALL=
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=aDhP:rT
-CLI_LONG_OPTIONS=all,def-table,help,print-mode:,requested,table
+CLI_OPTIONS=adDho:P:rs:T
+CLI_LONG_OPTIONS=all,default,def-table,help,origin:,print-mode:,requested,status:,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-parameters -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -105,16 +109,35 @@ while true; do
                 BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine a all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
+                BuildTaskHelpLine d default     "<none>"    "only parameters with a defined default value"          $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "only parameters from origin: f(w), a(pp)"      $PRINT_PADDING
                 BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                   $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "only parameter for status: o, f, e, d"         $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
             exit 0
             ;;
+
+        -d | --default)
+            DEFAULT=yes
+            CLI_SET=true
+            shift
+            ;;
+        -o | --origin)
+            ORIGIN="$2"
+            CLI_SET=true
+            shift 2
+            ;;
         -r | --requested)
             REQUESTED=yes
             CLI_SET=true
             shift
+            ;;
+        -s | --status)
+            STATUS="$2"
+            CLI_SET=true
+            shift 2
             ;;
 
         -P | --print-mode)
@@ -142,11 +165,50 @@ done
 ## test CLI, init CACHE, test columns
 ############################################################################################
 if [[ "$ALL" == "yes" ]]; then
+    DEFAULT=
+    ORIGIN=
     REQUESTED=
-    ALL=
+    STATUS=
 elif [[ $CLI_SET == false ]]; then
     ALL=
+else
+    if [[ -n "$ORIGIN" ]]; then
+        case $ORIGIN in
+            F| f | fw | framework)
+                ORIGIN=FW_HOME
+                ;;
+            A | a | app | application)
+                ORIGIN=APP__HOME
+                ;;
+            *)
+                ConsoleError " ->" "dp: unknown origin: $ORIGIN"
+                exit 61
+        esac
+    fi
+    if [[ -n "$STATUS" ]]; then
+        case $STATUS in
+            N | n | notset)
+                STATUS=N
+                ;;
+            O | o | option)
+                STATUS=O
+                ;;
+            E | e | env | environment)
+                STATUS=E
+                ;;
+            F | f | file)
+                STATUS=F
+                ;;
+            D | d | default)
+                STATUS=D
+                ;;
+            *)
+                ConsoleError "  ->" "dp: unknown status: $STATUS"
+                exit 62
+        esac
+    fi
 fi
+
 
 declare -A PARAM_TABLE
 FILE=${CONFIG_MAP["CACHE_DIR"]}/param-tab.${CONFIG_MAP["PRINT_MODE"]}
@@ -236,6 +298,31 @@ PrintParameters() {
     for ID in ${!DMAP_PARAM_ORIGIN[@]}; do
         if [[ -n "$REQUESTED" ]]; then
             if [[ -z "${RTMAP_REQUESTED_PARAM[$ID]:-}" ]]; then
+                continue
+            fi
+        fi
+        if [[ -n "$DEFAULT" ]]; then
+            if [[ ! -n "${DMAP_PARAM_DEFVAL[$PARAM_ID]:-}" ]]; then
+                continue
+            fi
+        fi
+        if [[ -n "$STATUS" ]]; then
+            if [[ -z "${CONFIG_SRC[$ID]:-}" ]]; then
+                if [[ "$STATUS" != "N" ]]; then
+                    continue
+                fi
+            else
+                case ${CONFIG_SRC[$ID]} in
+                    $STATUS)
+                        ;;
+                    *)
+                        continue
+                        ;;
+                esac
+            fi
+        fi
+        if [[ -n "$ORIGIN" ]]; then
+            if [[ ! "$ORIGIN" == "${DMAP_PARAM_ORIGIN[$ID]}" ]]; then
                 continue
             fi
         fi

@@ -62,12 +62,14 @@ ConsoleResetWarnings
 ## set local variables
 ##
 PRINT_MODE=
+
 PARAM_ID=
 DEFAULT=
 ORIGIN=
 REQUESTED=
 STATUS=
 ALL=
+
 CLI_SET=false
 
 
@@ -189,6 +191,9 @@ else
     fi
     if [[ -n "$STATUS" ]]; then
         case $STATUS in
+            N | n | notset)
+                STATUS=N
+                ;;
             O | o | option)
                 STATUS=O
                 ;;
@@ -233,14 +238,19 @@ for ID in ${!DMAP_PARAM_ORIGIN[@]}; do
         fi
     fi
     if [[ -n "$STATUS" ]]; then
-        case ${RTMAP_PARAM_STATUS[$ID]} in
-            $STATUS)
-                ;;
-            *)
+        if [[ -z "${CONFIG_SRC[$ID]:-}" ]]; then
+            if [[ "$STATUS" != "N" ]]; then
                 continue
-                ;;
-        esac
-        #=
+            fi
+        else
+            case ${CONFIG_SRC[$ID]} in
+                $STATUS)
+                    ;;
+                *)
+                    continue
+                    ;;
+            esac
+        fi
     fi
     if [[ -n "$ORIGIN" ]]; then
         if [[ ! "$ORIGIN" == "${DMAP_PARAM_ORIGIN[$ID]}" ]]; then
