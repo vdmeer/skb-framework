@@ -6,7 +6,7 @@
 ## @version    v0.0.0
 ##
 
-function MvnSitePostScript(){
+MvnSitePreScript() {
     ## create exit option list
     if [[ -f src/site/asciidoc/elements/option-exit-list.adoc ]]; then
         rm src/site/asciidoc/elements/option-exit-list.adoc

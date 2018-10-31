@@ -181,7 +181,7 @@ if [[ "${RTMAP_DEP_STATUS["maven"]}" != "S" ]]; then
     ConsoleError "  ->" "bdms: dependency Maven not loaded, cannot proceed"
     exit 60
 fi
-if [[ -z "${MVN_SITES:-}" ]]; then
+if [[ -z "${CONFIG_MAP["MVN_SITES"]:-}" ]]; then
     ConsoleError "  ->" "bdms: no settings found for MVN_SITES, cannot proceed"
     exit 61
 fi
@@ -219,21 +219,26 @@ LoadSite(){
 ## build site function
 ############################################################################################
 BuildSite(){
-    ConsoleDebug "build site $1 :: $MVN_TARGET\n\n"
+    ConsoleDebug "build site $1 :: $MVN_TARGET :: in ${MVN_SITE_PATH[$1]}\n\n"
     if [[ -r  ${MVN_SITE_PATH[$1]}/skb-site-pre-script.skb ]]; then
         source ${MVN_SITE_PATH[$1]}/skb-site-pre-script.skb
-        (cd ${MVN_SITE_PATH[$1]}; MvnSitePostScript)
+        (cd ${MVN_SITE_PATH[$1]}; MvnSitePreScript)
+        ConsoleDebug "done MvnSitePreScript"
     fi
-    mvn $MVN_TARGET
-    ConsoleDebug "\n\n"
+
+    (cd ${MVN_SITE_PATH[$1]}; mvn $MVN_TARGET)
+    ConsoleDebug "done mvn $MVN_TARGET"
+
     if [[ -r ${MVN_SITE_PATH[$1]}/skb-site-post-script.skb ]]; then
         source ${MVN_SITE_PATH[$1]}/skb-site-post-script.skb
         (cd ${MVN_SITE_PATH[$1]}; MvnSitePostScript)
+        ConsoleDebug "done MvnSitePostScript"
     fi
-    ConsoleDebug "\n\n"
+
     case "$TARGETS" in
         *"stage"*)
-            mvn initialize site:stage
+            (cd ${MVN_SITE_PATH[$1]}; mvn initialize site:stage)
+            ConsoleDebug "done mvn initialize site:stage"
             ;;
     esac
 }

@@ -6,7 +6,7 @@
 ## @version    v0.0.0
 ##
 
-function MvnSitePostScript(){
+MvnSitePostScript() {
     MvnSiteFixAdoc target/site/elements/commands            Commands
     MvnSiteFixAdoc target/site/elements/command-list        "Command List"
 
