@@ -276,7 +276,6 @@ for ID in ${!DMAP_TASK_ORIGIN[@]}; do
                 continue
                 ;;
         esac
-        #=
     fi
     if [[ -n "$APP_MODE" ]]; then
         if [[ "$APP_MODE" != "all" ]]; then

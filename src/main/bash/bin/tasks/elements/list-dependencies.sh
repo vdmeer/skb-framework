@@ -294,7 +294,6 @@ PrintDependencies() {
                     continue
                     ;;
             esac
-            #=
         fi
         if [[ -n "$ORIGIN" ]]; then
             if [[ ! "$ORIGIN" == "${DMAP_DEP_ORIGIN[$ID]}" ]]; then

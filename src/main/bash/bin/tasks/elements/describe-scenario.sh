@@ -279,7 +279,6 @@ for ID in ${!DMAP_SCN_ORIGIN[@]}; do
                 continue
                 ;;
         esac
-        #=
     fi
     if [[ -n "$APP_MODE" ]]; then
         if [[ "$APP_MODE" != "all" ]]; then

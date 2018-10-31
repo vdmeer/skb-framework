@@ -243,7 +243,6 @@ for ID in ${!DMAP_DEP_ORIGIN[@]}; do
                 continue
                 ;;
         esac
-        #=
     fi
     if [[ -n "$ORIGIN" ]]; then
         if [[ ! "$ORIGIN" == "${DMAP_DEP_ORIGIN[$ID]}" ]]; then
