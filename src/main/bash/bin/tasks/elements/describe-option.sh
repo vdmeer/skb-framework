@@ -73,12 +73,12 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=aehi:P:r
+CLI_OPTIONS=Aehi:P:r
 CLI_LONG_OPTIONS=all,exit,help,id:,print-mode:,run
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-option -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "ds: unknown CLI options"
+    ConsoleError "  ->" "describe-option: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -86,7 +86,7 @@ eval set -- "$PARSED"
 PRINT_PADDING=25
 while true; do
     case "$1" in
-        -a | --all)
+        -A | --all)
             ALL=yes
             CLI_SET=true
             shift
@@ -98,7 +98,7 @@ while true; do
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
                 printf "\n   filters\n"
-                BuildTaskHelpLine a all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
+                BuildTaskHelpLine A all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
                 BuildTaskHelpLine e exit        "<none>"    "only exit options"                             $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "long option identifier"                        $PRINT_PADDING
                 BuildTaskHelpLine r run         "<none>"    "only runtime options"                          $PRINT_PADDING
@@ -132,7 +132,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "ds: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "describe-option: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -163,7 +163,7 @@ else
         fi
 
         if [[ -z ${DMAP_OPT_ORIGIN[$OPT_ID]:-} ]]; then
-            ConsoleError " ->" "ds: unknown option ID '$OPT_ID'"
+            ConsoleError " ->" "do: unknown option ID '$OPT_ID'"
             exit 60
         fi
     fi

@@ -76,12 +76,12 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=aho:P:rs:Tt
+CLI_OPTIONS=Aho:P:rs:Tt
 CLI_LONG_OPTIONS=all,help,origin:,print-mode:,requested,status:,tested,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-dependencies -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "ld: unknown CLI options"
+    ConsoleError "  ->" "list-dependencies: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -89,7 +89,7 @@ eval set -- "$PARSED"
 PRINT_PADDING=25
 while true; do
     case "$1" in
-        -a | --all)
+        -A | --all)
             ALL=yes
             CLI_SET=true
             shift
@@ -102,7 +102,7 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
                 BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
                 printf "\n   filters\n"
-                BuildTaskHelpLine a all         "<none>"    "all dependencies, disables all other filters"                              $PRINT_PADDING
+                BuildTaskHelpLine A all         "<none>"    "all dependencies, disables all other filters"                              $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only dependencies from origin: f(w), a(pp)"                                $PRINT_PADDING
                 BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                                                $PRINT_PADDING
                 BuildTaskHelpLine s status      "STATUS"    "only dependencies with status: success, warnings, errors, not attempted"   $PRINT_PADDING
@@ -148,7 +148,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "ld: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "list-dependencies: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

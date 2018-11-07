@@ -78,7 +78,7 @@ TARGET=""
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=abcdfht
+CLI_OPTIONS=Abcdfht
 CLI_LONG_OPTIONS=all,build,clean,decl,full,help,tab
 CLI_LONG_OPTIONS+=,cmd-decl,cmd-tab
 CLI_LONG_OPTIONS+=,dep-decl,dep-tab
@@ -90,7 +90,7 @@ CLI_LONG_OPTIONS+=,tasks
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-cache -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "bdc: unknown CLI options"
+    ConsoleError "  ->" "build-cache: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -110,7 +110,7 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "build-cache")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine a all     "<none>"    "set all targets, except tasks"                     $PRINT_PADDING
+                BuildTaskHelpLine A all     "<none>"    "set all targets, except tasks"                     $PRINT_PADDING
                 BuildTaskHelpLine b build   "<none>"    "builds cache, requires a target"                   $PRINT_PADDING
                 BuildTaskHelpLine c clean   "<none>"    "removes all cached maps and screens"               $PRINT_PADDING
                 BuildTaskHelpLine d decl    "<none>"    "set all declaration targets"                       $PRINT_PADDING
@@ -143,7 +143,7 @@ while true; do
             exit 0
             ;;
 
-        -a | --all)
+        -A | --all)
             shift
             DO_ALL=true
             ;;
@@ -221,7 +221,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "bdc: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "build-cache: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

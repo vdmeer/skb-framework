@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## start-pdfreader - starts a pdfreader with an optional FILE
+## start-pdf-reader - starts a pdfreader with an optional FILE
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    v0.0.0
@@ -69,9 +69,9 @@ FILE=
 CLI_OPTIONS=hf:
 CLI_LONG_OPTIONS=help,file:
 
-! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name start-pdf -- "$@")
+! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name start-pdf-reader -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "sp: unknown CLI options"
+    ConsoleError "  ->" "start-pdf-reader: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -80,7 +80,7 @@ PRINT_PADDING=19
 while true; do
     case "$1" in
         -h | --help)
-            CACHED_HELP=$(TaskGetCachedHelp "start-pdf")
+            CACHED_HELP=$(TaskGetCachedHelp "start-pdf-reader")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
                 BuildTaskHelpLine h help    "<none>"    "print help screen and exit"        $PRINT_PADDING
@@ -99,7 +99,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "sp: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "start-pdf-reader: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -112,22 +112,22 @@ done
 ##
 ############################################################################################
 ERRNO=0
-ConsoleInfo "  -->" "sp: starting task"
+ConsoleInfo "  -->" "spr: starting task"
 
 if [[ -z "${CONFIG_MAP["PDF_READER"]:-}" ]]; then
-    ConsoleError "  ->" "sp: no setting for PDF_READER, cannot start any"
-    ConsoleInfo "  -->" "sp: done"
+    ConsoleError "  ->" "spr: no setting for PDF_READER, cannot start any"
+    ConsoleInfo "  -->" "spr: done"
     exit 60
 fi
 if [[ ! -n "$FILE" ]]; then
-    ConsoleError "  ->" "sp: empty file? - '$FILE'"
-    ConsoleInfo "  -->" "sp: done"
+    ConsoleError "  ->" "spr: empty file? - '$FILE'"
+    ConsoleInfo "  -->" "spr: done"
     exit 61
 fi
 FILE=$(PathToCygwin $FILE)
 if [[ ! -r "$FILE" ]]; then
-    ConsoleError "  ->" "sp: cannot read file '$FILE'"
-    ConsoleInfo "  -->" "sp: done"
+    ConsoleError "  ->" "spr: cannot read file '$FILE'"
+    ConsoleInfo "  -->" "spr: done"
     exit 62
 fi
 
@@ -136,5 +136,5 @@ SCRIPT=${SCRIPT//%FILE%/$FILE}
 $SCRIPT &
 ERRNO=$?
 
-ConsoleInfo "  -->" "sp: done"
+ConsoleInfo "  -->" "spr: done"
 exit $ERRNO

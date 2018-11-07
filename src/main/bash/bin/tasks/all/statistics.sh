@@ -77,13 +77,13 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=ahP:cdeopst
+CLI_OPTIONS=AhP:cdeopst
 CLI_LONG_OPTIONS=all,help,print-mode:
 CLI_LONG_OPTIONS+=,all,ov,cmd,dep,es,opt,param,scn,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name statistics -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "stats: unknown CLI options"
+    ConsoleError "  ->" "statistics: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -99,7 +99,7 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
 
                 printf "\n   filters\n"
-                BuildTaskHelpLine a all             "<none>"   "activate all filters"       $PRINT_PADDING
+                BuildTaskHelpLine A all             "<none>"   "activate all filters"       $PRINT_PADDING
                 BuildTaskHelpLine c cmd             "<none>"   "for commands"               $PRINT_PADDING
                 BuildTaskHelpLine d dep             "<none>"   "for dependencies"           $PRINT_PADDING
                 BuildTaskHelpLine e es              "<none>"   "for exit status"            $PRINT_PADDING
@@ -119,7 +119,7 @@ while true; do
             shift 2
             ;;
 
-        -a | --all)
+        -A | --all)
             ALL=yes
             CLI_SET=true
             shift
@@ -170,7 +170,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "stats: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "statistics: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

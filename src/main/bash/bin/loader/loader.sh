@@ -217,18 +217,18 @@ fi
 
 
 ##
-## sneak in CLI for application mode
+## sneak in CLI for application mode and configuration file
 ##
 case "$@" in
-    *"-D"*)
+    *"-D"* | *"--dev-mode"*)
         CONFIG_MAP["APP_MODE"]="dev"
         CONFIG_SRC["APP_MODE"]="O"
         ;;
-    *"-B"*)
+    *"-B"* | *"--build-mode"*)
         CONFIG_MAP["APP_MODE"]="build"
         CONFIG_SRC["APP_MODE"]="O"
         ;;
-    *"-A"*)
+    *"-A"* | *"--all-mode"*)
         CONFIG_MAP["APP_MODE"]="all"
         CONFIG_SRC["APP_MODE"]="O"
         ;;

@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## build-help - builds help files for loader and shell
+## build-mvn-site - builds one or more Maven sites
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    v0.0.0
@@ -74,13 +74,13 @@ PROFILE=
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=abchi:ltT
+CLI_OPTIONS=Abchi:ltT
 CLI_LONG_OPTIONS=all,build,clean,help,id:,list,test
 CLI_LONG_OPTIONS+=,ad,site,stage,profile:,targets
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-mvn-site -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "bdms: unknown CLI options"
+    ConsoleError "  ->" "build-mvn-site: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -88,7 +88,7 @@ eval set -- "$PARSED"
 PRINT_PADDING=24
 while true; do
     case "$1" in
-        -a | --all)
+        -A | --all)
             ALL=yes
             shift
             ;;
@@ -111,7 +111,7 @@ while true; do
                 BuildTaskHelpLine T test    "<none>"    "test sites, open in browser"                               $PRINT_PADDING
 
                 printf "\n   filters\n"
-                BuildTaskHelpLine a all     "<none>"    "all sites"                                                 $PRINT_PADDING
+                BuildTaskHelpLine A all     "<none>"    "all sites"                                                 $PRINT_PADDING
                 BuildTaskHelpLine i id      "ID"        "site identifier for building"                              $PRINT_PADDING
 
                 printf "\n   targets\n"
@@ -167,7 +167,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "bdms: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "build-mvn-site: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

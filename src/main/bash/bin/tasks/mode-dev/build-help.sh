@@ -53,7 +53,6 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/functions/_include
-# source $FW_HOME/bin/functions/describe/_include
 ConsoleResetErrors
 ConsoleResetWarnings
 
@@ -73,7 +72,7 @@ CLI_LONG_OPTIONS=clean,help
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-help -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "bdh: unknown CLI options"
+    ConsoleError "  ->" "build-help: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -102,7 +101,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "bdh: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "build-help: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

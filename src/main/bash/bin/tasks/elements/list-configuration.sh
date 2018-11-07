@@ -64,7 +64,7 @@ PRINT_MODE=
 LS_FORMAT=list
 
 FILTER=
-ALL=
+ALL=false
 
 CHANGE_SET=false
 CLI_SET=false
@@ -74,13 +74,13 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=acdefhiP:T
+CLI_OPTIONS=AcdefhiP:T
 CLI_LONG_OPTIONS=all,help,print-mode:,table
 CLI_LONG_OPTIONS+=,cli,default,file,env,internal
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-configuration -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "lcfg: unknown CLI options"
+    ConsoleError "  ->" "list-configuration: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -88,8 +88,8 @@ eval set -- "$PARSED"
 PRINT_PADDING=25
 while true; do
     case "$1" in
-        -a | --all)
-            ALL=yes
+        -A | --all)
+            ALL=true
             CLI_SET=true
             shift
             ;;
@@ -101,7 +101,7 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"              $PRINT_PADDING
                 BuildTaskHelpLine T table       "<none>"    "print as table with more information"      $PRINT_PADDING
                 printf "\n   filters\n"
-                BuildTaskHelpLine a all         "<none>"    "all settings, disables all other filters"              $PRINT_PADDING
+                BuildTaskHelpLine A all         "<none>"    "all settings, disables all other filters"              $PRINT_PADDING
                 BuildTaskHelpLine c cli         "<none>"    "only settings from CLI options"                        $PRINT_PADDING
                 BuildTaskHelpLine d default     "<none>"    "only settings from default value"                      $PRINT_PADDING
                 BuildTaskHelpLine e env         "<none>"    "only settings from environment"                        $PRINT_PADDING
@@ -153,7 +153,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "lcfg: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "list-configuration: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

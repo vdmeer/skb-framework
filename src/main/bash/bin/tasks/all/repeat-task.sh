@@ -75,7 +75,7 @@ CLI_LONG_OPTIONS=help,times:,wait:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name repeat-task -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "rt: unknown CLI options"
+    ConsoleError "  ->" "repeat-task: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -108,7 +108,7 @@ while true; do
             shift
             TASK=${1-}
             if [[ ! -n "$TASK" ]]; then
-                ConsoleError "  ->" "rt: a task identifier / name is required"
+                ConsoleError "  ->" "repeat-task: a task identifier / name is required"
                 exit 60
             fi
             shift
@@ -116,7 +116,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "rt: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "repeat-task: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

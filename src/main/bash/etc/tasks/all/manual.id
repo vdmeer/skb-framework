@@ -12,6 +12,6 @@ DESCRIPTION="shows the manual in various versions"
 EXEC_PATH=bin/tasks/all
 
 TaskRequire $ID task start-browser opt
-TaskRequire $ID task start-pdf opt
+TaskRequire $ID task start-pdf-reader opt
 
 TaskRequire $ID dir ${CONFIG_MAP["APP_HOME"]}/doc/manual

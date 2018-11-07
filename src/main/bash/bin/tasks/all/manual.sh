@@ -53,7 +53,6 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/functions/_include
-# source $FW_HOME/bin/functions/describe/task.sh
 ConsoleResetErrors
 ConsoleResetWarnings
 
@@ -63,7 +62,7 @@ ConsoleResetWarnings
 ##
 PRINT_MODE=
 FILTER=
-ALL=
+ALL=false
 CLI_SET=false
 
 
@@ -71,13 +70,13 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=acdefhiP:
+CLI_OPTIONS=AcdefhiP:
 CLI_LONG_OPTIONS=all,help,print-mode:
 CLI_LONG_OPTIONS+=,adoc,ansi,html,manp,pdf,text,text-anon
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name manual -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "man: unknown CLI options"
+    ConsoleError "  ->" "manual: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -85,8 +84,8 @@ eval set -- "$PARSED"
 PRINT_PADDING=25
 while true; do
     case "$1" in
-        -a | --all)
-            ALL=yes
+        -A | --all)
+            ALL=true
             CLI_SET=true
             shift
             ;;
@@ -97,7 +96,7 @@ while true; do
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                            $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                          $PRINT_PADDING
                 printf "\n   filters\n"
-                BuildTaskHelpLine a        all       "<none>"    "all manual versions"                              $PRINT_PADDING
+                BuildTaskHelpLine A        all       "<none>"    "all manual versions"                              $PRINT_PADDING
                 BuildTaskHelpLine "<none>" adoc      "<none>"    "ADOC manual"                                      $PRINT_PADDING
                 BuildTaskHelpLine "<none>" ansi      "<none>"    "text manual with ansi colors andeffects"          $PRINT_PADDING
                 BuildTaskHelpLine "<none>" html      "<none>"    "HTML manual"                                      $PRINT_PADDING
@@ -157,7 +156,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "man: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "manual: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -221,12 +220,12 @@ for fil in $FILTER; do
             ;;
         pdf)
             if [[ -f ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf ]]; then
-                if [[ ! -z "${RTMAP_TASK_LOADED["start-pdf"]}" ]]; then
+                if [[ ! -z "${RTMAP_TASK_LOADED["start-pdf-reader"]}" ]]; then
                     set +e
-                    ${DMAP_TASK_EXEC["start-pdf"]} --file ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf
+                    ${DMAP_TASK_EXEC["start-pdf-reader"]} --file ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf
                     set -e
                 else
-                    ConsoleError " ->" "man/pdf: cannot show PDF manual, task 'start-pdf' not loaded"
+                    ConsoleError " ->" "man/pdf: cannot show PDF manual, task 'start-pdf-reader' not loaded"
                 fi
             else
                 ConsoleError "  ->" "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf"

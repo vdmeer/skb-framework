@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## list-command - list command
+## list-commands - list commands
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    v0.0.0
@@ -74,7 +74,7 @@ CLI_LONG_OPTIONS=help,print-mode:,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-commands -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "lc: unknown CLI options"
+    ConsoleError "  ->" "list-commands: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -108,7 +108,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "lc: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "list-commands: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

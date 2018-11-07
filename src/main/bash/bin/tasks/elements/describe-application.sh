@@ -76,13 +76,13 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=ahP:
+CLI_OPTIONS=AhP:
 CLI_LONG_OPTIONS=all,help,print-mode:
 CLI_LONG_OPTIONS+=,app,authors,bugs,copying,resources,security
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-application -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "da: unknown CLI options"
+    ConsoleError "  ->" "describe-application: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -98,7 +98,7 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
 
                 printf "\n   filters\n"
-                BuildTaskHelpLine a all               "<none>"   "all application aspects"              $PRINT_PADDING
+                BuildTaskHelpLine A all               "<none>"   "all application aspects"              $PRINT_PADDING
                 BuildTaskHelpLine "<none>" app        "<none>"   "include application description"      $PRINT_PADDING
                 BuildTaskHelpLine "<none>" authors    "<none>"   "include authors"                      $PRINT_PADDING
                 BuildTaskHelpLine "<none>" bugs       "<none>"   "include bugs"                         $PRINT_PADDING
@@ -116,7 +116,7 @@ while true; do
             shift 2
             ;;
 
-        -a | --all)
+        -A | --all)
             ALL=yes
             CLI_SET=true
             shift
@@ -157,7 +157,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "da: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "describe-application: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

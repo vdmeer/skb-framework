@@ -74,12 +74,12 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=ahs
+CLI_OPTIONS=Ahs
 CLI_LONG_OPTIONS=all,help,strict,msrc,cmd,dep,es,opt,param,scn,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name validate-installation -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "vi: unknown CLI options"
+    ConsoleError "  ->" "validate-installation: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -95,7 +95,7 @@ while true; do
                 BuildTaskHelpLine s strict  "<none>"    "run in strict mode"                $PRINT_PADDING
 
                 printf "\n   targets\n"
-                BuildTaskHelpLine a all "<none>" "set all targets" $PRINT_PADDING
+                BuildTaskHelpLine A all "<none>" "set all targets" $PRINT_PADDING
 
                 BuildTaskHelpLine "<none>" msrc     "<none>" "target: manual source" $PRINT_PADDING
 
@@ -117,7 +117,7 @@ while true; do
             DO_STRICT=true
             ;;
 
-        -a | --all)
+        -A | --all)
             shift
             DO_ALL=true
             CLI_SET=true
@@ -169,7 +169,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "vi: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "validate-installation: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -208,9 +208,9 @@ ValidateManualSource() {
         EXPECTED="tags/name tags/authors"
         for FILE in $EXPECTED; do
             if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "vi: missing file $FILE.txt"
+                ConsoleWarnStrict "  ->" "vi: manual missing file $FILE.txt"
             elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "vi: cannot read file $FILE.txt"
+                ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.txt"
             fi
         done
 
@@ -237,14 +237,14 @@ ValidateManualSource() {
         EXPECTED="framework/commands framework/dependencies framework/exit-options framework/exit-status framework/options framework/parameters framework/run-options framework/tasks framework/scenarios"
         for FILE in $EXPECTED; do
             if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.adoc ]]; then
-                ConsoleWarnStrict "  ->" "vi: missing file $FILE.adoc"
+                ConsoleWarnStrict "  ->" "vi: missing manual file $FILE.adoc"
             elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.adoc ]]; then
-                ConsoleWarnStrict "  ->" "vi: cannot read file $FILE.adoc"
+                ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.adoc"
             fi
             if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "vi: missing file $FILE.txt"
+                ConsoleWarnStrict "  ->" "vi: missing manual file $FILE.txt"
             elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "vi: cannot read file $FILE.txt"
+                ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.txt"
             fi
         done
 
@@ -275,14 +275,14 @@ ValidateManualSource() {
         EXPECTED="application/description application/authors application/bugs application/copying application/resources application/security"
         for FILE in $EXPECTED; do
             if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.adoc ]]; then
-                ConsoleWarnStrict "  ->" "vi: missing file $FILE.adoc"
+                ConsoleWarnStrict "  ->" "vi: missing manual file $FILE.adoc"
             elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.adoc ]]; then
-                ConsoleWarnStrict "  ->" "vi: cannot read file $FILE.adoc"
+                ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.adoc"
             fi
             if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "vi: missing file $FILE.txt"
+                ConsoleWarnStrict "  ->" "vi: missing manual file $FILE.txt"
             elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "vi: cannot read file $FILE.txt"
+                ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.txt"
             fi
         done
 

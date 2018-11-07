@@ -92,13 +92,13 @@ NO_TASKS=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=abchprst
+CLI_OPTIONS=Abchprst
 CLI_LONG_OPTIONS=build,clean,help,test,all,adoc,html,manp,pdf,text,src,requested
 CLI_LONG_OPTIONS+=,no-authors,no-bugs,no-commands,no-copying,no-deps,no,exitstatus,no-options,no-params,no-scenarios,no-resources,no-security,no-tasks
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-manual -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "bdm: unknown CLI options"
+    ConsoleError "  ->" "build-manual: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -119,7 +119,7 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "build-manual")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine a all         "<none>"    "set all targets, overwrites other options"         $PRINT_PADDING
+                BuildTaskHelpLine A all         "<none>"    "set all targets, overwrites other options"         $PRINT_PADDING
                 BuildTaskHelpLine b build       "<none>"    "builds a manual (manpage), requires a target"      $PRINT_PADDING
                 BuildTaskHelpLine c clean       "<none>"    "removes all target artifacts"                      $PRINT_PADDING
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
@@ -167,7 +167,7 @@ while true; do
             DO_TEST=true
             ;;
 
-        -a | --all)
+        -A | --all)
             shift
             DO_ALL=true
             ;;
@@ -259,7 +259,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "bdm: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "build-manual: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

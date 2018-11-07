@@ -77,13 +77,13 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=ahP:
+CLI_OPTIONS=AhP:
 CLI_LONG_OPTIONS=all,help,print-mode:
 CLI_LONG_OPTIONS+=,cmd,dep,es,opt,param,scn,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-element -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "de: unknown CLI options"
+    ConsoleError "  ->" "describe-element: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -99,7 +99,7 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
 
                 printf "\n   filters\n"
-                BuildTaskHelpLine a all             "<none>"   "all elements"               $PRINT_PADDING
+                BuildTaskHelpLine A all             "<none>"   "all elements"               $PRINT_PADDING
                 BuildTaskHelpLine "<none>" cmd      "<none>"   "include commands"           $PRINT_PADDING
                 BuildTaskHelpLine "<none>" dep      "<none>"   "include dependencies"       $PRINT_PADDING
                 BuildTaskHelpLine "<none>" es       "<none>"   "include exit status"        $PRINT_PADDING
@@ -118,7 +118,7 @@ while true; do
             shift 2
             ;;
 
-        -a | --all)
+        -A | --all)
             ALL=yes
             CLI_SET=true
             shift
@@ -164,7 +164,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "de: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "describe-element: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

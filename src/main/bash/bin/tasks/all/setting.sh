@@ -76,7 +76,7 @@ CLI_LONG_OPTIONS+=,pm:,shell-level:,snp,sq,strict,task-level:,tq
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name setting -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "set: unknown CLI options"
+    ConsoleError "  ->" "setting: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -118,7 +118,7 @@ while true; do
                     CHANGE_SET=true
                     ;;
                 *)
-                    ConsoleError " ->" "unknown print mode '$2'"
+                    ConsoleError " ->" "setting: unknown print mode '$2'"
                     ;;
             esac
             shift 2
@@ -131,7 +131,7 @@ while true; do
                     CHANGE_SET=true
                     ;;
                 *)
-                    ConsoleError " ->" "unknown shell level '$2'"
+                    ConsoleError " ->" "setting: unknown shell level '$2'"
                     ;;
             esac
             shift 2
@@ -174,7 +174,7 @@ while true; do
                     CHANGE_SET=true
                     ;;
                 *)
-                    ConsoleError " ->" "unknown task level '$2'"
+                    ConsoleError " ->" "setting: unknown task level '$2'"
                     ;;
             esac
             shift 2
@@ -195,7 +195,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "set: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "setting: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

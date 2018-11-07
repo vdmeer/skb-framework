@@ -77,12 +77,12 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=adhi:o:P:rs:
+CLI_OPTIONS=Adhi:o:P:rs:
 CLI_LONG_OPTIONS=all,default,help,id:,origin:,print-mode:,requested,status:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-parameter -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "dp: unknown CLI options"
+    ConsoleError "  ->" "describe-parameter: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -90,7 +90,7 @@ eval set -- "$PARSED"
 PRINT_PADDING=25
 while true; do
     case "$1" in
-        -a | --all)
+        -A | --all)
             ALL=yes
             CLI_SET=true
             shift
@@ -108,7 +108,7 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
 
                 printf "\n   filters\n"
-                BuildTaskHelpLine a all         "<none>"    "all parameters, disables all other filters"            $PRINT_PADDING
+                BuildTaskHelpLine A all         "<none>"    "all parameters, disables all other filters"            $PRINT_PADDING
                 BuildTaskHelpLine d default     "<none>"    "only parameters with a defined default value"          $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "parameter identifier"                                  $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only parameters from origin: f(w), a(pp)"              $PRINT_PADDING
@@ -149,7 +149,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "dp: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "describe-parameter: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -182,7 +182,7 @@ else
                 ORIGIN=FW_HOME
                 ;;
             A | a | app | application)
-                ORIGIN=APP__HOME
+                ORIGIN=APP_HOME
                 ;;
             *)
                 ConsoleError " ->" "dp: unknown origin: $ORIGIN"

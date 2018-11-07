@@ -77,12 +77,12 @@ ALL=
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=adDho:P:rs:T
+CLI_OPTIONS=AdDho:P:rs:T
 CLI_LONG_OPTIONS=all,default,def-table,help,origin:,print-mode:,requested,status:,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-parameters -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "lp: unknown CLI options"
+    ConsoleError "  ->" "list-parameters: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -90,7 +90,7 @@ eval set -- "$PARSED"
 PRINT_PADDING=25
 while true; do
     case "$1" in
-        -a | --all)
+        -A | --all)
             ALL=yes
             CLI_SET=true
             shift
@@ -108,7 +108,7 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
                 BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
                 printf "\n   filters\n"
-                BuildTaskHelpLine a all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
+                BuildTaskHelpLine A all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
                 BuildTaskHelpLine d default     "<none>"    "only parameters with a defined default value"          $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only parameters from origin: f(w), a(pp)"      $PRINT_PADDING
                 BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                   $PRINT_PADDING
@@ -154,7 +154,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "lp: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "list-parameters: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -178,7 +178,7 @@ else
                 ORIGIN=FW_HOME
                 ;;
             A | a | app | application)
-                ORIGIN=APP__HOME
+                ORIGIN=APP_HOME
                 ;;
             *)
                 ConsoleError " ->" "dp: unknown origin: $ORIGIN"

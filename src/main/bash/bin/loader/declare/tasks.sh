@@ -126,7 +126,7 @@ TaskRequire() {
 DeclareTasksOrigin() {
     local ORIGIN=$1
 
-    ConsoleDebug "scanning $ORIGIN"
+    ConsoleInfo "-->" "scanning $ORIGIN"
     local TASK_PATH=${CONFIG_MAP[$ORIGIN]}/${APP_PATH_MAP["TASK_DECL"]}
     if [[ ! -d $TASK_PATH ]]; then
         ConsoleWarn " ->" "declare task - did not find task directory '$TASK_PATH' at origin '$ORIGIN'"
@@ -230,9 +230,9 @@ DeclareTasksOrigin() {
                 DMAP_TASK_DESCR[$ID]="$DESCRIPTION"
                 if [[ ! -z ${SHORT:-} ]]; then
                     DMAP_TASK_SHORT[$SHORT]=$ID
-                    ConsoleDebug "declared $ORIGIN:::$ID with short '$SHORT'"
+                    ConsoleInfo "-->" "declared $ORIGIN:::$ID with short '$SHORT'"
                 else
-                    ConsoleDebug "declared $ORIGIN:::$ID without short"
+                    ConsoleInfo "-->" "declared $ORIGIN:::$ID without short"
                 fi
             fi
         done

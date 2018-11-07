@@ -169,7 +169,9 @@ ProcessTaskTestDirList() {
 ## $3: task ID for messages
 ##
 ProcessTaskTestDirCD() {
+    local MD_OPT=""
     if ConsoleIsDebug; then MD_OPT="$MD_OPT -v"; fi
+
     mkdir $MD_OPT ${CONFIG_MAP[$1]} 2> /dev/null
     MD_ERR=$?
     if (( $MD_ERR != 0 )) || [[ ! -d ${CONFIG_MAP[$1]} ]]; then
@@ -326,17 +328,22 @@ ProcessTaskReqParam() {
 TestDependency() {
     local DEP=$1
 
-    RTMAP_REQUESTED_DEP[$DEP]=[$DEP]
+    RTMAP_REQUESTED_DEP[$DEP]=$DEP
     if [[ "${RTMAP_DEP_STATUS[$DEP]:-}" != "N" ]]; then
         ConsoleDebug "process-task/dep - dependency '$DEP' already tested"
     else
+        if [[ ! -z ${DMAP_DEP_REQ_DEP[$DEP]:-} ]]; then
+            ConsoleDebug "process-task/dep - testing prior dependency '${DMAP_DEP_REQ_DEP[$DEP]}'"
+            TestDependency ${DMAP_DEP_REQ_DEP[$DEP]}
+        fi
+
         ConsoleDebug "process-task/dep - testing dependency '$DEP'"
         local COMMAND=${DMAP_DEP_CMD[$DEP]}
         if [[ "${COMMAND:0:1}" == "/" ]];then
             if [[ -n "$($COMMAND)" ]]; then
                 SetArtifactStatus dep $DEP S
             else
-                 SetArtifactStatus dep $DEP E
+                SetArtifactStatus dep $DEP E
             fi
         else
             if [[ -x "$(command -v $COMMAND)" ]]; then

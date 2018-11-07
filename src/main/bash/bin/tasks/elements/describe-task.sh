@@ -76,12 +76,12 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=ahi:lm:o:P:s:u
+CLI_OPTIONS=Ahi:lm:o:P:s:u
 CLI_LONG_OPTIONS=all,mode:,help,id:,loaded,origin:,print-mode:,status:,unloaded
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-task -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "dt: unknown CLI options"
+    ConsoleError "  ->" "describe-task: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -89,7 +89,7 @@ eval set -- "$PARSED"
 PRINT_PADDING=25
 while true; do
     case "$1" in
-        -a | --all)
+        -A | --all)
             ALL=yes
             CLI_SET=true
             shift
@@ -107,7 +107,7 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"              $PRINT_PADDING
 
                 printf "\n   filters\n"
-                BuildTaskHelpLine a all         "<none>"    "all tasks, disables all other filters"                 $PRINT_PADDING
+                BuildTaskHelpLine A all         "<none>"    "all tasks, disables all other filters"                 $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "task identifier"                                       $PRINT_PADDING
                 BuildTaskHelpLine l loaded      "<none>"    "only loaded tasks"                                     $PRINT_PADDING
                 BuildTaskHelpLine m mode        "MODE"      "only tasks for application mode: dev, build, use"      $PRINT_PADDING
@@ -155,7 +155,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "dt: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "describe-task: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

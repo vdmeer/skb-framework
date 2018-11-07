@@ -74,7 +74,7 @@ CLI_LONG_OPTIONS=help,scenario:,times:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name repeat-scenario -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "rs: unknown CLI options"
+    ConsoleError "  ->" "repeat-scenario: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -113,7 +113,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "rs: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "repeat-scenario: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

@@ -71,12 +71,12 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=ahi:P:
+CLI_OPTIONS=Ahi:P:
 CLI_LONG_OPTIONS=all,help,id:,print-mode:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-command -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "dc: unknown CLI options"
+    ConsoleError "  ->" "describe-command: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -84,7 +84,7 @@ eval set -- "$PARSED"
 PRINT_PADDING=25
 while true; do
     case "$1" in
-        -a | --all)
+        -A | --all)
             ALL=yes
             CLI_SET=true
             shift
@@ -96,7 +96,7 @@ while true; do
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
                 printf "\n   filters\n"
-                BuildTaskHelpLine a all         "<none>"    "all commands, disables all other filters"  $PRINT_PADDING
+                BuildTaskHelpLine A all         "<none>"    "all commands, disables all other filters"  $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "long command identifier"                   $PRINT_PADDING
             else
                 cat $CACHED_HELP
@@ -118,7 +118,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "dc: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "describe-command: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

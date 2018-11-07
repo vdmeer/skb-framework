@@ -86,12 +86,12 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=ahlm:o:P:s:Tu
+CLI_OPTIONS=Ahlm:o:P:s:Tu
 CLI_LONG_OPTIONS=all,mode:,help,loaded,origin:,print-mode:,status:,unloaded,no-a,no-b,no-d,no-dl,no-l,no-s,odl,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-scenarios -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "ls: unknown CLI options"
+    ConsoleError "  ->" "list-scenarios: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -99,7 +99,7 @@ eval set -- "$PARSED"
 PRINT_PADDING=25
 while true; do
     case "$1" in
-        -a | --all)
+        -A | --all)
             ALL=yes
             CLI_SET=true
             shift
@@ -112,7 +112,7 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
                 BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
                 printf "\n   filters\n"
-                BuildTaskHelpLine a         all         "<none>"    "all scenarios, disables all other filters"                             $PRINT_PADDING
+                BuildTaskHelpLine A         all         "<none>"    "all scenarios, disables all other filters"                             $PRINT_PADDING
                 BuildTaskHelpLine l         loaded      "<none>"    "only loaded scenarios"                                                 $PRINT_PADDING
                 BuildTaskHelpLine m         mode        "MODE"      "only scenarios for application mode: dev, build, use"                  $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  no-a        "<none>"    "activate all '--no-' filters"                                          $PRINT_PADDING
@@ -207,7 +207,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "ls: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "list-scenarios: internal error (task): CLI parsing bug"
             exit 52
     esac
 done

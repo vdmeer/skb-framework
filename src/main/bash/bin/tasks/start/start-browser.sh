@@ -71,7 +71,7 @@ CLI_LONG_OPTIONS=help,url:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name start-browser -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "sb: unknown CLI options"
+    ConsoleError "  ->" "start-browser: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -99,7 +99,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "sb: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "start-browser: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
