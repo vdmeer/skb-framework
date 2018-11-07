@@ -35,5 +35,5 @@
 
 CONFIG_MAP["LOADER_QUIET"]=on
 CONFIG_MAP["SHELL_QUIET"]=on
-OPT_CLI_MAP["execute-task"]="validate-installation -sa"
+OPT_CLI_MAP["execute-task"]="validate-installation --strict --all"
 DO_EXIT_2=true

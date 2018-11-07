@@ -352,14 +352,9 @@ if ConsoleHasErrors; then printf "\n"; exit 32; fi
 ## - exit with code 33: if declaration(s) failed
 ## - exit with code 34: if scenario tests failed
 ##
-# if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/scn-decl.map ]]; then
-#     ConsoleInfo "-->" "declaring scenarios from cache"
-#     source ${CONFIG_MAP["CACHE_DIR"]}/scn-decl.map
-# else
-    ConsoleInfo "-->" "declaring scenarios from source"
-    DeclareScenarios
-    if ConsoleHasErrors; then printf "\n"; exit 33; fi
-# fi
+ConsoleInfo "-->" "declaring scenarios from source"
+DeclareScenarios
+if ConsoleHasErrors; then printf "\n"; exit 33; fi
 source $FW_HOME/bin/loader/init/process-scenarios.sh
 ProcessScenarios
 if ConsoleHasErrors; then printf "\n"; exit 34; fi
