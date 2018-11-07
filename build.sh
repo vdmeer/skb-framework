@@ -184,6 +184,7 @@ skb_fw_manual(){
 skb_fw_site(){ 
     if [[ $HAVE_MAVEN == true ]]; then
         src/main/bash/bin/skb-framework -A -e build-mvn-site --sq --lq -T debug -- -bt --id fw
+        (cd docs; chmod 644 `find -type f`)
     else
         printf "%s\n\n" "no maven found, cannot build site"
     fi
