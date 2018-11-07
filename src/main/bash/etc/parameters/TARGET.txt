@@ -1,4 +1,6 @@
-        Sets the directory in which the  program  should  build  policies  and
-        policy artifacts. This directory will be created if it does not exist.
-        On clean, the whole directory will be removed!                        
+        This parameter sets the target directory, where  artifacts  should  be
+        created in, similar to the target directory  in  Maven  or  the  build
+        directory in Gradle. If set, the directory will be tested  for  create
+        and delete.  Some  tasks,  such  as  `clean`  will  remove  the  given
+        directory and eevrything in it.                                       
                                                                               

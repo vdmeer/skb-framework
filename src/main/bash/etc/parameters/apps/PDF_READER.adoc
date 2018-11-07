@@ -1,1 +1,4 @@
-Name of a PDF reader.
+Sets the command to start a PDF reader with a given PDF file. 
+The setting should contain the string `%%`, which will be substituted with the PDF file at runtime. 
+To start for instance Evince, this variable should be set to `evince %FILE%`. 
+The PDF reader can be given as simple command (then it needs to be in the `PATRH`) or as absolute command. 
