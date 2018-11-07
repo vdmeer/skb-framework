@@ -163,7 +163,7 @@ skb_fw_manual(){
         printf "%s\n\n" "no Tool jar, cannot build framework text sources"
     fi
 
-    src/main/bash/bin/skb-framework -A -e build-manual --sq --lq -T debug -- -b --adoc --text -r
+    src/main/bash/bin/skb-framework -A -e build-manual --sq --lq -T debug -- -b --adoc --text --requested
     printf "\n\n"
 
     if [[ $HAVE_ADOC == true ]]; then
