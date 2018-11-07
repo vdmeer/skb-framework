@@ -1,4 +1,3 @@
-== List of tasks
 *build-cache*, *bdc* - builds cache for screens and maps:: 
 This task builds a cache for an application with various options for targets. 
 It uses the parameter `CACHE_DIR` for the cache location. 

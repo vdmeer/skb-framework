@@ -1,3 +1,5 @@
-== PARAMETERS
+== Parameters
 
 include::{skb-site-main-dir}/main/bash/etc/manual/framework/parameters.adoc[]
+
+include::{skb-site-main-dir}/site-fragments/parameter-list.adoc[leveloffset=+1]

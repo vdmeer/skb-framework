@@ -1,4 +1,3 @@
-== List of dependencies
 *asciidoctor* - ADOC processor:: 
 Asciidoctor is a tool (or rather tool chain) that takes files written in AsciiDoc (or ADOC) and produces various output formats. 
 These formats are supported by backends 

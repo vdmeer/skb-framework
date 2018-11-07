@@ -21,15 +21,6 @@
                 <item href="elements/tasks.html" name="Tasks" />
                 <item href="elements/exit-status.html" name="Exit Status" />
             </item>
-            <item href="element-details.html" name="Element Details" collapse="false">
-                <item href="elements/option-exit-list.html" name="Exit Option List" />
-                <item href="elements/option-run-list.html" name="Runtime Option List" />
-                <item href="elements/command-list.html" name="Command List" />
-                <item href="elements/parameter-list.html" name="Parameter List" />
-                <item href="elements/dependency-list.html" name="Dependency List" />
-                <item href="elements/task-list.html" name="Task List" />
-                <item href="elements/exit-status-list.html" name="Exit Status List" />
-            </item>
         </menu>
 
         <breadcrumbs>

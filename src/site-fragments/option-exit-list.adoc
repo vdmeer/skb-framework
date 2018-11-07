@@ -1,4 +1,3 @@
-== List of exit options
 *-C*, *--clean-cache* - cleans the application cache:: 
 Clears the application cache and exists. 
 The application cache can be build using the task `build-cache`. 

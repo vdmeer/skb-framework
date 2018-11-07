@@ -1,4 +1,3 @@
-== List of runtime options
 *-A*, *--all-mode* - run application in mode 'all':: 
 Starts the application in the mode `all`. 
 In this mode, all tasks are loaded and no mode restrictions on the tasks are evaluated. 

@@ -8,21 +8,9 @@
 
 MvnSitePostScript() {
     MvnSiteFixAdoc target/site/elements/commands            Commands
-    MvnSiteFixAdoc target/site/elements/command-list        "Command List"
-
     MvnSiteFixAdoc target/site/elements/dependencies        Dependencies
-    MvnSiteFixAdoc target/site/elements/dependency-list     "Dependency List"
-
     MvnSiteFixAdoc target/site/elements/options             Options
-    MvnSiteFixAdoc target/site/elements/option-exit-list    "Exit Option List"
-    MvnSiteFixAdoc target/site/elements/option-run-list     "Runtime Option List"
-
     MvnSiteFixAdoc target/site/elements/parameters          Parameters
-    MvnSiteFixAdoc target/site/elements/parameter-list      "Parameter List"
-
     MvnSiteFixAdoc target/site/elements/tasks               Tasks
-    MvnSiteFixAdoc target/site/elements/task-list           "Task List"
-
     MvnSiteFixAdoc target/site/elements/exit-status         "Exit Status"
-    MvnSiteFixAdoc target/site/elements/exit-status-list    "Exit Status List"
 }

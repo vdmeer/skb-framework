@@ -8,57 +8,50 @@
 
 MvnSitePreScript() {
     ## create exit option list
-    if [[ -f src/site/asciidoc/elements/option-exit-list.adoc ]]; then
-        rm src/site/asciidoc/elements/option-exit-list.adoc
+    if [[ -f src/site-fragments/option-exit-list.adoc ]]; then
+        rm src/site-fragments/option-exit-list.adoc
     fi
-    printf "== List of exit options\n" > src/site/asciidoc/elements/option-exit-list.adoc
-    ${DMAP_TASK_EXEC["describe-option"]} --exit --print-mode adoc >> src/site/asciidoc/elements/option-exit-list.adoc
+    ${DMAP_TASK_EXEC["describe-option"]} --exit --print-mode adoc > src/site-fragments/option-exit-list.adoc
 
 
     ## create runtime option list
-    if [[ -f src/site/asciidoc/elements/option-run-list.adoc ]]; then
-        rm src/site/asciidoc/elements/option-run-list.adoc
+    if [[ -f src/site-fragments/option-run-list.adoc ]]; then
+        rm src/site-fragments/option-run-list.adoc
     fi
-    printf "== List of runtime options\n" > src/site/asciidoc/elements/option-run-list.adoc
-    ${DMAP_TASK_EXEC["describe-option"]} --run --print-mode adoc >> src/site/asciidoc/elements/option-run-list.adoc
+    ${DMAP_TASK_EXEC["describe-option"]} --run --print-mode adoc > src/site-fragments/option-run-list.adoc
 
 
     ## create command list
-    if [[ -f src/site/asciidoc/elements/command-list.adoc ]]; then
-        rm src/site/asciidoc/elements/command-list.adoc
+    if [[ -f src/site-fragments/command-list.adoc ]]; then
+        rm src/site-fragments/command-list.adoc
     fi
-    printf "== List of shell commands\n" > src/site/asciidoc/elements/command-list.adoc
-    ${DMAP_TASK_EXEC["describe-command"]} --all --print-mode adoc >> src/site/asciidoc/elements/command-list.adoc
+    ${DMAP_TASK_EXEC["describe-command"]} --all --print-mode adoc > src/site-fragments/command-list.adoc
 
 
     ## create parameter list
-    if [[ -f src/site/asciidoc/elements/parameter-list.adoc ]]; then
-        rm src/site/asciidoc/elements/parameter-list.adoc
+    if [[ -f src/site-fragments/parameter-list.adoc ]]; then
+        rm src/site-fragments/parameter-list.adoc
     fi
-    printf "== List of parameters\n" > src/site/asciidoc/elements/parameter-list.adoc
-    ${DMAP_TASK_EXEC["describe-parameter"]} --all --print-mode adoc >> src/site/asciidoc/elements/parameter-list.adoc
+    ${DMAP_TASK_EXEC["describe-parameter"]} --all --print-mode adoc > src/site-fragments/parameter-list.adoc
 
 
     ## create dependency list
-    if [[ -f src/site/asciidoc/elements/dependency-list.adoc ]]; then
-        rm src/site/asciidoc/elements/dependency-list.adoc
+    if [[ -f src/site-fragments/dependency-list.adoc ]]; then
+        rm src/site-fragments/dependency-list.adoc
     fi
-    printf "== List of dependencies\n" > src/site/asciidoc/elements/dependency-list.adoc
-    ${DMAP_TASK_EXEC["describe-dependency"]} --all --print-mode adoc >> src/site/asciidoc/elements/dependency-list.adoc
+    ${DMAP_TASK_EXEC["describe-dependency"]} --all --print-mode adoc > src/site-fragments/dependency-list.adoc
 
 
     ## create task list
-    if [[ -f src/site/asciidoc/elements/task-list.adoc ]]; then
-        rm src/site/asciidoc/elements/task-list.adoc
+    if [[ -f src/site-fragments/task-list.adoc ]]; then
+        rm src/site-fragments/task-list.adoc
     fi
-    printf "== List of tasks\n" > src/site/asciidoc/elements/task-list.adoc
-    ${DMAP_TASK_EXEC["describe-task"]} --all --print-mode adoc >> src/site/asciidoc/elements/task-list.adoc
+    ${DMAP_TASK_EXEC["describe-task"]} --all --print-mode adoc > src/site-fragments/task-list.adoc
 
 
     ## create exit status list
-    if [[ -f src/site/asciidoc/elements/exit-status-list.adoc ]]; then
-        rm src/site/asciidoc/elements/exit-status-list.adoc
+    if [[ -f src/site-fragments/exit-status-list.adoc ]]; then
+        rm src/site-fragments/exit-status-list.adoc
     fi
-    printf "== List of exit status\n" > src/site/asciidoc/elements/exit-status-list.adoc
-    ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode adoc >> src/site/asciidoc/elements/exit-status-list.adoc
+    ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode adoc > src/site-fragments/exit-status-list.adoc
 }

@@ -1,4 +1,3 @@
-== List of shell commands
 *bye* - exit shell:: 
 Exits the shell and the application. 
 The temporary configuration file will be removed. 

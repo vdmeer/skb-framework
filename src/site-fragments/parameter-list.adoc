@@ -1,4 +1,3 @@
-== List of parameters
 *BROWSER* - command for browser:: 
 Sets the command to start a web browser, for instance Firefox, with a URL. 
 The setting should contain the string `%URL%`, which will be substituted with the actual URL at runtime. 
