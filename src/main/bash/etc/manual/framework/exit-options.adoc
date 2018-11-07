@@ -1,1 +1,4 @@
-Exit options ...
+Exit options for the application will produce a requested outcome and then the application will exit. 
+Some of these options are to provide information, e.g. show the current configuration or describe an application element. 
+Other options actually will execute a behavior, for instance execute a task or a scenario and then exit. 
+This later category can be used to script more comples scenarios by calling the application multiple times executing different behavior. 

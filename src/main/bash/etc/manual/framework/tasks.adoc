@@ -1,1 +1,6 @@
-Tasks ...
+Tasks are the application elements providing most of the application functionality. 
+The framework, and all its applications, allows to add any task with any functions using a very simple API. 
+The core framework provides a set of tasks for the framework. 
+Concrete applications can add any task for application specific functions. 
+Tasks can define requirements in terms of dependencies and parameters and other important aspects.
+They can also be specified for a specific application mode, i.e. one of `dev`, `build`, and / or `use`. 

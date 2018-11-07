@@ -1,1 +1,3 @@
-Scenarios ... ...
+Scenarios are sets of commands, which in turn are tasks with parameters and options. 
+In other words, a scenario provides a sequence of task executions with specific parameters. 
+Scenarios can be defined for a specific application mode (`dev`, `build`, `use`). 
