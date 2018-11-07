@@ -1,1 +1,2 @@
-Dependency JRE8...
+This is the dependency for a Java development environment, or JDK. 
+The exact version of the JDK cannot be specified, since there is not standardized version string across the multiple options (e.g. Oracle Java, Open JDK). 

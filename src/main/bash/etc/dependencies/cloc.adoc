@@ -1,1 +1,2 @@
-Dependency pyyaml...
+This dependency checks for the tool CLOC, or Count Lines Of Code. 
+This tool is used to count lines of code for a variety of languages. 
