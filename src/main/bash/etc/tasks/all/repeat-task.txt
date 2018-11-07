@@ -1,4 +1,4 @@
-        This task will clean, i.e. remove  all  create  artifacts.  It  starts
-        calling the `--clean` option of all tasks starting with  `build-`  and
-        `compile-`. Then it will remove the `target` directory.               
+        This task will repeat a given task. The repetition can  be  configured
+        in terms of: `times` (how often to re-run the task)  and  `wait`  (how
+        long to wait between repetitions).                                    
                                                                               

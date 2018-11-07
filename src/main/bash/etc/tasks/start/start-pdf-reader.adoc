@@ -1,1 +1,2 @@
-Starts a PDF reader
+Starts a PDF reader using the setting from the parameter `PDF_READER`. 
+The file option of the task sets the PDF file to be loaded in the reader. 

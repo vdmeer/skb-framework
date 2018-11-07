@@ -1,2 +1,2 @@
-Wait for the given number of seconds before the next command is executed. 
-The action here is a simply sleep.
+This task shows statistics of the applications and loaded or processed elements. 
+The statistics can be filtered per element class, for instance tasks or paramters. 

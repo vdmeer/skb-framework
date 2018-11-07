@@ -1,3 +1,4 @@
-This task will clean, i.e. remove all create artifacts. 
-It starts calling the `--clean` option of all tasks starting with `build-` and `compile-`. 
-Then it will remove the `target` directory.
+This task describes one or more scenarios. 
+If a specific scenario is requested, only this scenario is described. 
+Otherwise, all scenario are described. 
+Filters can be applied to the description of all scenarios, for instance only a specific origin or status. 

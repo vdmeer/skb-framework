@@ -1,9 +1,17 @@
-Builds the manual
-Without options, nothing happens
-All options can be used at the same time, task will run in right order.
-`test` will automatically build if target does not exist
-ADOC and text (--adoc, --text) will be shown using `cat`
-Man page (--man) will be shown using `man`
-PDF (--pdf) will be shown using a PDF viewer
-HTML (--html) will be shown using web browser
-Build all targets: bman --all -b -c
+This tasks builds the application manual. 
+It comes with various options for targets (manual formats) and filters (manual content). 
+There are two primary targets: `text` and `adoc`. 
+Here, `text` can be ANSI text (with colors and effects), plain text (just text), or annotated text (using ASCII characters for some formatting).
+The `adoc` target creates an Asciidoctor file. 
+This file is then used to create secondary targets, such as a manpage, a HTML file, or a PDF file. 
+Other secondary targets can be added, as long as they are supported by the Asciidoctor tool chain. 
+
+Filters can be used to select which content should be part of the produced manual. 
+All filters apply to all selected targets. 
+
+There are further options for dependencies, parameters, and tasks. 
+For instance: the manual can include all tasks or only tasks loaded in the current application mode. 
+
+A special target is called `src`. 
+This target allows to create well-formatted text paragraphs from the original ADOC source. 
+This option uses the SKB Framework Tool for the translation. 

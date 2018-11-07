@@ -1,4 +1,5 @@
-        This task will clean, i.e. remove  all  create  artifacts.  It  starts
-        calling the `--clean` option of all tasks starting with  `build-`  and
-        `compile-`. Then it will remove the `target` directory.               
+        This task describes one or more CLI options of the application.  If  a
+        specific  option  is  requested,  only  this  option   is   described.
+        Otherwise, all options are described. Filters can be  applied  to  the
+        description of all options.                                           
                                                                               

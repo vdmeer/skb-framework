@@ -1,2 +1,6 @@
-        Builds the maps.                                                      
+        This task validates  the  application  installation.  Validation  here
+        means that all required files, including documentation files, will  be
+        checked. The validation can be run in `strict` mode, which means  that
+        strict warnings  become  errors.  The  task  can  be  configured  with
+        targets, determining what the validation should focus on.             
                                                                               
