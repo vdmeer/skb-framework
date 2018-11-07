@@ -4,26 +4,36 @@ Success.
 If any command line option was used, then processing this option was successful. 
 If the shell was started, then it terminated successfully.
 
-*003* - app: /opt/skb/framework without executable:: 
-app: /opt/skb/framework without executable
+*003* - application: found /opt/skb/framework without executable:: 
+An application did not find the SKB Framework executable. 
+The framework installation was found, but no executable framework file. 
+This is very likely a permission problem of the framework installation. 
 
-*004* - app: no /opt/skb/framework:: 
-app: no /opt/skb/framework
+*004* - application: no /opt/skb/framework:: 
+The application did not find the SKB Framework installed. 
 
-*005* - app: $SKB_FRAMEWORK_HOME without executable:: 
-app: \$SKB_FRAMEWORK_HOME without executable
+*005* - application: $SKB_FRAMEWORK_HOME without executable:: 
+The environment \$SKB_FRAMEWORK_HOME was set and pointed to an existing directory. 
+However, there was no executable `skb-framework` found in this directory. 
+This might be a permission problem on the framework executable. 
 
-*006* - app: $SKB_FRAMEWORK_HOME but not directory:: 
-app: \$SKB_FRAMEWORK_HOME but not directory
+*006* - application: $SKB_FRAMEWORK_HOME but not directory:: 
+The setting for \$SKB_FRAMEWORK_HOME was found in the environment, but it does not point to an existing directory. 
+Try to unset \$SKB_FRAMEWORK_HOME from the environment, or set to an existing directory. 
 
-*007* - app: unable to set applicatin home (tried environment, readlink, and dirname $0):: 
-app: unable to set applicatin home (tried environment, readlink, and dirname \$0)
+*007* - application: unable to set applicatin home (tried environment, readlink, and dirname $0):: 
+The application is not able to set the application home directory. 
+It has tried all implemented options (environment, readlink, dirname). 
+Fix this problem by setting the application home in the environment. 
 
 *010* - fw: unable to set home $SF_HOME (tried environment, readlink, and dirname $0):: 
-fw: unable to set home \$SF_HOME (tried environment, readlink, and dirname \$0)
+The framework is not able to set the home directory, here \$SF_HOME. 
+It tried the environment, readlink, and dirname. 
+This problem is an internal problem, probably am incorrect installation or a bug in starting the application. 
 
 *011* - fw: did find/set $FW_HOME, but did not find loader:: 
-fw: did find/set \$FW_HOME, but did not find loader
+The framework did find its home directory, but not the application loader script. 
+This error points to a serious problem with the framework installation, or a permission problem on starting the loader. 
 
 *012* - loader: no bash version 4:: 
 The program was not executed with _bash_ version 4 (or later). 
@@ -31,13 +41,19 @@ Since it uses associative arrays, _bash_ 4 is a requirement to run the program.
 Please install _bash_ version 4 or later.
 
 *013* - loader: no GNU getopt:: 
-Getop missing or error
+The application did not find GNU `getopt`. 
+This software is required for command line argument parsing in the framework and many tasks. 
+Please install the correct `getopt` version. 
 
 *014* - loader: no bc:: 
-BC not found
+The loader did not find the tool `bc` being installed. 
+This tool is required for a number of calculations of the application. 
+Please install `bc` on your system. 
 
 *015* - loader: no mktemp:: 
-MKTMP not found
+The loader did not find the tool `mktemp` being installed. 
+This tool is required for creating temporary files. 
+Please install `mktemp` on your system. 
 
 *016* - loader: no flavor set:: 
 Unknown base name or flavor. 
@@ -59,26 +75,36 @@ The setting for home directory did either not point to a directory or the direct
 Check the setting or the directory.
 
 *020* - loader: no application script name set:: 
-loader: no application script name set
+This is an internal loader error: the script name of the application was not set. 
+This error is pointing to an application bug. 
 
 *021* - loader: no application name set:: 
-loader: no application name set
+This is an internal loader error: the application name was not set. 
+This error is pointing to an application bug. 
 
 *022* - loader: no application version found, tried $HOME/etc/version.txt:: 
-no application version found, tried \$HOME/etc/version.txt
+The loader did not find the required file with the application version. 
+The file should be \$HOME/etc/version.txt. 
+This error points to an application bug or installation error. 
 
 *023* - loader: could not create TMP DIR:: 
-loader: could not create TMP DIR
+The loader attempted to create a temporary directory for the application. 
+This attempt failed. 
+Please check the permissions for the temporary directory. 
 
 *024* - loader: TMP DIR not writable:: 
-loader: TMP DIR not writable
-
+The loader did find or could create the temporary directory, but then could not write to it. 
+Please check the permissions for the temporary directory. 
 
 *025* - loader: errors in parameter declarations:: 
-parameter declaration failed
+The loader did experience errors while declaring parameters. 
+This error points to an application bug or installation error. 
+It should only happen when one or more parameter declarations are faulty. 
 
 *026* - loader: errors in options declarations:: 
-option declaration failed
+The loader did experience errors while declaring CLI options. 
+This error points to an application bug or installation error. 
+It should only happen when one or more option declarations are faulty. 
 
 *027* - loader: errors parsing CLI:: 
 Internal error: unresolved CLI options. 
@@ -87,21 +113,29 @@ It means that the shell or a task were presented with unexpected CLI options.
 Those options should have been processed by the program.
 +
 The program detected an unknown argument in the command line. 
-Some CLI optiont (or argument) was used that the program does not understand. 
+Some CLI option (or argument) was used that the program does not understand. 
 If `--help` does not show this option, than it is unknown. 
 If the help screen does show the options, than there is a bug in the software.
 
 *028* - loader: errors in command declarations:: 
-command declaration failed
+The loader did experience errors while declaring shell commands. 
+This error points to an application bug or installation error. 
+It should only happen when one or more command declarations are faulty. 
 
 *029* - loader: errors in error-code declarations:: 
-error code declaration failed
+The loader did experience errors while declaring exit status. 
+This error points to an application bug or installation error. 
+It should only happen when one or more exit status declarations are faulty. 
 
 *030* - loader: dependency declaration error:: 
-dependency declaration failed
+The loader did experience errors while declaring dependencies. 
+This error points to an application bug or installation error. 
+It should only happen when one or more dependency declarations are faulty. 
 
 *031* - loader: task declaration error:: 
-task declaration failed
+The loader did experience errors while declaring tasks. 
+This error points to an application bug or installation error. 
+It should only happen when one or more task declarations are faulty. 
 
 *032* - loader: task testing errors:: 
 Available tasks (from `bin/tasks` in the program home directory) are loaded. 
@@ -120,42 +154,41 @@ It can also happen for directories that will be created if they do not exist, an
 In any case, detailed error message will have been printed.
 
 *033* - loader: scenario declaration error:: 
-scenario declaration failed
+The loader did experience errors while declaring scenarios. 
+This error points to an application bug or installation error. 
+It should only happen when one or more scenario declarations are faulty. 
 
-*034* - loader: loader level unknown:: 
-loader level unknown
+*034* - loader: process scenarios error:: 
+The process of one or more scenarios failed, i.e. some scenario requirements could not be fulfilled. 
 
-*035* - loader: shell level unknown:: 
-shell level unknown
+*035* - loader: loader level unknown:: 
+The loader got an unknown loader level from a CLI command. 
 
-*036* - loader: task level unknown:: 
-task level unknown
+*036* - loader: shell level unknown:: 
+The loader got an unknown shell level from a CLI command. 
 
-*037* - loader: errors processing CLI options:: 
+*037* - loader: task level unknown:: 
+The loader got an unknown task level from a CLI command. 
+
+*038* - loader: errors processing CLI options:: 
 Internal error: unresolved CLI options. 
 This error points to a bug in the software. 
 It means that the shell or a task were presented with unexpected CLI options. 
 Those options should have been processed by the program.
 +
 The program detected an unknown argument in the command line. 
-Some CLI optiont (or argument) was used that the program does not understand. 
+Some CLI option (or argument) was used that the program does not understand. 
 If `--help` does not show this option, than it is unknown. 
 If the help screen does show the options, than there is a bug in the software.
 
-*039* - loader: scenario file not found:: 
-A given scenario (file) was not found. 
-The program was started with the `--scenario`option and a given file. 
-However the file does not exist or is not readable. 
-Check the CLI option and the file and run again.
-
-*040* - shell: was started w/o finding tmp configuration file:: 
-shell: was started w/o finding tmp configuration file
-
 *050* - task: was started w/o finding tmp configuration file:: 
-task: was started w/o finding tmp configuration file
+A task was started outside the framework or an application. 
+This errors occurs if no temporary configuration file was provided for a task execution. 
+Please do not execute a task outside the framework or application. 
 
 *051* - task: error from getopt parsing command line:: 
-task: error from getopt parsing command line
+A task found an error while parsing its CLI arguments. 
+This error points to a bug in the task implementation. 
 
 *052* - task: internal CLI parsing error:: 
 A task has found an error in its command line. 

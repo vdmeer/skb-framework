@@ -1,42 +1,54 @@
 == List of parameters
 *BROWSER* - command for browser:: 
-Sets the command and URL substitution to start a web browser with a given URL.  
-The URL substitution string has the form `%URL%`. 
-To start for instance Firefox, this variable should be set to `firefox --new-tab %URL%`.
+Sets the command to start a web browser, for instance Firefox, with a URL. 
+The setting should contain the string `%URL%`, which will be substituted with the actual URL at runtime. 
+To start for instance Firefox, this variable should be set to `firefox --new-tab %URL%`. 
+The browser can be given as simple command (then it needs to be in the `PATRH`) or as absolute command. 
 +
 default value: none defined
 
 *CACHE_DIR* - directory for caching settings:: 
-Prompt
+Sets the cache directory, used by the task `build-cache` and then also the loader. 
+Caching parts of the application elements (or even all tasks) can speed up the load of an application as well as runtime behavior, such as help on a task. 
+This feature is useful for slower systems, such as a Raspberry PI or a Cygwin environment. 
 +
 default value: `/var/cache/skb-framework`
 
 *MANUAL_SRC* - source folder for the manual:: 
-A tool...
+Sets the path for source files to build the application manual. 
+For standard applications, the default value should be sufficient. 
+In case one wants different manuals for different application modes (e.g. one for `build` and one for `use`), this parameter can be used. 
 +
 default value: `$FW_HOME/etc/manual`
 
 *MVN_SITES* - list of Maven sites, entries separated with whitespaces:: 
-Sets the directory for the SKB sites. 
-These sites are build using the Maven site plugin. 
-If not present, the tasks that build sites will not execute.
+This parameter should provide a list of directories that contain POM files to generate Maven sites. 
+Use whitespaces to separate directories. 
+Tasks that build Maven sites, such as `build-mvn-site` will use this parameter to find POM files. 
+If not present, these tasks will not execute.
 +
 default value: none defined
 
 *PDF_READER* - command for pdf reader:: 
-Name of a PDF reader.
+Sets the command to start a PDF reader with a given PDF file. 
+The setting should contain the string `%%`, which will be substituted with the PDF file at runtime. 
+To start for instance Evince, this variable should be set to `evince %FILE%`. 
+The PDF reader can be given as simple command (then it needs to be in the `PATRH`) or as absolute command. 
 +
 default value: none defined
 
 *SCENARIO_PATH* - path for scenarios, entries separated with whitespaces:: 
-Sets the directory for the SKB sites. 
-These sites are build using the Maven site plugin. 
-If not present, the tasks that build sites will not execute.
+This parameter should provide a list of directories where the application can find scenarios. 
+Use whitespaces to separate directories. 
+If set, each directory will be parsed to load scenarios during the load of the application. 
+All found scenarios are available to be executed at runtime. 
 +
 default value: none defined
 
 *SHELL_PROMPT* - sets the shell prompt:: 
-Prompt
+This parameter can be used to set the prompt the shell should use. 
+It can be set to anything that the shell can execute, including the console functions of the framework. 
+It is for instance possible to use the function `PrintColor` to create a prompt with colored text. 
 +
 default value: `sf: `
 
@@ -58,9 +70,9 @@ The folder structure for the library is not fixed.
 default value: none defined
 
 *TARGET* - target folder:: 
-Sets the directory in which the program should build policies and policy artifacts. 
-This directory will be created if it does not exist. 
-On clean, the whole directory will be removed!
+This parameter sets the target directory, where artifacts should be created in, similar to the target directory in Maven or the build directory in Gradle. 
+If set, the directory will be tested for create and delete. 
+Some tasks, such as `clean` will remove the given directory and eevrything in it. 
 +
 default value: none defined
 

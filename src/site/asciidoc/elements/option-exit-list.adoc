@@ -1,38 +1,50 @@
 == List of exit options
 *-C*, *--clean-cache* - cleans the application cache:: 
-Shows <something>
+Clears the application cache and exists. 
+The application cache can be build using the task `build-cache`. 
+It contains information about all application elements, including tasks. 
+Clearing the cache can be necessary in some scenarios, for instance when new elements (e.g. tasks) have been added to an application.
 
 *-c*, *--configuration* - show current runtime configuration:: 
 Prints current settings after processing all environment settings. 
-Note: setting identifiers differ from parameter names, they do not have the prefix 'SB_'.
+The settings depend on the application mode, the loaded tasks, and the given environment or file settings. 
+All settings are presented without the flavor prefix. 
 
 *-d*, *--dependency* DEP - print a help screen for a dependency:: 
-Shows <something>
+Shows a description for a given dependency and exits. 
+The description is the same as in the application manual. 
 
 *-e*, *--execute-task* ID - executes task ID, put arguments after '--':: 
-Prints the program name, the string 'version' and the actual version of the program. 
-The version is taken from `$HOME/etc/version.txt`
+Executes a given tasks and exits. 
+The long name should be used for the task, though this option also works for the short name. 
+Additional task parameters can be added after a `--` in the command line. 
+All these options are directly handed over to the task.
 
 *-h*, *--help* - print a help screen with CLI options:: 
 Shows a help screen with all command line options. 
 The options are sorted alphabetically.
 
 *-m*, *--manual* - print a manual:: 
-Prints this manual. 
-The text is typest using bold and italic terminal features. 
-Descriptions of parameters and tasks are taken from the actual parameter and task definitions. 
-It is the same text as in the actual system manual.
+Prints this manual for the set print mode (see option `--print-mode`). 
+The manual is created by the task `build-manual`. 
 
 *-o*, *--option* OPT - print a help screen for a CLI option:: 
-Shows <something>
+Shows a description for a given CLI option and exits. 
+The description is the same as in the application manual. 
 
 *-p*, *--parameter* PARAM - print a help screen for a parameter:: 
-Shows <something>
+Shows a description for a given parameter and exits. 
+The description is the same as in the application manual. 
+The parameter can be given in upper or lower case spelling. 
+Note: all parameters are used without the flavor prefix.
 
 *-V*, *--validate* - validate:: 
-Validates <something>
+Validates the installation of the application and exits. 
+Internally, the task `validate-installation` is called. 
+The validation is done for all targets and in `strict` mode. 
+This means that all warnings result in errors. 
 
 *-v*, *--version* - show program version:: 
-Prints the program name, the string 'version' and the actual version of the program. 
-The version is taken from `$HOME/etc/version.txt`
+Prints the program version and exits. 
+The actual printed information is: the application name, the string `version` and the version of the program. 
 
