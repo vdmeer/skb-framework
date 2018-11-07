@@ -1,4 +1,3 @@
 Shows a help screen with all shell commands. 
-The commands are grouped as: _history_, _exit_, _help_, _tasks_, _scenarios_, and _misc_. 
-The help screen uses colors for arguments: green for optional arguments and red for mandatory arguments. 
-Note: for commands with multiple arguments, the sequence is important!
+The commands are alphabetically sorted and shown as: short name, long name, and description. 
+The task `list-commands` provides more options to list commands. 

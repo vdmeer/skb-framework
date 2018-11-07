@@ -1,1 +1,3 @@
-BC not found
+The loader did not find the tool `bc` being installed. 
+This tool is required for a number of calculations of the application. 
+Please install `bc` on your system. 

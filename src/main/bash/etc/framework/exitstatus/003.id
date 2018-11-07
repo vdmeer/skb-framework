@@ -8,4 +8,4 @@
 
 ORIGIN=app
 PROBLEM=external
-DESCRIPTION="app: /opt/skb/framework without executable"
+DESCRIPTION="application: found /opt/skb/framework without executable"

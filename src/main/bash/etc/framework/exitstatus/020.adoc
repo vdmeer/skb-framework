@@ -1,1 +1,2 @@
-loader: no application script name set
+This is an internal loader error: the script name of the application was not set. 
+This error is pointing to an application bug. 

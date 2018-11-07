@@ -1,1 +1,2 @@
-Shows <something>
+Shows a description for a given CLI option and exits. 
+The description is the same as in the application manual. 

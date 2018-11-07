@@ -8,4 +8,4 @@
 
 ORIGIN=app
 PROBLEM=external
-DESCRIPTION="app: \$SKB_FRAMEWORK_HOME but not directory"
+DESCRIPTION="application: \$SKB_FRAMEWORK_HOME but not directory"

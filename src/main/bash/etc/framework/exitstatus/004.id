@@ -8,4 +8,4 @@
 
 ORIGIN=app
 PROBLEM=external
-DESCRIPTION="app: no /opt/skb/framework"
+DESCRIPTION="application: no /opt/skb/framework"

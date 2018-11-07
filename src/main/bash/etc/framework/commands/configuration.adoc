@@ -1,3 +1,4 @@
-Prints the current time as HH:mm:ss. 
-This can come in handy when no other clock or watch is available. 
-It is a separate command because the prompt should not be overloaded.
+Prints the current configuration as a simple list of configuration keys and their current value. 
+Some of the keys are internally set, for some the values are taken from the environment or a configuration file. 
+In print mode `ansi`, some values are printed in color (e.g. red for a value `error`) or text effects (e.g. bold for the flavor). 
+The task `list-configuration` provides more options for printing the configuration. 

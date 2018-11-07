@@ -1,1 +1,2 @@
-Sets <mode> all
+Turns off the shell prompt, i.e. the shell will not print a prompt if this option is used. 
+The shell level can be changed at runtime using the task `setting`. 

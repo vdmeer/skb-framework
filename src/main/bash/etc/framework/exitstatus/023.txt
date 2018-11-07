@@ -1,2 +1,4 @@
-        loader: could not create TMP DIR                                      
+        The  loader  attempted  to  create  a  temporary  directory  for   the
+        application. This attempt failed. Please check the permissions for the
+        temporary directory.                                                  
                                                                               

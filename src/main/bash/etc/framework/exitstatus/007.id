@@ -8,4 +8,4 @@
 
 ORIGIN=app
 PROBLEM=external
-DESCRIPTION="app: unable to set applicatin home (tried environment, readlink, and dirname \$0)"
+DESCRIPTION="application: unable to set applicatin home (tried environment, readlink, and dirname \$0)"

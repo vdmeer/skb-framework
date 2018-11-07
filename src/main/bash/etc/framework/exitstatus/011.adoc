@@ -1,1 +1,2 @@
-fw: did find/set \$FW_HOME, but did not find loader
+The framework did find its home directory, but not the application loader script. 
+This error points to a serious problem with the framework installation, or a permission problem on starting the loader. 

@@ -1,2 +1,5 @@
-        app: \$SKB_FRAMEWORK_HOME without executable                          
+        The  environment  \$SKB_FRAMEWORK_HOME  was  set  and  pointed  to  an
+        existing directory. However, there was no  executable  `skb-framework`
+        found in this directory. This might be a  permission  problem  on  the
+        framework executable.                                                 
                                                                               

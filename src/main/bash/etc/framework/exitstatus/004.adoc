@@ -1,1 +1,1 @@
-app: no /opt/skb/framework
+The application did not find the SKB Framework installed. 

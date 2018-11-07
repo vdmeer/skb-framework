@@ -1,2 +1,3 @@
-        task: error from getopt parsing command line                          
+        A task found an error while parsing  its  CLI  arguments.  This  error
+        points to a bug in the task implementation.                           
                                                                               

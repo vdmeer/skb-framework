@@ -1,1 +1,3 @@
-no application version found, tried \$HOME/etc/version.txt
+The loader did not find the required file with the application version. 
+The file should be \$HOME/etc/version.txt. 
+This error points to an application bug or installation error. 

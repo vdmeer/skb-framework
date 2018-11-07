@@ -1,2 +1,3 @@
-        loader: no application name set                                       
+        This is an internal loader error: the application name  was  not  set.
+        This error is pointing to an application bug.                         
                                                                               

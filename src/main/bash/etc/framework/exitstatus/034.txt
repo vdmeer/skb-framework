@@ -1,2 +1,3 @@
-        scenario declaration failed                                           
+        The process of one  or  more  scenarios  failed,  i.e.  some  scenario
+        requirements could not be fulfilled.                                  
                                                                               

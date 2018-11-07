@@ -1,1 +1,3 @@
-scenario declaration failed
+The loader did experience errors while declaring scenarios. 
+This error points to an application bug or installation error. 
+It should only happen when one or more scenario declarations are faulty. 

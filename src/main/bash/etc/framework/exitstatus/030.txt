@@ -1,2 +1,4 @@
-        dependency declaration failed                                         
+        The loader did experience errors while  declaring  dependencies.  This
+        error points to an application bug or installation  error.  It  should
+        only happen when one or more dependency declarations are faulty.      
                                                                               

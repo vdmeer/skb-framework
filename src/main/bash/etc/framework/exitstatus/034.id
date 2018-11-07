@@ -8,4 +8,4 @@
 
 ORIGIN=loader
 PROBLEM=external
-DESCRIPTION="loader: scenario declaration error"
+DESCRIPTION="loader: process scenarios error"
