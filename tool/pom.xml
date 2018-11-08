@@ -28,7 +28,6 @@
         <skb.dep-version.asciiparagraph>0.1.1</skb.dep-version.asciiparagraph>
         <skb.dep-version.asciilist>0.0.5</skb.dep-version.asciilist>
         <skb.dep-version.junit>4.12</skb.dep-version.junit>
-
     </properties>
 
     <prerequisites>
