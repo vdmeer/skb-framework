@@ -45,6 +45,7 @@ public class Tool {
             .setWidth(74)
             .setAlignment(TextAlignment.JUSTIFIED_LEFT)
             .setTextLeftMargin(4)
+            .setTextBottomMargin(0)
             .setLineSeparator("\n");
 
     /** The paragraph context Level 2. */
@@ -87,7 +88,7 @@ public class Tool {
     }
 
     /**
-     * Creates a new ExecS object.
+     * Creates a new Tool object.
      */
     public Tool() {
         // empty constructor
