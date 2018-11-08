@@ -1,7 +1,6 @@
-== SKB Website
+== SKB Framework Website
 
-This is the generated and published SKB project website.
+This is the generated and published SKB Framwork website.
 
-The source is in the SKB project link:https://github.com/vdmeer/skb/tree/master/site-skb[site-skb].
-The final site is published at link:https://vdmeer.github.io/skb[skb site].
-
+The source is in the SKB Framework project link:https://github.com/vdmeer/skb-framework/tree/master/src/site[git-source].
+The final site is published at link:https://vdmeer.github.io/skb-framework[site].

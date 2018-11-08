@@ -23,11 +23,11 @@
                 <item href="manual/exit-status.html" name="Exit Status" />
             </item>
 
-            <item href="user-guide.html" name="User Guide" collapse="false" />
+            <!-- <item href="user-guide.html" name="User Guide" collapse="false" /> -->
 
-            <item href="builder-guide.html" name="Builder Guide" collapse="false" />
+            <!-- <item href="builder-guide.html" name="Builder Guide" collapse="false" /> -->
 
-            <item href="developer-guide.html" name="Developer Guide" collapse="false" />
+            <!-- <item href="developer-guide.html" name="Developer Guide" collapse="false" /> -->
         </menu>
 
         <breadcrumbs>
