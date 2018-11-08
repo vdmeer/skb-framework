@@ -31,6 +31,7 @@
 set -o errexit -o pipefail -o noclobber -o nounset
 shopt -s globstar
 
+
 help(){ 
     printf "\nusage: build [targets]\n"
     printf "\n  targets:"
@@ -131,8 +132,25 @@ fw_distro(){
 ##
 ## function: site - builds the Maven site
 ##
-fw_site(){ 
-    rm docs/*.html docs/*.txt
+fw_site(){
+    local file
+    local dir
+    local directories=()
+
+    if [[ -d docs ]]; then
+        for file in docs/**; do
+            if [[ -f $file ]]; then
+                rm $file
+            elif [[ -d $file ]]; then
+                directories+=("$file")
+            fi
+        done
+        directories=($(printf '%s\n' "${directories[@]:-}"|sort -r))
+        for dir in "${directories[@]}"; do
+            rmdir $dir
+        done
+    fi
+
     src/main/bash/bin/skb-framework --all-mode --execute-task build-mvn-site --sq --lq --task-level debug -- --build --targets --id fw
     (cd docs; chmod 644 `find -type f`)
 }

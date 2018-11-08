@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+##
+## Scripts for site fw (skb-framework)
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    v0.0.0
+##
+
+MvnSitePreScript() {
+    ## create exit option list
+    if [[ -f src/doc/fragments/option-exit-list.adoc ]]; then
+        rm src/doc/fragments/option-exit-list.adoc
+    fi
+    ${DMAP_TASK_EXEC["describe-option"]} --exit --print-mode adoc > src/doc/fragments/option-exit-list.adoc
+
+
+    ## create runtime option list
+    if [[ -f src/doc/fragments/option-run-list.adoc ]]; then
+        rm src/doc/fragments/option-run-list.adoc
+    fi
+    ${DMAP_TASK_EXEC["describe-option"]} --run --print-mode adoc > src/doc/fragments/option-run-list.adoc
+
+
+    ## create command list
+    if [[ -f src/doc/fragments/command-list.adoc ]]; then
+        rm src/doc/fragments/command-list.adoc
+    fi
+    ${DMAP_TASK_EXEC["describe-command"]} --all --print-mode adoc > src/doc/fragments/command-list.adoc
+
+
+    ## create parameter list
+    if [[ -f src/doc/fragments/parameter-list.adoc ]]; then
+        rm src/doc/fragments/parameter-list.adoc
+    fi
+    ${DMAP_TASK_EXEC["describe-parameter"]} --all --print-mode adoc > src/doc/fragments/parameter-list.adoc
+
+
+    ## create dependency list
+    if [[ -f src/doc/fragments/dependency-list.adoc ]]; then
+        rm src/doc/fragments/dependency-list.adoc
+    fi
+    ${DMAP_TASK_EXEC["describe-dependency"]} --all --print-mode adoc > src/doc/fragments/dependency-list.adoc
+
+
+    ## create task list
+    if [[ -f src/doc/fragments/task-list.adoc ]]; then
+        rm src/doc/fragments/task-list.adoc
+    fi
+    ${DMAP_TASK_EXEC["describe-task"]} --all --print-mode adoc > src/doc/fragments/task-list.adoc
+
+
+    ## create exit status list
+    if [[ -f src/doc/fragments/exit-status-list.adoc ]]; then
+        rm src/doc/fragments/exit-status-list.adoc
+    fi
+    ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode adoc > src/doc/fragments/exit-status-list.adoc
+
+    ## create scenario list
+    if [[ -f src/doc/fragments/scenario-list.adoc ]]; then
+        rm src/doc/fragments/scenario-list.adoc
+    fi
+    ${DMAP_TASK_EXEC["describe-scenario"]} --all --print-mode adoc > src/doc/fragments/scenario-list.adoc
+}
+
+
+
+MvnSitePostScript() {
+    MvnSiteFixAdoc target/site/manual/commands              Commands
+    MvnSiteFixAdoc target/site/manual/dependencies          Dependencies
+    MvnSiteFixAdoc target/site/manual/options               Options
+    MvnSiteFixAdoc target/site/manual/parameters            Parameters
+    MvnSiteFixAdoc target/site/manual/tasks                 Tasks
+    MvnSiteFixAdoc target/site/manual/exit-status           "Exit Status"
+
+    mkdir -p target/site/manual
+    cp src/main/bash/doc/manual/skb-framework.html target/site/manual
+    cp src/main/bash/doc/manual/skb-framework.pdf  target/site/manual
+}
+
