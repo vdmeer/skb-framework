@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 ##
-## Scenario ID for: build-inst
+## Scenario ID for: build-fw-distro
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    v0.0.0
 ##
 
-SHORT=bi
+SHORT=bfd
 MODES="dev build use"
-DESCRIPTION="builds installation artifacts"
+DESCRIPTION="builds all distribution artifacts"
