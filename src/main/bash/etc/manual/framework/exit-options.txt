@@ -3,6 +3,6 @@
     information,  e.g.  show  the  current  configuration   or   describe   an
     application element. Other options actually will execute a  behavior,  for
     instance execute a task or a scenario and then exit. This  later  category
-    can be used to script more comples scenarios by  calling  the  application
+    can be used to script more complex scenarios by  calling  the  application
     multiple times executing different behavior.                              
                                                                               

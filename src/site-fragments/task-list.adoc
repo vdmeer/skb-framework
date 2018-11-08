@@ -49,7 +49,7 @@ Availabel filters are: description, authors, bugs, copying, resources, and secur
 *describe-command*, *dc* - describes a shell command:: 
 This task describes one or more shell commands. 
 If a specific command is requested, only this command is described. 
-Otherwise, all commands aree described. 
+Otherwise, all commands are described. 
 
 *describe-dependency*, *dd* - describes a dependency:: 
 This task describes one or more dependencies. 
@@ -65,7 +65,7 @@ Otherwise, the task filters can be used to exclude parts of them.
 *describe-exitstatus*, *des* - describes exit status (error codes):: 
 This task describes one or more exit status. 
 If a specific exit status is requested, it will be described. 
-Otherwise, all exit stati will be described. 
+Otherwise, all exit status codes will be described. 
 
 *describe-option*, *do* - describes CLI options:: 
 This task describes one or more CLI options of the application. 
@@ -164,7 +164,7 @@ The title can be set using the task options.
 
 *statistics*, *stats* - prints statistics:: 
 This task shows statistics of the applications and loaded or processed elements. 
-The statistics can be filtered per element class, for instance tasks or paramters. 
+The statistics can be filtered per element class, for instance tasks or parameters. 
 
 *validate-installation*, *vi* - validates an installation:: 
 This task validates the application installation. 

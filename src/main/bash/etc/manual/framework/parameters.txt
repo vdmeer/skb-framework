@@ -8,6 +8,6 @@
     application flavor. For instance, the parameter `TARGET` is  specified  in
     the framework. Any application (and related task) using it  will  use  the
     flavor prefix of the application to set its value. This  mechanism  allows
-    to use application specific settings the the same paramter, in our example
-    `TARGET`.                                                                 
+    to use application specific  settings  the  the  same  parameter,  in  our
+    example `TARGET`.                                                         
                                                                               

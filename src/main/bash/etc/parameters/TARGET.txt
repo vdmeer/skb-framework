@@ -2,5 +2,5 @@
         created in, similar to the target directory  in  Maven  or  the  build
         directory in Gradle. If set, the directory will be tested  for  create
         and delete.  Some  tasks,  such  as  `clean`  will  remove  the  given
-        directory and eevrything in it.                                       
+        directory and everything in it.                                       
                                                                               

@@ -1,4 +1,4 @@
         This task describes one or more exit status. If a specific exit status
-        is requested, it will be described. Otherwise, all exit stati will  be
-        described.                                                            
+        is requested, it will be described. Otherwise, all exit  status  codes
+        will be described.                                                    
                                                                               

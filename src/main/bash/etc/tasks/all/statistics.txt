@@ -1,4 +1,4 @@
         This task shows statistics of the applications and loaded or processed
         elements. The statistics  can  be  filtered  per  element  class,  for
-        instance tasks or paramters.                                          
+        instance tasks or parameters.                                         
                                                                               

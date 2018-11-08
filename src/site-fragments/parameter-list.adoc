@@ -61,17 +61,10 @@ In a standard installation, the JAR will be available in the `bin/java` folder o
 +
 default value: `$FW_HOME/bin/java/skb-framework-tool-0.0.0-all.jar`
 
-*SKB_LIBRARY* - SKB library:: 
-Sets the directory for the SKB library. 
-This directory can contain actual publication artifacts, such as PDF files or sources and any other material. 
-The folder structure for the library is not fixed.
-+
-default value: none defined
-
 *TARGET* - target folder:: 
 This parameter sets the target directory, where artifacts should be created in, similar to the target directory in Maven or the build directory in Gradle. 
 If set, the directory will be tested for create and delete. 
-Some tasks, such as `clean` will remove the given directory and eevrything in it. 
+Some tasks, such as `clean` will remove the given directory and everything in it. 
 +
 default value: none defined
 
