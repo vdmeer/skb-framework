@@ -38,17 +38,20 @@
 ## - executes a scenario
 ##
 ShellCmdExecuteScenario() {
-    local SCENARIO=$SARG
-    local FILE=${CONFIG_MAP["FW_HOME"]}/${APP_PATH_MAP["SCENARIOS"]}/$SARG.scn
-    local COUNT=1
-    local LENGTH
-    local TASK
-    local TARG
-
-    if [[ ! -f $FILE ]]; then
-        ConsoleError " ->" "did not find scenario $SARG"
+    local SCENARIO=$(GetScenarioID $SARG)
+    if [[ -z ${DMAP_SCN_ORIGIN[$SCENARIO]:-} ]]; then
+        ConsoleError " ->" "execute scenario - unknown scenario '$SCENARIO'"
         return
     fi
+
+    local FILE=${DMAP_SCN_EXEC[$SCENARIO]}
+    if [[ ! -f $FILE ]]; then
+        ConsoleError " ->" "did not find file for scenario $SCENARIO"
+        return
+    fi
+
+    local COUNT=1
+    local LENGTH
 
     while IFS='' read -r line || [[ -n "$line" ]]; do
         LENGTH=${#line}

@@ -436,9 +436,10 @@ if [[ "${OPT_CLI_MAP["execute-task"]}" != false ]]; then
     __errno=$((__errno + __et))
 fi
 if [[ "${OPT_CLI_MAP["run-scenario"]}" != false ]]; then
-    echo "es ${OPT_CLI_MAP["run-scenario"]}" | $FW_HOME/bin/shell/shell.sh
-   __et=$?
+    echo "execute-scenario ${OPT_CLI_MAP["run-scenario"]}" | $FW_HOME/bin/shell/shell.sh
+    __et=$?
     __errno=$((__errno + __et))
+    DO_EXIT_2=true
 fi
 
 if [[ ${DO_EXIT_2} == false ]]; then
