@@ -65,6 +65,7 @@ MvnSitePreScript() {
 
 
 MvnSitePostScript() {
+    MvnSiteFixAdoc target/site/manual                       Manual
     MvnSiteFixAdoc target/site/manual/commands              Commands
     MvnSiteFixAdoc target/site/manual/dependencies          Dependencies
     MvnSiteFixAdoc target/site/manual/options               Options
