@@ -542,6 +542,9 @@ BuildSrc() {
         ConsoleDebug "bdm/src - tasks"
         BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["TASK_DECL"]} l2
 
+        ConsoleDebug "bdm/src - scenarios"
+        BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["SCENARIOS"]} l2
+
     else
         ConsoleError " ->" "bdm/src: dependency 'jre' not loaded, could not build"
     fi
