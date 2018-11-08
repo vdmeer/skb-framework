@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import de.vandermeer.asciilist.AsciiListContext;
@@ -43,27 +44,36 @@ public class Tool {
     public static final AP_Context AP_CONTEXT_L1 = new AP_Context()
             .setWidth(74)
             .setAlignment(TextAlignment.JUSTIFIED_LEFT)
-            .setTextLeftMargin(4);
+            .setTextLeftMargin(4)
+            .setLineSeparator("\n");
 
     /** The paragraph context Level 2. */
     public static final AP_Context AP_CONTEXT_L2 = new AP_Context()
             .setWidth(70)
             .setAlignment(TextAlignment.JUSTIFIED_LEFT)
             .setTextLeftMargin(8)
-            .setTextBottomMargin(0);
+            .setTextBottomMargin(0)
+            .setLineSeparator("\n");
 
     /** The list context Level 1. */
     public static final AsciiListContext AL_CONTEXT_L1 = new ItemizeListContext()
-            .setWidth(74)
+            .setWidth(70)
             .setAlignment(TextAlignment.JUSTIFIED_LEFT)
-            .setItemMargin(6);
+            .setItemMargin(6)
+            .setLineSeparator("\n");
 
     /** The list context Level 2. */
     public static final AsciiListContext AL_CONTEXT_L2 = new ItemizeListContext()
-            .setWidth(70)
+            .setWidth(66)
             .setAlignment(TextAlignment.JUSTIFIED_LEFT)
-            .setItemMargin(10);
+            .setItemMargin(10)
+            .setLineSeparator("\n");
 
+    /** The context level, to be set via CLI. */
+    protected String ctxtLevel;
+
+    /** The input file, once validated. */
+    protected File inputFile;
 
     /**
      * Public main to start the tool.
@@ -84,6 +94,44 @@ public class Tool {
     }
 
     /**
+     * Validates start conditions.
+     * 
+     * @param args command line arguments
+     * @return true if everything was valid, false otherwise
+     */
+    public boolean validateStart(String[] args) {
+        boolean ret = true;
+
+        this.inputFile = new File(args[0]);
+        if (!this.inputFile.exists()) {
+            System.err.println("tool: file " + args[0] + " does not exist");
+            System.err.println(2);
+            ret = false;
+        }
+        if (!this.inputFile.canRead()) {
+            System.err.println("tool: file " + args[0] + " not readable");
+            System.err.println(3);
+            ret = false;
+        }
+
+        switch (args[1]) {
+        case "l1":
+            this.ctxtLevel = "L1";
+            break;
+        case "l2":
+            this.ctxtLevel = "L2";
+            break;
+        default:
+            System.err.println("tool: unknown paragraph context: " + args[1]);
+            System.err.println(3);
+            ret = false;
+            break;
+        }
+
+        return ret;
+    }
+
+    /**
      * Execute function, creates text from files in arguments
      * 
      * @param args the CLI arguments from the tool
@@ -92,46 +140,25 @@ public class Tool {
     public int execute(String[] args) {
         if (args.length != 2) {
             this.printHelp();
-            System.exit(1);
+            System.exit(3);
         }
-
-        File file = new File(args[0]);
-        if (!file.exists()) {
-            System.err.println("tool: file " + args[0] + " does not exist");
-            System.err.println(2);
-        }
-        if (!file.canRead()) {
-            System.err.println("tool: file " + args[0] + " not readable");
-            System.err.println(3);
-        }
-
-        String ctxtLevel = null;
-        switch (args[1]) {
-        case "l1":
-            ctxtLevel = "L1";
-            break;
-        case "l2":
-            ctxtLevel = "L2";
-            break;
-        default:
-            System.err.println("tool: unknown paragraph context: " + args[1]);
-            System.err.println(3);
-            break;
+        if (!this.validateStart(args)) {
+            System.exit(4);
         }
 
         ArrayList<String> items = new ArrayList<>();
         boolean isText = true;
         int paraCount = 0;
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(this.inputFile))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.equals("+") || line.equals(" +")) {
-                    if (isText == true && paraCount > 0) {
-                        System.out.println("");
+                if (line.equals("+") || line.equals(" +") || line.equals("")) {
+                    if (isText && paraCount > 0) {
+                        System.out.print("\n");
                     }
-                    printText(items, ctxtLevel, isText);
+                    printText(items, isText);
                     items.clear();
-                    if (isText == true) {
+                    if (isText) {
                         paraCount += 1;
                     }
                     isText = true;
@@ -147,16 +174,16 @@ public class Tool {
             }
         }
         catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.err.println("tool: exception while reading input file: file not found");
         }
         catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("tool: exception while reading input file: IO exception");
         }
 
-        if (isText == true && paraCount > 0) {
-            System.out.println("");
+        if (isText && paraCount > 0) {
+            System.out.print("\n");
         }
-        printText(items, ctxtLevel, isText);
+        printText(items, isText);
 
         return 0;
     }
@@ -165,13 +192,12 @@ public class Tool {
      * Print text.
      * 
      * @param items the items that should be printed
-     * @param ctxtLevel context level, either L1 or L2
      * @param isText flag for text, if false a list is printed
      */
-    public void printText(List<String> items, String ctxtLevel, boolean isText) {
-        if (isText == true) {
+    public void printText(List<String> items, boolean isText) {
+        if (isText) {
             AP_Context ctxt = null;
-            switch(ctxtLevel) {
+            switch(this.ctxtLevel) {
                 case "L1":
                     ctxt = AP_CONTEXT_L1;
                     break;
@@ -182,11 +208,16 @@ public class Tool {
             }
             AsciiParagraph ap = new AsciiParagraph(ctxt);
             ap.addText(items);
-            System.out.println(ap.render());
+            //some problem with line separator in AP
+            Collection<String> renderedAP = ap.renderAsCollection();
+            for (String line : renderedAP) {
+                System.out.print(line);
+                System.out.print("\n");
+            }
         }
         else {
             AsciiListContext ctxt = null;
-            switch(ctxtLevel) {
+            switch(this.ctxtLevel) {
                 case "L1":
                     ctxt = AL_CONTEXT_L1;
                     break;
@@ -199,7 +230,8 @@ public class Tool {
             for (String s : items) {
                 al.addItem(s);
             }
-            System.out.println(al.render());
+            System.out.print(al.render());
+            System.out.print("\n");
         }
     }
 
