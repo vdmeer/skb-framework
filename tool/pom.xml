@@ -1,0 +1,103 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.vandermeer</groupId>
+    <artifactId>skb-framework-tool</artifactId>
+    <version>0.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>${project.artifactId}</name>
+    <url>${skb.site.prefix}</url>
+    <description>SKB Framework Tool - converts ADOC text into formatted paragraphs and lists</description>
+    <inceptionYear>2018</inceptionYear>
+
+    <properties>
+        <install.package.name>skb-framework-tool</install.package.name>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.resources.sourceEncoding>UTF-8</project.resources.sourceEncoding>
+        <encoding>UTF-8</encoding>
+        <file.encoding>UTF-8</file.encoding>
+
+        <!-- PLUGIN VERSION PROPERTIES, mostly for plugins -->
+        <skb.plugin-version.maven-assembly>3.1.0</skb.plugin-version.maven-assembly>
+        <skb.plugin-version.maven-javadoc>3.0.0-M1</skb.plugin-version.maven-javadoc>
+        <skb.plugin-version.maven-project-info-reports>2.9</skb.plugin-version.maven-project-info-reports>
+
+        <!-- DEPENDENCY VERSION PROPERTIES, mostly for plugins -->
+        <skb.dep-version.asciiparagraph>0.1.1</skb.dep-version.asciiparagraph>
+        <skb.dep-version.asciilist>0.0.5</skb.dep-version.asciilist>
+        <skb.dep-version.junit>4.12</skb.dep-version.junit>
+
+    </properties>
+
+    <prerequisites>
+        <maven>3.0.0</maven>
+    </prerequisites>
+
+    <distributionManagement>
+        <site>
+            <id>${project.artifactId}-site</id>
+            <url>${project.url}</url>
+        </site>
+    </distributionManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.vandermeer</groupId>
+            <artifactId>asciiparagraph</artifactId>
+            <version>${skb.dep-version.asciiparagraph}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.vandermeer</groupId>
+            <artifactId>asciilist</artifactId>
+            <version>${skb.dep-version.asciilist}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${skb.dep-version.junit}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${skb.plugin-version.maven-assembly}</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>de.vandermeer.skb.framework.Tool</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${skb.plugin-version.maven-project-info-reports}</version>
+            </plugin>
+        </plugins>
+    </reporting>
+
+</project>
