@@ -2,4 +2,4 @@
 
 include::{skb-site-main-dir}/main/bash/etc/manual/framework/dependencies.adoc[]
 
-include::{skb-site-main-dir}/site-fragments/dependency-list.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/dependency-list.adoc[]

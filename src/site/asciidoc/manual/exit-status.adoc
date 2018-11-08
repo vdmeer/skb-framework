@@ -2,4 +2,4 @@
 
 include::{skb-site-main-dir}/main/bash/etc/manual/framework/exit-status.adoc[]
 
-include::{skb-site-main-dir}/site-fragments/exit-status-list.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/exit-status-list.adoc[]

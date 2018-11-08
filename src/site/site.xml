@@ -13,14 +13,17 @@
 
         <menu name="SKB FRAMEWORK">
             <item href="index.html" name="Wellcome" />
-            <item href="user-guide.html" name="User Guide" collapse="false">
-                <item href="elements/options.html" name="Options" />
-                <item href="elements/commands.html" name="Commands" />
-                <item href="elements/parameters.html" name="Parameters" />
-                <item href="elements/dependencies.html" name="Dependencies" />
-                <item href="elements/tasks.html" name="Tasks" />
-                <item href="elements/exit-status.html" name="Exit Status" />
+            <item href="manual.html" name="Manual" collapse="false">
+                <item href="manual/options.html" name="Options" />
+                <item href="manual/parameters.html" name="Parameters" />
+                <item href="manual/tasks.html" name="Tasks" />
+                <item href="manual/dependencies.html" name="Dependencies" />
+                <item href="manual/commands.html" name="Commands" />
+                <item href="manual/scenarios.html" name="Scenarios" />
+                <item href="manual/exit-status.html" name="Exit Status" />
             </item>
+
+            <item href="user-guide.html" name="User Guide" collapse="false" />
 
             <item href="builder-guide.html" name="Builder Guide" collapse="false" />
 

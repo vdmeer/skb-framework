@@ -6,10 +6,10 @@ include::{skb-site-main-dir}/main/bash/etc/manual/framework/options.adoc[]
 
 include::{skb-site-main-dir}/main/bash/etc/manual/framework/run-options.adoc[]
 
-include::{skb-site-main-dir}/site-fragments/option-run-list.adoc[leveloffset=+2]
+include::{skb-site-main-dir}/doc/fragments/option-run-list.adoc[]
 
 === Exit Options
 
 include::{skb-site-main-dir}/main/bash/etc/manual/framework/exit-options.adoc[]
 
-include::{skb-site-main-dir}/site-fragments/option-exit-list.adoc[leveloffset=+2]
+include::{skb-site-main-dir}/doc/fragments/option-exit-list.adoc[]

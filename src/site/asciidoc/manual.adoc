@@ -1,0 +1,36 @@
+== Manual
+
+skb-framework(1)
+
+=== Name
+skb-framework - flexible development and application environment
+
+=== Synopsis
+
+*skb-framework* _OPTIONS_
+
+    - will process the options
+
+*skb-framework*
+
+    - will start the interactive shell
+    - type 'h' or 'help' in the shell for commands
+
+
+=== Description
+include::{skb-site-main-dir}/main/bash/etc/manual/application/description.adoc[]
+
+=== Security Concerns
+include::{skb-site-main-dir}/main/bash/etc/manual/application/security.adoc[]
+
+=== Bugs
+include::{skb-site-main-dir}/main/bash/etc/manual/application/bugs.adoc[]
+
+=== Authors
+include::{skb-site-main-dir}/main/bash/etc/manual/application/authors.adoc[]
+
+=== Resources
+include::{skb-site-main-dir}/main/bash/etc/manual/application/resources.adoc[]
+
+=== Copying
+include::{skb-site-main-dir}/main/bash/etc/manual/application/copying.adoc[]
