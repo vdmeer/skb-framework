@@ -219,9 +219,16 @@ LoadSite(){
 ## build site function
 ############################################################################################
 BuildSite(){
+    local HAVE_SCRIPTS=false
+    if [[ -r ${MVN_SITE_PATH[$1]}/skb-site-scripts.skb ]]; then
+        source ${MVN_SITE_PATH[$1]}/skb-site-scripts.skb
+        HAVE_SCRIPTS=true
+    fi
+
     ConsoleDebug "build site $1 :: $MVN_TARGET :: in ${MVN_SITE_PATH[$1]}\n\n"
-    if [[ -r  ${MVN_SITE_PATH[$1]}/skb-site-pre-script.skb ]]; then
-        source ${MVN_SITE_PATH[$1]}/skb-site-pre-script.skb
+
+    if [[ $HAVE_SCRIPTS == true ]]; then
+        ConsoleDebug "running MvnSitePreScript"
         (cd ${MVN_SITE_PATH[$1]}; MvnSitePreScript)
         ConsoleDebug "done MvnSitePreScript"
     fi
@@ -229,8 +236,8 @@ BuildSite(){
     (cd ${MVN_SITE_PATH[$1]}; mvn $MVN_TARGET)
     ConsoleDebug "done mvn $MVN_TARGET"
 
-    if [[ -r ${MVN_SITE_PATH[$1]}/skb-site-post-script.skb ]]; then
-        source ${MVN_SITE_PATH[$1]}/skb-site-post-script.skb
+    if [[ $HAVE_SCRIPTS == true ]]; then
+        ConsoleDebug "running MvnSitePostScript"
         (cd ${MVN_SITE_PATH[$1]}; MvnSitePostScript)
         ConsoleDebug "done MvnSitePostScript"
     fi

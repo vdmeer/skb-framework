@@ -138,6 +138,7 @@ DescribeCommand() {
     if [[ -n "$SOURCE" ]]; then
         printf "\n"
         cat $SOURCE
+        printf "\n"
     fi
 
     if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then

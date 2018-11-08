@@ -135,6 +135,7 @@ DescribeParameter() {
     if [[ -n "$SOURCE" ]]; then
         printf "\n"
         cat $SOURCE
+        printf "\n"
     fi
     if [[ -n "$DEF_TEMPLATE" ]]; then
         printf "$DEF_TEMPLATE $DEFAULT_VALUE\n\n"

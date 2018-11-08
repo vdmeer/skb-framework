@@ -150,6 +150,7 @@ DescribeOption() {
                 cat ${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["OPTIONS"]}/run/$SOURCE
                 ;;
         esac
+        printf "\n"
     fi
 
     if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
