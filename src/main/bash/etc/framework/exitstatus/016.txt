@@ -4,4 +4,3 @@
         known, it will exit with this status. This should  not  happen  in  an
         installed version. If  it  does,  than  the  installation  was  broken
         (build) or manipulated (after installation).                          
-                                                                              

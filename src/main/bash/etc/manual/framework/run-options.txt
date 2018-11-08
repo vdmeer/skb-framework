@@ -3,4 +3,3 @@
     the output level of loader, shell, or tasks;  the  shell  prompt;  or  the
     print mode. Most runtime options can be also altered  at  runtime,  except
     for the options setting the application mode.                             
-                                                                              

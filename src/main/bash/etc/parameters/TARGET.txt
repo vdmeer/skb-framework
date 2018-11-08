@@ -3,4 +3,3 @@
         directory in Gradle. If set, the directory will be tested  for  create
         and delete.  Some  tasks,  such  as  `clean`  will  remove  the  given
         directory and everything in it.                                       
-                                                                              

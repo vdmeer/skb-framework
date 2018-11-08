@@ -1,4 +1,3 @@
         Prints tables with simple statistics of application elements, such  as
         tasks and parameters. For more options on statistics and more detailed
         statistics see the task `statistics`.                                 
-                                                                              

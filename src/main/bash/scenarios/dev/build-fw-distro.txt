@@ -4,4 +4,3 @@
         catch all tasks. The  scenario  calls  the  tasks  `build-manual`  and
         `build-help`. Since it builds all artifcats, it has  all  requirements
         as these two tasks, including JRE8 (for tool execution).              
-                                                                              

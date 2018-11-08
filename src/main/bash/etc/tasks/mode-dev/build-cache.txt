@@ -5,4 +5,3 @@
         system on good-powered machine the cache might  not  make  much  of  a
         difference, on  other  machines  it  will  improve  the  application's
         runtime behavior.                                                     
-                                                                              

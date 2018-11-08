@@ -2,4 +2,3 @@
         exact version of the JDK cannot  be  specified,  since  there  is  not
         standardized version string across the multiple options  (e.g.  Oracle
         Java, Open JDK).                                                      
-                                                                              

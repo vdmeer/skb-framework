@@ -1,4 +1,4 @@
-Executes a given tasks and exits. 
-The long name should be used for the task, though this option also works for the short name. 
-Additional task parameters can be added after a `--` in the command line. 
+Executes a given tasks and exits.
+The long name should be used for the task, though this option also works for the short name.
+Additional task parameters can be added after a `--` in the command line.
 All these options are directly handed over to the task.

@@ -8,4 +8,4 @@
 
 ORIGIN=fw
 PROBLEM=external
-DESCRIPTION="fw: unable to set home \$SF_HOME (tried environment, readlink, and dirname \$0)"
+DESCRIPTION="fw: unable to set home \$SF_HOME"

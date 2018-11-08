@@ -1,3 +1,3 @@
-Starts the application in the mode `build`. 
-In this mode, only tasks marked for `build` mode are loaded. 
-This option is overwritten by the option `--dev-mode`. 
+Starts the application in the mode `build`.
+In this mode, only tasks marked for `build` mode are loaded.
+This option is overwritten by the option `--dev-mode`.

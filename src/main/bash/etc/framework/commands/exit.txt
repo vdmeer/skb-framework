@@ -1,3 +1,2 @@
         Exits the shell and the program. The temporary configuration file will
         be removed. The exit status is `0`.                                   
-                                                                              

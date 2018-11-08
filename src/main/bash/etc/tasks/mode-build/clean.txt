@@ -2,4 +2,3 @@
         calling the `--clean` option of all tasks starting with  `build-`  and
         `compile-`. Then it will remove the  `target`  directory  set  by  the
         parameter `TARGET`.                                                   
-                                                                              

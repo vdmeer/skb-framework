@@ -8,4 +8,3 @@
         -t %TITLE% %COMMAND%`. For an XFCE4 terminal,  e.g.  on  Ubuntu,  this
         variable should be `xfce4-terminal --disable-server  --title='%TITLE%'
         -x %COMMAND%`.                                                        
-                                                                              

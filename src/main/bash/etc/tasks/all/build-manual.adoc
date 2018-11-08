@@ -1,17 +1,17 @@
-This tasks builds the application manual. 
-It comes with various options for targets (manual formats) and filters (manual content). 
-There are two primary targets: `text` and `adoc`. 
+This tasks builds the application manual.
+It comes with various options for targets (manual formats) and filters (manual content).
+There are two primary targets: `text` and `adoc`.
 Here, `text` can be ANSI text (with colors and effects), plain text (just text), or annotated text (using ASCII characters for some formatting).
-The `adoc` target creates an Asciidoctor file. 
-This file is then used to create secondary targets, such as a manpage, a HTML file, or a PDF file. 
-Other secondary targets can be added, as long as they are supported by the Asciidoctor tool chain. 
+The `adoc` target creates an Asciidoctor file.
+This file is then used to create secondary targets, such as a manpage, a HTML file, or a PDF file.
+Other secondary targets can be added, as long as they are supported by the Asciidoctor tool chain.
 +
-Filters can be used to select which content should be part of the produced manual. 
-All filters apply to all selected targets. 
+Filters can be used to select which content should be part of the produced manual.
+All filters apply to all selected targets.
 +
-There are further options for dependencies, parameters, and tasks. 
-For instance: the manual can include all tasks or only tasks loaded in the current application mode. 
+There are further options for dependencies, parameters, and tasks.
+For instance: the manual can include all tasks or only tasks loaded in the current application mode.
 +
-A special target is called `src`. 
-This target allows to create well-formatted text paragraphs from the original ADOC source. 
-This option uses the SKB Framework Tool for the translation. 
+A special target is called `src`.
+This target allows to create well-formatted text paragraphs from the original ADOC source.
+This option uses the SKB Framework Tool for the translation.

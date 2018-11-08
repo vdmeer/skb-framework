@@ -2,4 +2,3 @@
         standard applications, the default value should be sufficient. In case
         one wants different manuals for different application modes (e.g.  one
         for `build` and one for `use`), this parameter can be used.           
-                                                                              

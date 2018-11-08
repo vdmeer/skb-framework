@@ -1,8 +1,13 @@
         This sets the output level for the application loader. The  level  can
-        be set to one of: off (only messages), all (output everything),  fatal
-        (only fatal errors),  error  (all  errors),  warn-strict  (errors  and
-        strict warnings),  warn  (all  errors  and  warnings),  info  (errors,
-        warnings,   and   information),   debug   (information   plus    debug
-        information), or trace (debug plus trace information). To turn off all
-        print outs from the loader also use the option `--lq`.                
-                                                                              
+        be set to:                                                            
+          * off (only messages),                                              
+          * all (output everything),                                          
+          * fatal (only fatal errors),                                        
+          * error (all errors),                                               
+          * warn-strict (errors and strict warnings),                         
+          * warn (all errors and warnings),                                   
+          * info (errors, warnings, and information),                         
+          * debug (information plus debug information),                       
+          * or trace (debug plus trace information).                          
+
+        To turn off all print outs from the loader also use the option `--lq`.

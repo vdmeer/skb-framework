@@ -1,4 +1,4 @@
-Sets the print mode for the application (loader, shell, tasks). 
-The print mode directs how messages, errors, warnings, and other information are printed to the console. 
-It can be set to: `ansi` (color and effects are printed using ANSI escape codes), `text` (plain text output), or `adoc` (Asciidoctor style annotated text). 
-This setting can be changed at runtime using the task `setting`. 
+Sets the print mode for the application (loader, shell, tasks).
+The print mode directs how messages, errors, warnings, and other information are printed to the console.
+It can be set to: `ansi` (color and effects are printed using ANSI escape codes), `text` (plain text output), or `adoc` (Asciidoctor style annotated text).
+This setting can be changed at runtime using the task `setting`.

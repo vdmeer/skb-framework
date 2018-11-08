@@ -1,4 +1,3 @@
         The application did not find GNU `getopt`. This software  is  required
         for command line argument parsing in the  framework  and  many  tasks.
         Please install the correct `getopt` version.                          
-                                                                              

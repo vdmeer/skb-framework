@@ -2,4 +2,3 @@
         errors occurs if no temporary configuration file was  provided  for  a
         task execution. Please do not execute a task outside the framework  or
         application.                                                          
-                                                                              

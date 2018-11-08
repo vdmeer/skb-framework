@@ -4,4 +4,3 @@
         should be set to `evince %FILE%`. The  PDF  reader  can  be  given  as
         simple command (then it needs to be in the  `PATRH`)  or  as  absolute
         command.                                                              
-                                                                              

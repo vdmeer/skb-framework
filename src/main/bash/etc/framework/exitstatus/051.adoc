@@ -1,2 +1,2 @@
-A task found an error while parsing its CLI arguments. 
-This error points to a bug in the task implementation. 
+A task found an error while parsing its CLI arguments.
+This error points to a bug in the task implementation.

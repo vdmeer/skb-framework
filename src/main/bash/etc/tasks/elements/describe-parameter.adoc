@@ -1,4 +1,4 @@
-This task describes one or more parameters. 
-If a specific parameter is requested, only this parameter is described. 
-Otherwise, all parameters are described. 
-Filters can be applied to the description of all parameters, for instance only a specific origin or status. 
+This task describes one or more parameters.
+If a specific parameter is requested, only this parameter is described.
+Otherwise, all parameters are described.
+Filters can be applied to the description of all parameters, for instance only a specific origin or status.

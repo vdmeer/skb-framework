@@ -6,4 +6,3 @@
     in terms of dependencies and parameters and other important aspects.  They
     can also be specified for a specific application mode, i.e. one of  `dev`,
     `build`, and / or `use`.                                                  
-                                                                              

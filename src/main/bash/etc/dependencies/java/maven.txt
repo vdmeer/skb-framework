@@ -3,4 +3,3 @@
         dependency here requires an installed version 3  or  lager  of  Apache
         Maven.    For    Maven    documentation    and    installation     see
         https://maven.apache.org/.                                            
-                                                                              

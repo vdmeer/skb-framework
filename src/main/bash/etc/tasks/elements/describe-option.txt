@@ -2,4 +2,3 @@
         specific  option  is  requested,  only  this  option   is   described.
         Otherwise, all options are described. Filters can be  applied  to  the
         description of all options.                                           
-                                                                              

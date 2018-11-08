@@ -1,1 +1,1 @@
-The application did not find the SKB Framework installed. 
+The application did not find the SKB Framework installed.

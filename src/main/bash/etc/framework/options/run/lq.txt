@@ -1,4 +1,3 @@
         Puts the application loader into quiet mode. Here, the loader will not
         print  any  messages.  Other  output  might  still  be  printed,   see
         `--loader-level`.                                                     
-                                                                              

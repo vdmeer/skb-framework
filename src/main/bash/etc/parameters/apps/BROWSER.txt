@@ -4,4 +4,3 @@
         Firefox, this variable should be set to `firefox --new-tab %URL%`. The
         browser can be given as simple command (then it needs  to  be  in  the
         `PATRH`) or as absolute command.                                      
-                                                                              

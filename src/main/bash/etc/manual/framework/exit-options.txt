@@ -5,4 +5,3 @@
     instance execute a task or a scenario and then exit. This  later  category
     can be used to script more complex scenarios by  calling  the  application
     multiple times executing different behavior.                              
-                                                                              

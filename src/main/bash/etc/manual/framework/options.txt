@@ -4,4 +4,3 @@
     options that direct runtime behavior (runtime or run options). Any option,
     or configuration, that goes beyond basic behavior can be configured  using
     parameters.                                                               
-                                                                              

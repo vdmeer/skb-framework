@@ -2,4 +2,3 @@
         task, though this option also works for  the  short  name.  Additional
         task parameters can be added after a `--` in  the  command  line.  All
         these options are directly handed over to the task.                   
-                                                                              

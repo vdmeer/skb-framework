@@ -4,4 +4,3 @@
         When a number (an integer) is given, the command with that  number  in
         the history will be executed. If the number  does  not  exist  in  the
         history, an error is printed.                                         
-                                                                              

@@ -1,2 +1,2 @@
-This task builds the main help files for the application. 
-It should only be run when an application distribution (e.g. DEB or RPM) is created. 
+This task builds the main help files for the application.
+It should only be run when an application distribution (e.g. DEB or RPM) is created.

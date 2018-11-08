@@ -2,4 +2,3 @@
         loader script. This  error  points  to  a  serious  problem  with  the
         framework installation,  or  a  permission  problem  on  starting  the
         loader.                                                               
-                                                                              

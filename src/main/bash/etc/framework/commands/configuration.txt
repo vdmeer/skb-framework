@@ -5,4 +5,3 @@
         for a value `error`) or text effects (e.g. bold for the  flavor).  The
         task `list-configuration`  provides  more  options  for  printing  the
         configuration.                                                        
-                                                                              

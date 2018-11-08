@@ -1,2 +1,2 @@
-This task will repeat a given task. 
-The repetition can be configured in terms of: `times` (how often to re-run the task) and `wait` (how long to wait between repetitions). 
+This task will repeat a given task.
+The repetition can be configured in terms of: `times` (how often to re-run the task) and `wait` (how long to wait between repetitions).

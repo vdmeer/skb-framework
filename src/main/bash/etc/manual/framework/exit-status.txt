@@ -1,9 +1,9 @@
     The framework defines a number of standardized exit  status  codes.  These
     codes are the numeric exit values of  the  application,  the  loader,  the
     shell, or any task. Each numeric value is associated to a particular error
-    and error description. Error status codes below 10 are  fatal,  they  will
-    require special  attention.  Error  codes  between  10  and  40  point  to
-    configuration problems. Error codes between  50  and  59  point  to  basic
-    problems in a task, probably a bug. Error codes from 60 and above point to
-    task configuration problems.                                              
-                                                                              
+    and error description.                                                    
+
+    Error  status  codes  below  10  are  fatal,  they  will  require  special
+    attention. Error codes between 10 and 40 point to configuration  problems.
+    Error codes between 50 and 59 point to basic problems in a task,  probably
+    a bug. Error codes from 60 and above point to task configuration problems.

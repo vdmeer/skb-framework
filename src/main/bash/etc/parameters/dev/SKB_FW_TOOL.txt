@@ -5,4 +5,3 @@
         This setting is required to build the manual sources (text files) from
         the original ADOC files. In a standard installation, the JAR  will  be
         available in the `bin/java` folder of the framework.                  
-                                                                              

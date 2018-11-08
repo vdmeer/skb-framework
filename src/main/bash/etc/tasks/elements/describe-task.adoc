@@ -1,4 +1,4 @@
-This task describes one or more tasks. 
-If a specific task is requested, only this task is described. 
-Otherwise, all tasks are described. 
-Filters can be applied to the description of all tasks, for instance only a specific origin or status. 
+This task describes one or more tasks.
+If a specific task is requested, only this task is described.
+Otherwise, all tasks are described.
+Filters can be applied to the description of all tasks, for instance only a specific origin or status.

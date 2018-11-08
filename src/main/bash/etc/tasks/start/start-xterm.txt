@@ -1,3 +1,2 @@
         Starts a new XTerm using the setting from the parameter  `XTERM`.  The
         title can be set using the task options.                              
-                                                                              

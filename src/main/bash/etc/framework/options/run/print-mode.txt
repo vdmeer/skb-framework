@@ -4,4 +4,3 @@
         (color and effects are printed using ANSI escape codes), `text` (plain
         text output), or  `adoc`  (Asciidoctor  style  annotated  text).  This
         setting can be changed at runtime using the task `setting`.           
-                                                                              

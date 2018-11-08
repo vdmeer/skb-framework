@@ -1,4 +1,3 @@
         This task  will  repeat  a  given  scenario.  The  repetition  can  be
         configured in terms of: `times` (how often to re-run the scenario) and
         `wait` (how long to wait between repetitions).                        
-                                                                              

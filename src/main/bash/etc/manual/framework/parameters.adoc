@@ -1,9 +1,9 @@
-Parameters can be used to provide specific configurations for tasks, independent of application CLI options. 
-They can be specified independently of which task will or should use them. 
-The framework API provides several ways to auto-process a parameter, for example being a file, a directory, a set of files, or a set of directories. 
-Parameters, once specified, can be required by tasks as mandatory (must be set) or optional (might be set). 
+Parameters can be used to provide specific configurations for tasks, independent of application CLI options.
+They can be specified independently of which task will or should use them.
+The framework API provides several ways to auto-process a parameter, for example being a file, a directory, a set of files, or a set of directories.
+Parameters, once specified, can be required by tasks as mandatory (must be set) or optional (might be set).
 
-All parameters are specified without an application flavor. 
-For instance, the parameter `TARGET` is specified in the framework. 
-Any application (and related task) using it will use the flavor prefix of the application to set its value. 
-This mechanism allows to use application specific settings the the same parameter, in our example `TARGET`. 
+All parameters are specified without an application flavor.
+For instance, the parameter `TARGET` is specified in the framework.
+Any application (and related task) using it will use the flavor prefix of the application to set its value.
+This mechanism allows to use application specific settings the the same parameter, in our example `TARGET`.

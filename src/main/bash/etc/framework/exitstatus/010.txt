@@ -1,5 +1,4 @@
-        The framework is not able to set the home directory,  here  \$SF_HOME.
+        The framework is not able to set the home directory, here  `$SF_HOME`.
         It tried the environment, readlink, and dirname. This  problem  is  an
         internal problem, probably am  incorrect  installation  or  a  bug  in
         starting the application.                                             
-                                                                              

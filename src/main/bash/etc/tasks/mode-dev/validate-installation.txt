@@ -3,4 +3,3 @@
         checked. The validation can be run in `strict` mode, which means  that
         strict warnings  become  errors.  The  task  can  be  configured  with
         targets, determining what the validation should focus on.             
-                                                                              

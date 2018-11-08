@@ -1,3 +1,3 @@
-Sets the cache directory, used by the task `build-cache` and then also the loader. 
-Caching parts of the application elements (or even all tasks) can speed up the load of an application as well as runtime behavior, such as help on a task. 
-This feature is useful for slower systems, such as a Raspberry PI or a Cygwin environment. 
+Sets the cache directory, used by the task `build-cache` and then also the loader.
+Caching parts of the application elements (or even all tasks) can speed up the load of an application as well as runtime behavior, such as help on a task.
+This feature is useful for slower systems, such as a Raspberry PI or a Cygwin environment.
