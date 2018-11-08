@@ -49,6 +49,7 @@ DescribeElementCommands() {
             PrintEffect bold "SHELL COMMANDS" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/commands.txt
+            printf "\n"
             ;;
     esac
 }
@@ -71,6 +72,7 @@ DescribeElementOptions() {
             PrintEffect bold "OPTIONS" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/options.txt
+            printf "\n"
             ;;
     esac
 }
@@ -93,6 +95,7 @@ DescribeElementExitStatus() {
             PrintEffect bold "EXIT STATUS" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/exit-status.txt
+            printf "\n"
             ;;
     esac
 }
@@ -115,6 +118,7 @@ DescribeElementOptionsExit() {
             PrintEffect bold "Exit OPTIONS" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/exit-options.txt
+            printf "\n"
             ;;
     esac
 }
@@ -137,6 +141,7 @@ DescribeElementOptionsRuntime() {
             PrintEffect bold "Runtime OPTIONS" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/run-options.txt
+            printf "\n"
             ;;
     esac
 }
@@ -159,6 +164,7 @@ DescribeElementParameters() {
             PrintEffect bold "PARAMETERS" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/parameters.txt
+            printf "\n"
             ;;
     esac
 }
@@ -181,6 +187,7 @@ DescribeElementDependencies() {
             PrintEffect bold "DEPENDENCIES" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/dependencies.txt
+            printf "\n"
             ;;
     esac
 }
@@ -203,6 +210,7 @@ DescribeElementScenarios() {
             PrintEffect bold "SCENARIOS" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/scenarios.txt
+            printf "\n"
             ;;
     esac
 }
@@ -225,6 +233,7 @@ DescribeElementTasks() {
             PrintEffect bold "TASKS" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/tasks.txt
+            printf "\n"
             ;;
     esac
 }

@@ -49,6 +49,7 @@ DescribeApplicationAuthors() {
             PrintEffect bold "AUTHORS" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/application/authors.txt
+            printf "\n"
             ;;
     esac
 }
@@ -71,6 +72,7 @@ DescribeApplicationBugs() {
             PrintEffect bold "BUGS" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/application/bugs.txt
+            printf "\n"
             ;;
     esac
 }
@@ -93,6 +95,7 @@ DescribeApplicationCopying() {
             PrintEffect bold "COPYING" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/application/copying.txt
+            printf "\n"
             ;;
     esac
 }
@@ -115,6 +118,7 @@ DescribeApplicationDescription() {
             PrintEffect bold "DESCRIPTION" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/application/description.txt
+            printf "\n"
             ;;
     esac
 }
@@ -137,6 +141,7 @@ DescribeApplicationResources() {
             PrintEffect bold "RESOURCES" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/application/resources.txt
+            printf "\n"
             ;;
     esac
 }
@@ -159,6 +164,7 @@ DescribeApplicationSecurity() {
             PrintEffect bold "SECURITY CONCERNS" $TARGET
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/application/security.txt
+            printf "\n"
             ;;
     esac
 }
