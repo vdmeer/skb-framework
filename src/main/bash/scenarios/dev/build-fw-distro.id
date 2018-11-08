@@ -7,5 +7,5 @@
 ##
 
 SHORT=bfd
-MODES="dev build use"
+MODES="dev"
 DESCRIPTION="builds all distribution artifacts"
