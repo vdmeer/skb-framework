@@ -106,6 +106,10 @@ clean(){
         rm -fr ./target
     fi
 
+    if [[ -d ./docs ]]; then
+        rm -fr ./docs/*
+    fi
+
     if [[ -d src/main/bash/bin/java ]]; then
         for file in src/main/bash/bin/java/**; do
             if [[ -f $file ]]; then

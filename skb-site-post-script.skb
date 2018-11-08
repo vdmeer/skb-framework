@@ -13,4 +13,8 @@ MvnSitePostScript() {
     MvnSiteFixAdoc target/site/elements/parameters          Parameters
     MvnSiteFixAdoc target/site/elements/tasks               Tasks
     MvnSiteFixAdoc target/site/elements/exit-status         "Exit Status"
+
+    mkdir -p target/site/manual
+    cp src/main/bash/doc/manual/skb-framework.html target/site/manual
+    cp src/main/bash/doc/manual/skb-framework.pdf  target/site/manual
 }
