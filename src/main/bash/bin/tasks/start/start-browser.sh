@@ -122,6 +122,8 @@ fi
 
 SCRIPT=${CONFIG_MAP["BROWSER"]}
 SCRIPT=${SCRIPT//%URL%/$URL}
+
+ConsoleDebug "sb: running - $SCRIPT"
 $SCRIPT &
 ERRNO=$?
 
