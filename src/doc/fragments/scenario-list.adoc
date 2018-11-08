@@ -1,0 +1,7 @@
+*build-fw-distro*, *bfd* - builds all distribution artifacts:: 
+This scenario will create all required artifacts for building a framework distributions. 
+It can be used in the `dev` application mode, though the framework should be started with option `--all-mode` to catch all tasks. 
+The scenario calls the tasks `build-manual` and `build-help`. 
+Since it builds all artifcats, it has all requirements as these two tasks, including JRE8 (for tool execution). 
+
+
