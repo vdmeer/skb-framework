@@ -1,3 +1,3 @@
 The application provides an interactive modus, called shell. 
 This shell comes with a few commands providing some basic features. 
-More complex fearures are then provided by tasks. 
+More complex features are then provided by tasks. 
