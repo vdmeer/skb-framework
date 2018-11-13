@@ -496,7 +496,43 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_description">DESCRIPTION</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This application does&#8230;&#8203;</p>
+<p>The SKB-Framework provides a flexible, metadata-driven application framework.
+Its main objective is to load and provide flexible access to tasks.
+A task is a shell script with additional semantics processed by the framework.
+These additional semantics allow the framework to take care of some common functions for defined tasks, for example loading and evluating parameters and dependencies.</p>
+</div>
+<div class="paragraph">
+<p>+
+The framework itself provides a loader and an interactive shell.
+The loader will process specifications (mainly tasks) and validate them.
+Once the loader is satisfied, it will start an interactive shell.</p>
+</div>
+<div class="paragraph">
+<p>+
+An application using the framework can be started in one of three different modes:
+<code>dev</code> for a development mode,
+<code>build</code> for a build mode, and
+<code>use</code> for a use mode.
+The development mode should load tasks required to develop an application.
+The build mode should load tasks required to build artifacts for a given application.
+The use mode should load tasks required to use built artifacts for a given application.</p>
+</div>
+<div class="paragraph">
+<p>+
+The framework provides definitions for seven different elements: tasks, their dependencies, their (configuration) parameters, application CLI options, shell commands, application exit status codes, and scenarios.
+The framework loader will load all those definitions and validate them based on the provided metadata.
+CLI options, commands, and exit status codes are handled by the framework itself.
+Tasks, dependencies, parameters, and scenarios can be defined by an application.
+This framework provides a basic set of tasks, dependencies, and parameters.
+It also defines some scenarios to build its own deployment artifacts.</p>
+</div>
+<div class="paragraph">
+<p>+
+This software package also provides an application named <code>skb-framework</code> as a standard application utilizing the framework&#8217;s features and tasks.</p>
+</div>
+<div class="paragraph">
+<p>+
+For more information on the framework, how to use it, how to build software artifacts, and how develop your own application with it, please visit the SKB-Framework website at <a href="https://vdmeer.github.io/skb-framework/" class="bare">https://vdmeer.github.io/skb-framework/</a>.</p>
 </div>
 </div>
 </div>
@@ -1501,6 +1537,17 @@ Detailed error messages should have been printed.</p>
 In other words, a scenario provides a sequence of task executions with specific parameters.
 Scenarios can be defined for a specific application mode (<code>dev</code>, <code>build</code>, <code>use</code>).</p>
 </div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>build-fw-distro</strong>, <strong>bfd</strong> - builds all distribution artifacts</dt>
+<dd>
+<p>This scenario will create all required artifacts for building a framework distributions.
+It can be used in the <code>dev</code> application mode, though the framework should be started with option <code>--all-mode</code> to catch all tasks.
+The scenario calls the tasks <code>build-manual</code> and <code>build-help</code>.
+Since it builds all artifacts, it has all requirements as these two tasks, including JRE8 (for tool execution).</p>
+</dd>
+</dl>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1553,7 +1600,7 @@ The license is Apache License 2.0.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-08 17:37:57 GMT
+Last updated 2018-11-13 23:08:35 GMT
 </div>
 </div>
 </body>
