@@ -35,6 +35,8 @@
         <skb.site.prefix>https://vdmeer.github.io/skb-framework/</skb.site.prefix>
         <skb-site-main-dir>${project.basedir}/src</skb-site-main-dir>
         <release-version>${project.version}</release-version>
+        <release-date>${maven.build.timestamp}</release-date>
+        <release-notes>for SKB-Framework ${project.version}</release-notes>
     </properties>
 
     <prerequisites>
