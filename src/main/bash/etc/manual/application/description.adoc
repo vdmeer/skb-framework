@@ -1,12 +1,27 @@
-This framework and the application provided here provide an extensible, metadata-driven environment to execute tasks written as shell scripts.
-The framework takes care of some standard functionality for tasks, for example external dependencies, configuration parameters of various types, and combining tasks into scenarios.
+The SKB-Framework provides a flexible, metadata-driven application framework.
+Its main objective is to load and provide flexible access to tasks.
+A task is a shell script with additional semantics processed by the framework.
+These additional semantics allow the framework to take care of some common functions for defined tasks, for example loading and evluating parameters and dependencies.
 +
-The framework is build for three main concepts: elements, modes, and an interactive shell.
-Application elements are tasks (executing functionality), parameters (for configuring tasks), dependencies (to specify dependencies if tasks to external software), scenarios (to provide sequences of task executions).
-They are supported by the framework elements of options (command line options to direct behavior), shell commands (basic commands for the interactive application shell), and standardized exit status codes.
-A framework application can be started in three different modes:
-`dev` for development tasks of an application,
-`build` for build or compile aspects of an application, or
-`use` for use aspects of an application. Tasks can be defined for one or more of these application modes.
-Finally, an application can be started in an interactive mode, using the provided shell.
-In this mode, tasks can be executed using the shell.
+The framework itself provides a loader and an interactive shell.
+The loader will process specifications (mainly tasks) and validate them.
+Once the loader is satisfied, it will start an interactive shell.
++
+An application using the framework can be started in one of three different modes:
+`dev` for a development mode,
+`build` for a build mode, and
+`use` for a use mode.
+The development mode should load tasks required to develop an application.
+The build mode should load tasks required to build artifacts for a given application.
+The use mode should load tasks required to use built artifacts for a given application.
++
+The framework provides definitions for seven different elements: tasks, their dependencies, their (configuration) parameters, application CLI options, shell commands, application exit status codes, and scenarios.
+The framework loader will load all those definitions and validate them based on the provided metadata.
+CLI options, commands, and exit status codes are handled by the framework itself.
+Tasks, dependencies, parameters, and scenarios can be defined by an application.
+This framework provides a basic set of tasks, dependencies, and parameters.
+It also defines some scenarios to build its own deployment artifacts.
++
+This software package also provides an application named `skb-framework` as a standard application utilizing the framework's features and tasks.
++
+For more information on the framework, how to use it, how to build software artifacts, and how develop your own application with it, please visit the SKB-Framework website at https://vdmeer.github.io/skb-framework/.
