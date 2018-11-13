@@ -8,58 +8,58 @@
 
 MvnSitePreScript() {
     ## create exit option list
-    if [[ -f src/doc/fragments/option-exit-list.adoc ]]; then
-        rm src/doc/fragments/option-exit-list.adoc
+    if [[ -f src/doc/fragments/element-lists/option-exit-list.adoc ]]; then
+        rm src/doc/fragments/element-lists/option-exit-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-option"]} --exit --print-mode adoc > src/doc/fragments/option-exit-list.adoc
+    ${DMAP_TASK_EXEC["describe-option"]} --exit --print-mode adoc > src/doc/fragments/element-lists/option-exit-list.adoc
 
 
     ## create runtime option list
-    if [[ -f src/doc/fragments/option-run-list.adoc ]]; then
-        rm src/doc/fragments/option-run-list.adoc
+    if [[ -f src/doc/fragments/element-lists/option-run-list.adoc ]]; then
+        rm src/doc/fragments/element-lists/option-run-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-option"]} --run --print-mode adoc > src/doc/fragments/option-run-list.adoc
+    ${DMAP_TASK_EXEC["describe-option"]} --run --print-mode adoc > src/doc/fragments/element-lists/option-run-list.adoc
 
 
     ## create command list
-    if [[ -f src/doc/fragments/command-list.adoc ]]; then
-        rm src/doc/fragments/command-list.adoc
+    if [[ -f src/doc/fragments/element-lists/command-list.adoc ]]; then
+        rm src/doc/fragments/element-lists/command-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-command"]} --all --print-mode adoc > src/doc/fragments/command-list.adoc
+    ${DMAP_TASK_EXEC["describe-command"]} --all --print-mode adoc > src/doc/fragments/element-lists/command-list.adoc
 
 
     ## create parameter list
-    if [[ -f src/doc/fragments/parameter-list.adoc ]]; then
-        rm src/doc/fragments/parameter-list.adoc
+    if [[ -f src/doc/fragments/element-lists/parameter-list.adoc ]]; then
+        rm src/doc/fragments/element-lists/parameter-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-parameter"]} --all --print-mode adoc > src/doc/fragments/parameter-list.adoc
+    ${DMAP_TASK_EXEC["describe-parameter"]} --all --print-mode adoc > src/doc/fragments/element-lists/parameter-list.adoc
 
 
     ## create dependency list
-    if [[ -f src/doc/fragments/dependency-list.adoc ]]; then
-        rm src/doc/fragments/dependency-list.adoc
+    if [[ -f src/doc/fragments/element-lists/dependency-list.adoc ]]; then
+        rm src/doc/fragments/element-lists/dependency-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-dependency"]} --all --print-mode adoc > src/doc/fragments/dependency-list.adoc
+    ${DMAP_TASK_EXEC["describe-dependency"]} --all --print-mode adoc > src/doc/fragments/element-lists/dependency-list.adoc
 
 
     ## create task list
-    if [[ -f src/doc/fragments/task-list.adoc ]]; then
-        rm src/doc/fragments/task-list.adoc
+    if [[ -f src/doc/fragments/element-lists/task-list.adoc ]]; then
+        rm src/doc/fragments/element-lists/task-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-task"]} --all --print-mode adoc > src/doc/fragments/task-list.adoc
+    ${DMAP_TASK_EXEC["describe-task"]} --all --print-mode adoc > src/doc/fragments/element-lists/task-list.adoc
 
 
     ## create exit status list
-    if [[ -f src/doc/fragments/exit-status-list.adoc ]]; then
-        rm src/doc/fragments/exit-status-list.adoc
+    if [[ -f src/doc/fragments/element-lists/exit-status-list.adoc ]]; then
+        rm src/doc/fragments/element-lists/exit-status-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode adoc > src/doc/fragments/exit-status-list.adoc
+    ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode adoc > src/doc/fragments/element-lists/exit-status-list.adoc
 
     ## create scenario list
-    if [[ -f src/doc/fragments/scenario-list.adoc ]]; then
-        rm src/doc/fragments/scenario-list.adoc
+    if [[ -f src/doc/fragments/element-lists/scenario-list.adoc ]]; then
+        rm src/doc/fragments/element-lists/scenario-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-scenario"]} --all --print-mode adoc > src/doc/fragments/scenario-list.adoc
+    ${DMAP_TASK_EXEC["describe-scenario"]} --all --print-mode adoc > src/doc/fragments/element-lists/scenario-list.adoc
 }
 
 
@@ -73,8 +73,17 @@ MvnSitePostScript() {
     MvnSiteFixAdoc target/site/manual/tasks                 Tasks
     MvnSiteFixAdoc target/site/manual/exit-status           "Exit Status"
 
-    mkdir -p target/site/manual
-    cp src/main/bash/doc/manual/skb-framework.html target/site/manual
-    cp src/main/bash/doc/manual/skb-framework.pdf  target/site/manual
+    mkdir -p target/site/documents
+    cp src/main/bash/doc/manual/skb-framework.html target/site/documents/manual.html
+    cp src/main/bash/doc/manual/skb-framework.pdf  target/site/documents/manual.pdf
+
+    asciidoctor ./src/doc/guides/user-guide.adoc -a skb-site-main-dir=$PWD/src -a release-notes="for SKB-Framework v$(cat src/main/bash/etc/version.txt)" -a release-date="$(date '+%B %d, %Y')" -a release-version=$(cat src/main/bash/etc/version.txt) -a toc=left -D target/site/documents
+    asciidoctor-pdf ./src/doc/guides/user-guide.adoc -a skb-site-main-dir=$PWD/src -a release-notes="for SKB-Framework v$(cat src/main/bash/etc/version.txt)" -a release-date="$(date '+%B %d, %Y')" -a release-version=$(cat src/main/bash/etc/version.txt) -a toc=left -D target/site/documents
+
+    asciidoctor ./src/doc/guides/builder-guide.adoc -a skb-site-main-dir=$PWD/src -a release-notes="for SKB-Framework v$(cat src/main/bash/etc/version.txt)" -a release-date="$(date '+%B %d, %Y')" -a release-version=$(cat src/main/bash/etc/version.txt) -a toc=left -D target/site/documents
+    asciidoctor-pdf ./src/doc/guides/builder-guide.adoc -a skb-site-main-dir=$PWD/src -a release-notes="for SKB-Framework v$(cat src/main/bash/etc/version.txt)" -a release-date="$(date '+%B %d, %Y')" -a release-version=$(cat src/main/bash/etc/version.txt) -a toc=left -D target/site/documents
+
+    asciidoctor ./src/doc/guides/developer-guide.adoc -a skb-site-main-dir=$PWD/src -a release-notes="for SKB-Framework v$(cat src/main/bash/etc/version.txt)" -a release-date="$(date '+%B %d, %Y')" -a release-version=$(cat src/main/bash/etc/version.txt) -a toc=left -D target/site/documents
+    asciidoctor-pdf ./src/doc/guides/developer-guide.adoc -a skb-site-main-dir=$PWD/src -a release-notes="for SKB-Framework v$(cat src/main/bash/etc/version.txt)" -a release-date="$(date '+%B %d, %Y')" -a release-version=$(cat src/main/bash/etc/version.txt) -a toc=left -D target/site/documents
 }
 
