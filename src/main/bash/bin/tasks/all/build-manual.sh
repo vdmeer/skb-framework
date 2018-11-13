@@ -76,16 +76,24 @@ TARGET=
 
 NO_AUTHORS=false
 NO_BUGS=false
-NO_COMMANDS=false
 NO_COPYING=false
-NO_DEPS=false
-NO_EXITSTATUS=false
-NO_OPTIONS=false
-NO_PARAMS=false
 NO_RESOURCES=false
 NO_SECURITY=false
+
+NO_COMMANDS=false
+NO_COMMAND_LIST=false
+NO_DEPS=false
+NO_DEP_LIST=false
+NO_EXITSTATUS=false
+NO_EXITSTATUS_LIST=false
+NO_OPTIONS=false
+NO_OPTION_LIST=false
+NO_PARAMS=false
+NO_PARAM_LIST=false
 NO_SCENARIOS=false
+NO_SCENARIO_LIST=false
 NO_TASKS=false
+NO_TASK_LIST=false
 
 
 
@@ -94,7 +102,9 @@ NO_TASKS=false
 ##
 CLI_OPTIONS=Abchprst
 CLI_LONG_OPTIONS=build,clean,help,test,all,adoc,html,manp,pdf,text,src,requested
-CLI_LONG_OPTIONS+=,no-authors,no-bugs,no-commands,no-copying,no-deps,no,exitstatus,no-options,no-params,no-scenarios,no-resources,no-security,no-tasks
+CLI_LONG_OPTIONS+=,no-authors,no-bugs,no-copying,no-resources,no-security
+CLI_LONG_OPTIONS+=,no-commands,no-deps,no,exitstatus,no-options,no-params,no-scenarios,no-tasks
+CLI_LONG_OPTIONS+=,no-command-list,no-dep-list,no,exitstatus-list,no-option-list,no-param-list,no-scenario-list,no-task-list
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-manual -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -123,11 +133,12 @@ while true; do
                 BuildTaskHelpLine b build       "<none>"    "builds a manual (manpage), requires a target"      $PRINT_PADDING
                 BuildTaskHelpLine c clean       "<none>"    "removes all target artifacts"                      $PRINT_PADDING
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
-                BuildTaskHelpLine l loaded      "<none>"    "only show loaded tasks"                            $PRINT_PADDING
+                BuildTaskHelpLine l loaded      "<none>"    "list only loaded tasks and scenarios"              $PRINT_PADDING
                 BuildTaskHelpLine p primary     "<none>"    "set all primary targets"                           $PRINT_PADDING
-                BuildTaskHelpLine r requested   "<none>"    "only show requested dependencies and parameters"   $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "list only requested dependencies and parameters"   $PRINT_PADDING
                 BuildTaskHelpLine s secondary   "<none>"    "set all secondary targets"                         $PRINT_PADDING
                 BuildTaskHelpLine t test        "<none>"    "test a manual (show results), requires a target"   $PRINT_PADDING
+
                 printf "\n   targets\n"
                 BuildTaskHelpLine "<none>" adoc  "<none>" "secondary target: text versions: ansi, text"         $PRINT_PADDING
                 BuildTaskHelpLine "<none>" html  "<none>" "secondary target: HTML file"                         $PRINT_PADDING
@@ -135,19 +146,29 @@ while true; do
                 BuildTaskHelpLine "<none>" pdf   "<none>" "secondary target: PDF file)"                         $PRINT_PADDING
                 BuildTaskHelpLine "<none>" text  "<none>" "secondary target: text versions: ansi, text"         $PRINT_PADDING
                 BuildTaskHelpLine "<none>" src   "<none>" "primary target: text source files from ADOC"         $PRINT_PADDING
-                printf "\n   filters\n"
+
+                printf "\n   application filters\n"
                 BuildTaskHelpLine "<none>" no-authors       "<none>" "do not include authors"                   $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-bugs          "<none>" "do not include bugs"                      $PRINT_PADDING_FILTERS
-                BuildTaskHelpLine "<none>" no-commands      "<none>" "do not include commands"                  $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-copying       "<none>" "do not include copying"                   $PRINT_PADDING_FILTERS
-                BuildTaskHelpLine "<none>" no-deps          "<none>" "do not include dependencies"              $PRINT_PADDING_FILTERS
-                BuildTaskHelpLine "<none>" no-exitstatus    "<none>" "do not include exit status"               $PRINT_PADDING_FILTERS
-                BuildTaskHelpLine "<none>" no-options       "<none>" "do not include options"                   $PRINT_PADDING_FILTERS
-                BuildTaskHelpLine "<none>" no-params        "<none>" "do not include parameters"                $PRINT_PADDING_FILTERS
-                BuildTaskHelpLine "<none>" no-scenarios     "<none>" "do not include scenarios"                 $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-resources     "<none>" "do not include resources"                 $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-security      "<none>" "do not include security"                  $PRINT_PADDING_FILTERS
-                BuildTaskHelpLine "<none>" no-tasks         "<none>" "do not include tasks"                     $PRINT_PADDING_FILTERS
+
+                printf "\n   element filters\n"
+                BuildTaskHelpLine "<none>" no-commands          "<none>" "do not include commands"                  $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-command-list      "<none>" "include command text, but no list"        $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-deps              "<none>" "include dependency text, but no list"     $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-dep-list          "<none>" "do not include dependencies"              $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-exitstatus        "<none>" "do not include exit status"               $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-exitstatus-list   "<none>" "include exit status text, but no list"    $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-options           "<none>" "do not include options"                   $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-option-list       "<none>" "include option test, but no list"         $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-params            "<none>" "do not include parameters"                $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-param-list        "<none>" "include parameter text, but no list"      $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-scenarios         "<none>" "do not include scenarios"                 $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-scenario-list     "<none>" "include scenario text, but no list"       $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-tasks             "<none>" "do not include tasks"                     $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-task-list         "<none>" "include task text, but no list"           $PRINT_PADDING_FILTERS
             else
                 cat $CACHED_HELP
             fi
@@ -212,47 +233,75 @@ while true; do
             shift
             NO_BUGS=true
             ;;
-        --no-commands)
-            shift
-            NO_COMMANDS=true
-            ;;
         --no-copying)
             shift
             NO_COPYING=true
-            ;;
-        --no-deps)
-            shift
-            NO_DEPS=true
-            ;;
-        --no-exitstatus)
-            shift
-            NO_EXITSTATUS=true
-            ;;
-        --no-options)
-            shift
-            NO_OPTIONS=true
-            ;;
-        --no-params)
-            shift
-            NO_PARAMS=true
             ;;
         --no-resources)
             shift
             NO_RESOURCES=true
             ;;
-        --no-params)
-            shift
-            NO_SCENARIOS=true
-            ;;
         --no-security)
             shift
             NO_SECURITY=true
+            ;;
+
+        --no-commands)
+            shift
+            NO_COMMANDS=true
+            ;;
+        --no-command-list)
+            shift
+            NO_COMMAND_LIST=true
+            ;;
+        --no-deps)
+            shift
+            NO_DEPS=true
+            ;;
+        --no-dep-list)
+            shift
+            NO_DEP_LIST=true
+            ;;
+        --no-exitstatus)
+            shift
+            NO_EXITSTATUS=true
+            ;;
+        --no-exitstatus-list)
+            shift
+            NO_EXITSTATUS_LIST=true
+            ;;
+        --no-options)
+            shift
+            NO_OPTIONS=true
+            ;;
+        --no-option-list)
+            shift
+            NO_OPTION_LIST=true
+            ;;
+        --no-params)
+            shift
+            NO_PARAMS=true
+            ;;
+        --no-param-list)
+            shift
+            NO_PARAM_LIST=true
+            ;;
+        --no-scenarios)
+            shift
+            NO_SCENARIOS=true
+            ;;
+        --no-scenario-list)
+            shift
+            NO_SCENARIO_LIST=true
             ;;
         --no-tasks)
             shift
             NO_TASKS=true
             ;;
-
+        --no-task-list)
+            shift
+            NO_TASK_LIST=true
+            ;;
 
         --)
             shift
@@ -418,56 +467,72 @@ BuildManualCore() {
         DescribeElementOptions
 
         DescribeElementOptionsRuntime
-        set +e
-        ${DMAP_TASK_EXEC["describe-option"]} --run --print-mode $TARGET
-        set -e
+        if [[ "$NO_OPTION_LIST" == false ]]; then
+            set +e
+            ${DMAP_TASK_EXEC["describe-option"]} --run --print-mode $TARGET
+            set -e
+        fi
 
         DescribeElementOptionsExit
-        set +e
-        ${DMAP_TASK_EXEC["describe-option"]} --exit --print-mode $TARGET
-        set -e
+        if [[ "$NO_OPTION_LIST" == false ]]; then
+            set +e
+            ${DMAP_TASK_EXEC["describe-option"]} --exit --print-mode $TARGET
+            set -e
+        fi
     fi
 
     if [[ "$NO_PARAMS" == false ]]; then
         DescribeElementParameters
-        set +e
-        ${DMAP_TASK_EXEC["describe-parameter"]} $REQUESTED --print-mode $TARGET
-        set -e
+        if [[ "$NO_PARAM_LIST" == false ]]; then
+            set +e
+            ${DMAP_TASK_EXEC["describe-parameter"]} $REQUESTED --print-mode $TARGET
+            set -e
+        fi
     fi
 
     if [[ "$NO_TASKS" == false ]]; then
         DescribeElementTasks
-        set +e
-        ${DMAP_TASK_EXEC["describe-task"]} $LOADED --print-mode $TARGET
-        set -e
+        if [[ "$NO_TASK_LIST" == false ]]; then
+            set +e
+            ${DMAP_TASK_EXEC["describe-task"]} $LOADED --print-mode $TARGET
+            set -e
+        fi
     fi
 
     if [[ "$NO_DEPS" == false ]]; then
         DescribeElementDependencies
-        set +e
-        ${DMAP_TASK_EXEC["describe-dependency"]} $REQUESTED --print-mode $TARGET
-        set -e
+        if [[ "$NO_DEP_LIST" == false ]]; then
+            set +e
+            ${DMAP_TASK_EXEC["describe-dependency"]} $REQUESTED --print-mode $TARGET
+            set -e
+        fi
     fi
 
     if [[ "$NO_COMMANDS" == false ]]; then
         DescribeElementCommands
-        set +e
-        ${DMAP_TASK_EXEC["describe-command"]} --all --print-mode $TARGET
-        set -e
+        if [[ "$NO_COMMAND_LIST" == false ]]; then
+            set +e
+            ${DMAP_TASK_EXEC["describe-command"]} --all --print-mode $TARGET
+            set -e
+        fi
     fi
 
     if [[ "$NO_EXITSTATUS" == false ]]; then
         DescribeElementExitStatus
-        set +e
-        ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode $TARGET
-        set -e
+        if [[ "$NO_EXITSTATUS_LIST" == false ]]; then
+            set +e
+            ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode $TARGET
+            set -e
+        fi
     fi
 
     if [[ "$NO_SCENARIOS" == false ]]; then
         DescribeElementScenarios
-#         set +e
-#         ${DMAP_TASK_EXEC["describe-scenario"]} --l --print-mode $TARGET
-#         set -e
+        if [[ "$NO_SCENARIO_LIST" == false ]]; then
+            set +e
+            ${DMAP_TASK_EXEC["describe-scenario"]} $LOADED --print-mode $TARGET
+            set -e
+        fi
     fi
 
 
