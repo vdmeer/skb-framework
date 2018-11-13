@@ -114,7 +114,7 @@ fi
 eval set -- "$PARSED"
 
 PRINT_PADDING=19
-PRINT_PADDING_FILTERS=24
+PRINT_PADDING_FILTERS=28
 while true; do
     case "$1" in
         -b | --build)

@@ -110,15 +110,15 @@ while true; do
                 BuildTaskHelpLine l list    "<none>"    "list sites"                                                $PRINT_PADDING
                 BuildTaskHelpLine T test    "<none>"    "test sites, open in browser"                               $PRINT_PADDING
 
-                printf "\n   filters\n"
-                BuildTaskHelpLine A all     "<none>"    "all sites"                                                 $PRINT_PADDING
-                BuildTaskHelpLine i id      "ID"        "site identifier for building"                              $PRINT_PADDING
-
                 printf "\n   targets\n"
                 BuildTaskHelpLine t        targets  "<none>"    "mvn: all targets"                  $PRINT_PADDING
                 BuildTaskHelpLine "<none>" ad       "<none>"    "mvn: site:attach-descriptor"       $PRINT_PADDING
                 BuildTaskHelpLine "<none>" site     "<none>"    "mvn: site"                         $PRINT_PADDING
                 BuildTaskHelpLine "<none>" stage    "<none>"    "mvn: site:stage"                   $PRINT_PADDING
+
+                printf "\n   filters\n"
+                BuildTaskHelpLine A all     "<none>"    "all sites"                                                 $PRINT_PADDING
+                BuildTaskHelpLine i id      "ID"        "site identifier for building"                              $PRINT_PADDING
 
                 printf "\n   Maven options\n"
                 BuildTaskHelpLine "<none>" profile  PROFILE     "mvn: use profile PROFILE"          $PRINT_PADDING
