@@ -1,0 +1,57 @@
+== Task: build-manual
+
+
+=== General Options
+
+----
+-A | --all         set all targets, overwrites other options
+-b | --build       builds a manual (manpage), requires a target
+-c | --clean       removes all target artifacts
+-h | --help        print help screen and exit
+-l | --loaded      list only loaded tasks and scenarios
+-p | --primary     set all primary targets
+-r | --requested   list only requested dependencies and parameters
+-s | --secondary   set all secondary targets
+-t | --test        test a manual (show results), requires a target
+----
+
+=== Target Options
+
+----
+--adoc        secondary target: text versions: ansi, text
+--html        secondary target: HTML file
+--manp        secondary target: man page file
+--pdf         secondary target: PDF file)
+--text        secondary target: text versions: ansi, text
+--src         primary target: text source files from ADOC
+----
+
+=== Application Filters
+
+----
+--no-authors           do not include authors
+--no-bugs              do not include bugs
+--no-copying           do not include copying
+--no-resources         do not include resources
+--no-security          do not include security
+----
+
+
+=== Element Filters
+
+----
+--no-commands          do not include commands
+--no-command-list      include command text, but no list
+--no-deps              include dependency text, but no list
+--no-dep-list          do not include dependencies
+--no-exitstatus        do not include exit status
+--no-exitstatus-list   include exit status text, but no list
+--no-options           do not include options
+--no-option-list       include option test, but no list
+--no-params            do not include parameters
+--no-param-list        include parameter text, but no list
+--no-scenarios         do not include scenarios
+--no-scenario-list     include scenario text, but no list
+--no-tasks             do not include tasks
+--no-task-list         include task text, but no list
+----

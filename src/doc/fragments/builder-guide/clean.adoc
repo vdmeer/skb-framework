@@ -1,0 +1,11 @@
+== Task: clean
+
+
+=== Options
+
+----
+-f | --force       force mode, not questions asked
+-h | --help        print help screen and exit
+-s | --simulate    print only, removes nothing, overwrites force
+----
+

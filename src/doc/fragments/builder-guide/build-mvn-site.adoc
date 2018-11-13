@@ -1,0 +1,35 @@
+== Task: build-mvn-site
+
+
+=== General Options
+
+----
+-b | --build            builds site(s), requires a target and site ID or all
+-c | --clean            cleans all site(s)
+-h | --help             print help screen and exit
+-l | --list             list sites
+-T | --test             test sites, open in browser
+----
+
+=== Target Options
+
+----
+-t | --targets          mvn: all targets
+     --ad               mvn: site:attach-descriptor
+     --site             mvn: site
+     --stage            mvn: site:stage
+----
+
+=== Filter Options
+
+----
+-A | --all              all sites
+-i | --id ID            site identifier for building
+----
+
+
+=== Maven Options
+
+----
+--profile PROFILE  mvn: use profile PROFILE
+----
