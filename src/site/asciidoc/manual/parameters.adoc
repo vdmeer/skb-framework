@@ -2,4 +2,4 @@
 
 include::{skb-site-main-dir}/main/bash/etc/manual/framework/parameters.adoc[]
 
-include::{skb-site-main-dir}/doc/fragments/parameter-list.adoc[]
+include::{skb-site-main-dir}/doc/fragments/element-lists/parameter-list.adoc[]

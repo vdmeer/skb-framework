@@ -23,11 +23,17 @@
                 <item href="manual/exit-status.html" name="Exit Status" />
             </item>
 
-            <!-- <item href="user-guide.html" name="User Guide" collapse="false" /> -->
+            <item href="user-guide.html" name="User Guide" collapse="false">
+            </item>
 
-            <!-- <item href="builder-guide.html" name="Builder Guide" collapse="false" /> -->
+            <item href="builder-guide.html" name="Builder Guide" collapse="false">
+                <item href="builder-guide/clean.html" name="Clean" />
+                <item href="builder-guide/build-manual.html" name="Build Manual" />
+                <item href="builder-guide/build-mvn-site.html" name="Build Maven Site" />
+            </item>
 
-            <!-- <item href="developer-guide.html" name="Developer Guide" collapse="false" /> -->
+            <item href="developer-guide.html" name="Developer Guide" collapse="false">
+            </item>
         </menu>
 
         <breadcrumbs>

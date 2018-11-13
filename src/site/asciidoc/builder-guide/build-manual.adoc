@@ -1,0 +1,1 @@
+include::{skb-site-main-dir}/doc/fragments/builder-guide/build-manual.adoc[]

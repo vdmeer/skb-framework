@@ -44,8 +44,44 @@
                         </td>
                         <td>
                             <ul>
-                                <li><a href="manual/skb-framework.html">stand-alone HTML</a></li>
-                                <li><a href="manual/skb-framework.pdf">stand-alone PDF</a></li>
+                                <li><a href="documents/skb-framework.html">stand-alone HTML</a></li>
+                                <li><a href="documents/skb-framework.pdf">stand-alone PDF</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>User Guide</td>
+                        <td>
+                            The framework's user guide detailing how to use the framework and tasks for the use mode.
+                        </td>
+                        <td>
+                            <ul>
+                                <li><a href="documents/builder-guide.html">stand-alone HTML</a></li>
+                                <li><a href="documents/builder-guide.pdf">stand-alone PDF</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Builder Guide</td>
+                        <td>
+                            The framework's builder guide detailing tasks for the build mode.
+                        </td>
+                        <td>
+                            <ul>
+                                <li><a href="documents/builder-guide.html">stand-alone HTML</a></li>
+                                <li><a href="documents/builder-guide.pdf">stand-alone PDF</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Developer Guide</td>
+                        <td>
+                            The framework's developer guide detailing tasks for the develop (dev) mode and how to develop your own application and tasks.
+                        </td>
+                        <td>
+                            <ul>
+                                <li><a href="documents/developer-guide.html">stand-alone HTML</a></li>
+                                <li><a href="documents/developer-guide.pdf">stand-alone PDF</a></li>
                             </ul>
                         </td>
                     </tr>
