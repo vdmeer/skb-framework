@@ -67,7 +67,7 @@ This setting is required to build the manual sources (text files) from the origi
 In a standard installation, the JAR will be available in the `bin/java` folder of the framework.
 
 +
-default value: `$FW_HOME/bin/java/skb-framework-tool-0.0.0-all.jar`
+default value: `$FW_HOME/bin/java/skb-framework-tool-0.0.1-all.jar`
 
 *TARGET* - target folder:: 
 This parameter sets the target directory, where artifacts should be created in, similar to the target directory in Maven or the build directory in Gradle.

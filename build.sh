@@ -114,6 +114,7 @@ versions(){
     rm tool/src/main/resources/tool-version.txt
     cat src/main/bash/etc/version.txt > tool/src/main/resources/tool-version.txt
     ant -f ant/build.xml -DmoduleVersion=${RELEASE_VERSION} -DmoduleDir=../
+    chmod 644 src/main/bash/**/*.id src/main/bash/**/*.scn tool/src/**/*.java
 }
 
 
