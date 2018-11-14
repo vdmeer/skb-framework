@@ -1,0 +1,29 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== set-file-versions
+
+This task changes version information in source file headers.
+It runs Apache ANT using a simple build script, which in turn calls a macro that changes the version line.
+The default build and macro files change java files and all relevant framework files.
+These files can be used as template for writing other substitutions, if required.
+
+[source%nowrap,bash,indent=0]
+----
+   -b | --build-file FILE   ANT build file
+   -d | --directory DIR     start directory with source files
+   -h | --help              print help screen and exit
+   -m | --macro-file FILE   ANT macro file
+   -v | --version VERSION   new version string
+----
+

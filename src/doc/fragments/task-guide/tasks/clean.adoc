@@ -1,11 +1,42 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
 == clean
 
+This tasks cleans, i.e. removes, all artifacts that have been build by other taks.
+In addition to that, the directory set by the parameter _TARGET_ will be removed.
+
+The task does not actually remove any built artifacts itself.
+It uses the `-c` (or `--clean`) option of all tasks that do build artifacts.
+By convention, these are tasks whose name starts with _build-_ or _compile-_.
+
+So _clean_ will lookup the loaded task map, find all tasks that start with _build-_ or _compile-_ and execute them with the `--clean` option.
+If any of these tasks fails (for instance due to missing parameters), _clean_ will also fail.
 
 === Options
 
-----
--f | --force       force mode, not questions asked
--h | --help        print help screen and exit
--s | --simulate    print only, removes nothing, overwrites force
-----
+The option _simulate_ can be used to simulate a clean.
+Here, not task will be executed and the directory _TARGET_ will not be removed either.
+Instead, the task will simply print what commands it would run.
 
+The default command to remove the _TARGET_ directory is `rm -frI`.
+This is an additional safety feature to prevent accidental removal of the directory.
+The option _force_ can be used to remove the directory forced, i.e. using `rm -fr` instead.
+_simulate_ will overwrite _force_.
+
+[source%nowrap,bash,indent=0]
+----
+   -f | --force       force mode, not questions asked
+   -h | --help        print help screen and exit
+   -s | --simulate    print only, removes nothing, overwrites force
+----

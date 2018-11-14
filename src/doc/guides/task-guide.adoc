@@ -34,3 +34,8 @@ include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/clean.adoc[leveloffs
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-manual.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-mvn-site.adoc[leveloffset=+1]
+
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/dev-tasks.adoc[]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/set-file-versions.adoc[leveloffset=+1]

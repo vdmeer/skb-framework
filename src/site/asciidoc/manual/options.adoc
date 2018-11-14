@@ -1,3 +1,16 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
 == Options
 
 include::{skb-site-main-dir}/main/bash/etc/manual/elements/options.adoc[]
@@ -6,10 +19,10 @@ include::{skb-site-main-dir}/main/bash/etc/manual/elements/options.adoc[]
 
 include::{skb-site-main-dir}/main/bash/etc/manual/elements/run-options.adoc[]
 
-include::{skb-site-main-dir}/doc/fragments/element-lists/option-run-list.adoc[]
+include::{skb-site-target-dir}/element-lists/option-run-list.adoc[]
 
 === Exit Options
 
 include::{skb-site-main-dir}/main/bash/etc/manual/elements/exit-options.adoc[]
 
-include::{skb-site-main-dir}/doc/fragments/element-lists/option-exit-list.adoc[]
+include::{skb-site-target-dir}/element-lists/option-exit-list.adoc[]

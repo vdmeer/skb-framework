@@ -7,59 +7,61 @@
 ##
 
 MvnSitePreScript() {
+    mkdir -p target/element-lists
+
     ## create exit option list
-    if [[ -f src/doc/fragments/element-lists/option-exit-list.adoc ]]; then
-        rm src/doc/fragments/element-lists/option-exit-list.adoc
+    if [[ -f target/element-lists/option-exit-list.adoc ]]; then
+        rm target/element-lists/option-exit-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-option"]} --exit --print-mode adoc > src/doc/fragments/element-lists/option-exit-list.adoc
+    ${DMAP_TASK_EXEC["describe-option"]} --exit --print-mode adoc > target/element-lists/option-exit-list.adoc
 
 
     ## create runtime option list
-    if [[ -f src/doc/fragments/element-lists/option-run-list.adoc ]]; then
-        rm src/doc/fragments/element-lists/option-run-list.adoc
+    if [[ -f target/element-lists/option-run-list.adoc ]]; then
+        rm target/element-lists/option-run-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-option"]} --run --print-mode adoc > src/doc/fragments/element-lists/option-run-list.adoc
+    ${DMAP_TASK_EXEC["describe-option"]} --run --print-mode adoc > target/element-lists/option-run-list.adoc
 
 
     ## create command list
-    if [[ -f src/doc/fragments/element-lists/command-list.adoc ]]; then
-        rm src/doc/fragments/element-lists/command-list.adoc
+    if [[ -f target/element-lists/command-list.adoc ]]; then
+        rm target/element-lists/command-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-command"]} --all --print-mode adoc > src/doc/fragments/element-lists/command-list.adoc
+    ${DMAP_TASK_EXEC["describe-command"]} --all --print-mode adoc > target/element-lists/command-list.adoc
 
 
     ## create parameter list
-    if [[ -f src/doc/fragments/element-lists/parameter-list.adoc ]]; then
-        rm src/doc/fragments/element-lists/parameter-list.adoc
+    if [[ -f target/element-lists/parameter-list.adoc ]]; then
+        rm target/element-lists/parameter-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-parameter"]} --all --print-mode adoc > src/doc/fragments/element-lists/parameter-list.adoc
+    ${DMAP_TASK_EXEC["describe-parameter"]} --all --print-mode adoc > target/element-lists/parameter-list.adoc
 
 
     ## create dependency list
-    if [[ -f src/doc/fragments/element-lists/dependency-list.adoc ]]; then
-        rm src/doc/fragments/element-lists/dependency-list.adoc
+    if [[ -f target/element-lists/dependency-list.adoc ]]; then
+        rm target/element-lists/dependency-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-dependency"]} --all --print-mode adoc > src/doc/fragments/element-lists/dependency-list.adoc
+    ${DMAP_TASK_EXEC["describe-dependency"]} --all --print-mode adoc > target/element-lists/dependency-list.adoc
 
 
     ## create task list
-    if [[ -f src/doc/fragments/element-lists/task-list.adoc ]]; then
-        rm src/doc/fragments/element-lists/task-list.adoc
+    if [[ -f target/element-lists/task-list.adoc ]]; then
+        rm target/element-lists/task-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-task"]} --all --print-mode adoc > src/doc/fragments/element-lists/task-list.adoc
+    ${DMAP_TASK_EXEC["describe-task"]} --all --print-mode adoc > target/element-lists/task-list.adoc
 
 
     ## create exit status list
-    if [[ -f src/doc/fragments/element-lists/exit-status-list.adoc ]]; then
-        rm src/doc/fragments/element-lists/exit-status-list.adoc
+    if [[ -f target/element-lists/exit-status-list.adoc ]]; then
+        rm target/element-lists/exit-status-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode adoc > src/doc/fragments/element-lists/exit-status-list.adoc
+    ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode adoc > target/element-lists/exit-status-list.adoc
 
     ## create scenario list
-    if [[ -f src/doc/fragments/element-lists/scenario-list.adoc ]]; then
-        rm src/doc/fragments/element-lists/scenario-list.adoc
+    if [[ -f target/element-lists/scenario-list.adoc ]]; then
+        rm target/element-lists/scenario-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-scenario"]} --all --print-mode adoc > src/doc/fragments/element-lists/scenario-list.adoc
+    ${DMAP_TASK_EXEC["describe-scenario"]} --all --print-mode adoc > target/element-lists/scenario-list.adoc
 }
 
 
@@ -81,6 +83,8 @@ MvnSitePostScript() {
     MvnSiteFixAdoc target/site/task-guide/tasks/clean               "Task: Clean"
     MvnSiteFixAdoc target/site/task-guide/tasks/build-manual        "Task: Build Manual"
     MvnSiteFixAdoc target/site/task-guide/tasks/build-mvn-site      "Task: Build MVN Site"
+    MvnSiteFixAdoc target/site/task-guide/dev-tasks                 "Development Tasks"
+    MvnSiteFixAdoc target/site/task-guide/tasks/set-file-versions   "Task: Set File Versions"
 
     MvnSiteFixAdoc target/site/developer-guide                      "Developer Guide"
 

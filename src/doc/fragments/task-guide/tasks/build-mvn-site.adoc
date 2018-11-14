@@ -1,35 +1,70 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
 == build-mvn-site
 
 
+This task will build Maven sites.
+It uses Apache Maven for the build process.
+The sites need to be provided by he parameter `MVN_SITES`.
+Several options are available to control the build process.
+
+
+=== Configuration
+
 === General Options
 
+[source%nowrap,bash,indent=0]
 ----
--b | --build            builds site(s), requires a target and site ID or all
--c | --clean            cleans all site(s)
--h | --help             print help screen and exit
--l | --list             list sites
--T | --test             test sites, open in browser
+   -b | --build            builds site(s), requires a target and site ID or all
+   -c | --clean            cleans all site(s)
+   -h | --help             print help screen and exit
+   -l | --list             list sites
+   -T | --test             test sites, open in browser
 ----
 
 === Target Options
 
+[source%nowrap,bash,indent=0]
 ----
--t | --targets          mvn: all targets
-     --ad               mvn: site:attach-descriptor
-     --site             mvn: site
-     --stage            mvn: site:stage
+   -t | --targets          mvn: all targets
+        --ad               mvn: site:attach-descriptor
+        --site             mvn: site
+        --stage            mvn: site:stage
 ----
 
 === Filter Options
 
+[source%nowrap,bash,indent=0]
 ----
--A | --all              all sites
--i | --id ID            site identifier for building
+   -A | --all              all sites
+   -i | --id ID            site identifier for building
 ----
 
 
 === Maven Options
 
+[source%nowrap,bash,indent=0]
 ----
---profile PROFILE  mvn: use profile PROFILE
+        --profile PROFILE  mvn: use profile PROFILE
 ----
+
+
+=== Requirements
+
+param MVN_SITES opt
+
+dep maven opt
+
+task start-browser opt
+

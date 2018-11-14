@@ -36,6 +36,7 @@
 
         <!-- ADOC PROPERTIES -->
         <skb-site-main-dir>${project.basedir}/src</skb-site-main-dir>
+        <skb-site-target-dir>${project.basedir}/target</skb-site-target-dir>
     </properties>
 
     <prerequisites>
