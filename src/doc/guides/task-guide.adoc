@@ -11,12 +11,12 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-= Builder Guide
+= Task Guide
 Sven van_der_Meer <vdmeer.sven@mykolab.com>
 
 :version-label!:
-:description: A short guide to the build tasks
-:keywords: SKB Framework, documentation, build
+:description: A short guide to the framework tasks
+:keywords: SKB Framework, documentation, tasks
 :experimental:
 
 {release-notes}, {release-date}
@@ -29,8 +29,8 @@ Sven van_der_Meer <vdmeer.sven@mykolab.com>
 
 == Some Heading
 
-include::{skb-site-main-dir}/doc/fragments/builder-guide/clean.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/task-guide/clean.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/builder-guide/build-manual.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/task-guide/build-manual.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/builder-guide/build-mvn-site.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/task-guide/build-mvn-site.adoc[leveloffset=+1]

@@ -62,14 +62,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Builder Guide</td>
+                        <td>Task Guide</td>
                         <td>
-                            The framework's builder guide detailing tasks for the build mode.
+                            The framework's task guide detailing tasks and how to use them.
                         </td>
                         <td>
                             <ul>
-                                <li><a href="documents/builder-guide.html">stand-alone HTML</a></li>
-                                <li><a href="documents/builder-guide.pdf">stand-alone PDF</a></li>
+                                <li><a href="documents/task-guide.html">stand-alone HTML</a></li>
+                                <li><a href="documents/task-guide.pdf">stand-alone PDF</a></li>
                             </ul>
                         </td>
                     </tr>

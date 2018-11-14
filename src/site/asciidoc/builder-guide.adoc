@@ -1,3 +1,0 @@
-== Builder Guide
-
-BLA FOO
