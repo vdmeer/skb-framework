@@ -73,17 +73,34 @@ MvnSitePostScript() {
     MvnSiteFixAdoc target/site/manual/tasks                 Tasks
     MvnSiteFixAdoc target/site/manual/exit-status           "Exit Status"
 
-    mkdir -p target/site/documents
-    cp src/main/bash/doc/manual/skb-framework.html target/site/documents/manual.html
-    cp src/main/bash/doc/manual/skb-framework.pdf  target/site/documents/manual.pdf
 
-    asciidoctor ./src/doc/guides/user-guide.adoc -a skb-site-main-dir=$PWD/src -a release-notes="for SKB-Framework v$(cat src/main/bash/etc/version.txt)" -a release-date="$(date '+%B %d, %Y')" -a release-version=$(cat src/main/bash/etc/version.txt) -a toc=left -D target/site/documents
-    asciidoctor-pdf ./src/doc/guides/user-guide.adoc -a skb-site-main-dir=$PWD/src -a release-notes="for SKB-Framework v$(cat src/main/bash/etc/version.txt)" -a release-date="$(date '+%B %d, %Y')" -a release-version=$(cat src/main/bash/etc/version.txt) -a toc=left -D target/site/documents
+    local SKB_SITE_MAIN_DIR=$PWD/src
+    local RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
+    local RELEASE_NOTES="for SKB-Framework v${RELEASE_VERSION}"
+    local RELEASE_DATE="$(date '+%B %d, %Y')"
+    local DOC_TARGET_DIR=target/site/documents
 
-    asciidoctor ./src/doc/guides/builder-guide.adoc -a skb-site-main-dir=$PWD/src -a release-notes="for SKB-Framework v$(cat src/main/bash/etc/version.txt)" -a release-date="$(date '+%B %d, %Y')" -a release-version=$(cat src/main/bash/etc/version.txt) -a toc=left -D target/site/documents
-    asciidoctor-pdf ./src/doc/guides/builder-guide.adoc -a skb-site-main-dir=$PWD/src -a release-notes="for SKB-Framework v$(cat src/main/bash/etc/version.txt)" -a release-date="$(date '+%B %d, %Y')" -a release-version=$(cat src/main/bash/etc/version.txt) -a toc=left -D target/site/documents
+    local SOURCE_HIGHLIGHTER=coderay
+    local SECT_NUMS=4
+    local TOC_LEVELS=4
 
-    asciidoctor ./src/doc/guides/developer-guide.adoc -a skb-site-main-dir=$PWD/src -a release-notes="for SKB-Framework v$(cat src/main/bash/etc/version.txt)" -a release-date="$(date '+%B %d, %Y')" -a release-version=$(cat src/main/bash/etc/version.txt) -a toc=left -D target/site/documents
-    asciidoctor-pdf ./src/doc/guides/developer-guide.adoc -a skb-site-main-dir=$PWD/src -a release-notes="for SKB-Framework v$(cat src/main/bash/etc/version.txt)" -a release-date="$(date '+%B %d, %Y')" -a release-version=$(cat src/main/bash/etc/version.txt) -a toc=left -D target/site/documents
+    local HTML_STYLESHEET="compass/rocket-panda.css"
+    local PDF_STYLE=skb-pdf
+
+    mkdir -p ${DOC_TARGET_DIR}
+    cp src/main/bash/doc/manual/skb-framework.html ${DOC_TARGET_DIR}/manual.html
+    cp src/main/bash/doc/manual/skb-framework.pdf  ${DOC_TARGET_DIR}/manual.pdf
+
+    printf "      -> building user guide (html, pdf)\n"
+    asciidoctor ./src/doc/guides/user-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
+    asciidoctor-pdf ./src/doc/guides/user-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
+
+    printf "      -> building task guide (html, pdf)\n"
+    asciidoctor ./src/doc/guides/task-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
+    asciidoctor-pdf ./src/doc/guides/task-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
+
+    printf "      -> building developer guide (html, pdf)\n"
+    asciidoctor ./src/doc/guides/developer-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
+    asciidoctor-pdf ./src/doc/guides/developer-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
 }
 

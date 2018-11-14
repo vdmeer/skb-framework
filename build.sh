@@ -31,6 +31,9 @@
 set -o errexit -o pipefail -o noclobber -o nounset
 shopt -s globstar
 
+RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
+TOOL_VERSION="$(cat tool/src/main/resources/tool-version.txt)"
+
 
 help(){ 
     printf "\nusage: build [targets]\n"
@@ -104,19 +107,17 @@ clean(){
 ##
 ## function: tool - builds the SKB Framework Tool (java)
 ##
-
 fw_tool(){ 
     printf "%s\n\n" "building/copying SKB Tool (java)"
     (cd tool; ./gradlew)
     mkdir -p src/main/bash/bin/java
-    cp tool/build/libs/skb-framework-tool-0.0.0-all.jar src/main/bash/bin/java
+    cp tool/build/libs/skb-framework-tool-${TOOL_VERSION}-all.jar src/main/bash/bin/java
     printf "\n\n"
 }
 
 ##
 ## function: distro - builds framework artifacts and distributions
 ##
-
 fw_distro(){ 
     printf "%s\n\n" "building framework distribution artifacts"
     src/main/bash/bin/skb-framework --all-mode --sq --lq --task-level debug --run-scenario build-fw-distro
