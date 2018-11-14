@@ -4,8 +4,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '4.0.1'
 }
 
-
-version = '0.0.0'
+version = file('src/main/resources/tool-version.txt').text
 description = 'SKB Framework Java Tool'
 
 sourceCompatibility = 1.8
