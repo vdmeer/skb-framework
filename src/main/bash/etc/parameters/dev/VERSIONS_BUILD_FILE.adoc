@@ -1,0 +1,2 @@
+This option points to a default ANT build file used by the task `set-file-versions`. 
+The default value points to the build file in the framework distribution.

@@ -1,0 +1,4 @@
+This task changes version information in source file headers.
+It runs Apache ANT using a simple build script, which in turn calls a macro that changes the version line.
+The default build and macro files change java files and all relevant framework files.
+These files can be used as template for writing other substitutions, if required.

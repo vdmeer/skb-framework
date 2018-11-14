@@ -41,14 +41,14 @@ DescribeElementCommands() {
     case $TARGET in
         adoc)
             printf "\n\n== SHELL COMMANDS\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/commands.adoc
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/commands.adoc
             printf "\n\n"
             ;;
         ansi | text*)
             printf "  "
             PrintEffect bold "SHELL COMMANDS" $TARGET
             printf "\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/commands.txt
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/commands.txt
             printf "\n"
             ;;
     esac
@@ -64,14 +64,14 @@ DescribeElementOptions() {
     case $TARGET in
         adoc)
             printf "\n\n== OPTIONS\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/options.adoc
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/options.adoc
             printf "\n\n"
             ;;
         ansi | text*)
             printf "  "
             PrintEffect bold "OPTIONS" $TARGET
             printf "\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/options.txt
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/options.txt
             printf "\n"
             ;;
     esac
@@ -87,14 +87,14 @@ DescribeElementExitStatus() {
     case $TARGET in
         adoc)
             printf "\n\n== EXIT STATUS\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/exit-status.adoc
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/exit-status.adoc
             printf "\n\n"
             ;;
         ansi | text*)
             printf "  "
             PrintEffect bold "EXIT STATUS" $TARGET
             printf "\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/exit-status.txt
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/exit-status.txt
             printf "\n"
             ;;
     esac
@@ -110,14 +110,14 @@ DescribeElementOptionsExit() {
     case $TARGET in
         adoc)
             printf "\n\n=== Exit OPTIONS\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/exit-options.adoc
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/exit-options.adoc
             printf "\n\n"
             ;;
         ansi | text*)
             printf "    "
             PrintEffect bold "Exit OPTIONS" $TARGET
             printf "\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/exit-options.txt
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/exit-options.txt
             printf "\n"
             ;;
     esac
@@ -133,14 +133,14 @@ DescribeElementOptionsRuntime() {
     case $TARGET in
         adoc)
             printf "\n\n=== Runtime OPTIONS\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/run-options.adoc
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/run-options.adoc
             printf "\n\n"
             ;;
         ansi | text*)
             printf "    "
             PrintEffect bold "Runtime OPTIONS" $TARGET
             printf "\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/run-options.txt
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/run-options.txt
             printf "\n"
             ;;
     esac
@@ -156,14 +156,14 @@ DescribeElementParameters() {
     case $TARGET in
         adoc)
             printf "\n\n== PARAMETERS\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/parameters.adoc
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/parameters.adoc
             printf "\n\n"
             ;;
         ansi | text*)
             printf "  "
             PrintEffect bold "PARAMETERS" $TARGET
             printf "\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/parameters.txt
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/parameters.txt
             printf "\n"
             ;;
     esac
@@ -179,14 +179,14 @@ DescribeElementDependencies() {
     case $TARGET in
         adoc)
             printf "\n\n== DEPENDENCIES\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/dependencies.adoc
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/dependencies.adoc
             printf "\n\n"
             ;;
         ansi | text*)
             printf "  "
             PrintEffect bold "DEPENDENCIES" $TARGET
             printf "\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/dependencies.txt
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/dependencies.txt
             printf "\n"
             ;;
     esac
@@ -202,14 +202,14 @@ DescribeElementScenarios() {
     case $TARGET in
         adoc)
             printf "\n\n== SCENARIOS\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/scenarios.adoc
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/scenarios.adoc
             printf "\n\n"
             ;;
         ansi | text*)
             printf "  "
             PrintEffect bold "SCENARIOS" $TARGET
             printf "\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/scenarios.txt
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/scenarios.txt
             printf "\n"
             ;;
     esac
@@ -225,14 +225,14 @@ DescribeElementTasks() {
     case $TARGET in
         adoc)
             printf "\n\n== TASKS\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/tasks.adoc
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/tasks.adoc
             printf "\n\n"
             ;;
         ansi | text*)
             printf "  "
             PrintEffect bold "TASKS" $TARGET
             printf "\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/framework/tasks.txt
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/tasks.txt
             printf "\n"
             ;;
     esac

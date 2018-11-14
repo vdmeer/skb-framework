@@ -231,10 +231,10 @@ ValidateManualSource() {
         done
     fi
 
-    if [[ ! -d ${CONFIG_MAP["MANUAL_SRC"]}/framework ]]; then
-        ConsoleError " ->" "did not find tag directory"
+    if [[ ! -d ${CONFIG_MAP["MANUAL_SRC"]}/elements ]]; then
+        ConsoleError " ->" "did not find elements directory"
     else
-        EXPECTED="framework/commands framework/dependencies framework/exit-options framework/exit-status framework/options framework/parameters framework/run-options framework/tasks framework/scenarios"
+        EXPECTED="elements/commands elements/dependencies elements/exit-options elements/exit-status elements/options elements/parameters elements/run-options elements/tasks elements/scenarios"
         for FILE in $EXPECTED; do
             if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.adoc ]]; then
                 ConsoleWarnStrict "  ->" "vi: missing manual file $FILE.adoc"
@@ -248,7 +248,7 @@ ValidateManualSource() {
             fi
         done
 
-        for FILE in ${CONFIG_MAP["MANUAL_SRC"]}/framework/**; do
+        for FILE in ${CONFIG_MAP["MANUAL_SRC"]}/elements/**; do
             if [[ -d "$FILE" ]]; then
                 continue
             fi
@@ -264,13 +264,13 @@ ValidateManualSource() {
                 fi
             done
             if [[ $found == false ]]; then
-                ConsoleWarnStrict "  ->" "vi: found extra file framework/${FILE##*/}"
+                ConsoleWarnStrict "  ->" "vi: found extra file elements/${FILE##*/}"
             fi
         done
     fi
 
     if [[ ! -d ${CONFIG_MAP["MANUAL_SRC"]}/application ]]; then
-        ConsoleError " ->" "did not find tag directory"
+        ConsoleError " ->" "did not find application directory"
     else
         EXPECTED="application/description application/authors application/bugs application/copying application/resources application/security"
         for FILE in $EXPECTED; do

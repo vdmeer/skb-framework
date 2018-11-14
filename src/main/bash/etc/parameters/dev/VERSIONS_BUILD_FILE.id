@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+##
+## Identity for parameter VERSIONS_BUILD_FILE
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.1
+##
+
+DESCRIPTION="ANT build file for setting file versions"
+DEFAULT_VALUE=${CONFIG_MAP["APP_HOME"]}/etc/ant/build.xml
+
+IS_FILE=yes

@@ -133,19 +133,21 @@ while true; do
                 BuildTaskHelpLine b build       "<none>"    "builds a manual (manpage), requires a target"      $PRINT_PADDING
                 BuildTaskHelpLine c clean       "<none>"    "removes all target artifacts"                      $PRINT_PADDING
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
-                BuildTaskHelpLine l loaded      "<none>"    "list only loaded tasks and scenarios"              $PRINT_PADDING
                 BuildTaskHelpLine p primary     "<none>"    "set all primary targets"                           $PRINT_PADDING
-                BuildTaskHelpLine r requested   "<none>"    "list only requested dependencies and parameters"   $PRINT_PADDING
                 BuildTaskHelpLine s secondary   "<none>"    "set all secondary targets"                         $PRINT_PADDING
                 BuildTaskHelpLine t test        "<none>"    "test a manual (show results), requires a target"   $PRINT_PADDING
 
                 printf "\n   targets\n"
-                BuildTaskHelpLine "<none>" adoc  "<none>" "secondary target: text versions: ansi, text"         $PRINT_PADDING
+                BuildTaskHelpLine "<none>" adoc  "<none>" "primary target: aggregated ADOC file"                $PRINT_PADDING
                 BuildTaskHelpLine "<none>" html  "<none>" "secondary target: HTML file"                         $PRINT_PADDING
                 BuildTaskHelpLine "<none>" manp  "<none>" "secondary target: man page file"                     $PRINT_PADDING
                 BuildTaskHelpLine "<none>" pdf   "<none>" "secondary target: PDF file)"                         $PRINT_PADDING
                 BuildTaskHelpLine "<none>" text  "<none>" "secondary target: text versions: ansi, text"         $PRINT_PADDING
                 BuildTaskHelpLine "<none>" src   "<none>" "primary target: text source files from ADOC"         $PRINT_PADDING
+
+                printf "\n   element list filters\n"
+                BuildTaskHelpLine l loaded      "<none>"    "list only loaded tasks and scenarios"              $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "list only requested dependencies and parameters"   $PRINT_PADDING
 
                 printf "\n   application filters\n"
                 BuildTaskHelpLine "<none>" no-authors       "<none>" "do not include authors"                   $PRINT_PADDING_FILTERS
@@ -315,13 +317,10 @@ done
 
 
 if [[ $DO_PRIMARY == true ]]; then
-    TARGET="src"
+    TARGET="src adoc"
 fi
 if [[ $DO_SECONDARY == true ]]; then
-    TARGET="adoc text manp html pdf"
-fi
-if [[ $DO_ALL == true ]]; then
-    TARGET="src adoc text manp html pdf"
+    TARGET="text manp html pdf"
 fi
 if [[ $DO_ALL == true ]]; then
     TARGET="src adoc text manp html pdf"
