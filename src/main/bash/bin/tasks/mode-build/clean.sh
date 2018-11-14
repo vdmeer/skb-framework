@@ -119,6 +119,7 @@ done
 ############################################################################################
 ERRNO=0
 ConsoleInfo "  -->" "cl: starting task"
+
 for ID in "${!RTMAP_TASK_LOADED[@]}"; do
     case $ID in
         build-* | compile-*)
@@ -131,6 +132,7 @@ for ID in "${!RTMAP_TASK_LOADED[@]}"; do
             ;;
     esac
 done
+
 if [[ -z ${CONFIG_MAP["TARGET"]:-} ]]; then
     ConsoleDebug "cl: target directory not set"
 else
@@ -146,5 +148,6 @@ else
         fi
     fi
 fi
+
 ConsoleInfo "  -->" "cl: done"
 exit $ERRNO
