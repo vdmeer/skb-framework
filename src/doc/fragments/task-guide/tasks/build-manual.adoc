@@ -72,6 +72,7 @@ In _debug_ level, the task provides detailed information about the progress.
 Build all targets, including the ADOC to text transformation, can take a few minutes even on a powerful host.
 
 
+
 === Configuration
 
 The task can be configured with two parameters:
@@ -82,60 +83,11 @@ The task can be configured with two parameters:
     If used, it must be a directory, readable, and with the correct source files (to pass validation).
 
 
+
 === Manual Source
 
-The general text for the manual is located in the directory pointed to by the parameter _MANUAL_SRC_.
-This directory must have the following layout and contents:
+include::{skb-site-main-dir}/doc/fragments/layouts/man-source.adoc[]
 
-[source%nowrap]
-----
-MANUAL_SRC
-    ├─── application                <1>
-    │    ├─── authors.adoc          <2>
-    │    ├─── bugs.adoc             <3>
-    │    ├─── copying.adoc          <4>
-    │    ├─── description.adoc      <5>
-    │    ├─── resources.adoc        <6>
-    │    └─── security.adoc         <7>
-    ├─── elements                   <8>
-    │    ├─── commands.adoc         <9>
-    │    ├─── dependencies.adoc     <10>
-    │    ├─── exit-options.adoc     <11>
-    │    ├─── exit-status.adoc      <12>
-    │    ├─── options.adoc          <13>
-    │    ├─── parameters.adoc       <14>
-    │    ├─── run-options.adoc      <15>
-    │    ├─── scenarios.adoc        <16>
-    │    └─── tasks.adoc            <17>
-    └─── tags                       <18>
-         ├─── authors.txt           <19>
-         └─── name.txt              <20>
-----
-<1> Directory with general application text, the `.adoc` source must be present, the `.txt` files can be generated using the target _src_.
-    For multi-paragraph text, use a line with a single `+` or an empty line to separate paragraphs.
-    To add a list, add an empty line and then each list element in a single line starting with an asteriks `*`.
-    Finish the list with an empty line.
-    Nested lists are not supported.
-<2> List of authors.
-<3> Statements on bugs, known problems, etc.
-<4> Statements on copyright, licenses, etc.
-<5> A description of the application.
-<6> Links to resources, for instance a source repository or issue management or a web site.
-<7> Statements on security concerns when using the application.
-<8> Directory with text for the framework elements, the `.adoc` source must be present, the `.txt` files can be generated using the target _src_.
-    For the ADOC source, the same rules as for the _application_ directory apply.
-<9> Introduction to shell commands.
-<10> Introduction and text for dependencies.
-<11> Text for _exit_ command line options.
-<12> Text for exit status codes and error messages.
-<13> Introduction and text for command line options.
-<14> Introduction and text for parameters.
-<15> Text for _runtime_ command line options.
-<16> Introduction and text for scenarios.
-<17> Introduction and text for tasks.
-<18> Directory with tags, these files are used as plain text files.
-<19> A list of authors, used in the ADOC file header.
-<20> A tag line for the application, used in the _name_ and _synopsis_ sections.
 
 
 === General Options
@@ -159,6 +111,7 @@ When _build_ is used, other general options and filters can be used to direct th
 ----
 
 
+
 === Target Options
 
 Targets can also be selected individually.
@@ -175,6 +128,7 @@ Text sources (target _src_) are not created automatically, only on request.
 --text        secondary target: text versions: ansi, text
 --src         primary target: text source files from ADOC
 ----
+
 
 
 === Element List Filters
@@ -198,6 +152,7 @@ For selected element types, the element list filters can be used to direct what 
 ----
 
 
+
 === Application Filters
 
 These filters are negative filters to exclude general (application related) parts of the manual.
@@ -212,6 +167,7 @@ The default behavior is to include all general parts.
 --no-resources         do not include resources
 --no-security          do not include security
 ----
+
 
 
 === Element Filters
@@ -244,6 +200,7 @@ To no show any information about tasks, use _--no-tasks_.
 ----
 
 
+
 === Examples
 
 The following example will use the framework tool to convert _adoc_ sources into well-formatted plain text.
@@ -261,6 +218,7 @@ Only requested dependencies and parameters will be listed.
 ====
 build-manual --build --requested --adoc --text --manp --html --pdf
 ====
+
 
 
 === Task Requirements

@@ -40,6 +40,11 @@
             </item>
 
             <item href="task-guide.html" name="Task Guide" collapse="false">
+                <item href="task-guide/use-tasks.html" name="Use Tasks" collapse="true">
+                    <item href="task-guide/tasks/cloc-installation.html" name="cloc-installation" />
+                    <item href="task-guide/tasks/repeat-scenario.html" name="repeat-scenario" />
+                    <item href="task-guide/tasks/wait.html" name="wait" />
+                </item>
                 <item href="task-guide/build-tasks.html" name="Build Tasks" collapse="true">
                     <item href="task-guide/tasks/clean.html" name="clean" />
                     <item href="task-guide/tasks/build-manual.html" name="build-manual" />

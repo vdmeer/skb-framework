@@ -68,23 +68,27 @@ MvnSitePreScript() {
 
 MvnSitePostScript() {
     MvnSiteFixAdoc target/site/manual                       Manual
-    MvnSiteFixAdoc target/site/manual/commands              Commands
-    MvnSiteFixAdoc target/site/manual/dependencies          Dependencies
-    MvnSiteFixAdoc target/site/manual/options               Options
-    MvnSiteFixAdoc target/site/manual/parameters            Parameters
-    MvnSiteFixAdoc target/site/manual/scenarios             Scenarios
-    MvnSiteFixAdoc target/site/manual/tasks                 Tasks
-    MvnSiteFixAdoc target/site/manual/exit-status           "Exit Status"
+    MvnSiteFixAdoc target/site/manual/commands              "Manual: Commands"
+    MvnSiteFixAdoc target/site/manual/dependencies          "Manual: Dependencies"
+    MvnSiteFixAdoc target/site/manual/options               "Manual: Options"
+    MvnSiteFixAdoc target/site/manual/parameters            "Manual: Parameters"
+    MvnSiteFixAdoc target/site/manual/scenarios             "Manual: Scenarios"
+    MvnSiteFixAdoc target/site/manual/tasks                 "Manual: Tasks"
+    MvnSiteFixAdoc target/site/manual/exit-status           "Manual: Exit Status"
 
     MvnSiteFixAdoc target/site/user-guide                           "User Guide"
 
     MvnSiteFixAdoc target/site/task-guide                           "Task Guide"
-    MvnSiteFixAdoc target/site/task-guide/build-tasks               "Build Tasks"
-    MvnSiteFixAdoc target/site/task-guide/tasks/clean               "Task: Clean"
-    MvnSiteFixAdoc target/site/task-guide/tasks/build-manual        "Task: Build Manual"
-    MvnSiteFixAdoc target/site/task-guide/tasks/build-mvn-site      "Task: Build MVN Site"
-    MvnSiteFixAdoc target/site/task-guide/dev-tasks                 "Development Tasks"
-    MvnSiteFixAdoc target/site/task-guide/tasks/set-file-versions   "Task: Set File Versions"
+        MvnSiteFixAdoc target/site/task-guide/use-tasks                 "Use Tasks"
+            MvnSiteFixAdoc target/site/task-guide/tasks/cloc-installation   "Task: CLOC Installation"
+            MvnSiteFixAdoc target/site/task-guide/tasks/repeat-scenario     "Task: Repeat Scenario"
+            MvnSiteFixAdoc target/site/task-guide/tasks/wait                "Task: Wait"
+        MvnSiteFixAdoc target/site/task-guide/build-tasks               "Build Tasks"
+            MvnSiteFixAdoc target/site/task-guide/tasks/clean               "Task: Clean"
+            MvnSiteFixAdoc target/site/task-guide/tasks/build-manual        "Task: Build Manual"
+            MvnSiteFixAdoc target/site/task-guide/tasks/build-mvn-site      "Task: Build MVN Site"
+        MvnSiteFixAdoc target/site/task-guide/dev-tasks                 "Development Tasks"
+            MvnSiteFixAdoc target/site/task-guide/tasks/set-file-versions   "Task: Set File Versions"
 
     MvnSiteFixAdoc target/site/developer-guide                      "Developer Guide"
 

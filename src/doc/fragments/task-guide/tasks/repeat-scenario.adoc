@@ -1,0 +1,47 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== repeat-scenario
+
+This tasks repeats a scenario.
+It is available in all application modes.
+
+
+=== Options
+
+The option _scenario_ should be used to identify the scenario to repeat.
+The scenario must be loaded.
+For this option, the long or short name of the scenario can be used.
+
+The other options determine how often the scenario should be repeated (_times_) and how long the task should wait between repetisions (_wait_).
+Only positive integers are allowed for both options.
+The default value for both options is 1.
+So when only provided with a scenario, the task will run it once.
+
+[source%nowrap,bash,indent=0]
+----
+   -h | --help                print help screen and exit
+   -s | --scenario SCENARIO   the scenario to repeat
+   -t | --times INT           repeat INT times
+   -w | --wait SEC            wait SEC seconds between repeats
+----
+
+
+=== Examples
+
+The example below will repeat the scenario _S1_ four times, waiting for 2 seconds between repetitions.
+
+[example]
+====
+repeat-scenario --scenario S1 --times 4 --wait 2
+====

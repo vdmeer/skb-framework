@@ -1,0 +1,48 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== wait
+
+This tasks waits for a given amount of seconds.
+It can be used to _slow down_ task execution, for instance in a scenario.
+It is available in all application modes.
+
+=== Options
+
+The option _seconds_ takes a positive integer as argument for the number of seconds to wait.
+The default, without this option, is 1.
+
+The actual wait time depends on the underlying system.
+Since _wait_ is a task, a new _bash_ instance is created to execute it.
+This creation does take time, less on powerful UNIX hosts than for instance on Cygwin or a Raspberry PI.
+On native UNIX systems the creation time should not be significant.
+The actual wait time will be printed when the task finishes.
+
+Since _bash_ does not support floating point or double integer values, only positive integers can be used.
+
+[source%nowrap,bash,indent=0]
+----
+   -h | --help          print help screen and exit
+   -s | --seconds SEC   wait SEC seconds, default is 1
+----
+
+
+
+=== Examples
+
+The example below will wait for 3 seconds, plus the time it takes to execute the _wait_ task itself.
+
+[example]
+====
+wait --seconds 3
+====

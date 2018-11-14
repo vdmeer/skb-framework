@@ -27,6 +27,17 @@ Sven van_der_Meer <vdmeer.sven@mykolab.com>
 :icons: font
 
 
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/use-tasks.adoc[]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/cloc-installation.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/repeat-scenario.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/wait.adoc[leveloffset=+1]
+
+
+
 include::{skb-site-main-dir}/doc/fragments/task-guide/build-tasks.adoc[]
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/clean.adoc[leveloffset=+1]
@@ -34,6 +45,7 @@ include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/clean.adoc[leveloffs
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-manual.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-mvn-site.adoc[leveloffset=+1]
+
 
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/dev-tasks.adoc[]
