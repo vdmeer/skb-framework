@@ -27,10 +27,10 @@ Sven van_der_Meer <vdmeer.sven@mykolab.com>
 :icons: font
 
 
-== Some Heading
+include::{skb-site-main-dir}/doc/fragments/task-guide/build-tasks.adoc[]
 
-include::{skb-site-main-dir}/doc/fragments/task-guide/clean.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/clean.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/task-guide/build-manual.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-manual.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/task-guide/build-mvn-site.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-mvn-site.adoc[leveloffset=+1]

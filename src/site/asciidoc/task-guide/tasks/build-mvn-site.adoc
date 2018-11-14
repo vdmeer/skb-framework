@@ -1,0 +1,1 @@
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-mvn-site.adoc[]

@@ -1,4 +1,4 @@
-== Task: build-mvn-site
+== build-mvn-site
 
 
 === General Options

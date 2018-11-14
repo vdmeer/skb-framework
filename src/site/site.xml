@@ -26,10 +26,12 @@
             <item href="user-guide.html" name="User Guide" collapse="false">
             </item>
 
-            <item href="builder-guide.html" name="Builder Guide" collapse="false">
-                <item href="builder-guide/clean.html" name="Clean" />
-                <item href="builder-guide/build-manual.html" name="Build Manual" />
-                <item href="builder-guide/build-mvn-site.html" name="Build Maven Site" />
+            <item href="task-guide.html" name="Task Guide" collapse="false">
+                <item href="task-guide/build-tasks.html" name="Build Tasks">
+                    <item href="task-guide/tasks/clean.html" name="clean" />
+                    <item href="task-guide/tasks/build-manual.html" name="build-manual" />
+                    <item href="task-guide/tasks/build-mvn-site.html" name="build-mvn-site" />
+                </item>
             </item>
 
             <item href="developer-guide.html" name="Developer Guide" collapse="false">

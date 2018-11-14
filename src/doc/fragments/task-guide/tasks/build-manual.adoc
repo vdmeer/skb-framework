@@ -1,4 +1,4 @@
-== Task: build-manual
+== build-manual
 
 
 === General Options
