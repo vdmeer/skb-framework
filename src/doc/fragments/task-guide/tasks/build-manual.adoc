@@ -1,22 +1,159 @@
 == build-manual
 
+This tasks builds the application manual.
+It uses the metadata provided by the element definitions (e.g. for a task in the task's `.adoc` file) and the general text from the application manual folder in `etc/manual`.
+The actual manual text comes from the AsciiDoctor files with the extension `adoc`.
+Element lists (e.g. for tasks or parameters) also use the description from the elements definition (in the `id` file).
+
+Building the manual involves different steps, depending on the selected target:
+
+* ADOC: generate an aggregated ADOC file with all text and lists.
+* TEXT: convert the ADOC text into well-formatted paragraphs of plain or ANSI text, then build aggregated documents for text or ANSI formatted text.
+        The converted text is saved in the `txt` file along with the original `adoc` file, since it is also used for the online help.
+* MANP, PDF, HTML: use the aggregated ADOC file and the AsciiDoctor tool chain to generate a manpage, a single HTML file, or a PDF file.
+        These targets require AsciiDoctor (_manp_, _html_) and AsciiDoctor-PDF (_pdf_) installed.
+
+For all targets, the task will validate the installation to ensure that all required manual source files (_adoc_ and _txt_ files) are accessible.
+If the validation does not pass successfully, no manual artifact will be build.
+
+The general structure is the same for all targets, i.e. the task will create the same manual just for different output formats.
+The structure is similar to other manual pages:
+
+* _Name_ and _Synopsis_: name, tag line, general description on how to start the application
+* _Description_: a description of the application
+* _Options_: a description of command line (CLI) options, including a list of options
+           Options are further categorized as _exit options_ (application will process option and exit) and _runtime options_ (directing runtime behavior).
+* _Parameters_: a description and list of parameters that can be used to configure the application and its tasks.
+* _Tasks_: a description and list of tasks provided by the application
+* _Dependencies_: a description and list of dependencies (that tasks might require)
+* _Shell Commands_: a description and list of commands the interactive shell provides
+* _Exit Status_: a description and list of the different exit status codes and messages.
+* _Scenarios_: a description and list of scenarios provided by the application
+* _Security Concerns_: remarks on potential or actual security concerns when running the application
+* _Bugs_: notes on known bugs 
+* _Authors_: list of authors
+* _Resources_: list of resources
+* _Copying_: notes on copyright and other related aspects
+
+The task then provides negative filters to exclude parts of this general structure (with the exception of _name_ and _synopsis_).
+This allows to generate tailored manuals for any application need.
+
+The generated targets can also be tested, i.e. shown using external applications.
+All text formats (adoc, plain text, ANSI formatted text, annotated text) are shown using `less`.
+The manpage is shown using the command `man`.
+HTML and PDF files are shown with a web browser and a PDF reader, respectively. 
+Note: the parameters `BROWSER` and `PDF_READER` must be set to test these targets.
+
+Depending on the selected targets, the task generates the following output files:
+
+* `$APP_HOME/doc/manual/{app-name}.adoc` - aggregated ADOC file with all text for the manual
+* `$APP_HOME/doc/manual/{app-name}.text` - plain text file manual
+* `$APP_HOME/doc/manual/{app-name}.text-anon` - annotated plain text manual
+* `$APP_HOME/doc/manual/{app-name}.ansi` - ANSI formatted text manual
+* `$APP_HOME/doc/manual/{app-name}.html` - single file HTML manual
+* `$APP_HOME/doc/manual/{app-name}.pdf` - single file PDF manual
+* `$APP_HOME/man/man1/{app-name}.1` - the generated manpage
+
+In _warning_ and _info_ level, the task does not output any information (except errors).
+In _debug_ level, the task provides detailed information about the progress.
+Build all targets, including the ADOC to text transformation, can take a few minutes even on a powerful host.
+
+
+=== Configuration
+
+The task can be configured with two parameters:
+
+* _SKB_FW_TOOL_ - optional, to find the tool for ADOC to text conversion, if not set, the target _src_ cannot be build.
+        This also requires the dependency _jre_ to execute the tool.
+* _MANUAL_SRC_ - optional, to set the source directory for the application related parts of the manual.
+    If used, it must be a directory, readable, and with the correct source files (to pass validation).
+
+
+=== Manual Source
+
+The general text for the manual is located in the directory pointed to by the parameter _MANUAL_SRC_.
+This directory must have the following layout and contents:
+
+[source%nowrap]
+----
+MANUAL_SRC
+    ├─── application                <1>
+    │    ├─── authors.adoc          <2>
+    │    ├─── bugs.adoc             <3>
+    │    ├─── copying.adoc          <4>
+    │    ├─── description.adoc      <5>
+    │    ├─── resources.adoc        <6>
+    │    └─── security.adoc         <7>
+    ├─── elements                   <8>
+    │    ├─── commands.adoc         <9>
+    │    ├─── dependencies.adoc     <10>
+    │    ├─── exit-options.adoc     <11>
+    │    ├─── exit-status.adoc      <12>
+    │    ├─── options.adoc          <13>
+    │    ├─── parameters.adoc       <14>
+    │    ├─── run-options.adoc      <15>
+    │    ├─── scenarios.adoc        <16>
+    │    └─── tasks.adoc            <17>
+    └─── tags                       <18>
+         ├─── authors.txt           <19>
+         └─── name.txt              <20>
+----
+<1> Directory with general application text, the `.adoc` source must be present, the `.txt` files can be generated using the target _src_.
+    For multi-paragraph text, use a line with a single `+` or an empty line to separate paragraphs.
+    To add a list, add an empty line and then each list element in a single line starting with an asteriks `*`.
+    Finish the list with an empty line.
+    Nested lists are not supported.
+<2> List of authors.
+<3> Statements on bugs, known problems, etc.
+<4> Statements on copyright, licenses, etc.
+<5> A description of the application.
+<6> Links to resources, for instance a source repository or issue management or a web site.
+<7> Statements on security concerns when using the application.
+<8> Directory with text for the framework elements, the `.adoc` source must be present, the `.txt` files can be generated using the target _src_.
+    For the ADOC source, the same rules as for the _application_ directory apply.
+<9> Introduction to shell commands.
+<10> Introduction and text for dependencies.
+<11> Text for _exit_ command line options.
+<12> Text for exit status codes and error messages.
+<13> Introduction and text for command line options.
+<14> Introduction and text for parameters.
+<15> Text for _runtime_ command line options.
+<16> Introduction and text for scenarios.
+<17> Introduction and text for tasks.
+<18> Directory with tags, these files are used as plain text files.
+<19> A list of authors, used in the ADOC file header.
+<20> A tag line for the application, used in the _name_ and _synopsis_ sections.
+
 
 === General Options
 
+Following the SKB-Framework convention, the task has two main options: _clean_ to remove built manual artifacts and _build_ to build them.
+When _build_ is used, other general options and filters can be used to direct the build:
+
+* _all_ - build everything (_src_, primary targets, secondary targets)
+* _primary_ - build all primary targets, i.e. _src_ and _adoc_
+* _secondary_ - build all secondary targets, i.e. _text_ (plain, ANSI, annotated), _manp_, _html_, and _pdf_
+
+[source%nowrap,bash,indent=0,highlight=2,5,6]
 ----
 -A | --all         set all targets, overwrites other options
 -b | --build       builds a manual (manpage), requires a target
 -c | --clean       removes all target artifacts
 -h | --help        print help screen and exit
--l | --loaded      list only loaded tasks and scenarios
 -p | --primary     set all primary targets
--r | --requested   list only requested dependencies and parameters
 -s | --secondary   set all secondary targets
 -t | --test        test a manual (show results), requires a target
 ----
 
+
 === Target Options
 
+Targets can also be selected individually.
+The target options can be used in any sequence in the command line, the task will automatically generate all manual artifacts in the correct order.
+For the secondary targets that require _adoc_ to be build, the task will also automatically generate _adoc_ if the file does not exist.
+Text sources (target _src_) are not created automatically, only on request.
+
+[source%nowrap,bash,indent=0]
 ----
 --adoc        secondary target: text versions: ansi, text
 --html        secondary target: HTML file
@@ -26,8 +163,35 @@
 --src         primary target: text source files from ADOC
 ----
 
+
+=== Element List Filters
+
+Some parts of the manual list application elements.
+For selected element types, the element list filters can be used to direct what these lists contain:
+
+* _loaded_ - applies to task lists and scenario lists.
+        If not used, all tasks and all scenarios will be listed.
+        If this option is used, only the loaded tasks and scenarios are listed.
+        Loaded here means that the elements are defined for mode the application was started in _and_ have been successfully loaded.
+* _requested_ - applies to dependency lists and parameter lists.
+        If not used, all dependencies and all parameters will be listed.
+        If this option is used, only the requested dependencies and parameters are listed.
+        Requested here means any dependency or parameter requested by a loade task.
+
+[source%nowrap,bash,indent=0]
+----
+-l | --loaded      list only loaded tasks and scenarios
+-r | --requested   list only requested dependencies and parameters
+----
+
+
 === Application Filters
 
+These filters are negative filters to exclude general (application related) parts of the manual.
+The option name corresponds to the heading in the general manual structure described above.
+The default behavior is to include all general parts.
+
+[source%nowrap,bash,indent=0]
 ----
 --no-authors           do not include authors
 --no-bugs              do not include bugs
@@ -39,6 +203,16 @@
 
 === Element Filters
 
+These filters are negative filters to exclude element description or element lists.
+By default, all element descriptions and all element lists are included in the manual.
+To no show a list, use the _no-*-list_ options.
+To now show any description for an element type, use the _no-*_ options (without _-list_).
+
+To give an example: to show all information about tasks do not use any of these filters.
+To show the general text, but no task list, use _--no-task-list_.
+To no show any information about tasks, use _--no-tasks_.
+
+[source%nowrap,bash,indent=0]
 ----
 --no-commands          do not include commands
 --no-command-list      include command text, but no list
@@ -55,3 +229,57 @@
 --no-tasks             do not include tasks
 --no-task-list         include task text, but no list
 ----
+
+
+=== Examples
+
+The following example will use the framework tool to convert _adoc_ sources into well-formatted plain text.
+
+[example]
+====
+build-manual --build --src
+====
+
+The following examples builds the targets _adoc_, _text_, _manp_, _html_, and _pdf_.
+All tasks and scenarios will be listed.
+Only requested dependencies and parameters will be listed.
+
+[example]
+====
+build-manual --build --requested --adoc --text --manp --html --pdf
+====
+
+
+=== Task Requirements
+
+The task has the following requirements:
+
+* _SKB_FW_TOOL_ - optional, to find the tool for ADOC to text conversion, if not set, the target _src_ cannot be build.
+        This also requires the dependency _jre_ to execute the tool.
+* _MANUAL_SRC_ - optional, to set the source directory for the application related parts of the manual.
+    If used, it must be a directory, readable, and with the correct source files (to pass validation).
+* _asciidoctor_ - optional dependency required to generate _manp_ and _html_ targets.
+        If it does not exist, these targets cannot be generated.
+* _asciidoctor-pdf_ - optional dependency required to generate the _pdf_ target.
+        If it does not exist, this target cannot be generated.
+* _start-browser_ - optional task to start a web browser testing the generated _html_ target.
+        If not present,not successfully loaded, or has missing parameters, the target _html_ cannot be tested.
+* _start-pdf-reader_ - optional task to start a PDF reader testing the generated _pdf_ target
+        If not present,not successfully loaded, or has missing parameters, the target _pdf_ cannot be tested.
+
+The task will automatically test of the required directories exist.
+If not, they need to be created manually, since the task does not create any directories:
+
+* `$APP_HOME/man/man1` - for the _manp_ target
+* `$APP_HOME/doc/manual` - for all other targets 
+
+A few standard framework tasks are also required (all of them are mandatory and included in a standard framework installation):
+
+* _describe-option_ - this task is used to generate option lists.
+* _describe-parameter_ - this task is used to generate the parameter list.
+* _describe-task_ - this task is used to generate the task list it is a mandatory.
+* _describe-dependency_ - this task is used to generate the dependency list.
+* _describe-existatus_ - this task is used to generate the exit status list.
+* _describe-command_ - this task is used to generate the command list.
+* _describe-scenario_ - this task is used to generate the scenario list.
+* _validate-installation_ - this task is used to validate all input required for the manual, i.e. _adoc_ and _txt_ files

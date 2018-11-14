@@ -173,6 +173,13 @@ This task will repeat a given task.
 The repetition can be configured in terms of: `times` (how often to re-run the task) and `wait` (how long to wait between repetitions).
 
 
+*set-file-versions*, *sfv* - sets version information in source file comments:: 
+This task changes version information in source file headers.
+It runs Apache ANT using a simple build script, which in turn calls a macro that changes the version line.
+The default build and macro files change java files and all relevant framework files.
+These files can be used as template for writing other substitutions, if required.
+
+
 *setting*, *set* - change settings:: 
 This task allows to change selected runtime settings.
 Changeable settings include: shell and task level, strict mode, no prompt for the shell, and print mode.

@@ -1,5 +1,5 @@
 == Dependencies
 
-include::{skb-site-main-dir}/main/bash/etc/manual/framework/dependencies.adoc[]
+include::{skb-site-main-dir}/main/bash/etc/manual/elements/dependencies.adoc[]
 
 include::{skb-site-main-dir}/doc/fragments/element-lists/dependency-list.adoc[]

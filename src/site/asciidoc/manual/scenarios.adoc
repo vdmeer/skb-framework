@@ -1,5 +1,5 @@
 == Scenarios
 
-include::{skb-site-main-dir}/main/bash/etc/manual/framework/scenarios.adoc[]
+include::{skb-site-main-dir}/main/bash/etc/manual/elements/scenarios.adoc[]
 
 include::{skb-site-main-dir}/doc/fragments/element-lists/scenario-list.adoc[]

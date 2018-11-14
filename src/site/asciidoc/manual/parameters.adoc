@@ -1,5 +1,5 @@
 == Parameters
 
-include::{skb-site-main-dir}/main/bash/etc/manual/framework/parameters.adoc[]
+include::{skb-site-main-dir}/main/bash/etc/manual/elements/parameters.adoc[]
 
 include::{skb-site-main-dir}/doc/fragments/element-lists/parameter-list.adoc[]

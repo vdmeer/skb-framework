@@ -77,6 +77,20 @@ Some tasks, such as `clean` will remove the given directory and everything in it
 +
 default value: none defined
 
+*VERSIONS_BUILD_FILE* - ANT build file for setting file versions:: 
+This option points to a default ANT build file used by the task `set-file-versions`. 
+The default value points to the build file in the framework distribution.
+
++
+default value: `$FW_HOME/etc/ant/build.xml`
+
+*VERSIONS_MACRO_FILE* - file with ANT macro definitions to set file versions:: 
+This option points to a default ANT macro file used by the task `set-file-versions`. 
+The default value points to the macro file in the framework distribution.
+
++
+default value: `$FW_HOME/etc/ant/macro.xml`
+
 *XTERM* - command for xterm:: 
 Sets the command to start a new X terminal (Xterm) with substitution strings for title and command.
 The title substitution string is `%TITLE%`.

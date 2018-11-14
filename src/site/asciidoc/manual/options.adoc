@@ -1,15 +1,15 @@
 == Options
 
-include::{skb-site-main-dir}/main/bash/etc/manual/framework/options.adoc[]
+include::{skb-site-main-dir}/main/bash/etc/manual/elements/options.adoc[]
 
 === Runtime Options
 
-include::{skb-site-main-dir}/main/bash/etc/manual/framework/run-options.adoc[]
+include::{skb-site-main-dir}/main/bash/etc/manual/elements/run-options.adoc[]
 
 include::{skb-site-main-dir}/doc/fragments/element-lists/option-run-list.adoc[]
 
 === Exit Options
 
-include::{skb-site-main-dir}/main/bash/etc/manual/framework/exit-options.adoc[]
+include::{skb-site-main-dir}/main/bash/etc/manual/elements/exit-options.adoc[]
 
 include::{skb-site-main-dir}/doc/fragments/element-lists/option-exit-list.adoc[]
