@@ -25,7 +25,6 @@
 ## - builds all artifacts for distributions
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    v0.0.0
 ##
 
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -44,10 +43,12 @@ help(){
     printf "\n    mkdirs    - create required directories to run the framework"
     printf "\n    tool      - build SKB Framework Tool (gradle)"
     printf "\n    site      - build the Maven site (maven)"
+    printf "\n    versions  - set file versions in comments"
     printf "\n"
     printf "\n Requirements:"
     printf "\n - gradle          - to build the Java tool and the distributions"
     printf "\n - JDK8            - to build the tool"
+    printf "\n - Apache Ant      - to set file versions"
     printf "\n - Apache Maven    - to build the site"
     printf "\n - asciidoctor     - to build some targets for the manual"
     printf "\n - asciidoctor-pdf - to build the PDF manual"
@@ -103,6 +104,18 @@ clean(){
 
     printf "\n\n"
 }
+
+
+##
+## function: versions - uses ANT to set file versions in comments
+##
+versions(){
+    printf "%s\n\n" "set file versions"
+    rm tool/src/main/resources/tool-version.txt
+    cat src/main/bash/etc/version.txt > tool/src/main/resources/tool-version.txt
+    ant -f ant/build.xml -DmoduleVersion=${RELEASE_VERSION} -DmoduleDir=../
+}
+
 
 ##
 ## function: tool - builds the SKB Framework Tool (java)
@@ -173,6 +186,7 @@ while [[ $# -gt 0 ]]; do
             T_TOOL=true
             T_SITE=true
             T_MKDIRS=true
+            T_VERSIONS=true
             shift
             ;;
         clean)
@@ -195,6 +209,10 @@ while [[ $# -gt 0 ]]; do
             T_SITE=true
             shift
             ;;
+        versions)
+            T_VERSIONS=true
+            shift
+            ;;
         -h | --help)
             help
             exit 0
@@ -214,6 +232,11 @@ export SF_MVN_SITES=$PWD
 if [[ ${T_CLEAN:-} == true ]]; then
     clean
 fi
+
+if [[ ${T_VERSIONS:-} == true ]]; then
+    versions
+fi
+
 if [[ ${T_TOOL:-} == true ]]; then
     fw_tool
 fi
