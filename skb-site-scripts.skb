@@ -70,8 +70,19 @@ MvnSitePostScript() {
     MvnSiteFixAdoc target/site/manual/dependencies          Dependencies
     MvnSiteFixAdoc target/site/manual/options               Options
     MvnSiteFixAdoc target/site/manual/parameters            Parameters
+    MvnSiteFixAdoc target/site/manual/scenarios             Scenarios
     MvnSiteFixAdoc target/site/manual/tasks                 Tasks
     MvnSiteFixAdoc target/site/manual/exit-status           "Exit Status"
+
+    MvnSiteFixAdoc target/site/user-guide                           "User Guide"
+
+    MvnSiteFixAdoc target/site/task-guide                           "Task Guide"
+    MvnSiteFixAdoc target/site/task-guide/build-tasks               "Build Tasks"
+    MvnSiteFixAdoc target/site/task-guide/tasks/clean               "Task: Clean"
+    MvnSiteFixAdoc target/site/task-guide/tasks/build-manual        "Task: Build Manual"
+    MvnSiteFixAdoc target/site/task-guide/tasks/build-mvn-site      "Task: Build MVN Site"
+
+    MvnSiteFixAdoc target/site/developer-guide                      "Developer Guide"
 
 
     local SKB_SITE_MAIN_DIR=$PWD/src

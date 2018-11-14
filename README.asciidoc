@@ -1,5 +1,5 @@
 
-:release-version: 0.3.2
+:release-version: 0.0.1
 = SKB Framework
 v{release-version}
 :page-layout: base
@@ -28,7 +28,7 @@ The program has a few mandatory external dependencies, listed below.
 All of them are part of a standard Linux system with GNU tools.
 On some system, a manual installation can be required.
 For instance, Raspian does not install `bc` by default.
-Mac OS might rerquire special attention to install GNU tools, e.g. with `brew`.
+Mac OS might require special attention to install GNU tools, e.g. with `brew`.
 
 * `bash` version 4, since we are using associative arrays (hash maps) for internal configuration
 * GNU `getopt`, all CLI parsing is done using getopt from GNU

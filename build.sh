@@ -52,6 +52,7 @@ help(){
     printf "\n - Apache Maven    - to build the site"
     printf "\n - asciidoctor     - to build some targets for the manual"
     printf "\n - asciidoctor-pdf - to build the PDF manual"
+    printf "\n - coderay         - for syntax highlighting in ADOC files"
     printf "\n Requirements are not tested, build will simply fail"
     printf "\n\n"
 }
