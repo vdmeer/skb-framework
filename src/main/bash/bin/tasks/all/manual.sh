@@ -24,7 +24,7 @@
 ## manual - shows the manual in various versions
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    v0.0.0
+## @version    0.0.1
 ##
 
 

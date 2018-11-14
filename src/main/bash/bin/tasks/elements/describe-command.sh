@@ -24,7 +24,7 @@
 ## describe-command - describes a command or commands
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    v0.0.0
+## @version    0.0.1
 ##
 
 

@@ -34,9 +34,9 @@ import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 /**
  * Tool that takes text and creates formatted text.
  *
- * @author Sven van der Meer &lt;vdmeer.sven@mykolab.com&gt;
- * @version v0.0.1
- * @since v0.0.0
+ * @author     Sven van der Meer &lt;vdmeer.sven@mykolab.com&gt;
+ * @version    0.0.1
+ * @since      0.0.0
  */
 public class Tool {
 

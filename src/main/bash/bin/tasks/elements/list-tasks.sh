@@ -24,7 +24,7 @@
 ## list-tasks - list tasks
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    v0.0.0
+## @version    0.0.1
 ##
 
 

@@ -24,7 +24,7 @@
 ## start-browser - starts a browser with an optional URL
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    v0.0.0
+## @version    0.0.1
 ##
 
 

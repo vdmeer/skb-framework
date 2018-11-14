@@ -3,10 +3,10 @@
 ## Identity for parameter SKB_TOOL
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    v0.0.0
+## @version    0.0.1
 ##
 
 DESCRIPTION="SKB Tool"
-DEFAULT_VALUE=${CONFIG_MAP["FW_HOME"]}/bin/java/skb-framework-tool-0.0.1-all.jar
+DEFAULT_VALUE=${CONFIG_MAP["FW_HOME"]}/bin/java/skb-framework-tool-${CONFIG_MAP["VERSION"]}-all.jar
 
 IS_FILE=yes

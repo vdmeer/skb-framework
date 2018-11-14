@@ -3,7 +3,7 @@
 ## Identity for dependency cloc
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    v0.0.0
+## @version    0.0.1
 ##
 
 DESCRIPTION="ued to count Lines Of Code, static code analysis"

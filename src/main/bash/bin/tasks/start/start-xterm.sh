@@ -24,7 +24,7 @@
 ## start-xterm - starts a new XTerm
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    v0.0.0
+## @version    0.0.1
 ##
 
 
