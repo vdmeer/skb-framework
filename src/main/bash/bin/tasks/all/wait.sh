@@ -77,7 +77,7 @@ if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 fi
 eval set -- "$PARSED"
 
-PRINT_PADDING=19
+PRINT_PADDING=21
 while true; do
     case "$1" in
         -h | --help)

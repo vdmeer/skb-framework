@@ -133,23 +133,35 @@ if [[ -z $SCENARIO ]]; then
     exit 60
 fi
 
-FILE=${CONFIG_MAP["FW_HOME"]}/${APP_PATH_MAP["SCENARIOS"]}/$SCENARIO.scn
+SCN_ID=$(GetScenarioID $SCENARIO)
+if [[ -z ${SCN_ID:-} ]]; then
+    ConsoleError " ->" "rs: unknown scenario: $SCENARIO"
+    exit 60
+else
+    if [[ -z ${DMAP_SCN_ORIGIN[$SCN_ID]:-} ]]; then
+        ConsoleError " ->" "rs: unknown scenario: $SCENARIO"
+        exit 61
+    fi
+fi
+
+
+FILE=${DMAP_SCN_EXEC[$SCN_ID]}
 if [[ ! -f $FILE ]]; then
-    ConsoleError " ->" "rs: did not find scenario $SCENARIO"
-    return
+    ConsoleError " ->" "rs: did not find scenario file for scenario $SCN_ID: $FILE"
+    exit 62
 fi
 
 case $TIMES in
     '' | *[!0-9.]* | '.' | *.*.*)
         ConsoleError " ->" "rs: repeat times requires a number, got '$TIMES'"
-        exit 61
+        exit 63
         ;;
 esac
 
 case $WAIT in
     '' | *[!0-9.]* | '.' | *.*.*)
         ConsoleError " ->" "rs: wait requires a number, got '$WAIT'"
-        exit 62
+        exit 64
         ;;
 esac
 
@@ -161,13 +173,13 @@ COLUMNS=$((COLUMNS - 5))
 for (( _repeat=1; _repeat<=$TIMES; _repeat++ )); do
     printf "\n\n    ["
     PrintColor light-blue "run $_repeat of $TIMES"
-    printf ' %s %s' "--" $SCENARIO
+    printf ' %s %s' "--" $SCN_ID
     printf "]\n    "
     for ((x = 1; x < $COLUMNS; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
     printf "\n\n"
-    SARG=$SCENARIO
+    SARG=$SCN_ID
     ShellCmdExecuteScenario
     sleep $WAIT
     printf "\n"

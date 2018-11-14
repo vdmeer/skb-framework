@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## cloc-inst - counts lines of code of an installation
+## cloc-installation - counts lines of code of an installation
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.1
@@ -69,9 +69,9 @@ ConsoleResetWarnings
 CLI_OPTIONS=fhs
 CLI_LONG_OPTIONS=force,help,simulate
 
-! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name cloc-inst -- "$@")
+! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name cloc-installation -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "cloc-inst: unknown CLI options"
+    ConsoleError "  ->" "cloc-installation: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -80,7 +80,7 @@ PRINT_PADDING=19
 while true; do
     case "$1" in
         -h | --help)
-            CACHED_HELP=$(TaskGetCachedHelp "cloc-inst")
+            CACHED_HELP=$(TaskGetCachedHelp "cloc-installation")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
@@ -94,7 +94,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "cloc-inst: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "cloc-installation: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
