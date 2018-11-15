@@ -152,7 +152,7 @@ FWShell() {
         STIME=$(date +"%T")
         case "$SCMD" in
             help | h | "?")
-                cat ${CONFIG_MAP["FW_HOME"]}/etc/command-help.${CONFIG_MAP["PRINT_MODE"]}
+                cat ${CONFIG_MAP["FW_HOME"]}/etc/help/commands.${CONFIG_MAP["PRINT_MODE"]}
                 ;;
             !*)
                 SARG=${SCMD#*!}

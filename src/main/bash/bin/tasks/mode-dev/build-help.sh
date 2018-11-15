@@ -119,6 +119,7 @@ ConsoleResetErrors
 
 
 if [[ $DO_CLEAN == true ]]; then
+    ## we do not do a clean on the help files
     ConsoleInfo "  -->" "bdh: done"
     exit 0
 fi
@@ -129,16 +130,19 @@ ConsoleInfo "  -->" "build help for options and commands"
 if [[ ! -d "${CONFIG_MAP["FW_HOME"]}/etc" ]]; then
     ConsoleError " ->" "bdh: \$FW_HOME/etc does not exist"
 fi
+if [[ ! -d "${CONFIG_MAP["FW_HOME"]}/etc/help" ]]; then
+    mkdir -p ${CONFIG_MAP["FW_HOME"]}/etc/help
+fi
 
 ConsoleDebug "target: command help"
 if [[ ! -z "${RTMAP_TASK_LOADED["list-commands"]}" ]]; then
     for MODE in $PRINT_MODES; do
-        FILE=${CONFIG_MAP["FW_HOME"]}/etc/command-help.$MODE
+        FILE=${CONFIG_MAP["FW_HOME"]}/etc/help/commands.$MODE
         if [[ -f $FILE ]]; then
             rm $FILE
         fi
         set +e
-        ${DMAP_TASK_EXEC["list-commands"]} --print-mode $MODE > ${CONFIG_MAP["FW_HOME"]}/etc/command-help.$MODE
+        ${DMAP_TASK_EXEC["list-commands"]} --print-mode $MODE > ${CONFIG_MAP["FW_HOME"]}/etc/help/commands.$MODE
         set -e
     done
 else
@@ -148,14 +152,14 @@ fi
 ConsoleDebug "target: option help"
 if [[ ! -z "${RTMAP_TASK_LOADED["list-options"]}" ]]; then
     for MODE in $PRINT_MODES; do
-        FILE=${CONFIG_MAP["FW_HOME"]}/etc/option-help.$MODE
+        FILE=${CONFIG_MAP["FW_HOME"]}/etc/help/options.$MODE
         if [[ -f $FILE ]]; then
             rm $FILE
         fi
-        printf "\n%s - the %s\n\n" "${CONFIG_MAP["APP_SCRIPT"]}" "${CONFIG_MAP["APP_NAME"]}" > ${CONFIG_MAP["FW_HOME"]}/etc/option-help.$MODE
-        printf "  Usage:  %s [options]\n" "${CONFIG_MAP["APP_SCRIPT"]}" >> ${CONFIG_MAP["FW_HOME"]}/etc/option-help.$MODE
+        printf "\n%s - the %s\n\n" "${CONFIG_MAP["APP_SCRIPT"]}" "${CONFIG_MAP["APP_NAME"]}" > ${CONFIG_MAP["FW_HOME"]}/etc/help/options.$MODE
+        printf "  Usage:  %s [options]\n" "${CONFIG_MAP["APP_SCRIPT"]}" >> ${CONFIG_MAP["FW_HOME"]}/etc/help/options.$MODE
         set +e
-        ${DMAP_TASK_EXEC["list-options"]} --all --print-mode $MODE >> ${CONFIG_MAP["FW_HOME"]}/etc/option-help.$MODE
+        ${DMAP_TASK_EXEC["list-options"]} --all --print-mode $MODE >> ${CONFIG_MAP["FW_HOME"]}/etc/help/options.$MODE
         set -e
     done
 else

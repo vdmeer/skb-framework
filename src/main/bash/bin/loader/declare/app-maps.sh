@@ -37,9 +37,9 @@
 ## MAP for paths in FW_HOME
 ##
 declare -A FW_PATH_MAP                              # map/export for standard paths in FW_HOME
-    FW_PATH_MAP["OPTIONS"]="etc/framework/options"                      # path for application options
-    FW_PATH_MAP["EXITSTATUS"]="etc/framework/exitstatus"                # path for application exist status files
-    FW_PATH_MAP["COMMANDS"]="etc/framework/commands"                    # path for application shell command files
+    FW_PATH_MAP["OPTIONS"]="etc/declarations/options"                   # path for application options
+    FW_PATH_MAP["EXITSTATUS"]="etc/declarations/exitstatus"             # path for application exist status files
+    FW_PATH_MAP["COMMANDS"]="etc/declarations/commands"                 # path for application shell command files
 
 
 
@@ -47,8 +47,8 @@ declare -A FW_PATH_MAP                              # map/export for standard pa
 ## MAP for paths in APP_HOME
 ##
 declare -A APP_PATH_MAP                             # map/export for standard paths of an application
-    APP_PATH_MAP["PARAM_DECL"]="etc/parameters"                         # path for parameter declarations
-    APP_PATH_MAP["DEP_DECL"]="etc/dependencies"                         # path for dependency declarations
-    APP_PATH_MAP["TASK_DECL"]="etc/tasks"                               # path for task declarations
+    APP_PATH_MAP["PARAM_DECL"]="etc/declarations/parameters"            # path for parameter declarations
+    APP_PATH_MAP["DEP_DECL"]="etc/declarations/dependencies"            # path for dependency declarations
+    APP_PATH_MAP["TASK_DECL"]="etc/declarations/tasks"                  # path for task declarations
     APP_PATH_MAP["TASK_SCRIPT"]="bin/tasks"                             # path for task scripts
     APP_PATH_MAP["SCENARIOS"]="scenarios"                               # path for scenarios

@@ -33,4 +33,4 @@
 ##
 
 
-cat ${CONFIG_MAP["FW_HOME"]}/etc/option-help.${CONFIG_MAP["PRINT_MODE"]}
+cat ${CONFIG_MAP["FW_HOME"]}/etc/help/options.${CONFIG_MAP["PRINT_MODE"]}
