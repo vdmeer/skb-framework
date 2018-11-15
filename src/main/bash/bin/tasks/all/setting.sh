@@ -61,7 +61,6 @@ ConsoleResetWarnings
 ##
 ## set local variables
 ##
-PRINT_MODE=
 CHANGE_SET=false
 
 
@@ -69,8 +68,8 @@ CHANGE_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=hP:sS:T:
-CLI_LONG_OPTIONS=help,print-mode:
+CLI_OPTIONS=hp:sS:T:
+CLI_LONG_OPTIONS=help
 CLI_LONG_OPTIONS+=,pm:,shell-level:,snp,sq,strict,task-level:,tq
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name setting -- "$@")
@@ -88,11 +87,10 @@ while true; do
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"              $PRINT_PADDING
 
                 printf "\n   options for changing settings\n"
-                BuildTaskHelpLine "<none>"  pm              "MODE"      "change print mode to MODE"         $PRINT_PADDING
-                BuildTaskHelpLine S         shell-level     "LEVEL"     "change shell level to LEVEL"       $PRINT_PADDING
+                BuildTaskHelpLine p         pm              "MODE"      "print mode to: ansi, text, text-anon"          $PRINT_PADDING
+                BuildTaskHelpLine S         shell-level     "LEVEL"     "change shell level to LEVEL"                   $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  snp             "<none>"    "toggle shell prompt mode"          $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  sq              "<none>"    "toggle shell quiet mode"           $PRINT_PADDING
                 BuildTaskHelpLine s         strict          "<none>"    "toggle strict mode"                $PRINT_PADDING
@@ -103,13 +101,8 @@ while true; do
             fi
             exit 0
             ;;
-        -P | --print-mode)
-            PRINT_MODE="$2"
-            CLI_SET=true
-            shift 2
-            ;;
 
-        --pm)
+        -p | --pm)
             case "$2" in
                 ansi | text | text-anon)
                     CONFIG_MAP["PRINT_MODE"]=$2
@@ -124,7 +117,7 @@ while true; do
             ;;
         -S | --shell-level)
             case "$2" in
-                all | fatal | error | warn-strict | warn | info | debug | trace)
+                all | fatal | error | warn-strict | warn | info | debug | trace | off)
                     CONFIG_MAP["SHELL_LEVEL"]=$2
                     ConsoleMessage "  set shell level to ${CONFIG_MAP["SHELL_LEVEL"]}\n"
                     CHANGE_SET=true
@@ -167,7 +160,7 @@ while true; do
             ;;
         -T | --task-level)
             case "$2" in
-                all | fatal | error | warn-strict | warn | info | debug | trace)
+                all | fatal | error | warn-strict | warn | info | debug | trace | off)
                     CONFIG_MAP["TASK_LEVEL"]=$2
                     ConsoleMessage "  set task level to ${CONFIG_MAP["TASK_LEVEL"]}\n"
                     CHANGE_SET=true

@@ -60,7 +60,6 @@ ConsoleResetWarnings
 ##
 ## set local variables
 ##
-PRINT_MODE=
 FILTER=
 ALL=false
 CLI_SET=false
@@ -94,7 +93,6 @@ while true; do
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                            $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                          $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine A        all       "<none>"    "all manual versions"                              $PRINT_PADDING
                 BuildTaskHelpLine "<none>" adoc      "<none>"    "ADOC manual"                                      $PRINT_PADDING
@@ -108,11 +106,6 @@ while true; do
                 cat $CACHED_HELP
             fi
             exit 0
-            ;;
-        -P | --print-mode)
-            PRINT_MODE="$2"
-            CLI_SET=true
-            shift 2
             ;;
 
         --adoc)

@@ -136,6 +136,8 @@ ConsoleDebug "spv: system file: ${FILE}"
 
 SCRIPT=${CONFIG_MAP["PDF_VIEWER"]}
 SCRIPT=${SCRIPT//%FILE%/$FILE}
+ConsoleDebug "spv: running - $SCRIPT"
+
 $SCRIPT &
 ERRNO=$?
 
