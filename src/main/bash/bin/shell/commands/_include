@@ -33,6 +33,4 @@
 ##
 
 
-source $FW_HOME/bin/shell/commands/execute-scenario.sh
-source $FW_HOME/bin/shell/commands/execute-task.sh
 source $FW_HOME/bin/shell/commands/history.sh
