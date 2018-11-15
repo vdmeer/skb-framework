@@ -41,8 +41,19 @@
 
             <item href="task-guide.html" name="Task Guide" collapse="false">
                 <item href="task-guide/use-tasks.html" name="Use Tasks" collapse="true">
+                    <item href="task-guide/tasks/list-.html" name="list-*" />
+                    <item href="task-guide/tasks/describe-.html" name="describe-*" />
                     <item href="task-guide/tasks/cloc-installation.html" name="cloc-installation" />
+                    <item href="task-guide/tasks/execute-program.html" name="execute-program" />
+                    <item href="task-guide/tasks/manual.html" name="manual" />
                     <item href="task-guide/tasks/repeat-scenario.html" name="repeat-scenario" />
+                    <item href="task-guide/tasks/repeat-task.html" name="repeat-task" />
+                    <item href="task-guide/tasks/setting.html" name="setting" />
+                    <item href="task-guide/tasks/start-browser.html" name="start-browser" />
+                    <item href="task-guide/tasks/start-pdf-viewer.html" name="start-pdf-viewer" />
+                    <item href="task-guide/tasks/start-xterm.html" name="start-xterm" />
+                    <item href="task-guide/tasks/statistics.html" name="statistics" />
+                    <item href="task-guide/tasks/validate-installation.html" name="validate-installation" />
                     <item href="task-guide/tasks/wait.html" name="wait" />
                 </item>
                 <item href="task-guide/build-tasks.html" name="Build Tasks" collapse="true">
@@ -51,6 +62,8 @@
                     <item href="task-guide/tasks/build-mvn-site.html" name="build-mvn-site" />
                 </item>
                 <item href="task-guide/dev-tasks.html" name="Development Tasks" collapse="true">
+                    <item href="task-guide/tasks/build-cache.html" name="build-cache" />
+                    <item href="task-guide/tasks/build-help.html" name="build-help" />
                     <item href="task-guide/tasks/set-file-versions.html" name="set-file-versions" />
                 </item>
             </item>

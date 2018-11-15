@@ -1,0 +1,30 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== execute-program
+
+=== Options
+
+[source%nowrap,bash,indent=0]
+----
+   -b | --background  run program in background
+   -h | --help        print help screen and exit
+   -t | --title TITLE title for the XTerm, default: program name
+   -x | --xterm       start a new XTerm and execute program
+----
+
+
+
+=== Requirements
+
+TaskRequire $ID task start-xterm opt

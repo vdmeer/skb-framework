@@ -30,9 +30,31 @@ Sven van_der_Meer <vdmeer.sven@mykolab.com>
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/use-tasks.adoc[]
 
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/list-.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/describe-.adoc[leveloffset=+1]
+
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/cloc-installation.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/execute-program.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/manual.adoc[leveloffset=+1]
+
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/repeat-scenario.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/repeat-task.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/setting.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/start-browser.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/start-pdf-viewer.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/start-xterm.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/statistics.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/validate-installation.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/wait.adoc[leveloffset=+1]
 
@@ -40,14 +62,19 @@ include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/wait.adoc[leveloffse
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/build-tasks.adoc[]
 
-include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/clean.adoc[leveloffset=+1]
-
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-manual.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-mvn-site.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/clean.adoc[leveloffset=+1]
 
 
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/dev-tasks.adoc[]
 
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-cache.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-help.adoc[leveloffset=+1]
+
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/set-file-versions.adoc[leveloffset=+1]
+

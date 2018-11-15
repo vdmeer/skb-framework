@@ -235,7 +235,7 @@ The task has the following requirements:
         If it does not exist, this target cannot be generated.
 * _start-browser_ - optional task to start a web browser testing the generated _html_ target.
         If not present,not successfully loaded, or has missing parameters, the target _html_ cannot be tested.
-* _start-pdf-reader_ - optional task to start a PDF reader testing the generated _pdf_ target
+* _start-pdf-viewer_ - optional task to start a PDF reader testing the generated _pdf_ target
         If not present,not successfully loaded, or has missing parameters, the target _pdf_ cannot be tested.
 
 The task will automatically test of the required directories exist.

@@ -1,0 +1,100 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== validate-installation
+This task validates an installation.
+For each target, it will test the following conditions:
+
+* All required or configured directories are available and readable
+* All required files are available and readable
+* All declarations have documentation files
+* For directories with known content, e.g. task binaries, no extra files to exist
+
+The task will issue errors for serious problems.
+It will issue strict warnings for problems that should not have an impact on the application at runtime (for example extra files in a directory).
+It can also issue warnings for less significant problems.
+
+When the option _strict_ is used, all strict warnings become errors.
+The _strict_ mode is useful to validate an installation before packaging an application.
+
+[source%nowrap,bash,indent=0]
+----
+   -h | --help        print help screen and exit
+   -s | --strict      run in strict mode
+----
+
+
+=== Targets
+By default, the task will validate all targets.
+If one or more targets are requested, only those targets will be validated.
+
+
+[source%nowrap,bash,indent=0]
+----
+   targets
+   -A | --all         set all targets
+        --msrc        target: manual source
+        --cmd         target: commands
+        --dep         target: dependencies
+        --es          target: exit-status
+        --opt         target: options
+        --param       target: parameters
+        --scn         target: scenarios
+        --task        target: tasks
+----
+
+The following conditions are validated:
+
+* _msrc_ - Manual Source
+    ** Test directory `application/` with files for all application aspects for the manual in ADOC and text version
+    ** Test directory `elements/` with files for all element types for the manual in ADOC and text version
+    ** Test directory `tags/` exists with files `name.txt` and `authors.txt`
+* _cmd_ - Commands
+    ** Test that the command declaration directory exists
+    ** For each declared command, test the ADOC and text documentation files exist
+    ** Test that no extra files are in the command declaration directory
+    ** Note: commands are only declared in the framework, not in an application
+* _dep_ - Dependencies
+    ** Test that the dependency declaration directory exists
+    ** For each declared dependency, test the ADOC and text documentation files exist
+    ** Test that no extra files are in the dependency declaration directory
+    ** Note: dependency declaration directories are tested in the framework and an application
+* _es_ - Exit Status
+    ** Test that the exit-status declaration directory exists
+    ** For each declared exit-status, test the ADOC and text documentation files exist
+    ** Test that no extra files are in the exit-status declaration directory
+    ** Note: exit-status are only declared in the framework, not in an application
+* _opt_ - Options
+    ** Test that the option declaration directory exists
+    ** For each declared option, test the ADOC and text documentation files exist
+    ** Test that no extra files are in the option declaration directory
+    ** Note: options are only declared in the framework, not in an application
+* _param_ - Parameters
+    ** Test that the parameter declaration directory exists
+    ** For each declared parameter, test the ADOC and text documentation files exist
+    ** Test that no extra files are in the parameter declaration directory
+    ** Note: parameter declaration directories are tested in the framework and an application
+* _scn_ - Scenarios
+    ** Test that the scenario declaration directory exists
+    ** For each declared scenario, test the ADOC and text documentation files exist
+    ** For each declared scenario, test that the scenario script file exists
+    ** Test that no extra files are in the scenario declaration directory
+    ** Note: scenario declaration directories are tested in the framework, an application, and for each directory in _SCENARIO_PATH_
+* _task_ - Tasks
+    ** Test that the task declaration directory exists
+    ** For each declared task, test the ADOC and text documentation files exist
+    ** Test that no extra files are in the task declaration directory
+    ** For each declared task, test that the task script file exists
+    ** Test that no extra files are in the task script directory
+    ** Note: task declaration directories are tested in the framework and an application
+

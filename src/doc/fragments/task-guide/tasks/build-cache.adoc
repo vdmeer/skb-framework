@@ -1,0 +1,65 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== build-cache
+
+=== Options
+
+[source%nowrap,bash,indent=0]
+----
+   -b | --build       builds cache, requires a target
+   -c | --clean       removes all cached maps and screens
+   -h | --help        print help screen and exit
+----
+
+
+=== Target Options
+
+[source%nowrap,bash,indent=0]
+----
+   target options
+   -A | --all         set all targets, except tasks
+   -d | --decl        set all declaration targets
+   -f | --full        set all targets, including tasks
+   -t | --tab         set all table targets
+----
+
+
+
+
+=== Targets
+
+[source%nowrap,bash,indent=0]
+----
+   targets
+        --cmd-decl    target: command declarations
+        --cmd-tab     target: command table
+        --es-decl     target: exit-status declarations
+        --es-tab      target: exit-status table
+        --opt-decl    target: option declarations
+        --opt-tab     target: option table
+        --dep-decl    target: dependency decclarations
+        --dep-tab     target: dependency table
+        --param-tab   target: parameter table
+        --task-decl   target: task declarations
+        --task-tab    target: task table
+        --tasks       target: help screens for all(!) tasks
+----
+
+
+
+=== Requirements
+
+TaskRequire $ID param CACHE_DIR
+
+

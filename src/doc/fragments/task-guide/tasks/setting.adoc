@@ -11,28 +11,28 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-== set-file-versions
+== setting
 
-This task changes version information in source file headers.
-It runs Apache ANT using a simple build script, which in turn calls a macro that changes the version line.
-The default build and macro files change java files and all relevant framework files.
-These files can be used as template for writing other substitutions, if required.
+=== Options
 
 [source%nowrap,bash,indent=0]
 ----
-   -b | --build-file FILE   ANT build file
-   -d | --directory DIR     start directory with source files
+   options
    -h | --help              print help screen and exit
-   -m | --macro-file FILE   ANT macro file
-   -v | --version VERSION   new version string
+   -P | --print-mode MODE   print mode: ansi, text, adoc
 ----
 
+=== Options for changing Settings
 
+[source%nowrap,bash,indent=0]
+----
+   options for changing settings
+        --pm MODE           change print mode to MODE
+   -S | --shell-level LEVEL change shell level to LEVEL
+        --snp               toggle shell prompt mode
+        --sq                toggle shell quiet mode
+   -s | --strict            toggle strict mode
+   -T | --task-level LEVEL  change task level to LEVEL
+        --tq                toggle task quiet mode
+----
 
-
-=== Requirements
-
-TaskRequire $ID dep ant
-
-TaskRequire $ID param VERSIONS_BUILD_FILE opt
-TaskRequire $ID param VERSIONS_MACRO_FILE opt
