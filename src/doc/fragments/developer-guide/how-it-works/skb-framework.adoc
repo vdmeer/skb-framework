@@ -1,0 +1,45 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== skb-framework
+
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/skb-framework[tags=self-flavor]
+----
+
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/skb-framework[tags=find-readlink]
+----
+
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/skb-framework[tags=find-dirname]
+----
+
+
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/skb-framework[tags=find-finished]
+----
+
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/skb-framework[tags=start-loader]
+----

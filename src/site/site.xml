@@ -56,6 +56,11 @@
             </item>
 
             <item href="developer-guide.html" name="Developer Guide" collapse="false">
+                <item href="developer-guide/how-it-works.html" name="How it works" collapse="true">
+                    <item href="developer-guide/how-it-works/skb-framework.html" name="skb-framework" />
+                    <item href="developer-guide/how-it-works/loader.html" name="loader" />
+                    <item href="developer-guide/how-it-works/shell.html" name="shell" />
+                </item>
             </item>
         </menu>
 

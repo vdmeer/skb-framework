@@ -99,7 +99,7 @@ When _build_ is used, other general options and filters can be used to direct th
 * _primary_ - build all primary targets, i.e. _src_ and _adoc_
 * _secondary_ - build all secondary targets, i.e. _text_ (plain, ANSI, annotated), _manp_, _html_, and _pdf_
 
-[source%nowrap,bash,indent=0,highlight=2,5,6]
+[source%nowrap,bash,indent=0]
 ----
 -A | --all         set all targets, overwrites other options
 -b | --build       builds a manual (manpage), requires a target

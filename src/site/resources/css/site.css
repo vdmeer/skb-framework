@@ -357,3 +357,6 @@ table.grid-rows th.tableblock,table.grid-rows td.tableblock{border:1px solid #dd
 table.grid-all tbody>tr:last-child>th.tableblock,table.grid-all tbody>tr:last-child>td.tableblock,table.grid-all thead:last-child>tr>th.tableblock,table.grid-rows tbody>tr:last-child>th.tableblock,table.grid-rows tbody>tr:last-child>td.tableblock,table.grid-rows thead:last-child>tr>th.tableblock{border-bottom-width:1px}
 
 table.grid-rows tfoot>tr>th.tableblock,table.grid-rows tfoot>tr>td.tableblock{border:1px solid #ddd; border-width:1px 0 0 0}
+
+td.line-numbers pre{border:0}
+td.code pre{border:0}

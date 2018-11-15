@@ -11,18 +11,4 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-= Developer Guide
-Sven van_der_Meer <vdmeer.sven@mykolab.com>
-
-:version-label!:
-:description: A short guide to the develop your own applications
-:keywords: SKB Framework, documentation, develop
-:experimental:
-
-{release-notes}, {release-date}
-
-:pygments-linenums-mode: table
-:toc:
-:toclevels: 4
-:icons: font
-
+include::{skb-site-main-dir}/doc/fragments/developer-guide/how-it-works.adoc[]
