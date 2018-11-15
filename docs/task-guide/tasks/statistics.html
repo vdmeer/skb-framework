@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20181115" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>SKB-FRAMEWORK &#x2013; Task: Repeat Scenario</title>
+    <title>SKB-FRAMEWORK &#x2013; Task: Statistics</title>
     <link rel="stylesheet" href="../../css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="../../css/site.css" />
     <link rel="stylesheet" href="../../css/print.css" media="print" />
@@ -52,7 +52,7 @@
         framework</a>
                     <span class="divider">/</span>
       </li>
-        <li class="active ">Task: Repeat Scenario</li>
+        <li class="active ">Task: Statistics</li>
         
               
                   <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published: 2018-11-15</li>
@@ -192,10 +192,12 @@
         manual</a>
             </li>
                     
-      <li class="active">
+      <li>
   
-            <a href="#"><span class="none"></span>repeat-scenario</a>
-          </li>
+                          <a href="../../task-guide/tasks/repeat-scenario.html" title="repeat-scenario">
+          <span class="none"></span>
+        repeat-scenario</a>
+            </li>
                     
       <li>
   
@@ -232,12 +234,10 @@
         start-xterm</a>
             </li>
                     
-      <li>
+      <li class="active">
   
-                          <a href="../../task-guide/tasks/statistics.html" title="statistics">
-          <span class="none"></span>
-        statistics</a>
-            </li>
+            <a href="#"><span class="none"></span>statistics</a>
+          </li>
                     
       <li>
   
@@ -331,44 +331,110 @@
         <div id="bodyColumn"  class="span10" >
                                   
             <div class="sect1">
-<h2 id="repeat_scenario">repeat-scenario</h2>
+<h2 id="statistics">statistics</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This tasks repeats a scenario.
-It is available in all application modes.</p>
-</div>
-<div class="sect2">
-<h3 id="options">Options</h3>
-<div class="paragraph">
-<p>The option <em>scenario</em> should be used to identify the scenario to repeat.
-The scenario must be loaded.
-For this option, the long or short name of the scenario can be used.</p>
-</div>
-<div class="paragraph">
-<p>The other options determine how often the scenario should be repeated (<em>times</em>) and how long the task should wait between repetisions (<em>wait</em>).
-Only positive integers are allowed for both options.
-The default value for both options is 1.
-So when only provided with a scenario, the task will run it once.</p>
+<p>This task prints statistics about the all elements.
+The default, without using filters, is to print a few overview tables.
+The print mode can be changed using <em>print-mode</em>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help                print help screen and exit
--s | --scenario SCENARIO   the scenario to repeat
--t | --times INT           repeat INT times
--w | --wait SEC            wait SEC seconds between repeats</code></pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">options
+-h | --help              print help screen and exit
+-P | --print-mode MODE   print mode: ansi, text, adoc</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="filters">Filters</h3>
+<div class="paragraph">
+<p>Using filters will provide more detailed information.
+Any number of filters can be used in any sequence, the tasks will print the output always in the same order:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Overview table (default, or if filter is set)</p>
+</li>
+<li>
+<p>Commands (if filter is set)</p>
+</li>
+<li>
+<p>Dependencies (if filter is set)</p>
+</li>
+<li>
+<p>Exit status (if filter is set)</p>
+</li>
+<li>
+<p>Options (if filter is set)</p>
+</li>
+<li>
+<p>Parameters (if filter is set)</p>
+</li>
+<li>
+<p>Tasks (if filter is set)</p>
+</li>
+<li>
+<p>Scenarios (if filter is set)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-A | --all               activate all filters
+-c | --cmd               for commands
+-d | --dep               for dependencies
+-e | --es                for exit status
+-o | --opt               for options
+     --ov                overview
+-p | --param             for parameters
+-s | --scn               for scenarios
+-t | --task              for tasks</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="examples">Examples</h3>
 <div class="paragraph">
-<p>The example below will repeat the scenario <em>S1</em> four times, waiting for 2 seconds between repetitions.</p>
+<p>The following example requests statistics for the target overview <em>--ov</em> and tasks <em>--task</em>.</p>
 </div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>repeat-scenario --scenario S1 --times 4 --wait 2</p>
+<p>stats --ov --task</p>
 </div>
+</div>
+</div>
+<div class="paragraph">
+<p>The actual output depends of course on the declared and processed tasks.
+An earlier version of the framework shows the following statistics.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>  Statistics
+  ───────────────────────────────      ───────────────────────────────
+   Tasks declared:            35        Scenarios declared:         1
+   Tasks loaded:              30        Scenarios loaded:           0
+  ───────────────────────────────      ───────────────────────────────
+   Dependencies declared:     15        Parameters declared:       12
+   Dependencies requested:     4        Parameters requested:       8
+   Dependencies tested:        4        Parameters w/default val:   6
+  ───────────────────────────────      ───────────────────────────────
+   Configuration settings:    28        Exit Status:               37
+   Options:                   23        Commands:                  11
+  ───────────────────────────────      ───────────────────────────────
+
+
+  Tasks
+  ────────────────────────────────────────────────────────────────────
+   Declared:                  35        Not loaded:                 5
+   - origin: framework:       35        Unloaded:                   0
+   - origin: app:              0        Loaded:                    30
+   - mode: dev:               35        - errors:                   0
+   - mode: build:             32        - warnings:                 2
+   - mode: use:               30        - success:                 28
+  ────────────────────────────────────────────────────────────────────</code></pre>
 </div>
 </div>
 </div>

@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20181115" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>SKB-FRAMEWORK &#x2013; Task: Repeat Scenario</title>
+    <title>SKB-FRAMEWORK &#x2013; Task: Setting</title>
     <link rel="stylesheet" href="../../css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="../../css/site.css" />
     <link rel="stylesheet" href="../../css/print.css" media="print" />
@@ -52,7 +52,7 @@
         framework</a>
                     <span class="divider">/</span>
       </li>
-        <li class="active ">Task: Repeat Scenario</li>
+        <li class="active ">Task: Setting</li>
         
               
                   <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published: 2018-11-15</li>
@@ -192,10 +192,12 @@
         manual</a>
             </li>
                     
-      <li class="active">
+      <li>
   
-            <a href="#"><span class="none"></span>repeat-scenario</a>
-          </li>
+                          <a href="../../task-guide/tasks/repeat-scenario.html" title="repeat-scenario">
+          <span class="none"></span>
+        repeat-scenario</a>
+            </li>
                     
       <li>
   
@@ -204,12 +206,10 @@
         repeat-task</a>
             </li>
                     
-      <li>
+      <li class="active">
   
-                          <a href="../../task-guide/tasks/setting.html" title="setting">
-          <span class="none"></span>
-        setting</a>
-            </li>
+            <a href="#"><span class="none"></span>setting</a>
+          </li>
                     
       <li>
   
@@ -331,46 +331,103 @@
         <div id="bodyColumn"  class="span10" >
                                   
             <div class="sect1">
-<h2 id="repeat_scenario">repeat-scenario</h2>
+<h2 id="setting">setting</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This tasks repeats a scenario.
-It is available in all application modes.</p>
+<p>This task alters selected settings.
+Changeable settings are:</p>
 </div>
-<div class="sect2">
-<h3 id="options">Options</h3>
-<div class="paragraph">
-<p>The option <em>scenario</em> should be used to identify the scenario to repeat.
-The scenario must be loaded.
-For this option, the long or short name of the scenario can be used.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Print mode (<em>--pm</em>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em>ansi</em> for ANSI formatted text</p>
+</li>
+<li>
+<p><em>text</em> for plain text</p>
+</li>
+<li>
+<p><em>text-anon</em> for annotated text</p>
+</li>
+</ul>
 </div>
-<div class="paragraph">
-<p>The other options determine how often the scenario should be repeated (<em>times</em>) and how long the task should wait between repetisions (<em>wait</em>).
-Only positive integers are allowed for both options.
-The default value for both options is 1.
-So when only provided with a scenario, the task will run it once.</p>
+</li>
+<li>
+<p>Levels for the shell (<em>--shell-level</em>) or tasks (<em>--task-level</em>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em>all</em> - activates all levels (except <em>off</em>)</p>
+</li>
+<li>
+<p><em>fatal</em> - only fatal errors</p>
+</li>
+<li>
+<p><em>error</em> - fatal and standard errors</p>
+</li>
+<li>
+<p><em>warn-strict</em> - all errors and strict warnings</p>
+</li>
+<li>
+<p><em>warn</em> - all errors and warnings</p>
+</li>
+<li>
+<p><em>info</em> - errors, warnings, and information about the progress</p>
+</li>
+<li>
+<p><em>debug</em> - <em>info</em> plus detailed progress information</p>
+</li>
+<li>
+<p><em>trace</em> - <em>debug</em> plus further details</p>
+</li>
+<li>
+<p><em>off</em> - no level activated, messages and shell prompt will still be printed</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Shell prompt (<em>--snp</em>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>alters the printing of the shell prompt between <em>on</em> and <em>off</em></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Quiet mode for shell (<em>--sq</em>) and tasks (<em>--tq</em>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>alter the quiet mode between <em>on</em> and <em>off</em></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help                print help screen and exit
--s | --scenario SCENARIO   the scenario to repeat
--t | --times INT           repeat INT times
--w | --wait SEC            wait SEC seconds between repeats</code></pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">options
+-h | --help              print help screen and exit
+
+options for changing settings
+-p | --pm MODE           print mode to: ansi, text, text-anon
+-S | --shell-level LEVEL change shell level to LEVEL
+     --snp               toggle shell prompt mode
+     --sq                toggle shell quiet mode
+-s | --strict            toggle strict mode
+-T | --task-level LEVEL  change task level to LEVEL
+     --tq                toggle task quiet mode</code></pre>
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="examples">Examples</h3>
 <div class="paragraph">
-<p>The example below will repeat the scenario <em>S1</em> four times, waiting for 2 seconds between repetitions.</p>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>repeat-scenario --scenario S1 --times 4 --wait 2</p>
-</div>
-</div>
-</div>
+<p>Changes made by the task take immediate effect.</p>
 </div>
 </div>
 </div>

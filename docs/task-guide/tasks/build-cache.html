@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20181115" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>SKB-FRAMEWORK &#x2013; Task: Repeat Scenario</title>
+    <title>SKB-FRAMEWORK &#x2013; Task: Builde Cache</title>
     <link rel="stylesheet" href="../../css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="../../css/site.css" />
     <link rel="stylesheet" href="../../css/print.css" media="print" />
@@ -52,7 +52,7 @@
         framework</a>
                     <span class="divider">/</span>
       </li>
-        <li class="active ">Task: Repeat Scenario</li>
+        <li class="active ">Task: Builde Cache</li>
         
               
                   <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published: 2018-11-15</li>
@@ -149,111 +149,13 @@
           <span class="icon-chevron-down"></span>
         Task Guide</a>
                     <ul class="nav nav-list">
-                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                
       <li>
   
                           <a href="../../task-guide/use-tasks.html" title="Use Tasks">
-          <span class="icon-chevron-down"></span>
+          <span class="icon-chevron-right"></span>
         Use Tasks</a>
-                    <ul class="nav nav-list">
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/list-.html" title="list-*">
-          <span class="none"></span>
-        list-*</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/describe-.html" title="describe-*">
-          <span class="none"></span>
-        describe-*</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/cloc-installation.html" title="cloc-installation">
-          <span class="none"></span>
-        cloc-installation</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/execute-program.html" title="execute-program">
-          <span class="none"></span>
-        execute-program</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/manual.html" title="manual">
-          <span class="none"></span>
-        manual</a>
-            </li>
-                    
-      <li class="active">
-  
-            <a href="#"><span class="none"></span>repeat-scenario</a>
-          </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/repeat-task.html" title="repeat-task">
-          <span class="none"></span>
-        repeat-task</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/setting.html" title="setting">
-          <span class="none"></span>
-        setting</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/start-browser.html" title="start-browser">
-          <span class="none"></span>
-        start-browser</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/start-pdf-viewer.html" title="start-pdf-viewer">
-          <span class="none"></span>
-        start-pdf-viewer</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/start-xterm.html" title="start-xterm">
-          <span class="none"></span>
-        start-xterm</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/statistics.html" title="statistics">
-          <span class="none"></span>
-        statistics</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/validate-installation.html" title="validate-installation">
-          <span class="none"></span>
-        validate-installation</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/wait.html" title="wait">
-          <span class="none"></span>
-        wait</a>
-            </li>
-              </ul>
-        </li>
+                  </li>
                                                                                                           
       <li>
   
@@ -261,13 +163,34 @@
           <span class="icon-chevron-right"></span>
         Build Tasks</a>
                   </li>
-                                                                                                          
+                                                                                                                    
       <li>
   
                           <a href="../../task-guide/dev-tasks.html" title="Development Tasks">
-          <span class="icon-chevron-right"></span>
+          <span class="icon-chevron-down"></span>
         Development Tasks</a>
-                  </li>
+                    <ul class="nav nav-list">
+                    
+      <li class="active">
+  
+            <a href="#"><span class="none"></span>build-cache</a>
+          </li>
+                    
+      <li>
+  
+                          <a href="../../task-guide/tasks/build-help.html" title="build-help">
+          <span class="none"></span>
+        build-help</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="../../task-guide/tasks/set-file-versions.html" title="set-file-versions">
+          <span class="none"></span>
+        set-file-versions</a>
+            </li>
+              </ul>
+        </li>
               </ul>
         </li>
                 
@@ -331,45 +254,111 @@
         <div id="bodyColumn"  class="span10" >
                                   
             <div class="sect1">
-<h2 id="repeat_scenario">repeat-scenario</h2>
+<h2 id="build_cache">build-cache</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This tasks repeats a scenario.
-It is available in all application modes.</p>
-</div>
-<div class="sect2">
-<h3 id="options">Options</h3>
-<div class="paragraph">
-<p>The option <em>scenario</em> should be used to identify the scenario to repeat.
-The scenario must be loaded.
-For this option, the long or short name of the scenario can be used.</p>
+<p>This task creates cached information about the application (or framework).
+This cache is not required to run an application.
+All functionality can be loaded at startup without a cache.
+However, caches can speedup the application load as well as some runtime behavior namely the <code>list-*</code> tasks and the help on all tasks.</p>
 </div>
 <div class="paragraph">
-<p>The other options determine how often the scenario should be repeated (<em>times</em>) and how long the task should wait between repetisions (<em>wait</em>).
-Only positive integers are allowed for both options.
-The default value for both options is 1.
-So when only provided with a scenario, the task will run it once.</p>
+<p>On powerful hosts the cache will not provide any advantage.
+On less powerful hosts (for instance a Raspberry PI) or on systems with slower output (e.g. using ANSI formatted text n Cygwin), a cache can significantly improve performance.</p>
+</div>
+<div class="paragraph">
+<p>Without any arguments, the standard cache (for all declarations) is being build.
+<em>clean</em> will clean all cached information.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help                print help screen and exit
--s | --scenario SCENARIO   the scenario to repeat
--t | --times INT           repeat INT times
--w | --wait SEC            wait SEC seconds between repeats</code></pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-b | --build       builds cache, requires a target
+-c | --clean       removes all cached maps and screens
+-h | --help        print help screen and exit</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="general_target_options">General Target Options</h3>
+<div class="paragraph">
+<p>Target options can be used to set specific cache targets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>all</em> - for all targets, except individual tasks</p>
+</li>
+<li>
+<p><em>decl</em> - to cache element declarations.
+Except for parameters, all other elements will be cached: options, commands, dependencies, tasks, and scenarios.
+For scenarios, only the standard directories of application and framework are cached, additional scenario directories (from <em>SCENARIPO_PATH</em>) will not be cached.</p>
+</li>
+<li>
+<p><em>full</em> - cache everything, including individual tasks.
+This will cache declarations, tables, and the help screen of every loaded task.</p>
+</li>
+<li>
+<p><em>tab</em> - cache table representations of all elements.
+This cache is used by the <code>list-*</code> tasks at  runtime.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">target options
+-A | --all         set all targets, except tasks
+-d | --decl        set all declaration targets
+-f | --full        set all targets, including tasks
+-t | --tab         set all table targets</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="examples">Examples</h3>
+<h3 id="targets">Targets</h3>
 <div class="paragraph">
-<p>The example below will repeat the scenario <em>S1</em> four times, waiting for 2 seconds between repetitions.</p>
+<p>Beside the general targets, the task can also be run with very specific targets, shown below.
+Here, declaration and table caches can be requested for each element type.</p>
 </div>
-<div class="exampleblock">
+<div class="listingblock">
 <div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">targets
+     --cmd-decl    target: command declarations
+     --cmd-tab     target: command table
+     --es-decl     target: exit-status declarations
+     --es-tab      target: exit-status table
+     --opt-decl    target: option declarations
+     --opt-tab     target: option table
+     --dep-decl    target: dependency declarations
+     --dep-tab     target: dependency table
+     --param-tab   target: parameter table
+     --task-decl   target: task declarations
+     --task-tab    target: task table
+     --tasks       target: help screens for all(!) tasks</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="requirements">Requirements</h3>
 <div class="paragraph">
-<p>repeat-scenario --scenario S1 --times 4 --wait 2</p>
+<p>This task requires the parameter <em>CACHE_DIR</em> to be set.
+Since this parameter has the default value of <code>/var/cache/$APP_NAME</code> it is always set.</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="notes">Notes</h3>
+<div class="paragraph">
+<p>This task will change directories and files in the cache directory.
+Sufficient permissions must exist to run this task successfully.</p>
+</div>
+<div class="paragraph">
+<p>Care should be taken when using specific configurations for <em>CACHE_DIR</em>.
+Since there can be any number of SKB application installed on a single system, the cache directory should be different per application.
+Otherwise there can be unexpected behavior, especially for the declaration caches.</p>
+</div>
+<div class="paragraph">
+<p>When declarations of cached elements (for instance a task) are changed, the cache is not automatically changed.
+This means, the changes will have no effect on the application load.
+This can lead to unexpected behavior.
+If caches are used, they should be cleared and rebuild whenever declarations change.</p>
 </div>
 </div>
 </div>

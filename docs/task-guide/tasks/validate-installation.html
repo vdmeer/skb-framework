@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20181115" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>SKB-FRAMEWORK &#x2013; Task: Repeat Scenario</title>
+    <title>SKB-FRAMEWORK &#x2013; Task: Validate Installation</title>
     <link rel="stylesheet" href="../../css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="../../css/site.css" />
     <link rel="stylesheet" href="../../css/print.css" media="print" />
@@ -52,7 +52,7 @@
         framework</a>
                     <span class="divider">/</span>
       </li>
-        <li class="active ">Task: Repeat Scenario</li>
+        <li class="active ">Task: Validate Installation</li>
         
               
                   <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published: 2018-11-15</li>
@@ -192,10 +192,12 @@
         manual</a>
             </li>
                     
-      <li class="active">
+      <li>
   
-            <a href="#"><span class="none"></span>repeat-scenario</a>
-          </li>
+                          <a href="../../task-guide/tasks/repeat-scenario.html" title="repeat-scenario">
+          <span class="none"></span>
+        repeat-scenario</a>
+            </li>
                     
       <li>
   
@@ -239,12 +241,10 @@
         statistics</a>
             </li>
                     
-      <li>
+      <li class="active">
   
-                          <a href="../../task-guide/tasks/validate-installation.html" title="validate-installation">
-          <span class="none"></span>
-        validate-installation</a>
-            </li>
+            <a href="#"><span class="none"></span>validate-installation</a>
+          </li>
                     
       <li>
   
@@ -331,45 +331,227 @@
         <div id="bodyColumn"  class="span10" >
                                   
             <div class="sect1">
-<h2 id="repeat_scenario">repeat-scenario</h2>
+<h2 id="validate_installation">validate-installation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This tasks repeats a scenario.
-It is available in all application modes.</p>
+<p>This task validates an installation.
+For each target, it will test the following conditions:</p>
 </div>
-<div class="sect2">
-<h3 id="options">Options</h3>
-<div class="paragraph">
-<p>The option <em>scenario</em> should be used to identify the scenario to repeat.
-The scenario must be loaded.
-For this option, the long or short name of the scenario can be used.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>All required or configured directories are available and readable</p>
+</li>
+<li>
+<p>All required files are available and readable</p>
+</li>
+<li>
+<p>All declarations have documentation files</p>
+</li>
+<li>
+<p>For directories with known content, e.g. task binaries, no extra files to exist</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>The other options determine how often the scenario should be repeated (<em>times</em>) and how long the task should wait between repetisions (<em>wait</em>).
-Only positive integers are allowed for both options.
-The default value for both options is 1.
-So when only provided with a scenario, the task will run it once.</p>
+<p>The task will issue errors for serious problems.
+It will issue strict warnings for problems that should not have an impact on the application at runtime (for example extra files in a directory).
+It can also issue warnings for less significant problems.</p>
+</div>
+<div class="paragraph">
+<p>When the option <em>strict</em> is used, all strict warnings become errors.
+The <em>strict</em> mode is useful to validate an installation before packaging an application.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help                print help screen and exit
--s | --scenario SCENARIO   the scenario to repeat
--t | --times INT           repeat INT times
--w | --wait SEC            wait SEC seconds between repeats</code></pre>
-</div>
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help        print help screen and exit
+-s | --strict      run in strict mode</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="examples">Examples</h3>
+<h3 id="targets">Targets</h3>
 <div class="paragraph">
-<p>The example below will repeat the scenario <em>S1</em> four times, waiting for 2 seconds between repetitions.</p>
+<p>By default, the task will validate all targets.
+If one or more targets are requested, only those targets will be validated.</p>
 </div>
-<div class="exampleblock">
+<div class="listingblock">
 <div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">targets
+-A | --all         set all targets
+     --msrc        target: manual source
+     --cmd         target: commands
+     --dep         target: dependencies
+     --es          target: exit-status
+     --opt         target: options
+     --param       target: parameters
+     --scn         target: scenarios
+     --task        target: tasks</code></pre>
+</div>
+</div>
 <div class="paragraph">
-<p>repeat-scenario --scenario S1 --times 4 --wait 2</p>
+<p>The following conditions are validated:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>msrc</em> - Manual Source</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test directory <code>application/</code> with files for all application aspects for the manual in ADOC and text version</p>
+</li>
+<li>
+<p>Test directory <code>elements/</code> with files for all element types for the manual in ADOC and text version</p>
+</li>
+<li>
+<p>Test directory <code>tags/</code> exists with files <code>name.txt</code> and <code>authors.txt</code></p>
+</li>
+</ul>
 </div>
+</li>
+<li>
+<p><em>cmd</em> - Commands</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test that the command declaration directory exists</p>
+</li>
+<li>
+<p>For each declared command, test the ADOC and text documentation files exist</p>
+</li>
+<li>
+<p>Test that no extra files are in the command declaration directory</p>
+</li>
+<li>
+<p>Note: commands are only declared in the framework, not in an application</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>dep</em> - Dependencies</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test that the dependency declaration directory exists</p>
+</li>
+<li>
+<p>For each declared dependency, test the ADOC and text documentation files exist</p>
+</li>
+<li>
+<p>Test that no extra files are in the dependency declaration directory</p>
+</li>
+<li>
+<p>Note: dependency declaration directories are tested in the framework and an application</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>es</em> - Exit Status</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test that the exit-status declaration directory exists</p>
+</li>
+<li>
+<p>For each declared exit-status, test the ADOC and text documentation files exist</p>
+</li>
+<li>
+<p>Test that no extra files are in the exit-status declaration directory</p>
+</li>
+<li>
+<p>Note: exit-status are only declared in the framework, not in an application</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>opt</em> - Options</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test that the option declaration directory exists</p>
+</li>
+<li>
+<p>For each declared option, test the ADOC and text documentation files exist</p>
+</li>
+<li>
+<p>Test that no extra files are in the option declaration directory</p>
+</li>
+<li>
+<p>Note: options are only declared in the framework, not in an application</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>param</em> - Parameters</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test that the parameter declaration directory exists</p>
+</li>
+<li>
+<p>For each declared parameter, test the ADOC and text documentation files exist</p>
+</li>
+<li>
+<p>Test that no extra files are in the parameter declaration directory</p>
+</li>
+<li>
+<p>Note: parameter declaration directories are tested in the framework and an application</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>scn</em> - Scenarios</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test that the scenario declaration directory exists</p>
+</li>
+<li>
+<p>For each declared scenario, test the ADOC and text documentation files exist</p>
+</li>
+<li>
+<p>For each declared scenario, test that the scenario script file exists</p>
+</li>
+<li>
+<p>Test that no extra files are in the scenario declaration directory</p>
+</li>
+<li>
+<p>Note: scenario declaration directories are tested in the framework, an application, and for each directory in <em>SCENARIO_PATH</em></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>task</em> - Tasks</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test that the task declaration directory exists</p>
+</li>
+<li>
+<p>For each declared task, test the ADOC and text documentation files exist</p>
+</li>
+<li>
+<p>Test that no extra files are in the task declaration directory</p>
+</li>
+<li>
+<p>For each declared task, test that the task script file exists</p>
+</li>
+<li>
+<p>Test that no extra files are in the task script directory</p>
+</li>
+<li>
+<p>Note: task declaration directories are tested in the framework and an application</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>

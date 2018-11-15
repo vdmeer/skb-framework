@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20181115" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>SKB-FRAMEWORK &#x2013; Task: Repeat Scenario</title>
+    <title>SKB-FRAMEWORK &#x2013; Task: Execute Program</title>
     <link rel="stylesheet" href="../../css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="../../css/site.css" />
     <link rel="stylesheet" href="../../css/print.css" media="print" />
@@ -52,7 +52,7 @@
         framework</a>
                     <span class="divider">/</span>
       </li>
-        <li class="active ">Task: Repeat Scenario</li>
+        <li class="active ">Task: Execute Program</li>
         
               
                   <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published: 2018-11-15</li>
@@ -178,12 +178,10 @@
         cloc-installation</a>
             </li>
                     
-      <li>
+      <li class="active">
   
-                          <a href="../../task-guide/tasks/execute-program.html" title="execute-program">
-          <span class="none"></span>
-        execute-program</a>
-            </li>
+            <a href="#"><span class="none"></span>execute-program</a>
+          </li>
                     
       <li>
   
@@ -192,10 +190,12 @@
         manual</a>
             </li>
                     
-      <li class="active">
+      <li>
   
-            <a href="#"><span class="none"></span>repeat-scenario</a>
-          </li>
+                          <a href="../../task-guide/tasks/repeat-scenario.html" title="repeat-scenario">
+          <span class="none"></span>
+        repeat-scenario</a>
+            </li>
                     
       <li>
   
@@ -331,45 +331,84 @@
         <div id="bodyColumn"  class="span10" >
                                   
             <div class="sect1">
-<h2 id="repeat_scenario">repeat-scenario</h2>
+<h2 id="execute_program">execute-program</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This tasks repeats a scenario.
-It is available in all application modes.</p>
+<p>This task executes an external program.
+The program can be started in different ways:</p>
 </div>
-<div class="sect2">
-<h3 id="options">Options</h3>
-<div class="paragraph">
-<p>The option <em>scenario</em> should be used to identify the scenario to repeat.
-The scenario must be loaded.
-For this option, the long or short name of the scenario can be used.</p>
-</div>
-<div class="paragraph">
-<p>The other options determine how often the scenario should be repeated (<em>times</em>) and how long the task should wait between repetisions (<em>wait</em>).
-Only positive integers are allowed for both options.
-The default value for both options is 1.
-So when only provided with a scenario, the task will run it once.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Without any argument, the program is executed inside the task.
+This means that the task hands over execution to the program.
+Only when the program is finished will the task continue.</p>
+</li>
+<li>
+<p>Using <em>background</em> will start the program in the background, adding an ampersand <code>&amp;</code> to the program.
+This means that the task will continue immediately after the program is started.
+Since the task then terminates, there is no further job control on the program.
+Furthermore, all program output will appear along with the task and then the shell.</p>
+</li>
+<li>
+<p>Using <em>xterm</em> will start the a new XTerm and execute the program there as a command.
+This means that the task will continue immediately after the program is started.
+Since the task then terminates, there is no further job control on the XTerm.
+All output will of course happen in the new XTerm.</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help                print help screen and exit
--s | --scenario SCENARIO   the scenario to repeat
--t | --times INT           repeat INT times
--w | --wait SEC            wait SEC seconds between repeats</code></pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-b | --background  run program in background
+-h | --help        print help screen and exit
+-t | --title TITLE title for the XTerm, default: program name
+-x | --xterm       start a new XTerm and execute program</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>The actual program and its arguments should be provided after <code>--</code> in the command line.
+All characters here will be simply used to execute the program.</p>
 </div>
 <div class="sect2">
 <h3 id="examples">Examples</h3>
 <div class="paragraph">
-<p>The example below will repeat the scenario <em>S1</em> four times, waiting for 2 seconds between repetitions.</p>
+<p>The following example executes <code>ls</code> in the current directory (where the application was started from).</p>
 </div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>repeat-scenario --scenario S1 --times 4 --wait 2</p>
+<p>execute-program&#8201;&#8212;&#8201;ls</p>
 </div>
 </div>
+</div>
+<div class="paragraph">
+<p>The following example executes <code>ls</code> in the current directory (where the application was started from).
+It runs <code>ls</code> in the background, which causes an error since <code>ls</code> takes the added ampersand <code>&amp;</code> as an argument.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>execute-program --background&#8201;&#8212;&#8201;ls</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The following example starts the editor <code>vi</code> with the file <code>build.sh</code> in a new XTerm.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>execute-program --xterm&#8201;&#8212;&#8201;vi build.sh</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="requirements">Requirements</h3>
+<div class="paragraph">
+<p>To start a program in a new XTerm, the task <code>start-xterm</code> must be available.
+This task has its own configuration settings, e.g. to set the XTerm executable.</p>
 </div>
 </div>
 </div>

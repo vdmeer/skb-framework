@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20181115" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>SKB-FRAMEWORK &#x2013; Task: Repeat Scenario</title>
+    <title>SKB-FRAMEWORK &#x2013; Task: Start XTerm</title>
     <link rel="stylesheet" href="../../css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="../../css/site.css" />
     <link rel="stylesheet" href="../../css/print.css" media="print" />
@@ -52,7 +52,7 @@
         framework</a>
                     <span class="divider">/</span>
       </li>
-        <li class="active ">Task: Repeat Scenario</li>
+        <li class="active ">Task: Start XTerm</li>
         
               
                   <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published: 2018-11-15</li>
@@ -192,10 +192,12 @@
         manual</a>
             </li>
                     
-      <li class="active">
+      <li>
   
-            <a href="#"><span class="none"></span>repeat-scenario</a>
-          </li>
+                          <a href="../../task-guide/tasks/repeat-scenario.html" title="repeat-scenario">
+          <span class="none"></span>
+        repeat-scenario</a>
+            </li>
                     
       <li>
   
@@ -225,12 +227,10 @@
         start-pdf-viewer</a>
             </li>
                     
-      <li>
+      <li class="active">
   
-                          <a href="../../task-guide/tasks/start-xterm.html" title="start-xterm">
-          <span class="none"></span>
-        start-xterm</a>
-            </li>
+            <a href="#"><span class="none"></span>start-xterm</a>
+          </li>
                     
       <li>
   
@@ -331,45 +331,63 @@
         <div id="bodyColumn"  class="span10" >
                                   
             <div class="sect1">
-<h2 id="repeat_scenario">repeat-scenario</h2>
+<h2 id="start_xterm">start-xterm</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This tasks repeats a scenario.
-It is available in all application modes.</p>
-</div>
-<div class="sect2">
-<h3 id="options">Options</h3>
-<div class="paragraph">
-<p>The option <em>scenario</em> should be used to identify the scenario to repeat.
-The scenario must be loaded.
-For this option, the long or short name of the scenario can be used.</p>
-</div>
-<div class="paragraph">
-<p>The other options determine how often the scenario should be repeated (<em>times</em>) and how long the task should wait between repetisions (<em>wait</em>).
-Only positive integers are allowed for both options.
-The default value for both options is 1.
-So when only provided with a scenario, the task will run it once.</p>
+<p>This task starts an X terminal, or short XTerm (or xterm), with a set title and command to run in it.
+The title can be set with <em>title</em>.
+For blanks in the title use quotes, for instance <code>--title "My XTERM"</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help                print help screen and exit
--s | --scenario SCENARIO   the scenario to repeat
--t | --times INT           repeat INT times
--w | --wait SEC            wait SEC seconds between repeats</code></pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help           print help screen and exit
+-t | --title TITLE    title for the XTerm, default: command name</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>The command to run in the started XTerm should be provided to the task after <code>--</code>.
+The task assumes that the first word there is the command name (which then is used as the default title).
+All text after <code>--</code> will be taken as command.</p>
+</div>
+<div class="paragraph">
+<p>Note: this task does not take any effort to <em>hold</em> the XTerm, i.e. to keep it open after the command finished.
+Use the <em>hold</em> option of your preferred XTerm in <em>XTERM</em> to realize this feature.</p>
 </div>
 <div class="sect2">
 <h3 id="examples">Examples</h3>
 <div class="paragraph">
-<p>The example below will repeat the scenario <em>S1</em> four times, waiting for 2 seconds between repetitions.</p>
+<p>Start an XTerm, use the default title, and run <code>ls | more</code> as command.</p>
 </div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>repeat-scenario --scenario S1 --times 4 --wait 2</p>
+<p>start-xterm&#8201;&#8212;&#8201;ls | more</p>
 </div>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="requirements">Requirements</h3>
+<div class="paragraph">
+<p>The actual command for starting an XTerm must be provided in <em>XTERM</em>.
+If this parameter is not set, the task will print an error and exit.
+Examples for setting <em>XTERM</em> are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>standard executable: <code>xterm -T %TITLE% -e %COMMAND%</code></p>
+</li>
+<li>
+<p>MinTTY on Cygwin: <code>mintty -t %TITLE% %COMMAND%</code></p>
+</li>
+<li>
+<p>XFCE 4 Terminal: <code>xfce4-terminal --disable-server --title='%TITLE%' -x %COMMAND%</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>More information on the parameter <em>XTERM</em> can be found in the framework manual.</p>
 </div>
 </div>
 </div>

@@ -140,14 +140,14 @@
           <span class="none"></span>
         User Guide</a>
             </li>
-                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
       <li>
   
                           <a href="../task-guide.html" title="Task Guide">
           <span class="icon-chevron-down"></span>
         Task Guide</a>
                     <ul class="nav nav-list">
-                                                                                                          
+                                                                                                                                                                                                                                                                                                                
       <li>
   
                           <a href="../task-guide/use-tasks.html" title="Use Tasks">
@@ -161,7 +161,7 @@
           <span class="icon-chevron-right"></span>
         Build Tasks</a>
                   </li>
-                                                                      
+                                                                                                          
       <li>
   
                           <a href="../task-guide/dev-tasks.html" title="Development Tasks">
@@ -419,7 +419,9 @@ The repetition can be configured in terms of: <code>times</code> (how often to r
 <dt class="hdlist1"><strong>repeat-task</strong>, <strong>rt</strong> - repeats the execution of a task</dt>
 <dd>
 <p>This task will repeat a given task.
-The repetition can be configured in terms of: <code>times</code> (how often to re-run the task) and <code>wait</code> (how long to wait between repetitions).</p>
+The repetition can be configured in terms of: <code>times</code> (how often to re-run the task) and <code>wait</code> (how long to wait between repetitions).
+The task, including parameters, should be provided after <code>--</code> in the command line.
+For example, to repeat the task <code>t1</code> 5 times, use: <code>repeat-task --times 5&#8201;&#8212;&#8201;t1</code>.</p>
 </dd>
 <dt class="hdlist1"><strong>set-file-versions</strong>, <strong>sfv</strong> - sets version information in source file comments</dt>
 <dd>
@@ -438,10 +440,10 @@ Changeable settings include: shell and task level, strict mode, no prompt for th
 <p>Starts a web browser using the setting from the parameter <code>BROWSER</code>.
 The URL option of the task sets theURL to be loaded in the browser.</p>
 </dd>
-<dt class="hdlist1"><strong>start-pdf-reader</strong>, <strong>spr</strong> - start a PDF reader with a PDF document</dt>
+<dt class="hdlist1"><strong>start-pdf-viewer</strong>, <strong>spv</strong> - start a PDF viewer with a PDF document</dt>
 <dd>
-<p>Starts a PDF reader using the setting from the parameter <code>PDF_READER</code>.
-The file option of the task sets the PDF file to be loaded in the reader.</p>
+<p>Starts a PDF viewer using the setting from the parameter <code>PDF_VIEWER</code>.
+The file option of the task sets the PDF file to be loaded in the viewer.</p>
 </dd>
 <dt class="hdlist1"><strong>start-xterm</strong>, <strong>sx</strong> - starts a new Xterm</dt>
 <dd>

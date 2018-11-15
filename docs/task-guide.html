@@ -142,12 +142,12 @@
           <span class="none"></span>
         User Guide</a>
             </li>
-                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
       <li class="active">
   
             <a href="#"><span class="icon-chevron-down"></span>Task Guide</a>
                   <ul class="nav nav-list">
-                                                                                                          
+                                                                                                                                                                                                                                                                                                                
       <li>
   
                           <a href="task-guide/use-tasks.html" title="Use Tasks">
@@ -161,7 +161,7 @@
           <span class="icon-chevron-right"></span>
         Build Tasks</a>
                   </li>
-                                                                      
+                                                                                                          
       <li>
   
                           <a href="task-guide/dev-tasks.html" title="Development Tasks">
@@ -233,7 +233,39 @@
             <div class="sect1">
 <h2 id="task_guide">Task Guide</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>This guide provides details for all tasks of the framework.
+The tasks are described in three categories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use Tasks - these tasks are mainly directed at the application mode <em>use</em>.</p>
+</li>
+<li>
+<p>Build Tasks - these tasks are mainly directed at the application mode <em>builde</em>.
+They do build artifacts or compile source files to build artifacts.</p>
+</li>
+<li>
+<p>Development Tasks - these tasks are mainly directed at the application mode <em>dev</em>.
+They provide functionality required to develop and application or to build important runtime artifacts for an application.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A task in the framework is essentially a <em>bash</em> script that benefits from provided functions of the framework, such as loading and testing dependencies or parameters.
+By convention, each task should provide an argument <code>-h</code> or <code>--help</code>, which shows its arguments.
+For simple tasks, the description in this guide does no go beyond what this help and the online help (or manual) already provides.
+One of those tasks is <em>wait</em>.</p>
+</div>
+<div class="paragraph">
+<p>For more complex tasks, with either a lot of arguments or special configuration requirements, this guide provides all details required to use the task.
+One of those tasks is <code>build-mvn-site</code>, which not only has a rather complex process but also requires additional metadata for sites to exist.</p>
+</div>
+<div class="paragraph">
+<p>For details on how to develop and write a task please see the developer guide.
+This document focuses only on how to use tasks.</p>
+</div>
 </div>
 </div>
                   </div>

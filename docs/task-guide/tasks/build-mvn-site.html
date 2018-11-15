@@ -142,14 +142,14 @@
           <span class="none"></span>
         User Guide</a>
             </li>
-                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
       <li>
   
                           <a href="../../task-guide.html" title="Task Guide">
           <span class="icon-chevron-down"></span>
         Task Guide</a>
                     <ul class="nav nav-list">
-                                                                                                          
+                                                                                                                                                                                                                                                                                                                
       <li>
   
                           <a href="../../task-guide/use-tasks.html" title="Use Tasks">
@@ -184,7 +184,7 @@
           </li>
               </ul>
         </li>
-                                                                      
+                                                                                                          
       <li>
   
                           <a href="../../task-guide/dev-tasks.html" title="Development Tasks">
@@ -257,17 +257,40 @@
 <h2 id="build_mvn_site">build-mvn-site</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This task will build Maven sites.
-It uses Apache Maven for the build process.
-The sites need to be provided by he parameter <code>MVN_SITES</code>.
-Several options are available to control the build process.</p>
+<p>This task can be used to build Maven sites.
+Beside calling Apache Maven, it also provides functionality to run scripts before building and before staging a site.
+Those scripts can take full advantage of the framework and its API.
+This allows to build even very complex sites in an automated way, with features realized outside the Maven build process but fully integrated into the overall site building.</p>
 </div>
-<div class="sect2">
-<h3 id="configuration">Configuration</h3>
-
+<div class="paragraph">
+<p>The task is not specific to one site, but can build one or more sites, even within one execution.
+The parameter <em>MVN_SITES</em> is used to identify the sites that can be build.
+It should contain a set of paths to the site directories.
+Each of these directories should contain a <em>pom</em> file (<code>pom.xml</code>) with the Maven specifications for the site.
+It also should contain a framework-specific metadata file (<code>skb-site.id</code>).
+It might contain a file <code>skb-site-scripts.skb</code> with scripts to be run before the site build and before the site staging.</p>
 </div>
-<div class="sect2">
-<h3 id="general_options">General Options</h3>
+<div class="paragraph">
+<p>The general options, shown below, allow to direct the behavior of the task.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>build</em> - request one or more sites to be built</p>
+</li>
+<li>
+<p><em>clean</em> - requests to clean one or more sites.
+Clean will call <code>mvn clean</code> to do the job</p>
+</li>
+<li>
+<p><em>list</em> - will list all defined and loaded sites, which then can be build or cleaned.</p>
+</li>
+<li>
+<p><em>test</em> - once a site is successfully build, it can be tested.
+Testing here means to start a web browser with the site&#8217;s <code>index.html</code> file.</p>
+</li>
+</ul>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">-b | --build            builds site(s), requires a target and site ID or all
@@ -277,9 +300,28 @@ Several options are available to control the build process.</p>
 -T | --test             test sites, open in browser</code></pre>
 </div>
 </div>
-</div>
 <div class="sect2">
 <h3 id="target_options">Target Options</h3>
+<div class="paragraph">
+<p>The task can build a Maven site for several targets:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>targets</em> - builds all targets</p>
+</li>
+<li>
+<p><em>ad</em> - calls Maven with the argument <code>site:attach-descriptor</code>.
+This argument is important for multi-module sites with inherited descriptors</p>
+</li>
+<li>
+<p><em>site</em> - calls Maven to build the site, but not stage it</p>
+</li>
+<li>
+<p><em>stage</em> - calls Maven to stage a site that has been prior built successfully</p>
+</li>
+</ul>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">-t | --targets          mvn: all targets
@@ -288,18 +330,47 @@ Several options are available to control the build process.</p>
      --stage            mvn: site:stage</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>There is no default target.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="filter_options">Filter Options</h3>
+<div class="paragraph">
+<p>Filters allow to specify which of the loaded (and available) sites should be built:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>all</em> - will build all sites, in the oder they are listed (alphabetically)</p>
+</li>
+<li>
+<p><em>id</em> - can be used to build a specific site</p>
+</li>
+</ul>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">-A | --all              all sites
 -i | --id ID            site identifier for building</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>There is no default filter.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="maven_options">Maven Options</h3>
+<div class="paragraph">
+<p>Further options exist to configure the runtime behavior of Maven:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>profile</em> - call Maven with a specific profile setting, e.g. when the site definitions in the POM file are within a profile</p>
+</li>
+</ul>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">--profile PROFILE  mvn: use profile PROFILE</code></pre>
@@ -307,15 +378,155 @@ Several options are available to control the build process.</p>
 </div>
 </div>
 <div class="sect2">
+<h3 id="examples">Examples</h3>
+<div class="paragraph">
+<p>The framework&#8217;s own site can be build using this task.
+When correctly configured, the site can be listed</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>build-mvn-site --list</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>This will show (with a real path instead of <em>SOME_PATH</em>)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>  Sites
+   fw - SKB Framework site - SOME_PATH/dev/skb/bash/framework</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The site can then be build using</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>build-mvn-site --build --id fw</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The task and Maven output will be similar to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[WARNING] The project de.vandermeer:skb-framework:pom:0.0.1 uses prerequisites which is only intended for maven-plugin projects but not for non maven-plugin projects. For such purposes you should use the maven-enforcer-plugin. See https://maven.apache.org/enforcer/enforcer-rules/requireMavenVersion.html
+[INFO]
+[INFO] --------------------&lt; de.vandermeer:skb-framework &gt;---------------------
+[INFO] Building skb-framework 0.0.1
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 0.079 s
+[INFO] Finished at: 2018-11-15T21:08:19Z
+[INFO] ------------------------------------------------------------------------
+      -&gt; building user guide (html, pdf)
+      -&gt; building task guide (html, pdf)
+      -&gt; building developer guide (html, pdf)
+      -&gt; building implementation doc (html, pdf)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Setting the task level to <em>info</em> will provide more information on the task&#8217;s progress.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="site_files">Site Files</h3>
+<div class="paragraph">
+<p>As mentioned above, a site suitable for this task should provide a file with its metadata and might provide a file with scripts to be used in the build.
+Both files must be located in the same directory as the POM file.</p>
+</div>
+<div class="paragraph">
+<p>The metadata file must be named <code>skb-site.id</code>.
+It must contain the following information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An identifier.
+This identifier can be any string that does not contain whitespaces or <em>bash</em> special characters (such as <code>&amp;</code> or <code>*</code>).
+The identifier must be unique for all site in <em>MVN_SITES</em>.</p>
+</li>
+<li>
+<p>A description.
+The description should be short, like a tag line, to fit into the listing of sites.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The source block below shows the file for the frameworks' site.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+</pre></td>
+  <td class="code"><pre>ID=fw
+DESCRIPTION=&quot;the SKB Framework site&quot;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The file <code>skb-site-scripts.skb</code> could be provided.
+If it does not exist, the task will build the site purely using Maven.
+If it does exist, the task will source the file and call two functions the file must provide.
+This means that the file can</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use anything a normal <em>bash</em> script can do at any place in the file</p>
+</li>
+<li>
+<p>Use anything a normal <em>bash</em> script can do inside the two required functions</p>
+</li>
+<li>
+<p>Use the full framework settings and API at any place in the file</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following code block shows the standard contents of the script file with the two required functions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">MvnSitePreScript() {
+    # any code run before Maven is called to build the site
+}
+
+MvnSitePostScript() {
+    # any code run `mvn site` but before `mvn site:stage`
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To see an example have a look at the framework&#8217;s script file.
+The current file can be found in the Github repository: <a href="https://raw.githubusercontent.com/vdmeer/skb-framework/master/skb-site-scripts.skb">skb-site-scripts.skb</a>.
+Here, the function <code>MvnSitePreScript</code> executes framework tasks to create files for the site.
+The function <code>MvnSitePostScript</code> calls tools from the AsciiDoctor tool chain to create documents.
+It also uses the framework&#8217;s API function <code>MvnSiteFixAdoc</code>, which helps to fix some AsciiDoctor problem in generated HTML files in the site.</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="requirements">Requirements</h3>
 <div class="paragraph">
-<p>param MVN_SITES opt</p>
+<p>The task takes the sites it should load and build from the parameter <em>MVN_SITES</em>.
+If no sites are provided, or no sites could be loaded (due to a missing side identifier file), the task will throw an error.</p>
 </div>
 <div class="paragraph">
-<p>dep maven opt</p>
+<p>Building a Maven site of course requires Maven (dependency <em>maven</em>), which in turn requires a JDK to be installed on the host as well.</p>
 </div>
 <div class="paragraph">
-<p>task start-browser opt</p>
+<p>Testing a site is done by starting a web browser with the site&#8217;s <code>index.html</code> file.
+This requires the task <code>start-browser</code> to be loaded and well-configured.
+Without this task be available, sites cannot be tested.</p>
 </div>
 </div>
 </div>

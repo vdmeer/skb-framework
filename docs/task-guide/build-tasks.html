@@ -142,14 +142,14 @@
           <span class="none"></span>
         User Guide</a>
             </li>
-                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
       <li>
   
                           <a href="../task-guide.html" title="Task Guide">
           <span class="icon-chevron-down"></span>
         Task Guide</a>
                     <ul class="nav nav-list">
-                                                                                                          
+                                                                                                                                                                                                                                                                                                                
       <li>
   
                           <a href="../task-guide/use-tasks.html" title="Use Tasks">
@@ -184,7 +184,7 @@
             </li>
               </ul>
         </li>
-                                                                      
+                                                                                                          
       <li>
   
                           <a href="../task-guide/dev-tasks.html" title="Development Tasks">
@@ -256,7 +256,16 @@
             <div class="sect1">
 <h2 id="build_tasks">Build Tasks</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>This category of tasks either <em>builds</em> artifacts or <em>compiles</em> source files to create artifacts.
+Those tasks should be available in the application mode <em>build</em>, but no <em>use</em>.
+They might be available in the application mode <em>dev</em> if required.
+The exception to this general rule is the task <code>build-manual</code>, since it can be used to build an application-mode-specific manual and might thus be required in all application modes.</p>
+</div>
+<div class="paragraph">
+<p>By conventions, all <em>build</em> and <em>compile</em> tasks should provide an argument <code>-c</code> or <code>--clean</code>.
+This argument should clean (remove) all built or compiled artifacts (and directories if applicable).</p>
+</div>
 </div>
 </div>
                   </div>
