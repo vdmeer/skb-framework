@@ -46,7 +46,7 @@ ExecuteTask() {
     local ID=$(GetTaskID $TASK)
 
     if [[ ! -n "$ID" ]]; then
-        ConsoleError " ->" "unknown task '$ID'"
+        ConsoleError " ->" "unknown task '$TASK'"
         printf "\n"
         return
     fi

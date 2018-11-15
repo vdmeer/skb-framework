@@ -163,7 +163,7 @@ COLUMNS=$(tput cols)
 COLUMNS=$((COLUMNS - 5))
 for (( _repeat=1; _repeat<=$TIMES; _repeat++ )); do
     printf "\n\n    ["
-    PrintColor light-blue "${EFFECTS["INT_BOLD"]}run $_repeat of $TIMES"
+    PrintColor light-blue "run $_repeat of $TIMES"
     printf ' %s %s %s' "--" $TASK $ARGS
     printf "]\n    "
     for ((x = 1; x < $COLUMNS; x++)); do

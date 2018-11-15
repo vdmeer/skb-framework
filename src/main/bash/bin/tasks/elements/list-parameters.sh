@@ -247,11 +247,28 @@ function TableBottom() {
     for ((x = 1; x < $COLUMNS; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
-    printf "\n\n"
 
+    printf "\n\n"
     printf " define parameters in environemnt or '.skb' with prefix: '${CONFIG_MAP["FLAVOR"]}_'"
 
+    printf "\n\n"
+    printf " flags: (O) Origin, (D) default value, (S) status\n"
+    printf " - icons: "
+    PrintColor light-green ${CHAR_MAP["AVAILABLE"]}
+    printf " defined, "
+    PrintColor light-red ${CHAR_MAP["NOT_AVAILABLE"]}
+    printf " not defined"
+
+    printf "\n"
+    printf " - colors:"
+    printf " CLI ";             PrintColor light-blue   ${CHAR_MAP["LEGEND"]}
+    printf " , environment ";   PrintColor green        ${CHAR_MAP["LEGEND"]}
+    printf " , file ";          PrintColor brown        ${CHAR_MAP["LEGEND"]}
+    printf " , default ";       PrintColor yellow       ${CHAR_MAP["LEGEND"]}
+    printf " , not set %s"                              "${CHAR_MAP["LEGEND"]}"
+
     printf "\n\n "
+
     for ((x = 1; x < $COLUMNS; x++)); do
         printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
     done

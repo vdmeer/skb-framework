@@ -112,19 +112,19 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
                 BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
                 printf "\n   filters\n"
-                BuildTaskHelpLine A         all         "<none>"    "all tasks, disables all other filters"                             $PRINT_PADDING
-                BuildTaskHelpLine l         loaded      "<none>"    "only loaded tasks"                                                 $PRINT_PADDING
-                BuildTaskHelpLine m         mode        "MODE"      "only tasks for application mode: dev, build, use"                  $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-a        "<none>"    "activate all '--no-' filters"                                      $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-b        "<none>"    "exclude tasks starting with 'build-'"                              $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-d        "<none>"    "exclude tasks starting with 'describe-'"                           $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-dl       "<none>"    "exclude tasks starting with 'describe-' or 'list-'"                $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-l        "<none>"    "exclude tasks starting with 'list-'"                               $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-s        "<none>"    "exclude tasks starting with 'start-'"                              $PRINT_PADDING
-                BuildTaskHelpLine o         origin      "ORIGIN"    "only tasks from origin: f(w), a(pp)"                               $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  odl         "<none>"    "show only tasks starting with 'describe-' or 'list-'"              $PRINT_PADDING
-                BuildTaskHelpLine s         status      "STATUS"    "only tasks with status: success, warnings, errors, not attempted"  $PRINT_PADDING
-                BuildTaskHelpLine u         unloaded    "<none>"    "only unloaded tasks"                                               $PRINT_PADDING
+                BuildTaskHelpLine A         all         "<none>"    "all tasks, disables all other filters"                                     $PRINT_PADDING
+                BuildTaskHelpLine l         loaded      "<none>"    "only loaded tasks"                                                         $PRINT_PADDING
+                BuildTaskHelpLine m         mode        "MODE"      "only tasks for application mode: dev, build, use"                          $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-a        "<none>"    "activate all '--no-' filters"                                              $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-b        "<none>"    "exclude tasks starting with 'build-'"                                      $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-d        "<none>"    "exclude tasks starting with 'describe-'"                                   $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-dl       "<none>"    "exclude tasks starting with 'describe-' or 'list-'"                        $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-l        "<none>"    "exclude tasks starting with 'list-'"                                       $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-s        "<none>"    "exclude tasks starting with 'start-'"                                      $PRINT_PADDING
+                BuildTaskHelpLine o         origin      "ORIGIN"    "only tasks from origin: f(w), a(pp)"                                       $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  odl         "<none>"    "show only tasks starting with 'describe-' or 'list-'"                      $PRINT_PADDING
+                BuildTaskHelpLine s         status      "STATUS"    "only tasks with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"    $PRINT_PADDING
+                BuildTaskHelpLine u         unloaded    "<none>"    "only unloaded tasks"                                                       $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi

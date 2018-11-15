@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## include file, source all files in this directory
+## Functions for commands
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.1
@@ -33,14 +33,27 @@
 ##
 
 
-source $FW_HOME/bin/api/commands.sh
-source $FW_HOME/bin/api/console.sh
-source $FW_HOME/bin/api/config.sh
-source $FW_HOME/bin/api/execute.sh
-source $FW_HOME/bin/api/misc.sh
-source $FW_HOME/bin/api/mvn-site.sh
-source $FW_HOME/bin/api/print-ansi.sh
-source $FW_HOME/bin/api/print.sh
-source $FW_HOME/bin/api/prompt.sh
-source $FW_HOME/bin/api/scenarios.sh
-source $FW_HOME/bin/api/tasks.sh
+##
+## function: GetCommandID
+## - returns a command ID for a given ID or SHORT, empty string if not declared
+## $1: ID to process
+##
+GetCommandID() {
+    local ID=$1
+
+    if [[ ! -z ${ID:-} ]]; then
+        if [[ -z ${DMAP_CMD[$ID]:-} ]]; then
+            if [[ ! -z ${DMAP_CMD_SHORT[$ID]:-} ]]; then
+                printf ${DMAP_CMD_SHORT[$ID]}
+            else
+                printf ""
+            fi
+        else
+            printf $ID
+        fi
+    else
+        printf ""
+    fi
+}
+
+

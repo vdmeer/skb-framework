@@ -110,12 +110,14 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "build-cache")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine A all     "<none>"    "set all targets, except tasks"                     $PRINT_PADDING
                 BuildTaskHelpLine b build   "<none>"    "builds cache, requires a target"                   $PRINT_PADDING
                 BuildTaskHelpLine c clean   "<none>"    "removes all cached maps and screens"               $PRINT_PADDING
+                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                        $PRINT_PADDING
+
+                printf "\n   target options\n"
+                BuildTaskHelpLine A all     "<none>"    "set all targets, except tasks"                         $PRINT_PADDING
                 BuildTaskHelpLine d decl    "<none>"    "set all declaration targets"                       $PRINT_PADDING
                 BuildTaskHelpLine f full    "<none>"    "set all targets, including tasks"                  $PRINT_PADDING
-                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                        $PRINT_PADDING
                 BuildTaskHelpLine t tab     "<none>"    "set all table targets"                             $PRINT_PADDING
 
                 printf "\n   targets\n"

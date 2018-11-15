@@ -6,9 +6,9 @@
 ## @version    0.0.1
 ##
 
-SHORT=spr
+SHORT=spv
 MODES="dev build use"
-DESCRIPTION="start a PDF reader with a PDF document"
+DESCRIPTION="start a PDF viewer with a PDF document"
 EXEC_PATH=bin/tasks/start
 
-TaskRequire $ID param PDF_READER opt
+TaskRequire $ID param PDF_VIEWER opt

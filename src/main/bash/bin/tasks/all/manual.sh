@@ -220,12 +220,12 @@ for fil in $FILTER; do
             ;;
         pdf)
             if [[ -f ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf ]]; then
-                if [[ ! -z "${RTMAP_TASK_LOADED["start-pdf-reader"]}" ]]; then
+                if [[ ! -z "${RTMAP_TASK_LOADED["start-pdf-viewer"]}" ]]; then
                     set +e
-                    ${DMAP_TASK_EXEC["start-pdf-reader"]} --file ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf
+                    ${DMAP_TASK_EXEC["start-pdf-viewer"]} --file ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf
                     set -e
                 else
-                    ConsoleError " ->" "man/pdf: cannot show PDF manual, task 'start-pdf-reader' not loaded"
+                    ConsoleError " ->" "man/pdf: cannot show PDF manual, task 'start-pdf-viewer' not loaded"
                 fi
             else
                 ConsoleError "  ->" "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf"

@@ -10,3 +10,5 @@ SHORT=vi
 MODES="dev build use"
 DESCRIPTION="validates an installation"
 EXEC_PATH=bin/tasks/all
+
+TaskRequire $ID param SCENARIO_PATH opt

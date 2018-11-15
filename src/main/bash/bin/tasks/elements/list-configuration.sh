@@ -204,12 +204,13 @@ function TableBottom() {
     done
     printf "\n\n"
 
-    printf " source:"
+    printf " flags: (S) source\n"
+    printf " - colors:"
     printf " internal ";        PrintColor light-blue   ${CHAR_MAP["LEGEND"]}
     printf " , CLI ";           PrintColor light-cyan   ${CHAR_MAP["LEGEND"]}
     printf " , environment ";   PrintColor light-green  ${CHAR_MAP["LEGEND"]}
     printf " , file ";          PrintColor yellow       ${CHAR_MAP["LEGEND"]}
-    printf " default ";         PrintColor light-red    ${CHAR_MAP["LEGEND"]}
+    printf " , default ";       PrintColor light-red    ${CHAR_MAP["LEGEND"]}
 
     printf "\n\n "
     for ((x = 1; x < $COLUMNS; x++)); do
