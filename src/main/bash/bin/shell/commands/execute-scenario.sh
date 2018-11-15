@@ -58,7 +58,7 @@ ShellCmdExecuteScenario() {
         if [[ "${line:0:1}" != "#" ]] && (( LENGTH > 1 )); then
             ConsoleResetErrors
             SARG="$line"
-            ShellCmdExecuteTask
+            ExecuteTask "$SARG"
             if ConsoleHasErrors; then
                 ConsoleError " ->" "error in line $COUNT of senario $SCENARIO"
                 return
