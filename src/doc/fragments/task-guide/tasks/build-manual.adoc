@@ -254,3 +254,9 @@ A few standard framework tasks are also required (all of them are mandatory and 
 * _describe-command_ - this task is used to generate the command list.
 * _describe-scenario_ - this task is used to generate the scenario list.
 * _validate-installation_ - this task is used to validate all input required for the manual, i.e. _adoc_ and _txt_ files
+
+
+
+=== Notes
+This task will change directories and files in the application (or framework) installation.
+Sufficient permissions must exist to run this task successfully.

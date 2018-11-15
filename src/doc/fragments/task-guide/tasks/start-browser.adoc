@@ -12,8 +12,9 @@
 //
 
 == start-browser
-
-=== Options
+This task starts web browser with a URL to show.
+The URL can be set with _url_.
+The URL will not be processed by the task.
 
 [source%nowrap,bash,indent=0]
 ----
@@ -24,6 +25,11 @@
 
 
 === Requirements
+The actual command for starting a browser must be provided in _BROWSER_.
+If this parameter is not set, the task will print an error and exit.
+Examples for setting _BROWSER_ are:
 
-TaskRequire $ID param BROWSER opt
+* Firefox in a new tab: `firefox --new-tab %URL%`
+* Firefox in a new window: `firefox --new-window %URL%`
 
+More information on the parameter _BROWSER_ can be found in the framework manual.

@@ -50,3 +50,45 @@ Any number of filters can be used in any sequence, the tasks will print the outp
    -t | --task              for tasks
 ----
 
+
+
+=== Examples
+
+The following example requests statistics for the target overview _--ov_ and tasks _--task_.
+
+[example]
+====
+stats --ov --task
+====
+
+The actual output depends of course on the declared and processed tasks.
+An earlier version of the framework shows the following statistics.
+
+[source%nowrap]
+----
+
+  Statistics
+  ───────────────────────────────      ───────────────────────────────
+   Tasks declared:            35        Scenarios declared:         1
+   Tasks loaded:              30        Scenarios loaded:           0
+  ───────────────────────────────      ───────────────────────────────
+   Dependencies declared:     15        Parameters declared:       12
+   Dependencies requested:     4        Parameters requested:       8
+   Dependencies tested:        4        Parameters w/default val:   6
+  ───────────────────────────────      ───────────────────────────────
+   Configuration settings:    28        Exit Status:               37
+   Options:                   23        Commands:                  11
+  ───────────────────────────────      ───────────────────────────────
+
+
+  Tasks
+  ────────────────────────────────────────────────────────────────────
+   Declared:                  35        Not loaded:                 5
+   - origin: framework:       35        Unloaded:                   0
+   - origin: app:              0        Loaded:                    30
+   - mode: dev:               35        - errors:                   0
+   - mode: build:             32        - warnings:                 2
+   - mode: use:               30        - success:                 28
+  ────────────────────────────────────────────────────────────────────
+
+----

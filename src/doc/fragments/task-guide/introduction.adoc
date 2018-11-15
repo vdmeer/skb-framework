@@ -1,0 +1,32 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+This guide provides details for all tasks of the framework.
+The tasks are described in three categories:
+
+* Use Tasks - these tasks are mainly directed at the application mode _use_.
+* Build Tasks - these tasks are mainly directed at the application mode _builde_.
+    They do build artifacts or compile source files to build artifacts.
+* Development Tasks - these tasks are mainly directed at the application mode _dev_.
+    They provide functionality required to develop and application or to build important runtime artifacts for an application.
+
+A task in the framework is essentially a _bash_ script that benefits from provided functions of the framework, such as loading and testing dependencies or parameters.
+By convention, each task should provide an argument `-h` or `--help`, which shows its arguments.
+For simple tasks, the description in this guide does no go beyond what this help and the online help (or manual) already provides.
+One of those tasks is _wait_.
+
+For more complex tasks, with either a lot of arguments or special configuration requirements, this guide provides all details required to use the task.
+One of those tasks is `build-mvn-site`, which not only has a rather complex process but also requires additional metadata for sites to exist.
+
+For details on how to develop and write a task please see the developer guide.
+This document focuses only on how to use tasks.

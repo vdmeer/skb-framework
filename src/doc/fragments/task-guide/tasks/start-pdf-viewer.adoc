@@ -12,7 +12,7 @@
 //
 
 == start-pdf-viewer
-This task starts a PDF veiwer with a file to show in it.
+This task starts a PDF viewer with a file to show in it.
 The file can be set with _file_.
 
 [source%nowrap,bash,indent=0]
@@ -26,5 +26,11 @@ It will also use a system specific path if required (for instance on Cygwin).
 
 
 === Requirements
+The actual command for starting a PDF viewer must be provided in _PDF_VIEWER_.
+If this parameter is not set, the task will print an error and exit.
+Examples for setting _PDF_VIEWER_ are:
 
-TaskRequire $ID param PDF_VIEWER opt
+* acrobat: `acrobat %FILE%`
+* evince: `evince %FILE%`
+
+More information on the parameter _PDF_VIEWER_ can be found in the framework manual.

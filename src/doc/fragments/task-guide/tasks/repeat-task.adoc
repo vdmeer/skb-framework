@@ -12,8 +12,9 @@
 //
 
 == repeat-task
-
-=== Options
+This task will repeat a task _n_ times and wait for _s_ seconds between repetitions.
+The values for _times_ and _wait_ must be positive integers.
+The default values are repeat once (times = 1) and wait for 1 second (wait = 1).
 
 [source%nowrap,bash,indent=0]
 ----
@@ -21,4 +22,28 @@
    -t | --times INT   repeat INT times
    -w | --wait SEC    wait SEC seconds between repeats
 ----
+
+The task and task parameters should be provided after `--` in the command line.
+This task assumes that the first word after `--` is the task name (or identifier, either the long or the short form) and all other characters are arguments.
+The task name will be used to execute the task, the arguments then will not be processed but simply handed over to the executed task.
+
+
+=== Examples
+
+
+The example below will execute the task `list-tasks` with the arguments `-T --no-a` three times and wait for two seconds between repetitions.
+
+[example]
+====
+repeat-task --times 3 --wait 2 -- lt -T --no-a
+====
+
+
+The example below will do the exact same.
+It simply uses the long name of the task and the long form of its arguments
+
+[example]
+====
+repeat-task --times 3 --wait 2 -- list-tasks --table --no-a
+====
 

@@ -12,22 +12,35 @@
 //
 
 == setting
+This task alters selected settings.
+Changeable settings are:
 
-=== Options
+* Print mode (_--pm_)
+    ** _ansi_ for ANSI formatted text
+    ** _text_ for plain text
+    ** _text-anon_ for annotated text
+* Levels for the shell (_--shell-level_) or tasks (_--task-level_)
+    ** _all_ - activates all levels (except _off_)
+    ** _fatal_ - only fatal errors
+    ** _error_ - fatal and standard errors
+    ** _warn-strict_ - all errors and strict warnings
+    ** _warn_ - all errors and warnings
+    ** _info_ - errors, warnings, and information about the progress
+    ** _debug_ - _info_ plus detailed progress information
+    ** _trace_ - _debug_ plus further details
+    ** _off_ - no level activated, messages and shell prompt will still be printed
+* Shell prompt (_--snp_)
+    ** alters the printing of the shell prompt between _on_ and _off_
+* Quiet mode for shell (_--sq_) and tasks (_--tq_)
+    ** alter the quiet mode between _on_ and _off_
 
 [source%nowrap,bash,indent=0]
 ----
    options
    -h | --help              print help screen and exit
-   -P | --print-mode MODE   print mode: ansi, text, adoc
-----
 
-=== Options for changing Settings
-
-[source%nowrap,bash,indent=0]
-----
    options for changing settings
-        --pm MODE           change print mode to MODE
+   -p | --pm MODE           print mode to: ansi, text, text-anon
    -S | --shell-level LEVEL change shell level to LEVEL
         --snp               toggle shell prompt mode
         --sq                toggle shell quiet mode
@@ -36,3 +49,4 @@
         --tq                toggle task quiet mode
 ----
 
+Changes made by the task take immediate effect.
