@@ -52,7 +52,7 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## load main functions
 ## - reset errors and warnings
 ##
-source $FW_HOME/bin/functions/_include
+source $FW_HOME/bin/api/_include
 ConsoleResetErrors
 ConsoleResetWarnings
 
@@ -200,7 +200,7 @@ for fil in $FILTER; do
             if [[ -f ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.html ]]; then
                 if [[ ! -z "${RTMAP_TASK_LOADED["start-browser"]}" ]]; then
                     set +e
-                    ${DMAP_TASK_EXEC["start-browser"]} --url file://$(PathToCygwin ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.html)
+                    ${DMAP_TASK_EXEC["start-browser"]} --url file://$(PathToSystemPath ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.html)
                     set -e
                 else
                     ConsoleError " ->" "man/html: cannot test, task 'start-browser' not loaded"

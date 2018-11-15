@@ -34,13 +34,13 @@
 
 
 ##
-## function: PathToCygwin
+## function: PathToSystemPath
 ## - converts a path to Cygwin
 ## $1: path to convert
 ## return: converted path, original if not on a cygwin OS
-## use: VARIABLE=$(PathToCygwin "path")
+## use: VARIABLE=$(PathToSystemPath "path")
 ##
-PathToCygwin() {
+PathToSystemPath() {
     if [[ ${CONFIG_MAP["SYSTEM"]} == "CYGWIN" ]]; then
         echo "`cygpath -m $1`"
     else

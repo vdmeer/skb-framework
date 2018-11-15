@@ -16,6 +16,7 @@ fi
 find /opt/skb/framework -type d -perm 755
 find /opt/skb/framework/bin -type f -perm 555
 find /opt/skb/framework/etc -type f -perm 664
+find /opt/skb/framework/lib -type f -perm 644
 find /opt/skb/framework/man -type f -perm 644
 find /opt/skb/framework/scenarios -type f -perm 644
 

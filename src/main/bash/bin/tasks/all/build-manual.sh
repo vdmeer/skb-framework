@@ -55,8 +55,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## load main functions
 ## - reset errors and warnings
 ##
-source $FW_HOME/bin/functions/_include
-source $FW_HOME/bin/functions/describe/_include
+source $FW_HOME/bin/api/_include
+source $FW_HOME/bin/api/describe/_include
 ConsoleResetErrors
 ConsoleResetWarnings
 
@@ -577,7 +577,7 @@ BuildSrcPath() {
         if [[ -f $TARGET.txt ]]; then
             rm $TARGET.txt
         fi
-        java -jar `PathToCygwin $JAR` `PathToCygwin $FILE` $LEVEL > $TARGET.txt
+        java -jar $(PathToSystemPath $JAR) $(PathToSystemPath $FILE) $LEVEL > $TARGET.txt
         ConsoleTrace "  wrote file $TARGET.txt"
     done
 }
@@ -715,7 +715,7 @@ TestHtml() {
     if [[ -f $MAN_HTML_FILE ]]; then
         if [[ ! -z "${RTMAP_TASK_LOADED["start-browser"]}" ]]; then
             set +e
-            ${DMAP_TASK_EXEC["start-browser"]} --url file://$(PathToCygwin $MAN_HTML_FILE)
+            ${DMAP_TASK_EXEC["start-browser"]} --url file://$(PathToSystemPath $MAN_HTML_FILE)
             set -e
         else
             ConsoleError " ->" "bdm/html: cannot test, task 'start-browser' not loaded"

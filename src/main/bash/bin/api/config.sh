@@ -34,10 +34,10 @@
 
 
 ##
-## function: WriteL1Config
-## - writes level 1 configuration file
+## function: WriteRuntimeConfig
+## - writes runtime configuration file
 ##
-WriteL1Config() {
+WriteRuntimeConfig() {
     local file=${CONFIG_MAP["FW_L1_CONFIG"]}
     rm $file
     echo > $file

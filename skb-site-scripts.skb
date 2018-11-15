@@ -92,6 +92,11 @@ MvnSitePostScript() {
 
     MvnSiteFixAdoc target/site/developer-guide                      "Developer Guide"
 
+    MvnSiteFixAdoc target/site/implementation                       "The Implementation"
+        MvnSiteFixAdoc target/site/implementation/skb-framework         "Implementation: skb-framework"
+        MvnSiteFixAdoc target/site/implementation/loader                "Implementation: loader"
+        MvnSiteFixAdoc target/site/implementation/shell                 "Implementation: shell"
+
 
     local SKB_SITE_MAIN_DIR=$PWD/src
     local RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
@@ -111,15 +116,20 @@ MvnSitePostScript() {
     cp src/main/bash/doc/manual/skb-framework.pdf  ${DOC_TARGET_DIR}/manual.pdf
 
     printf "      -> building user guide (html, pdf)\n"
-    asciidoctor ./src/doc/guides/user-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
-    asciidoctor-pdf ./src/doc/guides/user-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
+    asciidoctor ./src/doc/documents/user-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
+    asciidoctor-pdf ./src/doc/documents/user-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
 
     printf "      -> building task guide (html, pdf)\n"
-    asciidoctor ./src/doc/guides/task-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
-    asciidoctor-pdf ./src/doc/guides/task-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
+    asciidoctor ./src/doc/documents/task-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
+    asciidoctor-pdf ./src/doc/documents/task-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
 
     printf "      -> building developer guide (html, pdf)\n"
-    asciidoctor ./src/doc/guides/developer-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
-    asciidoctor-pdf ./src/doc/guides/developer-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
+    asciidoctor ./src/doc/documents/developer-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
+    asciidoctor-pdf ./src/doc/documents/developer-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
+
+    printf "      -> building implementation doc (html, pdf)\n"
+    asciidoctor ./src/doc/documents/implementation.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
+    asciidoctor-pdf ./src/doc/documents/implementation.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
+
 }
 

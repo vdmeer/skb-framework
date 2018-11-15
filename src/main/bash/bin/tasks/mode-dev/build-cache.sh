@@ -56,8 +56,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## load main functions
 ## - reset errors and warnings
 ##
-source $FW_HOME/bin/functions/_include
-source $FW_HOME/bin/functions/describe/_include
+source $FW_HOME/bin/api/_include
+source $FW_HOME/bin/api/describe/_include
 ConsoleResetErrors
 ConsoleResetWarnings
 

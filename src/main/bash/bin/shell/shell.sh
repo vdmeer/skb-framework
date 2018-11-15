@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## FW Shell
+## Framework Interactive Shell
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.1
@@ -30,6 +30,10 @@
 
 ##
 ## DO NOT CHANGE CODE BELOW, unless you know what you are doing
+##
+## NOTE: do not remove lines that start with "#tag::" or "#end::"
+## - the lines mark import regions for AsciiDoctor includes
+## - they are used in the documentation, e.g. the Developer Guide
 ##
 
 ## put bugs into errors, safer
@@ -53,10 +57,9 @@ CONFIG_MAP["RUNNING_IN"]="shell"
 ## load main functions
 ## - reset errors and warnings
 ##
-source $FW_HOME/bin/loader/declare/config.sh
-source $FW_HOME/bin/shell/commands/_include
-source $FW_HOME/bin/functions/_include
-source $FW_HOME/bin/functions/describe/task.sh
+source $FW_HOME/bin/shell/history.sh
+source $FW_HOME/bin/api/_include
+source $FW_HOME/bin/api/describe/task.sh
 
 ConsoleResetErrors
 ConsoleResetWarnings
@@ -88,12 +91,12 @@ FWInterpreter() {
             ;;
         "execute-scenario "*)
             SARG=${SCMD#*execute-scenario }
-            ShellCmdExecuteScenario
+            ExecuteScenario $SARG
             ShellAddCmdHistory
             ;;
         "es "*)
             SARG=${SCMD#*es }
-            ShellCmdExecuteScenario
+            ExecuteScenario $SARG
             ShellAddCmdHistory
             ;;
 
@@ -126,7 +129,7 @@ FWInterpreter() {
             ;;
         *)
             SARG="$SCMD"
-            ShellCmdExecuteTask
+            ExecuteTask "$SARG"
             ShellAddCmdHistory
 
             case "$SCMD" in

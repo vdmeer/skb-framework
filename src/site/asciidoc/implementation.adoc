@@ -11,5 +11,4 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-== How it works
-
+== Implementation

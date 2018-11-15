@@ -99,6 +99,18 @@
                             </ul>
                         </td>
                     </tr>
+                    <tr>
+                        <td>The Implementation</td>
+                        <td>
+                            The framework's implementation explained.
+                        </td>
+                        <td>
+                            <ul>
+                                <li><a href="documents/implementation.html">stand-alone HTML</a></li>
+                                <li><a href="documents/implementation.pdf">stand-alone PDF</a></li>
+                            </ul>
+                        </td>
+                    </tr>
                 </table>
             </subsection>
         </section>

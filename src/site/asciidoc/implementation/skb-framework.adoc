@@ -11,4 +11,4 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/how-it-works.adoc[]
+include::{skb-site-main-dir}/doc/fragments/implementation/skb-framework.adoc[]

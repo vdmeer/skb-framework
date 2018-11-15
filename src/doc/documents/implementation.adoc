@@ -11,4 +11,26 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/how-it-works/loader.adoc[]
+= The Implementation
+Sven van_der_Meer <vdmeer.sven@mykolab.com>
+
+:version-label!:
+:description: A description of the SKB-Framework implementation
+:keywords: SKB Framework, documentation, implementation
+:experimental:
+
+{release-notes}, {release-date}
+
+:pygments-linenums-mode: table
+:toc:
+:toclevels: 4
+:icons: font
+
+
+include::{skb-site-main-dir}/doc/fragments/implementation/skb-framework.adoc[]
+
+include::{skb-site-main-dir}/doc/fragments/implementation/loader.adoc[]
+
+include::{skb-site-main-dir}/doc/fragments/implementation/shell.adoc[]
+
+

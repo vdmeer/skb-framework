@@ -358,5 +358,5 @@ table.grid-all tbody>tr:last-child>th.tableblock,table.grid-all tbody>tr:last-ch
 
 table.grid-rows tfoot>tr>th.tableblock,table.grid-rows tfoot>tr>td.tableblock{border:1px solid #ddd; border-width:1px 0 0 0}
 
-td.line-numbers pre{border:0}
+td.line-numbers pre{border-left:0px; border-top:0px; border-bottom:0px}
 td.code pre{border:0}

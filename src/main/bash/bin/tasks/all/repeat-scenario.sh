@@ -52,7 +52,7 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## load main functions
 ## - reset errors and warnings
 ##
-source $FW_HOME/bin/functions/_include
+source $FW_HOME/bin/api/_include
 ConsoleResetErrors
 ConsoleResetWarnings
 
@@ -165,9 +165,6 @@ case $WAIT in
         ;;
 esac
 
-source ${CONFIG_MAP["FW_HOME"]}/bin/shell/commands/execute-scenario.sh
-source ${CONFIG_MAP["FW_HOME"]}/bin/shell/commands/execute-task.sh
-
 COLUMNS=$(tput cols)
 COLUMNS=$((COLUMNS - 5))
 for (( _repeat=1; _repeat<=$TIMES; _repeat++ )); do
@@ -179,8 +176,7 @@ for (( _repeat=1; _repeat<=$TIMES; _repeat++ )); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
     printf "\n\n"
-    SARG=$SCN_ID
-    ShellCmdExecuteScenario
+    ExecuteScenario $SCN_ID
     sleep $WAIT
     printf "\n"
 done

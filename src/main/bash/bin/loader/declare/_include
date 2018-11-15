@@ -36,7 +36,6 @@
 source $FW_HOME/bin/loader/declare/ansi-maps.sh
 #source $FW_HOME/bin/loader/declare/app-maps.sh     # we load this after basic CONFIG_MAP seetings are done
 source $FW_HOME/bin/loader/declare/char-maps.sh
-source $FW_HOME/bin/loader/declare/config.sh
 source $FW_HOME/bin/loader/declare/commands.sh
 source $FW_HOME/bin/loader/declare/config-maps.sh
 source $FW_HOME/bin/loader/declare/dependencies.sh

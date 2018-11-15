@@ -56,7 +56,7 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## load main functions
 ## - reset errors and warnings
 ##
-source $FW_HOME/bin/functions/_include
+source $FW_HOME/bin/api/_include
 ConsoleResetErrors
 ConsoleResetWarnings
 
@@ -152,19 +152,19 @@ elif [[ ! -d ${DIRECTORY} ]]; then
     exit 61
 else
     ORIG_DIR=$DIRECTORY
-    DIRECTORY=$(PathToCygwin $DIRECTORY)
+    DIRECTORY=$(PathToSystemPath $DIRECTORY)
 fi
 if [[ ! -f ${BUILD_FILE} ]]; then
     ConsoleError " ->" "did not find build file: '${BUILD_FILE}'"
     exit 62
 else
-    BUILD_FILE=$(PathToCygwin $BUILD_FILE)
+    BUILD_FILE=$(PathToSystemPath $BUILD_FILE)
 fi
 if [[ ! -f ${MACRO_FILE} ]]; then
     ConsoleError " ->" "did not find macro file: '${MACRO_FILE}'"
     exit 63
 else
-    MACRO_FILE=$(PathToCygwin $MACRO_FILE)
+    MACRO_FILE=$(PathToSystemPath $MACRO_FILE)
 fi
 
 

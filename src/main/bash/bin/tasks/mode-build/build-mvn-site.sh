@@ -52,7 +52,7 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## load main functions
 ## - reset errors and warnings
 ##
-source $FW_HOME/bin/functions/_include
+source $FW_HOME/bin/api/_include
 ConsoleResetErrors
 ConsoleResetWarnings
 
@@ -259,7 +259,7 @@ TestSite(){
     if [[ ! -z "${RTMAP_TASK_LOADED["start-browser"]}" ]]; then
         if [[ -f ${MVN_SITE_PATH[$1]}/target/site/index.html ]]; then
             set +e
-            ${DMAP_TASK_EXEC["start-browser"]} --url file://$(PathToCygwin ${MVN_SITE_PATH[$1]}/target/site/index.html)
+            ${DMAP_TASK_EXEC["start-browser"]} --url file://$(PathToSystemPath ${MVN_SITE_PATH[$1]}/target/site/index.html)
             set -e
         else
             ConsoleError " ->" "bdms/test: no index file - ${MVN_SITE_PATH[$1]}/target/site/index.html"

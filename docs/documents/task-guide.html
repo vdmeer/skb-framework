@@ -822,29 +822,64 @@ table.CodeRay td.code>pre{padding:0}
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_build_tasks">1. Build Tasks</a>
+<li><a href="#_use_tasks">1. Use Tasks</a>
 <ul class="sectlevel2">
-<li><a href="#_clean">1.1. clean</a>
+<li><a href="#_cloc_installation">1.1. cloc-installation</a>
 <ul class="sectlevel3">
 <li><a href="#_options">1.1.1. Options</a></li>
+<li><a href="#_examples">1.1.2. Examples</a></li>
+<li><a href="#_requirements">1.1.3. Requirements</a></li>
 </ul>
 </li>
-<li><a href="#_build_manual">1.2. build-manual</a>
+<li><a href="#_repeat_scenario">1.2. repeat-scenario</a>
 <ul class="sectlevel3">
-<li><a href="#_general_options">1.2.1. General Options</a></li>
-<li><a href="#_target_options">1.2.2. Target Options</a></li>
-<li><a href="#_application_filters">1.2.3. Application Filters</a></li>
-<li><a href="#_element_filters">1.2.4. Element Filters</a></li>
+<li><a href="#_options_2">1.2.1. Options</a></li>
+<li><a href="#_examples_2">1.2.2. Examples</a></li>
 </ul>
 </li>
-<li><a href="#_build_mvn_site">1.3. build-mvn-site</a>
+<li><a href="#_wait">1.3. wait</a>
 <ul class="sectlevel3">
-<li><a href="#_general_options_2">1.3.1. General Options</a></li>
-<li><a href="#_target_options_2">1.3.2. Target Options</a></li>
-<li><a href="#_filter_options">1.3.3. Filter Options</a></li>
-<li><a href="#_maven_options">1.3.4. Maven Options</a></li>
+<li><a href="#_options_3">1.3.1. Options</a></li>
+<li><a href="#_examples_3">1.3.2. Examples</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#_build_tasks">2. Build Tasks</a>
+<ul class="sectlevel2">
+<li><a href="#_clean">2.1. clean</a>
+<ul class="sectlevel3">
+<li><a href="#_options_4">2.1.1. Options</a></li>
+</ul>
+</li>
+<li><a href="#_build_manual">2.2. build-manual</a>
+<ul class="sectlevel3">
+<li><a href="#_configuration">2.2.1. Configuration</a></li>
+<li><a href="#_manual_source">2.2.2. Manual Source</a></li>
+<li><a href="#_general_options">2.2.3. General Options</a></li>
+<li><a href="#_target_options">2.2.4. Target Options</a></li>
+<li><a href="#_element_list_filters">2.2.5. Element List Filters</a></li>
+<li><a href="#_application_filters">2.2.6. Application Filters</a></li>
+<li><a href="#_element_filters">2.2.7. Element Filters</a></li>
+<li><a href="#_examples_4">2.2.8. Examples</a></li>
+<li><a href="#_task_requirements">2.2.9. Task Requirements</a></li>
+</ul>
+</li>
+<li><a href="#_build_mvn_site">2.3. build-mvn-site</a>
+<ul class="sectlevel3">
+<li><a href="#_configuration_2">2.3.1. Configuration</a></li>
+<li><a href="#_general_options_2">2.3.2. General Options</a></li>
+<li><a href="#_target_options_2">2.3.3. Target Options</a></li>
+<li><a href="#_filter_options">2.3.4. Filter Options</a></li>
+<li><a href="#_maven_options">2.3.5. Maven Options</a></li>
+<li><a href="#_requirements_2">2.3.6. Requirements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_development_tasks">3. Development Tasks</a>
+<ul class="sectlevel2">
+<li><a href="#_set_file_versions">3.1. set-file-versions</a></li>
 </ul>
 </li>
 </ul>
@@ -854,74 +889,583 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>for SKB-Framework v0.0.1, November 14, 2018</p>
+<p>for SKB-Framework v0.0.1, November 15, 2018</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_build_tasks">1. Build Tasks</h2>
+<h2 id="_use_tasks">1. Use Tasks</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_clean">1.1. clean</h3>
+<h3 id="_cloc_installation">1.1. cloc-installation</h3>
+<div class="paragraph">
+<p>This tasks counts the lines of code of an installation.
+It is available in all application modes.</p>
+</div>
+<div class="paragraph">
+<p>The task forces files that <code>cloc</code> identifies as <em>sh</em> files to be treated as <em>bash</em> files, using the <code>cloc</code> option <code>--force-lang="Bourne Again Shell",sh</code>.
+This ensures that the installation&#8217;s include and application files (without the <code>.sh</code> extension) are counted as <em>bash</em> files.</p>
+</div>
+<div class="paragraph">
+<p>More details on <code>cloc</code> can be found at the Github source repository on <a href="https://github.com/AlDanial/cloc">Github</a>.</p>
+</div>
 <div class="sect3">
 <h4 id="_options">1.1.1. Options</h4>
+<div class="paragraph">
+<p>The task does not have any special options.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre>-f | --force       force mode, not questions asked
--h | --help        print help screen and exit
--s | --simulate    print only, removes nothing, overwrites force</pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help        print help screen and exit</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_examples">1.1.2. Examples</h4>
+<div class="paragraph">
+<p>Simply running the task will count the lines of code of an installation.
+The following is the output of running this task on the SKB-Framework in an earlier version.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">     545 text files.
+     539 unique files.
+     222 files ignored.
+
+github.com/AlDanial/cloc v 1.80  T=1.00 s (376.0 files/s, 23126.0 lines/s)
+--------------------------------------------------------------------------------
+Language                      files          blank        comment           code
+--------------------------------------------------------------------------------
+Bourne Again Shell              226           2618           5211          12077
+HTML                              1              0              1           1635
+AsciiDoc                        147            308              0           1202
+XML                               1              7             21             28
+Ant                               1              4              1             13
+--------------------------------------------------------------------------------
+SUM:                            376           2937           5234          14955
+--------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The count shows the two ANT files (build file and macro file) as ANT and XML language files.
+All ADOC files are shown as AsciiDoc language files
+The HTML file is the framework&#8217;s HTML manual.
+The top line shows the lines of code for all <em>bash</em> scripts in the installation, including all tasks and <code>.id</code> files.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_requirements">1.1.3. Requirements</h4>
+<div class="paragraph">
+<p>The task requires the tool <code>cloc</code> being installed.
+The dependency is called by the same name: <em>cloc</em>.
+If <code>cloc</code> is not installed, the task will print an error.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_repeat_scenario">1.2. repeat-scenario</h3>
+<div class="paragraph">
+<p>This tasks repeats a scenario.
+It is available in all application modes.</p>
+</div>
+<div class="sect3">
+<h4 id="_options_2">1.2.1. Options</h4>
+<div class="paragraph">
+<p>The option <em>scenario</em> should be used to identify the scenario to repeat.
+The scenario must be loaded.
+For this option, the long or short name of the scenario can be used.</p>
+</div>
+<div class="paragraph">
+<p>The other options determine how often the scenario should be repeated (<em>times</em>) and how long the task should wait between repetisions (<em>wait</em>).
+Only positive integers are allowed for both options.
+The default value for both options is 1.
+So when only provided with a scenario, the task will run it once.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help                print help screen and exit
+-s | --scenario SCENARIO   the scenario to repeat
+-t | --times INT           repeat INT times
+-w | --wait SEC            wait SEC seconds between repeats</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_examples_2">1.2.2. Examples</h4>
+<div class="paragraph">
+<p>The example below will repeat the scenario <em>S1</em> four times, waiting for 2 seconds between repetitions.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>repeat-scenario --scenario S1 --times 4 --wait 2</p>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_build_manual">1.2. build-manual</h3>
+<h3 id="_wait">1.3. wait</h3>
+<div class="paragraph">
+<p>This tasks waits for a given amount of seconds.
+It can be used to <em>slow down</em> task execution, for instance in a scenario.
+It is available in all application modes.</p>
+</div>
 <div class="sect3">
-<h4 id="_general_options">1.2.1. General Options</h4>
+<h4 id="_options_3">1.3.1. Options</h4>
+<div class="paragraph">
+<p>The option <em>seconds</em> takes a positive integer as argument for the number of seconds to wait.
+The default, without this option, is 1.</p>
+</div>
+<div class="paragraph">
+<p>The actual wait time depends on the underlying system.
+Since <em>wait</em> is a task, a new <em>bash</em> instance is created to execute it.
+This creation does take time, less on powerful UNIX hosts than for instance on Cygwin or a Raspberry PI.
+On native UNIX systems the creation time should not be significant.
+The actual wait time will be printed when the task finishes.</p>
+</div>
+<div class="paragraph">
+<p>Since <em>bash</em> does not support floating point or double integer values, only positive integers can be used.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre>-A | --all         set all targets, overwrites other options
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help          print help screen and exit
+-s | --seconds SEC   wait SEC seconds, default is 1</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_examples_3">1.3.2. Examples</h4>
+<div class="paragraph">
+<p>The example below will wait for 3 seconds, plus the time it takes to execute the <em>wait</em> task itself.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>wait --seconds 3</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_build_tasks">2. Build Tasks</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_clean">2.1. clean</h3>
+<div class="paragraph">
+<p>This tasks cleans, i.e. removes, all artifacts that have been build by other taks.
+In addition to that, the directory set by the parameter <em>TARGET</em> will be removed.</p>
+</div>
+<div class="paragraph">
+<p>The task does not actually remove any built artifacts itself.
+It uses the <code>-c</code> (or <code>--clean</code>) option of all tasks that do build artifacts.
+By convention, these are tasks whose name starts with <em>build-</em> or <em>compile-</em>.</p>
+</div>
+<div class="paragraph">
+<p>So <em>clean</em> will lookup the loaded task map, find all tasks that start with <em>build-</em> or <em>compile-</em> and execute them with the <code>--clean</code> option.
+If any of these tasks fails (for instance due to missing parameters), <em>clean</em> will also fail.</p>
+</div>
+<div class="sect3">
+<h4 id="_options_4">2.1.1. Options</h4>
+<div class="paragraph">
+<p>The option <em>simulate</em> can be used to simulate a clean.
+Here, not task will be executed and the directory <em>TARGET</em> will not be removed either.
+Instead, the task will simply print what commands it would run.</p>
+</div>
+<div class="paragraph">
+<p>The default command to remove the <em>TARGET</em> directory is <code>rm -frI</code>.
+This is an additional safety feature to prevent accidental removal of the directory.
+The option <em>force</em> can be used to remove the directory forced, i.e. using <code>rm -fr</code> instead.
+<em>simulate</em> will overwrite <em>force</em>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-f | --force       force mode, not questions asked
+-h | --help        print help screen and exit
+-s | --simulate    print only, removes nothing, overwrites force</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_build_manual">2.2. build-manual</h3>
+<div class="paragraph">
+<p>This tasks builds the application manual.
+It uses the metadata provided by the element definitions (e.g. for a task in the task&#8217;s <code>.adoc</code> file) and the general text from the application manual folder in <code>etc/manual</code>.
+The actual manual text comes from the AsciiDoctor files with the extension <code>adoc</code>.
+Element lists (e.g. for tasks or parameters) also use the description from the elements definition (in the <code>id</code> file).</p>
+</div>
+<div class="paragraph">
+<p>Building the manual involves different steps, depending on the selected target:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ADOC: generate an aggregated ADOC file with all text and lists.</p>
+</li>
+<li>
+<p>TEXT: convert the ADOC text into well-formatted paragraphs of plain or ANSI text, then build aggregated documents for text or ANSI formatted text.
+The converted text is saved in the <code>txt</code> file along with the original <code>adoc</code> file, since it is also used for the online help.</p>
+</li>
+<li>
+<p>MANP, PDF, HTML: use the aggregated ADOC file and the AsciiDoctor tool chain to generate a manpage, a single HTML file, or a PDF file.
+These targets require AsciiDoctor (<em>manp</em>, <em>html</em>) and AsciiDoctor-PDF (<em>pdf</em>) installed.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For all targets, the task will validate the installation to ensure that all required manual source files (<em>adoc</em> and <em>txt</em> files) are accessible.
+If the validation does not pass successfully, no manual artifact will be build.</p>
+</div>
+<div class="paragraph">
+<p>The general structure is the same for all targets, i.e. the task will create the same manual just for different output formats.
+The structure is similar to other manual pages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Name</em> and <em>Synopsis</em>: name, tag line, general description on how to start the application</p>
+</li>
+<li>
+<p><em>Description</em>: a description of the application</p>
+</li>
+<li>
+<p><em>Options</em>: a description of command line (CLI) options, including a list of options
+Options are further categorized as <em>exit options</em> (application will process option and exit) and <em>runtime options</em> (directing runtime behavior).</p>
+</li>
+<li>
+<p><em>Parameters</em>: a description and list of parameters that can be used to configure the application and its tasks.</p>
+</li>
+<li>
+<p><em>Tasks</em>: a description and list of tasks provided by the application</p>
+</li>
+<li>
+<p><em>Dependencies</em>: a description and list of dependencies (that tasks might require)</p>
+</li>
+<li>
+<p><em>Shell Commands</em>: a description and list of commands the interactive shell provides</p>
+</li>
+<li>
+<p><em>Exit Status</em>: a description and list of the different exit status codes and messages.</p>
+</li>
+<li>
+<p><em>Scenarios</em>: a description and list of scenarios provided by the application</p>
+</li>
+<li>
+<p><em>Security Concerns</em>: remarks on potential or actual security concerns when running the application</p>
+</li>
+<li>
+<p><em>Bugs</em>: notes on known bugs</p>
+</li>
+<li>
+<p><em>Authors</em>: list of authors</p>
+</li>
+<li>
+<p><em>Resources</em>: list of resources</p>
+</li>
+<li>
+<p><em>Copying</em>: notes on copyright and other related aspects</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The task then provides negative filters to exclude parts of this general structure (with the exception of <em>name</em> and <em>synopsis</em>).
+This allows to generate tailored manuals for any application need.</p>
+</div>
+<div class="paragraph">
+<p>The generated targets can also be tested, i.e. shown using external applications.
+All text formats (adoc, plain text, ANSI formatted text, annotated text) are shown using <code>less</code>.
+The manpage is shown using the command <code>man</code>.
+HTML and PDF files are shown with a web browser and a PDF reader, respectively.
+Note: the parameters <code>BROWSER</code> and <code>PDF_READER</code> must be set to test these targets.</p>
+</div>
+<div class="paragraph">
+<p>Depending on the selected targets, the task generates the following output files:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>$APP_HOME/doc/manual/{app-name}.adoc</code> - aggregated ADOC file with all text for the manual</p>
+</li>
+<li>
+<p><code>$APP_HOME/doc/manual/{app-name}.text</code> - plain text file manual</p>
+</li>
+<li>
+<p><code>$APP_HOME/doc/manual/{app-name}.text-anon</code> - annotated plain text manual</p>
+</li>
+<li>
+<p><code>$APP_HOME/doc/manual/{app-name}.ansi</code> - ANSI formatted text manual</p>
+</li>
+<li>
+<p><code>$APP_HOME/doc/manual/{app-name}.html</code> - single file HTML manual</p>
+</li>
+<li>
+<p><code>$APP_HOME/doc/manual/{app-name}.pdf</code> - single file PDF manual</p>
+</li>
+<li>
+<p><code>$APP_HOME/man/man1/{app-name}.1</code> - the generated manpage</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In <em>warning</em> and <em>info</em> level, the task does not output any information (except errors).
+In <em>debug</em> level, the task provides detailed information about the progress.
+Build all targets, including the ADOC to text transformation, can take a few minutes even on a powerful host.</p>
+</div>
+<div class="sect3">
+<h4 id="_configuration">2.2.1. Configuration</h4>
+<div class="paragraph">
+<p>The task can be configured with two parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>SKB_FW_TOOL</em> - optional, to find the tool for ADOC to text conversion, if not set, the target <em>src</em> cannot be build.
+This also requires the dependency <em>jre</em> to execute the tool.</p>
+</li>
+<li>
+<p><em>MANUAL_SRC</em> - optional, to set the source directory for the application related parts of the manual.
+If used, it must be a directory, readable, and with the correct source files (to pass validation).</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_manual_source">2.2.2. Manual Source</h4>
+<div class="paragraph">
+<p>The general text for the manual is located in the directory pointed to by the parameter <em>MANUAL_SRC</em>.
+This directory must have the following layout and contents:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>MANUAL_SRC
+    ├─── application                <i class="conum" data-value="1"></i><b>(1)</b>
+    │    ├─── authors.adoc          <i class="conum" data-value="2"></i><b>(2)</b>
+    │    ├─── bugs.adoc             <i class="conum" data-value="3"></i><b>(3)</b>
+    │    ├─── copying.adoc          <i class="conum" data-value="4"></i><b>(4)</b>
+    │    ├─── description.adoc      <i class="conum" data-value="5"></i><b>(5)</b>
+    │    ├─── resources.adoc        <i class="conum" data-value="6"></i><b>(6)</b>
+    │    └─── security.adoc         <i class="conum" data-value="7"></i><b>(7)</b>
+    ├─── elements                   <i class="conum" data-value="8"></i><b>(8)</b>
+    │    ├─── commands.adoc         <i class="conum" data-value="9"></i><b>(9)</b>
+    │    ├─── dependencies.adoc     <i class="conum" data-value="10"></i><b>(10)</b>
+    │    ├─── exit-options.adoc     <i class="conum" data-value="11"></i><b>(11)</b>
+    │    ├─── exit-status.adoc      <i class="conum" data-value="12"></i><b>(12)</b>
+    │    ├─── options.adoc          <i class="conum" data-value="13"></i><b>(13)</b>
+    │    ├─── parameters.adoc       <i class="conum" data-value="14"></i><b>(14)</b>
+    │    ├─── run-options.adoc      <i class="conum" data-value="15"></i><b>(15)</b>
+    │    ├─── scenarios.adoc        <i class="conum" data-value="16"></i><b>(16)</b>
+    │    └─── tasks.adoc            <i class="conum" data-value="17"></i><b>(17)</b>
+    └─── tags                       <i class="conum" data-value="18"></i><b>(18)</b>
+         ├─── authors.txt           <i class="conum" data-value="19"></i><b>(19)</b>
+         └─── name.txt              <i class="conum" data-value="20"></i><b>(20)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Directory with general application text, the <code>.adoc</code> source must be present, the <code>.txt</code> files can be generated using the target <em>src</em>.
+For multi-paragraph text, use an empty line to separate paragraphs.
+To add a list, add an empty line and then each list element in a single line starting with an asteriks <code>*</code>.
+Finish the list with an empty line.
+Nested lists are not supported.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>List of authors.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Statements on bugs, known problems, etc.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Statements on copyright, licenses, etc.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>A description of the application.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Links to resources, for instance a source repository or issue management or a web site.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Statements on security concerns when using the application.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td>Directory with text for the framework elements, the <code>.adoc</code> source must be present, the <code>.txt</code> files can be generated using the target <em>src</em>.
+For the ADOC source, the same rules as for the <em>application</em> directory apply.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="9"></i><b>9</b></td>
+<td>Introduction to shell commands.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="10"></i><b>10</b></td>
+<td>Introduction and text for dependencies.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="11"></i><b>11</b></td>
+<td>Text for <em>exit</em> command line options.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="12"></i><b>12</b></td>
+<td>Text for exit status codes and error messages.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="13"></i><b>13</b></td>
+<td>Introduction and text for command line options.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="14"></i><b>14</b></td>
+<td>Introduction and text for parameters.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="15"></i><b>15</b></td>
+<td>Text for <em>runtime</em> command line options.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="16"></i><b>16</b></td>
+<td>Introduction and text for scenarios.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="17"></i><b>17</b></td>
+<td>Introduction and text for tasks.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="18"></i><b>18</b></td>
+<td>Directory with tags, these files are used as plain text files.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="19"></i><b>19</b></td>
+<td>A list of authors, used in the ADOC file header.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="20"></i><b>20</b></td>
+<td>A tag line for the application, used in the <em>name</em> and <em>synopsis</em> sections.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_general_options">2.2.3. General Options</h4>
+<div class="paragraph">
+<p>Following the SKB-Framework convention, the task has two main options: <em>clean</em> to remove built manual artifacts and <em>build</em> to build them.
+When <em>build</em> is used, other general options and filters can be used to direct the build:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>all</em> - build everything (<em>src</em>, primary targets, secondary targets)</p>
+</li>
+<li>
+<p><em>primary</em> - build all primary targets, i.e. <em>src</em> and <em>adoc</em></p>
+</li>
+<li>
+<p><em>secondary</em> - build all secondary targets, i.e. <em>text</em> (plain, ANSI, annotated), <em>manp</em>, <em>html</em>, and <em>pdf</em></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-A | --all         set all targets, overwrites other options
 -b | --build       builds a manual (manpage), requires a target
 -c | --clean       removes all target artifacts
 -h | --help        print help screen and exit
--l | --loaded      list only loaded tasks and scenarios
 -p | --primary     set all primary targets
--r | --requested   list only requested dependencies and parameters
 -s | --secondary   set all secondary targets
--t | --test        test a manual (show results), requires a target</pre>
+-t | --test        test a manual (show results), requires a target</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_target_options">1.2.2. Target Options</h4>
+<h4 id="_target_options">2.2.4. Target Options</h4>
+<div class="paragraph">
+<p>Targets can also be selected individually.
+The target options can be used in any sequence in the command line, the task will automatically generate all manual artifacts in the correct order.
+For the secondary targets that require <em>adoc</em> to be build, the task will also automatically generate <em>adoc</em> if the file does not exist.
+Text sources (target <em>src</em>) are not created automatically, only on request.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre>--adoc        secondary target: text versions: ansi, text
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">--adoc        secondary target: text versions: ansi, text
 --html        secondary target: HTML file
 --manp        secondary target: man page file
 --pdf         secondary target: PDF file)
 --text        secondary target: text versions: ansi, text
---src         primary target: text source files from ADOC</pre>
+--src         primary target: text source files from ADOC</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_application_filters">1.2.3. Application Filters</h4>
+<h4 id="_element_list_filters">2.2.5. Element List Filters</h4>
+<div class="paragraph">
+<p>Some parts of the manual list application elements.
+For selected element types, the element list filters can be used to direct what these lists contain:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>loaded</em> - applies to task lists and scenario lists.
+If not used, all tasks and all scenarios will be listed.
+If this option is used, only the loaded tasks and scenarios are listed.
+Loaded here means that the elements are defined for mode the application was started in <em>and</em> have been successfully loaded.</p>
+</li>
+<li>
+<p><em>requested</em> - applies to dependency lists and parameter lists.
+If not used, all dependencies and all parameters will be listed.
+If this option is used, only the requested dependencies and parameters are listed.
+Requested here means any dependency or parameter requested by a loade task.</p>
+</li>
+</ul>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre>--no-authors           do not include authors
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-l | --loaded      list only loaded tasks and scenarios
+-r | --requested   list only requested dependencies and parameters</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_application_filters">2.2.6. Application Filters</h4>
+<div class="paragraph">
+<p>These filters are negative filters to exclude general (application related) parts of the manual.
+The option name corresponds to the heading in the general manual structure described above.
+The default behavior is to include all general parts.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">--no-authors           do not include authors
 --no-bugs              do not include bugs
 --no-copying           do not include copying
 --no-resources         do not include resources
---no-security          do not include security</pre>
+--no-security          do not include security</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_element_filters">1.2.4. Element Filters</h4>
+<h4 id="_element_filters">2.2.7. Element Filters</h4>
+<div class="paragraph">
+<p>These filters are negative filters to exclude element description or element lists.
+By default, all element descriptions and all element lists are included in the manual.
+To no show a list, use the <em>no-*-list</em> options.
+To now show any description for an element type, use the <em>no-*</em> options (without <em>-list</em>).</p>
+</div>
+<div class="paragraph">
+<p>To give an example: to show all information about tasks do not use any of these filters.
+To show the general text, but no task list, use <em>--no-task-list</em>.
+To no show any information about tasks, use <em>--no-tasks</em>.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre>--no-commands          do not include commands
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">--no-commands          do not include commands
 --no-command-list      include command text, but no list
 --no-deps              include dependency text, but no list
 --no-dep-list          do not include dependencies
@@ -934,51 +1478,200 @@ table.CodeRay td.code>pre{padding:0}
 --no-scenarios         do not include scenarios
 --no-scenario-list     include scenario text, but no list
 --no-tasks             do not include tasks
---no-task-list         include task text, but no list</pre>
+--no-task-list         include task text, but no list</code></pre>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_examples_4">2.2.8. Examples</h4>
+<div class="paragraph">
+<p>The following example will use the framework tool to convert <em>adoc</em> sources into well-formatted plain text.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>build-manual --build --src</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The following examples builds the targets <em>adoc</em>, <em>text</em>, <em>manp</em>, <em>html</em>, and <em>pdf</em>.
+All tasks and scenarios will be listed.
+Only requested dependencies and parameters will be listed.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>build-manual --build --requested --adoc --text --manp --html --pdf</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_task_requirements">2.2.9. Task Requirements</h4>
+<div class="paragraph">
+<p>The task has the following requirements:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>SKB_FW_TOOL</em> - optional, to find the tool for ADOC to text conversion, if not set, the target <em>src</em> cannot be build.
+This also requires the dependency <em>jre</em> to execute the tool.</p>
+</li>
+<li>
+<p><em>MANUAL_SRC</em> - optional, to set the source directory for the application related parts of the manual.
+If used, it must be a directory, readable, and with the correct source files (to pass validation).</p>
+</li>
+<li>
+<p><em>asciidoctor</em> - optional dependency required to generate <em>manp</em> and <em>html</em> targets.
+If it does not exist, these targets cannot be generated.</p>
+</li>
+<li>
+<p><em>asciidoctor-pdf</em> - optional dependency required to generate the <em>pdf</em> target.
+If it does not exist, this target cannot be generated.</p>
+</li>
+<li>
+<p><em>start-browser</em> - optional task to start a web browser testing the generated <em>html</em> target.
+If not present,not successfully loaded, or has missing parameters, the target <em>html</em> cannot be tested.</p>
+</li>
+<li>
+<p><em>start-pdf-reader</em> - optional task to start a PDF reader testing the generated <em>pdf</em> target
+If not present,not successfully loaded, or has missing parameters, the target <em>pdf</em> cannot be tested.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The task will automatically test of the required directories exist.
+If not, they need to be created manually, since the task does not create any directories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>$APP_HOME/man/man1</code> - for the <em>manp</em> target</p>
+</li>
+<li>
+<p><code>$APP_HOME/doc/manual</code> - for all other targets</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A few standard framework tasks are also required (all of them are mandatory and included in a standard framework installation):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>describe-option</em> - this task is used to generate option lists.</p>
+</li>
+<li>
+<p><em>describe-parameter</em> - this task is used to generate the parameter list.</p>
+</li>
+<li>
+<p><em>describe-task</em> - this task is used to generate the task list it is a mandatory.</p>
+</li>
+<li>
+<p><em>describe-dependency</em> - this task is used to generate the dependency list.</p>
+</li>
+<li>
+<p><em>describe-existatus</em> - this task is used to generate the exit status list.</p>
+</li>
+<li>
+<p><em>describe-command</em> - this task is used to generate the command list.</p>
+</li>
+<li>
+<p><em>describe-scenario</em> - this task is used to generate the scenario list.</p>
+</li>
+<li>
+<p><em>validate-installation</em> - this task is used to validate all input required for the manual, i.e. <em>adoc</em> and <em>txt</em> files</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_build_mvn_site">1.3. build-mvn-site</h3>
+<h3 id="_build_mvn_site">2.3. build-mvn-site</h3>
+<div class="paragraph">
+<p>This task will build Maven sites.
+It uses Apache Maven for the build process.
+The sites need to be provided by he parameter <code>MVN_SITES</code>.
+Several options are available to control the build process.</p>
+</div>
 <div class="sect3">
-<h4 id="_general_options_2">1.3.1. General Options</h4>
+<h4 id="_configuration_2">2.3.1. Configuration</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_general_options_2">2.3.2. General Options</h4>
 <div class="listingblock">
 <div class="content">
-<pre>-b | --build            builds site(s), requires a target and site ID or all
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-b | --build            builds site(s), requires a target and site ID or all
 -c | --clean            cleans all site(s)
 -h | --help             print help screen and exit
 -l | --list             list sites
--T | --test             test sites, open in browser</pre>
+-T | --test             test sites, open in browser</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_target_options_2">1.3.2. Target Options</h4>
+<h4 id="_target_options_2">2.3.3. Target Options</h4>
 <div class="listingblock">
 <div class="content">
-<pre>-t | --targets          mvn: all targets
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-t | --targets          mvn: all targets
      --ad               mvn: site:attach-descriptor
      --site             mvn: site
-     --stage            mvn: site:stage</pre>
+     --stage            mvn: site:stage</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_filter_options">1.3.3. Filter Options</h4>
+<h4 id="_filter_options">2.3.4. Filter Options</h4>
 <div class="listingblock">
 <div class="content">
-<pre>-A | --all              all sites
--i | --id ID            site identifier for building</pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-A | --all              all sites
+-i | --id ID            site identifier for building</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_maven_options">1.3.4. Maven Options</h4>
+<h4 id="_maven_options">2.3.5. Maven Options</h4>
 <div class="listingblock">
 <div class="content">
-<pre>--profile PROFILE  mvn: use profile PROFILE</pre>
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">--profile PROFILE  mvn: use profile PROFILE</code></pre>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_requirements_2">2.3.6. Requirements</h4>
+<div class="paragraph">
+<p>param MVN_SITES opt</p>
+</div>
+<div class="paragraph">
+<p>dep maven opt</p>
+</div>
+<div class="paragraph">
+<p>task start-browser opt</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_development_tasks">3. Development Tasks</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_set_file_versions">3.1. set-file-versions</h3>
+<div class="paragraph">
+<p>This task changes version information in source file headers.
+It runs Apache ANT using a simple build script, which in turn calls a macro that changes the version line.
+The default build and macro files change java files and all relevant framework files.
+These files can be used as template for writing other substitutions, if required.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-b | --build-file FILE   ANT build file
+-d | --directory DIR     start directory with source files
+-h | --help              print help screen and exit
+-m | --macro-file FILE   ANT macro file
+-v | --version VERSION   new version string</code></pre>
 </div>
 </div>
 </div>
@@ -987,7 +1680,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-14 09:32:22 GMT
+Last updated 2018-11-14 19:44:09 GMT
 </div>
 </div>
 </body>

@@ -13,6 +13,16 @@
 
 == The Loader
 
+The loader is the script `$FW_HOME/bin/loader/loader.sh`.
+It is responsible for all initial configuration, loading elements, testing settings and dependencies, processing command line arguments (options), and execute task, scenarios, or the shell.
+The load process has multiple steps, starting with some initial settings and finished with a cleanup.
+
+The initial settings are shown in the source block below.
+Line 1 restricts _bash_, providing a safer execution environment.
+Line 2 allows for extended globbing (finding files recursively with wildecards such as `**/*.adoc`).
+Line 3 takes the current time.
+This information is later used to calculate how long the load process did take.
+Line 4 removes an environment setting that prints rather annoying messages when running Java.
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -20,11 +30,41 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=init]
 ----
 
 
+=== Dependencies
+
+The first real action in the load process is the test for core dependencies.
+The source block below shows how the loader tests for:
+
+* _BASH_ version 4 - needed to use associative arrays (or maps)
+* GNU _Getopt_ - extensively used in the loader and tasks to parse command lines
+* _bc_ - a calculator used for calculating execution time of tasks and scenarios
+* _mktemp_ - used to create names for temporary directories, required to store runtime configuration information
+
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
 include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=core-dep]
 ----
 
+
+=== Core and default Settings
+
+Once all dependencies are satisfied, the loader realizes core settings:
+
+* If not set, then set `$FW_HOME` (lines 1-4)
+* Source the loaders declaration files (line 6).
+    This will create the main configuration map called `CONFIG_MAP` along with the map `CONFIG_SRC`.
+* Set core variables in the configuration map (lines 7-25):
+    ** _FW_HOME_ - the home directory of the framework
+    ** _RUNNING_IN_ - set to loader, this will later be changed the `shell` or `task` by the shell and tasks
+    ** _SYSTEM_ - to know in which system the framework is running
+    ** _CONFIG_FILE_ - the SKB configuration file
+    ** _STRICT_ - set strict mode to `off`, at least initially
+    ** _APP_MODE_ - set the default application mode to `use`
+    ** _PRINT_MODE_ - set the default print mode to `ansi` (for ANSI formatted text with colors and effects)
+    ** Levels - set the levels for loader, shell, and tasks initially to `error`
+    ** Quiet - set quiet mode for loader, shell, and tasks to `off`, i.e. they are _not_ quiet
+    ** _SCENARIO_PATH_ - create an empty path for scenarios
+    ** _SHELL_SNP_ - activate shell prompt
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -32,11 +72,17 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=core-settings]
 ----
 
 
+
+=== Core Includes
+
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
 include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=core-includes]
 ----
 
+
+
+=== Application Flavor and Name
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -44,11 +90,17 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=flavor-app]
 ----
 
 
+
+=== Temporary Directory
+
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
 include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=tmp-dir]
 ----
 
+
+
+=== Sneak Preview of CLI Arguments
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -56,11 +108,17 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=sneak-cli]
 ----
 
 
+
+=== Parameter Declarations
+
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
 include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=param-decl]
 ----
 
+
+
+=== Option Declarations
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -68,11 +126,17 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=opt-decl]
 ----
 
 
+
+=== Parse Command Line Arguments
+
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
 include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=parse-cli]
 ----
 
+
+
+=== Realize early Exit Options
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -80,11 +144,17 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=exit-options]
 ----
 
 
+
+=== Declarations for Commands and Exit Status Codes
+
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
 include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=cmdes-decl]
 ----
 
+
+
+=== Dependency Declarations
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -92,11 +162,17 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=dep-decl]
 ----
 
 
+
+=== Task Declarations
+
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
 include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=task-decl]
 ----
 
+
+
+=== Scenario Declarations
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -104,11 +180,17 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=scn-decl]
 ----
 
 
+
+=== Set Levels
+
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
 include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=set-levels]
 ----
 
+
+
+=== Do (Exit) Options
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -116,11 +198,17 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=do-options]
 ----
 
 
+
+=== Create Runtime Configuration File
+
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
 include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=tmp-file]
 ----
 
+
+
+=== Execute Task or Scenario
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -128,17 +216,26 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=tsk-scn]
 ----
 
 
+
+=== Start Shell
+
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
 include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=shell]
 ----
 
 
+
+=== Clean Up
+
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
 include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=cleanup]
 ----
 
+
+
+=== Done
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----

@@ -52,7 +52,7 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## load main functions
 ## - reset errors and warnings
 ##
-source $FW_HOME/bin/functions/_include
+source $FW_HOME/bin/api/_include
 ConsoleResetErrors
 ConsoleResetWarnings
 
@@ -109,7 +109,7 @@ done
 ConsoleInfo "  -->" "cloci: starting task"
 
 if [[ "${RTMAP_DEP_STATUS["cloc"]:-}" == "S" ]]; then
-    cloc $(PathToCygwin ${CONFIG_MAP["FW_HOME"]}) --force-lang="Bourne Again Shell",sh
+    cloc $(PathToSystemPath ${CONFIG_MAP["FW_HOME"]}) --force-lang="Bourne Again Shell",sh
 else
     ConsoleError " ->" "cloci: dependency 'cloc' not loaded, cannot count"
 fi

@@ -502,14 +502,12 @@ A task is a shell script with additional semantics processed by the framework.
 These additional semantics allow the framework to take care of some common functions for defined tasks, for example loading and evluating parameters and dependencies.</p>
 </div>
 <div class="paragraph">
-<p>+
-The framework itself provides a loader and an interactive shell.
+<p>The framework itself provides a loader and an interactive shell.
 The loader will process specifications (mainly tasks) and validate them.
 Once the loader is satisfied, it will start an interactive shell.</p>
 </div>
 <div class="paragraph">
-<p>+
-An application using the framework can be started in one of three different modes:
+<p>An application using the framework can be started in one of three different modes:
 <code>dev</code> for a development mode,
 <code>build</code> for a build mode, and
 <code>use</code> for a use mode.
@@ -518,8 +516,7 @@ The build mode should load tasks required to build artifacts for a given applica
 The use mode should load tasks required to use built artifacts for a given application.</p>
 </div>
 <div class="paragraph">
-<p>+
-The framework provides definitions for seven different elements: tasks, their dependencies, their (configuration) parameters, application CLI options, shell commands, application exit status codes, and scenarios.
+<p>The framework provides definitions for seven different elements: tasks, their dependencies, their (configuration) parameters, application CLI options, shell commands, application exit status codes, and scenarios.
 The framework loader will load all those definitions and validate them based on the provided metadata.
 CLI options, commands, and exit status codes are handled by the framework itself.
 Tasks, dependencies, parameters, and scenarios can be defined by an application.
@@ -527,12 +524,10 @@ This framework provides a basic set of tasks, dependencies, and parameters.
 It also defines some scenarios to build its own deployment artifacts.</p>
 </div>
 <div class="paragraph">
-<p>+
-This software package also provides an application named <code>skb-framework</code> as a standard application utilizing the framework&#8217;s features and tasks.</p>
+<p>This software package also provides an application named <code>skb-framework</code> as a standard application utilizing the framework&#8217;s features and tasks.</p>
 </div>
 <div class="paragraph">
-<p>+
-For more information on the framework, how to use it, how to build software artifacts, and how develop your own application with it, please visit the SKB-Framework website at <a href="https://vdmeer.github.io/skb-framework/" class="bare">https://vdmeer.github.io/skb-framework/</a>.</p>
+<p>For more information on the framework, how to use it, how to build software artifacts, and how develop your own application with it, please visit the SKB-Framework website at <a href="https://vdmeer.github.io/skb-framework/" class="bare">https://vdmeer.github.io/skb-framework/</a>.</p>
 </div>
 </div>
 </div>
@@ -892,7 +887,23 @@ This is done using the SKB <em>asciiparagraph</em> and <em>asciilist</em> implem
 This setting is required to build the manual sources (text files) from the original ADOC files.
 In a standard installation, the JAR will be available in the <code>bin/java</code> folder of the framework.</p>
 <div class="paragraph">
-<p>default value: <code>$FW_HOME/bin/java/skb-framework-tool-0.0.1-all.jar</code></p>
+<p>default value: <code>$FW_HOME/lib/java/skb-framework-tool-0.0.1-all.jar</code></p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>VERSIONS_BUILD_FILE</strong> - ANT build file for setting file versions</dt>
+<dd>
+<p>This option points to a default ANT build file used by the task <code>set-file-versions</code>.
+The default value points to the build file in the framework distribution.</p>
+<div class="paragraph">
+<p>default value: <code>$FW_HOME/etc/ant/build.xml</code></p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>VERSIONS_MACRO_FILE</strong> - file with ANT macro definitions to set file versions</dt>
+<dd>
+<p>This option points to a default ANT macro file used by the task <code>set-file-versions</code>.
+The default value points to the macro file in the framework distribution.</p>
+<div class="paragraph">
+<p>default value: <code>$FW_HOME/etc/ant/macro.xml</code></p>
 </div>
 </dd>
 <dt class="hdlist1"><strong>XTERM</strong> - command for xterm</dt>
@@ -974,7 +985,7 @@ Several options are available to control the build process.</p>
 It starts calling the <code>--clean</code> option of all tasks starting with <code>build-</code> and <code>compile-</code>.
 Then it will remove the <code>target</code> directory set by the parameter <code>TARGET</code>.</p>
 </dd>
-<dt class="hdlist1"><strong>cloc-inst</strong>, <strong>cloci</strong> - counts lines of code of an installation</dt>
+<dt class="hdlist1"><strong>cloc-installation</strong>, <strong>cloci</strong> - counts lines of code of an installation</dt>
 <dd>
 <p>This task uses CLOC (Count Lines of Code) to count the lines of code in different languages of the application.</p>
 </dd>
@@ -1103,6 +1114,13 @@ The repetition can be configured in terms of: <code>times</code> (how often to r
 <p>This task will repeat a given task.
 The repetition can be configured in terms of: <code>times</code> (how often to re-run the task) and <code>wait</code> (how long to wait between repetitions).</p>
 </dd>
+<dt class="hdlist1"><strong>set-file-versions</strong>, <strong>sfv</strong> - sets version information in source file comments</dt>
+<dd>
+<p>This task changes version information in source file headers.
+It runs Apache ANT using a simple build script, which in turn calls a macro that changes the version line.
+The default build and macro files change java files and all relevant framework files.
+These files can be used as template for writing other substitutions, if required.</p>
+</dd>
 <dt class="hdlist1"><strong>setting</strong>, <strong>set</strong> - change settings</dt>
 <dd>
 <p>This task allows to change selected runtime settings.
@@ -1155,6 +1173,12 @@ Tasks can then require a dependency, which will be tested on application start.<
 </div>
 <div class="dlist">
 <dl>
+<dt class="hdlist1"><strong>ant</strong> - software build environment</dt>
+<dd>
+<p>Apache Ant is required by some tasks to build or manipulate artifacts.
+One example is the task <code>set-file-versions</code>, which can be used to automatically set version information in source files.
+For Ant documentation and installation see <a href="https://ant.apache.org/" class="bare">https://ant.apache.org/</a>.</p>
+</dd>
 <dt class="hdlist1"><strong>asciidoctor</strong> - ADOC processor</dt>
 <dd>
 <p>Asciidoctor is a tool (or rather tool chain) that takes files written in AsciiDoc (or ADOC) and produces various output formats.
@@ -1170,7 +1194,8 @@ For details on Asciidoctor and its installation see <a href="https://asciidoctor
 <dt class="hdlist1"><strong>cloc</strong> - ued to count Lines Of Code, static code analysis</dt>
 <dd>
 <p>This dependency checks for the tool CLOC, or Count Lines Of Code.
-This tool is used to count lines of code for a variety of languages.</p>
+This tool is used to count lines of code for a variety of languages.
+For details on CLOC see the Github repo at <a href="https://github.com/AlDanial/cloc" class="bare">https://github.com/AlDanial/cloc</a>.</p>
 </dd>
 <dt class="hdlist1"><strong>jdk</strong> - JAVA Development Kit (JDK) 8</dt>
 <dd>
@@ -1600,7 +1625,7 @@ The license is Apache License 2.0.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-14 12:16:29 GMT
+Last updated 2018-11-15 11:29:56 GMT
 </div>
 </div>
 </body>

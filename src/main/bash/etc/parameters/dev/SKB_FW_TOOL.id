@@ -7,6 +7,6 @@
 ##
 
 DESCRIPTION="SKB Tool"
-DEFAULT_VALUE=${CONFIG_MAP["FW_HOME"]}/bin/java/skb-framework-tool-${CONFIG_MAP["VERSION"]}-all.jar
+DEFAULT_VALUE=${CONFIG_MAP["FW_HOME"]}/lib/java/skb-framework-tool-${CONFIG_MAP["VERSION"]}-all.jar
 
 IS_FILE=yes

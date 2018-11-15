@@ -27,12 +27,4 @@ Sven van_der_Meer <vdmeer.sven@mykolab.com>
 :icons: font
 
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/how-it-works.adoc[]
-
-include::{skb-site-main-dir}/doc/fragments/developer-guide/how-it-works/skb-framework.adoc[leveloffset=+1]
-
-include::{skb-site-main-dir}/doc/fragments/developer-guide/how-it-works/loader.adoc[leveloffset=+1]
-
-include::{skb-site-main-dir}/doc/fragments/developer-guide/how-it-works/shell.adoc[leveloffset=+1]
-
 

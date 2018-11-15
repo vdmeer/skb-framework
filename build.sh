@@ -74,13 +74,13 @@ clean(){
     (cd tool; ./gradlew clean)
     (cd tool; mvn clean)
 
-    if [[ -d src/main/bash/bin/java ]]; then
-        for file in src/main/bash/bin/java/**; do
+    if [[ -d src/main/bash/lib/java ]]; then
+        for file in src/main/bash/lib/java/**; do
             if [[ -f $file ]]; then
                 rm $file
             fi
         done
-        rmdir src/main/bash/bin/java
+        rmdir src/main/bash/lib/java
     fi
 
     if [[ -d src/main/bash/doc/manual ]]; then
@@ -125,8 +125,8 @@ versions(){
 fw_tool(){ 
     printf "%s\n\n" "building/copying SKB Tool (java)"
     (cd tool; ./gradlew)
-    mkdir -p src/main/bash/bin/java
-    cp tool/build/libs/skb-framework-tool-${TOOL_VERSION}-all.jar src/main/bash/bin/java
+    mkdir -p src/main/bash/lib/java
+    cp tool/build/libs/skb-framework-tool-${TOOL_VERSION}-all.jar src/main/bash/lib/java
     printf "\n\n"
 }
 

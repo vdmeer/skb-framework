@@ -52,7 +52,7 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## load main functions
 ## - reset errors and warnings
 ##
-source $FW_HOME/bin/functions/_include
+source $FW_HOME/bin/api/_include
 ConsoleResetErrors
 ConsoleResetWarnings
 
@@ -124,7 +124,7 @@ if [[ ! -n "$FILE" ]]; then
     ConsoleInfo "  -->" "spr: done"
     exit 61
 fi
-FILE=$(PathToCygwin $FILE)
+FILE=$(PathToSystemPath $FILE)
 if [[ ! -r "$FILE" ]]; then
     ConsoleError "  ->" "spr: cannot read file '$FILE'"
     ConsoleInfo "  -->" "spr: done"

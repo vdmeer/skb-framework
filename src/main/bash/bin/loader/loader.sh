@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## FW Loader
+## Framework Loader
 ## - initializes all settings
 ## - tests for settings and runtime dependencies
 ## - creates settings array and exports to file
@@ -35,16 +35,24 @@
 ##
 ## DO NOT CHANGE CODE BELOW, unless you know what you are doing
 ##
+## NOTE: do not remove lines that start with "#tag::" or "#end::"
+## - the lines mark import regions for AsciiDoctor includes
+## - they are used in the documentation, e.g. the Developer Guide
+##
 
-## put bugs into errors, safer
+
+##
+## basic options / settings
+## l1 - put bugs into errors, safer
+## l2 - we want files recursivey
+## l3 - take start time
+## l4 - get rid of this option and avoid the annoying "Picked Up..." message in Java
+#tag::init[]
 set -o errexit -o pipefail -o noclobber -o nounset
-
-## we want files recursivey
 shopt -s globstar
-
-
-## take start time
 _ts=$(date +%s.%N)
+unset JAVA_TOOL_OPTIONS
+#end::init[]
 
 
 ##
@@ -56,6 +64,7 @@ _ts=$(date +%s.%N)
 ##
 ## - exit with code 12-15 if we did not find a core requirements
 ##
+#tag::core-dep[]
 if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then
     printf " ==> no bash version >4, required for associative arrays\n\n"
     exit 12
@@ -73,21 +82,18 @@ if [[ ! $(command -v mktemp) ]]; then
     printf " ==> did not find mktemp, require to create temporary files and directories\n\n"
     exit 15
 fi
+#end::core-dep[]
 
 
 
 ##
-## get rid of this option and avoid the annoying "Picked Up..." message
+## core framework settings
 ##
-unset JAVA_TOOL_OPTIONS
-
-
-
-##
-## load framework, core declarations
-##
-FW_HOME=$(dirname $0)
-FW_HOME=$(cd $FW_HOME/../.. && pwd)
+#tag::core-settings[]
+if [[ -z ${FW_HOME:-} ]]; then
+    FW_HOME=$(dirname $0)
+    FW_HOME=$(cd $FW_HOME/../.. && pwd)
+fi
 
 source $FW_HOME/bin/loader/declare/_include
 CONFIG_MAP["FW_HOME"]=$FW_HOME                      # home of the framework
@@ -109,19 +115,21 @@ CONFIG_MAP["TASK_QUIET"]="off"                      # message level for tasks, c
 
 CONFIG_MAP["SCENARIO_PATH"]=""                      # empty scenario path, set from ENV or file (parameter)
 CONFIG_MAP["SHELL_SNP"]="off"                       # shell shows prompt, change with --snp
+#end::core-settings[]
 
 
-source $FW_HOME/bin/functions/_include
+
+##
+## core includes
+##
+#tag::core-includes[]
+source $FW_HOME/bin/api/_include
 ConsoleResetErrors
 ConsoleResetWarnings
 
-
-
-##
-## do includes, source required script files
-##
-source $FW_HOME/bin/functions/describe/_include
+source $FW_HOME/bin/api/describe/_include
 source $FW_HOME/bin/loader/init/parse-cli.sh
+#end::core-includes[]
 
 
 
@@ -134,6 +142,7 @@ source $FW_HOME/bin/loader/init/parse-cli.sh
 ## - exit with code 21: if application name is missing
 ## - exit with code 22: if version file is missing
 ##
+#tag::flavor-app[]
 if [[ -z ${__FW_LOADER_FLAVOR:-} ]]; then
     ConsoleFatal " ->" "interal error: no flavor set"
     printf "\n"
@@ -162,7 +171,6 @@ else
         exit 18
     fi
 fi
-# export FLAVOR_HOME=${CONFIG_MAP["APP_HOME"]}
 
 if [[ -z ${__FW_LOADER_SCRIPTNAME:-} ]]; then
     ConsoleFatal " ->" "interal error: no application script name set"
@@ -186,6 +194,7 @@ else
     printf "\n"
     exit 22
 fi
+#end::flavor-app[]
 
 
 
@@ -194,6 +203,7 @@ fi
 ## - exit with code 23: if directory could not created (and does not exist)
 ## - exit with code 24: if directory is not writeable
 ##
+#tag::tmp-dir[]
 if [[ ! -z ${TMP:-} ]]; then
     TMP_DIRECTORY=${TMP}/${CONFIG_MAP["APP_SCRIPT"]}
 else
@@ -213,12 +223,14 @@ if [[ ! -w $TMP_DIRECTORY ]]; then
     printf "\n"
     exit 24
 fi
+#end::tmp-dir[]
 
 
 
 ##
-## sneak in CLI for application mode and configuration file
+## sneak in CLI for application mode
 ##
+#tag::sneak-cli[]
 case "$@" in
     *"-D"* | *"--dev-mode"*)
         CONFIG_MAP["APP_MODE"]="dev"
@@ -233,17 +245,20 @@ case "$@" in
         CONFIG_SRC["APP_MODE"]="O"
         ;;
 esac
+#end::sneak-cli[]
 
 
 
 ##
-## declare and set parameters, from here on we have setting stuff loaded
+## declare and set parameters, from here on we have settings loaded
 ## - exit with code 25 on errors
 ##
+#tag::param-decl[]
 DeclareParameters
 if ConsoleHasErrors; then printf "\n"; exit 25; fi
 source $FW_HOME/bin/loader/init/process-settings.sh
 ProcessSettings
+#end::param-decl[]
 
 
 
@@ -255,6 +270,7 @@ ProcessSettings
 ## - exit with code 26 if option declaration failed
 ## - exit with code 27 if parseCLI failed
 ##
+#tag::opt-decl[]
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/opt-decl.map ]]; then
     ConsoleInfo "-->" "declaring options from cache"
     source ${CONFIG_MAP["CACHE_DIR"]}/opt-decl.map
@@ -266,7 +282,9 @@ declare -A OPT_CLI_MAP
 for ID in ${!DMAP_OPT_ORIGIN[@]}; do
     OPT_CLI_MAP[$ID]=false
 done
+#end::opt-decl[]
 
+#tag::parse-cli[]
 ParseCli $@
 if ConsoleHasErrors; then printf "\n"; exit 27; fi
 case "${CONFIG_MAP["PRINT_MODE"]:-}" in
@@ -279,7 +297,14 @@ case "${CONFIG_MAP["PRINT_MODE"]:-}" in
         ConsoleWarn "-->" "unknown print mode '${CONFIG_MAP["PRINT_MODE"]}', assuming 'ansi'"
         ;;
 esac
-## sneak on clean-cache to prevent errors here starting the clean
+#end::parse-cli[]
+
+
+
+##
+## check some immediate exit options first, process and exit
+##
+#tag::exit-options[]
 if [[ ${OPT_CLI_MAP["clean-cache"]} != false ]]; then
     ConsoleInfo "-->" "cleaning cache and exit"
     source ${CONFIG_MAP["FW_HOME"]}/bin/loader/options/clean-cache.sh
@@ -293,14 +318,16 @@ if [[ ${OPT_CLI_MAP["version"]} != false ]]; then
     source ${CONFIG_MAP["FW_HOME"]}/bin/loader/options/version.sh
     exit 0
 fi
+#end::exit-options[]
 
 
 
 ##
-## declare shell artifacts: commands, exit status
+## declare elements: commands, exit status
 ## - exit with code 28 if command declaration failed
 ## - exit with code 29 if exit-status declaration failed
 ##
+#tag::cmdes-decl[]
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/cmd-decl.map ]]; then
     ConsoleInfo "-->" "declaring commands from cache"
     source ${CONFIG_MAP["CACHE_DIR"]}/cmd-decl.map
@@ -315,15 +342,17 @@ else
     DeclareExitStatus
     if ConsoleHasErrors; then printf "\n"; exit 29; fi
 fi
+#end::cmdes-decl[]
 
 
 
 ##
-## Declare core artifacts: dependencies, tasks; check tasks
+## Declare elements: dependencies, tasks; check tasks
 ## - exit with code 30: if dependencies failed
 ## - exit with code 31: if tasks failed
 ## - exit with code 32: if task tests failed
 ##
+#tag::dep-decl[]
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/dep-decl.map ]]; then
     ConsoleInfo "-->" "declaring dependencies from cache"
     source ${CONFIG_MAP["CACHE_DIR"]}/dep-decl.map
@@ -332,7 +361,9 @@ else
     DeclareDependencies
     if ConsoleHasErrors; then printf "\n"; exit 30; fi
 fi
+#end::dep-decl[]
 
+#tag::task-decl[]
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/task-decl.map ]]; then
     ConsoleInfo "-->" "declaring tasks from cache"
     source ${CONFIG_MAP["CACHE_DIR"]}/task-decl.map
@@ -344,6 +375,7 @@ fi
 source $FW_HOME/bin/loader/init/process-tasks.sh
 ProcessTasks
 if ConsoleHasErrors; then printf "\n"; exit 32; fi
+#end::task-decl[]
 
 
 
@@ -352,12 +384,14 @@ if ConsoleHasErrors; then printf "\n"; exit 32; fi
 ## - exit with code 33: if declaration(s) failed
 ## - exit with code 34: if scenario tests failed
 ##
+#tag::scn-decl[]
 ConsoleInfo "-->" "declaring scenarios from source"
 DeclareScenarios
 if ConsoleHasErrors; then printf "\n"; exit 33; fi
 source $FW_HOME/bin/loader/init/process-scenarios.sh
 ProcessScenarios
 if ConsoleHasErrors; then printf "\n"; exit 34; fi
+#end::scn-decl[]
 
 
 
@@ -367,6 +401,7 @@ if ConsoleHasErrors; then printf "\n"; exit 34; fi
 ## - exit with code 36: if shell level unknown
 ## - exit with code 37: if task level unknown
 ##
+#tag::set-levels[]
 case "${CONFIG_MAP["LOADER_LEVEL"]}" in
     off | all | fatal | error | warn-strict | warn | info | debug | trace)
         ;;
@@ -394,6 +429,7 @@ case "${CONFIG_MAP["TASK_LEVEL"]}" in
         exit 37
         ;;
 esac
+#end::set-levels[]
 
 
 
@@ -402,6 +438,7 @@ esac
 ## - exit with code 38: on option errors
 ##
 ##
+#tag::do-options[]
 source $FW_HOME/bin/loader/init/do-options.sh
 DoOptions
 if ConsoleHasErrors; then printf "\n"; exit 38; fi
@@ -413,6 +450,7 @@ if [[ $DO_EXIT == true ]]; then
     ConsoleInfo "-->" "done"
     exit 0
 fi
+#end::do-options[]
 
 
 
@@ -420,15 +458,18 @@ fi
 ## set temporary configuration file (used by shell and tasks)
 ## - write runtime configurations to temporary configuration file
 ##
+#tag::tmp-file[]
 CONFIG_MAP["FW_L1_CONFIG"]=$(mktemp "$TMP_DIRECTORY/$(date +"%H-%M-%S")-${CONFIG_MAP["APP_MODE"]}-XXX")
 export FW_L1_CONFIG=${CONFIG_MAP["FW_L1_CONFIG"]}
-WriteL1Config
+WriteRuntimeConfig
+#end::tmp-file[]
 
 
 
 ##
 ## test if we execute a task or run a scenario
 ##
+#tag::tsk-scn[]
 __errno=0
 if [[ "${OPT_CLI_MAP["execute-task"]}" != false ]]; then
     echo ${OPT_CLI_MAP["execute-task"]} | $FW_HOME/bin/shell/shell.sh
@@ -441,23 +482,40 @@ if [[ "${OPT_CLI_MAP["run-scenario"]}" != false ]]; then
     __errno=$((__errno + __et))
     DO_EXIT_2=true
 fi
+#end::tsk-scn[]
 
+
+
+##
+## test if we can and should start the interactive shell
+##
+#tag::shell[]
 if [[ ${DO_EXIT_2} == false ]]; then
     $FW_HOME/bin/shell/shell.sh
     __errno=$?
 fi
+#end::shell[]
+
 
 
 ##
 ## Remove artifacts (the shell-events just in case)
 ##
+#tag::cleanup[]
 if [[ -f $FW_L1_CONFIG ]]; then
     rm $FW_L1_CONFIG >& /dev/null
 fi
 if [[ -d $TMP_DIRECTORY && $(ls $TMP_DIRECTORY | wc -l) == 0 ]]; then
     rmdir $TMP_DIRECTORY
 fi
+#end::cleanup[]
 
+
+
+##
+## done
+##
+#tag::done[]
 ConsoleMessage "\n\nhave a nice day\n\n\n"
 exit $__errno
-
+#end::done[]

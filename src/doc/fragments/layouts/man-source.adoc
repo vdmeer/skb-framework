@@ -26,7 +26,7 @@ MANUAL_SRC
          └─── name.txt              <20>
 ----
 <1> Directory with general application text, the `.adoc` source must be present, the `.txt` files can be generated using the target _src_.
-    For multi-paragraph text, use a line with a single `+` or an empty line to separate paragraphs.
+    For multi-paragraph text, use an empty line to separate paragraphs.
     To add a list, add an empty line and then each list element in a single line starting with an asteriks `*`.
     Finish the list with an empty line.
     Nested lists are not supported.

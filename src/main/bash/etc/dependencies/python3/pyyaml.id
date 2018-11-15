@@ -8,4 +8,4 @@
 
 DESCRIPTION="YAML processor for Python3"
 REQUIRES=python3
-COMMAND="$FW_HOME/bin/scripts/python-module.sh yaml"
+COMMAND="$FW_HOME/bin/api/scripts/python-module.sh yaml"

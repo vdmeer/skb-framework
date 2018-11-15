@@ -52,8 +52,7 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## load main functions
 ## - reset errors and warnings
 ##
-source $FW_HOME/bin/functions/_include
-source $FW_HOME/bin/loader/declare/config.sh
+source $FW_HOME/bin/api/_include
 
 ConsoleResetErrors
 ConsoleResetWarnings
@@ -210,7 +209,7 @@ done
 ConsoleInfo "  -->" "set: starting task"
 
 if [[ $CHANGE_SET == true ]]; then
-    WriteL1Config
+    WriteRuntimeConfig
     ConsoleDebug "wrote L1 configuration due to settings changes"
 fi
 

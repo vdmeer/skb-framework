@@ -31,9 +31,15 @@
 ##
 ## DO NOT CHANGE CODE BELOW, unless you know what you are doing
 ##
+## NOTE: do not remove lines that start with "#tag::" or "#end::"
+## - the lines mark import regions for AsciiDoctor includes
+## - they are used in the documentation, e.g. the Developer Guide
+##
 
-## we should load the framework itself, so SF_HOME
+
+#tag::self-flavor[]
 if [[ -z ${__FW_LOADER_FLAVOR:-} ]]; then
+    ## we should load the framework itself, so SF
     export __FW_LOADER_FLAVOR="SF"
     export __FW_LOADER_SCRIPTNAME="$0"
     export __FW_LOADER_APPNAME="SKB Framework"
@@ -45,7 +51,7 @@ if [[ -z ${__FW_LOADER_FLAVOR:-} ]]; then
         SF_HOME=${SF_HOME%/*}
         export SF_HOME
     fi
-    ## try \$0 to find where we are
+    ## try dirname to find where we are
     if [[ -z ${SF_HOME:-} ]]; then
         SF_HOME=$(dirname $0)
         SF_HOME=$(cd $SF_HOME/..; pwd)
@@ -56,31 +62,46 @@ if [[ -z ${__FW_LOADER_FLAVOR:-} ]]; then
         printf "  please set SF_HOME\n\n"
         exit 10
     fi
-    FW_HOME=$SF_HOME
+    export FW_HOME=$SF_HOME
+#end::self-flavor[]
+#tag::app-flavor[]
+else
+    ## try readline to find where we are
+    if [[ -z ${FW_HOME:-} ]]; then
+        FW_HOME=$(readlink -f $0)
+        FW_HOME=${FW_HOME%/*}
+        FW_HOME=${FW_HOME%/*}
+        export FW_HOME
+    fi
+    ## try dirname to find where we are
+    if [[ -z ${FW_HOME:-} ]]; then
+        FW_HOME=$(dirname $0)
+        FW_HOME=$(cd $FW_HOME/..; pwd)
+        export FW_HOME
+    fi
+    if [[ -z ${FW_HOME:-} ]]; then
+        printf "  unable to set framework home \$FW_HOME (tried environment, readlink, and dirname \$0)\n"
+        printf "  please set FW_HOME\n\n"
+        exit 10
+    fi
+#end::app-flavor[]
 fi
 
-## try to find where we are
-if [[ -z ${FW_HOME:-} ]]; then
-    FW_HOME=$(readlink -f $0)
-    FW_HOME=${FW_HOME%/*}
-    FW_HOME=${FW_HOME%/*}
-    export FW_HOME
-fi
-if [[ -z ${FW_HOME:-} ]]; then
-    FW_HOME=$(dirname $0)
-    FW_HOME=$(cd $FW_HOME/..; pwd)
-    export FW_HOME
-fi
 
-if [[ -z ${FW_HOME:-} ]]; then
-    printf "  unable to set framework home \$FW_HOME (tried environment, readlink, and dirname \$0)\n"
-    printf "  please set SF_HOME\n\n"
-    exit 10
-elif [[ ! -x $FW_HOME/bin/loader/loader.sh ]]; then
+##
+## framework found, we think, check if loader is there
+##
+#tag::check-loader[]
+if [[ ! -x $FW_HOME/bin/loader/loader.sh ]]; then
     printf "  did find/set \$FW_HOME, but did not find loader\n"
     printf "  tried $FW_HOME/bin/loader/loader.sh\n\n"
     exit 11
 fi
+#end::check-loader[]
 
+
+#tag::start-loader[]
 $FW_HOME/bin/loader/loader.sh $*
 exit $?
+#end::start-loader[]
+

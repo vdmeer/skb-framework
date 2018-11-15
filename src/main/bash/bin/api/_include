@@ -33,11 +33,13 @@
 ##
 
 
-source $FW_HOME/bin/functions/print-ansi.sh
-source $FW_HOME/bin/functions/console.sh
-source $FW_HOME/bin/functions/misc.sh
-source $FW_HOME/bin/functions/mvn-site.sh
-source $FW_HOME/bin/functions/print.sh
-source $FW_HOME/bin/functions/prompt.sh
-source $FW_HOME/bin/functions/scenarios.sh
-source $FW_HOME/bin/functions/tasks.sh
+source $FW_HOME/bin/api/print-ansi.sh
+source $FW_HOME/bin/api/console.sh
+source $FW_HOME/bin/api/config.sh
+source $FW_HOME/bin/api/execute.sh
+source $FW_HOME/bin/api/misc.sh
+source $FW_HOME/bin/api/mvn-site.sh
+source $FW_HOME/bin/api/print.sh
+source $FW_HOME/bin/api/prompt.sh
+source $FW_HOME/bin/api/scenarios.sh
+source $FW_HOME/bin/api/tasks.sh
