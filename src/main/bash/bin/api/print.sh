@@ -24,7 +24,7 @@
 ## Functions for printing settings, values, etc
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.1
+## @version    0.0.2
 ##
 
 

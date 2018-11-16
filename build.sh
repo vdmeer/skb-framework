@@ -31,7 +31,7 @@ set -o errexit -o pipefail -o noclobber -o nounset
 shopt -s globstar
 
 RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
-TOOL_VERSION="$(cat tool/src/main/resources/tool-version.txt)"
+TOOL_VERSION="${RELEASE_VERSION}"
 
 
 help(){ 
@@ -112,8 +112,10 @@ clean(){
 ##
 versions(){
     printf "%s\n\n" "set file versions"
-    rm tool/src/main/resources/tool-version.txt
-    cat src/main/bash/etc/version.txt > tool/src/main/resources/tool-version.txt
+    if [[ -f tool/src/main/resources/tool-version.txt ]]; then
+        rm tool/src/main/resources/tool-version.txt
+    fi
+    cp src/main/bash/etc/version.txt tool/src/main/resources/tool-version.txt
     ant -f ant/build.xml -DmoduleVersion=${RELEASE_VERSION} -DmoduleDir=../
     chmod 644 src/main/bash/**/*.id src/main/bash/**/*.scn tool/src/**/*.java
 }
@@ -231,12 +233,12 @@ TS=$(date +%s.%N)
 TIME_START=$(date +"%T")
 export SF_MVN_SITES=$PWD
 
-if [[ ${T_CLEAN:-} == true ]]; then
-    clean
-fi
-
 if [[ ${T_VERSIONS:-} == true ]]; then
     versions
+fi
+
+if [[ ${T_CLEAN:-} == true ]]; then
+    clean
 fi
 
 if [[ ${T_TOOL:-} == true ]]; then

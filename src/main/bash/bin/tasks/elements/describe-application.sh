@@ -24,7 +24,7 @@
 ## describe-application - describes the application
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.1
+## @version    0.0.2
 ##
 
 
