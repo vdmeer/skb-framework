@@ -343,20 +343,6 @@ ConsoleResetWarnings() {
 
 
 ##
-## function ConsoleGetWarnings
-## - returns the current warning counter *_WARNINGS
-##
-ConsoleGetWarnings() {
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader) return $LOADER_WARNINGS ;;
-        shell)  return $SHELL_WARNINGS ;;
-        task)   return $TASK_WARNINGS ;;
-    esac
-}
-
-
-
-##
 ## function ConsoleHasWarnings
 ## - returns true if counter *_WARNINGS is larger than 0, i.e. there are warnings
 ##

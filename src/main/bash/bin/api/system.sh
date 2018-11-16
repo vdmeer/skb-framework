@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## include file, source all files in this directory
+## Functions: system
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.1
@@ -33,15 +33,17 @@
 ##
 
 
-source $FW_HOME/bin/api/commands.sh
-source $FW_HOME/bin/api/console.sh
-source $FW_HOME/bin/api/config.sh
-source $FW_HOME/bin/api/execute.sh
-source $FW_HOME/bin/api/misc.sh
-source $FW_HOME/bin/api/mvn-site.sh
-source $FW_HOME/bin/api/print-ansi.sh
-source $FW_HOME/bin/api/print.sh
-source $FW_HOME/bin/api/prompt.sh
-source $FW_HOME/bin/api/scenarios.sh
-source $FW_HOME/bin/api/system.sh
-source $FW_HOME/bin/api/tasks.sh
+##
+## function: PathToSystemPath
+## - converts a path to Cygwin
+## $1: path to convert
+## return: converted path, original if not on a cygwin OS
+## use: VARIABLE=$(PathToSystemPath "path")
+##
+PathToSystemPath() {
+    if [[ ${CONFIG_MAP["SYSTEM"]} == "CYGWIN" ]]; then
+        echo "`cygpath -m $1`"
+    else
+        echo $1
+    fi
+}

@@ -35,7 +35,7 @@
 
 ##
 ## function: PromptSfMode
-## - prints the application flavour and the mode in brakets
+## - prints the application flavor and the mode in brackets
 ##
 PromptSfMode() {
     printf "%s(" ${CONFIG_MAP["FLAVOR"],,}

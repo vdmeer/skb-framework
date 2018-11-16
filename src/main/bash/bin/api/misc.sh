@@ -33,22 +33,6 @@
 ##
 
 
-##
-## function: PathToSystemPath
-## - converts a path to Cygwin
-## $1: path to convert
-## return: converted path, original if not on a cygwin OS
-## use: VARIABLE=$(PathToSystemPath "path")
-##
-PathToSystemPath() {
-    if [[ ${CONFIG_MAP["SYSTEM"]} == "CYGWIN" ]]; then
-        echo "`cygpath -m $1`"
-    else
-        echo $1
-    fi
-}
-
-
 
 ##
 ## function Trim
@@ -61,4 +45,5 @@ PathToSystemPath() {
 #     var="${var%"${var##*[![:space:]]}"}"
 #     echo $var
 # }
+:
 
