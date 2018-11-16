@@ -1,0 +1,44 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== MVN Site
+
+=== MvnSiteFixAdoc
+Fixes HTML files generated from ADOC sources by the Maven site and Asciidoctor plugins.
+The problems fixed are:
+
+*add a text to the HTML title of the page (empty otherwise)
+* add text to the active bread crumb list item (empty otherwise)
+
+This function will take the file name (first argument, no extension) and use `sed` to add the text from the second argument to the HTML file.
+For the title, it assumes that there is a prefix in the title, so it adds `x2013; $2`.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return
+
+| $1: file name
+
+$2: text
+| none
+
+|===
+
+
+[example]
+====
+MvnSiteFixAdoc target/site/developer-guide/api/mvn-site "API: MVN Site"
+====
+

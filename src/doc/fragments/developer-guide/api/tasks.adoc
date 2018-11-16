@@ -1,0 +1,106 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== Prompt
+Collection of functions for tasks.
+
+
+=== GetTaskID
+Returns the identifier (name) of a task for a given input string.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return (print)
+
+| $1: the input string to test for a task identifier
+| Success: long form of the task
+
+Error: empty string
+
+|===
+
+
+[example]
+====
+id=$(GetTaskID "string")
+====
+
+
+
+=== BuildTaskHelpLine
+Prints a single line for the task help screen with one argument and its settings.
+An argument is described by:
+
+    * a short form, use `<none>` if not applicable
+    * a long form, use `<none>` if not applicable
+    * an argument, use `<none>` if not applicable, if used the string will be converted to upper case spelling
+    * a description in form of a short tag line
+
+Additionally, a length value an be given.
+The length is used to calculate the padding between short/long/argument and description.
+The padding default value is _24_.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return
+
+| $1: short options
+
+$2: long option
+
+$3: argument
+
+$4: description
+
+$5: length
+
+| none
+
+
+|===
+
+[example]
+====
+BuildTaskHelpLine h help "<none>" "print help screen and exit" 25
+
+
+BuildTaskHelpLine f file "FILE" "file to open in viewer" 25
+====
+
+
+
+=== TaskGetCachedHelp
+Returns a file name with cached help screen for current print-mode, none if none found.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return (print)
+
+| $1: task ID, long form
+| Success: file name
+
+Error: empty string
+
+|===
+
+[example]
+====
+CACHED_HELP=$(TaskGetCachedHelp "my-task")
+====
+

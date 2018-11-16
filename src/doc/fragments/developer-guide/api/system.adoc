@@ -1,0 +1,46 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== Prompt
+Collection of functions for the underlying system.
+
+
+
+=== PathToSystemPath
+Converts a given path to a system-specific representation.
+This can be important when running on hybrid systems.
+In Cygwin for instance, one can execute Windows programs that do not understand UNIx path.
+This function can convert the paths.
+
+The system is taken from `CONFIG_MAP["SYSTEM"]`.
+If no special path conversion is implemented for the system, the original path is returned.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return (print)
+
+| $1: path to convert
+| converted or original path
+
+|===
+
+[example]
+====
+VARIABLE=$(PathToSystemPath "path")
+====
+
+Currently supported conversions are:
+
+* Cygwin: uses `cygpath -m` for the conversion

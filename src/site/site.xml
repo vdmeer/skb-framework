@@ -73,6 +73,14 @@
                     <item href="developer-guide/api/commands.html" name="Commands" />
                     <item href="developer-guide/api/config.html" name="Config" />
                     <item href="developer-guide/api/console.html" name="Console" />
+                    <item href="developer-guide/api/execute.html" name="Execute" />
+                    <item href="developer-guide/api/mvn-site.html" name="MVN Site" />
+                    <item href="developer-guide/api/print-ansi.html" name="Print ANSI" />
+                    <item href="developer-guide/api/print.html" name="Print" />
+                    <item href="developer-guide/api/prompt.html" name="Prompt" />
+                    <item href="developer-guide/api/scenarios.html" name="Scenarios" />
+                    <item href="developer-guide/api/system.html" name="System" />
+                    <item href="developer-guide/api/tasks.html" name="Tasks" />
                 </item>
             </item>
 
