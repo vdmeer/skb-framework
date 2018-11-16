@@ -104,6 +104,10 @@ MvnSitePostScript() {
             MvnSiteFixAdoc target/site/task-guide/tasks/set-file-versions   "Task: Set File Versions"
 
     MvnSiteFixAdoc target/site/developer-guide                      "Developer Guide"
+        MvnSiteFixAdoc target/site/developer-guide/api                  "Dev Guide: API"
+            MvnSiteFixAdoc target/site/developer-guide/api/commands         "API: Commands"
+            MvnSiteFixAdoc target/site/developer-guide/api/config           "API: Config"
+            MvnSiteFixAdoc target/site/developer-guide/api/console          "API: Console"
 
     MvnSiteFixAdoc target/site/implementation                       "The Implementation"
         MvnSiteFixAdoc target/site/implementation/skb-framework         "Implementation: skb-framework"

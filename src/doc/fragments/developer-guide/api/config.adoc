@@ -1,0 +1,114 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== Config
+
+=== WriteRuntimeConfig
+Writes runtime configuration file.
+The file name is taken from `CONFIG_MAP["FW_L1_CONFIG"]`.
+The file is removed, and then all configuration maps are written into a new file.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return
+
+| none
+| none
+
+|===
+
+
+[example]
+====
+WriteRuntimeConfig
+====
+
+The written maps are:
+
+* General Configurations
+    ** CONFIG_MAP - configuration
+    ** CONFIG_SRC - setting source
+    ** FW_PATH_MAP - paths for the framework
+    ** APP_PATH_MAP - paths for an application
+    ** CHAR_MAP - the map of characters (UTF-8)
+    ** COLORS - the map of ANSI color codes
+    ** EFFECTS - the map of ANSI text effects
+* Options
+    ** DMAP_OPT_ORIGIN - options and their declaration origin
+    ** DMAP_OPT_SHORT - short option names
+    ** DMAP_OPT_ARG - option arguments
+* Exit Status
+    ** DMAP_ES - map of exit status declarations
+    ** DMAP_ES_PROBLEM - exit status problem identifiers (internal, external)
+* Commands
+    ** DMAP_CMD - command declarations
+    ** DMAP_CMD_SHORT - command short names
+    ** DMAP_CMD_ARG - command arguments
+* Parameters
+    ** DMAP_PARAM_ORIGIN - parameter origin (framework or application)
+    ** DMAP_PARAM_DECL - parameter declaration file
+    ** DMAP_PARAM_DEFVAL - parameter default value
+    ** DMAP_PARAM_IS - parameter _is_ relationship, e.g. _is_ a directory
+* Dependencies
+    ** DMAP_DEP_ORIGIN - dependency origin (framework or application)
+    ** DMAP_DEP_DECL - dependency declaration file
+    ** DMAP_DEP_REQ_DEP - dependency requires another dependency
+    ** DMAP_DEP_CMD - dependency test command
+* Dependency Runtime
+    ** RTMAP_DEP_STATUS - test status
+* Tasks
+    ** DMAP_TASK_ORIGIN - task origin (framework or application)
+    ** DMAP_TASK_DECL - task declaration file
+    ** DMAP_TASK_SHORT - short task name
+    ** DMAP_TASK_EXEC - task script location and name
+    ** DMAP_TASK_MODES - task modes
+* Task Requirements
+    ** DMAP_TASK_REQ_PARAM_MAN - required mandatory parameters
+    ** DMAP_TASK_REQ_PARAM_OPT - required optional parameters
+    ** DMAP_TASK_REQ_DEP_MAN - required mandatory dependencies
+    ** DMAP_TASK_REQ_DEP_OPT - required optional dependencies
+    ** DMAP_TASK_REQ_TASK_MAN - required other tasks, mandatory
+    ** DMAP_TASK_REQ_TASK_OPT - required other tasks, optional
+    ** DMAP_TASK_REQ_DIR_MAN - required mandatory directories
+    ** DMAP_TASK_REQ_DIR_OPT - required optional directories
+    ** DMAP_TASK_REQ_FILE_MAN - required mandatory files
+    ** DMAP_TASK_REQ_FILE_OPT - required optional files
+* Tasks Runtime
+    ** RTMAP_TASK_STATUS - task load status
+    ** RTMAP_TASK_LOADED - loaded tasks
+    ** RTMAP_TASK_UNLOADED - unloaded tasks
+* Scenarios
+    ** DMAP_SCN_ORIGIN - scenario origin (framework, application, or path)
+    ** DMAP_SCN_DECL - scenario declaration file
+    ** DMAP_SCN_SHORT - short scenario name
+    ** DMAP_SCN_EXEC - scenario script location and name
+    ** DMAP_SCN_MODES - scenario modes
+    ** DMAP_SCN_REQ_TASK_MAN - scenario required tasks, mandatory
+    ** DMAP_SCN_REQ_TASK_OPT - scenario required tasks, optional
+* Scenario Runtime
+    ** RTMAP_SCN_STATUS - load status
+    ** RTMAP_SCN_LOADED - loaded scenarios
+    ** RTMAP_SCN_UNLOADED - unloaded scenarios
+* Runtime Maps
+    ** RTMAP_REQUESTED_DEP - requested dependencies
+    ** RTMAP_REQUESTED_PARAM - requested parameters
+* Description Maps
+    ** DMAP_CMD_DESCR - commands
+    ** DMAP_DEP_DESCR - dependencies
+    ** DMAP_ES_DESCR - exit status codes
+    ** DMAP_OPT_DESCR - options
+    ** DMAP_PARAM_DESCR - parameters
+    ** DMAP_TASK_DESCR - tasks
+    ** DMAP_SCN_DESCR - scenarios

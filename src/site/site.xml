@@ -69,6 +69,11 @@
             </item>
 
             <item href="developer-guide.html" name="Developer Guide" collapse="false">
+                <item href="developer-guide/api.html" name="API" collapse="true">
+                    <item href="developer-guide/api/commands.html" name="Commands" />
+                    <item href="developer-guide/api/config.html" name="Config" />
+                    <item href="developer-guide/api/console.html" name="Console" />
+                </item>
             </item>
 
             <item href="implementation.html" name="The Implementation" collapse="false">

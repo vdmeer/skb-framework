@@ -1,0 +1,202 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== Console
+
+=== ConsoleMessage
+Prints a message to the console (standard error).
+
+It uses `CONFIG_MAP["RUNNING_IN"]` to determine which setting to use:
+    `CONFIG_MAP["LOADER_QUIET"]` for the loader,
+    `CONFIG_MAP["SHELL_QUIET"]` for the shell, or
+    `CONFIG_MAP["TASK_QUIET"]` for tasks.
+If the setting for quiet is _off_, it prints the message.
+Otherwise it does not print the message.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return
+
+| $1: the message
+| none
+
+|===
+
+
+[example]
+====
+ConsoleMessage "message"
+====
+
+
+
+=== ConsoleIsMessage
+Returns the message status.
+
+It uses `CONFIG_MAP["RUNNING_IN"]` to determine which setting to use:
+    `CONFIG_MAP["LOADER_QUIET"]` for the loader,
+    `CONFIG_MAP["SHELL_QUIET"]` for the shell, or
+    `CONFIG_MAP["TASK_QUIET"]` for tasks.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return (print)
+
+| none
+| 1 for _on_, 0 for _off_
+
+|===
+
+
+[example]
+====
+if ConsoleIsMessage; then ...; else ...; fi
+====
+
+
+
+=== ConsoleIsPrompt
+Returns shell-prompt status from `CONFIG_MAP["SHELL_SNP"]`.
+
+It uses `CONFIG_MAP["RUNNING_IN"]` to determine which setting to use:
+    `CONFIG_MAP["LOADER_QUIET"]` for the loader,
+    `CONFIG_MAP["SHELL_QUIET"]` for the shell, or
+    `CONFIG_MAP["TASK_QUIET"]` for tasks.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return (print)
+
+| none
+| 1 for _on_, 0 for _off_
+
+|===
+
+
+[example]
+====
+if ConsoleIsPrompt; then ...; else ...; fi
+====
+
+
+
+=== ConsoleFatal
+Prints an error message with _[Fatal]_ tag if the level for _fatal_ is set and increases the error counter.
+
+It uses `CONFIG_MAP["RUNNING_IN"]` to determine which setting to use:
+    `CONFIG_MAP["LOADER_LEVEL"]`and `LOADER_ERRORS` counter for the loader,
+    `CONFIG_MAP["SHELL_LEVEL"]` and `SHELL_ERRORS` counter for the shell, or
+    `CONFIG_MAP["TASK_LEVEL"]` and `TASK_ERRORS` counter for tasks.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return (print)
+
+| $1: error prefix, e.g. script name with colon
+
+$2: the error message
+| none
+
+|===
+
+
+[example]
+====
+ConsoleFatal "  ->" "fatal error message"
+====
+
+
+
+=== ConsoleError
+Prints an error message with _[Error]_ tag if the level for _fatal_ is set and increases the error counter.
+
+It uses `CONFIG_MAP["RUNNING_IN"]` to determine which setting to use:
+    `CONFIG_MAP["LOADER_LEVEL"]`and `LOADER_ERRORS` counter for the loader,
+    `CONFIG_MAP["SHELL_LEVEL"]` and `SHELL_ERRORS` counter for the shell, or
+    `CONFIG_MAP["TASK_LEVEL"]` and `TASK_ERRORS` counter for tasks.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return (print)
+
+| $1: error prefix, e.g. script name with colon
+
+$2: the error message
+| none
+
+|===
+
+
+[example]
+====
+ConsoleError "  ->" "error message"
+====
+
+
+
+=== ConsoleResetErrors
+Resets the error counter, i.e. sets it to _0_.
+
+It uses `CONFIG_MAP["RUNNING_IN"]` to determine which counter to reset:
+    `LOADER_ERRORS` for the loader,
+    `SHELL_ERRORS` for the shell, or
+    `TASK_ERRORS` for tasks.
+
+[example]
+====
+ConsoleResetErrors
+====
+
+
+
+=== ConsoleHasErrors
+Returns _true_ if the counter has errors (i.e. is larger than _0_) or false if it does not have errors (i.e. is _0_).
+Resets the error counter, i.e. sets it to _0_.
+
+It uses `CONFIG_MAP["RUNNING_IN"]` to determine which counter to reset:
+    `LOADER_ERRORS` for the loader,
+    `SHELL_ERRORS` for the shell, or
+    `TASK_ERRORS` for tasks.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return
+
+| none
+| _true_ (0) if errors
+
+_false_ (1) if no errors
+
+|===
+
+[example]
+====
+if ConsoleHasErrors; then ...; ...; fi
+
+if ConsoleHasErrors; then ...; else ...; fi
+====
+
+
+
