@@ -197,20 +197,6 @@ ConsoleResetErrors() {
 
 
 ##
-## function ConsoleGetErrors
-## - returns the current error counter *_ERRORS
-##
-ConsoleGetErrors() {
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader) return $LOADER_ERRORS ;;
-        shell)  return $SHELL_ERRORS ;;
-        task)   return $TASK_ERRORS ;;
-    esac
-}
-
-
-
-##
 ## function ConsoleHasErrors
 ## - returns true if counter *_ERRORS is larger than 0, i.e. there are errors
 ##
