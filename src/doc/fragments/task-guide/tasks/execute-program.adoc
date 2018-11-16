@@ -1,0 +1,68 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== execute-program
+This task executes an external program.
+The program can be started in different ways:
+
+* Without any argument, the program is executed inside the task.
+    This means that the task hands over execution to the program.
+    Only when the program is finished will the task continue.
+* Using __background__ will start the program in the background, adding an ampersand `&` to the program.
+    This means that the task will continue immediately after the program is started.
+    Since the task then terminates, there is no further job control on the program.
+    Furthermore, all program output will appear along with the task and then the shell.
+* Using _xterm_ will start the a new XTerm and execute the program there as a command.
+    This means that the task will continue immediately after the program is started.
+    Since the task then terminates, there is no further job control on the XTerm.
+    All output will of course happen in the new XTerm.
+
+[source%nowrap,bash,indent=0]
+----
+   -b | --background  run program in background
+   -h | --help        print help screen and exit
+   -t | --title TITLE title for the XTerm, default: program name
+   -x | --xterm       start a new XTerm and execute program
+----
+
+The actual program and its arguments should be provided after `--` in the command line.
+All characters here will be simply used to execute the program.
+
+=== Examples
+
+The following example executes `ls` in the current directory (where the application was started from).
+
+[example]
+====
+execute-program -- ls
+====
+
+
+The following example executes `ls` in the current directory (where the application was started from).
+It runs `ls` in the background, which causes an error since `ls` takes the added ampersand `&` as an argument.
+
+[example]
+====
+execute-program --background -- ls
+====
+
+The following example starts the editor `vi` with the file `build.sh` in a new XTerm.
+[example]
+====
+execute-program --xterm -- vi build.sh
+====
+
+
+=== Requirements
+To start a program in a new XTerm, the task `start-xterm` must be available.
+This task has its own configuration settings, e.g. to set the XTerm executable.

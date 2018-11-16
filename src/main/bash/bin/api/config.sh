@@ -126,5 +126,4 @@ WriteRuntimeConfig() {
     declare -p DMAP_PARAM_DESCR >> $file
     declare -p DMAP_TASK_DESCR >> $file
     declare -p DMAP_SCN_DESCR >> $file
-
 }

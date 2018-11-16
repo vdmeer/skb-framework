@@ -60,7 +60,6 @@ ConsoleResetWarnings
 ##
 ## set local variables
 ##
-PRINT_MODE=
 FILTER=
 ALL=false
 CLI_SET=false
@@ -94,7 +93,6 @@ while true; do
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                            $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                          $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine A        all       "<none>"    "all manual versions"                              $PRINT_PADDING
                 BuildTaskHelpLine "<none>" adoc      "<none>"    "ADOC manual"                                      $PRINT_PADDING
@@ -108,11 +106,6 @@ while true; do
                 cat $CACHED_HELP
             fi
             exit 0
-            ;;
-        -P | --print-mode)
-            PRINT_MODE="$2"
-            CLI_SET=true
-            shift 2
             ;;
 
         --adoc)
@@ -220,12 +213,12 @@ for fil in $FILTER; do
             ;;
         pdf)
             if [[ -f ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf ]]; then
-                if [[ ! -z "${RTMAP_TASK_LOADED["start-pdf-reader"]}" ]]; then
+                if [[ ! -z "${RTMAP_TASK_LOADED["start-pdf-viewer"]}" ]]; then
                     set +e
-                    ${DMAP_TASK_EXEC["start-pdf-reader"]} --file ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf
+                    ${DMAP_TASK_EXEC["start-pdf-viewer"]} --file ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf
                     set -e
                 else
-                    ConsoleError " ->" "man/pdf: cannot show PDF manual, task 'start-pdf-reader' not loaded"
+                    ConsoleError " ->" "man/pdf: cannot show PDF manual, task 'start-pdf-viewer' not loaded"
                 fi
             else
                 ConsoleError "  ->" "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf"

@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## start-pdf-reader - starts a pdfreader with an optional FILE
+## start-pdf-viewer - starts a pdf viewer with an optional FILE
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.1
@@ -69,9 +69,9 @@ FILE=
 CLI_OPTIONS=hf:
 CLI_LONG_OPTIONS=help,file:
 
-! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name start-pdf-reader -- "$@")
+! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name start-pdf-viewer -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "start-pdf-reader: unknown CLI options"
+    ConsoleError "  ->" "start-pdf-viewer: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -80,11 +80,11 @@ PRINT_PADDING=19
 while true; do
     case "$1" in
         -h | --help)
-            CACHED_HELP=$(TaskGetCachedHelp "start-pdf-reader")
+            CACHED_HELP=$(TaskGetCachedHelp "start-pdf-viewer")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
                 BuildTaskHelpLine h help    "<none>"    "print help screen and exit"        $PRINT_PADDING
-                BuildTaskHelpLine f file    "FILE"      "PDF file to open in reader"        $PRINT_PADDING
+                BuildTaskHelpLine f file    "FILE"      "PDF file to open in viewer"        $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
@@ -99,7 +99,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "start-pdf-reader: internal error (task): CLI parsing bug"
+            ConsoleFatal "  ->" "start-pdf-viewer: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -112,29 +112,34 @@ done
 ##
 ############################################################################################
 ERRNO=0
-ConsoleInfo "  -->" "spr: starting task"
+ConsoleInfo "  -->" "spv: starting task"
 
-if [[ -z "${CONFIG_MAP["PDF_READER"]:-}" ]]; then
-    ConsoleError "  ->" "spr: no setting for PDF_READER, cannot start any"
-    ConsoleInfo "  -->" "spr: done"
+if [[ -z "${CONFIG_MAP["PDF_VIEWER"]:-}" ]]; then
+    ConsoleError "  ->" "spv: no setting for PDF_VIEWER, cannot start any"
+    ConsoleInfo "  -->" "spv: done"
     exit 60
 fi
 if [[ ! -n "$FILE" ]]; then
-    ConsoleError "  ->" "spr: empty file? - '$FILE'"
-    ConsoleInfo "  -->" "spr: done"
+    ConsoleError "  ->" "spv: empty file? - '$FILE'"
+    ConsoleInfo "  -->" "spv: done"
     exit 61
 fi
-FILE=$(PathToSystemPath $FILE)
 if [[ ! -r "$FILE" ]]; then
-    ConsoleError "  ->" "spr: cannot read file '$FILE'"
-    ConsoleInfo "  -->" "spr: done"
+    ConsoleError "  ->" "spv: cannot read file '$FILE'"
+    ConsoleInfo "  -->" "spv: done"
     exit 62
 fi
 
-SCRIPT=${CONFIG_MAP["PDF_READER"]}
+ConsoleDebug "spv: original file: ${FILE}"
+FILE=$(PathToSystemPath $FILE)
+ConsoleDebug "spv: system file: ${FILE}"
+
+SCRIPT=${CONFIG_MAP["PDF_VIEWER"]}
 SCRIPT=${SCRIPT//%FILE%/$FILE}
+ConsoleDebug "spv: running - $SCRIPT"
+
 $SCRIPT &
 ERRNO=$?
 
-ConsoleInfo "  -->" "spr: done"
+ConsoleInfo "  -->" "spv: done"
 exit $ERRNO

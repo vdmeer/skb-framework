@@ -110,13 +110,15 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "build-cache")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine A all     "<none>"    "set all targets, except tasks"                     $PRINT_PADDING
                 BuildTaskHelpLine b build   "<none>"    "builds cache, requires a target"                   $PRINT_PADDING
                 BuildTaskHelpLine c clean   "<none>"    "removes all cached maps and screens"               $PRINT_PADDING
-                BuildTaskHelpLine d decl    "<none>"    "set all declaration targets"                       $PRINT_PADDING
-                BuildTaskHelpLine f full    "<none>"    "set all targets, including tasks"                  $PRINT_PADDING
                 BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                        $PRINT_PADDING
-                BuildTaskHelpLine t tab     "<none>"    "set all table targets"                             $PRINT_PADDING
+
+                printf "\n   target options\n"
+                BuildTaskHelpLine A all     "<none>"    "set all targets, except tasks"                         $PRINT_PADDING
+                BuildTaskHelpLine d decl    "<none>"    "set all declaration targets"                           $PRINT_PADDING
+                BuildTaskHelpLine f full    "<none>"    "set all targets, including tasks"                      $PRINT_PADDING
+                BuildTaskHelpLine t tab     "<none>"    "set all table targets"                                 $PRINT_PADDING
 
                 printf "\n   targets\n"
                 BuildTaskHelpLine "<none>" cmd-decl     "<none>"    "target: command declarations"              $PRINT_PADDING
@@ -128,7 +130,7 @@ while true; do
                 BuildTaskHelpLine "<none>" opt-decl     "<none>"    "target: option declarations"               $PRINT_PADDING
                 BuildTaskHelpLine "<none>" opt-tab      "<none>"    "target: option table"                      $PRINT_PADDING
 
-                BuildTaskHelpLine "<none>" dep-decl     "<none>"    "target: dependency decclarations"          $PRINT_PADDING
+                BuildTaskHelpLine "<none>" dep-decl     "<none>"    "target: dependency declarations"           $PRINT_PADDING
                 BuildTaskHelpLine "<none>" dep-tab      "<none>"    "target: dependency table"                  $PRINT_PADDING
 
                 BuildTaskHelpLine "<none>" param-tab    "<none>"    "target: parameter table"                   $PRINT_PADDING

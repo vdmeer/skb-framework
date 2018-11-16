@@ -1,0 +1,52 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== setting
+This task alters selected settings.
+Changeable settings are:
+
+* Print mode (_--pm_)
+    ** _ansi_ for ANSI formatted text
+    ** _text_ for plain text
+    ** _text-anon_ for annotated text
+* Levels for the shell (_--shell-level_) or tasks (_--task-level_)
+    ** _all_ - activates all levels (except _off_)
+    ** _fatal_ - only fatal errors
+    ** _error_ - fatal and standard errors
+    ** _warn-strict_ - all errors and strict warnings
+    ** _warn_ - all errors and warnings
+    ** _info_ - errors, warnings, and information about the progress
+    ** _debug_ - _info_ plus detailed progress information
+    ** _trace_ - _debug_ plus further details
+    ** _off_ - no level activated, messages and shell prompt will still be printed
+* Shell prompt (_--snp_)
+    ** alters the printing of the shell prompt between _on_ and _off_
+* Quiet mode for shell (_--sq_) and tasks (_--tq_)
+    ** alter the quiet mode between _on_ and _off_
+
+[source%nowrap,bash,indent=0]
+----
+   options
+   -h | --help              print help screen and exit
+
+   options for changing settings
+   -p | --pm MODE           print mode to: ansi, text, text-anon
+   -S | --shell-level LEVEL change shell level to LEVEL
+        --snp               toggle shell prompt mode
+        --sq                toggle shell quiet mode
+   -s | --strict            toggle strict mode
+   -T | --task-level LEVEL  change task level to LEVEL
+        --tq                toggle task quiet mode
+----
+
+Changes made by the task take immediate effect.

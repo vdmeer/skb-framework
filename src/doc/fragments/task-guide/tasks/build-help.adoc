@@ -1,0 +1,43 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== build-help
+This task builds the help files for command line options and shell commands.
+These help files are used by the framework when
+
+* An application is started with the help argument `-h` or `--help` and
+* When help is requested in the interactive shell using the shell command `h`, `?`, or `help`.
+
+In a standard installation, these help files should already exist.
+For example, the DEB and RPM distributions should create those files during the installation process (actually using this task).
+
+The option _clean_ is added by convention.
+It does not actually remove the help files, since this would break the installation of an application.
+
+[source%nowrap,bash,indent=0]
+----
+   -c | --clean       added by convention, does nothing
+   -h | --help        print help screen and exit
+----
+
+
+
+=== Requirements
+The task requires an installation of the framework.
+It also requires the tasks `list-options` and `list-commands` being loaded (this should be the default).
+
+
+
+=== Notes
+This task will change directories and files in the framework installation.
+Sufficient permissions must exist to run this task successfully.

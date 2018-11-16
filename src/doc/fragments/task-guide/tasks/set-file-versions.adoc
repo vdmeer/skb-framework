@@ -12,7 +12,6 @@
 //
 
 == set-file-versions
-
 This task changes version information in source file headers.
 It runs Apache ANT using a simple build script, which in turn calls a macro that changes the version line.
 The default build and macro files change java files and all relevant framework files.
@@ -27,3 +26,110 @@ These files can be used as template for writing other substitutions, if required
    -v | --version VERSION   new version string
 ----
 
+
+=== Examples
+
+The following example will change the version in all files in the directory _src_ to _0.1.0_.
+It will use the default build and macro file.
+
+[example]
+====
+set-file-versions --version 0.1.0 --directory ./src
+====
+
+
+
+=== Requirements
+The task requires Apache ANT (dependency _ant_).
+It also needs the parameters _VERSIONS_BUILD_FILE_ and _VERSIONS_MACRO_FILE_ to be set.
+Both parameters come with default values (the build and macro file provided by the framework).
+Settings these parameters will make the task using different build or macro files.
+
+
+
+=== The Build File
+The build file is a file called `build.xml` with information for ANT on what to build, and how.
+The default build file provided by the framework should be sufficient for all use cases.
+The XML below shows the default build file.
+
+[source%nowrap,xml,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/etc/ant/build.xml[]
+----
+
+The build file is kept very simple.
+The version string is provided by the setting `moduleVersion`, which is translated into the property `module.version`.
+The macro file is either provided by a setting `macroFile` or as the default value `macro.xml`.
+If the default value is used, the macro file must be in the same directory as the build file.
+
+The build file then define its only target `skb-set-versions`.
+For the actual substitution of strings, the build file calls a macro `push-version`
+The start directory is provided by the setting `moduleDir`, which is translated into a property `module.dir` for the macro.
+
+Line 3 shows an example use of the build file from the command line.
+
+
+
+=== The Macro File
+The macro file is called `macro.xml` (default) or defined in the build file (see above).
+The actual macro then must be called `push-version`.
+The following source block shows the default macro file provided by the framework.
+
+[source%nowrap,xml,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/etc/ant/macro.xml[]
+----
+
+The main functionality is a sequential execution of a regular expression replacement (`replaceregexp`), for all files satisfying the given filters.
+Replacements are done en block (i.e. not by line).
+The encoding is always _UTF-8_,
+For each replacement:
+
+* `regexp` - defines the search pattern.
+    This pattern is essentially a comment (in the respective source file language), followed by the string ` @version` and the rest of the actual line.
+* `substitution` - defines the replacement string
+    This string starts with the same comment, ` @version   ` string, then followed by the new version `${module.version}`.
+* `fileset` - defines which files should be processed.
+    Files are taken from the start directory.
+    `include` defines include patterns.
+    `exclude` defines exclude patterns.
+    Globbing is used to catch all files recursively.
+    For instance `src/**/*.java` will process all files with the extension `.java` in the folder `@{module.dir}/src`.
+
+The following examples show a number of standard patterns and substitution expressions.
+
+.JDOC style comments
+[source%nowrap]
+----
+sed "s/^ \* @version.*$/ \* @version    ${version}/"
+regexp pattern=" \* @version(.*)"
+substitution expression=" \* \@version    ${module.version}"
+files: **/*.java
+----
+
+.C/C++/Java single line comment style
+[source%nowrap]
+----
+sed "s/^ \/\/ @version.*$/ \* @version    ${version}/"
+regexp pattern="// @version(.*)"
+substitution expression="// \@version    ${module.version}"
+files: **/*.java, files: **/*.cpp
+----
+
+.BASH single hash comment style
+[source%nowrap]
+----
+sed "s/^# @version.*$/ \*# @version    ${version}/"
+regexp pattern=" # @version(.*)"
+substitution expression=" # \@version    ${module.version}"
+files: **/*.sh
+----
+
+.BASH double hash comment style
+[source%nowrap]
+----
+sed "s/^## @version.*$/ \*## @version    ${version}/"
+regexp pattern="## @version(.*)"
+substitution expression="## @version    ${module.version}"
+files: **/*.sh
+----

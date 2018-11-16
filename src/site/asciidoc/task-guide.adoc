@@ -12,3 +12,4 @@
 //
 
 == Task Guide
+include::{skb-site-main-dir}/doc/fragments/task-guide/introduction.adoc[]

@@ -102,11 +102,11 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
                 BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
                 printf "\n   filters\n"
-                BuildTaskHelpLine A all         "<none>"    "all dependencies, disables all other filters"                              $PRINT_PADDING
-                BuildTaskHelpLine o origin      "ORIGIN"    "only dependencies from origin: f(w), a(pp)"                                $PRINT_PADDING
-                BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                                                $PRINT_PADDING
-                BuildTaskHelpLine s status      "STATUS"    "only dependencies with status: success, warnings, errors, not attempted"   $PRINT_PADDING
-                BuildTaskHelpLine t tested      "<none>"    "only tested dependencies"                                                  $PRINT_PADDING
+                BuildTaskHelpLine A all         "<none>"    "all dependencies, disables all other filters"                                      $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "only dependencies from origin: f(w), a(pp)"                                        $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                                                       $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "only dependencies with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"     $PRINT_PADDING
+                BuildTaskHelpLine t tested      "<none>"    "only tested dependencies"                                                          $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
@@ -191,7 +191,7 @@ else
             W | w | warnings | warning)
                 STATUS=W
                 ;;
-            N | n | not-attepmted)
+            N | n | not-attempted)
                 STATUS=N
                 ;;
             *)

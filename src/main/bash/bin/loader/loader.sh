@@ -43,7 +43,7 @@
 
 ##
 ## basic options / settings
-## l1 - put bugs into errors, safer
+## l1 - changes bugs into errors, safer
 ## l2 - we want files recursivey
 ## l3 - take start time
 ## l4 - get rid of this option and avoid the annoying "Picked Up..." message in Java

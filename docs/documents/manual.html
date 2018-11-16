@@ -826,7 +826,7 @@ This mechanism allows to use application specific settings the the same paramete
 <p>Sets the command to start a web browser, for instance Firefox, with a URL.
 The setting should contain the string <code>%URL%</code>, which will be substituted with the actual URL at runtime.
 To start for instance Firefox, this variable should be set to <code>firefox --new-tab %URL%</code>.
-The browser can be given as simple command (then it needs to be in the <code>PATRH</code>) or as absolute command.</p>
+The browser can be given as simple command (then it needs to be in the <code>PATH</code>) or as absolute command.</p>
 <div class="paragraph">
 <p>default value: none defined</p>
 </div>
@@ -859,12 +859,22 @@ If not present, these tasks will not execute.</p>
 <p>default value: none defined</p>
 </div>
 </dd>
-<dt class="hdlist1"><strong>PDF_READER</strong> - command for pdf reader</dt>
+<dt class="hdlist1"><strong>PDF_VIEWER</strong> - command for pdf viewer</dt>
 <dd>
-<p>Sets the command to start a PDF reader with a given PDF file.
+<p>Sets the command to start a PDF viewer with a given PDF file.
 The setting should contain the string <code>%%</code>, which will be substituted with the PDF file at runtime.
 To start for instance Evince, this variable should be set to <code>evince %FILE%</code>.
-The PDF reader can be given as simple command (then it needs to be in the <code>PATRH</code>) or as absolute command.</p>
+The PDF viewer can be given as simple command (then it needs to be in the <code>PATRH</code>) or as absolute command.</p>
+<div class="paragraph">
+<p>default value: none defined</p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>SCENARIO_PATH</strong> - path for scenarios, entries separated with whitespaces</dt>
+<dd>
+<p>This parameter should provide a list of directories where the application can find scenarios.
+Use whitespaces to separate directories.
+If set, each directory will be parsed to load scenarios during the load of the application.
+All found scenarios are available to be executed at runtime.</p>
 <div class="paragraph">
 <p>default value: none defined</p>
 </div>
@@ -1112,7 +1122,9 @@ The repetition can be configured in terms of: <code>times</code> (how often to r
 <dt class="hdlist1"><strong>repeat-task</strong>, <strong>rt</strong> - repeats the execution of a task</dt>
 <dd>
 <p>This task will repeat a given task.
-The repetition can be configured in terms of: <code>times</code> (how often to re-run the task) and <code>wait</code> (how long to wait between repetitions).</p>
+The repetition can be configured in terms of: <code>times</code> (how often to re-run the task) and <code>wait</code> (how long to wait between repetitions).
+The task, including parameters, should be provided after <code>--</code> in the command line.
+For example, to repeat the task <code>t1</code> 5 times, use: <code>repeat-task --times 5&#8201;&#8212;&#8201;t1</code>.</p>
 </dd>
 <dt class="hdlist1"><strong>set-file-versions</strong>, <strong>sfv</strong> - sets version information in source file comments</dt>
 <dd>
@@ -1131,10 +1143,10 @@ Changeable settings include: shell and task level, strict mode, no prompt for th
 <p>Starts a web browser using the setting from the parameter <code>BROWSER</code>.
 The URL option of the task sets theURL to be loaded in the browser.</p>
 </dd>
-<dt class="hdlist1"><strong>start-pdf-reader</strong>, <strong>spr</strong> - start a PDF reader with a PDF document</dt>
+<dt class="hdlist1"><strong>start-pdf-viewer</strong>, <strong>spv</strong> - start a PDF viewer with a PDF document</dt>
 <dd>
-<p>Starts a PDF reader using the setting from the parameter <code>PDF_READER</code>.
-The file option of the task sets the PDF file to be loaded in the reader.</p>
+<p>Starts a PDF viewer using the setting from the parameter <code>PDF_VIEWER</code>.
+The file option of the task sets the PDF file to be loaded in the viewer.</p>
 </dd>
 <dt class="hdlist1"><strong>start-xterm</strong>, <strong>sx</strong> - starts a new Xterm</dt>
 <dd>
@@ -1625,7 +1637,7 @@ The license is Apache License 2.0.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-15 11:54:40 GMT
+Last updated 2018-11-16 09:24:36 GMT
 </div>
 </div>
 </body>

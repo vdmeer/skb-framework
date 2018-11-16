@@ -136,14 +136,12 @@ if [[ "$ALL" == "yes" ]]; then
     CMD_ID=
 else
     if [[ -n "$CMD_ID" ]]; then
-        if [[ "${DMAP_CMD[$CMD_ID]:-}" == "--" ]]; then
-            if [[ ! -z "${DMAP_CMD_SHORT[$CMD_ID]:-}" ]]; then
-                CMD_ID="${DMAP_CMD_SHORT[$CMD_ID]}"
-            fi
-        fi
-        if [[ ! -n "${DMAP_CMD[$CMD_ID]:-}" ]]; then
+        TESTED_CMD_ID=$(GetCommandID $CMD_ID)
+        if [[ -z "${TESTED_CMD_ID:-}" ]]; then
             ConsoleError " ->" "dc: unknown command ID '$CMD_ID'"
             exit 60
+        else
+            CMD_ID=$TESTED_CMD_ID
         fi
     fi
 fi

@@ -1,0 +1,111 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== Print
+Collection of standard print functions for keys and values.
+
+
+
+=== PrintAppMode
+Prints the application mode setting `CONFIG_MAP["APP_MODE"]`:
+
+    * _all_ in red,
+    * _dev_ in yellow,
+    * _build_ in light blue, and
+    * _use_ in green
+
+[example]
+====
+PrintAppMode
+====
+
+
+
+=== PrintConsoleLevel
+Prints the console level:
+
+    * _all_ in light cyan,
+    * _fatal_ in red,
+    * _error_ in light red,
+    * _warn-strict_ - here _warn_ in yellow and _strict_ in red,
+    * _warn_ in yellow,
+    * _info_ in green,
+    * _debug_ and _trace_ in light blue, and
+    * _off_ and any other input in light purple.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return
+
+| $1: level
+| none
+
+|===
+
+[example]
+====
+PrintConsoleLevel all
+====
+
+
+
+=== PrintStrict
+Prints the strict mode setting `CONFIG_MAP["STRICT"]`:
+
+    * _on_ in light red, and
+    * _off_ in light green.
+
+[example]
+====
+PrintStrict
+====
+
+
+
+=== PrintQuiet
+Prints the quiet setting
+
+    * _on_ in light green,
+    * _off_ in light red, and
+    * any other input in light purple.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return
+
+| $1: setting
+| none
+
+|===
+
+[example]
+====
+PrintQuiet on
+====
+
+
+
+=== PrintShellSNP
+Prints the shell-prompt mode setting `CONFIG_MAP["SHELL_SNP"]`:
+
+    * _on_ in light red, and
+    * _off_ in light green.
+
+[example]
+====
+PrintShellSNP
+====

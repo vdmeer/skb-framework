@@ -2,32 +2,6 @@
 <project name="skb-set-versions">
     <macrodef name="push-version" description="Updates the internal version string of all SKB-Framework source files.">
         <attribute name="module.dir"/>
-        <attribute name="sourceEncoding"/>
-
-        <!--
-            Replacement combinations:
-
-            Version in JDOC style comment
-                sed "s/^ \* @version.*$/ \* @version    ${version}/"
-                regexp pattern=" \* @version(.*)"
-                substitution expression=" \* \@version    ${module.version}"
-
-            Version in C/C++/Java single line comment style
-                sed "s/^ \/\/ @version.*$/ \* @version    ${version}/"
-                regexp pattern="// @version(.*)"
-                substitution expression="// \@version    ${module.version}"
-
-            Version in Bash single hash comment style
-                sed "s/^ # @version.*$/ \* @version    ${version}/"
-                regexp pattern=" # @version(.*)"
-                substitution expression=" # \@version    ${module.version}"
-
-            Version in Bash double hash comment style
-                sed "s/^## @version.*$/ \*## @version    ${version}/"
-                regexp pattern="## @version(.*)"
-                substitution expression="## @version    ${module.version}"
-        -->
-
         <sequential>
             <replaceregexp byline="false" encoding="UTF-8">
                 <!-- sed "s/^ \* @version.*$/ \* @version    ${version}/" -->

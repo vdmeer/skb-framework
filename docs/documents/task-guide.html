@@ -822,64 +822,156 @@ table.CodeRay td.code>pre{padding:0}
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_use_tasks">1. Use Tasks</a>
+<li><a href="#_introduction">1. Introduction</a></li>
+<li><a href="#_use_tasks">2. Use Tasks</a>
 <ul class="sectlevel2">
-<li><a href="#_cloc_installation">1.1. cloc-installation</a>
+<li><a href="#_list">2.1. list-*</a>
 <ul class="sectlevel3">
-<li><a href="#_options">1.1.1. Options</a></li>
-<li><a href="#_examples">1.1.2. Examples</a></li>
-<li><a href="#_requirements">1.1.3. Requirements</a></li>
+<li><a href="#_list_commands">2.1.1. list-commands</a></li>
+<li><a href="#_list_configuration">2.1.2. list-configuration</a></li>
+<li><a href="#_list_dependencies">2.1.3. list-dependencies</a></li>
+<li><a href="#_list_exitstatus">2.1.4. list-exitstatus</a></li>
+<li><a href="#_list_options">2.1.5. list-options</a></li>
+<li><a href="#_list_parameters">2.1.6. list-parameters</a></li>
+<li><a href="#_list_scenarios">2.1.7. list-scenarios</a></li>
+<li><a href="#_list_tasks">2.1.8. list-tasks</a></li>
 </ul>
 </li>
-<li><a href="#_repeat_scenario">1.2. repeat-scenario</a>
+<li><a href="#_describe">2.2. describe-*</a>
 <ul class="sectlevel3">
-<li><a href="#_options_2">1.2.1. Options</a></li>
-<li><a href="#_examples_2">1.2.2. Examples</a></li>
+<li><a href="#_describe_application">2.2.1. describe-application</a></li>
+<li><a href="#_describe_command">2.2.2. describe-command</a></li>
+<li><a href="#_describe_dependency">2.2.3. describe-dependency</a></li>
+<li><a href="#_describe_element">2.2.4. describe-element</a></li>
+<li><a href="#_describe_exitstatus">2.2.5. describe-exitstatus</a></li>
+<li><a href="#_describe_option">2.2.6. describe-option</a></li>
+<li><a href="#_describe_parameter">2.2.7. describe-parameter</a></li>
+<li><a href="#_describe_scenario">2.2.8. describe-scenario</a></li>
+<li><a href="#_describe_task">2.2.9. describe-task</a></li>
 </ul>
 </li>
-<li><a href="#_wait">1.3. wait</a>
+<li><a href="#_cloc_installation">2.3. cloc-installation</a>
 <ul class="sectlevel3">
-<li><a href="#_options_3">1.3.1. Options</a></li>
-<li><a href="#_examples_3">1.3.2. Examples</a></li>
+<li><a href="#_options">2.3.1. Options</a></li>
+<li><a href="#_examples">2.3.2. Examples</a></li>
+<li><a href="#_requirements">2.3.3. Requirements</a></li>
+</ul>
+</li>
+<li><a href="#_execute_program">2.4. execute-program</a>
+<ul class="sectlevel3">
+<li><a href="#_examples_2">2.4.1. Examples</a></li>
+<li><a href="#_requirements_2">2.4.2. Requirements</a></li>
+</ul>
+</li>
+<li><a href="#_manual">2.5. manual</a>
+<ul class="sectlevel3">
+<li><a href="#_requirements_3">2.5.1. Requirements</a></li>
+</ul>
+</li>
+<li><a href="#_repeat_scenario">2.6. repeat-scenario</a>
+<ul class="sectlevel3">
+<li><a href="#_options_2">2.6.1. Options</a></li>
+<li><a href="#_examples_3">2.6.2. Examples</a></li>
+</ul>
+</li>
+<li><a href="#_repeat_task">2.7. repeat-task</a>
+<ul class="sectlevel3">
+<li><a href="#_examples_4">2.7.1. Examples</a></li>
+</ul>
+</li>
+<li><a href="#_setting">2.8. setting</a></li>
+<li><a href="#_start_browser">2.9. start-browser</a>
+<ul class="sectlevel3">
+<li><a href="#_requirements_4">2.9.1. Requirements</a></li>
+</ul>
+</li>
+<li><a href="#_start_pdf_viewer">2.10. start-pdf-viewer</a>
+<ul class="sectlevel3">
+<li><a href="#_requirements_5">2.10.1. Requirements</a></li>
+</ul>
+</li>
+<li><a href="#_start_xterm">2.11. start-xterm</a>
+<ul class="sectlevel3">
+<li><a href="#_examples_5">2.11.1. Examples</a></li>
+<li><a href="#_requirements_6">2.11.2. Requirements</a></li>
+</ul>
+</li>
+<li><a href="#_statistics">2.12. statistics</a>
+<ul class="sectlevel3">
+<li><a href="#_filters">2.12.1. Filters</a></li>
+<li><a href="#_examples_6">2.12.2. Examples</a></li>
+</ul>
+</li>
+<li><a href="#_validate_installation">2.13. validate-installation</a>
+<ul class="sectlevel3">
+<li><a href="#_targets">2.13.1. Targets</a></li>
+</ul>
+</li>
+<li><a href="#_wait">2.14. wait</a>
+<ul class="sectlevel3">
+<li><a href="#_options_3">2.14.1. Options</a></li>
+<li><a href="#_examples_7">2.14.2. Examples</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_build_tasks">2. Build Tasks</a>
+<li><a href="#_build_tasks">3. Build Tasks</a>
 <ul class="sectlevel2">
-<li><a href="#_clean">2.1. clean</a>
+<li><a href="#_build_manual">3.1. build-manual</a>
 <ul class="sectlevel3">
-<li><a href="#_options_4">2.1.1. Options</a></li>
+<li><a href="#_configuration">3.1.1. Configuration</a></li>
+<li><a href="#_manual_source">3.1.2. Manual Source</a></li>
+<li><a href="#_general_options">3.1.3. General Options</a></li>
+<li><a href="#_target_options">3.1.4. Target Options</a></li>
+<li><a href="#_element_list_filters">3.1.5. Element List Filters</a></li>
+<li><a href="#_application_filters">3.1.6. Application Filters</a></li>
+<li><a href="#_element_filters">3.1.7. Element Filters</a></li>
+<li><a href="#_examples_8">3.1.8. Examples</a></li>
+<li><a href="#_task_requirements">3.1.9. Task Requirements</a></li>
+<li><a href="#_notes">3.1.10. Notes</a></li>
 </ul>
 </li>
-<li><a href="#_build_manual">2.2. build-manual</a>
+<li><a href="#_build_mvn_site">3.2. build-mvn-site</a>
 <ul class="sectlevel3">
-<li><a href="#_configuration">2.2.1. Configuration</a></li>
-<li><a href="#_manual_source">2.2.2. Manual Source</a></li>
-<li><a href="#_general_options">2.2.3. General Options</a></li>
-<li><a href="#_target_options">2.2.4. Target Options</a></li>
-<li><a href="#_element_list_filters">2.2.5. Element List Filters</a></li>
-<li><a href="#_application_filters">2.2.6. Application Filters</a></li>
-<li><a href="#_element_filters">2.2.7. Element Filters</a></li>
-<li><a href="#_examples_4">2.2.8. Examples</a></li>
-<li><a href="#_task_requirements">2.2.9. Task Requirements</a></li>
+<li><a href="#_target_options_2">3.2.1. Target Options</a></li>
+<li><a href="#_filter_options">3.2.2. Filter Options</a></li>
+<li><a href="#_maven_options">3.2.3. Maven Options</a></li>
+<li><a href="#_examples_9">3.2.4. Examples</a></li>
+<li><a href="#_site_files">3.2.5. Site Files</a></li>
+<li><a href="#_requirements_7">3.2.6. Requirements</a></li>
 </ul>
 </li>
-<li><a href="#_build_mvn_site">2.3. build-mvn-site</a>
+<li><a href="#_clean">3.3. clean</a>
 <ul class="sectlevel3">
-<li><a href="#_configuration_2">2.3.1. Configuration</a></li>
-<li><a href="#_general_options_2">2.3.2. General Options</a></li>
-<li><a href="#_target_options_2">2.3.3. Target Options</a></li>
-<li><a href="#_filter_options">2.3.4. Filter Options</a></li>
-<li><a href="#_maven_options">2.3.5. Maven Options</a></li>
-<li><a href="#_requirements_2">2.3.6. Requirements</a></li>
+<li><a href="#_options_4">3.3.1. Options</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_development_tasks">3. Development Tasks</a>
+<li><a href="#_development_tasks">4. Development Tasks</a>
 <ul class="sectlevel2">
-<li><a href="#_set_file_versions">3.1. set-file-versions</a></li>
+<li><a href="#_build_cache">4.1. build-cache</a>
+<ul class="sectlevel3">
+<li><a href="#_general_target_options">4.1.1. General Target Options</a></li>
+<li><a href="#_targets_2">4.1.2. Targets</a></li>
+<li><a href="#_requirements_8">4.1.3. Requirements</a></li>
+<li><a href="#_notes_2">4.1.4. Notes</a></li>
+</ul>
+</li>
+<li><a href="#_build_help">4.2. build-help</a>
+<ul class="sectlevel3">
+<li><a href="#_requirements_9">4.2.1. Requirements</a></li>
+<li><a href="#_notes_3">4.2.2. Notes</a></li>
+</ul>
+</li>
+<li><a href="#_set_file_versions">4.3. set-file-versions</a>
+<ul class="sectlevel3">
+<li><a href="#_examples_10">4.3.1. Examples</a></li>
+<li><a href="#_requirements_10">4.3.2. Requirements</a></li>
+<li><a href="#_the_build_file">4.3.3. The Build File</a></li>
+<li><a href="#_the_macro_file">4.3.4. The Macro File</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -889,15 +981,1124 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>for SKB-Framework v0.0.1, November 15, 2018</p>
+<p>for SKB-Framework v0.0.1, November 16, 2018</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_use_tasks">1. Use Tasks</h2>
+<h2 id="_introduction">1. Introduction</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>This guide provides details for all tasks of the framework.
+The tasks are described in three categories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use Tasks - these tasks are mainly directed at the application mode <em>use</em>.</p>
+</li>
+<li>
+<p>Build Tasks - these tasks are mainly directed at the application mode <em>builde</em>.
+They do build artifacts or compile source files to build artifacts.</p>
+</li>
+<li>
+<p>Development Tasks - these tasks are mainly directed at the application mode <em>dev</em>.
+They provide functionality required to develop and application or to build important runtime artifacts for an application.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A task in the framework is essentially a <em>bash</em> script that benefits from provided functions of the framework, such as loading and testing dependencies or parameters.
+By convention, each task should provide an argument <code>-h</code> or <code>--help</code>, which shows its arguments.
+For simple tasks, the description in this guide does no go beyond what this help and the online help (or manual) already provides.
+One of those tasks is <em>wait</em>.</p>
+</div>
+<div class="paragraph">
+<p>For more complex tasks, with either a lot of arguments or special configuration requirements, this guide provides all details required to use the task.
+One of those tasks is <code>build-mvn-site</code>, which not only has a rather complex process but also requires additional metadata for sites to exist.</p>
+</div>
+<div class="paragraph">
+<p>For details on how to develop and write a task please see the developer guide.
+This document focuses only on how to use tasks.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_use_tasks">2. Use Tasks</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This category of tasks provides functionality for using built artifacts or functionality that does not require a build.
+Those tasks, if they provide important functionality, might also be available in the application modes <em>build</em> and/or <em>dev</em>.</p>
+</div>
 <div class="sect2">
-<h3 id="_cloc_installation">1.1. cloc-installation</h3>
+<h3 id="_list">2.1. list-*</h3>
+<div class="paragraph">
+<p>There are eight tasks that start with <em>list-</em>.
+Each of these tasks provides a list of framework and application features, namely:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>list-commands</em> - lists shell commands</p>
+</li>
+<li>
+<p><em>list-configuration</em> - list current configuration keys and values</p>
+</li>
+<li>
+<p><em>list-dependencies</em> - lists dependencies</p>
+</li>
+<li>
+<p><em>list-exitstatus</em> - lists exit status, error codes</p>
+</li>
+<li>
+<p><em>list-options</em> - lists CLI options</p>
+</li>
+<li>
+<p><em>list-parameters</em> - lists parameters</p>
+</li>
+<li>
+<p><em>list-scenarios</em> - lists scenarios</p>
+</li>
+<li>
+<p><em>list-tasks</em> - lists tasks</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All of these tasks have the same default behavior, provide the same main options, and can be used with (then task specific) filters.
+The default behavior, when executed without any arguments, is to provide a simple list.
+For example, when <em>list-tasks</em> is called it provides a simple list of tasks.
+For each item in the list, the tasks show the identifier (or key), if available a short identifier, and a description (e.g. for tasks) or values (e.g. for <em>list-configuration</em>).
+The list will be empty if no items where found, e.g. in <em>list-scenarios</em> when no scenarios have been loaded.</p>
+</div>
+<div class="paragraph">
+<p>The standard options are shown below.
+Each of the list tasks provides a <em>table</em> view, which provides more detailed information for their items.
+The list tasks can also use a print mode different than the currently configured.
+<em>print-mode</em> can be set to any mode that is supported by the API, namely:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>adoc</em> - print in AscciDoc format</p>
+</li>
+<li>
+<p><em>ansi</em> - print with ANSI formatting for colors and effects</p>
+</li>
+<li>
+<p><em>text</em> - print as plain text, no special formatting will be used</p>
+</li>
+<li>
+<p><em>text-anon</em> - print as text with some annotations, similar to <em>adoc</em></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help              print help screen and exit
+-P | --print-mode MODE   print mode: ansi, text, adoc
+-T | --table             help screen format</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All list tasks with filters provide a standard filter for listing all items, shown below.
+All other filters are task specific.
+If filters are used, only items that satisfy the filter will be listed.
+Any number of filters can be used in any combination.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-A | --all               all settings, disables all other filters</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_list_commands">2.1.1. list-commands</h4>
+<div class="paragraph">
+<p>List the shell commands.
+This task does not provide any further options or filters.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_list_configuration">2.1.2. list-configuration</h4>
+<div class="paragraph">
+<p>Lists configurations keys and values.
+For print mode <em>ansi</em>, some of the values are color-coded or printed in bold or italic, for example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Values for application mode: <em>use</em> printed in green, <em>build</em> printed in blue, <em>dev</em> printed in yellow, <em>all</em> printed in dark red</p>
+</li>
+<li>
+<p>Values for levels: <em>error</em> printed in red, <em>warn</em> printed in yellow, <em>info</em> printed in green, <em>debug</em> and <em>trace</em> printed in blue</p>
+</li>
+<li>
+<p>Value for flavor: printed in bold</p>
+</li>
+<li>
+<p>Values for quiet settings: <em>off</em> printed in green, <em>on</em> printed in red</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In table mode, a color coded status indicates from where a setting was taken.</p>
+</div>
+<div class="paragraph">
+<p>The task offers a number of filters.
+They all relate to the original source from which a configuration value was set: command line, environment, configuration file, default value, or internally.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-c | --cli               only settings from CLI options
+-d | --default           only settings from default value
+-e | --env               only settings from environment
+-f | --file              only settings from configuration file
+-i | --internal          only internal settings</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This task can take the list of items from the framework or application cache.
+If <em>CACHE_DIR</em> is set to a directory that contains cached command information (map), this information is used.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_list_dependencies">2.1.3. list-dependencies</h4>
+<div class="paragraph">
+<p>Lists dependencies with name and description.
+Table mode shows two more aspects of dependencies:
+    the origin of its declaration (framework or application) and
+    the load status (color coded).</p>
+</div>
+<div class="paragraph">
+<p>Provided filters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>origin</em> - filter by declaration origin</p>
+<div class="ulist">
+<ul>
+<li>
+<p>framework (as: <code>F</code>, <code>f</code>, <code>fw</code>, or <code>framework</code>), or</p>
+</li>
+<li>
+<p>application (as: <code>A</code>, <code>a</code>, <code>app</code>, or <code>application</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>requested</em> - show dependencies that have been requested by a loaded task</p>
+</li>
+<li>
+<p><em>status</em> - filter by dependency status</p>
+<div class="ulist">
+<ul>
+<li>
+<p>success (as: <code>S</code>, <code>s</code>, or <code>success</code>),</p>
+</li>
+<li>
+<p>warnings (as: <code>W</code>, <code>w</code>, or <code>warning</code>),</p>
+</li>
+<li>
+<p>errors (as: <code>E</code>, <code>e</code>, or <code>error</code>), or</p>
+</li>
+<li>
+<p>not attempted (as: <code>N</code>, <code>n</code>, or <code>not-attempted</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>tested</em> - filter dependencies that have been tested, ignoring untested dependencies</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-o | --origin ORIGIN     only dependencies from origin: f(w), a(pp)
+-r | --requested         only requested dependencies
+-s | --status STATUS     only dependencies with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
+-t | --tested            only tested dependencies</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This task can take the list of items from the framework or application cache.
+If <em>CACHE_DIR</em> is set to a directory that contains cached dependency information (map), this information is used.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_list_exitstatus">2.1.4. list-exitstatus</h4>
+<div class="paragraph">
+<p>Lists exit status codes with their number and description.
+Table mode shows two more aspects:
+    the origin (of an error: all, application, framework, loader, shell, tasks) and
+    an indicator of the problem (internal for a bug, external for a configuration problem).
+Provided filters focus on the <em>origin</em> of the problem.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+     --app               only application status
+-f | --fw                only framework status
+-l | --loader            only loader status
+-s | --shell             only shell status
+-t | --task              only task status</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This task can take the list of items from the framework or application cache.
+If <em>CACHE_DIR</em> is set to a directory that contains cached exit status information (map), this information is used.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_list_options">2.1.5. list-options</h4>
+<div class="paragraph">
+<p>Lists command line options with name, short name, if required a parameter, and a description.
+Table mode also shows the type of option, being either an <em>exit</em> option or a <em>runtime</em> option.
+Provided filters focus on the option type.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-e | --exit              only exit options
+-r | --run               only runtime options</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This task can take the list of items from the framework or application cache.
+If <em>CACHE_DIR</em> is set to a directory that contains cached option information (map), this information is used.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_list_parameters">2.1.6. list-parameters</h4>
+<div class="paragraph">
+<p>Lists parameters with their name and description.
+Table mode shows three more aspects of parameters:
+        the origin of its declaration (framework or application),
+        an indicator for a defined default value (red cross for not defined, green ok for defined), and
+        a color coded load status.</p>
+</div>
+<div class="paragraph">
+<p>The task also provides a second table.
+This table shows the parameter names with their declared default value.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">options
+-D | --def-table         print default value table</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Provided filters are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>default</em> - show parameters with a set default value</p>
+</li>
+<li>
+<p><em>origin</em> - filter by declaration origin</p>
+<div class="ulist">
+<ul>
+<li>
+<p>framework (as: <code>F</code>, <code>f</code>, <code>fw</code>, or <code>framework</code>), or</p>
+</li>
+<li>
+<p>application (as: <code>A</code>, <code>a</code>, <code>app</code>, or <code>application</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>requested</em> - show parameters that have been requested by a loaded task</p>
+</li>
+<li>
+<p><em>status</em> - filter for parameter setting status</p>
+<div class="ulist">
+<ul>
+<li>
+<p>not set (as <code>N</code>, <code>n</code>, or <code>notset</code>)</p>
+</li>
+<li>
+<p>set from command line option (as: <code>O</code>, <code>o</code>, <code>option</code>)</p>
+</li>
+<li>
+<p>set from environment (as <code>E</code>, <code>e</code>, <code>env</code>, <code>environment</code>)</p>
+</li>
+<li>
+<p>set from configuration file (as <code>F</code>, <code>f</code>, <code>file</code>)</p>
+</li>
+<li>
+<p>set from default value (as <code>D</code>, <code>d</code>, <code>default</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-d | --default           only parameters with a defined default value
+-o | --origin ORIGIN     only parameters from origin: f(w), a(pp)
+-r | --requested         only requested dependencies
+-s | --status STATUS     only parameter for status: o, f, e, d</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This task can take the list of items from the framework or application cache.
+If <em>CACHE_DIR</em> is set to a directory that contains cached parameter information (map), this information is used.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_list_scenarios">2.1.7. list-scenarios</h4>
+<div class="paragraph">
+<p>Lists scenarios with their name, short name, and a description.
+Table mode a few more aspects of scenarios:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the origin of its declaration (framework or application),</p>
+</li>
+<li>
+<p>if the scenario is declared for application <em>dev</em>,</p>
+</li>
+<li>
+<p>if the scenario is declared for application <em>build</em>,</p>
+</li>
+<li>
+<p>if the scenario is declared for application <em>use</em>, and</p>
+</li>
+<li>
+<p>a color coded load status.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Provided filters are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>loaded</em> - show only scenarios currently loaded</p>
+</li>
+<li>
+<p><em>mode</em> - show only scenarios for a specific application mode</p>
+<div class="ulist">
+<ul>
+<li>
+<p>for mode <em>all</em> use    <code>A</code>, <code>a</code>, <code>All</code>,   <code>all</code></p>
+</li>
+<li>
+<p>for mode <em>dev</em> use    <code>D</code>, <code>d</code>, <code>Dev</code>,   <code>dev</code></p>
+</li>
+<li>
+<p>for mode <em>build</em> use  <code>B</code>, <code>b</code>, <code>Build</code>, <code>build</code></p>
+</li>
+<li>
+<p>for mode <em>use</em> use    <code>U</code>, <code>u</code>, <code>Use</code>,   <code>use</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>filters to exclude scenarios by name:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em>no-a</em> for all these <em>no</em> filters</p>
+</li>
+<li>
+<p><em>no-b</em> to exclude scenarios that start with <code>build-</code></p>
+</li>
+<li>
+<p><em>no-d</em> to exclude scenarios that start with <code>describe-</code></p>
+</li>
+<li>
+<p><em>no-dl</em> to exclude scenarios that start with <code>describe-</code> or <code>list-</code></p>
+</li>
+<li>
+<p><em>no-l</em> to exclude scenarios that start with <code>list-</code></p>
+</li>
+<li>
+<p><em>no-s</em> to exclude scenarios that start with <code>start-</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>origin</em> - * <em>origin</em> - filter by declaration origin</p>
+<div class="ulist">
+<ul>
+<li>
+<p>framework (as: <code>F</code>, <code>f</code>, <code>fw</code>, or <code>framework</code>), or</p>
+</li>
+<li>
+<p>application (as: <code>A</code>, <code>a</code>, <code>app</code>, or <code>application</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>odl</em> - filter for scenarios that start with <code>describe-</code> or <code>list-</code></p>
+</li>
+<li>
+<p><em>status</em> - filter by scenario status</p>
+<div class="ulist">
+<ul>
+<li>
+<p>success (as: <code>S</code>, <code>s</code>, or <code>success</code>),</p>
+</li>
+<li>
+<p>warnings (as: <code>W</code>, <code>w</code>, or <code>warning</code>),</p>
+</li>
+<li>
+<p>errors (as: <code>E</code>, <code>e</code>, or <code>error</code>), or</p>
+</li>
+<li>
+<p>not attempted (as: <code>N</code>, <code>n</code>, or <code>not-attempted</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>unloaded</em> - filter for scenarios that have been unloaded</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-l | --loaded            only loaded scenarios
+-m | --mode MODE         only scenarios for application mode: dev, build, use
+     --no-a              activate all '--no-' filters
+     --no-b              exclude scenarios starting with 'build-'
+     --no-d              exclude scenarios starting with 'describe-'
+     --no-dl             exclude scenarios starting with 'describe-' or 'list-'
+     --no-l              exclude scenarios starting with 'list-'
+     --no-s              exclude scenarios starting with 'start-'
+-o | --origin ORIGIN     only scenarios from origin: f(w), a(pp)
+     --odl               show only scenarios starting with 'describe-' or 'list-'
+-s | --status STATUS     only scenarios with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
+-u | --unloaded          only unloaded scenarios</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This task can take the list of items from the framework or application cache.
+If <em>CACHE_DIR</em> is set to a directory that contains cached scenario information (map), this information is used.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_list_tasks">2.1.8. list-tasks</h4>
+<div class="paragraph">
+<p>Lists tasks with their name, short name, and a description.
+Table mode a few more aspects of tasks:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the origin of its declaration (framework or application),</p>
+</li>
+<li>
+<p>if the task is declared for application <em>dev</em>,</p>
+</li>
+<li>
+<p>if the task is declared for application <em>build</em>,</p>
+</li>
+<li>
+<p>if the task is declared for application <em>use</em>, and</p>
+</li>
+<li>
+<p>a color coded load status.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Provided filters are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>loaded</em> - show only tasks currently loaded</p>
+</li>
+<li>
+<p><em>mode</em> - show only tasks for a specific application mode</p>
+<div class="ulist">
+<ul>
+<li>
+<p>for mode <em>all</em> use    <code>A</code>, <code>a</code>, <code>All</code>,   <code>all</code></p>
+</li>
+<li>
+<p>for mode <em>dev</em> use    <code>D</code>, <code>d</code>, <code>Dev</code>,   <code>dev</code></p>
+</li>
+<li>
+<p>for mode <em>build</em> use  <code>B</code>, <code>b</code>, <code>Build</code>, <code>build</code></p>
+</li>
+<li>
+<p>for mode <em>use</em> use    <code>U</code>, <code>u</code>, <code>Use</code>,   <code>use</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>filters to exclude tasks by name:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em>no-a</em> for all these <em>no</em> filters</p>
+</li>
+<li>
+<p><em>no-b</em> to exclude tasks that start with <code>build-</code></p>
+</li>
+<li>
+<p><em>no-d</em> to exclude tasks that start with <code>describe-</code></p>
+</li>
+<li>
+<p><em>no-dl</em> to exclude tasks that start with <code>describe-</code> or <code>list-</code></p>
+</li>
+<li>
+<p><em>no-l</em> to exclude tasks that start with <code>list-</code></p>
+</li>
+<li>
+<p><em>no-s</em> to exclude tasks that start with <code>start-</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>origin</em> - * <em>origin</em> - filter by declaration origin</p>
+<div class="ulist">
+<ul>
+<li>
+<p>framework (as: <code>F</code>, <code>f</code>, <code>fw</code>, or <code>framework</code>), or</p>
+</li>
+<li>
+<p>application (as: <code>A</code>, <code>a</code>, <code>app</code>, or <code>application</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>odl</em> - filter for tasks that start with <code>describe-</code> or <code>list-</code></p>
+</li>
+<li>
+<p><em>status</em> - filter by task status</p>
+<div class="ulist">
+<ul>
+<li>
+<p>success (as: <code>S</code>, <code>s</code>, or <code>success</code>),</p>
+</li>
+<li>
+<p>warnings (as: <code>W</code>, <code>w</code>, or <code>warning</code>),</p>
+</li>
+<li>
+<p>errors (as: <code>E</code>, <code>e</code>, or <code>error</code>), or</p>
+</li>
+<li>
+<p>not attempted (as: <code>N</code>, <code>n</code>, or <code>not-attempted</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>unloaded</em> - filter for tasks that have been unloaded</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-l | --loaded            only loaded tasks
+-m | --mode MODE         only tasks for application mode: dev, build, use
+     --no-a              activate all '--no-' filters
+     --no-b              exclude tasks starting with 'build-'
+     --no-d              exclude tasks starting with 'describe-'
+     --no-dl             exclude tasks starting with 'describe-' or 'list-'
+     --no-l              exclude tasks starting with 'list-'
+     --no-s              exclude tasks starting with 'start-'
+-o | --origin ORIGIN     only tasks from origin: f(w), a(pp)
+     --odl               show only tasks starting with 'describe-' or 'list-'
+-s | --status STATUS     only tasks with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
+-u | --unloaded          only unloaded tasks</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This task can take the list of items from the framework or application cache.
+If <em>CACHE_DIR</em> is set to a directory that contains cached task information (map), this information is used.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_describe">2.2. describe-*</h3>
+<div class="paragraph">
+<p>There are nine tasks that start with <em>describe-</em>.
+Each of these tasks provides a description of one or more framework and application features, namely:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>describe-application</em> - describes one or more application aspects (from the manual)</p>
+</li>
+<li>
+<p><em>describe-command</em> - describes one or more shell commands</p>
+</li>
+<li>
+<p><em>describe-dependency</em> - describes one or more dependencies</p>
+</li>
+<li>
+<p><em>describe-element</em> - describes one or more element types of an application</p>
+</li>
+<li>
+<p><em>describe-exitstatus</em> - describes one or more exit status (error codes)</p>
+</li>
+<li>
+<p><em>describe-option</em> - describes one or more CLI options</p>
+</li>
+<li>
+<p><em>describe-parameter</em> - describes one or more parameters</p>
+</li>
+<li>
+<p><em>describe-scenario</em> - describes one or more scenarios</p>
+</li>
+<li>
+<p><em>describe-task</em> - describes one or more tasks</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All of these tasks have the same default behavior, provide the same main options, and can be used with (then task specific) filters.
+The default behavior, when executed without any arguments, is to provide a list of descriptions.
+For example, when <em>describe-task</em> is called it provides list of task descriptions, one per declared task.
+The description will be empty if no items where found, e.g. in <em>describe-scenario</em> when no scenarios have been loaded.</p>
+</div>
+<div class="paragraph">
+<p>The standard options are shown below.
+<em>print-mode</em> can be set to any mode that is supported by the API, namely:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>adoc</em> - print in AscciDoc format</p>
+</li>
+<li>
+<p><em>ansi</em> - print with ANSI formatting for colors and effects</p>
+</li>
+<li>
+<p><em>text</em> - print as plain text, no special formatting will be used</p>
+</li>
+<li>
+<p><em>text-anon</em> - print as text with some annotations, similar to <em>adoc</em></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help              print help screen and exit
+-P | --print-mode MODE   print mode: ansi, text, adoc</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All describe tasks with filters provide a standard filter for describing all found items, shown below.
+Tasks that describe elements (e.g. task, parameter, dependency) also provide a filter to only describe a single element by name (identifier).
+All other filters are task specific.
+If filters are used, only items that satisfy the filter will be described.
+Any number of filters can be used in any combination.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-A | --all               all settings, disables all other filters</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_describe_application">2.2.1. describe-application</h4>
+<div class="paragraph">
+<p>Describe application aspects from the manual.
+The provided filters focus on the different aspects.
+If filters are used, only aspects specified will be shown.
+If no filters are used, all aspects are shown.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+     --app               include application description
+     --authors           include authors
+     --bugs              include bugs
+     --copying           include copying
+     --resources         include resources
+     --security          include security</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The text is taken from the manual.
+This <em>MANUAL_SRC</em> must point to valid manual sources.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_describe_command">2.2.2. describe-command</h4>
+<div class="paragraph">
+<p>Describes one or more commands.
+The <em>id</em> filter can be used to show only a specific command.
+For the <em>id</em>, the long or the short form of the command can be used.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-i | --id ID             long command identifier</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_describe_dependency">2.2.3. describe-dependency</h4>
+<div class="paragraph">
+<p>Describes one or more dependencies.
+Provided filters are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>id</em> - identifies a specific dependency and only this one will be described</p>
+</li>
+<li>
+<p><em>origin</em> - filter by declaration origin</p>
+<div class="ulist">
+<ul>
+<li>
+<p>framework (as: <code>F</code>, <code>f</code>, <code>fw</code>, or <code>framework</code>), or</p>
+</li>
+<li>
+<p>application (as: <code>A</code>, <code>a</code>, <code>app</code>, or <code>application</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>requested</em> - show dependencies that have been requested by a loaded task</p>
+</li>
+<li>
+<p><em>status</em> - filter by dependency status</p>
+<div class="ulist">
+<ul>
+<li>
+<p>success (as: <code>S</code>, <code>s</code>, or <code>success</code>),</p>
+</li>
+<li>
+<p>warnings (as: <code>W</code>, <code>w</code>, or <code>warning</code>),</p>
+</li>
+<li>
+<p>errors (as: <code>E</code>, <code>e</code>, or <code>error</code>), or</p>
+</li>
+<li>
+<p>not attempted (as: <code>N</code>, <code>n</code>, or <code>not-attempted</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>tested</em> - filter dependencies that have been tested, ignoring untested dependencies</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-i | --id ID             dependency identifier
+-o | --origin ORIGIN     only dependencies from origin: f(w), a(pp)
+-r | --requested         only requested dependencies
+-s | --status STATUS     only dependencies with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
+-t | --tested            only tested dependencies</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_describe_element">2.2.4. describe-element</h4>
+<div class="paragraph">
+<p>Describes framework and application element types, e.g. task, parameter, and description.
+The text is the same as used in the manual as introduction to the elements.
+The provided filters focus on the different element types.
+If filters are used, only types specified will be shown.
+If no filters are used, all types are shown.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+     --cmd               include commands
+     --dep               include dependencies
+     --es                include exit status
+     --opt               include options
+     --param             include parameters
+     --scn               include scenarios
+     --task              include tasks</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The text is taken from the manual.
+This <em>MANUAL_SRC</em> must point to valid manual sources.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_describe_exitstatus">2.2.5. describe-exitstatus</h4>
+<div class="paragraph">
+<p>Describes one or more exit status codes.
+The <em>id</em> filter can be used to show only a specific status code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-i | --id ID             exit-status identifier</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_describe_option">2.2.6. describe-option</h4>
+<div class="paragraph">
+<p>Describes one or more command line options.
+The <em>id</em> filter can be used to show only a specific option.
+For the <em>id</em>, the long or the short form of the option can be used.
+The other filters focus on the option type, being either <em>exit</em> options or <em>runtime</em> options.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-e | --exit              only exit options
+-i | --id ID             long option identifier
+-r | --run               only runtime options</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_describe_parameter">2.2.7. describe-parameter</h4>
+<div class="paragraph">
+<p>Describes one or more parameters.
+The following filters are provided:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>default</em> - describe parameters with a set default value</p>
+</li>
+<li>
+<p><em>id</em> - only describe a specific parameter, the identifier can be given in lower-case or upper-case or mixed spelling</p>
+</li>
+<li>
+<p><em>origin</em> - filter by declaration origin</p>
+<div class="ulist">
+<ul>
+<li>
+<p>framework (as: <code>F</code>, <code>f</code>, <code>fw</code>, or <code>framework</code>), or</p>
+</li>
+<li>
+<p>application (as: <code>A</code>, <code>a</code>, <code>app</code>, or <code>application</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>requested</em> - show parameters that have been requested by a loaded task</p>
+</li>
+<li>
+<p><em>status</em> - filter for parameter setting status</p>
+<div class="ulist">
+<ul>
+<li>
+<p>not set (as <code>N</code>, <code>n</code>, or <code>notset</code>)</p>
+</li>
+<li>
+<p>set from command line option (as: <code>O</code>, <code>o</code>, <code>option</code>)</p>
+</li>
+<li>
+<p>set from environment (as <code>E</code>, <code>e</code>, <code>env</code>, <code>environment</code>)</p>
+</li>
+<li>
+<p>set from configuration file (as <code>F</code>, <code>f</code>, <code>file</code>)</p>
+</li>
+<li>
+<p>set from default value (as <code>D</code>, <code>d</code>, <code>default</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-d | --default           only parameters with a defined default value
+-i | --id ID             parameter identifier
+-o | --origin ORIGIN     only parameters from origin: f(w), a(pp)
+-r | --requested         only requested dependencies
+-s | --status STATUS     only parameter for status: o, f, e, d</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_describe_scenario">2.2.8. describe-scenario</h4>
+<div class="paragraph">
+<p>Describes one or more scenarios.
+Provided filters are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>id</em> - only describe a specific scenario, the identifier can be the long name or the short name of the scenario</p>
+</li>
+<li>
+<p><em>loaded</em> - show only scenarios currently loaded</p>
+</li>
+<li>
+<p><em>mode</em> - show only scenarios for a specific application mode</p>
+<div class="ulist">
+<ul>
+<li>
+<p>for mode <em>all</em> use    <code>A</code>, <code>a</code>, <code>All</code>,   <code>all</code></p>
+</li>
+<li>
+<p>for mode <em>dev</em> use    <code>D</code>, <code>d</code>, <code>Dev</code>,   <code>dev</code></p>
+</li>
+<li>
+<p>for mode <em>build</em> use  <code>B</code>, <code>b</code>, <code>Build</code>, <code>build</code></p>
+</li>
+<li>
+<p>for mode <em>use</em> use    <code>U</code>, <code>u</code>, <code>Use</code>,   <code>use</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>origin</em> - * <em>origin</em> - filter by declaration origin</p>
+<div class="ulist">
+<ul>
+<li>
+<p>framework (as: <code>F</code>, <code>f</code>, <code>fw</code>, or <code>framework</code>), or</p>
+</li>
+<li>
+<p>application (as: <code>A</code>, <code>a</code>, <code>app</code>, or <code>application</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>status</em> - filter by scenario status</p>
+<div class="ulist">
+<ul>
+<li>
+<p>success (as: <code>S</code>, <code>s</code>, or <code>success</code>),</p>
+</li>
+<li>
+<p>warnings (as: <code>W</code>, <code>w</code>, or <code>warning</code>),</p>
+</li>
+<li>
+<p>errors (as: <code>E</code>, <code>e</code>, or <code>error</code>), or</p>
+</li>
+<li>
+<p>not attempted (as: <code>N</code>, <code>n</code>, or <code>not-attempted</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>unloaded</em> - filter for scenarios that have been unloaded</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-i | --id ID             scenario identifier
+-l | --loaded            only loaded scenarios
+-m | --mode MODE         only scenarios for application mode: dev, build, use
+-o | --origin ORIGIN     only scenarios from origin: f(w), a(pp)
+-s | --status STATUS     only scenarios for status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
+-u | --unloaded          only unloaded scenarios</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_describe_task">2.2.9. describe-task</h4>
+<div class="paragraph">
+<p>Describes one or more tasks.
+Provided filters are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>id</em> - only describe a specific task, the identifier can be the long name or the short name of the task</p>
+</li>
+<li>
+<p><em>loaded</em> - show only tasks currently loaded</p>
+</li>
+<li>
+<p><em>mode</em> - show only tasks for a specific application mode</p>
+<div class="ulist">
+<ul>
+<li>
+<p>for mode <em>all</em> use    <code>A</code>, <code>a</code>, <code>All</code>,   <code>all</code></p>
+</li>
+<li>
+<p>for mode <em>dev</em> use    <code>D</code>, <code>d</code>, <code>Dev</code>,   <code>dev</code></p>
+</li>
+<li>
+<p>for mode <em>build</em> use  <code>B</code>, <code>b</code>, <code>Build</code>, <code>build</code></p>
+</li>
+<li>
+<p>for mode <em>use</em> use    <code>U</code>, <code>u</code>, <code>Use</code>,   <code>use</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>origin</em> - * <em>origin</em> - filter by declaration origin</p>
+<div class="ulist">
+<ul>
+<li>
+<p>framework (as: <code>F</code>, <code>f</code>, <code>fw</code>, or <code>framework</code>), or</p>
+</li>
+<li>
+<p>application (as: <code>A</code>, <code>a</code>, <code>app</code>, or <code>application</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>status</em> - filter by task status</p>
+<div class="ulist">
+<ul>
+<li>
+<p>success (as: <code>S</code>, <code>s</code>, or <code>success</code>),</p>
+</li>
+<li>
+<p>warnings (as: <code>W</code>, <code>w</code>, or <code>warning</code>),</p>
+</li>
+<li>
+<p>errors (as: <code>E</code>, <code>e</code>, or <code>error</code>), or</p>
+</li>
+<li>
+<p>not attempted (as: <code>N</code>, <code>n</code>, or <code>not-attempted</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>unloaded</em> - filter for tasks that have been unloaded</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-i | --id ID             task identifier
+-l | --loaded            only loaded tasks
+-m | --mode MODE         only tasks for application mode: dev, build, use
+-o | --origin ORIGIN     only tasks from origin: f(w), a(pp)
+-s | --status STATUS     only tasks for status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
+-u | --unloaded          only unloaded tasks</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cloc_installation">2.3. cloc-installation</h3>
 <div class="paragraph">
 <p>This tasks counts the lines of code of an installation.
 It is available in all application modes.</p>
@@ -910,7 +2111,7 @@ This ensures that the installation&#8217;s include and application files (withou
 <p>More details on <code>cloc</code> can be found at the Github source repository on <a href="https://github.com/AlDanial/cloc">Github</a>.</p>
 </div>
 <div class="sect3">
-<h4 id="_options">1.1.1. Options</h4>
+<h4 id="_options">2.3.1. Options</h4>
 <div class="paragraph">
 <p>The task does not have any special options.</p>
 </div>
@@ -921,7 +2122,7 @@ This ensures that the installation&#8217;s include and application files (withou
 </div>
 </div>
 <div class="sect3">
-<h4 id="_examples">1.1.2. Examples</h4>
+<h4 id="_examples">2.3.2. Examples</h4>
 <div class="paragraph">
 <p>Simply running the task will count the lines of code of an installation.
 The following is the output of running this task on the SKB-Framework in an earlier version.</p>
@@ -954,7 +2155,7 @@ The top line shows the lines of code for all <em>bash</em> scripts in the instal
 </div>
 </div>
 <div class="sect3">
-<h4 id="_requirements">1.1.3. Requirements</h4>
+<h4 id="_requirements">2.3.3. Requirements</h4>
 <div class="paragraph">
 <p>The task requires the tool <code>cloc</code> being installed.
 The dependency is called by the same name: <em>cloc</em>.
@@ -963,13 +2164,165 @@ If <code>cloc</code> is not installed, the task will print an error.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_repeat_scenario">1.2. repeat-scenario</h3>
+<h3 id="_execute_program">2.4. execute-program</h3>
+<div class="paragraph">
+<p>This task executes an external program.
+The program can be started in different ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Without any argument, the program is executed inside the task.
+This means that the task hands over execution to the program.
+Only when the program is finished will the task continue.</p>
+</li>
+<li>
+<p>Using <em>background</em> will start the program in the background, adding an ampersand <code>&amp;</code> to the program.
+This means that the task will continue immediately after the program is started.
+Since the task then terminates, there is no further job control on the program.
+Furthermore, all program output will appear along with the task and then the shell.</p>
+</li>
+<li>
+<p>Using <em>xterm</em> will start the a new XTerm and execute the program there as a command.
+This means that the task will continue immediately after the program is started.
+Since the task then terminates, there is no further job control on the XTerm.
+All output will of course happen in the new XTerm.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-b | --background  run program in background
+-h | --help        print help screen and exit
+-t | --title TITLE title for the XTerm, default: program name
+-x | --xterm       start a new XTerm and execute program</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The actual program and its arguments should be provided after <code>--</code> in the command line.
+All characters here will be simply used to execute the program.</p>
+</div>
+<div class="sect3">
+<h4 id="_examples_2">2.4.1. Examples</h4>
+<div class="paragraph">
+<p>The following example executes <code>ls</code> in the current directory (where the application was started from).</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>execute-program&#8201;&#8212;&#8201;ls</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The following example executes <code>ls</code> in the current directory (where the application was started from).
+It runs <code>ls</code> in the background, which causes an error since <code>ls</code> takes the added ampersand <code>&amp;</code> as an argument.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>execute-program --background&#8201;&#8212;&#8201;ls</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The following example starts the editor <code>vi</code> with the file <code>build.sh</code> in a new XTerm.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>execute-program --xterm&#8201;&#8212;&#8201;vi build.sh</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_requirements_2">2.4.2. Requirements</h4>
+<div class="paragraph">
+<p>To start a program in a new XTerm, the task <code>start-xterm</code> must be available.
+This task has its own configuration settings, e.g. to set the XTerm executable.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_manual">2.5. manual</h3>
+<div class="paragraph">
+<p>This task will show the application manual.
+If no filters are used, i.e. no argument is provided, the text manual for the current print mode will be shown.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help        print help screen and exit
+
+filters
+-A | --all               all manual versions
+     --adoc              ADOC manual
+     --ansi              text manual with ansi colors andeffects
+     --html              HTML manual
+     --manp              manual page skb-framework(1)
+     --pdf               PDF manual
+     --text              plain text manual
+     --text-anon         annotated text manual</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The filters shown above can be used to show different versions of the manual.
+The filter <em>all</em> will show all manual versions (it overwrites all other filters).
+Otherwise, any number of filters can be used in any order.
+The task will always show the manual in the following order:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>adoc</em> - the ADOC (AsciiDoc) manual, filter <em>adoc</em></p>
+</li>
+<li>
+<p><em>anon</em> - the annotated text version of the manual, filter <em>text-anon</em></p>
+</li>
+<li>
+<p><em>ansi</em> - the ANSI formatted manual, filter <em>ansi</em></p>
+</li>
+<li>
+<p><em>text</em> - the plain text manual, filter <em>text</em></p>
+</li>
+<li>
+<p><em>manp</em> - the manual page, filter <em>manp</em></p>
+</li>
+<li>
+<p><em>html</em> - the HTML version in a web browser, filter <em>html</em></p>
+</li>
+<li>
+<p><em>pdf</em> - the PDF version in a PDF viewer, filter <em>pdf</em></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The text versions (<em>adoc</em>, <em>anon</em>, <em>ansi</em>, and <em>text</em>) are shown using the command <code>less</code> with the options <code>-r -C -f -M -d</code>.
+<code>tput</code> is used to safe (<code>smcup</code>) and restore (<code>rmcup</code>) the terminal context.</p>
+</div>
+<div class="paragraph">
+<p>The manual page (<em>manp</em>) is shown using the command <code>man</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="_requirements_3">2.5.1. Requirements</h4>
+<div class="paragraph">
+<p>The task requires the manual being build in the application home directory.
+If a requested manual version is not found, an error will be thrown.</p>
+</div>
+<div class="paragraph">
+<p>To show HTML and PDF versions, this task uses the tasks <code>start-browser</code> and <code>start-pdf-viewer</code>, respectively.
+Both tasks have their own configuration requirements, please see their documentation for details.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_repeat_scenario">2.6. repeat-scenario</h3>
 <div class="paragraph">
 <p>This tasks repeats a scenario.
 It is available in all application modes.</p>
 </div>
 <div class="sect3">
-<h4 id="_options_2">1.2.1. Options</h4>
+<h4 id="_options_2">2.6.1. Options</h4>
 <div class="paragraph">
 <p>The option <em>scenario</em> should be used to identify the scenario to repeat.
 The scenario must be loaded.
@@ -991,7 +2344,7 @@ So when only provided with a scenario, the task will run it once.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_examples_2">1.2.2. Examples</h4>
+<h4 id="_examples_3">2.6.2. Examples</h4>
 <div class="paragraph">
 <p>The example below will repeat the scenario <em>S1</em> four times, waiting for 2 seconds between repetitions.</p>
 </div>
@@ -1005,14 +2358,622 @@ So when only provided with a scenario, the task will run it once.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_wait">1.3. wait</h3>
+<h3 id="_repeat_task">2.7. repeat-task</h3>
+<div class="paragraph">
+<p>This task will repeat a task <em>n</em> times and wait for <em>s</em> seconds between repetitions.
+The values for <em>times</em> and <em>wait</em> must be positive integers.
+The default values are repeat once (times = 1) and wait for 1 second (wait = 1).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help        print help screen and exit
+-t | --times INT   repeat INT times
+-w | --wait SEC    wait SEC seconds between repeats</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The task and task parameters should be provided after <code>--</code> in the command line.
+This task assumes that the first word after <code>--</code> is the task name (or identifier, either the long or the short form) and all other characters are arguments.
+The task name will be used to execute the task, the arguments then will not be processed but simply handed over to the executed task.</p>
+</div>
+<div class="sect3">
+<h4 id="_examples_4">2.7.1. Examples</h4>
+<div class="paragraph">
+<p>The example below will execute the task <code>list-tasks</code> with the arguments <code>-T --no-a</code> three times and wait for two seconds between repetitions.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>repeat-task --times 3 --wait 2&#8201;&#8212;&#8201;lt -T --no-a</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The example below will do the exact same.
+It simply uses the long name of the task and the long form of its arguments</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>repeat-task --times 3 --wait 2&#8201;&#8212;&#8201;list-tasks --table --no-a</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_setting">2.8. setting</h3>
+<div class="paragraph">
+<p>This task alters selected settings.
+Changeable settings are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Print mode (<em>--pm</em>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em>ansi</em> for ANSI formatted text</p>
+</li>
+<li>
+<p><em>text</em> for plain text</p>
+</li>
+<li>
+<p><em>text-anon</em> for annotated text</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Levels for the shell (<em>--shell-level</em>) or tasks (<em>--task-level</em>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p><em>all</em> - activates all levels (except <em>off</em>)</p>
+</li>
+<li>
+<p><em>fatal</em> - only fatal errors</p>
+</li>
+<li>
+<p><em>error</em> - fatal and standard errors</p>
+</li>
+<li>
+<p><em>warn-strict</em> - all errors and strict warnings</p>
+</li>
+<li>
+<p><em>warn</em> - all errors and warnings</p>
+</li>
+<li>
+<p><em>info</em> - errors, warnings, and information about the progress</p>
+</li>
+<li>
+<p><em>debug</em> - <em>info</em> plus detailed progress information</p>
+</li>
+<li>
+<p><em>trace</em> - <em>debug</em> plus further details</p>
+</li>
+<li>
+<p><em>off</em> - no level activated, messages and shell prompt will still be printed</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Shell prompt (<em>--snp</em>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>alters the printing of the shell prompt between <em>on</em> and <em>off</em></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Quiet mode for shell (<em>--sq</em>) and tasks (<em>--tq</em>)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>alter the quiet mode between <em>on</em> and <em>off</em></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">options
+-h | --help              print help screen and exit
+
+options for changing settings
+-p | --pm MODE           print mode to: ansi, text, text-anon
+-S | --shell-level LEVEL change shell level to LEVEL
+     --snp               toggle shell prompt mode
+     --sq                toggle shell quiet mode
+-s | --strict            toggle strict mode
+-T | --task-level LEVEL  change task level to LEVEL
+     --tq                toggle task quiet mode</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Changes made by the task take immediate effect.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_start_browser">2.9. start-browser</h3>
+<div class="paragraph">
+<p>This task starts web browser with a URL to show.
+The URL can be set with <em>url</em>.
+The URL will not be processed by the task.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help        print help screen and exit
+-u | --url URL     optional URL to load in browser</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_requirements_4">2.9.1. Requirements</h4>
+<div class="paragraph">
+<p>The actual command for starting a browser must be provided in <em>BROWSER</em>.
+If this parameter is not set, the task will print an error and exit.
+Examples for setting <em>BROWSER</em> are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Firefox in a new tab: <code>firefox --new-tab %URL%</code></p>
+</li>
+<li>
+<p>Firefox in a new window: <code>firefox --new-window %URL%</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>More information on the parameter <em>BROWSER</em> can be found in the framework manual.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_start_pdf_viewer">2.10. start-pdf-viewer</h3>
+<div class="paragraph">
+<p>This task starts a PDF viewer with a file to show in it.
+The file can be set with <em>file</em>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help        print help screen and exit
+-f | --file FILE   PDF file to open in reader</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The task will test if the file is readable, and throw an error if not.
+It will also use a system specific path if required (for instance on Cygwin).</p>
+</div>
+<div class="sect3">
+<h4 id="_requirements_5">2.10.1. Requirements</h4>
+<div class="paragraph">
+<p>The actual command for starting a PDF viewer must be provided in <em>PDF_VIEWER</em>.
+If this parameter is not set, the task will print an error and exit.
+Examples for setting <em>PDF_VIEWER</em> are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>acrobat: <code>acrobat %FILE%</code></p>
+</li>
+<li>
+<p>evince: <code>evince %FILE%</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>More information on the parameter <em>PDF_VIEWER</em> can be found in the framework manual.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_start_xterm">2.11. start-xterm</h3>
+<div class="paragraph">
+<p>This task starts an X terminal, or short XTerm (or xterm), with a set title and command to run in it.
+The title can be set with <em>title</em>.
+For blanks in the title use quotes, for instance <code>--title "My XTERM"</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help           print help screen and exit
+-t | --title TITLE    title for the XTerm, default: command name</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The command to run in the started XTerm should be provided to the task after <code>--</code>.
+The task assumes that the first word there is the command name (which then is used as the default title).
+All text after <code>--</code> will be taken as command.</p>
+</div>
+<div class="paragraph">
+<p>Note: this task does not take any effort to <em>hold</em> the XTerm, i.e. to keep it open after the command finished.
+Use the <em>hold</em> option of your preferred XTerm in <em>XTERM</em> to realize this feature.</p>
+</div>
+<div class="sect3">
+<h4 id="_examples_5">2.11.1. Examples</h4>
+<div class="paragraph">
+<p>Start an XTerm, use the default title, and run <code>ls | more</code> as command.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>start-xterm&#8201;&#8212;&#8201;ls | more</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_requirements_6">2.11.2. Requirements</h4>
+<div class="paragraph">
+<p>The actual command for starting an XTerm must be provided in <em>XTERM</em>.
+If this parameter is not set, the task will print an error and exit.
+Examples for setting <em>XTERM</em> are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>standard executable: <code>xterm -T %TITLE% -e %COMMAND%</code></p>
+</li>
+<li>
+<p>MinTTY on Cygwin: <code>mintty -t %TITLE% %COMMAND%</code></p>
+</li>
+<li>
+<p>XFCE 4 Terminal: <code>xfce4-terminal --disable-server --title='%TITLE%' -x %COMMAND%</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>More information on the parameter <em>XTERM</em> can be found in the framework manual.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_statistics">2.12. statistics</h3>
+<div class="paragraph">
+<p>This task prints statistics about the all elements.
+The default, without using filters, is to print a few overview tables.
+The print mode can be changed using <em>print-mode</em>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">options
+-h | --help              print help screen and exit
+-P | --print-mode MODE   print mode: ansi, text, adoc</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_filters">2.12.1. Filters</h4>
+<div class="paragraph">
+<p>Using filters will provide more detailed information.
+Any number of filters can be used in any sequence, the tasks will print the output always in the same order:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Overview table (default, or if filter is set)</p>
+</li>
+<li>
+<p>Commands (if filter is set)</p>
+</li>
+<li>
+<p>Dependencies (if filter is set)</p>
+</li>
+<li>
+<p>Exit status (if filter is set)</p>
+</li>
+<li>
+<p>Options (if filter is set)</p>
+</li>
+<li>
+<p>Parameters (if filter is set)</p>
+</li>
+<li>
+<p>Tasks (if filter is set)</p>
+</li>
+<li>
+<p>Scenarios (if filter is set)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-A | --all               activate all filters
+-c | --cmd               for commands
+-d | --dep               for dependencies
+-e | --es                for exit status
+-o | --opt               for options
+     --ov                overview
+-p | --param             for parameters
+-s | --scn               for scenarios
+-t | --task              for tasks</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_examples_6">2.12.2. Examples</h4>
+<div class="paragraph">
+<p>The following example requests statistics for the target overview <em>--ov</em> and tasks <em>--task</em>.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>stats --ov --task</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The actual output depends of course on the declared and processed tasks.
+An earlier version of the framework shows the following statistics.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>  Statistics
+  ───────────────────────────────      ───────────────────────────────
+   Tasks declared:            35        Scenarios declared:         1
+   Tasks loaded:              30        Scenarios loaded:           0
+  ───────────────────────────────      ───────────────────────────────
+   Dependencies declared:     15        Parameters declared:       12
+   Dependencies requested:     4        Parameters requested:       8
+   Dependencies tested:        4        Parameters w/default val:   6
+  ───────────────────────────────      ───────────────────────────────
+   Configuration settings:    28        Exit Status:               37
+   Options:                   23        Commands:                  11
+  ───────────────────────────────      ───────────────────────────────
+
+
+  Tasks
+  ────────────────────────────────────────────────────────────────────
+   Declared:                  35        Not loaded:                 5
+   - origin: framework:       35        Unloaded:                   0
+   - origin: app:              0        Loaded:                    30
+   - mode: dev:               35        - errors:                   0
+   - mode: build:             32        - warnings:                 2
+   - mode: use:               30        - success:                 28
+  ────────────────────────────────────────────────────────────────────</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_validate_installation">2.13. validate-installation</h3>
+<div class="paragraph">
+<p>This task validates an installation.
+For each target, it will test the following conditions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>All required or configured directories are available and readable</p>
+</li>
+<li>
+<p>All required files are available and readable</p>
+</li>
+<li>
+<p>All declarations have documentation files</p>
+</li>
+<li>
+<p>For directories with known content, e.g. task binaries, no extra files to exist</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The task will issue errors for serious problems.
+It will issue strict warnings for problems that should not have an impact on the application at runtime (for example extra files in a directory).
+It can also issue warnings for less significant problems.</p>
+</div>
+<div class="paragraph">
+<p>When the option <em>strict</em> is used, all strict warnings become errors.
+The <em>strict</em> mode is useful to validate an installation before packaging an application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help        print help screen and exit
+-s | --strict      run in strict mode</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_targets">2.13.1. Targets</h4>
+<div class="paragraph">
+<p>By default, the task will validate all targets.
+If one or more targets are requested, only those targets will be validated.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">targets
+-A | --all         set all targets
+     --msrc        target: manual source
+     --cmd         target: commands
+     --dep         target: dependencies
+     --es          target: exit-status
+     --opt         target: options
+     --param       target: parameters
+     --scn         target: scenarios
+     --task        target: tasks</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following conditions are validated:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>msrc</em> - Manual Source</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test directory <code>application/</code> with files for all application aspects for the manual in ADOC and text version</p>
+</li>
+<li>
+<p>Test directory <code>elements/</code> with files for all element types for the manual in ADOC and text version</p>
+</li>
+<li>
+<p>Test directory <code>tags/</code> exists with files <code>name.txt</code> and <code>authors.txt</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>cmd</em> - Commands</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test that the command declaration directory exists</p>
+</li>
+<li>
+<p>For each declared command, test the ADOC and text documentation files exist</p>
+</li>
+<li>
+<p>Test that no extra files are in the command declaration directory</p>
+</li>
+<li>
+<p>Note: commands are only declared in the framework, not in an application</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>dep</em> - Dependencies</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test that the dependency declaration directory exists</p>
+</li>
+<li>
+<p>For each declared dependency, test the ADOC and text documentation files exist</p>
+</li>
+<li>
+<p>Test that no extra files are in the dependency declaration directory</p>
+</li>
+<li>
+<p>Note: dependency declaration directories are tested in the framework and an application</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>es</em> - Exit Status</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test that the exit-status declaration directory exists</p>
+</li>
+<li>
+<p>For each declared exit-status, test the ADOC and text documentation files exist</p>
+</li>
+<li>
+<p>Test that no extra files are in the exit-status declaration directory</p>
+</li>
+<li>
+<p>Note: exit-status are only declared in the framework, not in an application</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>opt</em> - Options</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test that the option declaration directory exists</p>
+</li>
+<li>
+<p>For each declared option, test the ADOC and text documentation files exist</p>
+</li>
+<li>
+<p>Test that no extra files are in the option declaration directory</p>
+</li>
+<li>
+<p>Note: options are only declared in the framework, not in an application</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>param</em> - Parameters</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test that the parameter declaration directory exists</p>
+</li>
+<li>
+<p>For each declared parameter, test the ADOC and text documentation files exist</p>
+</li>
+<li>
+<p>Test that no extra files are in the parameter declaration directory</p>
+</li>
+<li>
+<p>Note: parameter declaration directories are tested in the framework and an application</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>scn</em> - Scenarios</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test that the scenario declaration directory exists</p>
+</li>
+<li>
+<p>For each declared scenario, test the ADOC and text documentation files exist</p>
+</li>
+<li>
+<p>For each declared scenario, test that the scenario script file exists</p>
+</li>
+<li>
+<p>Test that no extra files are in the scenario declaration directory</p>
+</li>
+<li>
+<p>Note: scenario declaration directories are tested in the framework, an application, and for each directory in <em>SCENARIO_PATH</em></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><em>task</em> - Tasks</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Test that the task declaration directory exists</p>
+</li>
+<li>
+<p>For each declared task, test the ADOC and text documentation files exist</p>
+</li>
+<li>
+<p>Test that no extra files are in the task declaration directory</p>
+</li>
+<li>
+<p>For each declared task, test that the task script file exists</p>
+</li>
+<li>
+<p>Test that no extra files are in the task script directory</p>
+</li>
+<li>
+<p>Note: task declaration directories are tested in the framework and an application</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_wait">2.14. wait</h3>
 <div class="paragraph">
 <p>This tasks waits for a given amount of seconds.
 It can be used to <em>slow down</em> task execution, for instance in a scenario.
 It is available in all application modes.</p>
 </div>
 <div class="sect3">
-<h4 id="_options_3">1.3.1. Options</h4>
+<h4 id="_options_3">2.14.1. Options</h4>
 <div class="paragraph">
 <p>The option <em>seconds</em> takes a positive integer as argument for the number of seconds to wait.
 The default, without this option, is 1.</p>
@@ -1035,7 +2996,7 @@ The actual wait time will be printed when the task finishes.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_examples_3">1.3.2. Examples</h4>
+<h4 id="_examples_7">2.14.2. Examples</h4>
 <div class="paragraph">
 <p>The example below will wait for 3 seconds, plus the time it takes to execute the <em>wait</em> task itself.</p>
 </div>
@@ -1051,47 +3012,20 @@ The actual wait time will be printed when the task finishes.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_build_tasks">2. Build Tasks</h2>
+<h2 id="_build_tasks">3. Build Tasks</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_clean">2.1. clean</h3>
 <div class="paragraph">
-<p>This tasks cleans, i.e. removes, all artifacts that have been build by other taks.
-In addition to that, the directory set by the parameter <em>TARGET</em> will be removed.</p>
-</div>
-<div class="paragraph">
-<p>The task does not actually remove any built artifacts itself.
-It uses the <code>-c</code> (or <code>--clean</code>) option of all tasks that do build artifacts.
-By convention, these are tasks whose name starts with <em>build-</em> or <em>compile-</em>.</p>
+<p>This category of tasks either <em>builds</em> artifacts or <em>compiles</em> source files to create artifacts.
+Those tasks should be available in the application mode <em>build</em>, but no <em>use</em>.
+They might be available in the application mode <em>dev</em> if required.
+The exception to this general rule is the task <code>build-manual</code>, since it can be used to build an application-mode-specific manual and might thus be required in all application modes.</p>
 </div>
 <div class="paragraph">
-<p>So <em>clean</em> will lookup the loaded task map, find all tasks that start with <em>build-</em> or <em>compile-</em> and execute them with the <code>--clean</code> option.
-If any of these tasks fails (for instance due to missing parameters), <em>clean</em> will also fail.</p>
-</div>
-<div class="sect3">
-<h4 id="_options_4">2.1.1. Options</h4>
-<div class="paragraph">
-<p>The option <em>simulate</em> can be used to simulate a clean.
-Here, not task will be executed and the directory <em>TARGET</em> will not be removed either.
-Instead, the task will simply print what commands it would run.</p>
-</div>
-<div class="paragraph">
-<p>The default command to remove the <em>TARGET</em> directory is <code>rm -frI</code>.
-This is an additional safety feature to prevent accidental removal of the directory.
-The option <em>force</em> can be used to remove the directory forced, i.e. using <code>rm -fr</code> instead.
-<em>simulate</em> will overwrite <em>force</em>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="bash">-f | --force       force mode, not questions asked
--h | --help        print help screen and exit
--s | --simulate    print only, removes nothing, overwrites force</code></pre>
-</div>
-</div>
-</div>
+<p>By conventions, all <em>build</em> and <em>compile</em> tasks should provide an argument <code>-c</code> or <code>--clean</code>.
+This argument should clean (remove) all built or compiled artifacts (and directories if applicable).</p>
 </div>
 <div class="sect2">
-<h3 id="_build_manual">2.2. build-manual</h3>
+<h3 id="_build_manual">3.1. build-manual</h3>
 <div class="paragraph">
 <p>This tasks builds the application manual.
 It uses the metadata provided by the element definitions (e.g. for a task in the task&#8217;s <code>.adoc</code> file) and the general text from the application manual folder in <code>etc/manual</code>.
@@ -1216,7 +3150,7 @@ In <em>debug</em> level, the task provides detailed information about the progre
 Build all targets, including the ADOC to text transformation, can take a few minutes even on a powerful host.</p>
 </div>
 <div class="sect3">
-<h4 id="_configuration">2.2.1. Configuration</h4>
+<h4 id="_configuration">3.1.1. Configuration</h4>
 <div class="paragraph">
 <p>The task can be configured with two parameters:</p>
 </div>
@@ -1234,7 +3168,7 @@ If used, it must be a directory, readable, and with the correct source files (to
 </div>
 </div>
 <div class="sect3">
-<h4 id="_manual_source">2.2.2. Manual Source</h4>
+<h4 id="_manual_source">3.1.2. Manual Source</h4>
 <div class="paragraph">
 <p>The general text for the manual is located in the directory pointed to by the parameter <em>MANUAL_SRC</em>.
 This directory must have the following layout and contents:</p>
@@ -1355,7 +3289,7 @@ For the ADOC source, the same rules as for the <em>application</em> directory ap
 </div>
 </div>
 <div class="sect3">
-<h4 id="_general_options">2.2.3. General Options</h4>
+<h4 id="_general_options">3.1.3. General Options</h4>
 <div class="paragraph">
 <p>Following the SKB-Framework convention, the task has two main options: <em>clean</em> to remove built manual artifacts and <em>build</em> to build them.
 When <em>build</em> is used, other general options and filters can be used to direct the build:</p>
@@ -1386,7 +3320,7 @@ When <em>build</em> is used, other general options and filters can be used to di
 </div>
 </div>
 <div class="sect3">
-<h4 id="_target_options">2.2.4. Target Options</h4>
+<h4 id="_target_options">3.1.4. Target Options</h4>
 <div class="paragraph">
 <p>Targets can also be selected individually.
 The target options can be used in any sequence in the command line, the task will automatically generate all manual artifacts in the correct order.
@@ -1405,7 +3339,7 @@ Text sources (target <em>src</em>) are not created automatically, only on reques
 </div>
 </div>
 <div class="sect3">
-<h4 id="_element_list_filters">2.2.5. Element List Filters</h4>
+<h4 id="_element_list_filters">3.1.5. Element List Filters</h4>
 <div class="paragraph">
 <p>Some parts of the manual list application elements.
 For selected element types, the element list filters can be used to direct what these lists contain:</p>
@@ -1434,7 +3368,7 @@ Requested here means any dependency or parameter requested by a loade task.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_application_filters">2.2.6. Application Filters</h4>
+<h4 id="_application_filters">3.1.6. Application Filters</h4>
 <div class="paragraph">
 <p>These filters are negative filters to exclude general (application related) parts of the manual.
 The option name corresponds to the heading in the general manual structure described above.
@@ -1451,7 +3385,7 @@ The default behavior is to include all general parts.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_element_filters">2.2.7. Element Filters</h4>
+<h4 id="_element_filters">3.1.7. Element Filters</h4>
 <div class="paragraph">
 <p>These filters are negative filters to exclude element description or element lists.
 By default, all element descriptions and all element lists are included in the manual.
@@ -1483,7 +3417,7 @@ To no show any information about tasks, use <em>--no-tasks</em>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_examples_4">2.2.8. Examples</h4>
+<h4 id="_examples_8">3.1.8. Examples</h4>
 <div class="paragraph">
 <p>The following example will use the framework tool to convert <em>adoc</em> sources into well-formatted plain text.</p>
 </div>
@@ -1508,7 +3442,7 @@ Only requested dependencies and parameters will be listed.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_task_requirements">2.2.9. Task Requirements</h4>
+<h4 id="_task_requirements">3.1.9. Task Requirements</h4>
 <div class="paragraph">
 <p>The task has the following requirements:</p>
 </div>
@@ -1535,7 +3469,7 @@ If it does not exist, this target cannot be generated.</p>
 If not present,not successfully loaded, or has missing parameters, the target <em>html</em> cannot be tested.</p>
 </li>
 <li>
-<p><em>start-pdf-reader</em> - optional task to start a PDF reader testing the generated <em>pdf</em> target
+<p><em>start-pdf-viewer</em> - optional task to start a PDF reader testing the generated <em>pdf</em> target
 If not present,not successfully loaded, or has missing parameters, the target <em>pdf</em> cannot be tested.</p>
 </li>
 </ul>
@@ -1586,21 +3520,51 @@ If not, they need to be created manually, since the task does not create any dir
 </ul>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_notes">3.1.10. Notes</h4>
+<div class="paragraph">
+<p>This task will change directories and files in the application (or framework) installation.
+Sufficient permissions must exist to run this task successfully.</p>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_build_mvn_site">2.3. build-mvn-site</h3>
+<h3 id="_build_mvn_site">3.2. build-mvn-site</h3>
 <div class="paragraph">
-<p>This task will build Maven sites.
-It uses Apache Maven for the build process.
-The sites need to be provided by he parameter <code>MVN_SITES</code>.
-Several options are available to control the build process.</p>
+<p>This task can be used to build Maven sites.
+Beside calling Apache Maven, it also provides functionality to run scripts before building and before staging a site.
+Those scripts can take full advantage of the framework and its API.
+This allows to build even very complex sites in an automated way, with features realized outside the Maven build process but fully integrated into the overall site building.</p>
 </div>
-<div class="sect3">
-<h4 id="_configuration_2">2.3.1. Configuration</h4>
-
+<div class="paragraph">
+<p>The task is not specific to one site, but can build one or more sites, even within one execution.
+The parameter <em>MVN_SITES</em> is used to identify the sites that can be build.
+It should contain a set of paths to the site directories.
+Each of these directories should contain a <em>pom</em> file (<code>pom.xml</code>) with the Maven specifications for the site.
+It also should contain a framework-specific metadata file (<code>skb-site.id</code>).
+It might contain a file <code>skb-site-scripts.skb</code> with scripts to be run before the site build and before the site staging.</p>
 </div>
-<div class="sect3">
-<h4 id="_general_options_2">2.3.2. General Options</h4>
+<div class="paragraph">
+<p>The general options, shown below, allow to direct the behavior of the task.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>build</em> - request one or more sites to be built</p>
+</li>
+<li>
+<p><em>clean</em> - requests to clean one or more sites.
+Clean will call <code>mvn clean</code> to do the job</p>
+</li>
+<li>
+<p><em>list</em> - will list all defined and loaded sites, which then can be build or cleaned.</p>
+</li>
+<li>
+<p><em>test</em> - once a site is successfully build, it can be tested.
+Testing here means to start a web browser with the site&#8217;s <code>index.html</code> file.</p>
+</li>
+</ul>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">-b | --build            builds site(s), requires a target and site ID or all
@@ -1610,9 +3574,28 @@ Several options are available to control the build process.</p>
 -T | --test             test sites, open in browser</code></pre>
 </div>
 </div>
-</div>
 <div class="sect3">
-<h4 id="_target_options_2">2.3.3. Target Options</h4>
+<h4 id="_target_options_2">3.2.1. Target Options</h4>
+<div class="paragraph">
+<p>The task can build a Maven site for several targets:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>targets</em> - builds all targets</p>
+</li>
+<li>
+<p><em>ad</em> - calls Maven with the argument <code>site:attach-descriptor</code>.
+This argument is important for multi-module sites with inherited descriptors</p>
+</li>
+<li>
+<p><em>site</em> - calls Maven to build the site, but not stage it</p>
+</li>
+<li>
+<p><em>stage</em> - calls Maven to stage a site that has been prior built successfully</p>
+</li>
+</ul>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">-t | --targets          mvn: all targets
@@ -1621,18 +3604,47 @@ Several options are available to control the build process.</p>
      --stage            mvn: site:stage</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>There is no default target.</p>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_filter_options">2.3.4. Filter Options</h4>
+<h4 id="_filter_options">3.2.2. Filter Options</h4>
+<div class="paragraph">
+<p>Filters allow to specify which of the loaded (and available) sites should be built:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>all</em> - will build all sites, in the oder they are listed (alphabetically)</p>
+</li>
+<li>
+<p><em>id</em> - can be used to build a specific site</p>
+</li>
+</ul>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">-A | --all              all sites
 -i | --id ID            site identifier for building</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>There is no default filter.</p>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_maven_options">2.3.5. Maven Options</h4>
+<h4 id="_maven_options">3.2.3. Maven Options</h4>
+<div class="paragraph">
+<p>Further options exist to configure the runtime behavior of Maven:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>profile</em> - call Maven with a specific profile setting, e.g. when the site definitions in the POM file are within a profile</p>
+</li>
+</ul>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">--profile PROFILE  mvn: use profile PROFILE</code></pre>
@@ -1640,25 +3652,363 @@ Several options are available to control the build process.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_requirements_2">2.3.6. Requirements</h4>
+<h4 id="_examples_9">3.2.4. Examples</h4>
 <div class="paragraph">
-<p>param MVN_SITES opt</p>
+<p>The framework&#8217;s own site can be build using this task.
+When correctly configured, the site can be listed</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>build-mvn-site --list</p>
+</div>
+</div>
 </div>
 <div class="paragraph">
-<p>dep maven opt</p>
+<p>This will show (with a real path instead of <em>SOME_PATH</em>)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>  Sites
+   fw - SKB Framework site - SOME_PATH/dev/skb/bash/framework</pre>
+</div>
 </div>
 <div class="paragraph">
-<p>task start-browser opt</p>
+<p>The site can then be build using</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>build-mvn-site --build --id fw</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The task and Maven output will be similar to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[INFO] Scanning for projects...
+[WARNING] The project de.vandermeer:skb-framework:pom:0.0.1 uses prerequisites which is only intended for maven-plugin projects but not for non maven-plugin projects. For such purposes you should use the maven-enforcer-plugin. See https://maven.apache.org/enforcer/enforcer-rules/requireMavenVersion.html
+[INFO]
+[INFO] --------------------&lt; de.vandermeer:skb-framework &gt;---------------------
+[INFO] Building skb-framework 0.0.1
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 0.079 s
+[INFO] Finished at: 2018-11-15T21:08:19Z
+[INFO] ------------------------------------------------------------------------
+      -&gt; building user guide (html, pdf)
+      -&gt; building task guide (html, pdf)
+      -&gt; building developer guide (html, pdf)
+      -&gt; building implementation doc (html, pdf)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Setting the task level to <em>info</em> will provide more information on the task&#8217;s progress.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_site_files">3.2.5. Site Files</h4>
+<div class="paragraph">
+<p>As mentioned above, a site suitable for this task should provide a file with its metadata and might provide a file with scripts to be used in the build.
+Both files must be located in the same directory as the POM file.</p>
+</div>
+<div class="paragraph">
+<p>The metadata file must be named <code>skb-site.id</code>.
+It must contain the following information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An identifier.
+This identifier can be any string that does not contain whitespaces or <em>bash</em> special characters (such as <code>&amp;</code> or <code>*</code>).
+The identifier must be unique for all site in <em>MVN_SITES</em>.</p>
+</li>
+<li>
+<p>A description.
+The description should be short, like a tag line, to fit into the listing of sites.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The source block below shows the file for the frameworks' site.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+</pre></td>
+  <td class="code"><pre>ID=fw
+DESCRIPTION=&quot;the SKB Framework site&quot;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The file <code>skb-site-scripts.skb</code> could be provided.
+If it does not exist, the task will build the site purely using Maven.
+If it does exist, the task will source the file and call two functions the file must provide.
+This means that the file can</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use anything a normal <em>bash</em> script can do at any place in the file</p>
+</li>
+<li>
+<p>Use anything a normal <em>bash</em> script can do inside the two required functions</p>
+</li>
+<li>
+<p>Use the full framework settings and API at any place in the file</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following code block shows the standard contents of the script file with the two required functions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">MvnSitePreScript() {
+    # any code run before Maven is called to build the site
+}
+
+MvnSitePostScript() {
+    # any code run `mvn site` but before `mvn site:stage`
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To see an example have a look at the framework&#8217;s script file.
+The current file can be found in the Github repository: <a href="https://raw.githubusercontent.com/vdmeer/skb-framework/master/skb-site-scripts.skb">skb-site-scripts.skb</a>.
+Here, the function <code>MvnSitePreScript</code> executes framework tasks to create files for the site.
+The function <code>MvnSitePostScript</code> calls tools from the AsciiDoctor tool chain to create documents.
+It also uses the framework&#8217;s API function <code>MvnSiteFixAdoc</code>, which helps to fix some AsciiDoctor problem in generated HTML files in the site.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_requirements_7">3.2.6. Requirements</h4>
+<div class="paragraph">
+<p>The task takes the sites it should load and build from the parameter <em>MVN_SITES</em>.
+If no sites are provided, or no sites could be loaded (due to a missing side identifier file), the task will throw an error.</p>
+</div>
+<div class="paragraph">
+<p>Building a Maven site of course requires Maven (dependency <em>maven</em>), which in turn requires a JDK to be installed on the host as well.</p>
+</div>
+<div class="paragraph">
+<p>Testing a site is done by starting a web browser with the site&#8217;s <code>index.html</code> file.
+This requires the task <code>start-browser</code> to be loaded and well-configured.
+Without this task be available, sites cannot be tested.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_clean">3.3. clean</h3>
+<div class="paragraph">
+<p>This tasks cleans, i.e. removes, all artifacts that have been build by other taks.
+In addition to that, the directory set by the parameter <em>TARGET</em> will be removed.</p>
+</div>
+<div class="paragraph">
+<p>The task does not actually remove any built artifacts itself.
+It uses the <code>-c</code> (or <code>--clean</code>) option of all tasks that do build artifacts.
+By convention, these are tasks whose name starts with <em>build-</em> or <em>compile-</em>.</p>
+</div>
+<div class="paragraph">
+<p>So <em>clean</em> will lookup the loaded task map, find all tasks that start with <em>build-</em> or <em>compile-</em> and execute them with the <code>--clean</code> option.
+If any of these tasks fails (for instance due to missing parameters), <em>clean</em> will also fail.</p>
+</div>
+<div class="sect3">
+<h4 id="_options_4">3.3.1. Options</h4>
+<div class="paragraph">
+<p>The option <em>simulate</em> can be used to simulate a clean.
+Here, not task will be executed and the directory <em>TARGET</em> will not be removed either.
+Instead, the task will simply print what commands it would run.</p>
+</div>
+<div class="paragraph">
+<p>The default command to remove the <em>TARGET</em> directory is <code>rm -frI</code>.
+This is an additional safety feature to prevent accidental removal of the directory.
+The option <em>force</em> can be used to remove the directory forced, i.e. using <code>rm -fr</code> instead.
+<em>simulate</em> will overwrite <em>force</em>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-f | --force       force mode, not questions asked
+-h | --help        print help screen and exit
+-s | --simulate    print only, removes nothing, overwrites force</code></pre>
+</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_development_tasks">3. Development Tasks</h2>
+<h2 id="_development_tasks">4. Development Tasks</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>This category of tasks provides functionality required to develop an application or the framework.
+This can include the creation of required or optional runtime artifacts.
+Tasks that start with <code>build-</code> or <code>compile-</code> should provide an argument <code>-c</code> or <code>--clean</code> to clean (i.e. remove) artifacts.</p>
+</div>
+<div class="paragraph">
+<p>Most <em>dev</em> tasks should only be available in the <em>dev</em> application mode.</p>
+</div>
 <div class="sect2">
-<h3 id="_set_file_versions">3.1. set-file-versions</h3>
+<h3 id="_build_cache">4.1. build-cache</h3>
+<div class="paragraph">
+<p>This task creates cached information about the application (or framework).
+This cache is not required to run an application.
+All functionality can be loaded at startup without a cache.
+However, caches can speedup the application load as well as some runtime behavior namely the <code>list-*</code> tasks and the help on all tasks.</p>
+</div>
+<div class="paragraph">
+<p>On powerful hosts the cache will not provide any advantage.
+On less powerful hosts (for instance a Raspberry PI) or on systems with slower output (e.g. using ANSI formatted text n Cygwin), a cache can significantly improve performance.</p>
+</div>
+<div class="paragraph">
+<p>Without any arguments, the standard cache (for all declarations) is being build.
+<em>clean</em> will clean all cached information.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-b | --build       builds cache, requires a target
+-c | --clean       removes all cached maps and screens
+-h | --help        print help screen and exit</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_general_target_options">4.1.1. General Target Options</h4>
+<div class="paragraph">
+<p>Target options can be used to set specific cache targets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>all</em> - for all targets, except individual tasks</p>
+</li>
+<li>
+<p><em>decl</em> - to cache element declarations.
+Except for parameters, all other elements will be cached: options, commands, dependencies, tasks, and scenarios.
+For scenarios, only the standard directories of application and framework are cached, additional scenario directories (from <em>SCENARIPO_PATH</em>) will not be cached.</p>
+</li>
+<li>
+<p><em>full</em> - cache everything, including individual tasks.
+This will cache declarations, tables, and the help screen of every loaded task.</p>
+</li>
+<li>
+<p><em>tab</em> - cache table representations of all elements.
+This cache is used by the <code>list-*</code> tasks at  runtime.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">target options
+-A | --all         set all targets, except tasks
+-d | --decl        set all declaration targets
+-f | --full        set all targets, including tasks
+-t | --tab         set all table targets</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_targets_2">4.1.2. Targets</h4>
+<div class="paragraph">
+<p>Beside the general targets, the task can also be run with very specific targets, shown below.
+Here, declaration and table caches can be requested for each element type.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">targets
+     --cmd-decl    target: command declarations
+     --cmd-tab     target: command table
+     --es-decl     target: exit-status declarations
+     --es-tab      target: exit-status table
+     --opt-decl    target: option declarations
+     --opt-tab     target: option table
+     --dep-decl    target: dependency declarations
+     --dep-tab     target: dependency table
+     --param-tab   target: parameter table
+     --task-decl   target: task declarations
+     --task-tab    target: task table
+     --tasks       target: help screens for all(!) tasks</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_requirements_8">4.1.3. Requirements</h4>
+<div class="paragraph">
+<p>This task requires the parameter <em>CACHE_DIR</em> to be set.
+Since this parameter has the default value of <code>/var/cache/$APP_NAME</code> it is always set.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_notes_2">4.1.4. Notes</h4>
+<div class="paragraph">
+<p>This task will change directories and files in the cache directory.
+Sufficient permissions must exist to run this task successfully.</p>
+</div>
+<div class="paragraph">
+<p>Care should be taken when using specific configurations for <em>CACHE_DIR</em>.
+Since there can be any number of SKB application installed on a single system, the cache directory should be different per application.
+Otherwise there can be unexpected behavior, especially for the declaration caches.</p>
+</div>
+<div class="paragraph">
+<p>When declarations of cached elements (for instance a task) are changed, the cache is not automatically changed.
+This means, the changes will have no effect on the application load.
+This can lead to unexpected behavior.
+If caches are used, they should be cleared and rebuild whenever declarations change.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_build_help">4.2. build-help</h3>
+<div class="paragraph">
+<p>This task builds the help files for command line options and shell commands.
+These help files are used by the framework when</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An application is started with the help argument <code>-h</code> or <code>--help</code> and</p>
+</li>
+<li>
+<p>When help is requested in the interactive shell using the shell command <code>h</code>, <code>?</code>, or <code>help</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In a standard installation, these help files should already exist.
+For example, the DEB and RPM distributions should create those files during the installation process (actually using this task).</p>
+</div>
+<div class="paragraph">
+<p>The option <em>clean</em> is added by convention.
+It does not actually remove the help files, since this would break the installation of an application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-c | --clean       added by convention, does nothing
+-h | --help        print help screen and exit</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_requirements_9">4.2.1. Requirements</h4>
+<div class="paragraph">
+<p>The task requires an installation of the framework.
+It also requires the tasks <code>list-options</code> and <code>list-commands</code> being loaded (this should be the default).</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_notes_3">4.2.2. Notes</h4>
+<div class="paragraph">
+<p>This task will change directories and files in the framework installation.
+Sufficient permissions must exist to run this task successfully.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_set_file_versions">4.3. set-file-versions</h3>
 <div class="paragraph">
 <p>This task changes version information in source file headers.
 It runs Apache ANT using a simple build script, which in turn calls a macro that changes the version line.
@@ -1674,13 +4024,233 @@ These files can be used as template for writing other substitutions, if required
 -v | --version VERSION   new version string</code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_examples_10">4.3.1. Examples</h4>
+<div class="paragraph">
+<p>The following example will change the version in all files in the directory <em>src</em> to <em>0.1.0</em>.
+It will use the default build and macro file.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>set-file-versions --version 0.1.0 --directory ./src</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_requirements_10">4.3.2. Requirements</h4>
+<div class="paragraph">
+<p>The task requires Apache ANT (dependency <em>ant</em>).
+It also needs the parameters <em>VERSIONS_BUILD_FILE</em> and <em>VERSIONS_MACRO_FILE</em> to be set.
+Both parameters come with default values (the build and macro file provided by the framework).
+Settings these parameters will make the task using different build or macro files.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_the_build_file">4.3.3. The Build File</h4>
+<div class="paragraph">
+<p>The build file is a file called <code>build.xml</code> with information for ANT on what to build, and how.
+The default build file provided by the framework should be sufficient for all use cases.
+The XML below shows the default build file.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="xml"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td>
+  <td class="code"><pre><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="tag">&lt;project</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">pm</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">default</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">skb-set-versions</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="comment">&lt;!-- ant -f ant/build.xml -DmoduleVersion=VERSION_STRING -DmoduleDir=../ -DmacroFile=SOME_FILE --&gt;</span>
+    <span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">module.version</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">${moduleVersion}</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;condition</span> <span class="attribute-name">property</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">macroFile</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">macro.xml</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        <span class="tag">&lt;not&gt;</span>
+            <span class="tag">&lt;isset</span> <span class="attribute-name">property</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">macroFile</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+        <span class="tag">&lt;/not&gt;</span>
+    <span class="tag">&lt;/condition&gt;</span>
+    <span class="tag">&lt;import</span> <span class="attribute-name">file</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">${macroFile}</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;target</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">skb-set-versions</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        <span class="tag">&lt;push-version</span> <span class="attribute-name">module.dir</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">${moduleDir}</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">sourceEncoding</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">UTF-8</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+    <span class="tag">&lt;/target&gt;</span>
+<span class="tag">&lt;/project&gt;</span></pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The build file is kept very simple.
+The version string is provided by the setting <code>moduleVersion</code>, which is translated into the property <code>module.version</code>.
+The macro file is either provided by a setting <code>macroFile</code> or as the default value <code>macro.xml</code>.
+If the default value is used, the macro file must be in the same directory as the build file.</p>
+</div>
+<div class="paragraph">
+<p>The build file then define its only target <code>skb-set-versions</code>.
+For the actual substitution of strings, the build file calls a macro <code>push-version</code>
+The start directory is provided by the setting <code>moduleDir</code>, which is translated into a property <code>module.dir</code> for the macro.</p>
+</div>
+<div class="paragraph">
+<p>Line 3 shows an example use of the build file from the command line.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_the_macro_file">4.3.4. The Macro File</h4>
+<div class="paragraph">
+<p>The macro file is called <code>macro.xml</code> (default) or defined in the build file (see above).
+The actual macro then must be called <code>push-version</code>.
+The following source block shows the default macro file provided by the framework.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="xml"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre></td>
+  <td class="code"><pre><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="tag">&lt;project</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">skb-set-versions</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;macrodef</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">push-version</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">description</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Updates the internal version string of all SKB-Framework source files.</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        <span class="tag">&lt;attribute</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">module.dir</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+        <span class="tag">&lt;sequential&gt;</span>
+            <span class="tag">&lt;replaceregexp</span> <span class="attribute-name">byline</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">encoding</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">UTF-8</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+                <span class="comment">&lt;!-- sed &quot;s/^ \* @version.*$/ \* @version    ${version}/&quot; --&gt;</span>
+                <span class="tag">&lt;regexp</span> <span class="attribute-name">pattern</span>=<span class="string"><span class="delimiter">&quot;</span> <span class="content">\* @version(.*)</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+                <span class="tag">&lt;substitution</span> <span class="attribute-name">expression</span>=<span class="string"><span class="delimiter">&quot;</span> <span class="content">\* \@version    ${module.version}</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+                <span class="tag">&lt;fileset</span> <span class="attribute-name">dir</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">@{module.dir}</span><span class="delimiter">&quot;</span></span> <span class="tag">&gt;</span>
+                    <span class="tag">&lt;include</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">src/**/*.java</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+                <span class="tag">&lt;/fileset&gt;</span>
+            <span class="tag">&lt;/replaceregexp&gt;</span>
+
+            <span class="tag">&lt;replaceregexp</span> <span class="attribute-name">byline</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">encoding</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">UTF-8</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+                <span class="comment">&lt;!-- sed &quot;s/^## @version.*$/ \*## @version    ${version}/&quot; --&gt;</span>
+                <span class="tag">&lt;regexp</span> <span class="attribute-name">pattern</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">## @version(.*)</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+                <span class="tag">&lt;substitution</span> <span class="attribute-name">expression</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">## @version    ${module.version}</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+                <span class="tag">&lt;fileset</span> <span class="attribute-name">dir</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">@{module.dir}</span><span class="delimiter">&quot;</span></span> <span class="tag">&gt;</span>
+                    <span class="tag">&lt;include</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">src/main/bash/**/*.sh</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+                    <span class="tag">&lt;include</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">src/main/bash/**/*.id</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+                    <span class="tag">&lt;include</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">src/main/bash/scenarios/**/*.scn</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+                    <span class="tag">&lt;include</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">src/main/bash/bin/skb-framework</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+                    <span class="tag">&lt;include</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">src/main/bash/bin/**/_include</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+                    <span class="tag">&lt;exclude</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">**/set-file-versions.sh</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+                <span class="tag">&lt;/fileset&gt;</span>
+            <span class="tag">&lt;/replaceregexp&gt;</span>
+        <span class="tag">&lt;/sequential&gt;</span>
+    <span class="tag">&lt;/macrodef&gt;</span>
+<span class="tag">&lt;/project&gt;</span></pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The main functionality is a sequential execution of a regular expression replacement (<code>replaceregexp</code>), for all files satisfying the given filters.
+Replacements are done en block (i.e. not by line).
+The encoding is always <em>UTF-8</em>,
+For each replacement:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>regexp</code> - defines the search pattern.
+This pattern is essentially a comment (in the respective source file language), followed by the string ` @version` and the rest of the actual line.</p>
+</li>
+<li>
+<p><code>substitution</code> - defines the replacement string
+This string starts with the same comment, ` @version   ` string, then followed by the new version <code>${module.version}</code>.</p>
+</li>
+<li>
+<p><code>fileset</code> - defines which files should be processed.
+Files are taken from the start directory.
+<code>include</code> defines include patterns.
+<code>exclude</code> defines exclude patterns.
+Globbing is used to catch all files recursively.
+For instance <code>src/<strong>*/</strong>.java</code> will process all files with the extension <code>.java</code> in the folder <code>@{module.dir}/src</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following examples show a number of standard patterns and substitution expressions.</p>
+</div>
+<div class="listingblock">
+<div class="title">JDOC style comments</div>
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>sed "s/^ \* @version.*$/ \* @version    ${version}/"
+regexp pattern=" \* @version(.*)"
+substitution expression=" \* \@version    ${module.version}"
+files: **/*.java</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">C/C++/Java single line comment style</div>
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>sed "s/^ \/\/ @version.*$/ \* @version    ${version}/"
+regexp pattern="// @version(.*)"
+substitution expression="// \@version    ${module.version}"
+files: **/*.java, files: **/*.cpp</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">BASH single hash comment style</div>
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>sed "s/^# @version.*$/ \*# @version    ${version}/"
+regexp pattern=" # @version(.*)"
+substitution expression=" # \@version    ${module.version}"
+files: **/*.sh</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">BASH double hash comment style</div>
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>sed "s/^## @version.*$/ \*## @version    ${version}/"
+regexp pattern="## @version(.*)"
+substitution expression="## @version    ${module.version}"
+files: **/*.sh</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-14 19:44:09 GMT
+Last updated 2018-11-15 20:40:37 GMT
 </div>
 </div>
 </body>

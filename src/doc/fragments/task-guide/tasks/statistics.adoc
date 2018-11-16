@@ -1,0 +1,94 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== statistics
+This task prints statistics about the all elements.
+The default, without using filters, is to print a few overview tables.
+The print mode can be changed using _print-mode_.
+
+[source%nowrap,bash,indent=0]
+----
+   options
+   -h | --help              print help screen and exit
+   -P | --print-mode MODE   print mode: ansi, text, adoc
+----
+
+=== Filters
+Using filters will provide more detailed information.
+Any number of filters can be used in any sequence, the tasks will print the output always in the same order:
+
+* Overview table (default, or if filter is set)
+* Commands (if filter is set)
+* Dependencies (if filter is set)
+* Exit status (if filter is set)
+* Options (if filter is set)
+* Parameters (if filter is set)
+* Tasks (if filter is set)
+* Scenarios (if filter is set)
+
+[source%nowrap,bash,indent=0]
+----
+   filters
+   -A | --all               activate all filters
+   -c | --cmd               for commands
+   -d | --dep               for dependencies
+   -e | --es                for exit status
+   -o | --opt               for options
+        --ov                overview
+   -p | --param             for parameters
+   -s | --scn               for scenarios
+   -t | --task              for tasks
+----
+
+
+
+=== Examples
+
+The following example requests statistics for the target overview _--ov_ and tasks _--task_.
+
+[example]
+====
+stats --ov --task
+====
+
+The actual output depends of course on the declared and processed tasks.
+An earlier version of the framework shows the following statistics.
+
+[source%nowrap]
+----
+
+  Statistics
+  ───────────────────────────────      ───────────────────────────────
+   Tasks declared:            35        Scenarios declared:         1
+   Tasks loaded:              30        Scenarios loaded:           0
+  ───────────────────────────────      ───────────────────────────────
+   Dependencies declared:     15        Parameters declared:       12
+   Dependencies requested:     4        Parameters requested:       8
+   Dependencies tested:        4        Parameters w/default val:   6
+  ───────────────────────────────      ───────────────────────────────
+   Configuration settings:    28        Exit Status:               37
+   Options:                   23        Commands:                  11
+  ───────────────────────────────      ───────────────────────────────
+
+
+  Tasks
+  ────────────────────────────────────────────────────────────────────
+   Declared:                  35        Not loaded:                 5
+   - origin: framework:       35        Unloaded:                   0
+   - origin: app:              0        Loaded:                    30
+   - mode: dev:               35        - errors:                   0
+   - mode: build:             32        - warnings:                 2
+   - mode: use:               30        - success:                 28
+  ────────────────────────────────────────────────────────────────────
+
+----

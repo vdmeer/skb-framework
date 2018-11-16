@@ -13,3 +13,5 @@
 
 == Use Tasks
 
+This category of tasks provides functionality for using built artifacts or functionality that does not require a build.
+Those tasks, if they provide important functionality, might also be available in the application modes _build_ and/or _dev_.

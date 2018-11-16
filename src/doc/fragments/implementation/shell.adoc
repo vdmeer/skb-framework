@@ -13,4 +13,221 @@
 
 == The Shell
 
+The loader is the script `$FW_HOME/bin/shell/shell.sh`.
+It provides an interactive shell to either execute shell commands or tasks.
+Most shell commands are realized by tasks, so the actual shell implementation is rather simple.
 
+The initial settings are shown in the source block below.
+Line 1 restricts _bash_, providing a safer execution environment.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=init]
+----
+
+
+
+=== Test Parent and and load Configuration
+The shell then tests if it is run from the right parent (i.e. the loader) and it loads the temporary configuration.
+The parent test is rather simple: if `FW_HOME` or `FW_L1_CONFIG` are not set, it is very likely that the shell has not been started by the loader.
+Otherwise, the temporary configuration can be loaded (line 5).
+The configuration is set for _running in the shell_ (line 6).
+This information is used by the API functions in the console to determine what output (log) level and what error/warning counters to use.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=test-parent]
+----
+
+
+
+=== Include
+Next, the shell includes the framework's API functions (lines 1-2) and the functions to maintain its command history (line 3).
+Then the error and warning counters are reset (set to _0_), and a simple new line is printed (if messages are allowed).
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=include]
+----
+
+
+
+=== Settings
+Now the shell realizes its core settings.
+These settings are:
+
+* _SCMD_ - used to store shell input
+* _SARG_ - used to store arguments (only used for history now)
+* _STIME_ - used to set the time when a command was entered, and later for time calculations
+* _RELOAD_CFG_ - a flag to indicate if the temporary configuration should be reloaded.
+    This flag is required for instance when the task `set` alters settings.
+* _HISTORY_ - a map with the history of commands
+#end::settings[]
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=settings]
+----
+
+
+
+=== Inner Loop: FWInterpreter
+The inner loop is an interpreter for all input the shell wants to add to its history.
+This input might be the request to execute a task, or a command that the shell realizes using a task, or a simple command.
+The inner loop is defined as a function.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fwi-start;fwi-end]
+----
+
+Inside this function, the inner loop, the shell tests first for all input that it can associate to a command.
+If none of these tests is satisfied, it assumes that the input is actually a task to be executed with parameters.
+
+
+==== Execute a Scenario
+The first command tested is to execute a scenario.
+This command starts with either `execute-scenario` or `es`.
+No argument means error.
+Some argument means the name of a scenario.
+In this case, execute the scenario and put the command into the history.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fwi-es]
+----
+
+
+==== Clear Screen
+This a simple command without arguments.
+The clear screen functionality is realized by printing the ANSI escape sequence for clear screen.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fwi-cls]
+----
+
+
+==== Time
+Print the current time.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fwi-time]
+----
+
+
+==== Print Configuration
+Execute the task `list-configuration` with default settings, which displays a list with the current configuration.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fwi-cfg]
+----
+
+
+==== Print Statistics
+Execute the task `statistics` with default settings, which displays an overview of statistic information.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fwi-stats]
+----
+
+
+==== List Tasks
+Execute the task `list-tasks` with default settings, which displays an list of loaded tasks.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fwi-tasks]
+----
+
+==== Comments
+Do nothing if the input starts with the comment character `#` in any variation.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fwi-comment]
+----
+
+
+==== All other Input
+All other input is interpreted as the request to execute a task with optional arguments.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fwi-other]
+----
+
+
+
+=== Outer Loop: FWShell
+The outer loop is the shell's main loop reading input from standard input and interpreting it.
+While input is read (a line finished with an enter), the line is read into the variable `SCMD` and a time stamp is written into `STIME`.
+Then `SCMD` is evaluated.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fws-start;fws-end]
+----
+
+Inside this function, the outer loop, the shell tests first for shell commands.
+If none of these tests is satisfied, it calls the inner loop to deal with the input.
+
+Once finished with the input, the value of `RELOAD_CFG` to see if the configuration has to be reloaded.
+Finally, a new prompt is displayed.
+
+
+==== Help
+If help is requested, display the command help file for the current print mode.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fws-help]
+----
+
+
+==== History
+History means to print the history or to run a commend stored in the history.
+Both functionalities are provided by the history function.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fws-history]
+----
+
+
+==== Exit
+If exit is requested, the shell leaves the outer loop.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fws-exit]
+----
+
+
+==== All other Input
+All other input is forwarded to the inner loop for further evaluation.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fws-other]
+----
+
+
+
+
+=== Run the Shell
+The final lines run the actual shell.
+First, input is redirected to `#3` while the shell is running (line 1).
+This allows to read lines from the standard input into the shell.
+Next, the first prompt is displayed (line 2).
+Then the outer loop is called (line 3).
+When the outer loop is finished, the redirection is reverted (line 4).
+Now the shell is finished and the process returns to the loader.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=run]
+----

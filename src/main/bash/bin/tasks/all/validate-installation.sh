@@ -179,9 +179,7 @@ done
 ############################################################################################
 ## test CLI
 ############################################################################################
-if [[ $DO_ALL == true ]]; then
-    TARGET="msrc cmd dep es opt param scn task"
-elif [[ $CLI_SET == false ]]; then
+if [[ $DO_ALL == true || $CLI_SET == false ]]; then
     TARGET="msrc cmd dep es opt param scn task"
 fi
 
@@ -202,19 +200,19 @@ ValidateManualSource() {
     local SOURCE
     local DIR=${CONFIG_MAP["MANUAL_SRC"]}
 
-    if [[ ! -d ${CONFIG_MAP["MANUAL_SRC"]}/tags ]]; then
+    if [[ ! -d $DIR/tags ]]; then
         ConsoleError " ->" "vi: did not find tag directory"
     else
         EXPECTED="tags/name tags/authors"
         for FILE in $EXPECTED; do
-            if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
+            if [[ ! -f $DIR/$FILE.txt ]]; then
                 ConsoleWarnStrict "  ->" "vi: manual missing file $FILE.txt"
-            elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
+            elif [[ ! -r $DIR/$FILE.txt ]]; then
                 ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.txt"
             fi
         done
 
-        for FILE in ${CONFIG_MAP["MANUAL_SRC"]}/tags/**; do
+        for FILE in $DIR/tags/**; do
             if [[ -d "$FILE" ]]; then
                 continue
             fi
@@ -231,24 +229,24 @@ ValidateManualSource() {
         done
     fi
 
-    if [[ ! -d ${CONFIG_MAP["MANUAL_SRC"]}/elements ]]; then
+    if [[ ! -d $DIR/elements ]]; then
         ConsoleError " ->" "did not find elements directory"
     else
         EXPECTED="elements/commands elements/dependencies elements/exit-options elements/exit-status elements/options elements/parameters elements/run-options elements/tasks elements/scenarios"
         for FILE in $EXPECTED; do
-            if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.adoc ]]; then
+            if [[ ! -f $DIR/$FILE.adoc ]]; then
                 ConsoleWarnStrict "  ->" "vi: missing manual file $FILE.adoc"
-            elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.adoc ]]; then
+            elif [[ ! -r $DIR/$FILE.adoc ]]; then
                 ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.adoc"
             fi
-            if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
+            if [[ ! -f $DIR/$FILE.txt ]]; then
                 ConsoleWarnStrict "  ->" "vi: missing manual file $FILE.txt"
-            elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
+            elif [[ ! -r $DIR/$FILE.txt ]]; then
                 ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.txt"
             fi
         done
 
-        for FILE in ${CONFIG_MAP["MANUAL_SRC"]}/elements/**; do
+        for FILE in $DIR/elements/**; do
             if [[ -d "$FILE" ]]; then
                 continue
             fi
@@ -269,24 +267,24 @@ ValidateManualSource() {
         done
     fi
 
-    if [[ ! -d ${CONFIG_MAP["MANUAL_SRC"]}/application ]]; then
+    if [[ ! -d $DIR/application ]]; then
         ConsoleError " ->" "did not find application directory"
     else
         EXPECTED="application/description application/authors application/bugs application/copying application/resources application/security"
         for FILE in $EXPECTED; do
-            if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.adoc ]]; then
+            if [[ ! -f $DIR/$FILE.adoc ]]; then
                 ConsoleWarnStrict "  ->" "vi: missing manual file $FILE.adoc"
-            elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.adoc ]]; then
+            elif [[ ! -r $DIR/$FILE.adoc ]]; then
                 ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.adoc"
             fi
-            if [[ ! -f ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
+            if [[ ! -f $DIR/$FILE.txt ]]; then
                 ConsoleWarnStrict "  ->" "vi: missing manual file $FILE.txt"
-            elif [[ ! -r ${CONFIG_MAP["MANUAL_SRC"]}/$FILE.txt ]]; then
+            elif [[ ! -r $DIR/$FILE.txt ]]; then
                 ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.txt"
             fi
         done
 
-        for FILE in ${CONFIG_MAP["MANUAL_SRC"]}/application/**; do
+        for FILE in $DIR/application/**; do
             if [[ -d "$FILE" ]]; then
                 continue
             fi

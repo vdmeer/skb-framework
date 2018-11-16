@@ -12,4 +12,9 @@
 //
 
 == Development Tasks
+This category of tasks provides functionality required to develop an application or the framework.
+This can include the creation of required or optional runtime artifacts.
+Tasks that start with `build-` or `compile-` should provide an argument `-c` or `--clean` to clean (i.e. remove) artifacts.
+
+Most _dev_ tasks should only be available in the _dev_ application mode.
 

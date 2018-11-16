@@ -86,6 +86,7 @@ PrintStrict() {
 ##
 ## function: PrintQuiet
 ## - prints the quiet setting
+## $1: setting
 ##
 PrintQuiet() {
     local QUIET=$1

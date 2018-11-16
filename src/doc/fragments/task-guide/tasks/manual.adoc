@@ -1,0 +1,58 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== manual
+This task will show the application manual.
+If no filters are used, i.e. no argument is provided, the text manual for the current print mode will be shown.
+
+[source%nowrap,bash,indent=0]
+----
+   -h | --help        print help screen and exit
+
+   filters
+   -A | --all               all manual versions
+        --adoc              ADOC manual
+        --ansi              text manual with ansi colors andeffects
+        --html              HTML manual
+        --manp              manual page skb-framework(1)
+        --pdf               PDF manual
+        --text              plain text manual
+        --text-anon         annotated text manual
+----
+
+The filters shown above can be used to show different versions of the manual.
+The filter _all_ will show all manual versions (it overwrites all other filters).
+Otherwise, any number of filters can be used in any order.
+The task will always show the manual in the following order:
+
+* _adoc_ - the ADOC (AsciiDoc) manual, filter _adoc_
+* _anon_ - the annotated text version of the manual, filter _text-anon_
+* _ansi_ - the ANSI formatted manual, filter _ansi_
+* _text_ - the plain text manual, filter _text_
+* _manp_ - the manual page, filter _manp_
+* _html_ - the HTML version in a web browser, filter _html_
+* _pdf_ - the PDF version in a PDF viewer, filter _pdf_
+
+The text versions (_adoc_, _anon_, _ansi_, and _text_) are shown using the command `less` with the options `-r -C -f -M -d`.
+`tput` is used to safe (`smcup`) and restore (`rmcup`) the terminal context.
+
+The manual page (_manp_) is shown using the command `man`.
+
+
+
+=== Requirements
+The task requires the manual being build in the application home directory.
+If a requested manual version is not found, an error will be thrown.
+
+To show HTML and PDF versions, this task uses the tasks `start-browser` and `start-pdf-viewer`, respectively.
+Both tasks have their own configuration requirements, please see their documentation for details.

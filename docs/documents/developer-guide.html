@@ -812,22 +812,1541 @@ table.CodeRay td.code>pre{padding:0}
 .CodeRay .head .head{color:#f4f}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1>Developer Guide</h1>
 <div class="details">
 <span id="author" class="author">Sven van der Meer</span><br>
 <span id="email" class="email"><a href="mailto:vdmeer.sven@mykolab.com">vdmeer.sven@mykolab.com</a></span><br>
 </div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_api">1. API</a>
+<ul class="sectlevel2">
+<li><a href="#_commands">1.1. Commands</a>
+<ul class="sectlevel3">
+<li><a href="#_getcommandid">1.1.1. GetCommandID</a></li>
+</ul>
+</li>
+<li><a href="#_config">1.2. Config</a>
+<ul class="sectlevel3">
+<li><a href="#_writeruntimeconfig">1.2.1. WriteRuntimeConfig</a></li>
+</ul>
+</li>
+<li><a href="#_console">1.3. Console</a>
+<ul class="sectlevel3">
+<li><a href="#_consolemessage">1.3.1. ConsoleMessage</a></li>
+<li><a href="#_consoleismessage">1.3.2. ConsoleIsMessage</a></li>
+<li><a href="#_consoleisprompt">1.3.3. ConsoleIsPrompt</a></li>
+<li><a href="#_consolefatal">1.3.4. ConsoleFatal</a></li>
+<li><a href="#_consoleerror">1.3.5. ConsoleError</a></li>
+<li><a href="#_consolereseterrors">1.3.6. ConsoleResetErrors</a></li>
+<li><a href="#_consolehaserrors">1.3.7. ConsoleHasErrors</a></li>
+<li><a href="#_consolewarnstrict">1.3.8. ConsoleWarnStrict</a></li>
+<li><a href="#_consolewarn">1.3.9. ConsoleWarn</a></li>
+<li><a href="#_consoleresetwarnings">1.3.10. ConsoleResetWarnings</a></li>
+<li><a href="#_consolehaswarnings">1.3.11. ConsoleHasWarnings</a></li>
+<li><a href="#_consoleinfo">1.3.12. ConsoleInfo</a></li>
+<li><a href="#_consoledebug">1.3.13. ConsoleDebug</a></li>
+<li><a href="#_consoletrace">1.3.14. ConsoleTrace</a></li>
+<li><a href="#_consoleisdebug">1.3.15. ConsoleIsDebug</a></li>
+<li><a href="#_consoleistrace">1.3.16. ConsoleIsTrace</a></li>
+</ul>
+</li>
+<li><a href="#_execute">1.4. Execute</a>
+<ul class="sectlevel3">
+<li><a href="#_executetask">1.4.1. ExecuteTask</a></li>
+<li><a href="#_executescenario">1.4.2. ExecuteScenario</a></li>
+</ul>
+</li>
+<li><a href="#_mvn_site">1.5. MVN Site</a>
+<ul class="sectlevel3">
+<li><a href="#_mvnsitefixadoc">1.5.1. MvnSiteFixAdoc</a></li>
+</ul>
+</li>
+<li><a href="#_print_ansi">1.6. Print ANSI</a>
+<ul class="sectlevel3">
+<li><a href="#_printcolor">1.6.1. PrintColor</a></li>
+<li><a href="#_printeffect">1.6.2. PrintEffect</a></li>
+</ul>
+</li>
+<li><a href="#_prompt">1.7. Prompt</a>
+<ul class="sectlevel3">
+<li><a href="#_promptsfmode">1.7.1. PromptSfMode</a></li>
+</ul>
+</li>
+<li><a href="#_prompt_2">1.8. Prompt</a>
+<ul class="sectlevel3">
+<li><a href="#_getscenarioid">1.8.1. GetScenarioID</a></li>
+</ul>
+</li>
+<li><a href="#_prompt_3">1.9. Prompt</a>
+<ul class="sectlevel3">
+<li><a href="#_pathtosystempath">1.9.1. PathToSystemPath</a></li>
+</ul>
+</li>
+<li><a href="#_prompt_4">1.10. Prompt</a>
+<ul class="sectlevel3">
+<li><a href="#_gettaskid">1.10.1. GetTaskID</a></li>
+<li><a href="#_buildtaskhelpline">1.10.2. BuildTaskHelpLine</a></li>
+<li><a href="#_taskgetcachedhelp">1.10.3. TaskGetCachedHelp</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>for SKB-Framework v0.0.1, November 15, 2018</p>
+<p>for SKB-Framework v0.0.1, November 16, 2018</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_api">1. API</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_commands">1.1. Commands</h3>
+<div class="sect3">
+<h4 id="_getcommandid">1.1.1. GetCommandID</h4>
+<div class="paragraph">
+<p>Returns the identifier (name) of a command for a given input string.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: the input string to test for a command identifier</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Success: long form of the command</p>
+<p class="tableblock">Error: empty string</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>id=$(GetCommandID "string")</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_config">1.2. Config</h3>
+<div class="sect3">
+<h4 id="_writeruntimeconfig">1.2.1. WriteRuntimeConfig</h4>
+<div class="paragraph">
+<p>Writes runtime configuration file.
+The file name is taken from <code>CONFIG_MAP["FW_L1_CONFIG"]</code>.
+The file is removed, and then all configuration maps are written into a new file.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>WriteRuntimeConfig</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The written maps are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>General Configurations</p>
+<div class="ulist">
+<ul>
+<li>
+<p>CONFIG_MAP - configuration</p>
+</li>
+<li>
+<p>CONFIG_SRC - setting source</p>
+</li>
+<li>
+<p>FW_PATH_MAP - paths for the framework</p>
+</li>
+<li>
+<p>APP_PATH_MAP - paths for an application</p>
+</li>
+<li>
+<p>CHAR_MAP - the map of characters (UTF-8)</p>
+</li>
+<li>
+<p>COLORS - the map of ANSI color codes</p>
+</li>
+<li>
+<p>EFFECTS - the map of ANSI text effects</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Options</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_OPT_ORIGIN - options and their declaration origin</p>
+</li>
+<li>
+<p>DMAP_OPT_SHORT - short option names</p>
+</li>
+<li>
+<p>DMAP_OPT_ARG - option arguments</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Exit Status</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_ES - map of exit status declarations</p>
+</li>
+<li>
+<p>DMAP_ES_PROBLEM - exit status problem identifiers (internal, external)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Commands</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_CMD - command declarations</p>
+</li>
+<li>
+<p>DMAP_CMD_SHORT - command short names</p>
+</li>
+<li>
+<p>DMAP_CMD_ARG - command arguments</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Parameters</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_PARAM_ORIGIN - parameter origin (framework or application)</p>
+</li>
+<li>
+<p>DMAP_PARAM_DECL - parameter declaration file</p>
+</li>
+<li>
+<p>DMAP_PARAM_DEFVAL - parameter default value</p>
+</li>
+<li>
+<p>DMAP_PARAM_IS - parameter <em>is</em> relationship, e.g. <em>is</em> a directory</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Dependencies</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_DEP_ORIGIN - dependency origin (framework or application)</p>
+</li>
+<li>
+<p>DMAP_DEP_DECL - dependency declaration file</p>
+</li>
+<li>
+<p>DMAP_DEP_REQ_DEP - dependency requires another dependency</p>
+</li>
+<li>
+<p>DMAP_DEP_CMD - dependency test command</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Dependency Runtime</p>
+<div class="ulist">
+<ul>
+<li>
+<p>RTMAP_DEP_STATUS - test status</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tasks</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_TASK_ORIGIN - task origin (framework or application)</p>
+</li>
+<li>
+<p>DMAP_TASK_DECL - task declaration file</p>
+</li>
+<li>
+<p>DMAP_TASK_SHORT - short task name</p>
+</li>
+<li>
+<p>DMAP_TASK_EXEC - task script location and name</p>
+</li>
+<li>
+<p>DMAP_TASK_MODES - task modes</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Task Requirements</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_TASK_REQ_PARAM_MAN - required mandatory parameters</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_PARAM_OPT - required optional parameters</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_DEP_MAN - required mandatory dependencies</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_DEP_OPT - required optional dependencies</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_TASK_MAN - required other tasks, mandatory</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_TASK_OPT - required other tasks, optional</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_DIR_MAN - required mandatory directories</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_DIR_OPT - required optional directories</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_FILE_MAN - required mandatory files</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_FILE_OPT - required optional files</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tasks Runtime</p>
+<div class="ulist">
+<ul>
+<li>
+<p>RTMAP_TASK_STATUS - task load status</p>
+</li>
+<li>
+<p>RTMAP_TASK_LOADED - loaded tasks</p>
+</li>
+<li>
+<p>RTMAP_TASK_UNLOADED - unloaded tasks</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Scenarios</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_SCN_ORIGIN - scenario origin (framework, application, or path)</p>
+</li>
+<li>
+<p>DMAP_SCN_DECL - scenario declaration file</p>
+</li>
+<li>
+<p>DMAP_SCN_SHORT - short scenario name</p>
+</li>
+<li>
+<p>DMAP_SCN_EXEC - scenario script location and name</p>
+</li>
+<li>
+<p>DMAP_SCN_MODES - scenario modes</p>
+</li>
+<li>
+<p>DMAP_SCN_REQ_TASK_MAN - scenario required tasks, mandatory</p>
+</li>
+<li>
+<p>DMAP_SCN_REQ_TASK_OPT - scenario required tasks, optional</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Scenario Runtime</p>
+<div class="ulist">
+<ul>
+<li>
+<p>RTMAP_SCN_STATUS - load status</p>
+</li>
+<li>
+<p>RTMAP_SCN_LOADED - loaded scenarios</p>
+</li>
+<li>
+<p>RTMAP_SCN_UNLOADED - unloaded scenarios</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Runtime Maps</p>
+<div class="ulist">
+<ul>
+<li>
+<p>RTMAP_REQUESTED_DEP - requested dependencies</p>
+</li>
+<li>
+<p>RTMAP_REQUESTED_PARAM - requested parameters</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Description Maps</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_CMD_DESCR - commands</p>
+</li>
+<li>
+<p>DMAP_DEP_DESCR - dependencies</p>
+</li>
+<li>
+<p>DMAP_ES_DESCR - exit status codes</p>
+</li>
+<li>
+<p>DMAP_OPT_DESCR - options</p>
+</li>
+<li>
+<p>DMAP_PARAM_DESCR - parameters</p>
+</li>
+<li>
+<p>DMAP_TASK_DESCR - tasks</p>
+</li>
+<li>
+<p>DMAP_SCN_DESCR - scenarios</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_console">1.3. Console</h3>
+<div class="sect3">
+<h4 id="_consolemessage">1.3.1. ConsoleMessage</h4>
+<div class="paragraph">
+<p>Prints a message to the console (standard error).
+The function uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which setting to use:
+    <code>CONFIG_MAP["LOADER_QUIET"]</code> for the loader,
+    <code>CONFIG_MAP["SHELL_QUIET"]</code> for the shell, or
+    <code>CONFIG_MAP["TASK_QUIET"]</code> for tasks.
+If the setting for quiet is <em>off</em>, it prints the message.
+Otherwise it does not print the message.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: the message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ConsoleMessage "message"</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consoleismessage">1.3.2. ConsoleIsMessage</h4>
+<div class="paragraph">
+<p>Returns the message status.
+The function uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which setting to use:
+    <code>CONFIG_MAP["LOADER_QUIET"]</code> for the loader,
+    <code>CONFIG_MAP["SHELL_QUIET"]</code> for the shell, or
+    <code>CONFIG_MAP["TASK_QUIET"]</code> for tasks.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 for <em>on</em>, 0 for <em>off</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>if ConsoleIsMessage; then &#8230;&#8203;; else &#8230;&#8203;; fi</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consoleisprompt">1.3.3. ConsoleIsPrompt</h4>
+<div class="paragraph">
+<p>Returns shell-prompt status from <code>CONFIG_MAP["SHELL_SNP"]</code>.
+The function uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which setting to use:
+    <code>CONFIG_MAP["LOADER_QUIET"]</code> for the loader,
+    <code>CONFIG_MAP["SHELL_QUIET"]</code> for the shell, or
+    <code>CONFIG_MAP["TASK_QUIET"]</code> for tasks.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 for <em>on</em>, 0 for <em>off</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>if ConsoleIsPrompt; then &#8230;&#8203;; else &#8230;&#8203;; fi</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consolefatal">1.3.4. ConsoleFatal</h4>
+<div class="paragraph">
+<p>Prints an error message with <em>[Fatal]</em> tag if the level for <em>fatal</em> is set and increases the error counter.
+The function uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which setting to use:
+    <code>CONFIG_MAP["LOADER_LEVEL"]`and `LOADER_ERRORS</code> counter for the loader,
+    <code>CONFIG_MAP["SHELL_LEVEL"]</code> and <code>SHELL_ERRORS</code> counter for the shell, or
+    <code>CONFIG_MAP["TASK_LEVEL"]</code> and <code>TASK_ERRORS</code> counter for tasks.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: message prefix, e.g. script name with colon</p>
+<p class="tableblock">$2: the error message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ConsoleFatal "  &#8594;" "fatal error message"</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consoleerror">1.3.5. ConsoleError</h4>
+<div class="paragraph">
+<p>Prints an error message with <em>[Error]</em> tag if the level for <em>fatal</em> is set and increases the error counter.
+The function uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which setting to use:
+    <code>CONFIG_MAP["LOADER_LEVEL"]</code> and <code>LOADER_ERRORS</code> counter for the loader,
+    <code>CONFIG_MAP["SHELL_LEVEL"]</code> and <code>SHELL_ERRORS</code> counter for the shell, or
+    <code>CONFIG_MAP["TASK_LEVEL"]</code> and <code>TASK_ERRORS</code> counter for tasks.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: message prefix, e.g. script name with colon</p>
+<p class="tableblock">$2: the error message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ConsoleError "  &#8594;" "error message"</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consolereseterrors">1.3.6. ConsoleResetErrors</h4>
+<div class="paragraph">
+<p>Resets the error counter, i.e. sets it to <em>0</em>.
+The function uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which counter to reset:
+    <code>LOADER_ERRORS</code> for the loader,
+    <code>SHELL_ERRORS</code> for the shell, or
+    <code>TASK_ERRORS</code> for tasks.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ConsoleResetErrors</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consolehaserrors">1.3.7. ConsoleHasErrors</h4>
+<div class="paragraph">
+<p>Returns <em>true</em> if the counter has errors (i.e. is larger than <em>0</em>) or false if it does not have errors (i.e. is <em>0</em>).
+The function uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which counter to use:
+    <code>LOADER_ERRORS</code> for the loader,
+    <code>SHELL_ERRORS</code> for the shell, or
+    <code>TASK_ERRORS</code> for tasks.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>true</em> (0) if errors</p>
+<p class="tableblock"><em>false</em> (1) if no errors</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>if ConsoleHasErrors; then &#8230;&#8203;; &#8230;&#8203;; fi</p>
+</div>
+<div class="paragraph">
+<p>if ConsoleHasErrors; then &#8230;&#8203;; else &#8230;&#8203;; fi</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consolewarnstrict">1.3.8. ConsoleWarnStrict</h4>
+<div class="paragraph">
+<p>Prints a strict warning message.
+If the application is not in strict mode, those messages are considered warnings.
+Here, the message will be printed with the tag <em>[Warn/Strict]</em> and the warning counter will be increased.
+If the application is in strict mode, those messages are considered errors.
+Here, the message will be printed with the tag <em>[Error/Strict]</em> and ere, the error counter will be increased.
+In <em>ansi</em> print mode, <em>Warn</em> is yellow and <em>Error</em> is red.
+The function uses <code>CONFIG_MAP["RUNNING_IN"]</code> and <code>CONFIG_MAP["STRICT"]</code> to determine which counter to increase.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: message prefix, script name with colon</p>
+<p class="tableblock">$2: the warning/error message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ConsoleWarnStrict "  &#8594;" "did not find file $FILE"</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consolewarn">1.3.9. ConsoleWarn</h4>
+<div class="paragraph">
+<p>Prints a warning message.
+The message will be printed with the tag <em>[Warn]</em> and the warning counter will be increased.
+If the application is in strict mode, those messages are considered errors.
+The function uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which counter to increase:
+    <code>LOADER_WARNINGS</code> for the loader,
+    <code>SHELL_WARNINGS</code> for the shell, or
+    <code>TASK_WARNINGS</code> for tasks.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: message prefix, script name with colon</p>
+<p class="tableblock">$2: the warning message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ConsoleWarn "  &#8594;" "did not find file $FILE"</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consoleresetwarnings">1.3.10. ConsoleResetWarnings</h4>
+<div class="paragraph">
+<p>Resets the warning counter, i.e. sets it to <em>0</em>.
+The function uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which counter to reset:
+    <code>LOADER_WARNINGS</code> for the loader,
+    <code>SHELL_WARNINGS</code> for the shell, or
+    <code>TASK_WARNINGS</code> for tasks.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ConsoleResetWarnings</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consolehaswarnings">1.3.11. ConsoleHasWarnings</h4>
+<div class="paragraph">
+<p>Returns <em>true</em> if the counter has warnings (i.e. is larger than <em>0</em>) or false if it does not have warnings (i.e. is <em>0</em>).
+The function uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which counter to use:
+    <code>LOADER_WARNINGS</code> for the loader,
+    <code>SHELL_WARNINGS</code> for the shell, or
+    <code>TASK_WARNINGS</code> for tasks.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>true</em> (0) if warnings</p>
+<p class="tableblock"><em>false</em> (1) if no warnings</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>if ConsoleHasWarnings; then &#8230;&#8203;; &#8230;&#8203;; fi</p>
+</div>
+<div class="paragraph">
+<p>if ConsoleHasWarnings; then &#8230;&#8203;; else &#8230;&#8203;; fi</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consoleinfo">1.3.12. ConsoleInfo</h4>
+<div class="paragraph">
+<p>Prints an information message.
+The message will be printed with the tag <em>[Info]</em>.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: message prefix, script name with colon</p>
+<p class="tableblock">$2: the message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ConsoleInfo "  &#8594;" "I am doing something now"</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consoledebug">1.3.13. ConsoleDebug</h4>
+<div class="paragraph">
+<p>Prints a debug message.
+The message will be printed with the prefix `    &gt;` in bold.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: the message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ConsoleDebug "I am doing something now"</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consoletrace">1.3.14. ConsoleTrace</h4>
+<div class="paragraph">
+<p>Prints a trace message.
+The message will be printed with the prefix `    &gt;` in italic.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: the message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ConsoleTrace "I am doing something now"</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consoleisdebug">1.3.15. ConsoleIsDebug</h4>
+<div class="paragraph">
+<p>Returns the message status.
+The function uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which setting to use:
+    <code>CONFIG_MAP["LOADER_LEVEL"]</code> for the loader,
+    <code>CONFIG_MAP["SHELL_LEVEL"]</code> for the shell, or
+    <code>CONFIG_MAP["TASK_LEVEL"]</code> for tasks.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 for <em>on</em>, 0 for <em>off</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>if ConsoleIsDebug; then &#8230;&#8203;; else &#8230;&#8203;; fi</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consoleistrace">1.3.16. ConsoleIsTrace</h4>
+<div class="paragraph">
+<p>Returns the message status.
+The function uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which setting to use:
+    <code>CONFIG_MAP["LOADER_LEVEL"]</code> for the loader,
+    <code>CONFIG_MAP["SHELL_LEVEL"]</code> for the shell, or
+    <code>CONFIG_MAP["TASK_LEVEL"]</code> for tasks.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 for <em>on</em>, 0 for <em>off</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>if ConsoleIsTrace; then &#8230;&#8203;; else &#8230;&#8203;; fi</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_execute">1.4. Execute</h3>
+<div class="sect3">
+<h4 id="_executetask">1.4.1. ExecuteTask</h4>
+<div class="paragraph">
+<p>Executes a task.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: full command line for the task</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The first word from the argument is taken as the task name.
+This can be the task&#8217;s short or long name.
+The task must be loaded and available for execution.</p>
+</div>
+<div class="paragraph">
+<p>This function will print extra information (header and footer, execution time calculations) for most tasks.
+The exception here are all <em>standard</em> tasks known to not need header and footers: <em>list-*</em>, <em>describe-*</em>, <em>setting</em>, <em>manual</em>, <em>statistics</em>, and <em>wait</em>.
+Also: any task execution that includes the arguments <code>-h</code> or <code>--help</code> will not see header and footer printed.
+For the task <em>wait</em>, an additional calculation of the actual wait time is displayed.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ExecuteTask "$SARG"</p>
+</div>
+<div class="paragraph">
+<p>ExecuteTask "list-tasks -AT"</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_executescenario">1.4.2. ExecuteScenario</h4>
+<div class="paragraph">
+<p>Executes a scenario.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: scenario ID, short or long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The scenario must be loaded and available for execution.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ExecuteScenario build-site</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mvn_site">1.5. MVN Site</h3>
+<div class="sect3">
+<h4 id="_mvnsitefixadoc">1.5.1. MvnSiteFixAdoc</h4>
+<div class="paragraph">
+<p>Fixes HTML files generated from ADOC sources by the Maven site and Asciidoctor plugins.
+The problems fixed are:</p>
+</div>
+<div class="paragraph">
+<p>*add a text to the HTML title of the page (empty otherwise)
+* add text to the active bread crumb list item (empty otherwise)</p>
+</div>
+<div class="paragraph">
+<p>This function will take the file name (first argument, no extension) and use <code>sed</code> to add the text from the second argument to the HTML file.
+For the title, it assumes that there is a prefix in the title, so it adds <code>x2013; $2</code>.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: file name</p>
+<p class="tableblock">$2: text</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>MvnSiteFixAdoc target/site/developer-guide/api/mvn-site "API: MVN Site"</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_print_ansi">1.6. Print ANSI</h3>
+<div class="paragraph">
+<p>The functions here will print text according to the current print mode in <code>CONFIG_MAP["PRINT_MODE"]</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>ansi</em> - with ANSI encoded colors or effects</p>
+</li>
+<li>
+<p><em>adoc</em> - in AsciiDoc notation</p>
+</li>
+<li>
+<p><em>text</em> - as plain text</p>
+</li>
+<li>
+<p><em>text-anon</em> - as annotated text</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>By default, the functions take the current print mode.
+They can also be requested to use a specific, then forced, print mode.</p>
+</div>
+<div class="paragraph">
+<p>The printed text will not contain a line feed.</p>
+</div>
+<div class="sect3">
+<h4 id="_printcolor">1.6.1. PrintColor</h4>
+<div class="paragraph">
+<p>Prints text in color in <em>ansi</em> mode, just text otherwise.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: color</p>
+<p class="tableblock">$2: message</p>
+<p class="tableblock">$3: forced print mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>PrintColor light-green "I am available"</p>
+</div>
+<div class="paragraph">
+<p>PrintColor yellow "some problem here"</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Supported colors are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>black</p>
+</li>
+<li>
+<p>red</p>
+</li>
+<li>
+<p>green</p>
+</li>
+<li>
+<p>brown</p>
+</li>
+<li>
+<p>blue</p>
+</li>
+<li>
+<p>purple</p>
+</li>
+<li>
+<p>cyan</p>
+</li>
+<li>
+<p>light-gray</p>
+</li>
+<li>
+<p>dark-gray</p>
+</li>
+<li>
+<p>light-red</p>
+</li>
+<li>
+<p>light-green</p>
+</li>
+<li>
+<p>yellow</p>
+</li>
+<li>
+<p>light-blue</p>
+</li>
+<li>
+<p>light-purple</p>
+</li>
+<li>
+<p>light-cyan</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_printeffect">1.6.2. PrintEffect</h4>
+<div class="paragraph">
+<p>Prints text with an effect in <em>ansi</em> mode, plain text in <em>text</em> mode, and text with some annotation in <em>adoc</em> and <em>text-anon</em> mode.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: effect</p>
+<p class="tableblock">$2: message</p>
+<p class="tableblock">$3: forced print mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>PrintColor bold "I am available"</p>
+</div>
+<div class="paragraph">
+<p>PrintColor reverse "Name   Description"</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Supported effects are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>bold</em> - either bold, plain text or as annotation using <code>*</code></p>
+</li>
+<li>
+<p><em>italic</em> - either italic, plain text or as annotation <code>_</code></p>
+</li>
+<li>
+<p><em>reverse</em> - either reverse, or plain text</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_prompt">1.7. Prompt</h3>
+<div class="paragraph">
+<p>Collection of functions for the shell prompt.</p>
+</div>
+<div class="sect3">
+<h4 id="_promptsfmode">1.7.1. PromptSfMode</h4>
+<div class="paragraph">
+<p>Prints the application flavor and the mode in brackets.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>PromptSfMode</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_prompt_2">1.8. Prompt</h3>
+<div class="paragraph">
+<p>Collection of functions for scenarios.</p>
+</div>
+<div class="sect3">
+<h4 id="_getscenarioid">1.8.1. GetScenarioID</h4>
+<div class="paragraph">
+<p>Returns the identifier (name) of a scenario for a given input string.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: the input string to test for a scenario identifier</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Success: long form of the scenario</p>
+<p class="tableblock">Error: empty string</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>id=$(GetScenarioID "string")</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_prompt_3">1.9. Prompt</h3>
+<div class="paragraph">
+<p>Collection of functions for the underlying system.</p>
+</div>
+<div class="sect3">
+<h4 id="_pathtosystempath">1.9.1. PathToSystemPath</h4>
+<div class="paragraph">
+<p>Converts a given path to a system-specific representation.
+This can be important when running on hybrid systems.
+In Cygwin for instance, one can execute Windows programs that do not understand UNIx path.
+This function can convert the paths.</p>
+</div>
+<div class="paragraph">
+<p>The system is taken from <code>CONFIG_MAP["SYSTEM"]</code>.
+If no special path conversion is implemented for the system, the original path is returned.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: path to convert</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">converted or original path</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>VARIABLE=$(PathToSystemPath "path")</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Currently supported conversions are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Cygwin: uses <code>cygpath -m</code> for the conversion</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_prompt_4">1.10. Prompt</h3>
+<div class="paragraph">
+<p>Collection of functions for tasks.</p>
+</div>
+<div class="sect3">
+<h4 id="_gettaskid">1.10.1. GetTaskID</h4>
+<div class="paragraph">
+<p>Returns the identifier (name) of a task for a given input string.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: the input string to test for a task identifier</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Success: long form of the task</p>
+<p class="tableblock">Error: empty string</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>id=$(GetTaskID "string")</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_buildtaskhelpline">1.10.2. BuildTaskHelpLine</h4>
+<div class="paragraph">
+<p>Prints a single line for the task help screen with one argument and its settings.
+An argument is described by:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a short form, use <code>&lt;none&gt;</code> if not applicable</p>
+</li>
+<li>
+<p>a long form, use <code>&lt;none&gt;</code> if not applicable</p>
+</li>
+<li>
+<p>an argument, use <code>&lt;none&gt;</code> if not applicable, if used the string will be converted to upper case spelling</p>
+</li>
+<li>
+<p>a description in form of a short tag line</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Additionally, a length value an be given.
+The length is used to calculate the padding between short/long/argument and description.
+The padding default value is <em>24</em>.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: short options</p>
+<p class="tableblock">$2: long option</p>
+<p class="tableblock">$3: argument</p>
+<p class="tableblock">$4: description</p>
+<p class="tableblock">$5: length</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>BuildTaskHelpLine h help "&lt;none&gt;" "print help screen and exit" 25</p>
+</div>
+<div class="paragraph">
+<p>BuildTaskHelpLine f file "FILE" "file to open in viewer" 25</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_taskgetcachedhelp">1.10.3. TaskGetCachedHelp</h4>
+<div class="paragraph">
+<p>Returns a file name with cached help screen for current print-mode, none if none found.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: task ID, long form</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Success: file name</p>
+<p class="tableblock">Error: empty string</p></td>
+</tr>
+</tbody>
+</table>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>CACHED_HELP=$(TaskGetCachedHelp "my-task")</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-15 11:08:25 GMT
+Last updated 2018-11-16 08:56:44 GMT
 </div>
 </div>
 </body>

@@ -106,13 +106,13 @@ while true; do
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"              $PRINT_PADDING
                 printf "\n   filters\n"
-                BuildTaskHelpLine A all         "<none>"    "all scenarios, disables all other filters"                 $PRINT_PADDING
-                BuildTaskHelpLine i id          "ID"        "scenario identifier"                                       $PRINT_PADDING
-                BuildTaskHelpLine l loaded      "<none>"    "only loaded scenarios"                                     $PRINT_PADDING
-                BuildTaskHelpLine m mode        "MODE"      "only scenarios for application mode: dev, build, use"      $PRINT_PADDING
-                BuildTaskHelpLine o origin      "ORIGIN"    "only scenarios from origin: f(w), a(pp)"                   $PRINT_PADDING
-                BuildTaskHelpLine s status      "STATUS"    "only scenarios for status: success, warnings, errors"      $PRINT_PADDING
-                BuildTaskHelpLine u unloaded    "<none>"    "only unloaded scenarios"                                   $PRINT_PADDING
+                BuildTaskHelpLine A all         "<none>"    "all scenarios, disables all other filters"                                     $PRINT_PADDING
+                BuildTaskHelpLine i id          "ID"        "scenario identifier"                                                           $PRINT_PADDING
+                BuildTaskHelpLine l loaded      "<none>"    "only loaded scenarios"                                                         $PRINT_PADDING
+                BuildTaskHelpLine m mode        "MODE"      "only scenarios for application mode: dev, build, use"                          $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "only scenarios from origin: f(w), a(pp)"                                       $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "only scenarios for status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"     $PRINT_PADDING
+                BuildTaskHelpLine u unloaded    "<none>"    "only unloaded scenarios"                                                       $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
@@ -230,14 +230,17 @@ else
     fi
     if [[ -n "$STATUS" ]]; then
         case $STATUS in
-            s | success)
+            S | s | success)
                 STATUS=S
                 ;;
-            e | errors | error)
+            E | e | errors | error)
                 STATUS=E
                 ;;
-            w | warnings | warning)
+            W | w | warnings | warning)
                 STATUS=W
+                ;;
+            N | n | not-attempted)
+                STATUS=N
                 ;;
             *)
                 ConsoleError "  ->" "ds: unknown status: $STATUS"

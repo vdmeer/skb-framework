@@ -28,3 +28,24 @@ Sven van_der_Meer <vdmeer.sven@mykolab.com>
 
 
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api.adoc[]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/commands.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/config.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/console.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/execute.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/mvn-site.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/print-ansi.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/prompt.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/scenarios.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/system.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/tasks.adoc[leveloffset=+1]

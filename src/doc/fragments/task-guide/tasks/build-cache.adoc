@@ -1,0 +1,98 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== build-cache
+This task creates cached information about the application (or framework).
+This cache is not required to run an application.
+All functionality can be loaded at startup without a cache.
+However, caches can speedup the application load as well as some runtime behavior namely the `list-*` tasks and the help on all tasks.
+
+On powerful hosts the cache will not provide any advantage.
+On less powerful hosts (for instance a Raspberry PI) or on systems with slower output (e.g. using ANSI formatted text n Cygwin), a cache can significantly improve performance.
+
+Without any arguments, the standard cache (for all declarations) is being build.
+_clean_ will clean all cached information.
+
+[source%nowrap,bash,indent=0]
+----
+   -b | --build       builds cache, requires a target
+   -c | --clean       removes all cached maps and screens
+   -h | --help        print help screen and exit
+----
+
+
+
+=== General Target Options
+Target options can be used to set specific cache targets.
+
+* _all_ - for all targets, except individual tasks
+* _decl_ - to cache element declarations.
+    Except for parameters, all other elements will be cached: options, commands, dependencies, tasks, and scenarios.
+    For scenarios, only the standard directories of application and framework are cached, additional scenario directories (from _SCENARIPO_PATH_) will not be cached.
+* _full_ - cache everything, including individual tasks.
+    This will cache declarations, tables, and the help screen of every loaded task.
+* _tab_ - cache table representations of all elements.
+    This cache is used by the `list-*` tasks at  runtime.
+
+[source%nowrap,bash,indent=0]
+----
+   target options
+   -A | --all         set all targets, except tasks
+   -d | --decl        set all declaration targets
+   -f | --full        set all targets, including tasks
+   -t | --tab         set all table targets
+----
+
+
+
+=== Targets
+Beside the general targets, the task can also be run with very specific targets, shown below.
+Here, declaration and table caches can be requested for each element type.
+
+[source%nowrap,bash,indent=0]
+----
+   targets
+        --cmd-decl    target: command declarations
+        --cmd-tab     target: command table
+        --es-decl     target: exit-status declarations
+        --es-tab      target: exit-status table
+        --opt-decl    target: option declarations
+        --opt-tab     target: option table
+        --dep-decl    target: dependency declarations
+        --dep-tab     target: dependency table
+        --param-tab   target: parameter table
+        --task-decl   target: task declarations
+        --task-tab    target: task table
+        --tasks       target: help screens for all(!) tasks
+----
+
+
+
+=== Requirements
+This task requires the parameter _CACHE_DIR_ to be set.
+Since this parameter has the default value of `/var/cache/$APP_NAME` it is always set.
+
+
+
+=== Notes
+This task will change directories and files in the cache directory.
+Sufficient permissions must exist to run this task successfully.
+
+Care should be taken when using specific configurations for _CACHE_DIR_.
+Since there can be any number of SKB application installed on a single system, the cache directory should be different per application.
+Otherwise there can be unexpected behavior, especially for the declaration caches.
+
+When declarations of cached elements (for instance a task) are changed, the cache is not automatically changed.
+This means, the changes will have no effect on the application load.
+This can lead to unexpected behavior.
+If caches are used, they should be cleared and rebuild whenever declarations change.

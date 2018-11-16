@@ -112,19 +112,19 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
                 BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
                 printf "\n   filters\n"
-                BuildTaskHelpLine A         all         "<none>"    "all scenarios, disables all other filters"                             $PRINT_PADDING
-                BuildTaskHelpLine l         loaded      "<none>"    "only loaded scenarios"                                                 $PRINT_PADDING
-                BuildTaskHelpLine m         mode        "MODE"      "only scenarios for application mode: dev, build, use"                  $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-a        "<none>"    "activate all '--no-' filters"                                          $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-b        "<none>"    "exclude scenarios starting with 'build-'"                              $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-d        "<none>"    "exclude scenarios starting with 'describe-'"                           $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-dl       "<none>"    "exclude scenarios starting with 'describe-' or 'list-'"                $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-l        "<none>"    "exclude scenarios starting with 'list-'"                               $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-s        "<none>"    "exclude scenarios starting with 'start-'"                              $PRINT_PADDING
-                BuildTaskHelpLine o         origin      "ORIGIN"    "only scenarios from origin: f(w), a(pp)"                               $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  odl         "<none>"    "show only scenarios starting with 'describe-' or 'list-'"              $PRINT_PADDING
-                BuildTaskHelpLine s         status      "STATUS"    "only scenarios with status: success, warnings, errors, not attempted"  $PRINT_PADDING
-                BuildTaskHelpLine u         unloaded    "<none>"    "only unloaded scenarios"                                               $PRINT_PADDING
+                BuildTaskHelpLine A         all         "<none>"    "all scenarios, disables all other filters"                                     $PRINT_PADDING
+                BuildTaskHelpLine l         loaded      "<none>"    "only loaded scenarios"                                                         $PRINT_PADDING
+                BuildTaskHelpLine m         mode        "MODE"      "only scenarios for application mode: dev, build, use"                          $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-a        "<none>"    "activate all '--no-' filters"                                                  $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-b        "<none>"    "exclude scenarios starting with 'build-'"                                      $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-d        "<none>"    "exclude scenarios starting with 'describe-'"                                   $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-dl       "<none>"    "exclude scenarios starting with 'describe-' or 'list-'"                        $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-l        "<none>"    "exclude scenarios starting with 'list-'"                                       $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-s        "<none>"    "exclude scenarios starting with 'start-'"                                      $PRINT_PADDING
+                BuildTaskHelpLine o         origin      "ORIGIN"    "only scenarios from origin: f(w), a(pp)"                                       $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  odl         "<none>"    "show only scenarios starting with 'describe-' or 'list-'"                      $PRINT_PADDING
+                BuildTaskHelpLine s         status      "STATUS"    "only scenarios with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"    $PRINT_PADDING
+                BuildTaskHelpLine u         unloaded    "<none>"    "only unloaded scenarios"                                                       $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
@@ -279,7 +279,7 @@ else
             W | w | warnings | warning)
                 STATUS=W
                 ;;
-            N | n | not-attepmted)
+            N | n | not-attempted)
                 STATUS=N
                 ;;
             *)

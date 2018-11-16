@@ -848,7 +848,34 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_done">2.21. Done</a></li>
 </ul>
 </li>
-<li><a href="#_the_shell">3. The Shell</a></li>
+<li><a href="#_the_shell">3. The Shell</a>
+<ul class="sectlevel2">
+<li><a href="#_test_parent_and_and_load_configuration">3.1. Test Parent and and load Configuration</a></li>
+<li><a href="#_include">3.2. Include</a></li>
+<li><a href="#_settings">3.3. Settings</a></li>
+<li><a href="#_inner_loop_fwinterpreter">3.4. Inner Loop: FWInterpreter</a>
+<ul class="sectlevel3">
+<li><a href="#_execute_a_scenario">3.4.1. Execute a Scenario</a></li>
+<li><a href="#_clear_screen">3.4.2. Clear Screen</a></li>
+<li><a href="#_time">3.4.3. Time</a></li>
+<li><a href="#_print_configuration">3.4.4. Print Configuration</a></li>
+<li><a href="#_print_statistics">3.4.5. Print Statistics</a></li>
+<li><a href="#_list_tasks">3.4.6. List Tasks</a></li>
+<li><a href="#_comments">3.4.7. Comments</a></li>
+<li><a href="#_all_other_input">3.4.8. All other Input</a></li>
+</ul>
+</li>
+<li><a href="#_outer_loop_fwshell">3.5. Outer Loop: FWShell</a>
+<ul class="sectlevel3">
+<li><a href="#_help">3.5.1. Help</a></li>
+<li><a href="#_history">3.5.2. History</a></li>
+<li><a href="#_exit">3.5.3. Exit</a></li>
+<li><a href="#_all_other_input_2">3.5.4. All other Input</a></li>
+</ul>
+</li>
+<li><a href="#_run_the_shell">3.6. Run the Shell</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -856,7 +883,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>for SKB-Framework v0.0.1, November 15, 2018</p>
+<p>for SKB-Framework v0.0.1, November 16, 2018</p>
 </div>
 </div>
 </div>
@@ -1248,6 +1275,13 @@ CONFIG_MAP[&quot;SHELL_SNP&quot;]=&quot;off&quot;                       # shell 
 </div>
 <div class="sect2">
 <h3 id="_core_includes">2.3. Core Includes</h3>
+<div class="paragraph">
+<p>Next, some core files from the framework&#8217;s API are loaded.
+To makes things simple, the provided <code><em>include</code> files are used to load all API functions.
+Error and warning counters are reset, i.e. set to _0</em>.
+Finally, the loaders own function for parsing the command line is loaded (line 6).
+This only loads the function, it does not actually parse the command line.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1270,6 +1304,12 @@ source $FW_HOME/bin/loader/init/parse-cli.sh</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_application_flavor_and_name">2.4. Application Flavor and Name</h3>
+<div class="paragraph">
+<p>The next step is to set the flavor and application name/script.
+The flavor is any prefix used by the application to identify parameters.
+It must be provided by the application (which starts the loader) as the setting <code>__FW_LOADER_FLAVOR</code>.
+Once flavor and application settings are realized, the application map and version are loaded (lines 44-51).</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1382,6 +1422,22 @@ fi</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_temporary_directory">2.5. Temporary Directory</h3>
+<div class="paragraph">
+<p>The next step is to test if the temporary directory can be created.
+This is important for two reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The directory uses the application flavor in the same, to separate several SKB applications that might be running on the same host</p>
+</li>
+<li>
+<p>In the directory, the loader will safe to runtime configuration.
+This is required because associative arrays (or hash maps, or maps), used to store all configuration data, cannot be exported into the <em>bash</em> environment.
+Using temporary files is the only way for the loader to share the configuration with the shell, and for the shell to share it with tasks.</p>
+</li>
+</ul>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1430,6 +1486,12 @@ fi</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_sneak_preview_of_cli_arguments">2.6. Sneak Preview of CLI Arguments</h3>
+<div class="paragraph">
+<p>Next, the loader does a sneak preview inside the command line arguments.
+This is done to determine the application mode that might be requested from the command line.
+We need to know the requested mode here, before we actually do parse the arguments later.
+This is important to load the correct declarations for all elements.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1468,6 +1530,13 @@ esac</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_parameter_declarations">2.7. Parameter Declarations</h3>
+<div class="paragraph">
+<p>With the application mode set, the loader can load the parameter declarations.
+These declarations can only be loaded from source, i.e. not from an optional cache, since one of the parameters actually sets the cache directory.
+Once loaded (line 1), all loaded parameters are processed (line 4).
+This function will load values from the environment, then from an optional configuration file, and finally from potentially declared default values.
+This function only loads settings, it does not test any of these settings.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1486,6 +1555,13 @@ ProcessSettings</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_option_declarations">2.8. Option Declarations</h3>
+<div class="paragraph">
+<p>Next is the declaration of command line options.
+This declaration can be done from cache (if cached) or source (if no cache exists).
+Errors here indicate bugs or runtime problems.
+Once declared, all options are set to <code>false</code> in the CLI map (lines 8-11).
+This allows to test which options have been used as actual arguments when parsing the command line later.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1518,6 +1594,13 @@ done</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_parse_command_line_arguments">2.9. Parse Command Line Arguments</h3>
+<div class="paragraph">
+<p>Now the loader can safely parse the command line arguments.
+The parse function does parse for most options, only set options that have no further side effect.
+This means that this function does not execute on any option.
+This is done later in the load process.
+The print mode is immediately set and tested (lines 3-12) to make sure we have a valid setting for it.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1552,6 +1635,27 @@ esac</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_realize_early_exit_options">2.10. Realize early Exit Options</h3>
+<div class="paragraph">
+<p>At this stage, the loader can realize early exit options.
+Those are options that do not require any further actions by the loader.
+These options include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Clean the cache (lines 1-5),</p>
+</li>
+<li>
+<p>Print the help screen (lines 6-9), and</p>
+</li>
+<li>
+<p>Print the application version (lines 10-13)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If any of these options was requested, the loader will exit with code <em>0</em>, success.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1588,6 +1692,10 @@ fi</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_declarations_for_commands_and_exit_status_codes">2.11. Declarations for Commands and Exit Status Codes</h3>
+<div class="paragraph">
+<p>Now the declarations of shell commands (lines 1-7) and exit codes (lines 8-14) can be loaded, either from cache or source.
+Errors here indicate a framework bug or runtime problem, since commands and exit codes are core features and rather static.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1626,6 +1734,11 @@ fi</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_dependency_declarations">2.12. Dependency Declarations</h3>
+<div class="paragraph">
+<p>The next step is to load dependency declarations, either from cache or from source.
+Errors here can point to a bug in the framework, a problem in the application, or a problem with a dependency declaration itself.
+In this step, dependencies are only declared, but not tested, since the loader still does not know which of them are required by tasks.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1652,6 +1765,20 @@ fi</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_task_declarations">2.13. Task Declarations</h3>
+<div class="paragraph">
+<p>This step is probably the most complicated and most important step in the load process.
+First, the declarations of tasks are loaded, either from cache or from source (lines 1-8).
+Errors here can point to a bug in the framework, a problem in the application, or a problem with a task declaration itself.
+Next, the loaded tasks are processed (line 9-11).
+This function will take the loaded tasks and test or validate all parameters and dependencies they require.
+This process can take some time, especially for testing external dependencies.
+Errors tend to indicate configuration or dependency problems, not internal or declaration problems.</p>
+</div>
+<div class="paragraph">
+<p>Some tasks might declare requirements as <em>optional</em>.
+Those dependencies only throw warnings in a normal application run.
+Only if an application is run in <em>strict</em> mode will those problems throw errors.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1684,6 +1811,9 @@ if ConsoleHasErrors; then printf &quot;\n&quot;; exit 32; fi</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_scenario_declarations">2.14. Scenario Declarations</h3>
+<div class="paragraph">
+<p>When tasks are declared, the loader can declare all scenarios from the framework and application home as well as the optional scenario path.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1706,6 +1836,10 @@ if ConsoleHasErrors; then printf &quot;\n&quot;; exit 34; fi</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_set_levels">2.15. Set Levels</h3>
+<div class="paragraph">
+<p>The next step is to set the correct levels (log levels) for the loader (the remaining load steps), the shell, and the tasks.
+This is done for each level type in separation.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1770,6 +1904,13 @@ esac</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_do_exit_options">2.16. Do (Exit) Options</h3>
+<div class="paragraph">
+<p>At this stage, the loader can process most the remaining exit options.
+Those are command line options that request some behavior and then should cause the loader to exit.</p>
+</div>
+<div class="paragraph">
+<p>If such options are requested, the loader might provide some information about its execution time (lines 5-11).</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1802,6 +1943,15 @@ fi</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_create_runtime_configuration_file">2.17. Create Runtime Configuration File</h3>
+<div class="paragraph">
+<p>Now, the loader needs to create the temporary runtime configuration file.
+The remaining actions are either to run a execute a task, run a scenario, or execute the interactive shell.
+All of these actions require the configuration to be available.
+The configuration file is created in the already tested directory, usually located in <code>/tmp/</code>.
+The name of the configuration files includes a time stamp of its creation and an arbitrary, random string.
+<code>mktemp</code> is used to create the file name.
+Since the name is unique, the same application can be executed many times simultaneously.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1818,6 +1968,10 @@ WriteRuntimeConfig</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_execute_task_or_scenario">2.18. Execute Task or Scenario</h3>
+<div class="paragraph">
+<p>The final exit options are to execute a task or to run a scenario.
+The loader will try either of them.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1852,6 +2006,11 @@ fi</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_start_shell">2.19. Start Shell</h3>
+<div class="paragraph">
+<p>This is the final step of the load process.
+If no task or scenario was requested to be executed, the loader will start the interactive shell.
+This shell will run until a user caused it or exit, or until an error terminated the whole application.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1870,6 +2029,11 @@ fi</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_clean_up">2.20. Clean Up</h3>
+<div class="paragraph">
+<p>Finally, the loader can cleanup and prepare to terminate.
+Cleanup basically means to remove the temporary configuration file.
+If the temporary directory is no longer needed, i.e. no other configuration exists in it, it can be removed as well.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1892,6 +2056,11 @@ fi</pre></td>
 </div>
 <div class="sect2">
 <h3 id="_done">2.21. Done</h3>
+<div class="paragraph">
+<p>The loader is done, all actions have been taken.
+It now can safely exit and return the execution to the <code>skb-framework</code> or the calling application.
+A final message is displayed to mark this point in the process.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
@@ -1909,7 +2078,523 @@ exit $__errno</pre></td>
 <div class="sect1">
 <h2 id="_the_shell">3. The Shell</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>The loader is the script <code>$FW_HOME/bin/shell/shell.sh</code>.
+It provides an interactive shell to either execute shell commands or tasks.
+Most shell commands are realized by tasks, so the actual shell implementation is rather simple.</p>
+</div>
+<div class="paragraph">
+<p>The initial settings are shown in the source block below.
+Line 1 restricts <em>bash</em>, providing a safer execution environment.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+</pre></td>
+  <td class="code"><pre>set -o errexit -o pipefail -o noclobber -o nounset</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_parent_and_and_load_configuration">3.1. Test Parent and and load Configuration</h3>
+<div class="paragraph">
+<p>The shell then tests if it is run from the right parent (i.e. the loader) and it loads the temporary configuration.
+The parent test is rather simple: if <code>FW_HOME</code> or <code>FW_L1_CONFIG</code> are not set, it is very likely that the shell has not been started by the loader.
+Otherwise, the temporary configuration can be loaded (line 5).
+The configuration is set for <em>running in the shell</em> (line 6).
+This information is used by the API functions in the console to determine what output (log) level and what error/warning counters to use.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td>
+  <td class="code"><pre>if [[ -z ${FW_HOME:-} || -z ${FW_L1_CONFIG-} ]]; then
+    printf &quot; ==&gt; please run from framework or application\n\n&quot;
+    exit 40
+fi
+source $FW_L1_CONFIG
+CONFIG_MAP[&quot;RUNNING_IN&quot;]=&quot;shell&quot;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_include">3.2. Include</h3>
+<div class="paragraph">
+<p>Next, the shell includes the framework&#8217;s API functions (lines 1-2) and the functions to maintain its command history (line 3).
+Then the error and warning counters are reset (set to <em>0</em>), and a simple new line is printed (if messages are allowed).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td>
+  <td class="code"><pre>source $FW_HOME/bin/api/_include
+source $FW_HOME/bin/api/describe/task.sh
+source $FW_HOME/bin/shell/history.sh
 
+ConsoleResetErrors
+ConsoleResetWarnings
+ConsoleMessage &quot;\n&quot;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_settings">3.3. Settings</h3>
+<div class="paragraph">
+<p>Now the shell realizes its core settings.
+These settings are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>SCMD</em> - used to store shell input</p>
+</li>
+<li>
+<p><em>SARG</em> - used to store arguments (only used for history now)</p>
+</li>
+<li>
+<p><em>STIME</em> - used to set the time when a command was entered, and later for time calculations</p>
+</li>
+<li>
+<p><em>RELOAD_CFG</em> - a flag to indicate if the temporary configuration should be reloaded.
+This flag is required for instance when the task <code>set</code> alters settings.</p>
+</li>
+<li>
+<p><em>HISTORY</em> - a map with the history of commands
+#end::settings[]</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td>
+  <td class="code"><pre>SCMD=                           # a shell-command from input
+SARG=                           # argument(s), if any, for a shell command
+STIME=                          # time a command was entered
+RELOAD_CFG=false                # flag to reload configuration, e.g. after a change of settings
+declare -A HISTORY              # the shell's history of executed commands
+HISTORY[-1]=&quot;help&quot;              # dummy first entry, size calculation doesn't seem to work otherwise</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_inner_loop_fwinterpreter">3.4. Inner Loop: FWInterpreter</h3>
+<div class="paragraph">
+<p>The inner loop is an interpreter for all input the shell wants to add to its history.
+This input might be the request to execute a task, or a command that the shell realizes using a task, or a simple command.
+The inner loop is defined as a function.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+</pre></td>
+  <td class="code"><pre>FWInterpreter() {
+    case &quot;$SCMD&quot; in
+        # ...
+    esac
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Inside this function, the inner loop, the shell tests first for all input that it can associate to a command.
+If none of these tests is satisfied, it assumes that the input is actually a task to be executed with parameters.</p>
+</div>
+<div class="sect3">
+<h4 id="_execute_a_scenario">3.4.1. Execute a Scenario</h4>
+<div class="paragraph">
+<p>The first command tested is to execute a scenario.
+This command starts with either <code>execute-scenario</code> or <code>es</code>.
+No argument means error.
+Some argument means the name of a scenario.
+In this case, execute the scenario and put the command into the history.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td>
+  <td class="code"><pre>        execute-scenario | es)
+            printf &quot;\n    execute-scenario/rs requires a scenario as argument\n\n&quot;
+            ;;
+        &quot;execute-scenario &quot;*)
+            SARG=${SCMD#*execute-scenario }
+            ExecuteScenario $SARG
+            ShellAddCmdHistory
+            ;;
+        &quot;es &quot;*)
+            SARG=${SCMD#*es }
+            ExecuteScenario $SARG
+            ShellAddCmdHistory
+            ;;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_clear_screen">3.4.2. Clear Screen</h4>
+<div class="paragraph">
+<p>This a simple command without arguments.
+The clear screen functionality is realized by printing the ANSI escape sequence for clear screen.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+</pre></td>
+  <td class="code"><pre>        clear-screen | &quot;clear-screen &quot;* | cls | &quot;cls &quot;*)
+            printf &quot;\033c&quot;
+            ShellAddCmdHistory
+            ;;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_time">3.4.3. Time</h4>
+<div class="paragraph">
+<p>Print the current time.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+</pre></td>
+  <td class="code"><pre>        time | &quot;time &quot;* | T | &quot;T &quot;*)
+            printf &quot;\n    %s\n\n&quot; &quot;$STIME&quot;
+            ShellAddCmdHistory
+            ;;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_print_configuration">3.4.4. Print Configuration</h4>
+<div class="paragraph">
+<p>Execute the task <code>list-configuration</code> with default settings, which displays a list with the current configuration.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+</pre></td>
+  <td class="code"><pre>        configuration | &quot;configuration &quot;* | c | &quot;c &quot;*)
+            ${DMAP_TASK_EXEC[&quot;list-configuration&quot;]}
+            ShellAddCmdHistory
+            ;;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_print_statistics">3.4.5. Print Statistics</h4>
+<div class="paragraph">
+<p>Execute the task <code>statistics</code> with default settings, which displays an overview of statistic information.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+</pre></td>
+  <td class="code"><pre>        statistic | &quot;statistic &quot;* | s | &quot;s &quot;*)
+            ${DMAP_TASK_EXEC[&quot;statistics&quot;]}
+            ShellAddCmdHistory
+            ;;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_list_tasks">3.4.6. List Tasks</h4>
+<div class="paragraph">
+<p>Execute the task <code>list-tasks</code> with default settings, which displays an list of loaded tasks.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+</pre></td>
+  <td class="code"><pre>        tasks | &quot;tasks &quot;* | t | &quot;t &quot;*)
+            ${DMAP_TASK_EXEC[&quot;list-tasks&quot;]}
+            ShellAddCmdHistory
+            ;;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_comments">3.4.7. Comments</h4>
+<div class="paragraph">
+<p>Do nothing if the input starts with the comment character <code>#</code> in any variation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+</pre></td>
+  <td class="code"><pre>        &quot;&quot; | &quot;#&quot; | &quot;#&quot;* | &quot;# &quot;*)
+            ;;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_all_other_input">3.4.8. All other Input</h4>
+<div class="paragraph">
+<p>All other input is interpreted as the request to execute a task with optional arguments.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td>
+  <td class="code"><pre>        *)
+            SARG=&quot;$SCMD&quot;
+            ExecuteTask &quot;$SARG&quot;
+            ShellAddCmdHistory
+
+            case &quot;$SCMD&quot; in
+                &quot;set &quot;* | &quot;setting &quot;*) RELOAD_CFG=true;;
+            esac
+            ;;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_outer_loop_fwshell">3.5. Outer Loop: FWShell</h3>
+<div class="paragraph">
+<p>The outer loop is the shell&#8217;s main loop reading input from standard input and interpreting it.
+While input is read (a line finished with an enter), the line is read into the variable <code>SCMD</code> and a time stamp is written into <code>STIME</code>.
+Then <code>SCMD</code> is evaluated.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td>
+  <td class="code"><pre>FWShell() {
+    while read -a args; do
+        SCMD=&quot;${args[@]:-}&quot; &lt;&amp;3
+        STIME=$(date +&quot;%T&quot;)
+        case &quot;$SCMD&quot; in
+            # ...
+        esac
+
+        if [[ $RELOAD_CFG == true ]]; then
+            source $FW_L1_CONFIG
+            CONFIG_MAP[&quot;RUNNING_IN&quot;]=&quot;shell&quot;
+            RELOAD_CFG=false
+        fi
+        if ConsoleIsPrompt; then ConsoleMessage &quot;${CONFIG_MAP[&quot;SHELL_PROMPT&quot;]}&quot;; fi
+    done
+}</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Inside this function, the outer loop, the shell tests first for shell commands.
+If none of these tests is satisfied, it calls the inner loop to deal with the input.</p>
+</div>
+<div class="paragraph">
+<p>Once finished with the input, the value of <code>RELOAD_CFG</code> to see if the configuration has to be reloaded.
+Finally, a new prompt is displayed.</p>
+</div>
+<div class="sect3">
+<h4 id="_help">3.5.1. Help</h4>
+<div class="paragraph">
+<p>If help is requested, display the command help file for the current print mode.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+</pre></td>
+  <td class="code"><pre>            help | h | &quot;?&quot;)
+                cat ${CONFIG_MAP[&quot;FW_HOME&quot;]}/etc/help/commands.${CONFIG_MAP[&quot;PRINT_MODE&quot;]}
+                ;;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_history">3.5.2. History</h4>
+<div class="paragraph">
+<p>History means to print the history or to run a commend stored in the history.
+Both functionalities are provided by the history function.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td>
+  <td class="code"><pre>            !*)
+                SARG=${SCMD#*!}
+                ShellCmdHistory
+                ;;
+            history*)
+                SARG=${SCMD#*history}
+                ShellCmdHistory
+                ;;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_exit">3.5.3. Exit</h4>
+<div class="paragraph">
+<p>If exit is requested, the shell leaves the outer loop.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+</pre></td>
+  <td class="code"><pre>            exit | quit | q | bye)
+                break
+                ;;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_all_other_input_2">3.5.4. All other Input</h4>
+<div class="paragraph">
+<p>All other input is forwarded to the inner loop for further evaluation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+</pre></td>
+  <td class="code"><pre>            *)
+                FWInterpreter
+                ;;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_the_shell">3.6. Run the Shell</h3>
+<div class="paragraph">
+<p>The final lines run the actual shell.
+First, input is redirected to <code>#3</code> while the shell is running (line 1).
+This allows to read lines from the standard input into the shell.
+Next, the first prompt is displayed (line 2).
+Then the outer loop is called (line 3).
+When the outer loop is finished, the redirection is reverted (line 4).
+Now the shell is finished and the process returns to the loader.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+</pre></td>
+  <td class="code"><pre>exec 3&lt;/dev/tty || exec 3&lt;&amp;0
+if ConsoleIsPrompt; then ConsoleMessage &quot;${CONFIG_MAP[&quot;SHELL_PROMPT&quot;]}&quot;; fi
+FWShell
+exec 3&lt;&amp;-</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>

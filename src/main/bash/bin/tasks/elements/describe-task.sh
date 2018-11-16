@@ -107,13 +107,13 @@ while true; do
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"              $PRINT_PADDING
 
                 printf "\n   filters\n"
-                BuildTaskHelpLine A all         "<none>"    "all tasks, disables all other filters"                 $PRINT_PADDING
-                BuildTaskHelpLine i id          "ID"        "task identifier"                                       $PRINT_PADDING
-                BuildTaskHelpLine l loaded      "<none>"    "only loaded tasks"                                     $PRINT_PADDING
-                BuildTaskHelpLine m mode        "MODE"      "only tasks for application mode: dev, build, use"      $PRINT_PADDING
-                BuildTaskHelpLine o origin      "ORIGIN"    "only tasks from origin: f(w), a(pp)"                   $PRINT_PADDING
-                BuildTaskHelpLine s status      "STATUS"    "only tasks for status: success, warnings, errors"      $PRINT_PADDING
-                BuildTaskHelpLine u unloaded    "<none>"    "only unloaded tasks"                                   $PRINT_PADDING
+                BuildTaskHelpLine A all         "<none>"    "all tasks, disables all other filters"                                     $PRINT_PADDING
+                BuildTaskHelpLine i id          "ID"        "task identifier"                                                           $PRINT_PADDING
+                BuildTaskHelpLine l loaded      "<none>"    "only loaded tasks"                                                         $PRINT_PADDING
+                BuildTaskHelpLine m mode        "MODE"      "only tasks for application mode: dev, build, use"                          $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "only tasks from origin: f(w), a(pp)"                                       $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "only tasks for status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"     $PRINT_PADDING
+                BuildTaskHelpLine u unloaded    "<none>"    "only unloaded tasks"                                                       $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
@@ -227,14 +227,17 @@ else
     fi
     if [[ -n "$STATUS" ]]; then
         case $STATUS in
-            s | success)
+            S | s | success)
                 STATUS=S
                 ;;
-            e | errors | error)
+            E | e | errors | error)
                 STATUS=E
                 ;;
-            w | warnings | warning)
+            W | w | warnings | warning)
                 STATUS=W
+                ;;
+            N | n | not-attepmted)
+                STATUS=N
                 ;;
             *)
                 ConsoleError "  ->" "dt: unknown status: $STATUS"
