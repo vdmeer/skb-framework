@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20181116" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>SKB-FRAMEWORK &#x2013; Manual: Dependencies</title>
+    <title>SKB-FRAMEWORK &#x2013; Dev Guide: API</title>
     <link rel="stylesheet" href="../css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="../css/site.css" />
     <link rel="stylesheet" href="../css/print.css" media="print" />
@@ -52,7 +52,7 @@
         framework</a>
                     <span class="divider">/</span>
       </li>
-        <li class="active ">Manual: Dependencies</li>
+        <li class="active ">Dev Guide: API</li>
         
               
                   <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published: 2018-11-16</li>
@@ -77,7 +77,7 @@
           <span class="none"></span>
         Wellcome</a>
             </li>
-                                                                                                                                                                                  
+                                                                                                                                                                        
       <li>
   
                           <a href="../manual.html" title="Manual">
@@ -106,10 +106,12 @@
         Tasks</a>
             </li>
                     
-      <li class="active">
+      <li>
   
-            <a href="#"><span class="none"></span>Dependencies</a>
-          </li>
+                          <a href="../manual/dependencies.html" title="Dependencies">
+          <span class="none"></span>
+        Dependencies</a>
+            </li>
                     
       <li>
   
@@ -170,20 +172,41 @@
                   </li>
               </ul>
         </li>
-                                                                                                                        
+                                                                                                                                  
       <li>
   
                           <a href="../developer-guide.html" title="Developer Guide">
           <span class="icon-chevron-down"></span>
         Developer Guide</a>
                     <ul class="nav nav-list">
-                                                                                                          
+                                                                                                              
+      <li class="active">
+  
+            <a href="#"><span class="icon-chevron-down"></span>API</a>
+                  <ul class="nav nav-list">
+                    
       <li>
   
-                          <a href="../developer-guide/api.html" title="API">
-          <span class="icon-chevron-right"></span>
-        API</a>
-                  </li>
+                          <a href="../developer-guide/api/commands.html" title="Commands">
+          <span class="none"></span>
+        Commands</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="../developer-guide/api/config.html" title="Config">
+          <span class="none"></span>
+        Config</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="../developer-guide/api/console.html" title="Console">
+          <span class="none"></span>
+        Console</a>
+            </li>
+              </ul>
+        </li>
               </ul>
         </li>
                                                                                                 
@@ -240,97 +263,9 @@
         <div id="bodyColumn"  class="span10" >
                                   
             <div class="sect1">
-<h2 id="dependencies">Dependencies</h2>
+<h2 id="api">API</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Dependencies are specified to signify dependencies of tasks to external programs and software packages.
-The framework defines a set of basic dependencies, for instance Java JDK, Python 3, or Asciidoctor.
-Concrete applications can define their own dependencies.
-Tasks can then require a dependency, which will be tested on application start.</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><strong>ant</strong> - software build environment</dt>
-<dd>
-<p>Apache Ant is required by some tasks to build or manipulate artifacts.
-One example is the task <code>set-file-versions</code>, which can be used to automatically set version information in source files.
-For Ant documentation and installation see <a href="https://ant.apache.org/" class="bare">https://ant.apache.org/</a>.</p>
-</dd>
-<dt class="hdlist1"><strong>asciidoctor</strong> - ADOC processor</dt>
-<dd>
-<p>Asciidoctor is a tool (or rather tool chain) that takes files written in AsciiDoc (or ADOC) and produces various output formats.
-These formats are supported by backends.
-Standard backends are PDF and HTM.
-Others are supported by plugins.
-For details on Asciidoctor and its installation see <a href="https://asciidoctor.org/" class="bare">https://asciidoctor.org/</a> .</p>
-</dd>
-<dt class="hdlist1"><strong>asciidoctor-pdf</strong> - ADOC processor with PDF backend</dt>
-<dd>
-<p>PDF plugin for Asciidoctor to create PDF output.</p>
-</dd>
-<dt class="hdlist1"><strong>biber</strong> - bibliography processor in LaTeX</dt>
-<dd>
-<p>This dependency checks for the availability of the LaTeX reference tool <code>biber</code>.</p>
-</dd>
-<dt class="hdlist1"><strong>bibtex</strong> - bibliography processor in LaTeX</dt>
-<dd>
-<p>This dependency checks for the availability of the LaTeX reference tool <code>bibtex</code>.</p>
-</dd>
-<dt class="hdlist1"><strong>cloc</strong> - ued to count Lines Of Code, static code analysis</dt>
-<dd>
-<p>This dependency checks for the tool CLOC, or Count Lines Of Code.
-This tool is used to count lines of code for a variety of languages.
-For details on CLOC see the Github repo at <a href="https://github.com/AlDanial/cloc" class="bare">https://github.com/AlDanial/cloc</a>.</p>
-</dd>
-<dt class="hdlist1"><strong>gradle</strong> - software build environment</dt>
-<dd>
-<p>This checks for the availability of the Gradle build system.
-Gradle can be required by tasks for building software artifacts.</p>
-</dd>
-<dt class="hdlist1"><strong>jdk</strong> - JAVA Development Kit (JDK) 8</dt>
-<dd>
-<p>This is the dependency for a Java development environment, or JDK.
-The exact version of the JDK cannot be specified, since there is not standardized version string across the multiple options (e.g. Oracle Java, Open JDK).</p>
-</dd>
-<dt class="hdlist1"><strong>jre</strong> - JAVA Runtime Environment (JRE) 8</dt>
-<dd>
-<p>This is the dependency for a Java runtime environment, or JRE.
-The exact version of the JRE cannot be specified, since there is not standardized version string across the multiple options (e.g. Oracle Java, Open JRE).</p>
-</dd>
-<dt class="hdlist1"><strong>maven</strong> - software build environment</dt>
-<dd>
-<p>Apache Maven is required by some tasks to build artifacts.
-One example is the SKB site, which is build using the Maven site plugin.
-The dependency here requires an installed version 3 or lager of Apache Maven.
-For Maven documentation and installation see <a href="https://maven.apache.org/" class="bare">https://maven.apache.org/</a>.</p>
-</dd>
-<dt class="hdlist1"><strong>pdflatex</strong> - LaTeX processor</dt>
-<dd>
-<p>This dependency tests for the availability of <code>pdflatex</code>.
-This might be required by tasks that compile LaTeX documents into PDF files.</p>
-</dd>
-<dt class="hdlist1"><strong>pgrep</strong> - lookup proccesses by name</dt>
-<dd>
-<p>Dependency pyyaml&#8230;&#8203;</p>
-</dd>
-<dt class="hdlist1"><strong>pkill</strong> - kill proccesses by name</dt>
-<dd>
-<p>Dependency pyyaml&#8230;&#8203;</p>
-</dd>
-<dt class="hdlist1"><strong>python3</strong> - Python language version 3</dt>
-<dd>
-<p>Used by a variety of tasks that are implemented in Python3.
-All of them require a python3 installation to be executed.</p>
-</dd>
-<dt class="hdlist1"><strong>pyyaml</strong> - YAML processor for Python3</dt>
-<dd>
-<p>Used by a some tasks that use Python3 to process YAML files.
-All of them require a python3 installation and PY-YAML installed to be executed.
-To install <em>pyyaml</em>, run for instance pip as <code>pip3 install pyyaml</code>.
-For further information see the pyyaml home page: <a href="https://github.com/yaml/pyyaml" class="bare">https://github.com/yaml/pyyaml</a>.</p>
-</dd>
-</dl>
-</div>
+
 </div>
 </div>
                   </div>

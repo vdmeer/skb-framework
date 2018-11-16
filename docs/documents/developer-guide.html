@@ -812,22 +812,689 @@ table.CodeRay td.code>pre{padding:0}
 .CodeRay .head .head{color:#f4f}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1>Developer Guide</h1>
 <div class="details">
 <span id="author" class="author">Sven van der Meer</span><br>
 <span id="email" class="email"><a href="mailto:vdmeer.sven@mykolab.com">vdmeer.sven@mykolab.com</a></span><br>
 </div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_api">1. API</a>
+<ul class="sectlevel2">
+<li><a href="#_commands">1.1. Commands</a>
+<ul class="sectlevel3">
+<li><a href="#_getcommandid">1.1.1. GetCommandID</a></li>
+</ul>
+</li>
+<li><a href="#_config">1.2. Config</a>
+<ul class="sectlevel3">
+<li><a href="#_writeruntimeconfig">1.2.1. WriteRuntimeConfig</a></li>
+</ul>
+</li>
+<li><a href="#_console">1.3. Console</a>
+<ul class="sectlevel3">
+<li><a href="#_consolemessage">1.3.1. ConsoleMessage</a></li>
+<li><a href="#_consoleismessage">1.3.2. ConsoleIsMessage</a></li>
+<li><a href="#_consoleisprompt">1.3.3. ConsoleIsPrompt</a></li>
+<li><a href="#_consolefatal">1.3.4. ConsoleFatal</a></li>
+<li><a href="#_consoleerror">1.3.5. ConsoleError</a></li>
+<li><a href="#_consolereseterrors">1.3.6. ConsoleResetErrors</a></li>
+<li><a href="#_consolehaserrors">1.3.7. ConsoleHasErrors</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>for SKB-Framework v0.0.1, November 15, 2018</p>
+<p>for SKB-Framework v0.0.1, November 16, 2018</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_api">1. API</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_commands">1.1. Commands</h3>
+<div class="sect3">
+<h4 id="_getcommandid">1.1.1. GetCommandID</h4>
+<div class="paragraph">
+<p>Returns the identifier (name) of a command for a given input string.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+<th class="tableblock halign-left valign-top">Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: the input string to test for a command identifier</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Success: long form of the command</p>
+<p class="tableblock">Error: empty string</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>id=$(GetCommandID "string")</p>
+</div>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_config">1.2. Config</h3>
+<div class="sect3">
+<h4 id="_writeruntimeconfig">1.2.1. WriteRuntimeConfig</h4>
+<div class="paragraph">
+<p>Writes runtime configuration file.
+The file name is taken from <code>CONFIG_MAP["FW_L1_CONFIG"]</code>.
+The file is removed, and then all configuration maps are written into a new file.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+<th class="tableblock halign-left valign-top">Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>WriteRuntimeConfig</p>
+</div>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The written maps are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>General Configurations</p>
+<div class="ulist">
+<ul>
+<li>
+<p>CONFIG_MAP - configuration</p>
+</li>
+<li>
+<p>CONFIG_SRC - setting source</p>
+</li>
+<li>
+<p>FW_PATH_MAP - paths for the framework</p>
+</li>
+<li>
+<p>APP_PATH_MAP - paths for an application</p>
+</li>
+<li>
+<p>CHAR_MAP - the map of characters (UTF-8)</p>
+</li>
+<li>
+<p>COLORS - the map of ANSI color codes</p>
+</li>
+<li>
+<p>EFFECTS - the map of ANSI text effects</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Options</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_OPT_ORIGIN - options and their declaration origin</p>
+</li>
+<li>
+<p>DMAP_OPT_SHORT - short option names</p>
+</li>
+<li>
+<p>DMAP_OPT_ARG - option arguments</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Exit Status</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_ES - map of exit status declarations</p>
+</li>
+<li>
+<p>DMAP_ES_PROBLEM - exit status problem identifiers (internal, external)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Commands</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_CMD - command declarations</p>
+</li>
+<li>
+<p>DMAP_CMD_SHORT - command short names</p>
+</li>
+<li>
+<p>DMAP_CMD_ARG - command arguments</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Parameters</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_PARAM_ORIGIN - parameter origin (framework or application)</p>
+</li>
+<li>
+<p>DMAP_PARAM_DECL - parameter declaration file</p>
+</li>
+<li>
+<p>DMAP_PARAM_DEFVAL - parameter default value</p>
+</li>
+<li>
+<p>DMAP_PARAM_IS - parameter <em>is</em> relationship, e.g. <em>is</em> a directory</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Dependencies</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_DEP_ORIGIN - dependency origin (framework or application)</p>
+</li>
+<li>
+<p>DMAP_DEP_DECL - dependency declaration file</p>
+</li>
+<li>
+<p>DMAP_DEP_REQ_DEP - dependency requires another dependency</p>
+</li>
+<li>
+<p>DMAP_DEP_CMD - dependency test command</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Dependency Runtime</p>
+<div class="ulist">
+<ul>
+<li>
+<p>RTMAP_DEP_STATUS - test status</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tasks</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_TASK_ORIGIN - task origin (framework or application)</p>
+</li>
+<li>
+<p>DMAP_TASK_DECL - task declaration file</p>
+</li>
+<li>
+<p>DMAP_TASK_SHORT - short task name</p>
+</li>
+<li>
+<p>DMAP_TASK_EXEC - task script location and name</p>
+</li>
+<li>
+<p>DMAP_TASK_MODES - task modes</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Task Requirements</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_TASK_REQ_PARAM_MAN - required mandatory parameters</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_PARAM_OPT - required optional parameters</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_DEP_MAN - required mandatory dependencies</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_DEP_OPT - required optional dependencies</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_TASK_MAN - required other tasks, mandatory</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_TASK_OPT - required other tasks, optional</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_DIR_MAN - required mandatory directories</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_DIR_OPT - required optional directories</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_FILE_MAN - required mandatory files</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_FILE_OPT - required optional files</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tasks Runtime</p>
+<div class="ulist">
+<ul>
+<li>
+<p>RTMAP_TASK_STATUS - task load status</p>
+</li>
+<li>
+<p>RTMAP_TASK_LOADED - loaded tasks</p>
+</li>
+<li>
+<p>RTMAP_TASK_UNLOADED - unloaded tasks</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Scenarios</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_SCN_ORIGIN - scenario origin (framework, application, or path)</p>
+</li>
+<li>
+<p>DMAP_SCN_DECL - scenario declaration file</p>
+</li>
+<li>
+<p>DMAP_SCN_SHORT - short scenario name</p>
+</li>
+<li>
+<p>DMAP_SCN_EXEC - scenario script location and name</p>
+</li>
+<li>
+<p>DMAP_SCN_MODES - scenario modes</p>
+</li>
+<li>
+<p>DMAP_SCN_REQ_TASK_MAN - scenario required tasks, mandatory</p>
+</li>
+<li>
+<p>DMAP_SCN_REQ_TASK_OPT - scenario required tasks, optional</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Scenario Runtime</p>
+<div class="ulist">
+<ul>
+<li>
+<p>RTMAP_SCN_STATUS - load status</p>
+</li>
+<li>
+<p>RTMAP_SCN_LOADED - loaded scenarios</p>
+</li>
+<li>
+<p>RTMAP_SCN_UNLOADED - unloaded scenarios</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Runtime Maps</p>
+<div class="ulist">
+<ul>
+<li>
+<p>RTMAP_REQUESTED_DEP - requested dependencies</p>
+</li>
+<li>
+<p>RTMAP_REQUESTED_PARAM - requested parameters</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Description Maps</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_CMD_DESCR - commands</p>
+</li>
+<li>
+<p>DMAP_DEP_DESCR - dependencies</p>
+</li>
+<li>
+<p>DMAP_ES_DESCR - exit status codes</p>
+</li>
+<li>
+<p>DMAP_OPT_DESCR - options</p>
+</li>
+<li>
+<p>DMAP_PARAM_DESCR - parameters</p>
+</li>
+<li>
+<p>DMAP_TASK_DESCR - tasks</p>
+</li>
+<li>
+<p>DMAP_SCN_DESCR - scenarios</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_console">1.3. Console</h3>
+<div class="sect3">
+<h4 id="_consolemessage">1.3.1. ConsoleMessage</h4>
+<div class="paragraph">
+<p>Prints a message to the console (standard error).</p>
+</div>
+<div class="paragraph">
+<p>It uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which setting to use:
+    <code>CONFIG_MAP["LOADER_QUIET"]</code> for the loader,
+    <code>CONFIG_MAP["SHELL_QUIET"]</code> for the shell, or
+    <code>CONFIG_MAP["TASK_QUIET"]</code> for tasks.
+If the setting for quiet is <em>off</em>, it prints the message.
+Otherwise it does not print the message.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+<th class="tableblock halign-left valign-top">Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: the message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ConsoleMessage "message"</p>
+</div>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_consoleismessage">1.3.2. ConsoleIsMessage</h4>
+<div class="paragraph">
+<p>Returns the message status.</p>
+</div>
+<div class="paragraph">
+<p>It uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which setting to use:
+    <code>CONFIG_MAP["LOADER_QUIET"]</code> for the loader,
+    <code>CONFIG_MAP["SHELL_QUIET"]</code> for the shell, or
+    <code>CONFIG_MAP["TASK_QUIET"]</code> for tasks.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+<th class="tableblock halign-left valign-top">Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 for <em>on</em>, 0 for <em>off</em></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>if ConsoleIsMessage; then &#8230;&#8203;; else &#8230;&#8203;; fi</p>
+</div>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_consoleisprompt">1.3.3. ConsoleIsPrompt</h4>
+<div class="paragraph">
+<p>Returns shell-prompt status from <code>CONFIG_MAP["SHELL_SNP"]</code>.</p>
+</div>
+<div class="paragraph">
+<p>It uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which setting to use:
+    <code>CONFIG_MAP["LOADER_QUIET"]</code> for the loader,
+    <code>CONFIG_MAP["SHELL_QUIET"]</code> for the shell, or
+    <code>CONFIG_MAP["TASK_QUIET"]</code> for tasks.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+<th class="tableblock halign-left valign-top">Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 for <em>on</em>, 0 for <em>off</em></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>if ConsoleIsPrompt; then &#8230;&#8203;; else &#8230;&#8203;; fi</p>
+</div>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_consolefatal">1.3.4. ConsoleFatal</h4>
+<div class="paragraph">
+<p>Prints an error message with <em>[Fatal]</em> tag if the level for <em>fatal</em> is set and increases the error counter.</p>
+</div>
+<div class="paragraph">
+<p>It uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which setting to use:
+    <code>CONFIG_MAP["LOADER_LEVEL"]`and `LOADER_ERRORS</code> counter for the loader,
+    <code>CONFIG_MAP["SHELL_LEVEL"]</code> and <code>SHELL_ERRORS</code> counter for the shell, or
+    <code>CONFIG_MAP["TASK_LEVEL"]</code> and <code>TASK_ERRORS</code> counter for tasks.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+<th class="tableblock halign-left valign-top">Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: error prefix, e.g. script name with colon</p>
+<p class="tableblock">$2: the error message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ConsoleFatal "  &#8594;" "fatal error message"</p>
+</div>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_consoleerror">1.3.5. ConsoleError</h4>
+<div class="paragraph">
+<p>Prints an error message with <em>[Error]</em> tag if the level for <em>fatal</em> is set and increases the error counter.</p>
+</div>
+<div class="paragraph">
+<p>It uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which setting to use:
+    <code>CONFIG_MAP["LOADER_LEVEL"]`and `LOADER_ERRORS</code> counter for the loader,
+    <code>CONFIG_MAP["SHELL_LEVEL"]</code> and <code>SHELL_ERRORS</code> counter for the shell, or
+    <code>CONFIG_MAP["TASK_LEVEL"]</code> and <code>TASK_ERRORS</code> counter for tasks.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return (print)</th>
+<th class="tableblock halign-left valign-top">Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">$1: error prefix, e.g. script name with colon</p>
+<p class="tableblock">$2: the error message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ConsoleError "  &#8594;" "error message"</p>
+</div>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_consolereseterrors">1.3.6. ConsoleResetErrors</h4>
+<div class="paragraph">
+<p>Resets the error counter, i.e. sets it to <em>0</em>.</p>
+</div>
+<div class="paragraph">
+<p>It uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which counter to reset:
+    <code>LOADER_ERRORS</code> for the loader,
+    <code>SHELL_ERRORS</code> for the shell, or
+    <code>TASK_ERRORS</code> for tasks.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ConsoleResetErrors</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consolehaserrors">1.3.7. ConsoleHasErrors</h4>
+<div class="paragraph">
+<p>Returns <em>true</em> if the counter has errors (i.e. is larger than <em>0</em>) or false if it does not have errors (i.e. is <em>0</em>).
+Resets the error counter, i.e. sets it to <em>0</em>.</p>
+</div>
+<div class="paragraph">
+<p>It uses <code>CONFIG_MAP["RUNNING_IN"]</code> to determine which counter to reset:
+    <code>LOADER_ERRORS</code> for the loader,
+    <code>SHELL_ERRORS</code> for the shell, or
+    <code>TASK_ERRORS</code> for tasks.</p>
+</div>
+<table class="tableblock frame-topbot grid-rows stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+<th class="tableblock halign-left valign-top">Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>true</em> (0) if errors</p>
+<p class="tableblock"><em>false</em> (1) if no errors</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>if ConsoleHasErrors; then &#8230;&#8203;; &#8230;&#8203;; fi</p>
+</div>
+<div class="paragraph">
+<p>if ConsoleHasErrors; then &#8230;&#8203;; else &#8230;&#8203;; fi</p>
+</div>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-15 11:08:25 GMT
+Last updated 2018-11-16 00:31:59 GMT
 </div>
 </div>
 </body>

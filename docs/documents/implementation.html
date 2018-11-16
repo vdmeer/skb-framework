@@ -883,7 +883,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>for SKB-Framework v0.0.1, November 15, 2018</p>
+<p>for SKB-Framework v0.0.1, November 16, 2018</p>
 </div>
 </div>
 </div>
@@ -2214,9 +2214,11 @@ The inner loop is defined as a function.</p>
 2
 3
 4
+5
 </pre></td>
   <td class="code"><pre>FWInterpreter() {
     case &quot;$SCMD&quot; in
+        # ...
     esac
 }</pre></td>
 </tr></table></code></pre>
@@ -2449,12 +2451,14 @@ Then <code>SCMD</code> is evaluated.</p>
 13
 14
 15
+16
 </pre></td>
   <td class="code"><pre>FWShell() {
     while read -a args; do
         SCMD=&quot;${args[@]:-}&quot; &lt;&amp;3
         STIME=$(date +&quot;%T&quot;)
         case &quot;$SCMD&quot; in
+            # ...
         esac
 
         if [[ $RELOAD_CFG == true ]]; then

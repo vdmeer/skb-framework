@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20181116" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>SKB-FRAMEWORK &#x2013; Task: Manual</title>
+    <title>SKB-FRAMEWORK &#x2013; API: Config</title>
     <link rel="stylesheet" href="../../css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="../../css/site.css" />
     <link rel="stylesheet" href="../../css/print.css" media="print" />
@@ -52,7 +52,7 @@
         framework</a>
                     <span class="divider">/</span>
       </li>
-        <li class="active ">Task: Manual</li>
+        <li class="active ">API: Config</li>
         
               
                   <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published: 2018-11-16</li>
@@ -142,118 +142,20 @@
           <span class="none"></span>
         User Guide</a>
             </li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
       <li>
   
                           <a href="../../task-guide.html" title="Task Guide">
           <span class="icon-chevron-down"></span>
         Task Guide</a>
                     <ul class="nav nav-list">
-                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                
       <li>
   
                           <a href="../../task-guide/use-tasks.html" title="Use Tasks">
-          <span class="icon-chevron-down"></span>
+          <span class="icon-chevron-right"></span>
         Use Tasks</a>
-                    <ul class="nav nav-list">
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/list-.html" title="list-*">
-          <span class="none"></span>
-        list-*</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/describe-.html" title="describe-*">
-          <span class="none"></span>
-        describe-*</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/cloc-installation.html" title="cloc-installation">
-          <span class="none"></span>
-        cloc-installation</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/execute-program.html" title="execute-program">
-          <span class="none"></span>
-        execute-program</a>
-            </li>
-                    
-      <li class="active">
-  
-            <a href="#"><span class="none"></span>manual</a>
-          </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/repeat-scenario.html" title="repeat-scenario">
-          <span class="none"></span>
-        repeat-scenario</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/repeat-task.html" title="repeat-task">
-          <span class="none"></span>
-        repeat-task</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/setting.html" title="setting">
-          <span class="none"></span>
-        setting</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/start-browser.html" title="start-browser">
-          <span class="none"></span>
-        start-browser</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/start-pdf-viewer.html" title="start-pdf-viewer">
-          <span class="none"></span>
-        start-pdf-viewer</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/start-xterm.html" title="start-xterm">
-          <span class="none"></span>
-        start-xterm</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/statistics.html" title="statistics">
-          <span class="none"></span>
-        statistics</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/validate-installation.html" title="validate-installation">
-          <span class="none"></span>
-        validate-installation</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../task-guide/tasks/wait.html" title="wait">
-          <span class="none"></span>
-        wait</a>
-            </li>
-              </ul>
-        </li>
+                  </li>
                                                                                                           
       <li>
   
@@ -270,20 +172,41 @@
                   </li>
               </ul>
         </li>
-                                                                                                                        
+                                                                                                                                  
       <li>
   
                           <a href="../../developer-guide.html" title="Developer Guide">
           <span class="icon-chevron-down"></span>
         Developer Guide</a>
                     <ul class="nav nav-list">
-                                                                                                          
+                                                                                                                    
       <li>
   
                           <a href="../../developer-guide/api.html" title="API">
-          <span class="icon-chevron-right"></span>
+          <span class="icon-chevron-down"></span>
         API</a>
-                  </li>
+                    <ul class="nav nav-list">
+                    
+      <li>
+  
+                          <a href="../../developer-guide/api/commands.html" title="Commands">
+          <span class="none"></span>
+        Commands</a>
+            </li>
+                    
+      <li class="active">
+  
+            <a href="#"><span class="none"></span>Config</a>
+          </li>
+                    
+      <li>
+  
+                          <a href="../../developer-guide/api/console.html" title="Console">
+          <span class="none"></span>
+        Console</a>
+            </li>
+              </ul>
+        </li>
               </ul>
         </li>
                                                                                                 
@@ -340,74 +263,329 @@
         <div id="bodyColumn"  class="span10" >
                                   
             <div class="sect1">
-<h2 id="manual">manual</h2>
+<h2 id="config">Config</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="writeruntimeconfig">WriteRuntimeConfig</h3>
 <div class="paragraph">
-<p>This task will show the application manual.
-If no filters are used, i.e. no argument is provided, the text manual for the current print mode will be shown.</p>
+<p>Writes runtime configuration file.
+The file name is taken from <code>CONFIG_MAP["FW_L1_CONFIG"]</code>.
+The file is removed, and then all configuration maps are written into a new file.</p>
 </div>
-<div class="listingblock">
+<table class="tableblock frame-topbot grid-rows spread">
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Arguments</th>
+<th class="tableblock halign-left valign-top">Return</th>
+<th class="tableblock halign-left valign-top">Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="exampleblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="bash">-h | --help        print help screen and exit
-
-filters
--A | --all               all manual versions
-     --adoc              ADOC manual
-     --ansi              text manual with ansi colors andeffects
-     --html              HTML manual
-     --manp              manual page skb-framework(1)
-     --pdf               PDF manual
-     --text              plain text manual
-     --text-anon         annotated text manual</code></pre>
-</div>
-</div>
 <div class="paragraph">
-<p>The filters shown above can be used to show different versions of the manual.
-The filter <em>all</em> will show all manual versions (it overwrites all other filters).
-Otherwise, any number of filters can be used in any order.
-The task will always show the manual in the following order:</p>
+<p>WriteRuntimeConfig</p>
+</div>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The written maps are:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><em>adoc</em> - the ADOC (AsciiDoc) manual, filter <em>adoc</em></p>
+<p>General Configurations</p>
+<div class="ulist">
+<ul>
+<li>
+<p>CONFIG_MAP - configuration</p>
 </li>
 <li>
-<p><em>anon</em> - the annotated text version of the manual, filter <em>text-anon</em></p>
+<p>CONFIG_SRC - setting source</p>
 </li>
 <li>
-<p><em>ansi</em> - the ANSI formatted manual, filter <em>ansi</em></p>
+<p>FW_PATH_MAP - paths for the framework</p>
 </li>
 <li>
-<p><em>text</em> - the plain text manual, filter <em>text</em></p>
+<p>APP_PATH_MAP - paths for an application</p>
 </li>
 <li>
-<p><em>manp</em> - the manual page, filter <em>manp</em></p>
+<p>CHAR_MAP - the map of characters (UTF-8)</p>
 </li>
 <li>
-<p><em>html</em> - the HTML version in a web browser, filter <em>html</em></p>
+<p>COLORS - the map of ANSI color codes</p>
 </li>
 <li>
-<p><em>pdf</em> - the PDF version in a PDF viewer, filter <em>pdf</em></p>
+<p>EFFECTS - the map of ANSI text effects</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>The text versions (<em>adoc</em>, <em>anon</em>, <em>ansi</em>, and <em>text</em>) are shown using the command <code>less</code> with the options <code>-r -C -f -M -d</code>.
-<code>tput</code> is used to safe (<code>smcup</code>) and restore (<code>rmcup</code>) the terminal context.</p>
+</li>
+<li>
+<p>Options</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_OPT_ORIGIN - options and their declaration origin</p>
+</li>
+<li>
+<p>DMAP_OPT_SHORT - short option names</p>
+</li>
+<li>
+<p>DMAP_OPT_ARG - option arguments</p>
+</li>
+</ul>
 </div>
-<div class="paragraph">
-<p>The manual page (<em>manp</em>) is shown using the command <code>man</code>.</p>
+</li>
+<li>
+<p>Exit Status</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_ES - map of exit status declarations</p>
+</li>
+<li>
+<p>DMAP_ES_PROBLEM - exit status problem identifiers (internal, external)</p>
+</li>
+</ul>
 </div>
-<div class="sect2">
-<h3 id="requirements">Requirements</h3>
-<div class="paragraph">
-<p>The task requires the manual being build in the application home directory.
-If a requested manual version is not found, an error will be thrown.</p>
+</li>
+<li>
+<p>Commands</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_CMD - command declarations</p>
+</li>
+<li>
+<p>DMAP_CMD_SHORT - command short names</p>
+</li>
+<li>
+<p>DMAP_CMD_ARG - command arguments</p>
+</li>
+</ul>
 </div>
-<div class="paragraph">
-<p>To show HTML and PDF versions, this task uses the tasks <code>start-browser</code> and <code>start-pdf-viewer</code>, respectively.
-Both tasks have their own configuration requirements, please see their documentation for details.</p>
+</li>
+<li>
+<p>Parameters</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_PARAM_ORIGIN - parameter origin (framework or application)</p>
+</li>
+<li>
+<p>DMAP_PARAM_DECL - parameter declaration file</p>
+</li>
+<li>
+<p>DMAP_PARAM_DEFVAL - parameter default value</p>
+</li>
+<li>
+<p>DMAP_PARAM_IS - parameter <em>is</em> relationship, e.g. <em>is</em> a directory</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Dependencies</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_DEP_ORIGIN - dependency origin (framework or application)</p>
+</li>
+<li>
+<p>DMAP_DEP_DECL - dependency declaration file</p>
+</li>
+<li>
+<p>DMAP_DEP_REQ_DEP - dependency requires another dependency</p>
+</li>
+<li>
+<p>DMAP_DEP_CMD - dependency test command</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Dependency Runtime</p>
+<div class="ulist">
+<ul>
+<li>
+<p>RTMAP_DEP_STATUS - test status</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tasks</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_TASK_ORIGIN - task origin (framework or application)</p>
+</li>
+<li>
+<p>DMAP_TASK_DECL - task declaration file</p>
+</li>
+<li>
+<p>DMAP_TASK_SHORT - short task name</p>
+</li>
+<li>
+<p>DMAP_TASK_EXEC - task script location and name</p>
+</li>
+<li>
+<p>DMAP_TASK_MODES - task modes</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Task Requirements</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_TASK_REQ_PARAM_MAN - required mandatory parameters</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_PARAM_OPT - required optional parameters</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_DEP_MAN - required mandatory dependencies</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_DEP_OPT - required optional dependencies</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_TASK_MAN - required other tasks, mandatory</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_TASK_OPT - required other tasks, optional</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_DIR_MAN - required mandatory directories</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_DIR_OPT - required optional directories</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_FILE_MAN - required mandatory files</p>
+</li>
+<li>
+<p>DMAP_TASK_REQ_FILE_OPT - required optional files</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tasks Runtime</p>
+<div class="ulist">
+<ul>
+<li>
+<p>RTMAP_TASK_STATUS - task load status</p>
+</li>
+<li>
+<p>RTMAP_TASK_LOADED - loaded tasks</p>
+</li>
+<li>
+<p>RTMAP_TASK_UNLOADED - unloaded tasks</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Scenarios</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_SCN_ORIGIN - scenario origin (framework, application, or path)</p>
+</li>
+<li>
+<p>DMAP_SCN_DECL - scenario declaration file</p>
+</li>
+<li>
+<p>DMAP_SCN_SHORT - short scenario name</p>
+</li>
+<li>
+<p>DMAP_SCN_EXEC - scenario script location and name</p>
+</li>
+<li>
+<p>DMAP_SCN_MODES - scenario modes</p>
+</li>
+<li>
+<p>DMAP_SCN_REQ_TASK_MAN - scenario required tasks, mandatory</p>
+</li>
+<li>
+<p>DMAP_SCN_REQ_TASK_OPT - scenario required tasks, optional</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Scenario Runtime</p>
+<div class="ulist">
+<ul>
+<li>
+<p>RTMAP_SCN_STATUS - load status</p>
+</li>
+<li>
+<p>RTMAP_SCN_LOADED - loaded scenarios</p>
+</li>
+<li>
+<p>RTMAP_SCN_UNLOADED - unloaded scenarios</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Runtime Maps</p>
+<div class="ulist">
+<ul>
+<li>
+<p>RTMAP_REQUESTED_DEP - requested dependencies</p>
+</li>
+<li>
+<p>RTMAP_REQUESTED_PARAM - requested parameters</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Description Maps</p>
+<div class="ulist">
+<ul>
+<li>
+<p>DMAP_CMD_DESCR - commands</p>
+</li>
+<li>
+<p>DMAP_DEP_DESCR - dependencies</p>
+</li>
+<li>
+<p>DMAP_ES_DESCR - exit status codes</p>
+</li>
+<li>
+<p>DMAP_OPT_DESCR - options</p>
+</li>
+<li>
+<p>DMAP_PARAM_DESCR - parameters</p>
+</li>
+<li>
+<p>DMAP_TASK_DESCR - tasks</p>
+</li>
+<li>
+<p>DMAP_SCN_DESCR - scenarios</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>
