@@ -134,6 +134,11 @@ done
 ############################################################################################
 ## test CLI and settings
 ############################################################################################
+if [[ "${RTMAP_DEP_STATUS["ant"]}" != "S" ]]; then
+    ConsoleError "  ->" "sfv: dependency Ant not loaded, cannot proceed"
+    exit 60
+fi
+
 if [[ ${BUILD_FILE} == false ]]; then
     BUILD_FILE=${CONFIG_MAP["VERSIONS_BUILD_FILE"]}
 fi
@@ -145,24 +150,24 @@ if [[ ${NEW_VERSION} == false ]]; then
 fi
 
 if [[ ${DIRECTORY} == false ]]; then
-    ConsoleError " ->" "a start directory is required, none set"
-    exit 60
-elif [[ ! -d ${DIRECTORY} ]]; then
-    ConsoleError " ->" "did not find directory: '${DIRECTORY}'"
+    ConsoleError " ->" "sfv: a start directory is required, none set"
     exit 61
+elif [[ ! -d ${DIRECTORY} ]]; then
+    ConsoleError " ->" "sfv: did not find directory: '${DIRECTORY}'"
+    exit 62
 else
     ORIG_DIR=$DIRECTORY
     DIRECTORY=$(PathToSystemPath $DIRECTORY)
 fi
 if [[ ! -f ${BUILD_FILE} ]]; then
-    ConsoleError " ->" "did not find build file: '${BUILD_FILE}'"
-    exit 62
+    ConsoleError " ->" "sfv: did not find build file: '${BUILD_FILE}'"
+    exit 63
 else
     BUILD_FILE=$(PathToSystemPath $BUILD_FILE)
 fi
 if [[ ! -f ${MACRO_FILE} ]]; then
-    ConsoleError " ->" "did not find macro file: '${MACRO_FILE}'"
-    exit 63
+    ConsoleError " ->" "sfv: did not find macro file: '${MACRO_FILE}'"
+    exit 64
 else
     MACRO_FILE=$(PathToSystemPath $MACRO_FILE)
 fi

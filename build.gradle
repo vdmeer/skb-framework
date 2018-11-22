@@ -68,7 +68,7 @@ task rpm(type: Rpm) {
 
 task tgz(type: Tar){
     project.ext.startDir = baseName
-    extension = 'tar.gz'
+    archiveName = project.name + '-' + project.version + '-src.tar.gz'
     compression = Compression.GZIP
 
     from('src/main/bash/bin') {
@@ -94,5 +94,9 @@ task tgz(type: Tar){
     from('src/main/bash/scenarios') {
         fileMode 0664
         into  project.ext.startDir + '/scenarios'
+    }
+    from('src/package/make') {
+        fileMode 0664
+        into  project.ext.startDir
     }
 }

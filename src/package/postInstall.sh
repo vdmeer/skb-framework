@@ -20,7 +20,7 @@ find /opt/skb/framework/lib -type f -perm 644
 find /opt/skb/framework/man -type f -perm 644
 find /opt/skb/framework/scenarios -type f -perm 644
 
-chown -R skbuser:skbuser /opt/skb/framework
+chown -R skbuser:skbuser /opt/skb/skb-framework
 
 mkdir -p /var/cache/skb-framework
 chown -R skbuser:skbuser /var/cache/skb-framework

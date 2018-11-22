@@ -57,10 +57,12 @@ help(){
     printf "\n\n"
 }
 
+
 if [[ -z "${1:-}" ]]; then
     help
     exit 1
 fi
+
 
 ##
 ## function: clean - cleans all artifacts
@@ -132,6 +134,7 @@ fw_tool(){
     printf "\n\n"
 }
 
+
 ##
 ## function: distro - builds framework artifacts and distributions
 ##
@@ -146,6 +149,7 @@ fw_distro(){
     ls -l ./build/distributions
     printf "\n\n"
 }
+
 
 ##
 ## function: site - builds the Maven site
@@ -172,6 +176,7 @@ fw_site(){
     src/main/bash/bin/skb-framework --all-mode --execute-task build-mvn-site --sq --lq --task-level debug -- --build --targets --id fw
     (cd docs; chmod 644 `find -type f`)
 }
+
 
 ##
 ## function: mkdirs - create required directories

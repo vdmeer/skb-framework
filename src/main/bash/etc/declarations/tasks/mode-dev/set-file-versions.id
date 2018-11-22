@@ -11,7 +11,7 @@ MODES="dev"
 DESCRIPTION="sets version information in source file comments"
 EXEC_PATH=bin/tasks/mode-dev
 
-TaskRequire $ID dep ant
+TaskRequire $ID dep ant opt
 
 TaskRequire $ID param VERSIONS_BUILD_FILE opt
 TaskRequire $ID param VERSIONS_MACRO_FILE opt

@@ -1,0 +1,35 @@
+#! /bin/sh
+echo  "*************skb-framework postrm************"
+echo "arguments $*"
+echo  "*********************************************"
+
+# Check for debian upgrade case which calls postrm, in which we do nothing
+if [ "$1" = "upgrade" ]; then
+    exit 0
+fi
+
+
+if [ ! -d "/opt/skb" ]; then
+#    if [ -d "/home/skbuser" ]; then
+#        echo " ==> removing /home/skbuser"
+#        rm -fr /home/skbuser
+#    fi
+
+    if getent passwd "skbuser" >/dev/null 2>&1
+    then
+        echo " ==> deleting user skbuser"
+        userdel skbuser
+    fi
+
+    if getent group "skbuser" >/dev/null 2>&1
+    then
+        echo " ==> deleting group skbuser"
+        groupdel skbuser
+    fi
+
+    echo " ==> done"
+fi
+
+if [ -d "/var/cache/skb-framework" ]; then
+    rm -fr /var/cache/skb-framework
+fi
