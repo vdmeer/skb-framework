@@ -1,3 +1,10 @@
+skb-framework (0.0.3-2) bionic; urgency=medium
+
+  * Moved link to /usr/local as required by build
+
+ -- Sven van der Meer <vdmeer.sven@mykolab.com>  Thu, 22 Nov 2018 14:00:00 +0000
+
+
 skb-framework (0.0.3-1) bionic; urgency=medium
 
   * Harmonizing github, bintray, and ppa releases
