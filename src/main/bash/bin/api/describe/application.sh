@@ -24,7 +24,7 @@
 ## Describe: application description, e.g pre-text for the manual 
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.2
+## @version    0.0.3
 ##
 
 

@@ -24,7 +24,7 @@
 ## set-file-versions - sets version information in source file comments
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.2
+## @version    0.0.3
 ##
 
 
