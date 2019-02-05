@@ -21,6 +21,16 @@ We have tested it on
 * Mac OS X
 
 
+----
+sudo add-apt-repository ppa:vdmeer/skb
+sudo apt-get update 
+sudo apt-get install skb-framework
+sudo -u skbused skb-framework 
+
+(the last line only to make sure it runs as the created user, can run as any user) 
+----
+
+
 === Requirements
 
 ==== to use

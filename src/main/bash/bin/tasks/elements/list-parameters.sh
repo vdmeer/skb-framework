@@ -109,9 +109,9 @@ while true; do
                 BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine A all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
-                BuildTaskHelpLine d default     "<none>"    "only parameters with a defined default value"          $PRINT_PADDING
+                BuildTaskHelpLine d default     "<none>"    "only parameters with a defined default value"  $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only parameters from origin: f(w), a(pp)"      $PRINT_PADDING
-                BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                   $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "only requested parameters"                     $PRINT_PADDING
                 BuildTaskHelpLine s status      "STATUS"    "only parameter for status: o, f, e, d"         $PRINT_PADDING
             else
                 cat $CACHED_HELP

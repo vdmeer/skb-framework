@@ -8,5 +8,6 @@
 
 SHORT=des
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="describes exit status (error codes)"
 EXEC_PATH=bin/tasks/elements

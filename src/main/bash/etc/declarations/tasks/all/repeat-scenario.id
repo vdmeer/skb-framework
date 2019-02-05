@@ -8,5 +8,6 @@
 
 SHORT=rs
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="repeats the execution of a scenario"
 EXEC_PATH=bin/tasks/all

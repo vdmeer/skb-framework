@@ -73,6 +73,7 @@ STATUS=
 NO_ALL=
 NO_BUILD=
 NO_DESCR=
+NO_INST=
 NO_LIST=
 NO_START=
 
@@ -87,7 +88,7 @@ CLI_SET=false
 ## set CLI options and parse CLI
 ##
 CLI_OPTIONS=Ahlm:o:P:s:Tu
-CLI_LONG_OPTIONS=all,mode:,help,loaded,origin:,print-mode:,status:,unloaded,no-a,no-b,no-d,no-dl,no-l,no-s,odl,table
+CLI_LONG_OPTIONS=all,mode:,help,loaded,origin:,print-mode:,status:,unloaded,no-a,no-b,no-d,no-dl,no-inst,no-l,no-s,odl,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-scenarios -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -114,11 +115,12 @@ while true; do
                 printf "\n   filters\n"
                 BuildTaskHelpLine A         all         "<none>"    "all scenarios, disables all other filters"                                     $PRINT_PADDING
                 BuildTaskHelpLine l         loaded      "<none>"    "only loaded scenarios"                                                         $PRINT_PADDING
-                BuildTaskHelpLine m         mode        "MODE"      "only scenarios for application mode: dev, build, use"                          $PRINT_PADDING
+                BuildTaskHelpLine m         mode        "MODE"      "only scenarios for application mode: all, dev, build, use"                     $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  no-a        "<none>"    "activate all '--no-' filters"                                                  $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  no-b        "<none>"    "exclude scenarios starting with 'build-'"                                      $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  no-d        "<none>"    "exclude scenarios starting with 'describe-'"                                   $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  no-dl       "<none>"    "exclude scenarios starting with 'describe-' or 'list-'"                        $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-inst     "<none>"    "exclude scenarios for app mode flavor 'install'"                               $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  no-l        "<none>"    "exclude scenarios starting with 'list-'"                                       $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  no-s        "<none>"    "exclude scenarios starting with 'start-'"                                      $PRINT_PADDING
                 BuildTaskHelpLine o         origin      "ORIGIN"    "only scenarios from origin: f(w), a(pp)"                                       $PRINT_PADDING
@@ -158,6 +160,11 @@ while true; do
         --no-dl)
             NO_DESCR=yes
             NO_LIST=yes
+            CLI_SET=true
+            shift
+            ;;
+        --no-inst)
+            NO_INST=yes
             CLI_SET=true
             shift
             ;;
@@ -226,6 +233,7 @@ if [[ "$ALL" == "yes" ]]; then
     NO_ALL=
     NO_BUILD=
     NO_DESCR=
+    NO_INST=
     NO_LIST=
     NO_START=
 elif [[ $CLI_SET == false ]]; then
@@ -290,6 +298,7 @@ else
     if [[ -n "$NO_ALL" ]]; then
         NO_BUILD=yes
         NO_DESCR=yes
+        NO_INST=yes
         NO_LIST=yes
         NO_START=yes
     fi
@@ -325,7 +334,7 @@ function TableTop() {
     printf "%*s" "$((SCN_PADDING - 8))" ''
     printf "Description"
     printf '%*s' "$((DESCRIPTION_LENGTH - 11))" ''
-    printf "O D B U S${EFFECTS["REVERSE_OFF"]}\n\n"
+    printf "O F D B U S${EFFECTS["REVERSE_OFF"]}\n\n"
 }
 
 function TableBottom() {
@@ -399,6 +408,11 @@ PrintScenarios() {
                     continue
                     ;;
             esac
+        fi
+        if [[ -n "$NO_INST" ]]; then
+            if [[ "${DMAP_SCN_MODE_FLAVOR[$ID]}" == "install" ]]; then
+                continue
+            fi
         fi
         if [[ -n "$NO_LIST" ]]; then
             case "$ID" in

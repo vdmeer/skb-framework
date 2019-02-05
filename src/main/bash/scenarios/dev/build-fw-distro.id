@@ -8,4 +8,5 @@
 
 SHORT=bfd
 MODES="dev"
+MODE_FLAVOR="install"
 DESCRIPTION="builds all distribution artifacts"

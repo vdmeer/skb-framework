@@ -30,6 +30,17 @@ PrintAppMode
 ====
 
 
+=== PrintAppModeFlavor
+Prints the application mode flavor setting `CONFIG_MAP["APP_MODE_FLAVOR"]`:
+
+    * _std_ in cyan,
+    * _install_ in purple
+
+[example]
+====
+PrintAppModeFlavor
+====
+
 
 === PrintConsoleLevel
 Prints the console level:

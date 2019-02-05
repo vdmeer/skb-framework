@@ -103,6 +103,7 @@ CONFIG_MAP["SYSTEM"]=$(uname -s | cut -c1-6)        # set system, e.g. for Cygwi
 CONFIG_MAP["CONFIG_FILE"]="$HOME/.skb"              # config file, in user's home directory
 CONFIG_MAP["STRICT"]=off                            # not strict, yet (change with --strict)
 CONFIG_MAP["APP_MODE"]=use                          # default application mode is use, change with --all-mode, --build-mode, --dev-mode
+CONFIG_MAP["APP_MODE_FLAVOR"]=std                   # default application mode flavor is std, change with --install
 CONFIG_MAP["PRINT_MODE"]=ansi                       # default print mode is ansi, change with --print-mode
 
 CONFIG_MAP["LOADER_LEVEL"]="error"                  # output level for loader, change with --loader-level, set to "debug" for early code debugging

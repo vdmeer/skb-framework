@@ -52,7 +52,7 @@ ExecuteTask() {
     fi
 
     if [[ -z "${RTMAP_TASK_LOADED[$ID]:-}" ]]; then
-        ConsoleError " ->" "task '$ID' unknown or not loaded in mode '${CONFIG_MAP["APP_MODE"]}'"
+        ConsoleError " ->" "task '$ID' unknown, not loaded in mode '${CONFIG_MAP["APP_MODE"]}' / flavor '${CONFIG_MAP["APP_MODE_FLAVOR"]}'"
         printf "\n"
         return
     fi
@@ -113,7 +113,7 @@ ExecuteTask() {
         fi
         printf "\n\n"
     elif $DO_HELP; then
-        
+
         SPRINT=$(DescribeTask $ID full ${CONFIG_MAP["PRINT_MODE"]})
         printf "\n\n   %s\n" "$SPRINT"
     else

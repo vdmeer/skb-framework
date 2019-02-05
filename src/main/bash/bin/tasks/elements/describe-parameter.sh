@@ -112,7 +112,7 @@ while true; do
                 BuildTaskHelpLine d default     "<none>"    "only parameters with a defined default value"          $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "parameter identifier"                                  $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only parameters from origin: f(w), a(pp)"              $PRINT_PADDING
-                BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                           $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "only requested parameters"                             $PRINT_PADDING
                 BuildTaskHelpLine s status      "STATUS"    "only parameter for status: o, f, e, d"                 $PRINT_PADDING
             else
                 cat $CACHED_HELP

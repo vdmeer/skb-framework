@@ -33,7 +33,7 @@
 ##
 
 SCN_PADDING=27
-SCN_STATUS_LENGHT=9
+SCN_STATUS_LENGHT=11
 SCN_LINE_MIN_LENGTH=49
 COLUMNS=$(tput cols)
 COLUMNS=$((COLUMNS - 2))
@@ -192,6 +192,17 @@ DescribeScenarioStatus() {
     local STATUS
 
     printf "%s " "${DMAP_SCN_ORIGIN[$ID]:0:1}"
+
+    FLAVOR=${DMAP_SCN_MODE_FLAVOR[$ID]}
+    case "$FLAVOR" in
+        std)
+            PrintColor cyan S
+            ;;
+        install)
+            PrintColor purple I
+            ;;
+    esac
+    printf " "
 
     MODE=${DMAP_SCN_MODES[$ID]}
     case "$MODE" in

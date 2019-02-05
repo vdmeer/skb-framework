@@ -8,6 +8,7 @@
 
 SHORT=les
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="lists exit status, error codes"
 EXEC_PATH=bin/tasks/elements
 

@@ -8,6 +8,7 @@
 
 SHORT=ep
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="executes a program with several options"
 EXEC_PATH=bin/tasks/start
 

@@ -8,5 +8,6 @@
 
 SHORT=dc
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="describes a shell command"
 EXEC_PATH=bin/tasks/elements

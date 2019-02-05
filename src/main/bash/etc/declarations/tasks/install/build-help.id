@@ -8,8 +8,9 @@
 
 SHORT=bdh
 MODES="dev"
+MODE_FLAVOR="install"
 DESCRIPTION="builds help files for loader and shell"
-EXEC_PATH=bin/tasks/mode-dev
+EXEC_PATH=bin/tasks/install
 
 TaskRequire $ID dir ${CONFIG_MAP["FW_HOME"]}/etc
 

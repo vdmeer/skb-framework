@@ -8,5 +8,6 @@
 
 SHORT=do
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="describes CLI options"
 EXEC_PATH=bin/tasks/elements

@@ -8,5 +8,6 @@
 
 SHORT=cl
 MODES="dev build"
+MODE_FLAVOR="std"
 DESCRIPTION="removes built artifacts"
 EXEC_PATH=bin/tasks/mode-build

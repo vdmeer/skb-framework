@@ -8,5 +8,6 @@
 
 SHORT=dt
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="describes a task"
 EXEC_PATH=bin/tasks/elements

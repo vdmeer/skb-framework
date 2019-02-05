@@ -8,5 +8,6 @@
 
 SHORT=w
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="sleep for specified time"
 EXEC_PATH=bin/tasks/all

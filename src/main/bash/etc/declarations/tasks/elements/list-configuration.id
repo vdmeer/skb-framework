@@ -8,5 +8,6 @@
 
 SHORT=lcfg
 MODES="dev build use"
-DESCRIPTION="list current configuration"
+MODE_FLAVOR="std"
+DESCRIPTION="lists current configuration"
 EXEC_PATH=bin/tasks/elements

@@ -8,5 +8,6 @@
 
 SHORT=set
 MODES="dev build use"
-DESCRIPTION="change settings"
+MODE_FLAVOR="std"
+DESCRIPTION="changes settings"
 EXEC_PATH=bin/tasks/all

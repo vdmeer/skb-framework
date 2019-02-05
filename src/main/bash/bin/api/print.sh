@@ -49,6 +49,19 @@ PrintAppMode() {
 
 
 ##
+## function: PrintAppModeFlavor
+## - prints the application mode flavor
+##
+PrintAppModeFlavor() {
+    case "${CONFIG_MAP["APP_MODE_FLAVOR"]}" in
+        std)        PrintColor cyan             "${CONFIG_MAP["APP_MODE_FLAVOR"]}" ;; 
+        install)    PrintColor purple           "${CONFIG_MAP["APP_MODE_FLAVOR"]}" ;;
+    esac
+}
+
+
+
+##
 ## function: PrintConsoleLevel
 ## - prints the level (loader, shell, task) in color
 ## $1: level

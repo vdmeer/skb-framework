@@ -34,11 +34,12 @@
 
 
 declare -A DMAP_TASK_ORIGIN             # map [id]=origin
-declare -A DMAP_TASK_DECL               # map [id]=decl-file w/o .id eding
+declare -A DMAP_TASK_DECL               # map [id]=decl-file w/o .id ending
 declare -A DMAP_TASK_SHORT              # map [id]=short-cmd
 declare -A DMAP_TASK_EXEC               # map [id]=exec-script
 declare -A DMAP_TASK_DESCR              # map [id]="descr-tag-line"
 declare -A DMAP_TASK_MODES              # map [id]="modes"
+declare -A DMAP_TASK_MODE_FLAVOR        # map [id]=flavor
 
 declare -A DMAP_TASK_REQ_PARAM_MAN      # map [id]=(param-id, ...)
 declare -A DMAP_TASK_REQ_PARAM_OPT      # map [id]=(param-id, ...)
@@ -136,6 +137,7 @@ DeclareTasksOrigin() {
         local EXECUTABLE
         local EXEC_PATH
         local MODES
+        local MODE_FLAVOR
         local DESCRIPTION
         local NO_ERRORS=true
         local mode
@@ -155,6 +157,7 @@ DeclareTasksOrigin() {
             EXEC_PATH=
             EXECUTABLE=
             MODES=
+            MODE_FLAVOR=
             DESCRIPTION=
             source "$file"
 
@@ -186,6 +189,21 @@ DeclareTasksOrigin() {
                             ;;
                     esac
                 done
+            fi
+
+            if [[ -z "${MODE_FLAVOR:-}" ]]; then
+                ConsoleError " ->" "declare task - '$ID' has no app mode flavor defined"
+                HAVE_ERRORS=true
+            else
+                case $MODE_FLAVOR in
+                    std | install)
+                        ConsoleDebug "task '$ID' found app mode flavor '$MODE_FLAVOR'"
+                        ;;
+                    *)
+                        ConsoleError " ->" "declare task - '$ID' with unknown app mode flavor '$MODE_FLAVOR'"
+                        HAVE_ERRORS=true
+                        ;;
+                esac
             fi
 
             if [[ -z "${DESCRIPTION:-}" ]]; then
@@ -227,6 +245,7 @@ DeclareTasksOrigin() {
                 DMAP_TASK_DECL[$ID]=${file%.*}
                 DMAP_TASK_EXEC[$ID]=$EXECUTABLE
                 DMAP_TASK_MODES[$ID]="$MODES"
+                DMAP_TASK_MODE_FLAVOR[$ID]="$MODE_FLAVOR"
                 DMAP_TASK_DESCR[$ID]="$DESCRIPTION"
                 if [[ ! -z ${SHORT:-} ]]; then
                     DMAP_TASK_SHORT[$SHORT]=$ID

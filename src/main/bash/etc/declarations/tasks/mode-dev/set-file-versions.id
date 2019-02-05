@@ -8,6 +8,7 @@
 
 SHORT=sfv
 MODES="dev"
+MODE_FLAVOR="std"
 DESCRIPTION="sets version information in source file comments"
 EXEC_PATH=bin/tasks/mode-dev
 

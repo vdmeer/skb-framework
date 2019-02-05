@@ -8,6 +8,7 @@
 
 SHORT=man
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="shows the manual in various versions"
 EXEC_PATH=bin/tasks/all
 

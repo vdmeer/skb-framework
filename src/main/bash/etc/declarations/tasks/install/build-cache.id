@@ -8,7 +8,8 @@
 
 SHORT=bdc
 MODES="dev"
+MODE_FLAVOR="install"
 DESCRIPTION="builds cache for screens and maps"
-EXEC_PATH=bin/tasks/mode-dev
+EXEC_PATH=bin/tasks/install
 
 TaskRequire $ID param CACHE_DIR

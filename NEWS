@@ -1,0 +1,31 @@
+Version 0.0.4 2019-##-##
+
+    * added application mode flavor
+        ** new maps for tasks and scenarios for app mode flavor
+        ** no-inst filter for describe/list task/scenario
+        ** MODE_FLAVOR to task/scenario identifiers
+        ** no-inst flag to build-manual
+        ** moved several task into new app mode flavor 'install', changed directories for declaration and scripts
+        ** new CLI option to activate 'install' application mode flavor
+
+
+Version 0.0.3 2018-11-22
+
+    * Harmonizing Github, Bintray, and PPA releases
+
+
+Version 0.0.2 2018-11-16
+
+    * Initial DEB and RPM release for Bintry
+    * Initial PPA release (with errors) in Launchpad, Nov 21
+
+
+Version 0.0.1 2018-11-15
+
+    * Tasks and other declarations added
+    * Started on documentation
+
+
+Version 0.0.0 2018-11-13
+
+    * Initial release

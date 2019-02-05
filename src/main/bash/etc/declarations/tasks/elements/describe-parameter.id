@@ -8,5 +8,6 @@
 
 SHORT=dp
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="describes a parameter"
 EXEC_PATH=bin/tasks/elements

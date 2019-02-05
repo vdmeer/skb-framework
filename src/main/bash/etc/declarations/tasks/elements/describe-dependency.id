@@ -8,5 +8,6 @@
 
 SHORT=dd
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="describes a dependency"
 EXEC_PATH=bin/tasks/elements

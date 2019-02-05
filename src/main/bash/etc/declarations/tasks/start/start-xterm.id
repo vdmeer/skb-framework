@@ -8,6 +8,7 @@
 
 SHORT=sx
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="starts a new Xterm"
 EXEC_PATH=bin/tasks/start
 

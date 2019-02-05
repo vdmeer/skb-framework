@@ -8,8 +8,9 @@
 
 SHORT=bdm
 MODES="dev build use"
+MODE_FLAVOR="install"
 DESCRIPTION="builds the manual for different targets"
-EXEC_PATH=bin/tasks/all
+EXEC_PATH=bin/tasks/install
 
 TaskRequire $ID param SKB_FW_TOOL opt
 

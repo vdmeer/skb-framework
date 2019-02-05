@@ -608,18 +608,31 @@ ProcessTasks() {
             esac
         fi
 
+        if [[ $LOAD_TASK == false ]]; then
+            ConsoleDebug "task '$ID' not defined for current mode '${CONFIG_MAP["APP_MODE"]}', not loaded"
+            SetArtifactStatus task $ID N
+            continue
+        fi
+
+        if [[ "${CONFIG_MAP["APP_MODE_FLAVOR"]}" == "${DMAP_TASK_MODE_FLAVOR[$ID]:-}" ]]; then
+            LOAD_TASK=true
+        elif [[ "${DMAP_TASK_MODE_FLAVOR[$ID]:-}" == "std" ]]; then
+            LOAD_TASK=true
+        else
+            ConsoleDebug "task '$ID' not defined for current app mode flavor '${CONFIG_MAP["APP_MODE_FLAVOR"]}', not loaded"
+            SetArtifactStatus task $ID N
+            LOAD_TASK=false
+        fi
+
         if [[ $LOAD_TASK == true ]]; then
             RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} mode"
-            ConsoleDebug "process-task/mode - processed '$ID' for mode with success"
+            ConsoleDebug "process-task/mode - processed '$ID' for mode and flavor with success"
             SetArtifactStatus task $ID S
 
             ProcessTaskReqParam $ID
             ProcessTaskReqDep $ID
             ProcessTaskReqDir $ID
             ProcessTaskReqFile $ID
-        else
-            ConsoleDebug "task '$ID' not defined for current mode '${CONFIG_MAP["APP_MODE"]}', not loaded"
-            SetArtifactStatus task $ID N
         fi
     done
 
@@ -627,7 +640,9 @@ ProcessTasks() {
     for ID in "${!DMAP_TASK_ORIGIN[@]}"; do
         case ${DMAP_TASK_MODES[$ID]} in
             *${CONFIG_MAP["APP_MODE"]}*)
-                ProcessTaskReqTask $ID
+                if [[ "${CONFIG_MAP["APP_MODE_FLAVOR"]}" == "${DMAP_TASK_MODE_FLAVOR[$ID]:-}" || "${DMAP_TASK_MODE_FLAVOR[$ID]:-}" == "std" ]]; then
+                    ProcessTaskReqTask $ID
+                fi
                 ;;
         esac
     done

@@ -69,6 +69,7 @@ APP_MODE=
 ORIGIN=
 STATUS=
 ALL=
+NO_INST=
 CLI_SET=false
 
 
@@ -77,7 +78,7 @@ CLI_SET=false
 ## set CLI options and parse CLI
 ##
 CLI_OPTIONS=Ahi:lm:o:P:s:u
-CLI_LONG_OPTIONS=all,mode:,help,id:,loaded,origin:,print-mode:,status:,unloaded
+CLI_LONG_OPTIONS=all,mode:,help,id:,loaded,no-inst,origin:,print-mode:,status:,unloaded
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-task -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -110,7 +111,8 @@ while true; do
                 BuildTaskHelpLine A all         "<none>"    "all tasks, disables all other filters"                                     $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "task identifier"                                                           $PRINT_PADDING
                 BuildTaskHelpLine l loaded      "<none>"    "only loaded tasks"                                                         $PRINT_PADDING
-                BuildTaskHelpLine m mode        "MODE"      "only tasks for application mode: dev, build, use"                          $PRINT_PADDING
+                BuildTaskHelpLine "<none>"      no-inst     "<none>"    "exclude tasks for app mode flavor 'install'"                   $PRINT_PADDING
+                BuildTaskHelpLine m mode        "MODE"      "only tasks for application mode: all, dev, build, use"                     $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only tasks from origin: f(w), a(pp)"                                       $PRINT_PADDING
                 BuildTaskHelpLine s status      "STATUS"    "only tasks for status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"     $PRINT_PADDING
                 BuildTaskHelpLine u unloaded    "<none>"    "only unloaded tasks"                                                       $PRINT_PADDING
@@ -126,6 +128,11 @@ while true; do
             ;;
         -l | --loaded)
             LOADED=yes
+            CLI_SET=true
+            shift
+            ;;
+        --no-inst)
+            NO_INST=yes
             CLI_SET=true
             shift
             ;;
@@ -176,6 +183,7 @@ if [[ "$ALL" == "yes" ]]; then
     APP_MODE=
     ORIGIN=
     STATUS=
+    NO_INST=
 elif [[ $CLI_SET == false ]]; then
     APP_MODE=${CONFIG_MAP["APP_MODE"]}
     LOADED=yes
@@ -279,6 +287,11 @@ for ID in ${!DMAP_TASK_ORIGIN[@]}; do
                 continue
                 ;;
         esac
+    fi
+    if [[ -n "$NO_INST" ]]; then
+        if [[ "${DMAP_TASK_MODE_FLAVOR[$ID]}" == "install" ]]; then
+            continue
+        fi
     fi
     if [[ -n "$APP_MODE" ]]; then
         if [[ "$APP_MODE" != "all" ]]; then

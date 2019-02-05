@@ -8,5 +8,6 @@
 
 SHORT=stats
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="prints statistics"
 EXEC_PATH=bin/tasks/all

@@ -410,6 +410,7 @@ if [[ $DO_BUILD == true ]]; then
                     declare -p DMAP_TASK_DECL >> $FILE
                     declare -p DMAP_TASK_EXEC >> $FILE
                     declare -p DMAP_TASK_MODES >> $FILE
+                    declare -p DMAP_TASK_MODE_FLAVOR >> $FILE
                     declare -p DMAP_TASK_SHORT >> $FILE
                     declare -p DMAP_TASK_DESCR >> $FILE
 

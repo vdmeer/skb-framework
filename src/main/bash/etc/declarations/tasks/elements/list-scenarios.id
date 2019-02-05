@@ -8,6 +8,7 @@
 
 SHORT=ls
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="lists scenarios"
 EXEC_PATH=bin/tasks/elements
 

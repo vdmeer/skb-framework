@@ -8,7 +8,8 @@
 
 SHORT=spv
 MODES="dev build use"
-DESCRIPTION="start a PDF viewer with a PDF document"
+MODE_FLAVOR="std"
+DESCRIPTION="starts a PDF viewer with a PDF document"
 EXEC_PATH=bin/tasks/start
 
 TaskRequire $ID param PDF_VIEWER opt

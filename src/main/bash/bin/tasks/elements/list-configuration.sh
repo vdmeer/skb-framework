@@ -313,6 +313,9 @@ PrintConfiguration() {
             APP_MODE)
                 PrintAppMode
                 ;;
+            APP_MODE_FLAVOR)
+                PrintAppModeFlavor
+                ;;
             FLAVOR)
                 PrintEffect bold "$sc_str"
                 ;;

@@ -8,6 +8,7 @@
 
 SHORT=bdms
 MODES="dev build"
+MODE_FLAVOR="std"
 DESCRIPTION="builds one or more Maven sites"
 EXEC_PATH=bin/tasks/mode-build
 
