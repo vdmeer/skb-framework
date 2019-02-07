@@ -189,9 +189,16 @@ else
 fi
 source $FW_HOME/bin/loader/declare/app-maps.sh
 if [[ -f ${CONFIG_MAP["APP_HOME"]}/etc/version.txt ]]; then
-    CONFIG_MAP["VERSION"]=$(cat ${CONFIG_MAP["APP_HOME"]}/etc/version.txt)
+    CONFIG_MAP["APP_VERSION"]=$(cat ${CONFIG_MAP["APP_HOME"]}/etc/version.txt)
 else
     ConsoleFatal " ->" "no application version found, tried \$APP_HOME/etc/version.txt"
+    printf "\n"
+    exit 22
+fi
+if [[ -f ${CONFIG_MAP["FW_HOME"]}/etc/version.txt ]]; then
+    CONFIG_MAP["FW_VERSION"]=$(cat ${CONFIG_MAP["FW_HOME"]}/etc/version.txt)
+else
+    ConsoleFatal " ->" "no framework version found, tried \$FW_HOME/etc/version.txt"
     printf "\n"
     exit 22
 fi

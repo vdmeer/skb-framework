@@ -13,7 +13,7 @@
 
 == clean
 
-This tasks cleans, i.e. removes, all artifacts that have been build by other taks.
+This tasks cleans, i.e. removes, all artifacts that have been build by other tasks.
 In addition to that, the directory set by the parameter _TARGET_ will be removed.
 
 The task does not actually remove any built artifacts itself.

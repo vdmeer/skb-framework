@@ -78,5 +78,7 @@ include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-cache.adoc[lev
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-help.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/download-fw-tool.adoc[leveloffset=+1]
+
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/set-file-versions.adoc[leveloffset=+1]
 

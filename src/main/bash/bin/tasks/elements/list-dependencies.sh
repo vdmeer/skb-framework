@@ -68,16 +68,18 @@ TESTED=
 ORIGIN=
 REQUESTED=
 STATUS=
-ALL=
+INSTALL=
+
 CLI_SET=false
+ALL=
 
 
 
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=Aho:P:rs:Tt
-CLI_LONG_OPTIONS=all,help,origin:,print-mode:,requested,status:,tested,table
+CLI_OPTIONS=AhIo:P:rs:Tt
+CLI_LONG_OPTIONS=all,help,install,origin:,print-mode:,requested,status:,tested,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-dependencies -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -98,11 +100,12 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "list-dependencies")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
-                BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "help screen format with additional information"    $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine A all         "<none>"    "all dependencies, disables all other filters"                                      $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "include dependencies required only by install tasks"                               $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only dependencies from origin: f(w), a(pp)"                                        $PRINT_PADDING
                 BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                                                       $PRINT_PADDING
                 BuildTaskHelpLine s status      "STATUS"    "only dependencies with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"     $PRINT_PADDING
@@ -111,6 +114,11 @@ while true; do
                 cat $CACHED_HELP
             fi
             exit 0
+            ;;
+        -I | --install)
+            INSTALL=yes
+            CLI_SET=true
+            shift
             ;;
         -o | --origin)
             ORIGIN="$2"
@@ -163,7 +171,7 @@ if [[ "$ALL" == "yes" ]]; then
     ORIGIN=
     STATUS=
     REQUESTED=
-    ALL=
+    INSTALL=
 elif [[ $CLI_SET == false ]]; then
     TESTED=
 else
@@ -200,6 +208,14 @@ else
         esac
     fi
 fi
+case $LS_FORMAT in
+    list | table)
+        ;;
+    *)
+        ConsoleFatal "  ->" "ld: internal error: unknown list format '$LS_FORMAT'"
+        exit 69
+        ;;
+esac
 
 
 declare -A DEP_TABLE
@@ -272,6 +288,7 @@ function ListBottom() {
 ## dependency print function
 ############################################################################################
 PrintDependencies() {
+    local ID
     local i
     local keys
 
@@ -297,6 +314,38 @@ PrintDependencies() {
         fi
         if [[ -n "$ORIGIN" ]]; then
             if [[ ! "$ORIGIN" == "${DMAP_DEP_ORIGIN[$ID]}" ]]; then
+                continue
+            fi
+        fi
+        if [[ -z "$INSTALL" ]]; then
+            found=false
+            ## install not set, so remove all dependencies _only_ in 'install' tasks
+            ## so go through DMAP_TASK_REQ_DEP_MAN and DMAP_TASK_REQ_DEP_OPT until we find a 'std' task
+            for TASK_ID in ${!DMAP_TASK_REQ_DEP_MAN[@]}; do
+                for TDEP in ${DMAP_TASK_REQ_DEP_MAN[$TASK_ID]}; do
+                    if [[ "$TDEP" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "std" ]]; then
+                        found=true
+                        break
+                    fi
+                done
+                if [[ $found == true ]]; then
+                    break
+                fi
+            done
+            if [[ $found == false ]]; then
+                for TASK_ID in ${!DMAP_TASK_REQ_DEP_OPT[@]}; do
+                    for TDEP in ${DMAP_TASK_REQ_DEP_OPT[$TASK_ID]}; do
+                        if [[ "$TDEP" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "std" ]]; then
+                            found=true
+                            break
+                        fi
+                    done
+                    if [[ $found == true ]]; then
+                        break
+                    fi
+                done
+            fi
+            if [[ $found == false ]]; then
                 continue
             fi
         fi
@@ -349,10 +398,6 @@ case $LS_FORMAT in
         TableTop
         PrintDependencies
         TableBottom
-        ;;
-    *)
-        ConsoleFatal "  ->" "ld: internal error: unknown list format '$LS_FORMAT'"
-        exit 69
         ;;
 esac
 

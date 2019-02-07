@@ -43,7 +43,7 @@ DESCRIPTION_LENGTH=$((COLUMNS - TASK_PADDING - TASK_STATUS_LENGHT - 1))
 ##
 ## DescribeTask
 ## - describes a task using print options and print features
-## $1: task id, mustbe long form
+## $1: task id, must be long form
 ## $2: print option: standard, full
 ## $3: print features: none, line-indent, enter, post-line, (adoc, ansi, text*)
 ## optional $4: print mode (adoc, ansi, text)
@@ -247,7 +247,7 @@ DescribeTaskStatus() {
 ##
 ## function: TaskInTable
 ## - main task details for table views
-## $1: ID, mustbe long form
+## $1: ID, must be long form
 ## optional $2: print mode (adoc, ansi, text)
 ##
 TaskInTable() {
@@ -272,3 +272,105 @@ TaskInTable() {
     printf "$SPRINT"
 }
 
+
+
+##
+## DebugTask
+## - debugs a task, provides all internal information about a task
+## $1: task id, must be long form
+##
+DebugTask() {
+    local ID=${1:-}
+    if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "debug-task - unknown task ID '$ID'"
+        return
+    fi
+
+    local SHORT
+    for SHORT in ${!DMAP_TASK_SHORT[@]}; do
+        if [[ "${DMAP_TASK_SHORT[$SHORT]}" == "$ID" ]]; then
+            break
+        fi
+    done
+
+    local SPRINT=""
+    local TMP_VAL
+    local FOUND
+    local DESCRIPTION=${DMAP_TASK_DESCR[$ID]:-}
+    local TEMPLATE="  %ID%, %SHORT% - %DESCRIPTION%"
+    TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID")}
+    TEMPLATE=${TEMPLATE//%SHORT%/$(PrintEffect bold "$SHORT")}
+    TEMPLATE=${TEMPLATE//%DESCRIPTION%/$(PrintEffect italic "$DESCRIPTION")}
+    SPRINT+=$TEMPLATE"\n"
+
+    SPRINT+="    - origin:      "${DMAP_TASK_ORIGIN[$ID]}"\n"
+    SPRINT+="    - modes:       "${DMAP_TASK_MODES[$ID]}"\n"
+    SPRINT+="    - mode flavor: "${DMAP_TASK_MODE_FLAVOR[$ID]}"\n"
+
+    TMP_VAL=${DMAP_TASK_DECL[$ID]}
+    TMP_VAL=${TMP_VAL/${CONFIG_MAP["FW_HOME"]}/\$FW_HOME}
+    TMP_VAL=${TMP_VAL/${CONFIG_MAP["APP_HOME"]}/\$APP_HOME}
+    SPRINT+="    - declaration: "$TMP_VAL"\n"
+
+    TMP_VAL=${DMAP_TASK_EXEC[$ID]}
+    TMP_VAL=${TMP_VAL/${CONFIG_MAP["FW_HOME"]}/\$FW_HOME}
+    TMP_VAL=${TMP_VAL/${CONFIG_MAP["APP_HOME"]}/\$APP_HOME}
+    SPRINT+="    - executable:  "$TMP_VAL"\n"
+
+    SPRINT+="\n    "$(PrintEffect italic "Requirements and dependencies")"\n"
+    FOUND=false
+    if [[ -n "${DMAP_TASK_REQ_PARAM_MAN[$ID]:-}" ]]; then
+        SPRINT+="      - parameters, mandatory:   "${DMAP_TASK_REQ_PARAM_MAN[$ID]:-}"\n"
+        FOUND=true
+    fi
+    if [[ -n "${DMAP_TASK_REQ_PARAM_OPT[$ID]:-}" ]]; then
+        SPRINT+="      - parameters, optional:    "${DMAP_TASK_REQ_PARAM_OPT[$ID]:-}"\n"
+        FOUND=true
+    fi
+    if [[ -n "${DMAP_TASK_REQ_DEP_MAN[$ID]:-}" ]]; then
+        SPRINT+="      - dependencies, mandatory: "${DMAP_TASK_REQ_DEP_MAN[$ID]:-}"\n"
+        FOUND=true
+    fi
+    if [[ -n "${DMAP_TASK_REQ_DEP_OPT[$ID]:-}" ]]; then
+        SPRINT+="      - dependencies, optional:  "${DMAP_TASK_REQ_DEP_OPT[$ID]:-}"\n"
+        FOUND=true
+    fi
+    if [[ -n "${DMAP_TASK_REQ_TASK_MAN[$ID]:-}" ]]; then
+        SPRINT+="      - other tasks, mandatory:  "${DMAP_TASK_REQ_TASK_MAN[$ID]:-}"\n"
+        FOUND=true
+    fi
+    if [[ -n "${DMAP_TASK_REQ_TASK_OPT[$ID]:-}" ]]; then
+        SPRINT+="      - other tasks, optional:   "${DMAP_TASK_REQ_TASK_OPT[$ID]:-}"\n"
+        FOUND=true
+    fi
+    if [[ -n "${DMAP_TASK_REQ_DIR_MAN[$ID]:-}" ]]; then
+        SPRINT+="      - directories, mandatory:  "${DMAP_TASK_REQ_DIR_MAN[$ID]:-}"\n"
+        FOUND=true
+    fi
+    if [[ -n "${DMAP_TASK_REQ_DIR_OPT[$ID]:-}" ]]; then
+        SPRINT+="      - directories, optional:   "${DMAP_TASK_REQ_DIR_OPT[$ID]:-}"\n"
+        FOUND=true
+    fi
+    if [[ -n "${DMAP_TASK_REQ_FILE_MAN[$ID]:-}" ]]; then
+        SPRINT+="      - files, mandatory:        "${DMAP_TASK_REQ_FILE_MAN[$ID]:-}"\n"
+        FOUND=true
+    fi
+    if [[ -n "${DMAP_TASK_REQ_FILE_OPT[$ID]:-}" ]]; then
+        SPRINT+="      - files, optional:         "${DMAP_TASK_REQ_FILE_OPT[$ID]:-}"\n"
+        FOUND=true
+    fi
+    if [[ $FOUND == false ]]; then
+        SPRINT+="      none\n"
+    fi
+
+    SPRINT+="\n    "$(PrintEffect italic "Load and status")"\n"
+    SPRINT+="      - load status:   "${RTMAP_TASK_STATUS[$ID]:-}"\n"
+    if [[ -n "${RTMAP_TASK_LOADED[$ID]:-}" ]]; then
+        SPRINT+="      - load comments:"${RTMAP_TASK_LOADED[$ID]:-}"\n"
+    fi
+    if [[ -n "${RTMAP_TASK_UNLOADED[$ID]:-}" ]]; then
+        SPRINT+="      "$(PrintColor light-red "unloaded")"\n"
+    fi
+
+    printf "$SPRINT\n"
+}

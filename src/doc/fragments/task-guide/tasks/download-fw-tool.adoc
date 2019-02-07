@@ -1,0 +1,40 @@
+//
+// ============LICENSE_START=======================================================
+//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
+// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== download-fw-tool
+
+This tasks uses CURL to download the SKB Framework Tool.
+The framework tool is an executable Java JAR file, including all dependencies.
+It is published on Bintray using the same version as the SKB Framework.
+The URL for download (without the filename) is: https://dl.bintray.com/vdmeer/generic/ .
+
+The framework tool provides mechanisms to convert ADOC text into formatted plain text.
+It is used for instance by the task `build-manual` to create formatted text versions of the manual.
+
+The task uses the setting of the parameter `SKB_FRAMEWORK_TOOL` to determine which JAR file it should download.
+The output directory will be created if it does not exist.
+If the JAR file already exists, no download will be started (use the force option to force a download).
+
+=== Options
+
+The option _simulate_ can be used to simulate all task actions.
+In this mode, the task will only print what it would do.
+The option _force_ can be used to force a download even if the JAR file already exists.
+_simulate_ will overwrite _force_.
+
+[source%nowrap,bash,indent=0]
+----
+   -f | --force       force mode, not questions asked
+   -h | --help        print help screen and exit
+   -s | --simulate    print only, downloads nothing, overwrites force
+----

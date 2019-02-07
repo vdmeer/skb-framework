@@ -73,7 +73,7 @@ STATUS=
 NO_ALL=
 NO_BUILD=
 NO_DESCR=
-NO_INST=
+INSTALL=
 NO_LIST=
 NO_START=
 
@@ -87,8 +87,8 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=Ahlm:o:P:s:Tu
-CLI_LONG_OPTIONS=all,mode:,help,loaded,origin:,print-mode:,status:,unloaded,no-a,no-b,no-d,no-dl,no-inst,no-l,no-s,odl,table
+CLI_OPTIONS=AhIlm:o:P:s:Tu
+CLI_LONG_OPTIONS=all,mode:,help,install,loaded,origin:,print-mode:,status:,unloaded,no-a,no-b,no-d,no-dl,no-l,no-s,odl,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-scenarios -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -109,18 +109,18 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "list-scenarios")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
-                BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "help screen format with additional information"    $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine A         all         "<none>"    "all scenarios, disables all other filters"                                     $PRINT_PADDING
+                BuildTaskHelpLine I         install     "<none>"    "include scenarios for application mode flavor 'install'"                       $PRINT_PADDING
                 BuildTaskHelpLine l         loaded      "<none>"    "only loaded scenarios"                                                         $PRINT_PADDING
                 BuildTaskHelpLine m         mode        "MODE"      "only scenarios for application mode: all, dev, build, use"                     $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  no-a        "<none>"    "activate all '--no-' filters"                                                  $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  no-b        "<none>"    "exclude scenarios starting with 'build-'"                                      $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  no-d        "<none>"    "exclude scenarios starting with 'describe-'"                                   $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  no-dl       "<none>"    "exclude scenarios starting with 'describe-' or 'list-'"                        $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-inst     "<none>"    "exclude scenarios for app mode flavor 'install'"                               $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  no-l        "<none>"    "exclude scenarios starting with 'list-'"                                       $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  no-s        "<none>"    "exclude scenarios starting with 'start-'"                                      $PRINT_PADDING
                 BuildTaskHelpLine o         origin      "ORIGIN"    "only scenarios from origin: f(w), a(pp)"                                       $PRINT_PADDING
@@ -131,6 +131,11 @@ while true; do
                 cat $CACHED_HELP
             fi
             exit 0
+            ;;
+        -I | --install)
+            INSTALL=yes
+            CLI_SET=true
+            shift
             ;;
         -l | --loaded)
             LOADED=yes
@@ -160,11 +165,6 @@ while true; do
         --no-dl)
             NO_DESCR=yes
             NO_LIST=yes
-            CLI_SET=true
-            shift
-            ;;
-        --no-inst)
-            NO_INST=yes
             CLI_SET=true
             shift
             ;;
@@ -233,7 +233,7 @@ if [[ "$ALL" == "yes" ]]; then
     NO_ALL=
     NO_BUILD=
     NO_DESCR=
-    NO_INST=
+    INSTALL=
     NO_LIST=
     NO_START=
 elif [[ $CLI_SET == false ]]; then
@@ -298,11 +298,19 @@ else
     if [[ -n "$NO_ALL" ]]; then
         NO_BUILD=yes
         NO_DESCR=yes
-        NO_INST=yes
+        INSTALL=yes
         NO_LIST=yes
         NO_START=yes
     fi
 fi
+case $LS_FORMAT in
+    list | table)
+        ;;
+    *)
+        ConsoleFatal "  ->" "ls: internal error: unknown list format '$LS_FORMAT'"
+        exit 69
+        ;;
+esac
 
 
 declare -A SCN_TABLE
@@ -385,6 +393,10 @@ function ListBottom() {
 ## scenario print function
 ############################################################################################
 PrintScenarios() {
+    local ID
+    local i
+    local keys
+
     for ID in ${!DMAP_SCN_ORIGIN[@]}; do
         if [[ -n "$ODL" ]]; then
             case "$ID" in
@@ -409,7 +421,7 @@ PrintScenarios() {
                     ;;
             esac
         fi
-        if [[ -n "$NO_INST" ]]; then
+        if [[ -z "$INSTALL" ]]; then
             if [[ "${DMAP_SCN_MODE_FLAVOR[$ID]}" == "install" ]]; then
                 continue
             fi
@@ -512,10 +524,6 @@ case $LS_FORMAT in
         TableTop
         PrintScenarios
         TableBottom
-        ;;
-    *)
-        ConsoleFatal "  ->" "ls: internal error: unknown list format '$LS_FORMAT'"
-        exit 69
         ;;
 esac
 

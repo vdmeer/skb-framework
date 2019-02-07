@@ -60,6 +60,7 @@ Once all dependencies are satisfied, the loader realizes core settings:
     ** _CONFIG_FILE_ - the SKB configuration file
     ** _STRICT_ - set strict mode to `off`, at least initially
     ** _APP_MODE_ - set the default application mode to `use`
+    ** _APP_MODE_FLAVOR_ - set the default flavor of the application mode to `std` (standard)
     ** _PRINT_MODE_ - set the default print mode to `ansi` (for ANSI formatted text with colors and effects)
     ** Levels - set the levels for loader, shell, and tasks initially to `error`
     ** Quiet - set quiet mode for loader, shell, and tasks to `off`, i.e. they are _not_ quiet

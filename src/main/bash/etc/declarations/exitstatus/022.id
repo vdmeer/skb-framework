@@ -8,4 +8,4 @@
 
 ORIGIN=loader
 PROBLEM=external
-DESCRIPTION="loader: no application version found, tried \$HOME/etc/version.txt"
+DESCRIPTION="loader: version file for application (or framework) not found"

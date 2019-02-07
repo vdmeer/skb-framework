@@ -102,6 +102,7 @@ Table mode shows two more aspects of dependencies:
 
 Provided filters:
 
+* _install_ - include dependencies that are only required by tasks that run in `install` application mode flavor
 * _origin_ - filter by declaration origin
     ** framework (as: `F`, `f`, `fw`, or `framework`), or
     ** application (as: `A`, `a`, `app`, or `application`)
@@ -116,6 +117,7 @@ Provided filters:
 [source%nowrap,bash,indent=0]
 ----
    filters
+   -I | --install           include dependencies required only by install tasks
    -o | --origin ORIGIN     only dependencies from origin: f(w), a(pp)
    -r | --requested         only requested dependencies
    -s | --status STATUS     only dependencies with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
@@ -185,6 +187,7 @@ This table shows the parameter names with their declared default value.
 Provided filters are:
 
 * _default_ - show parameters with a set default value
+* _install_ - include parameters that are only required by tasks that run in `install` application mode flavor
 * _origin_ - filter by declaration origin
     ** framework (as: `F`, `f`, `fw`, or `framework`), or
     ** application (as: `A`, `a`, `app`, or `application`)
@@ -200,6 +203,7 @@ Provided filters are:
 ----
    filters
    -d | --default           only parameters with a defined default value
+   -I | --install           include parameters required only by install tasks
    -o | --origin ORIGIN     only parameters from origin: f(w), a(pp)
    -r | --requested         only requested dependencies
    -s | --status STATUS     only parameter for status: o, f, e, d
@@ -212,9 +216,10 @@ If _CACHE_DIR_ is set to a directory that contains cached parameter information 
 
 === list-scenarios
 Lists scenarios with their name, short name, and a description.
-Table mode a few more aspects of scenarios:
+Table mode shows a few more aspects of scenarios:
 
 * the origin of its declaration (framework or application),
+* the application mode flavor, being either `S` for `standard` or `std` or `I` for `install`,
 * if the scenario is declared for application _dev_,
 * if the scenario is declared for application _build_,
 * if the scenario is declared for application _use_, and
@@ -222,6 +227,7 @@ Table mode a few more aspects of scenarios:
 
 Provided filters are:
 
+* _install_ - include scenarios that are defined for the `install` application mode flavor
 * _loaded_ - show only scenarios currently loaded
 * _mode_ - show only scenarios for a specific application mode
     ** for mode _all_ use    `A`, `a`, `All`,   `all`
@@ -249,6 +255,7 @@ Provided filters are:
 [source%nowrap,bash,indent=0]
 ----
    filters
+   -I | --install           include scenarios for application mode flavor 'install'
    -l | --loaded            only loaded scenarios
    -m | --mode MODE         only scenarios for application mode: dev, build, use
         --no-a              activate all '--no-' filters
@@ -270,9 +277,10 @@ If _CACHE_DIR_ is set to a directory that contains cached scenario information (
 
 === list-tasks
 Lists tasks with their name, short name, and a description.
-Table mode a few more aspects of tasks:
+Table mode shows a few more aspects of tasks:
 
 * the origin of its declaration (framework or application),
+* the application mode flavor, being either `S` for `standard` or `std` or `I` for `install`,
 * if the task is declared for application _dev_,
 * if the task is declared for application _build_,
 * if the task is declared for application _use_, and
@@ -280,6 +288,7 @@ Table mode a few more aspects of tasks:
 
 Provided filters are:
 
+* _install_ - include tasks that are defined for the `install` application mode flavor
 * _loaded_ - show only tasks currently loaded
 * _mode_ - show only tasks for a specific application mode
     ** for mode _all_ use    `A`, `a`, `All`,   `all`
@@ -307,6 +316,7 @@ Provided filters are:
 [source%nowrap,bash,indent=0]
 ----
    filters
+   -I | --install           include tasks for application mode flavor 'install'
    -l | --loaded            only loaded tasks
    -m | --mode MODE         only tasks for application mode: dev, build, use
         --no-a              activate all '--no-' filters

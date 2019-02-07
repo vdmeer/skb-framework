@@ -94,6 +94,7 @@ Describes one or more dependencies.
 Provided filters are:
 
 * _id_ - identifies a specific dependency and only this one will be described
+* _install_ - include dependencies that are only required by tasks that run in `install` application mode flavor
 * _origin_ - filter by declaration origin
     ** framework (as: `F`, `f`, `fw`, or `framework`), or
     ** application (as: `A`, `a`, `app`, or `application`)
@@ -109,6 +110,7 @@ Provided filters are:
 ----
    filters
    -i | --id ID             dependency identifier
+   -I | --install           include dependencies required only by install tasks
    -o | --origin ORIGIN     only dependencies from origin: f(w), a(pp)
    -r | --requested         only requested dependencies
    -s | --status STATUS     only dependencies with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
@@ -169,6 +171,7 @@ The following filters are provided:
 
 * _default_ - describe parameters with a set default value
 * _id_ - only describe a specific parameter, the identifier can be given in lower-case or upper-case or mixed spelling
+* _install_ - include parameters that are only required by tasks that run in `install` application mode flavor
 * _origin_ - filter by declaration origin
     ** framework (as: `F`, `f`, `fw`, or `framework`), or
     ** application (as: `A`, `a`, `app`, or `application`)
@@ -184,9 +187,18 @@ The following filters are provided:
 ----
    -d | --default           only parameters with a defined default value
    -i | --id ID             parameter identifier
+   -I | --install           include parameters required only by install tasks
    -o | --origin ORIGIN     only parameters from origin: f(w), a(pp)
    -r | --requested         only requested dependencies
    -s | --status STATUS     only parameter for status: o, f, e, d
+----
+
+This task can also be used to show debug information, rather than descriptions.
+Using the debug option will print all information about one or more parameters (depending on the used filters).
+
+[source%nowrap,bash,indent=0]
+----
+   -D | --debug             print debug information instead of description
 ----
 
 
@@ -195,6 +207,7 @@ Describes one or more scenarios.
 Provided filters are:
 
 * _id_ - only describe a specific scenario, the identifier can be the long name or the short name of the scenario
+* _install_ - include tasks that are defined for the `install` application mode flavor
 * _loaded_ - show only scenarios currently loaded
 * _mode_ - show only scenarios for a specific application mode
     ** for mode _all_ use    `A`, `a`, `All`,   `all`
@@ -215,6 +228,7 @@ Provided filters are:
 [source%nowrap,bash,indent=0]
 ----
    -i | --id ID             scenario identifier
+   -I | --install           include scenarios declared for application mode flavor 'install'
    -l | --loaded            only loaded scenarios
    -m | --mode MODE         only scenarios for application mode: dev, build, use
    -o | --origin ORIGIN     only scenarios from origin: f(w), a(pp)
@@ -222,12 +236,20 @@ Provided filters are:
    -u | --unloaded          only unloaded scenarios
 ----
 
+This task can also be used to show debug information, rather than descriptions.
+Using the debug option will print all information about one or more dependencies (depending on the used filters).
+
+[source%nowrap,bash,indent=0]
+----
+   -D | --debug             print debug information instead of description
+----
 
 === describe-task
 Describes one or more tasks.
 Provided filters are:
 
 * _id_ - only describe a specific task, the identifier can be the long name or the short name of the task
+* _install_ - include tasks that are defined for the `install` application mode flavor
 * _loaded_ - show only tasks currently loaded
 * _mode_ - show only tasks for a specific application mode
     ** for mode _all_ use    `A`, `a`, `All`,   `all`
@@ -247,10 +269,19 @@ Provided filters are:
 [source%nowrap,bash,indent=0]
 ----
    -i | --id ID             task identifier
+   -I | --install           include tasks declared for application mode flavor 'install'
    -l | --loaded            only loaded tasks
    -m | --mode MODE         only tasks for application mode: dev, build, use
    -o | --origin ORIGIN     only tasks from origin: f(w), a(pp)
    -s | --status STATUS     only tasks for status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
    -u | --unloaded          only unloaded tasks
+----
+
+This task can also be used to show debug information, rather than descriptions.
+Using the debug option will print all information about one or more tasks (depending on the used filters).
+
+[source%nowrap,bash,indent=0]
+----
+   -D | --debug             print debug information instead of description
 ----
 

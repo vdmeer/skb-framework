@@ -8,4 +8,4 @@
 
 build-manual --build --src
 build-help
-build-manual --build --requested --adoc --text --manp --html --pdf
+build-manual --build --requested --install --adoc --text --manp --html --pdf

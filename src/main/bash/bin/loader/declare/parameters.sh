@@ -41,7 +41,6 @@ declare -A DMAP_PARAM_DESCR             # map [id]="descr-tag-line"
 declare -A DMAP_PARAM_IS                # map [id]=none, file, dir, dir-cd, file-list, dir-list
 
 
-
 ##
 ## function: DeclareParametersOrigin
 ## - declares parameters from origin

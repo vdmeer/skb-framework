@@ -166,6 +166,14 @@ done
 if [[ $ALL == true  || $CLI_SET == false ]]; then
     FILTER="cli default env file internal"
 fi
+case $LS_FORMAT in
+    list | table)
+        ;;
+    *)
+        ConsoleFatal "  ->" "lcfg: internal error: unknown list format '$LS_FORMAT'"
+        exit 69
+        ;;
+esac
 
 
 STATUS_PADDING=22
@@ -233,6 +241,7 @@ function ListBottom() {
 ## configuration print function
 ############################################################################################
 PrintConfiguration() {
+    local ID
     local i
     local keys
     local found
@@ -372,10 +381,6 @@ case $LS_FORMAT in
         TableTop
         PrintConfiguration
         TableBottom
-        ;;
-    *)
-        ConsoleFatal "  ->" "lcfg: internal error: unknown list format '$LS_FORMAT'"
-        exit 69
         ;;
 esac
 

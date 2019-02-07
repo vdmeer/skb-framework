@@ -96,9 +96,9 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "list-options")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
-                BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "help screen format with additional information"    $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine A all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
                 BuildTaskHelpLine e exit        "<none>"    "only exit options"                             $PRINT_PADDING
@@ -149,6 +149,15 @@ elif [[ $CLI_SET == false ]]; then
     EXIT=yes
     RUN=yes
 fi
+case $LS_FORMAT in
+    list | table)
+        ;;
+    *)
+        ConsoleFatal "  ->" "lo: internal error: unknown list format '$LS_FORMAT'"
+        exit 69
+        ;;
+esac
+
 
 declare -A OPTION_TABLE
 FILE=${CONFIG_MAP["CACHE_DIR"]}/opt-tab.${CONFIG_MAP["PRINT_MODE"]}
@@ -197,6 +206,7 @@ function ListBottom() {
 ## option print function
 ############################################################################################
 PrintOptions() {
+    local ID
     local i
     local keys
 
@@ -261,10 +271,6 @@ case $LS_FORMAT in
         TableTop
         PrintOptions
         TableBottom
-        ;;
-    *)
-        ConsoleFatal "  ->" "lo: internal error: unknown list format '$LS_FORMAT'"
-        exit 69
         ;;
 esac
 

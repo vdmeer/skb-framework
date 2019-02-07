@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 ##
-## Identity for CLI option install
+## Identity for dependency curl
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.3
 ##
 
-SHORT=I
-
-DESCRIPTION="activate 'install' flavor, loads special tasks"
+DESCRIPTION="software build environment"
+COMMAND=curl

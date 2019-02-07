@@ -50,8 +50,8 @@ declare -A RTMAP_REQUESTED_PARAM    # map for requested parameters
 ##
 ## Add standard parameters settable from the outside as requested
 ##
-RTMAP_REQUESTED_PARAM["SHELL_PROMPT"]="SHELL_PROMPT"
-RTMAP_REQUESTED_PARAM["CACHE_DIR"]="CACHE_DIR"
+RTMAP_REQUESTED_PARAM["SHELL_PROMPT"]="loader"
+# RTMAP_REQUESTED_PARAM["CACHE_DIR"]="loader"
 
 # RTMAP_REQUESTED_DEP["DUMMY"]=dummy
 
@@ -206,7 +206,7 @@ ProcessTaskReqParam() {
                 RTMAP_TASK_UNLOADED[$ID]="${RTMAP_TASK_UNLOADED[$ID]:-} par-id::$PARAM"
                 SetArtifactStatus task $ID E
             else
-                RTMAP_REQUESTED_PARAM[$PARAM]=$PARAM
+                RTMAP_REQUESTED_PARAM[$PARAM]="${RTMAP_REQUESTED_PARAM[$PARAM]:-} $ID"
                 if [[ -z "${CONFIG_MAP[$PARAM]:-}" ]]; then
                     ConsoleError " ->" "process-task/param - $ID with unset parameter '$PARAM', set as '${CONFIG_MAP["FLAVOR"]}_$PARAM'"
                     RTMAP_TASK_UNLOADED[$ID]="${RTMAP_TASK_UNLOADED[$ID]:-} par-set::$PARAM"
@@ -261,7 +261,7 @@ ProcessTaskReqParam() {
                 RTMAP_TASK_UNLOADED[$ID]="${RTMAP_TASK_UNLOADED[$ID]:-} par-id::$PARAM"
                 SetArtifactStatus task $ID E
             else
-                RTMAP_REQUESTED_PARAM[$PARAM]=$PARAM
+                RTMAP_REQUESTED_PARAM[$PARAM]="${RTMAP_REQUESTED_PARAM[$PARAM]:-} $ID"
                 if [[ -z "${CONFIG_MAP[$PARAM]:-}" ]]; then
                     ConsoleWarnStrict " ->" "process-task/param - $ID with unset parameter '$PARAM'"
                     if [[ "${CONFIG_MAP["STRICT"]}" == "on" ]]; then
@@ -324,17 +324,19 @@ ProcessTaskReqParam() {
 ## function: TestDependency
 ## - tests a dependency
 ## $1: dependency-id
+## $2: task-id of the requireing task
 ##
 TestDependency() {
     local DEP=$1
+    local TASK=$2
 
-    RTMAP_REQUESTED_DEP[$DEP]=$DEP
+    RTMAP_REQUESTED_DEP[$DEP]="${RTMAP_REQUESTED_DEP[$DEP]:-} $TASK"
     if [[ "${RTMAP_DEP_STATUS[$DEP]:-}" != "N" ]]; then
         ConsoleDebug "process-task/dep - dependency '$DEP' already tested"
     else
         if [[ ! -z ${DMAP_DEP_REQ_DEP[$DEP]:-} ]]; then
             ConsoleDebug "process-task/dep - testing prior dependency '${DMAP_DEP_REQ_DEP[$DEP]}'"
-            TestDependency ${DMAP_DEP_REQ_DEP[$DEP]}
+            TestDependency ${DMAP_DEP_REQ_DEP[$DEP]} $2
         fi
 
         ConsoleDebug "process-task/dep - testing dependency '$DEP'"
@@ -374,7 +376,7 @@ ProcessTaskReqDep() {
                 RTMAP_TASK_UNLOADED[$ID]="${RTMAP_TASK_UNLOADED[$ID]:-} dep-id::$DEP"
                 SetArtifactStatus task $ID E
             else
-                TestDependency $DEP
+                TestDependency $DEP $ID
                 if [[ "${RTMAP_DEP_STATUS[$DEP]:-}" == "S" ]]; then
                     SetArtifactStatus task $ID S
                     RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"
@@ -396,7 +398,7 @@ ProcessTaskReqDep() {
                 RTMAP_TASK_UNLOADED[$ID]="${RTMAP_TASK_UNLOADED[$ID]:-} dep-id::$DEP"
                 SetArtifactStatus task $ID E
             else
-                TestDependency $DEP
+                TestDependency $DEP $ID
                 if [[ "${RTMAP_DEP_STATUS[$DEP]:-}" == "S" ]]; then
                     SetArtifactStatus task $ID S
                     RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"

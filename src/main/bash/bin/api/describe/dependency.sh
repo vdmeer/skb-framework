@@ -217,3 +217,45 @@ DependencyInTable() {
     printf "$SPRINT"
 }
 
+
+
+##
+## DebugDependency
+## - debugs a dependency, provides all internal information about a dependency
+## $1: dependency id
+##
+DebugDependency() {
+    local ID=${1:-}
+    if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "debug-dep - unknown dependency '$ID'"
+        return
+    fi
+
+    local SPRINT=""
+    local TMP_VAL
+    local FOUND
+    local DESCRIPTION=${DMAP_DEP_DESCR[$ID]:-}
+    local TEMPLATE="  %ID% - %DESCRIPTION%"
+    TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID")}
+    TEMPLATE=${TEMPLATE//%DESCRIPTION%/$(PrintEffect italic "$DESCRIPTION")}
+    SPRINT+=$TEMPLATE"\n"
+
+    SPRINT+="    - origin:       "${DMAP_DEP_ORIGIN[$ID]}"\n"
+
+    TMP_VAL=${DMAP_DEP_DECL[$ID]}
+    TMP_VAL=${TMP_VAL/${CONFIG_MAP["FW_HOME"]}/\$FW_HOME}
+    TMP_VAL=${TMP_VAL/${CONFIG_MAP["APP_HOME"]}/\$APP_HOME}
+    SPRINT+="    - declaration:  "$TMP_VAL"\n"
+
+    SPRINT+="    - command:      "${DMAP_DEP_CMD[$ID]}"\n"
+
+    SPRINT+="    - load status:  "${RTMAP_DEP_STATUS[$ID]:-}"\n"
+    if [[ -n "${RTMAP_REQUESTED_DEP[$ID]:-}" ]]; then
+        SPRINT+="    - requested by:"${RTMAP_REQUESTED_DEP[$ID]}"\n"
+    fi
+    if [[ -n "${DMAP_DEP_REQ_DEP[$ID]:-}" ]]; then
+        SPRINT+="    - requires dep: "${DMAP_DEP_REQ_DEP[$ID]:-}"\n"
+    fi
+
+    printf "$SPRINT\n"
+}

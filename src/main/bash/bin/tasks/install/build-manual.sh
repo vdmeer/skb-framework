@@ -73,6 +73,7 @@ DO_SECONDARY=false
 REQUESTED=false
 LOADED=false
 TARGET=
+INSTALL=false
 
 NO_AUTHORS=false
 NO_BUGS=false
@@ -100,11 +101,12 @@ NO_TASK_LIST=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=Abchprst
+CLI_OPTIONS=Abchilnprst
 CLI_LONG_OPTIONS=build,clean,help,test,all,adoc,html,manp,pdf,text,src,requested
 CLI_LONG_OPTIONS+=,no-authors,no-bugs,no-copying,no-resources,no-security
 CLI_LONG_OPTIONS+=,no-commands,no-deps,no,exitstatus,no-options,no-params,no-scenarios,no-tasks
 CLI_LONG_OPTIONS+=,no-command-list,no-dep-list,no,exitstatus-list,no-option-list,no-param-list,no-scenario-list,no-task-list
+CLI_LONG_OPTIONS+=,loaded,install
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-manual -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -129,32 +131,33 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "build-manual")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine A all         "<none>"    "set all targets, overwrites other options"         $PRINT_PADDING
-                BuildTaskHelpLine b build       "<none>"    "builds a manual (manpage), requires a target"      $PRINT_PADDING
-                BuildTaskHelpLine c clean       "<none>"    "removes all target artifacts"                      $PRINT_PADDING
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
-                BuildTaskHelpLine p primary     "<none>"    "set all primary targets"                           $PRINT_PADDING
-                BuildTaskHelpLine s secondary   "<none>"    "set all secondary targets"                         $PRINT_PADDING
-                BuildTaskHelpLine t test        "<none>"    "test a manual (show results), requires a target"   $PRINT_PADDING
+                BuildTaskHelpLine A all         "<none>"    "set all targets, overwrites other options"             $PRINT_PADDING
+                BuildTaskHelpLine b build       "<none>"    "builds a manual (manpage), requires a target"          $PRINT_PADDING
+                BuildTaskHelpLine c clean       "<none>"    "removes all target artifacts"                          $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                            $PRINT_PADDING
+                BuildTaskHelpLine p primary     "<none>"    "set all primary targets"                               $PRINT_PADDING
+                BuildTaskHelpLine s secondary   "<none>"    "set all secondary targets"                             $PRINT_PADDING
+                BuildTaskHelpLine t test        "<none>"    "test a manual (show results), requires a target"       $PRINT_PADDING
 
                 printf "\n   targets\n"
-                BuildTaskHelpLine "<none>" adoc  "<none>" "primary target: aggregated ADOC file"                $PRINT_PADDING
-                BuildTaskHelpLine "<none>" html  "<none>" "secondary target: HTML file"                         $PRINT_PADDING
-                BuildTaskHelpLine "<none>" manp  "<none>" "secondary target: man page file"                     $PRINT_PADDING
-                BuildTaskHelpLine "<none>" pdf   "<none>" "secondary target: PDF file)"                         $PRINT_PADDING
-                BuildTaskHelpLine "<none>" text  "<none>" "secondary target: text versions: ansi, text"         $PRINT_PADDING
-                BuildTaskHelpLine "<none>" src   "<none>" "primary target: text source files from ADOC"         $PRINT_PADDING
+                BuildTaskHelpLine "<none>" adoc  "<none>" "primary target: aggregated ADOC file"                    $PRINT_PADDING
+                BuildTaskHelpLine "<none>" html  "<none>" "secondary target: HTML file"                             $PRINT_PADDING
+                BuildTaskHelpLine "<none>" manp  "<none>" "secondary target: man page file"                         $PRINT_PADDING
+                BuildTaskHelpLine "<none>" pdf   "<none>" "secondary target: PDF file)"                             $PRINT_PADDING
+                BuildTaskHelpLine "<none>" text  "<none>" "secondary target: text versions: ansi, text, text-anon"  $PRINT_PADDING
+                BuildTaskHelpLine "<none>" src   "<none>" "primary target: text source files from ADOC"             $PRINT_PADDING
 
                 printf "\n   element list filters\n"
-                BuildTaskHelpLine l loaded      "<none>"    "list only loaded tasks and scenarios"              $PRINT_PADDING
-                BuildTaskHelpLine r requested   "<none>"    "list only requested dependencies and parameters"   $PRINT_PADDING
+                BuildTaskHelpLine i install     "<none>"    "do list 'install' app mode flavor tasks and scenarios"     $PRINT_PADDING
+                BuildTaskHelpLine l loaded      "<none>"    "list only loaded tasks and scenarios"                      $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "list only requested dependencies and parameters"           $PRINT_PADDING
 
                 printf "\n   application filters\n"
-                BuildTaskHelpLine "<none>" no-authors       "<none>" "do not include authors"                   $PRINT_PADDING_FILTERS
-                BuildTaskHelpLine "<none>" no-bugs          "<none>" "do not include bugs"                      $PRINT_PADDING_FILTERS
-                BuildTaskHelpLine "<none>" no-copying       "<none>" "do not include copying"                   $PRINT_PADDING_FILTERS
-                BuildTaskHelpLine "<none>" no-resources     "<none>" "do not include resources"                 $PRINT_PADDING_FILTERS
-                BuildTaskHelpLine "<none>" no-security      "<none>" "do not include security"                  $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-authors       "<none>" "do not include authors"                       $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-bugs          "<none>" "do not include bugs"                          $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-copying       "<none>" "do not include copying"                       $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-resources     "<none>" "do not include resources"                     $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-security      "<none>" "do not include security"                      $PRINT_PADDING_FILTERS
 
                 printf "\n   element filters\n"
                 BuildTaskHelpLine "<none>" no-commands          "<none>" "do not include commands"                  $PRINT_PADDING_FILTERS
@@ -180,6 +183,10 @@ while true; do
         -l | --loaded)
             shift
             LOADED=true
+            ;;
+        -i | --install)
+            shift
+            INSTALL=true
             ;;
         -r | --requested)
             shift
@@ -342,6 +349,11 @@ if [[ "$LOADED" == false ]]; then
 else
     LOADED="--loaded"
 fi
+if [[ "$INSTALL" == false ]]; then
+    INSTALL=" "
+else
+    INSTALL="--install"
+fi
 
 
 ############################################################################################
@@ -401,7 +413,7 @@ BuildManualCore() {
             printf "%s\n" "$(cat ${CONFIG_MAP["MANUAL_SRC"]}/tags/authors.txt)"
             printf ":doctype: manpage\n"
             printf ":man manual: %s Manual\n" "${CONFIG_MAP["APP_NAME"]}"
-            printf ":man source: %s %s\n" "${CONFIG_MAP["APP_NAME"]}" "${CONFIG_MAP["VERSION"]}"
+            printf ":man source: %s %s\n" "${CONFIG_MAP["APP_NAME"]}" "${CONFIG_MAP["APP_VERSION"]}"
             printf ":page-layout: base\n"
 #             printf ":toc: left\n"
             printf ":toclevels: 4\n\n"
@@ -484,7 +496,7 @@ BuildManualCore() {
         DescribeElementParameters
         if [[ "$NO_PARAM_LIST" == false ]]; then
             set +e
-            ${DMAP_TASK_EXEC["describe-parameter"]} $REQUESTED --print-mode $TARGET
+            ${DMAP_TASK_EXEC["describe-parameter"]} $REQUESTED $INSTALL --print-mode $TARGET
             set -e
         fi
     fi
@@ -493,7 +505,7 @@ BuildManualCore() {
         DescribeElementTasks
         if [[ "$NO_TASK_LIST" == false ]]; then
             set +e
-            ${DMAP_TASK_EXEC["describe-task"]} $LOADED --print-mode $TARGET
+            ${DMAP_TASK_EXEC["describe-task"]} $LOADED $INSTALL --print-mode $TARGET
             set -e
         fi
     fi
@@ -502,7 +514,7 @@ BuildManualCore() {
         DescribeElementDependencies
         if [[ "$NO_DEP_LIST" == false ]]; then
             set +e
-            ${DMAP_TASK_EXEC["describe-dependency"]} $REQUESTED --print-mode $TARGET
+            ${DMAP_TASK_EXEC["describe-dependency"]} $REQUESTED $INSTALL --print-mode $TARGET
             set -e
         fi
     fi
@@ -529,7 +541,7 @@ BuildManualCore() {
         DescribeElementScenarios
         if [[ "$NO_SCENARIO_LIST" == false ]]; then
             set +e
-            ${DMAP_TASK_EXEC["describe-scenario"]} $LOADED --print-mode $TARGET
+            ${DMAP_TASK_EXEC["describe-scenario"]} $LOADED $INSTALL --print-mode $TARGET
             set -e
         fi
     fi
@@ -599,15 +611,34 @@ BuildSrc() {
         ConsoleDebug "bdm/src - options"
         BuildSrcPath ${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["OPTIONS"]} l2
 
-        ConsoleDebug "bdm/src - dependencies"
-        BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["DEP_DECL"]} l2
-        ConsoleDebug "bdm/src - parameters"
-        BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["PARAM_DECL"]} l2
-        ConsoleDebug "bdm/src - tasks"
-        BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["TASK_DECL"]} l2
 
-        ConsoleDebug "bdm/src - scenarios"
-        BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["SCENARIOS"]} l2
+        if [[ -d "${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["DEP_DECL"]}" ]]; then
+            ConsoleDebug "bdm/src - dependencies"
+            BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["DEP_DECL"]} l2
+        else
+            ConsoleDebug "bdm/src - no dependency declarations found"
+        fi
+
+        if [[ -d "${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["PARAM_DECL"]}" ]]; then
+            ConsoleDebug "bdm/src - parameters"
+            BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["PARAM_DECL"]} l2
+        else
+            ConsoleDebug "bdm/src - no parameter declarations found"
+        fi
+
+        if [[ -d "${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["TASK_DECL"]}" ]]; then
+            ConsoleDebug "bdm/src - tasks"
+            BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["TASK_DECL"]} l2
+        else
+            ConsoleDebug "bdm/src - no task declarations found"
+        fi
+
+        if [[ -d "${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["SCENARIOS"]}" ]]; then
+            ConsoleDebug "bdm/src - scenarios"
+            BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["SCENARIOS"]} l2
+        else
+            ConsoleDebug "bdm/src - no scenario declarations found"
+        fi
 
     else
         ConsoleError " ->" "bdm/src: dependency 'jre' not loaded, could not build"

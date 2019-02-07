@@ -62,6 +62,8 @@ ConsoleResetWarnings
 ## set local variables
 ##
 PRINT_MODE=
+D_FORMAT=descr
+
 SCN_ID=
 LOADED=
 UNLOADED=
@@ -69,7 +71,7 @@ APP_MODE=
 ORIGIN=
 STATUS=
 ALL=
-NO_INST=
+INSTALL=
 CLI_SET=false
 
 
@@ -77,8 +79,8 @@ CLI_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=Ahi:lm:o:P:s:u
-CLI_LONG_OPTIONS=all,mode:,help,id:,loaded,no-inst,origin:,print-mode:,status:,unloaded
+CLI_OPTIONS=ADhi:Ilm:o:P:s:u
+CLI_LONG_OPTIONS=all,debug,mode:,help,id:,install,loaded,origin:,print-mode:,status:,unloaded
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-scenario -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -104,13 +106,14 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "describe-scenario")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"              $PRINT_PADDING
+                BuildTaskHelpLine D debug       "<none>"    "print debug information instead of description"    $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine A all         "<none>"    "all scenarios, disables all other filters"                                     $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "scenario identifier"                                                           $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "include scenarios declared for application mode flavor 'install'"              $PRINT_PADDING
                 BuildTaskHelpLine l loaded      "<none>"    "only loaded scenarios"                                                         $PRINT_PADDING
-                BuildTaskHelpLine "<none>"      no-inst     "<none>"    "exclude scenarios for app mode flavor 'install'"                   $PRINT_PADDING
                 BuildTaskHelpLine m mode        "MODE"      "only scenarios for application mode: all, dev, build, use"                     $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only scenarios from origin: f(w), a(pp)"                                       $PRINT_PADDING
                 BuildTaskHelpLine s status      "STATUS"    "only scenarios for status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"     $PRINT_PADDING
@@ -119,6 +122,10 @@ while true; do
                 cat $CACHED_HELP
             fi
             exit 0
+            ;;
+        -D | --debug)
+            shift
+            D_FORMAT=debug
             ;;
         -i | --id)
             SCN_ID="$2"
@@ -130,8 +137,8 @@ while true; do
             CLI_SET=true
             shift
             ;;
-        --no-inst)
-            NO_INST=yes
+        -I | --install)
+            INSTALL=yes
             CLI_SET=true
             shift
             ;;
@@ -182,7 +189,7 @@ if [[ "$ALL" == "yes" ]]; then
     APP_MODE=
     ORIGIN=
     STATUS=
-    NO_INST=
+    INSTALL=yes
 elif [[ $CLI_SET == false ]]; then
     APP_MODE=${CONFIG_MAP["APP_MODE"]}
     LOADED=yes
@@ -256,6 +263,14 @@ else
         esac
     fi
 fi
+case $D_FORMAT in
+    descr | debug)
+        ;;
+    *)
+        ConsoleFatal "  ->" "ds: internal error: unknown describe format '$D_FORMAT'"
+        exit 69
+        ;;
+esac
 
 
 ############################################################################################
@@ -291,7 +306,7 @@ for ID in ${!DMAP_SCN_ORIGIN[@]}; do
                 ;;
         esac
     fi
-    if [[ -n "$NO_INST" ]]; then
+    if [[ -z "$INSTALL" ]]; then
         if [[ "${DMAP_SCN_MODE_FLAVOR[$ID]}" == "install" ]]; then
             continue
         fi
@@ -318,7 +333,12 @@ keys=($(printf '%s\n' "${keys[@]:-}"|sort))
 
 for i in ${!keys[@]}; do
     ID=${keys[$i]}
-    DescribeScenario $ID full "$PRINT_MODE line-indent" $PRINT_MODE
+    case $D_FORMAT in
+        descr)
+            DescribeScenario $ID full "$PRINT_MODE line-indent" $PRINT_MODE ;;
+        debug)
+            DebugScenario $ID ;;
+    esac
 done
 
 ConsoleInfo "  -->" "ds: done"

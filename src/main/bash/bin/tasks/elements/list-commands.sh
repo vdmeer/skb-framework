@@ -86,9 +86,9 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "list-commands")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
-                BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "help screen format with additional information"    $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
@@ -118,6 +118,16 @@ done
 ############################################################################################
 ## check CLI
 ############################################################################################
+case $LS_FORMAT in
+    list | table)
+        ;;
+    *)
+        ConsoleFatal "  ->" "lc: internal error: unknown list format '$LS_FORMAT'"
+        exit 69
+        ;;
+esac
+
+
 declare -A COMMAND_TABLE
 FILE=${CONFIG_MAP["CACHE_DIR"]}/cmd-tab.${CONFIG_MAP["PRINT_MODE"]}
 if [[ -n "$PRINT_MODE" ]]; then
@@ -225,10 +235,6 @@ case $LS_FORMAT in
         TableTop
         PrintCommands
         TableBottom
-        ;;
-    *)
-        ConsoleFatal "  ->" "lc: internal error: unknown list format '$LS_FORMAT'"
-        exit 69
         ;;
 esac
 
