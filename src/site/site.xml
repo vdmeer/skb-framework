@@ -64,6 +64,7 @@
                 <item href="task-guide/dev-tasks.html" name="Development Tasks" collapse="true">
                     <item href="task-guide/tasks/build-cache.html" name="build-cache" />
                     <item href="task-guide/tasks/build-help.html" name="build-help" />
+                    <item href="task-guide/tasks/download-fw-tool.html" name="download-fw-tool" />
                     <item href="task-guide/tasks/set-file-versions.html" name="set-file-versions" />
                 </item>
             </item>
