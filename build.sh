@@ -140,7 +140,7 @@ fw_tool(){
 ##
 fw_distro(){ 
     printf "%s\n\n" "building framework distribution artifacts"
-    src/main/bash/bin/skb-framework --all-mode --sq --lq --task-level debug --run-scenario build-fw-distro
+    src/main/bash/bin/skb-framework --all-mode --sq --lq --task-level debug --install --run-scenario build-fw-distro
 
     printf "%s\n\n" "building distributions"
     ./gradlew
@@ -173,7 +173,7 @@ fw_site(){
         done
     fi
 
-    src/main/bash/bin/skb-framework --all-mode --execute-task build-mvn-site --sq --lq --task-level debug -- --build --targets --id fw
+    src/main/bash/bin/skb-framework --all-mode --install --execute-task build-mvn-site --sq --lq --task-level debug -- --build --targets --id fw
     (cd docs; chmod 644 `find -type f`)
 }
 

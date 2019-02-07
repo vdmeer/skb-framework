@@ -1,6 +1,6 @@
 #! /bin/sh
 echo  "*************skb-framework postrm************"
-echo "arguments $*"
+echo  "arguments $*"
 echo  "*********************************************"
 
 # Check for debian upgrade case which calls postrm, in which we do nothing

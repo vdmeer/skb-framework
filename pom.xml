@@ -39,10 +39,6 @@
         <skb-site-target-dir>${project.basedir}/target</skb-site-target-dir>
     </properties>
 
-    <prerequisites>
-        <maven>3.0.0</maven>
-    </prerequisites>
-
     <distributionManagement>
         <site>
             <id>${project.artifactId}-site</id>

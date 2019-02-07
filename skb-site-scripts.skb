@@ -34,21 +34,21 @@ MvnSitePreScript() {
     if [[ -f target/element-lists/parameter-list.adoc ]]; then
         rm target/element-lists/parameter-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-parameter"]} --all --print-mode adoc > target/element-lists/parameter-list.adoc
+    ${DMAP_TASK_EXEC["describe-parameter"]} --requested --install --print-mode adoc > target/element-lists/parameter-list.adoc
 
 
     ## create dependency list
     if [[ -f target/element-lists/dependency-list.adoc ]]; then
         rm target/element-lists/dependency-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-dependency"]} --all --print-mode adoc > target/element-lists/dependency-list.adoc
+    ${DMAP_TASK_EXEC["describe-dependency"]} --requested --install --print-mode adoc > target/element-lists/dependency-list.adoc
 
 
     ## create task list
     if [[ -f target/element-lists/task-list.adoc ]]; then
         rm target/element-lists/task-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-task"]} --all --print-mode adoc > target/element-lists/task-list.adoc
+    ${DMAP_TASK_EXEC["describe-task"]} --all --install --print-mode adoc > target/element-lists/task-list.adoc
 
 
     ## create exit status list
@@ -101,6 +101,7 @@ MvnSitePostScript() {
         MvnSiteFixAdoc target/site/task-guide/dev-tasks                 "Development Tasks"
             MvnSiteFixAdoc target/site/task-guide/tasks/build-cache         "Task: Builde Cache"
             MvnSiteFixAdoc target/site/task-guide/tasks/build-help          "Task: Build Help"
+            MvnSiteFixAdoc target/site/task-guide/tasks/download-fw-tool    "Task: Download-FW Tool"
             MvnSiteFixAdoc target/site/task-guide/tasks/set-file-versions   "Task: Set File Versions"
 
     MvnSiteFixAdoc target/site/developer-guide                      "Developer Guide"

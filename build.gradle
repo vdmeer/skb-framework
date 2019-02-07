@@ -26,7 +26,7 @@ ospackage {
     packager = "vdmeer"
     packageGroup = "misc"
 
-    into '/opt/skb/framework'
+    into '/opt/skb/skb-framework'
 
     from('src/main/bash/bin') {
         fileMode 0555
@@ -36,10 +36,10 @@ ospackage {
         fileMode 0664
         into 'etc'
     }
-    from('src/main/bash/lib') {
-        fileMode 0444
-        into 'lib'
-    }
+//    from('src/main/bash/lib') {
+//        fileMode 0444
+//        into 'lib'
+//    }
     from('src/main/bash/man') {
         fileMode 0444
         into 'man'
@@ -56,14 +56,14 @@ ospackage {
 
 task deb(type: Deb) {
     archiveName = project.name + '-' + project.version + '.deb'
-    link('/usr/local/bin/skb-framework', '/opt/skb/framework/bin/skb-framework')
-    link('/usr/local/share/man/man1/skb-framework.1', '/opt/skb/framework/man/man1/skb-framework.1')
+    link('/usr/local/bin/skb-framework', '/opt/skb/skb-framework/bin/skb-framework')
+    link('/usr/local/share/man/man1/skb-framework.1', '/opt/skb/skb-framework/man/man1/skb-framework.1')
 }
 
 task rpm(type: Rpm) {
     archiveName = project.name + '-' + project.version + '.rpm'
-    link('/usr/local/bin/skb-framework', '/opt/skb/framework/bin/skb-framework')
-    link('/usr/local/share/man/man1/skb-framework.1', '/opt/skb/framework/man/man1/skb-framework.1')
+    link('/usr/local/bin/skb-framework', '/opt/skb/skb-framework/bin/skb-framework')
+    link('/usr/local/share/man/man1/skb-framework.1', '/opt/skb/skb-framework/man/man1/skb-framework.1')
 }
 
 task tgz(type: Tar){
@@ -79,10 +79,10 @@ task tgz(type: Tar){
         fileMode 0664
         into  project.ext.startDir + '/etc'
     }
-    from('src/main/bash/lib') {
-        fileMode 0664
-        into  project.ext.startDir + '/lib'
-    }
+//    from('src/main/bash/lib') {
+//        fileMode 0664
+//        into  project.ext.startDir + '/lib'
+//    }
     from('src/main/bash/man') {
         fileMode 0664
         into  project.ext.startDir + '/man'

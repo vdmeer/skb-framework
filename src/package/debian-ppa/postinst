@@ -1,6 +1,6 @@
 #! /bin/sh
 echo  "************skb-framework postinst***********"
-echo "arguments $*"
+echo  "arguments $*"
 echo  "*********************************************"
 
 # Check for debian abort-remove case which calls postinst, in which we do nothing
@@ -24,4 +24,6 @@ fi
 
 chown -R skbuser:skbuser /opt/skb/skb-framework
 chown -R skbuser:skbuser /var/cache/skb-framework
-
+chown -R skbuser:skbuser /opt/skb/skb-framework/etc/lib/java
+chmod 775 /opt/skb/skb-framework/etc/lib
+chmod 775 /opt/skb/skb-framework/etc/lib/java

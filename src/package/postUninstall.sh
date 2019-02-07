@@ -22,7 +22,7 @@ if [ -L "/usr/local/share/man/man1/skb-framework.1" ]; then
 fi
 
 echo " ==> removing /opt/skb-framework"
-rm -fr /opt/skb/framework
+rm -fr /opt/skb/skb-framework
 
 echo " ==> removing /var/cache/skb-framework"
 rm -fr /var/cache/skb-framework
