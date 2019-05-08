@@ -861,8 +861,9 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_print_configuration">3.4.4. Print Configuration</a></li>
 <li><a href="#_print_statistics">3.4.5. Print Statistics</a></li>
 <li><a href="#_list_tasks">3.4.6. List Tasks</a></li>
-<li><a href="#_comments">3.4.7. Comments</a></li>
-<li><a href="#_all_other_input">3.4.8. All other Input</a></li>
+<li><a href="#_list_application_tasks">3.4.7. List Application Tasks</a></li>
+<li><a href="#_comments">3.4.8. Comments</a></li>
+<li><a href="#_all_other_input">3.4.9. All other Input</a></li>
 </ul>
 </li>
 <li><a href="#_outer_loop_fwshell">3.5. Outer Loop: FWShell</a>
@@ -883,7 +884,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>for SKB-Framework v0.0.3, November 22, 2018</p>
+<p>for SKB-Framework v0.0.3, May 08, 2019</p>
 </div>
 </div>
 </div>
@@ -1196,6 +1197,9 @@ This will create the main configuration map called <code>CONFIG_MAP</code> along
 <p><em>APP_MODE</em> - set the default application mode to <code>use</code></p>
 </li>
 <li>
+<p><em>APP_MODE_FLAVOR</em> - set the default flavor of the application mode to <code>std</code> (standard)</p>
+</li>
+<li>
 <p><em>PRINT_MODE</em> - set the default print mode to <code>ansi</code> (for ANSI formatted text with colors and effects)</p>
 </li>
 <li>
@@ -1243,6 +1247,7 @@ This will create the main configuration map called <code>CONFIG_MAP</code> along
 23
 24
 25
+26
 </pre></td>
   <td class="code"><pre>if [[ -z ${FW_HOME:-} ]]; then
     FW_HOME=$(dirname $0)
@@ -1257,6 +1262,7 @@ CONFIG_MAP[&quot;SYSTEM&quot;]=$(uname -s | cut -c1-6)        # set system, e.g.
 CONFIG_MAP[&quot;CONFIG_FILE&quot;]=&quot;$HOME/.skb&quot;              # config file, in user's home directory
 CONFIG_MAP[&quot;STRICT&quot;]=off                            # not strict, yet (change with --strict)
 CONFIG_MAP[&quot;APP_MODE&quot;]=use                          # default application mode is use, change with --all-mode, --build-mode, --dev-mode
+CONFIG_MAP[&quot;APP_MODE_FLAVOR&quot;]=std                   # default application mode flavor is std, change with --install
 CONFIG_MAP[&quot;PRINT_MODE&quot;]=ansi                       # default print mode is ansi, change with --print-mode
 
 CONFIG_MAP[&quot;LOADER_LEVEL&quot;]=&quot;error&quot;                  # output level for loader, change with --loader-level, set to &quot;debug&quot; for early code debugging
@@ -1364,6 +1370,13 @@ Once flavor and application settings are realized, the application map and versi
 49
 50
 51
+52
+53
+54
+55
+56
+57
+58
 </pre></td>
   <td class="code"><pre>if [[ -z ${__FW_LOADER_FLAVOR:-} ]]; then
     ConsoleFatal &quot; -&gt;&quot; &quot;interal error: no flavor set&quot;
@@ -1410,9 +1423,16 @@ else
 fi
 source $FW_HOME/bin/loader/declare/app-maps.sh
 if [[ -f ${CONFIG_MAP[&quot;APP_HOME&quot;]}/etc/version.txt ]]; then
-    CONFIG_MAP[&quot;VERSION&quot;]=$(cat ${CONFIG_MAP[&quot;APP_HOME&quot;]}/etc/version.txt)
+    CONFIG_MAP[&quot;APP_VERSION&quot;]=$(cat ${CONFIG_MAP[&quot;APP_HOME&quot;]}/etc/version.txt)
 else
     ConsoleFatal &quot; -&gt;&quot; &quot;no application version found, tried \$APP_HOME/etc/version.txt&quot;
+    printf &quot;\n&quot;
+    exit 22
+fi
+if [[ -f ${CONFIG_MAP[&quot;FW_HOME&quot;]}/etc/version.txt ]]; then
+    CONFIG_MAP[&quot;FW_VERSION&quot;]=$(cat ${CONFIG_MAP[&quot;FW_HOME&quot;]}/etc/version.txt)
+else
+    ConsoleFatal &quot; -&gt;&quot; &quot;no framework version found, tried \$FW_HOME/etc/version.txt&quot;
     printf &quot;\n&quot;
     exit 22
 fi</pre></td>
@@ -2378,7 +2398,28 @@ The clear screen functionality is realized by printing the ANSI escape sequence 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_comments">3.4.7. Comments</h4>
+<h4 id="_list_application_tasks">3.4.7. List Application Tasks</h4>
+<div class="paragraph">
+<p>Execute the task <code>list-tasks</code> with setting <code>--origin app</code>, which displays an list of loaded tasks with origin application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre>1
+2
+3
+4
+</pre></td>
+  <td class="code"><pre>        tasks-application | &quot;tasks-application &quot;* | ta | &quot;ta &quot;*)
+            ${DMAP_TASK_EXEC[&quot;list-tasks&quot;]} --origin app
+            ShellAddCmdHistory
+            ;;</pre></td>
+</tr></table></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_comments">3.4.8. Comments</h4>
 <div class="paragraph">
 <p>Do nothing if the input starts with the comment character <code>#</code> in any variation.</p>
 </div>
@@ -2395,7 +2436,7 @@ The clear screen functionality is realized by printing the ANSI escape sequence 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_all_other_input">3.4.8. All other Input</h4>
+<h4 id="_all_other_input">3.4.9. All other Input</h4>
 <div class="paragraph">
 <p>All other input is interpreted as the request to execute a task with optional arguments.</p>
 </div>

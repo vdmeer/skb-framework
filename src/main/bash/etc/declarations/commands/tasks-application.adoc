@@ -1,0 +1,4 @@
+Shows the list of loaded (i.e. available) tasks with origin application.
+The task are presented with their long name, short name, and a description.
+They are alphabetically sorted (long name).
+For more options to list tasks see the task `list-tasks`.

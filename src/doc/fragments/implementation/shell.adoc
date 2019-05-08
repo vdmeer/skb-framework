@@ -143,6 +143,14 @@ Execute the task `list-tasks` with default settings, which displays an list of l
 include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fwi-tasks]
 ----
 
+==== List Application Tasks
+Execute the task `list-tasks` with setting `--origin app`, which displays an list of loaded tasks with origin application.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fwi-tasks-application]
+----
+
 ==== Comments
 Do nothing if the input starts with the comment character `#` in any variation.
 

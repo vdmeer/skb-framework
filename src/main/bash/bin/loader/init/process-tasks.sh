@@ -51,7 +51,6 @@ declare -A RTMAP_REQUESTED_PARAM    # map for requested parameters
 ## Add standard parameters settable from the outside as requested
 ##
 RTMAP_REQUESTED_PARAM["SHELL_PROMPT"]="loader"
-# RTMAP_REQUESTED_PARAM["CACHE_DIR"]="loader"
 
 # RTMAP_REQUESTED_DEP["DUMMY"]=dummy
 

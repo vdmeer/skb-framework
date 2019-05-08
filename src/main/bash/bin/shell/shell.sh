@@ -150,6 +150,13 @@ FWInterpreter() {
             ;;
 #end::fwi-tasks[]
 
+#tag::fwi-tasks-application[]
+        tasks-application | "tasks-application "* | ta | "ta "*)
+            ${DMAP_TASK_EXEC["list-tasks"]} --origin app
+            ShellAddCmdHistory
+            ;;
+#end::fwi-tasks-application[]
+
 #tag::fwi-comment[]
         "" | "#" | "#"* | "# "*)
             ;;

@@ -8,4 +8,4 @@
 
 SHORT=t
 
-DESCRIPTION="prints list of available (loaded) tasks"
+DESCRIPTION="lists available (loaded) tasks"

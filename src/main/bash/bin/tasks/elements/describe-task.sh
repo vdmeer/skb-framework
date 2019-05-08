@@ -113,7 +113,7 @@ while true; do
                 printf "\n   filters\n"
                 BuildTaskHelpLine A all         "<none>"    "all tasks, disables all other filters"                                     $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "task identifier"                                                           $PRINT_PADDING
-                BuildTaskHelpLine I install     "<none>"    "include tasks declared for application mode flavor 'install'"              $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "only tasks declared for application mode flavor 'install'"                 $PRINT_PADDING
                 BuildTaskHelpLine l loaded      "<none>"    "only loaded tasks"                                                         $PRINT_PADDING
                 BuildTaskHelpLine m mode        "MODE"      "only tasks for application mode: all, dev, build, use"                     $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only tasks from origin: f(w), a(pp)"                                       $PRINT_PADDING
@@ -187,10 +187,10 @@ if [[ "$ALL" == "yes" ]]; then
     TASK_ID=
     LOADED=
     UNLOADED=
-    APP_MODE=
+    APP_MODE=all
     ORIGIN=
     STATUS=
-    INSTALL=yes
+    INSTALL=all
 elif [[ $CLI_SET == false ]]; then
     APP_MODE=${CONFIG_MAP["APP_MODE"]}
     LOADED=yes
@@ -303,8 +303,8 @@ for ID in ${!DMAP_TASK_ORIGIN[@]}; do
                 ;;
         esac
     fi
-    if [[ -z "$INSTALL" ]]; then
-        if [[ "${DMAP_TASK_MODE_FLAVOR[$ID]}" == "install" ]]; then
+    if [[ -n "$INSTALL" && "$INSTALL" == "yes" ]]; then
+        if [[ "${DMAP_TASK_MODE_FLAVOR[$ID]}" != "install" ]]; then
             continue
         fi
     fi

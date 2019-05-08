@@ -107,7 +107,7 @@ while true; do
                 printf "\n   filters\n"
                 BuildTaskHelpLine A all         "<none>"    "all dependencies, disables all other filters"                                      $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "dependency identifier"                                                             $PRINT_PADDING
-                BuildTaskHelpLine I install     "<none>"    "include dependencies required only by install tasks"                               $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "only dependencies required only by install tasks"                                  $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only dependencies from origin: f(w), a(pp)"                                        $PRINT_PADDING
                 BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                                                       $PRINT_PADDING
                 BuildTaskHelpLine s status      "STATUS"    "only dependencies with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"     $PRINT_PADDING
@@ -182,7 +182,7 @@ if [[ "$ALL" == "yes" ]]; then
     ORIGIN=
     REQUESTED=
     STATUS=
-    INSTALL=yes
+    INSTALL=
 elif [[ $CLI_SET == false ]]; then
     TESTED=yes
 else
@@ -272,13 +272,13 @@ for ID in ${!DMAP_DEP_ORIGIN[@]}; do
             continue
         fi
     fi
-    if [[ -z "$INSTALL" ]]; then
+    if [[ "$INSTALL" == "yes" ]]; then
         found=false
-        ## install not set, so remove all dependencies _only_ in 'install' tasks
-        ## so go through DMAP_TASK_REQ_DEP_MAN and DMAP_TASK_REQ_DEP_OPT until we find a 'std' task
+        ## install set, so show all dependencies _only_ in 'install' tasks
+        ## so go through DMAP_TASK_REQ_DEP_MAN and DMAP_TASK_REQ_DEP_OPT until we find an 'install' task
         for TASK_ID in ${!DMAP_TASK_REQ_DEP_MAN[@]}; do
             for TDEP in ${DMAP_TASK_REQ_DEP_MAN[$TASK_ID]}; do
-                if [[ "$TDEP" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "std" ]]; then
+                if [[ "$TDEP" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "install" ]]; then
                     found=true
                     break
                 fi
@@ -290,7 +290,7 @@ for ID in ${!DMAP_DEP_ORIGIN[@]}; do
         if [[ $found == false ]]; then
             for TASK_ID in ${!DMAP_TASK_REQ_DEP_OPT[@]}; do
                 for TDEP in ${DMAP_TASK_REQ_DEP_OPT[$TASK_ID]}; do
-                    if [[ "$TDEP" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "std" ]]; then
+                    if [[ "$TDEP" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "install" ]]; then
                         found=true
                         break
                     fi

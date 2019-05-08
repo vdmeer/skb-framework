@@ -148,7 +148,7 @@ while true; do
                 BuildTaskHelpLine "<none>" src   "<none>" "primary target: text source files from ADOC"             $PRINT_PADDING
 
                 printf "\n   element list filters\n"
-                BuildTaskHelpLine i install     "<none>"    "do list 'install' app mode flavor tasks and scenarios"     $PRINT_PADDING
+                BuildTaskHelpLine i install     "<none>"    "only list 'install' app mode flavor tasks and scenarios"   $PRINT_PADDING
                 BuildTaskHelpLine l loaded      "<none>"    "list only loaded tasks and scenarios"                      $PRINT_PADDING
                 BuildTaskHelpLine r requested   "<none>"    "list only requested dependencies and parameters"           $PRINT_PADDING
 

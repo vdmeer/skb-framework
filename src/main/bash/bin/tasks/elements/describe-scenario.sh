@@ -112,7 +112,7 @@ while true; do
                 printf "\n   filters\n"
                 BuildTaskHelpLine A all         "<none>"    "all scenarios, disables all other filters"                                     $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "scenario identifier"                                                           $PRINT_PADDING
-                BuildTaskHelpLine I install     "<none>"    "include scenarios declared for application mode flavor 'install'"              $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "only scenarios declared for application mode flavor 'install'"                 $PRINT_PADDING
                 BuildTaskHelpLine l loaded      "<none>"    "only loaded scenarios"                                                         $PRINT_PADDING
                 BuildTaskHelpLine m mode        "MODE"      "only scenarios for application mode: all, dev, build, use"                     $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only scenarios from origin: f(w), a(pp)"                                       $PRINT_PADDING
@@ -186,10 +186,10 @@ if [[ "$ALL" == "yes" ]]; then
     SCN_ID=
     LOADED=
     UNLOADED=
-    APP_MODE=
+    APP_MODE=all
     ORIGIN=
     STATUS=
-    INSTALL=yes
+    INSTALL=all
 elif [[ $CLI_SET == false ]]; then
     APP_MODE=${CONFIG_MAP["APP_MODE"]}
     LOADED=yes
@@ -306,8 +306,8 @@ for ID in ${!DMAP_SCN_ORIGIN[@]}; do
                 ;;
         esac
     fi
-    if [[ -z "$INSTALL" ]]; then
-        if [[ "${DMAP_SCN_MODE_FLAVOR[$ID]}" == "install" ]]; then
+    if [[ -n "$INSTALL" && "$INSTALL" == "yes" ]]; then
+        if [[ "${DMAP_SCN_MODE_FLAVOR[$ID]}" != "install" ]]; then
             continue
         fi
     fi

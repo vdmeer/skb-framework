@@ -34,21 +34,21 @@ MvnSitePreScript() {
     if [[ -f target/element-lists/parameter-list.adoc ]]; then
         rm target/element-lists/parameter-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-parameter"]} --requested --install --print-mode adoc > target/element-lists/parameter-list.adoc
+    ${DMAP_TASK_EXEC["describe-parameter"]} --requested --print-mode adoc > target/element-lists/parameter-list.adoc
 
 
     ## create dependency list
     if [[ -f target/element-lists/dependency-list.adoc ]]; then
         rm target/element-lists/dependency-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-dependency"]} --requested --install --print-mode adoc > target/element-lists/dependency-list.adoc
+    ${DMAP_TASK_EXEC["describe-dependency"]} --requested --print-mode adoc > target/element-lists/dependency-list.adoc
 
 
     ## create task list
     if [[ -f target/element-lists/task-list.adoc ]]; then
         rm target/element-lists/task-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-task"]} --all --install --print-mode adoc > target/element-lists/task-list.adoc
+    ${DMAP_TASK_EXEC["describe-task"]} --all --print-mode adoc > target/element-lists/task-list.adoc
 
 
     ## create exit status list

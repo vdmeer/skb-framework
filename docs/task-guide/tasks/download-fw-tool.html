@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20190508" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>SKB-FRAMEWORK &#x2013; API: Execute</title>
+    <title>SKB-FRAMEWORK &#x2013; Task: Download-FW Tool</title>
     <link rel="stylesheet" href="../../css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="../../css/site.css" />
     <link rel="stylesheet" href="../../css/print.css" media="print" />
@@ -52,7 +52,7 @@
         framework</a>
                     <span class="divider">/</span>
       </li>
-        <li class="active ">API: Execute</li>
+        <li class="active ">Task: Download-FW Tool</li>
         
               
                   <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published: 2019-05-08</li>
@@ -142,7 +142,7 @@
           <span class="none"></span>
         User Guide</a>
             </li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
       <li>
   
                           <a href="../../task-guide.html" title="Task Guide">
@@ -163,106 +163,57 @@
           <span class="icon-chevron-right"></span>
         Build Tasks</a>
                   </li>
-                                                                                                                            
+                                                                                                                                      
       <li>
   
                           <a href="../../task-guide/dev-tasks.html" title="Development Tasks">
-          <span class="icon-chevron-right"></span>
+          <span class="icon-chevron-down"></span>
         Development Tasks</a>
-                  </li>
+                    <ul class="nav nav-list">
+                    
+      <li>
+  
+                          <a href="../../task-guide/tasks/build-cache.html" title="build-cache">
+          <span class="none"></span>
+        build-cache</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="../../task-guide/tasks/build-help.html" title="build-help">
+          <span class="none"></span>
+        build-help</a>
+            </li>
+                    
+      <li class="active">
+  
+            <a href="#"><span class="none"></span>download-fw-tool</a>
+          </li>
+                    
+      <li>
+  
+                          <a href="../../task-guide/tasks/set-file-versions.html" title="set-file-versions">
+          <span class="none"></span>
+        set-file-versions</a>
+            </li>
               </ul>
         </li>
-                                                                                                                                                                                                                                                                                  
+              </ul>
+        </li>
+                                                                                                                                                                                                                                                                        
       <li>
   
                           <a href="../../developer-guide.html" title="Developer Guide">
           <span class="icon-chevron-down"></span>
         Developer Guide</a>
                     <ul class="nav nav-list">
-                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                          
       <li>
   
                           <a href="../../developer-guide/api.html" title="API">
-          <span class="icon-chevron-down"></span>
+          <span class="icon-chevron-right"></span>
         API</a>
-                    <ul class="nav nav-list">
-                    
-      <li>
-  
-                          <a href="../../developer-guide/api/commands.html" title="Commands">
-          <span class="none"></span>
-        Commands</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../developer-guide/api/config.html" title="Config">
-          <span class="none"></span>
-        Config</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../developer-guide/api/console.html" title="Console">
-          <span class="none"></span>
-        Console</a>
-            </li>
-                    
-      <li class="active">
-  
-            <a href="#"><span class="none"></span>Execute</a>
-          </li>
-                    
-      <li>
-  
-                          <a href="../../developer-guide/api/mvn-site.html" title="MVN Site">
-          <span class="none"></span>
-        MVN Site</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../developer-guide/api/print-ansi.html" title="Print ANSI">
-          <span class="none"></span>
-        Print ANSI</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../developer-guide/api/print.html" title="Print">
-          <span class="none"></span>
-        Print</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../developer-guide/api/prompt.html" title="Prompt">
-          <span class="none"></span>
-        Prompt</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../developer-guide/api/scenarios.html" title="Scenarios">
-          <span class="none"></span>
-        Scenarios</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../developer-guide/api/system.html" title="System">
-          <span class="none"></span>
-        System</a>
-            </li>
-                    
-      <li>
-  
-                          <a href="../../developer-guide/api/tasks.html" title="Tasks">
-          <span class="none"></span>
-        Tasks</a>
-            </li>
-              </ul>
-        </li>
+                  </li>
               </ul>
         </li>
                                                                                                 
@@ -319,84 +270,36 @@
         <div id="bodyColumn"  class="span10" >
                                   
             <div class="sect1">
-<h2 id="execute">Execute</h2>
+<h2 id="download_fw_tool">download-fw-tool</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="executetask">ExecuteTask</h3>
 <div class="paragraph">
-<p>Executes a task.</p>
-</div>
-<table class="tableblock frame-topbot grid-rows spread">
-<colgroup>
-<col style="width: 50%;"/>
-<col style="width: 50%;"/>
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Arguments</th>
-<th class="tableblock halign-left valign-top">Return</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">$1: full command line for the task</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>The first word from the argument is taken as the task name.
-This can be the task&#8217;s short or long name.
-The task must be loaded and available for execution.</p>
+<p>This tasks uses CURL to download the SKB Framework Tool.
+The framework tool is an executable Java JAR file, including all dependencies.
+It is published on Bintray using the same version as the SKB Framework.
+The URL for download (without the filename) is: <a href="https://dl.bintray.com/vdmeer/generic/" class="bare">https://dl.bintray.com/vdmeer/generic/</a> .</p>
 </div>
 <div class="paragraph">
-<p>This function will print extra information (header and footer, execution time calculations) for most tasks.
-The exception here are all <em>standard</em> tasks known to not need header and footers: <em>list-*</em>, <em>describe-*</em>, <em>setting</em>, <em>manual</em>, <em>statistics</em>, and <em>wait</em>.
-Also: any task execution that includes the arguments <code>-h</code> or <code>--help</code> will not see header and footer printed.
-For the task <em>wait</em>, an additional calculation of the actual wait time is displayed.</p>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>ExecuteTask "$SARG"</p>
+<p>The framework tool provides mechanisms to convert ADOC text into formatted plain text.
+It is used for instance by the task <code>build-manual</code> to create formatted text versions of the manual.</p>
 </div>
 <div class="paragraph">
-<p>ExecuteTask "list-tasks -AT"</p>
-</div>
-</div>
-</div>
+<p>The task uses the setting of the parameter <code>SKB_FRAMEWORK_TOOL</code> to determine which JAR file it should download.
+The output directory will be created if it does not exist.
+If the JAR file already exists, no download will be started (use the force option to force a download).</p>
 </div>
 <div class="sect2">
-<h3 id="executescenario">ExecuteScenario</h3>
+<h3 id="options">Options</h3>
 <div class="paragraph">
-<p>Executes a scenario.</p>
+<p>The option <em>simulate</em> can be used to simulate all task actions.
+In this mode, the task will only print what it would do.
+The option <em>force</em> can be used to force a download even if the JAR file already exists.
+<em>simulate</em> will overwrite <em>force</em>.</p>
 </div>
-<table class="tableblock frame-topbot grid-rows spread">
-<colgroup>
-<col style="width: 50%;"/>
-<col style="width: 50%;"/>
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Arguments</th>
-<th class="tableblock halign-left valign-top">Return</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">$1: scenario ID, short or long</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>The scenario must be loaded and available for execution.</p>
-</div>
-<div class="exampleblock">
+<div class="listingblock">
 <div class="content">
-<div class="paragraph">
-<p>ExecuteScenario build-site</p>
-</div>
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-f | --force       force mode, not questions asked
+-h | --help        print help screen and exit
+-s | --simulate    print only, downloads nothing, overwrites force</code></pre>
 </div>
 </div>
 </div>

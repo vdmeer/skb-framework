@@ -565,6 +565,12 @@ This option is overwritten by the option <code>--dev-mode</code>.</p>
 <p>Starts the application in the mode <code>dev</code>.
 In this mode, only tasks marked for <code>dev</code> mode are loaded.</p>
 </dd>
+<dt class="hdlist1"><strong>-I</strong>, <strong>--install</strong> - activate 'install' flavor, loads special tasks</dt>
+<dd>
+<p>Starts the application in the flavor <code>install</code>.
+In this mode, all tasks are loaded and no mode restrictions on the tasks are evaluated.
+This option is overwritten by the options <code>--build-mode</code> and <code>--dev-mode</code>.</p>
+</dd>
 <dt class="hdlist1"><strong>-L</strong>, <strong>--loader-level</strong> LEVEL - sets console level for the loader</dt>
 <dd>
 <p>This sets the output level for the application loader.
@@ -895,9 +901,18 @@ This tool is an executable JAR.
 It is used to convert paragraphs and lists into justified text with pre-defined margins and other parameters.
 This is done using the SKB <em>asciiparagraph</em> and <em>asciilist</em> implementations.
 This setting is required to build the manual sources (text files) from the original ADOC files.
-In a standard installation, the JAR will be available in the <code>bin/java</code> folder of the framework.</p>
+In a standard installation, the JAR should be available in the <code>lib/java</code> folder of the framework.</p>
 <div class="paragraph">
 <p>default value: <code>$FW_HOME/lib/java/skb-framework-tool-0.0.3-all.jar</code></p>
+</div>
+</dd>
+<dt class="hdlist1"><strong>TARGET</strong> - target folder</dt>
+<dd>
+<p>This parameter sets the target directory, where artifacts should be created in, similar to the target directory in Maven or the build directory in Gradle.
+If set, the directory will be tested for create and delete.
+Some tasks, such as <code>clean</code> will remove the given directory and everything in it.</p>
+<div class="paragraph">
+<p>default value: none defined</p>
 </div>
 </dd>
 <dt class="hdlist1"><strong>VERSIONS_BUILD_FILE</strong> - ANT build file for setting file versions</dt>
@@ -952,7 +967,7 @@ They can also be specified for a specific application mode, i.e. one of <code>de
 It uses the parameter <code>CACHE_DIR</code> for the cache location.
 A cache of application elements can speed-up the loader.
 A cache of task can speed-up the help function of tasks.
-While on native UNIX/LINUX system on good-powered machine the cache might not make much of a difference, on other machines it will improve the application&#8217;s runtime behavior.</p>
+While on native UNIX/LINUX system on good-powered machines the cache might not make much of a difference, on other machines it can improve the application&#8217;s runtime behavior.</p>
 </dd>
 <dt class="hdlist1"><strong>build-help</strong>, <strong>bdh</strong> - builds help files for loader and shell</dt>
 <dd>
@@ -1057,6 +1072,18 @@ If a specific task is requested, only this task is described.
 Otherwise, all tasks are described.
 Filters can be applied to the description of all tasks, for instance only a specific origin or status.</p>
 </dd>
+<dt class="hdlist1"><strong>download-fw-tool</strong>, <strong>dfwt</strong> - uses curl to download the framework tool</dt>
+<dd>
+<p>This task downloads the SKB Framework Tool.
+This tool is an executable Java JAR file.
+It provides mechanisms to convert plain text into formatted text.
+The tool is for instance used by the task <code>build-manual</code> to convert ADOC sources into formatted plain text.</p>
+<div class="paragraph">
+<p>The task takes the value of the parameter <code>SKB_FRAMEWORK_TOOL</code> as file name.
+The JAR file is published on Bintray in a generic repository.
+The download URL without the file name is: <a href="https://dl.bintray.com/vdmeer/generic/" class="bare">https://dl.bintray.com/vdmeer/generic/</a> .</p>
+</div>
+</dd>
 <dt class="hdlist1"><strong>execute-program</strong>, <strong>ep</strong> - executes a program with several options</dt>
 <dd>
 <p>Executes a program with various options.
@@ -1066,7 +1093,7 @@ The program can be started in the background or in a new XTerm.</p>
 <dd>
 <p>This task lists commands in simple list or table form.</p>
 </dd>
-<dt class="hdlist1"><strong>list-configuration</strong>, <strong>lcfg</strong> - list current configuration</dt>
+<dt class="hdlist1"><strong>list-configuration</strong>, <strong>lcfg</strong> - lists current configuration</dt>
 <dd>
 <p>This task lists the current configuration in simple list or table form.
 The table form provides additional information for each configuration item.
@@ -1133,17 +1160,17 @@ It runs Apache ANT using a simple build script, which in turn calls a macro that
 The default build and macro files change java files and all relevant framework files.
 These files can be used as template for writing other substitutions, if required.</p>
 </dd>
-<dt class="hdlist1"><strong>setting</strong>, <strong>set</strong> - change settings</dt>
+<dt class="hdlist1"><strong>setting</strong>, <strong>set</strong> - changes settings</dt>
 <dd>
 <p>This task allows to change selected runtime settings.
 Changeable settings include: shell and task level, strict mode, no prompt for the shell, and print mode.</p>
 </dd>
-<dt class="hdlist1"><strong>start-browser</strong>, <strong>sb</strong> - start browser with an optional URL</dt>
+<dt class="hdlist1"><strong>start-browser</strong>, <strong>sb</strong> - starts browser with an optional URL</dt>
 <dd>
 <p>Starts a web browser using the setting from the parameter <code>BROWSER</code>.
 The URL option of the task sets theURL to be loaded in the browser.</p>
 </dd>
-<dt class="hdlist1"><strong>start-pdf-viewer</strong>, <strong>spv</strong> - start a PDF viewer with a PDF document</dt>
+<dt class="hdlist1"><strong>start-pdf-viewer</strong>, <strong>spv</strong> - starts a PDF viewer with a PDF document</dt>
 <dd>
 <p>Starts a PDF viewer using the setting from the parameter <code>PDF_VIEWER</code>.
 The file option of the task sets the PDF file to be loaded in the viewer.</p>
@@ -1208,6 +1235,12 @@ For details on Asciidoctor and its installation see <a href="https://asciidoctor
 <p>This dependency checks for the tool CLOC, or Count Lines Of Code.
 This tool is used to count lines of code for a variety of languages.
 For details on CLOC see the Github repo at <a href="https://github.com/AlDanial/cloc" class="bare">https://github.com/AlDanial/cloc</a>.</p>
+</dd>
+<dt class="hdlist1"><strong>curl</strong> - software build environment</dt>
+<dd>
+<p>This checks for the availability of the <code>curl</code> command.
+Curl is a library and  command-line tool for transferring data using various protocols.
+It can be used by tasks to download artifacts.</p>
 </dd>
 <dt class="hdlist1"><strong>jdk</strong> - JAVA Development Kit (JDK) 8</dt>
 <dd>
@@ -1294,9 +1327,16 @@ The exit status is <code>0</code>.</p>
 <p>Prints tables with simple statistics of application elements, such as tasks and parameters.
 For more options on statistics and more detailed statistics see the task <code>statistics</code>.</p>
 </dd>
-<dt class="hdlist1"><strong>t</strong>, <strong>tasks</strong> - prints list of available (loaded) tasks</dt>
+<dt class="hdlist1"><strong>t</strong>, <strong>tasks</strong> - lists available (loaded) tasks</dt>
 <dd>
 <p>Shows the list of loaded (i.e. available) tasks.
+The task are presented with their long name, short name, and a description.
+They are alphabetically sorted (long name).
+For more options to list tasks see the task <code>list-tasks</code>.</p>
+</dd>
+<dt class="hdlist1"><strong>ta</strong>, <strong>tasks-application</strong> - lists available (loaded) application tasks</dt>
+<dd>
+<p>Shows the list of loaded (i.e. available) tasks with origin application.
 The task are presented with their long name, short name, and a description.
 They are alphabetically sorted (long name).
 For more options to list tasks see the task <code>list-tasks</code>.</p>
@@ -1425,10 +1465,12 @@ This error is pointing to an application bug.</p>
 <p>This is an internal loader error: the application name was not set.
 This error is pointing to an application bug.</p>
 </dd>
-<dt class="hdlist1"><strong>022</strong> - loader: no application version found, tried $HOME/etc/version.txt</dt>
+<dt class="hdlist1"><strong>022</strong> - loader: version file for application (or framework) not found</dt>
 <dd>
-<p>The loader did not find the required file with the application version.
-The file should be <code>$HOME/etc/version.txt</code>.
+<p>The loader did not find a required version file, for either the application or the framework.
+The application version file should be <code>$APP_HOME/etc/version.txt</code>.
+The framework version file should be <code>$FW_HOME/etc/version.txt</code>.
+Each of these file must contain a single line with the version, usually using semantic versioning.
 This error points to an application bug or installation error.</p>
 </dd>
 <dt class="hdlist1"><strong>023</strong> - loader: could not create TMP DIR</dt>
@@ -1637,7 +1679,7 @@ The license is Apache License 2.0.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-22 13:25:54 GMT
+Last updated 2019-05-08 20:16:29 IST
 </div>
 </div>
 </body>

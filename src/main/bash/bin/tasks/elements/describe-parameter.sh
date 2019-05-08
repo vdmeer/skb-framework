@@ -114,7 +114,7 @@ while true; do
                 BuildTaskHelpLine A all         "<none>"    "all parameters, disables all other filters"            $PRINT_PADDING
                 BuildTaskHelpLine d default     "<none>"    "only parameters with a defined default value"          $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "parameter identifier"                                  $PRINT_PADDING
-                BuildTaskHelpLine I install     "<none>"    "include parameters required only by install tasks"     $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "only parameters required only by install tasks"        $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only parameters from origin: f(w), a(pp)"              $PRINT_PADDING
                 BuildTaskHelpLine r requested   "<none>"    "only requested parameters"                             $PRINT_PADDING
                 BuildTaskHelpLine s status      "STATUS"    "only parameter for status: o, f, e, d"                 $PRINT_PADDING
@@ -278,13 +278,13 @@ for ID in ${!DMAP_PARAM_ORIGIN[@]}; do
             continue
         fi
     fi
-    if [[ -z "$INSTALL" ]]; then
+    if [[ "$INSTALL" == "yes" ]]; then
         found=false
-        ## install not set, so remove all parameters _only_ in 'install' tasks
-        ## so go through DMAP_TASK_REQ_PARAM_MAN and DMAP_TASK_REQ_PARAM_OPT until we find a 'std' task
+        ## install set, so only all parameters _only_ in 'install' tasks
+        ## so go through DMAP_TASK_REQ_PARAM_MAN and DMAP_TASK_REQ_PARAM_OPT until we find an 'install' task
         for TASK_ID in ${!DMAP_TASK_REQ_PARAM_MAN[@]}; do
             for TPARAM in ${DMAP_TASK_REQ_PARAM_MAN[$TASK_ID]}; do
-                if [[ "$TPARAM" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "std" ]]; then
+                if [[ "$TPARAM" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "install" ]]; then
                     found=true
                     break
                 fi
@@ -296,7 +296,7 @@ for ID in ${!DMAP_PARAM_ORIGIN[@]}; do
         if [[ $found == false ]]; then
             for TASK_ID in ${!DMAP_TASK_REQ_PARAM_OPT[@]}; do
                 for TPARAM in ${DMAP_TASK_REQ_PARAM_OPT[$TASK_ID]}; do
-                    if [[ "$TPARAM" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "std" ]]; then
+                    if [[ "$TPARAM" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "install" ]]; then
                         found=true
                         break
                     fi

@@ -964,12 +964,17 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_notes_3">4.2.2. Notes</a></li>
 </ul>
 </li>
-<li><a href="#_set_file_versions">4.3. set-file-versions</a>
+<li><a href="#_download_fw_tool">4.3. download-fw-tool</a>
 <ul class="sectlevel3">
-<li><a href="#_examples_10">4.3.1. Examples</a></li>
-<li><a href="#_requirements_10">4.3.2. Requirements</a></li>
-<li><a href="#_the_build_file">4.3.3. The Build File</a></li>
-<li><a href="#_the_macro_file">4.3.4. The Macro File</a></li>
+<li><a href="#_options_5">4.3.1. Options</a></li>
+</ul>
+</li>
+<li><a href="#_set_file_versions">4.4. set-file-versions</a>
+<ul class="sectlevel3">
+<li><a href="#_examples_10">4.4.1. Examples</a></li>
+<li><a href="#_requirements_10">4.4.2. Requirements</a></li>
+<li><a href="#_the_build_file">4.4.3. The Build File</a></li>
+<li><a href="#_the_macro_file">4.4.4. The Macro File</a></li>
 </ul>
 </li>
 </ul>
@@ -981,7 +986,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>for SKB-Framework v0.0.3, November 22, 2018</p>
+<p>for SKB-Framework v0.0.3, May 08, 2019</p>
 </div>
 </div>
 </div>
@@ -1177,6 +1182,9 @@ Table mode shows two more aspects of dependencies:
 <div class="ulist">
 <ul>
 <li>
+<p><em>install</em> - only dependencies that are only required by tasks that run in <code>install</code> application mode flavor</p>
+</li>
+<li>
 <p><em>origin</em> - filter by declaration origin</p>
 <div class="ulist">
 <ul>
@@ -1219,6 +1227,7 @@ Table mode shows two more aspects of dependencies:
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-I | --install           only dependencies required only by install tasks
 -o | --origin ORIGIN     only dependencies from origin: f(w), a(pp)
 -r | --requested         only requested dependencies
 -s | --status STATUS     only dependencies with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
@@ -1301,6 +1310,9 @@ This table shows the parameter names with their declared default value.</p>
 <p><em>default</em> - show parameters with a set default value</p>
 </li>
 <li>
+<p><em>install</em> - only parameters that are only required by tasks that run in <code>install</code> application mode flavor</p>
+</li>
+<li>
 <p><em>origin</em> - filter by declaration origin</p>
 <div class="ulist">
 <ul>
@@ -1344,6 +1356,7 @@ This table shows the parameter names with their declared default value.</p>
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
 -d | --default           only parameters with a defined default value
+-I | --install           only parameters required only by install tasks
 -o | --origin ORIGIN     only parameters from origin: f(w), a(pp)
 -r | --requested         only requested dependencies
 -s | --status STATUS     only parameter for status: o, f, e, d</code></pre>
@@ -1358,12 +1371,15 @@ If <em>CACHE_DIR</em> is set to a directory that contains cached parameter infor
 <h4 id="_list_scenarios">2.1.7. list-scenarios</h4>
 <div class="paragraph">
 <p>Lists scenarios with their name, short name, and a description.
-Table mode a few more aspects of scenarios:</p>
+Table mode shows a few more aspects of scenarios:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
 <p>the origin of its declaration (framework or application),</p>
+</li>
+<li>
+<p>the application mode flavor, being either <code>S</code> for <code>standard</code> or <code>std</code> or <code>I</code> for <code>install</code>,</p>
 </li>
 <li>
 <p>if the scenario is declared for application <em>dev</em>,</p>
@@ -1384,6 +1400,9 @@ Table mode a few more aspects of scenarios:</p>
 </div>
 <div class="ulist">
 <ul>
+<li>
+<p><em>install</em> - only scenarios that are defined for the <code>install</code> application mode flavor</p>
+</li>
 <li>
 <p><em>loaded</em> - show only scenarios currently loaded</p>
 </li>
@@ -1474,6 +1493,7 @@ Table mode a few more aspects of scenarios:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-I | --install           only scenarios for application mode flavor 'install'
 -l | --loaded            only loaded scenarios
 -m | --mode MODE         only scenarios for application mode: dev, build, use
      --no-a              activate all '--no-' filters
@@ -1497,12 +1517,15 @@ If <em>CACHE_DIR</em> is set to a directory that contains cached scenario inform
 <h4 id="_list_tasks">2.1.8. list-tasks</h4>
 <div class="paragraph">
 <p>Lists tasks with their name, short name, and a description.
-Table mode a few more aspects of tasks:</p>
+Table mode shows a few more aspects of tasks:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
 <p>the origin of its declaration (framework or application),</p>
+</li>
+<li>
+<p>the application mode flavor, being either <code>S</code> for <code>standard</code> or <code>std</code> or <code>I</code> for <code>install</code>,</p>
 </li>
 <li>
 <p>if the task is declared for application <em>dev</em>,</p>
@@ -1523,6 +1546,9 @@ Table mode a few more aspects of tasks:</p>
 </div>
 <div class="ulist">
 <ul>
+<li>
+<p><em>install</em> - only tasks that are defined for the <code>install</code> application mode flavor</p>
+</li>
 <li>
 <p><em>loaded</em> - show only tasks currently loaded</p>
 </li>
@@ -1613,6 +1639,7 @@ Table mode a few more aspects of tasks:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
+-I | --install           only tasks for application mode flavor 'install'
 -l | --loaded            only loaded tasks
 -m | --mode MODE         only tasks for application mode: dev, build, use
      --no-a              activate all '--no-' filters
@@ -1765,6 +1792,9 @@ Provided filters are:</p>
 <p><em>id</em> - identifies a specific dependency and only this one will be described</p>
 </li>
 <li>
+<p><em>install</em> - only dependencies that are only required by tasks that run in <code>install</code> application mode flavor</p>
+</li>
+<li>
 <p><em>origin</em> - filter by declaration origin</p>
 <div class="ulist">
 <ul>
@@ -1808,6 +1838,7 @@ Provided filters are:</p>
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">filters
 -i | --id ID             dependency identifier
+-I | --install           only dependencies required only by install tasks
 -o | --origin ORIGIN     only dependencies from origin: f(w), a(pp)
 -r | --requested         only requested dependencies
 -s | --status STATUS     only dependencies with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
@@ -1885,6 +1916,9 @@ The following filters are provided:</p>
 <p><em>id</em> - only describe a specific parameter, the identifier can be given in lower-case or upper-case or mixed spelling</p>
 </li>
 <li>
+<p><em>install</em> - only parameters that are only required by tasks that run in <code>install</code> application mode flavor</p>
+</li>
+<li>
 <p><em>origin</em> - filter by declaration origin</p>
 <div class="ulist">
 <ul>
@@ -1928,9 +1962,19 @@ The following filters are provided:</p>
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">-d | --default           only parameters with a defined default value
 -i | --id ID             parameter identifier
+-I | --install           only parameters required only by install tasks
 -o | --origin ORIGIN     only parameters from origin: f(w), a(pp)
 -r | --requested         only requested dependencies
 -s | --status STATUS     only parameter for status: o, f, e, d</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This task can also be used to show debug information, rather than descriptions.
+Using the debug option will print all information about one or more parameters (depending on the used filters).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-D | --debug             print debug information instead of description</code></pre>
 </div>
 </div>
 </div>
@@ -1944,6 +1988,9 @@ Provided filters are:</p>
 <ul>
 <li>
 <p><em>id</em> - only describe a specific scenario, the identifier can be the long name or the short name of the scenario</p>
+</li>
+<li>
+<p><em>install</em> - only scenarios that are defined for the <code>install</code> application mode flavor</p>
 </li>
 <li>
 <p><em>loaded</em> - show only scenarios currently loaded</p>
@@ -2007,11 +2054,21 @@ Provided filters are:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">-i | --id ID             scenario identifier
+-I | --install           only scenarios declared for application mode flavor 'install'
 -l | --loaded            only loaded scenarios
 -m | --mode MODE         only scenarios for application mode: dev, build, use
 -o | --origin ORIGIN     only scenarios from origin: f(w), a(pp)
 -s | --status STATUS     only scenarios for status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
 -u | --unloaded          only unloaded scenarios</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This task can also be used to show debug information, rather than descriptions.
+Using the debug option will print all information about one or more dependencies (depending on the used filters).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-D | --debug             print debug information instead of description</code></pre>
 </div>
 </div>
 </div>
@@ -2025,6 +2082,9 @@ Provided filters are:</p>
 <ul>
 <li>
 <p><em>id</em> - only describe a specific task, the identifier can be the long name or the short name of the task</p>
+</li>
+<li>
+<p><em>install</em> - include tasks that are defined for the <code>install</code> application mode flavor</p>
 </li>
 <li>
 <p><em>loaded</em> - show only tasks currently loaded</p>
@@ -2088,11 +2148,21 @@ Provided filters are:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="bash">-i | --id ID             task identifier
+-I | --install           only tasks declared for application mode flavor 'install'
 -l | --loaded            only loaded tasks
 -m | --mode MODE         only tasks for application mode: dev, build, use
 -o | --origin ORIGIN     only tasks from origin: f(w), a(pp)
 -s | --status STATUS     only tasks for status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
 -u | --unloaded          only unloaded tasks</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This task can also be used to show debug information, rather than descriptions.
+Using the debug option will print all information about one or more tasks (depending on the used filters).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-D | --debug             print debug information instead of description</code></pre>
 </div>
 </div>
 </div>
@@ -3353,16 +3423,24 @@ If this option is used, only the loaded tasks and scenarios are listed.
 Loaded here means that the elements are defined for mode the application was started in <em>and</em> have been successfully loaded.</p>
 </li>
 <li>
+<p><em>install</em> - do list tasks and scenarios that are defined for the application mode flavor <code>install</code>
+By default, tasks and scenarios defined for the application mode flavor <code>install</code> are not listed in the manual.
+If used, any task or scenario defined for the flavor <code>install</code> will be listed.
+This filter also extends to parameters and dependencies.
+If used, parameters and dependencies that are <em>only</em> required by one or more <code>install</code> tasks or scenarios will be listed.</p>
+</li>
+<li>
 <p><em>requested</em> - applies to dependency lists and parameter lists.
 If not used, all dependencies and all parameters will be listed.
 If this option is used, only the requested dependencies and parameters are listed.
-Requested here means any dependency or parameter requested by a loade task.</p>
+Requested here means any dependency or parameter requested by a loaded task.</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code data-lang="bash">-l | --loaded      list only loaded tasks and scenarios
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-I | --install     do list 'install' app mode flavor tasks and scenarios
+-l | --loaded      list only loaded tasks and scenarios
 -r | --requested   list only requested dependencies and parameters</code></pre>
 </div>
 </div>
@@ -3807,7 +3885,7 @@ Without this task be available, sites cannot be tested.</p>
 <div class="sect2">
 <h3 id="_clean">3.3. clean</h3>
 <div class="paragraph">
-<p>This tasks cleans, i.e. removes, all artifacts that have been build by other taks.
+<p>This tasks cleans, i.e. removes, all artifacts that have been build by other tasks.
 In addition to that, the directory set by the parameter <em>TARGET</em> will be removed.</p>
 </div>
 <div class="paragraph">
@@ -4008,7 +4086,41 @@ Sufficient permissions must exist to run this task successfully.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_set_file_versions">4.3. set-file-versions</h3>
+<h3 id="_download_fw_tool">4.3. download-fw-tool</h3>
+<div class="paragraph">
+<p>This tasks uses CURL to download the SKB Framework Tool.
+The framework tool is an executable Java JAR file, including all dependencies.
+It is published on Bintray using the same version as the SKB Framework.
+The URL for download (without the filename) is: <a href="https://dl.bintray.com/vdmeer/generic/" class="bare">https://dl.bintray.com/vdmeer/generic/</a> .</p>
+</div>
+<div class="paragraph">
+<p>The framework tool provides mechanisms to convert ADOC text into formatted plain text.
+It is used for instance by the task <code>build-manual</code> to create formatted text versions of the manual.</p>
+</div>
+<div class="paragraph">
+<p>The task uses the setting of the parameter <code>SKB_FRAMEWORK_TOOL</code> to determine which JAR file it should download.
+The output directory will be created if it does not exist.
+If the JAR file already exists, no download will be started (use the force option to force a download).</p>
+</div>
+<div class="sect3">
+<h4 id="_options_5">4.3.1. Options</h4>
+<div class="paragraph">
+<p>The option <em>simulate</em> can be used to simulate all task actions.
+In this mode, the task will only print what it would do.
+The option <em>force</em> can be used to force a download even if the JAR file already exists.
+<em>simulate</em> will overwrite <em>force</em>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="bash">-f | --force       force mode, not questions asked
+-h | --help        print help screen and exit
+-s | --simulate    print only, downloads nothing, overwrites force</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_set_file_versions">4.4. set-file-versions</h3>
 <div class="paragraph">
 <p>This task changes version information in source file headers.
 It runs Apache ANT using a simple build script, which in turn calls a macro that changes the version line.
@@ -4025,7 +4137,7 @@ These files can be used as template for writing other substitutions, if required
 </div>
 </div>
 <div class="sect3">
-<h4 id="_examples_10">4.3.1. Examples</h4>
+<h4 id="_examples_10">4.4.1. Examples</h4>
 <div class="paragraph">
 <p>The following example will change the version in all files in the directory <em>src</em> to <em>0.1.0</em>.
 It will use the default build and macro file.</p>
@@ -4039,7 +4151,7 @@ It will use the default build and macro file.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_requirements_10">4.3.2. Requirements</h4>
+<h4 id="_requirements_10">4.4.2. Requirements</h4>
 <div class="paragraph">
 <p>The task requires Apache ANT (dependency <em>ant</em>).
 It also needs the parameters <em>VERSIONS_BUILD_FILE</em> and <em>VERSIONS_MACRO_FILE</em> to be set.
@@ -4048,7 +4160,7 @@ Settings these parameters will make the task using different build or macro file
 </div>
 </div>
 <div class="sect3">
-<h4 id="_the_build_file">4.3.3. The Build File</h4>
+<h4 id="_the_build_file">4.4.3. The Build File</h4>
 <div class="paragraph">
 <p>The build file is a file called <code>build.xml</code> with information for ANT on what to build, and how.
 The default build file provided by the framework should be sufficient for all use cases.
@@ -4105,7 +4217,7 @@ The start directory is provided by the setting <code>moduleDir</code>, which is 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_the_macro_file">4.3.4. The Macro File</h4>
+<h4 id="_the_macro_file">4.4.4. The Macro File</h4>
 <div class="paragraph">
 <p>The macro file is called <code>macro.xml</code> (default) or defined in the build file (see above).
 The actual macro then must be called <code>push-version</code>.
@@ -4250,7 +4362,7 @@ files: **/*.sh</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-16 09:37:59 GMT
+Last updated 2019-02-06 18:11:57 GMT
 </div>
 </div>
 </body>

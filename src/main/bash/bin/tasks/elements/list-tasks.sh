@@ -114,7 +114,7 @@ while true; do
                 BuildTaskHelpLine T table       "<none>"    "help screen format with additional information"    $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine A         all         "<none>"    "all tasks, disables all other filters"                                     $PRINT_PADDING
-                BuildTaskHelpLine I         install     "<none>"    "include tasks for application mode flavor 'install'"                       $PRINT_PADDING
+                BuildTaskHelpLine I         install     "<none>"    "only tasks for application mode flavor 'install'"                          $PRINT_PADDING
                 BuildTaskHelpLine l         loaded      "<none>"    "only loaded tasks"                                                         $PRINT_PADDING
                 BuildTaskHelpLine m         mode        "MODE"      "only tasks for application mode: all, dev, build, use"                     $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  no-a        "<none>"    "activate all '--no-' filters"                                              $PRINT_PADDING
@@ -227,13 +227,13 @@ done
 if [[ "$ALL" == "yes" ]]; then
     LOADED=
     UNLOADED=
-    APP_MODE=
+    INSTALL=all
+    APP_MODE=all
     ORIGIN=
     STATUS=
     NO_ALL=
     NO_BUILD=
     NO_DESCR=
-    INSTALL=
     NO_LIST=
     NO_START=
 elif [[ $CLI_SET == false ]]; then
@@ -417,8 +417,8 @@ PrintTasks() {
                     ;;
             esac
         fi
-        if [[ -z "$INSTALL" ]]; then
-            if [[ "${DMAP_TASK_MODE_FLAVOR[$ID]}" == "install" ]]; then
+        if [[ -n "$INSTALL" && "$INSTALL" == "yes" ]]; then
+            if [[ "${DMAP_TASK_MODE_FLAVOR[$ID]}" != "install" ]]; then
                 continue
             fi
         fi
@@ -476,6 +476,7 @@ PrintTasks() {
     done
     keys=($(printf '%s\n' "${keys[@]:-}"|sort))
 
+#    printf "%s" "${#keys[@]}"
     for i in ${!keys[@]}; do
         ID=${keys[$i]}
 
