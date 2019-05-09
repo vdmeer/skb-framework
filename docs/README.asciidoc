@@ -16,4 +16,4 @@
 This is the generated and published SKB Framwork web site.
 
 The source is in the SKB Framework project link:https://github.com/vdmeer/skb-framework/tree/master/src/site[git-source].
-The final site is published at link:https://vdmeer.github.io/skb-framework[site].
+The final site is published at link:https://vdmeer.github.io/skb/framework.index.html[site].

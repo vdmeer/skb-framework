@@ -159,22 +159,21 @@ fw_site(){
     local dir
     local directories=()
 
-    if [[ -d docs ]]; then
-        for file in docs/**; do
-            if [[ -f $file ]]; then
-                rm $file
-            elif [[ -d $file ]]; then
-                directories+=("$file")
-            fi
-        done
-        directories=($(printf '%s\n' "${directories[@]:-}"|sort -r))
-        for dir in "${directories[@]}"; do
-            rmdir $dir
-        done
-    fi
+##    if [[ -d docs ]]; then
+##        for file in docs/**; do
+##            if [[ -f $file ]]; then
+##                rm $file
+##            elif [[ -d $file ]]; then
+##                directories+=("$file")
+##            fi
+##        done
+##        directories=($(printf '%s\n' "${directories[@]:-}"|sort -r))
+##        for dir in "${directories[@]}"; do
+##            rmdir $dir
+##        done
+##    fi
 
     src/main/bash/bin/skb-framework --all-mode --install --execute-task build-mvn-site --sq --lq --task-level debug -- --build --targets --id fw
-    (cd docs; chmod 644 `find -type f`)
 }
 
 

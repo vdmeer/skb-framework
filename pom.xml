@@ -53,7 +53,7 @@
                 <artifactId>maven-site-plugin</artifactId>
                 <version>${skb.plugin-version.maven-site}</version>
                 <configuration>
-                    <stagingDirectory>${project.basedir}/docs</stagingDirectory>
+                    <stagingDirectory>${project.basedir}/target/site-framework</stagingDirectory>
                     <relativizeDecorationLinks>false</relativizeDecorationLinks>
                     <asciidoc>
                         <embedAssets>true</embedAssets>
