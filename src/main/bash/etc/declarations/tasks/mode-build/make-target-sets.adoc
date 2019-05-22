@@ -1,0 +1,4 @@
+This task will build Maven sites.
+It uses Apache Maven for the build process.
+The sites need to be provided by he parameter `MVN_SITES`.
+Several options are available to control the build process.

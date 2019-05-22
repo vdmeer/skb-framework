@@ -64,127 +64,6 @@ if [[ -z "${1:-}" ]]; then
 fi
 
 
-##
-## function: clean - cleans all artifacts
-##
-clean(){ 
-    printf "%s\n\n" "clean"
-
-    ./gradlew clean
-    mvn clean
-
-    (cd tool; ./gradlew clean)
-    (cd tool; mvn clean)
-
-    if [[ -d src/main/bash/lib/java ]]; then
-        for file in src/main/bash/lib/java/**; do
-            if [[ -f $file ]]; then
-                rm $file
-            fi
-        done
-        rmdir src/main/bash/lib/java
-    fi
-
-    if [[ -d src/main/bash/doc/manual ]]; then
-        for file in src/main/bash/doc/manual/**; do
-            if [[ -f $file ]]; then
-                rm $file
-            fi
-        done
-        rmdir src/main/bash/doc/manual
-        rmdir src/main/bash/doc
-    fi
-
-    if [[ -d src/main/bash/man/man1 ]]; then
-        for file in src/main/bash/man/man1/**; do
-            if [[ -f $file ]]; then
-                rm $file
-            fi
-        done
-        rmdir src/main/bash/man/man1
-        rmdir src/main/bash/man
-    fi
-
-    printf "\n\n"
-}
-
-
-##
-## function: versions - uses ANT to set file versions in comments
-##
-versions(){
-    printf "%s\n\n" "set file versions"
-    if [[ -f tool/src/main/resources/tool-version.txt ]]; then
-        rm tool/src/main/resources/tool-version.txt
-    fi
-    cp src/main/bash/etc/version.txt tool/src/main/resources/tool-version.txt
-    ant -f ant/build.xml -DmoduleVersion=${RELEASE_VERSION} -DmoduleDir=../
-    chmod 644 src/main/bash/**/*.id src/main/bash/**/*.scn tool/src/**/*.java
-}
-
-
-##
-## function: tool - builds the SKB Framework Tool (java)
-##
-fw_tool(){ 
-    printf "%s\n\n" "building/copying SKB Tool (java)"
-    (cd tool; ./gradlew)
-    mkdir -p src/main/bash/lib/java
-    cp tool/build/libs/skb-framework-tool-${TOOL_VERSION}-all.jar src/main/bash/lib/java
-    printf "\n\n"
-}
-
-
-##
-## function: distro - builds framework artifacts and distributions
-##
-fw_distro(){ 
-    printf "%s\n\n" "building framework distribution artifacts"
-    src/main/bash/bin/skb-framework --all-mode --sq --lq --task-level debug --install --run-scenario build-fw-distro
-
-    printf "%s\n\n" "building distributions"
-    ./gradlew
-    printf "\n\n"
-    printf "%s\n" "distributions in ./build/distributions"
-    ls -l ./build/distributions
-    printf "\n\n"
-}
-
-
-##
-## function: site - builds the Maven site
-##
-fw_site(){
-    local file
-    local dir
-    local directories=()
-
-##    if [[ -d docs ]]; then
-##        for file in docs/**; do
-##            if [[ -f $file ]]; then
-##                rm $file
-##            elif [[ -d $file ]]; then
-##                directories+=("$file")
-##            fi
-##        done
-##        directories=($(printf '%s\n' "${directories[@]:-}"|sort -r))
-##        for dir in "${directories[@]}"; do
-##            rmdir $dir
-##        done
-##    fi
-
-    src/main/bash/bin/skb-framework --all-mode --install --execute-task build-mvn-site --sq --lq --task-level debug -- --build --targets --id fw
-}
-
-
-##
-## function: mkdirs - create required directories
-##
-fw_mkdirs(){ 
-    mkdir -p src/main/bash/man/man1 2> /dev/null
-    mkdir -p src/main/bash/doc/manual 2> /dev/null
-}
-
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -237,25 +116,85 @@ TS=$(date +%s.%N)
 TIME_START=$(date +"%T")
 export SF_MVN_SITES=$PWD
 
+
 if [[ ${T_VERSIONS:-} == true ]]; then
-    versions
+    printf "%s\n\n" "set file versions"
+    if [[ -f tool/src/main/resources/tool-version.txt ]]; then
+        rm tool/src/main/resources/tool-version.txt
+    fi
+    cp src/main/bash/etc/version.txt tool/src/main/resources/tool-version.txt
+    ant -f ant/build.xml -DmoduleVersion=${RELEASE_VERSION} -DmoduleDir=../
+    chmod 644 src/main/bash/**/*.id src/main/bash/**/*.scn tool/src/**/*.java
 fi
 
 if [[ ${T_CLEAN:-} == true ]]; then
-    clean
+    printf "%s\n\n" "clean"
+
+    ./gradlew clean
+    mvn clean
+
+    (cd tool; ./gradlew clean)
+    (cd tool; mvn clean)
+
+    if [[ -d src/main/bash/lib/java ]]; then
+        for file in src/main/bash/lib/java/**; do
+            if [[ -f $file ]]; then
+                rm $file
+            fi
+        done
+        rmdir src/main/bash/lib/java
+    fi
+
+    if [[ -d src/main/bash/doc/manual ]]; then
+        for file in src/main/bash/doc/manual/**; do
+            if [[ -f $file ]]; then
+                rm $file
+            fi
+        done
+        rmdir src/main/bash/doc/manual
+        rmdir src/main/bash/doc
+    fi
+
+    if [[ -d src/main/bash/man/man1 ]]; then
+        for file in src/main/bash/man/man1/**; do
+            if [[ -f $file ]]; then
+                rm $file
+            fi
+        done
+        rmdir src/main/bash/man/man1
+        rmdir src/main/bash/man
+    fi
+
+    printf "\n\n"
 fi
 
 if [[ ${T_TOOL:-} == true ]]; then
-    fw_tool
+    printf "%s\n\n" "building/copying SKB Tool (java)"
+    (cd tool; ./gradlew)
+    mkdir -p src/main/bash/lib/java
+    cp tool/build/libs/skb-framework-tool-${TOOL_VERSION}-all.jar src/main/bash/lib/java
+    printf "\n\n"
 fi
+
 if [[ ${T_MKDIRS:-} == true ]]; then
-    fw_mkdirs
+    mkdir -p src/main/bash/man/man1 2> /dev/null
+    mkdir -p src/main/bash/doc/manual 2> /dev/null
 fi
+
 if [[ ${T_DIST:-} == true ]]; then
-    fw_distro
+    printf "%s\n\n" "building framework distribution artifacts"
+    src/main/bash/bin/skb-framework --all-mode --sq --lq --task-level debug --install --run-scenario build-fw-distro
+
+    printf "%s\n\n" "building distributions"
+    ./gradlew
+    printf "\n\n"
+    printf "%s\n" "distributions in ./build/distributions"
+    ls -l ./build/distributions
+    printf "\n\n"
 fi
+
 if [[ ${T_SITE:-} == true ]]; then
-    fw_site
+    src/main/bash/bin/skb-framework --all-mode --install --execute-task build-mvn-site --sq --lq --task-level debug -- --build --targets --id fw
 fi
 
 

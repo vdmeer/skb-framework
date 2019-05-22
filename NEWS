@@ -15,6 +15,7 @@ Version 0.0.4 2019-##-##
     * removed SKB Tool jar from distribution and added download-fw-tool task
     * added curl dependency
     * added command 'ta' as shortuct for 'list-tasks -o a'
+    * added task 'build-target-sets'
 
 
 Version 0.0.3 2018-11-22

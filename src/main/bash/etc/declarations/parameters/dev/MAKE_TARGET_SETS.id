@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+##
+## Identity for parameter MAKE_TARGET_SETS
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.3
+##
+
+DESCRIPTION="list of directories with target sets"
+DEFAULT_VALUE=
+
+IS_DIRECTORY_LIST=yes
