@@ -3,11 +3,12 @@
 ## Identity for task list-dependencies
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 SHORT=ld
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="lists dependencies"
 EXEC_PATH=bin/tasks/elements
 

@@ -1,0 +1,5 @@
+        This task will execute so called Target Sets (TS). It requires a  file
+        `skb-ts.id`  to  define  the  target  set  and  an   associated   file
+        `skb-ts-scripts.skb` with the function to run.  The  task  then  takes
+        required targets as argument and runs them in  the  right  order.  The
+        target sets need to be provided by he parameter `MAKE_TARGET_SETS`.   

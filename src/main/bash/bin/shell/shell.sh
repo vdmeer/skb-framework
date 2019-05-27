@@ -24,7 +24,7 @@
 ## Framework Interactive Shell
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -149,6 +149,13 @@ FWInterpreter() {
             ShellAddCmdHistory
             ;;
 #end::fwi-tasks[]
+
+#tag::fwi-tasks-application[]
+        tasks-application | "tasks-application "* | ta | "ta "*)
+            ${DMAP_TASK_EXEC["list-tasks"]} --origin app
+            ShellAddCmdHistory
+            ;;
+#end::fwi-tasks-application[]
 
 #tag::fwi-comment[]
         "" | "#" | "#"* | "# "*)

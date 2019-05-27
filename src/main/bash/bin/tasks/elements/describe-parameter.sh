@@ -24,7 +24,7 @@
 ## describe-parameter - describes a parameter or parameters
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -62,23 +62,25 @@ ConsoleResetWarnings
 ## set local variables
 ##
 PRINT_MODE=
+D_FORMAT=descr
 
 PARAM_ID=
 DEFAULT=
 ORIGIN=
 REQUESTED=
 STATUS=
-ALL=
+INSTALL=
 
 CLI_SET=false
+ALL=
 
 
 
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=Adhi:o:P:rs:
-CLI_LONG_OPTIONS=all,default,help,id:,origin:,print-mode:,requested,status:
+CLI_OPTIONS=AdDhi:Io:P:rs:
+CLI_LONG_OPTIONS=all,debug,default,help,id:,install,origin:,print-mode:,requested,status:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-parameter -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -104,6 +106,7 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "describe-parameter")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
+                BuildTaskHelpLine D debug       "<none>"    "print debug information instead of description"    $PRINT_PADDING
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
 
@@ -111,18 +114,28 @@ while true; do
                 BuildTaskHelpLine A all         "<none>"    "all parameters, disables all other filters"            $PRINT_PADDING
                 BuildTaskHelpLine d default     "<none>"    "only parameters with a defined default value"          $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "parameter identifier"                                  $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "only parameters required only by install tasks"        $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only parameters from origin: f(w), a(pp)"              $PRINT_PADDING
-                BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                           $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "only requested parameters"                             $PRINT_PADDING
                 BuildTaskHelpLine s status      "STATUS"    "only parameter for status: o, f, e, d"                 $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
             exit 0
             ;;
+        -D | --debug)
+            shift
+            D_FORMAT=debug
+            ;;
         -i | --id)
             PARAM_ID="${2^^}"
             CLI_SET=true
             shift 2
+            ;;
+        -I | --install)
+            INSTALL=yes
+            CLI_SET=true
+            shift
             ;;
         -o | --origin)
             ORIGIN="$2"
@@ -155,7 +168,6 @@ while true; do
 done
 
 
-
 ############################################################################################
 ## test CLI
 ############################################################################################
@@ -169,6 +181,7 @@ if [[ "$ALL" == "yes" || $CLI_SET == false ]]; then
     ORIGIN=
     REQUESTED=
     STATUS=
+    INSTALL=
 else
     if [[ -n "$PARAM_ID" ]]; then
         if [[ -z ${DMAP_PARAM_ORIGIN[$PARAM_ID]:-} ]]; then
@@ -212,6 +225,14 @@ else
         esac
     fi
 fi
+case $D_FORMAT in
+    descr | debug)
+        ;;
+    *)
+        ConsoleFatal "  ->" "dp: internal error: unknown describe format '$D_FORMAT'"
+        exit 69
+        ;;
+esac
 
 
 ############################################################################################
@@ -257,13 +278,50 @@ for ID in ${!DMAP_PARAM_ORIGIN[@]}; do
             continue
         fi
     fi
+    if [[ "$INSTALL" == "yes" ]]; then
+        found=false
+        ## install set, so only all parameters _only_ in 'install' tasks
+        ## so go through DMAP_TASK_REQ_PARAM_MAN and DMAP_TASK_REQ_PARAM_OPT until we find an 'install' task
+        for TASK_ID in ${!DMAP_TASK_REQ_PARAM_MAN[@]}; do
+            for TPARAM in ${DMAP_TASK_REQ_PARAM_MAN[$TASK_ID]}; do
+                if [[ "$TPARAM" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "install" ]]; then
+                    found=true
+                    break
+                fi
+            done
+            if [[ $found == true ]]; then
+                break
+            fi
+        done
+        if [[ $found == false ]]; then
+            for TASK_ID in ${!DMAP_TASK_REQ_PARAM_OPT[@]}; do
+                for TPARAM in ${DMAP_TASK_REQ_PARAM_OPT[$TASK_ID]}; do
+                    if [[ "$TPARAM" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "install" ]]; then
+                        found=true
+                        break
+                    fi
+                done
+                if [[ $found == true ]]; then
+                    break
+                fi
+            done
+        fi
+        if [[ $found == false ]]; then
+            continue
+        fi
+    fi
     keys=(${keys[@]:-} $ID)
 done
 keys=($(printf '%s\n' "${keys[@]:-}"|sort))
 
 for i in ${!keys[@]}; do
     ID=${keys[$i]}
-    DescribeParameter $ID full "$PRINT_MODE line-indent" $PRINT_MODE
+    case $D_FORMAT in
+        descr)
+            DescribeParameter $ID full "$PRINT_MODE line-indent" $PRINT_MODE ;;
+        debug)
+            DebugParameter $ID ;;
+    esac
 done
 
 ConsoleInfo "  -->" "dp: done"

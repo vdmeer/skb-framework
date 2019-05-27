@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+##
+## Identity for task validate-installation
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.4
+##
+
+SHORT=vi
+MODES="dev build use"
+MODE_FLAVOR="install"
+DESCRIPTION="validates an installation"
+EXEC_PATH=bin/tasks/install
+
+TaskRequire $ID param SCENARIO_PATH opt

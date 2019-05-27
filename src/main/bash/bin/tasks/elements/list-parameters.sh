@@ -24,7 +24,7 @@
 ## list-parameters - list parameters
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -68,6 +68,7 @@ DEFAULT=
 ORIGIN=
 REQUESTED=
 STATUS=
+INSTALL=
 
 CLI_SET=false
 ALL=
@@ -77,8 +78,8 @@ ALL=
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=AdDho:P:rs:T
-CLI_LONG_OPTIONS=all,default,def-table,help,origin:,print-mode:,requested,status:,table
+CLI_OPTIONS=AdDhIo:P:rs:T
+CLI_LONG_OPTIONS=all,default,def-table,help,install,origin:,print-mode:,requested,status:,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-parameters -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -103,16 +104,17 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "list-parameters")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
-                BuildTaskHelpLine D def-table   "<none>"    "print default value table"         $PRINT_PADDING
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"      $PRINT_PADDING
-                BuildTaskHelpLine T table       "<none>"    "help screen format"                $PRINT_PADDING
+                BuildTaskHelpLine D def-table   "<none>"    "print default value table"                         $PRINT_PADDING
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "help screen format with additional information"    $PRINT_PADDING
                 printf "\n   filters\n"
-                BuildTaskHelpLine A all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
+                BuildTaskHelpLine A all         "<none>"    "all options, disables all other filters"               $PRINT_PADDING
                 BuildTaskHelpLine d default     "<none>"    "only parameters with a defined default value"          $PRINT_PADDING
-                BuildTaskHelpLine o origin      "ORIGIN"    "only parameters from origin: f(w), a(pp)"      $PRINT_PADDING
-                BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                   $PRINT_PADDING
-                BuildTaskHelpLine s status      "STATUS"    "only parameter for status: o, f, e, d"         $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "only parameters required only by install tasks"        $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "only parameters from origin: f(w), a(pp)"              $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "only requested parameters"                             $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "only parameter for status: o, f, e, d"                 $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
@@ -121,6 +123,11 @@ while true; do
 
         -d | --default)
             DEFAULT=yes
+            CLI_SET=true
+            shift
+            ;;
+        -I | --install)
+            INSTALL=yes
             CLI_SET=true
             shift
             ;;
@@ -169,6 +176,7 @@ if [[ "$ALL" == "yes" ]]; then
     ORIGIN=
     REQUESTED=
     STATUS=
+    INSTALL=
 elif [[ $CLI_SET == false ]]; then
     ALL=
 else
@@ -208,6 +216,14 @@ else
         esac
     fi
 fi
+case $LS_FORMAT in
+    list | table | default-table)
+        ;;
+    *)
+        ConsoleFatal "  ->" "lp: internal error: unknown list format '$LS_FORMAT'"
+        exit 69
+        ;;
+esac
 
 
 declare -A PARAM_TABLE
@@ -309,8 +325,12 @@ function ListBottom() {
 ## parameter print function
 ############################################################################################
 PrintParameters() {
+    local ID
+    local TASK_ID
+    local TPARAM
     local i
     local keys
+    local found
 
     for ID in ${!DMAP_PARAM_ORIGIN[@]}; do
         if [[ -n "$REQUESTED" ]]; then
@@ -340,6 +360,38 @@ PrintParameters() {
         fi
         if [[ -n "$ORIGIN" ]]; then
             if [[ ! "$ORIGIN" == "${DMAP_PARAM_ORIGIN[$ID]}" ]]; then
+                continue
+            fi
+        fi
+        if [[ "$INSTALL" == "yes" ]]; then
+            found=false
+            ## install set, so all parameters _only_ in 'install' tasks
+            ## so go through DMAP_TASK_REQ_PARAM_MAN and DMAP_TASK_REQ_PARAM_OPT until we find an 'install' task
+            for TASK_ID in ${!DMAP_TASK_REQ_PARAM_MAN[@]}; do
+                for TPARAM in ${DMAP_TASK_REQ_PARAM_MAN[$TASK_ID]}; do
+                    if [[ "$TPARAM" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "install" ]]; then
+                        found=true
+                        break
+                    fi
+                done
+                if [[ $found == true ]]; then
+                    break
+                fi
+            done
+            if [[ $found == false ]]; then
+                for TASK_ID in ${!DMAP_TASK_REQ_PARAM_OPT[@]}; do
+                    for TPARAM in ${DMAP_TASK_REQ_PARAM_OPT[$TASK_ID]}; do
+                        if [[ "$TPARAM" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "install" ]]; then
+                            found=true
+                            break
+                        fi
+                    done
+                    if [[ $found == true ]]; then
+                        break
+                    fi
+                done
+            fi
+            if [[ $found == false ]]; then
                 continue
             fi
         fi
@@ -405,10 +457,6 @@ case $LS_FORMAT in
         DefaultTableTop
         PrintParameters
         DefaultTableBottom
-        ;;
-    *)
-        ConsoleFatal "  ->" "lp: internal error: unknown list format '$LS_FORMAT'"
-        exit 69
         ;;
 esac
 

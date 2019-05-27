@@ -24,7 +24,7 @@
 ## Describe: describe a parameter
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -269,3 +269,43 @@ ParameterInTable() {
     printf "$SPRINT"
 }
 
+
+
+##
+## DebugParameter
+## - debugs a parameter, provides all internal information about a parameter
+## $1: parameter id
+##
+DebugParameter() {
+    local ID=${1:-}
+    if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "debug-param - unknown parameter '$ID'"
+        return
+    fi
+
+    local SPRINT=""
+    local TMP_VAL
+    local FOUND
+    local DESCRIPTION=${DMAP_PARAM_DESCR[$ID]:-}
+    local TEMPLATE="  %ID% - %DESCRIPTION%"
+    TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID")}
+    TEMPLATE=${TEMPLATE//%DESCRIPTION%/$(PrintEffect italic "$DESCRIPTION")}
+    SPRINT+=$TEMPLATE"\n"
+
+    SPRINT+="    - origin:        "${DMAP_PARAM_ORIGIN[$ID]}"\n"
+    SPRINT+="    - default value: "$(DescribeParameterDefValue $ID)"\n"
+    if [[ -n "${DMAP_PARAM_IS[$ID]:-}" ]]; then
+        SPRINT+="    - param is:      "${DMAP_PARAM_IS[$ID]}"\n"
+    fi
+
+    TMP_VAL=${DMAP_PARAM_DECL[$ID]}
+    TMP_VAL=${TMP_VAL/${CONFIG_MAP["FW_HOME"]}/\$FW_HOME}
+    TMP_VAL=${TMP_VAL/${CONFIG_MAP["APP_HOME"]}/\$APP_HOME}
+    SPRINT+="    - declaration:   "$TMP_VAL"\n"
+
+    if [[ -n "${RTMAP_REQUESTED_PARAM[$ID]:-}" ]]; then
+        SPRINT+="    - requested by: "${RTMAP_REQUESTED_PARAM[$ID]}"\n"
+    fi
+
+    printf "$SPRINT\n"
+}

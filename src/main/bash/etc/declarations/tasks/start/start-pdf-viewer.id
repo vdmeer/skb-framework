@@ -3,12 +3,13 @@
 ## Identity for task start-browser
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 SHORT=spv
 MODES="dev build use"
-DESCRIPTION="start a PDF viewer with a PDF document"
+MODE_FLAVOR="std"
+DESCRIPTION="starts a PDF viewer with a PDF document"
 EXEC_PATH=bin/tasks/start
 
 TaskRequire $ID param PDF_VIEWER opt

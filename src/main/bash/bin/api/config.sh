@@ -24,7 +24,7 @@
 ## Functions: config - runtime configuration
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -85,6 +85,7 @@ WriteRuntimeConfig() {
     declare -p DMAP_TASK_SHORT >> $file
     declare -p DMAP_TASK_EXEC >> $file
     declare -p DMAP_TASK_MODES >> $file
+    declare -p DMAP_TASK_MODE_FLAVOR >> $file
 
     declare -p DMAP_TASK_REQ_PARAM_MAN >> $file
     declare -p DMAP_TASK_REQ_PARAM_OPT >> $file
@@ -107,6 +108,8 @@ WriteRuntimeConfig() {
     declare -p DMAP_SCN_SHORT >> $file
     declare -p DMAP_SCN_EXEC >> $file
     declare -p DMAP_SCN_MODES >> $file
+    declare -p DMAP_SCN_MODE_FLAVOR >> $file
+
 
     declare -p DMAP_SCN_REQ_TASK_MAN >> $file
     declare -p DMAP_SCN_REQ_TASK_OPT >> $file

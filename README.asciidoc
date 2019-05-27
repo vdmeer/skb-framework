@@ -1,5 +1,4 @@
-
-:release-version: 0.0.1
+:release-version: 0.0.4
 = SKB Framework
 v{release-version}
 :page-layout: base
@@ -19,6 +18,16 @@ We have tested it on
 * Cygwin on Windows 7 and 10
 * Windows 10 WSL with Ubuntu 18 installed
 * Mac OS X
+
+
+----
+sudo add-apt-repository ppa:vdmeer/skb
+sudo apt-get update 
+sudo apt-get install skb-framework
+sudo -u skbused skb-framework 
+
+(the last line only to make sure it runs as the created user, can run as any user) 
+----
 
 
 === Requirements

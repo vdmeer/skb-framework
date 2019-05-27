@@ -24,7 +24,7 @@
 ## Loader Initialisation: parse CLI and set CLI map
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -43,12 +43,13 @@ ParseCli() {
     ConsoleInfo "-->" "parse-cli"
     ConsoleResetErrors
 
-    local CLI_OPTIONS=ABCcDd:e:hL:mo:p:P:r:sS:T:vV
+    local CLI_OPTIONS=ABCcDd:e:hIL:mo:p:P:r:sS:T:vV
 
     local CLI_LONG_OPTIONS=loader-level:,shell-level:,task-level:
     CLI_LONG_OPTIONS+=,manual,run-scenario:,configuration,version,validate,help
     CLI_LONG_OPTIONS+=,option:,parameter:,dependency:
     CLI_LONG_OPTIONS+=,strict
+    CLI_LONG_OPTIONS+=,install
     CLI_LONG_OPTIONS+=,print-mode:,clean-cache,execute-task:,build-mode,dev-mode,all-mode
     CLI_LONG_OPTIONS+=,lq,sq,tq,snp
 
@@ -98,6 +99,11 @@ ParseCli() {
                 ;;
             -h | --help)
                 OPT_CLI_MAP["help"]=true
+                shift 1
+                ;;
+            -I | --install)
+                CONFIG_MAP["APP_MODE_FLAVOR"]="install"
+                CONFIG_SRC["APP_MODE_FLAVOR"]="O"
                 shift 1
                 ;;
             -L | --loader-level)

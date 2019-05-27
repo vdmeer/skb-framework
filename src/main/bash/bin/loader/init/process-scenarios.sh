@@ -24,7 +24,7 @@
 ## Loader Initialisation: process scenarios
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -68,7 +68,6 @@ ProcessScenarioReqTask() {
                 else
                     SetArtifactStatus scn $ID S
                     RTMAP_SCN_LOADED[$ID]="${RTMAP_SCN_LOADED[$ID]:-} task"
-#                     RTMAP_SCN_LOADED[$ID]=ok
                     ConsoleDebug "process-scenario/task - processed '$ID' for task '$TASK' with success"
                 fi
             fi
@@ -91,13 +90,11 @@ ProcessScenarioReqTask() {
                     else
                         SetArtifactStatus scn $ID W
                         RTMAP_SCN_LOADED[$ID]="${RTMAP_SCN_LOADED[$ID]:-} task"
-#                         RTMAP_SCN_LOADED[$ID]=ok
                         ConsoleDebug "process-scenario/task - processed '$ID' for task '$TASK' with warn"
                     fi
                 else
                     SetArtifactStatus scn $ID S
                     RTMAP_SCN_LOADED[$ID]="${RTMAP_SCN_LOADED[$ID]:-} task"
-#                     RTMAP_SCN_LOADED[$ID]=ok
                     ConsoleDebug "process-scenario/task - processed '$ID' for task '$TASK' with success"
                 fi
             fi
@@ -135,16 +132,29 @@ ProcessScenarios() {
             esac
         fi
 
+        if [[ $LOAD_SCN == false ]]; then
+            ConsoleDebug "scenario '$ID' not defined for current mode '${CONFIG_MAP["APP_MODE"]}', not loaded"
+            SetArtifactStatus scn $ID N
+            continue
+        fi
+
+        if [[ "${CONFIG_MAP["APP_MODE_FLAVOR"]}" == "${DMAP_SCN_MODE_FLAVOR[$ID]:-}" ]]; then
+            LOAD_SCN=true
+        elif [[ "${DMAP_SCN_MODE_FLAVOR[$ID]:-}" == "std" ]]; then
+            LOAD_SCN=true
+        else
+            ConsoleDebug "scenario '$ID' not defined for current app mode flavor '${CONFIG_MAP["APP_MODE_FLAVOR"]}', not loaded"
+            SetArtifactStatus scn $ID N
+            LOAD_SCN=false
+        fi
+
+
         if [[ $LOAD_SCN == true ]]; then
             RTMAP_SCN_LOADED[$ID]="${RTMAP_SCN_LOADED[$ID]:-} mode"
-#            RTMAP_SCN_LOADED[$ID]=ok
-            ConsoleDebug "process-scenario/mode - processed '$ID' for mode with success"
+            ConsoleDebug "process-scenario/mode - processed '$ID' for mode and flavor with success"
             SetArtifactStatus scn $ID S
 
             ProcessScenarioReqTask $ID
-        else
-            ConsoleDebug "scenario '$ID' not defined for current mode '${CONFIG_MAP["APP_MODE"]}', not loaded"
-            SetArtifactStatus scn $ID N
         fi
     done
 

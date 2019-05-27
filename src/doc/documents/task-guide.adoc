@@ -1,11 +1,11 @@
 //
 // ============LICENSE_START=======================================================
-//  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
 // ================================================================================
-// This file is licensed under the CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL LICENSE
-// Full license text at https://creativecommons.org/licenses/by/4.0/legalcode
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
 // 
-// SPDX-License-Identifier: CC-BY-4.0
+// SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
@@ -70,6 +70,8 @@ include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-mvn-site.adoc[
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/clean.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/make-target-sets.adoc[leveloffset=+1]
+
 
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/dev-tasks.adoc[]
@@ -77,6 +79,8 @@ include::{skb-site-main-dir}/doc/fragments/task-guide/dev-tasks.adoc[]
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-cache.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-help.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/download-fw-tool.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/set-file-versions.adoc[leveloffset=+1]
 

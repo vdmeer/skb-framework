@@ -26,7 +26,7 @@
 ## - they behave similar to Java logging frameworks
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -313,7 +313,7 @@ ConsoleWarn() {
             LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
             ;;
     esac
-    case ${CONFIG_MAP["LOADER_LEVEL"]} in
+    case $LEVEL in
         all | warn | info | debug | trace)
             SPRINT=$(printf "%s [" "$1")
             SPRINT+=$(PrintColor yellow "Warning")

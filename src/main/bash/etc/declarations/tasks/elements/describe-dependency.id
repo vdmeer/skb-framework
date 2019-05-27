@@ -3,10 +3,11 @@
 ## Identity for task describe-dependency
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 SHORT=dd
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="describes a dependency"
 EXEC_PATH=bin/tasks/elements

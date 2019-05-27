@@ -24,7 +24,7 @@
 ## set-file-versions - sets version information in source file comments
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -146,7 +146,7 @@ if [[ ${MACRO_FILE} == false ]]; then
     MACRO_FILE=${CONFIG_MAP["VERSIONS_MACRO_FILE"]}
 fi
 if [[ ${NEW_VERSION} == false ]]; then
-    NEW_VERSION=${CONFIG_MAP["VERSION"]}
+    NEW_VERSION=${CONFIG_MAP["APP_VERSION"]}
 fi
 
 if [[ ${DIRECTORY} == false ]]; then

@@ -28,7 +28,7 @@
 ## - starts the shell for interactive use or runs the shell with a scenario
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -103,6 +103,7 @@ CONFIG_MAP["SYSTEM"]=$(uname -s | cut -c1-6)        # set system, e.g. for Cygwi
 CONFIG_MAP["CONFIG_FILE"]="$HOME/.skb"              # config file, in user's home directory
 CONFIG_MAP["STRICT"]=off                            # not strict, yet (change with --strict)
 CONFIG_MAP["APP_MODE"]=use                          # default application mode is use, change with --all-mode, --build-mode, --dev-mode
+CONFIG_MAP["APP_MODE_FLAVOR"]=std                   # default application mode flavor is std, change with --install
 CONFIG_MAP["PRINT_MODE"]=ansi                       # default print mode is ansi, change with --print-mode
 
 CONFIG_MAP["LOADER_LEVEL"]="error"                  # output level for loader, change with --loader-level, set to "debug" for early code debugging
@@ -188,9 +189,16 @@ else
 fi
 source $FW_HOME/bin/loader/declare/app-maps.sh
 if [[ -f ${CONFIG_MAP["APP_HOME"]}/etc/version.txt ]]; then
-    CONFIG_MAP["VERSION"]=$(cat ${CONFIG_MAP["APP_HOME"]}/etc/version.txt)
+    CONFIG_MAP["APP_VERSION"]=$(cat ${CONFIG_MAP["APP_HOME"]}/etc/version.txt)
 else
     ConsoleFatal " ->" "no application version found, tried \$APP_HOME/etc/version.txt"
+    printf "\n"
+    exit 22
+fi
+if [[ -f ${CONFIG_MAP["FW_HOME"]}/etc/version.txt ]]; then
+    CONFIG_MAP["FW_VERSION"]=$(cat ${CONFIG_MAP["FW_HOME"]}/etc/version.txt)
+else
+    ConsoleFatal " ->" "no framework version found, tried \$FW_HOME/etc/version.txt"
     printf "\n"
     exit 22
 fi

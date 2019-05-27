@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.vandermeer</groupId>
     <artifactId>skb-framework</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
@@ -39,10 +39,6 @@
         <skb-site-target-dir>${project.basedir}/target</skb-site-target-dir>
     </properties>
 
-    <prerequisites>
-        <maven>3.0.0</maven>
-    </prerequisites>
-
     <distributionManagement>
         <site>
             <id>${project.artifactId}-site</id>
@@ -57,7 +53,7 @@
                 <artifactId>maven-site-plugin</artifactId>
                 <version>${skb.plugin-version.maven-site}</version>
                 <configuration>
-                    <stagingDirectory>${project.basedir}/docs</stagingDirectory>
+                    <stagingDirectory>${project.basedir}/target/site-framework</stagingDirectory>
                     <relativizeDecorationLinks>false</relativizeDecorationLinks>
                     <asciidoc>
                         <embedAssets>true</embedAssets>

@@ -24,7 +24,7 @@
 ## Describe: describe a scenario
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -33,7 +33,7 @@
 ##
 
 SCN_PADDING=27
-SCN_STATUS_LENGHT=9
+SCN_STATUS_LENGHT=11
 SCN_LINE_MIN_LENGTH=49
 COLUMNS=$(tput cols)
 COLUMNS=$((COLUMNS - 2))
@@ -43,7 +43,7 @@ DESCRIPTION_LENGTH=$((COLUMNS - SCN_PADDING - SCN_STATUS_LENGHT - 1))
 ##
 ## DescribeScenario
 ## - describes a scenario using print options and print features
-## $1: scenario id, mustbe long form
+## $1: scenario id, must be long form
 ## $2: print option: standard, full
 ## $3: print features: none, line-indent, enter, post-line, (adoc, ansi, text*)
 ## optional $4: print mode (adoc, ansi, text)
@@ -193,6 +193,17 @@ DescribeScenarioStatus() {
 
     printf "%s " "${DMAP_SCN_ORIGIN[$ID]:0:1}"
 
+    FLAVOR=${DMAP_SCN_MODE_FLAVOR[$ID]}
+    case "$FLAVOR" in
+        std)
+            PrintColor cyan S
+            ;;
+        install)
+            PrintColor purple I
+            ;;
+    esac
+    printf " "
+
     MODE=${DMAP_SCN_MODES[$ID]}
     case "$MODE" in
         *dev*)
@@ -235,7 +246,7 @@ DescribeScenarioStatus() {
 ##
 ## function: ScenarioInTable
 ## - main scenario details for table views
-## $1: ID, mustbe long form
+## $1: ID, must be long form
 ## optional $2: print mode (adoc, ansi, text)
 ##
 ScenarioInTable() {
@@ -260,3 +271,70 @@ ScenarioInTable() {
     printf "$SPRINT"
 }
 
+
+
+##
+## DebugScenario
+## - debugs a scenario, provides all internal information about a scenario
+## $1: scenario id, must be long form
+##
+DebugScenario() {
+    local ID=${1:-}
+    if [[ -z ${DMAP_SCN_ORIGIN[$ID]:-} ]]; then
+        ConsoleError " ->" "debug-scn - unknown scenario ID '$ID'"
+        return
+    fi
+
+    local SHORT
+    for SHORT in ${!DMAP_SCN_SHORT[@]}; do
+        if [[ "${DMAP_SCN_SHORT[$SHORT]}" == "$ID" ]]; then
+            break
+        fi
+    done
+
+    local SPRINT=""
+    local TMP_VAL
+    local FOUND
+    local DESCRIPTION=${DMAP_SCN_DESCR[$ID]:-}
+    local TEMPLATE="  %ID%, %SHORT% - %DESCRIPTION%"
+    TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID")}
+    TEMPLATE=${TEMPLATE//%SHORT%/$(PrintEffect bold "$SHORT")}
+    TEMPLATE=${TEMPLATE//%DESCRIPTION%/$(PrintEffect italic "$DESCRIPTION")}
+    SPRINT+=$TEMPLATE"\n"
+
+    SPRINT+="    - origin:      "${DMAP_SCN_ORIGIN[$ID]}"\n"
+    SPRINT+="    - modes:       "${DMAP_SCN_MODES[$ID]}"\n"
+    SPRINT+="    - mode flavor: "${DMAP_SCN_MODE_FLAVOR[$ID]}"\n"
+
+    TMP_VAL=${DMAP_SCN_DECL[$ID]}
+    TMP_VAL=${TMP_VAL/${CONFIG_MAP["FW_HOME"]}/\$FW_HOME}
+    TMP_VAL=${TMP_VAL/${CONFIG_MAP["APP_HOME"]}/\$APP_HOME}
+    SPRINT+="    - declaration: "$TMP_VAL"\n"
+
+    TMP_VAL=${DMAP_SCN_EXEC[$ID]}
+    TMP_VAL=${TMP_VAL/${CONFIG_MAP["FW_HOME"]}/\$FW_HOME}
+    TMP_VAL=${TMP_VAL/${CONFIG_MAP["APP_HOME"]}/\$APP_HOME}
+    SPRINT+="    - executable:  "$TMP_VAL"\n"
+
+    SPRINT+="\n    "$(PrintEffect italic "Requirements and dependencies")"\n"
+    FOUND=false
+    if [[ -n "${DMAP_SCN_REQ_TASK_MAN[$ID]:-}" ]]; then
+        SPRINT+="      - tasks, mandatory:  "${DMAP_SCN_REQ_TASK_MAN[$ID]:-}"\n"
+        FOUND=true
+    fi
+    if [[ -n "${DMAP_SCN_REQ_TASK_OPT[$ID]:-}" ]]; then
+        SPRINT+="      - tasks, optional:   "${DMAP_SCN_REQ_TASK_OPT[$ID]:-}"\n"
+        FOUND=true
+    fi
+
+    SPRINT+="\n    "$(PrintEffect italic "Load and status")"\n"
+    SPRINT+="      - load status:   "${RTMAP_SCN_STATUS[$ID]:-}"\n"
+    if [[ -n "${RTMAP_SCN_LOADED[$ID]:-}" ]]; then
+        SPRINT+="      - load comments:"${RTMAP_SCN_LOADED[$ID]:-}"\n"
+    fi
+    if [[ -n "${RTMAP_SCN_UNLOADED[$ID]:-}" ]]; then
+        SPRINT+="      "$(PrintColor light-red "unloaded")"\n"
+    fi
+
+    printf "$SPRINT\n"
+}

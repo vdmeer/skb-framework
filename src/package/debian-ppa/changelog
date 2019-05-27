@@ -1,3 +1,32 @@
+skb-framework (0.0.4-1) bionic; urgency=medium
+
+    * added application mode flavor, supported is "install" and "std"
+        ** new maps for tasks and scenarios for app mode flavor
+        ** install filter for describe/list task/scenario/param/dep
+        ** added MODE_FLAVOR to task/scenario identifiers and CONFIG_MAP
+        ** moved several task into new app mode flavor 'install', changed directories for declaration and scripts
+        ** new CLI option to activate 'install' application mode flavor
+    * CONFIG_MAP: separated VERSION into APP_VERSION and FW_VERSION
+    * build-manual
+        ** fixed errros for non-existing application declarations
+        ** added install option for tasks and scenarios
+    * RTMAP_REQUESTED_DEP and RTMAP_REQUESTED_PARAM now hold lists of tasks per entry
+    * added debug option to describe task/dependency/parameter/scenario
+    * added download-fw-tool task for SKB Tool jar
+    * added curl dependency
+    * added command 'ta' as shortuct for 'list-tasks -o a'
+    * added task 'make-target-sets'
+
+ -- Sven van der Meer <vdmeer.sven@mykolab.com>  Mon, 27 May 2019 14:00:00 +0000
+
+
+skb-framework (0.0.3-2) bionic; urgency=medium
+
+  * Moved link to /usr/local as required by build
+
+ -- Sven van der Meer <vdmeer.sven@mykolab.com>  Thu, 22 Nov 2018 14:00:00 +0000
+
+
 skb-framework (0.0.3-1) bionic; urgency=medium
 
   * Harmonizing github, bintray, and ppa releases

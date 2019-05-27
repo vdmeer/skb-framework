@@ -24,7 +24,7 @@
 ## Describe: describe an exit status (error code)
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 ES_PADDING=6

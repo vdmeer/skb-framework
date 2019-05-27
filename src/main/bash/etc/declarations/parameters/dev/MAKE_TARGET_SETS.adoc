@@ -1,0 +1,4 @@
+This parameter should provide a list of directories that contain an `skb-ts.id` file to run task sets.
+Use whitespaces to separate directories.
+Tasks that run task sets, such as `make-arget-sets` will use this parameter to find the identifier files.
+If not present, these tasks will not execute.

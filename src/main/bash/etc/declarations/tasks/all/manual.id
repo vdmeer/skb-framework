@@ -3,11 +3,12 @@
 ## Identity for task manual
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 SHORT=man
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="shows the manual in various versions"
 EXEC_PATH=bin/tasks/all
 

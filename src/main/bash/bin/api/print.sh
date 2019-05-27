@@ -24,7 +24,7 @@
 ## Functions for printing settings, values, etc
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -43,6 +43,19 @@ PrintAppMode() {
         dev)    PrintColor yellow           "${CONFIG_MAP["APP_MODE"]}" ;;
         build)  PrintColor light-blue       "${CONFIG_MAP["APP_MODE"]}" ;;
         use)    PrintColor green            "${CONFIG_MAP["APP_MODE"]}" ;;
+    esac
+}
+
+
+
+##
+## function: PrintAppModeFlavor
+## - prints the application mode flavor
+##
+PrintAppModeFlavor() {
+    case "${CONFIG_MAP["APP_MODE_FLAVOR"]}" in
+        std)        PrintColor cyan             "${CONFIG_MAP["APP_MODE_FLAVOR"]}" ;; 
+        install)    PrintColor purple           "${CONFIG_MAP["APP_MODE_FLAVOR"]}" ;;
     esac
 }
 

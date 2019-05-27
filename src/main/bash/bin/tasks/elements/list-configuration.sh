@@ -24,7 +24,7 @@
 ## list-configuration - list configuration
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -166,6 +166,14 @@ done
 if [[ $ALL == true  || $CLI_SET == false ]]; then
     FILTER="cli default env file internal"
 fi
+case $LS_FORMAT in
+    list | table)
+        ;;
+    *)
+        ConsoleFatal "  ->" "lcfg: internal error: unknown list format '$LS_FORMAT'"
+        exit 69
+        ;;
+esac
 
 
 STATUS_PADDING=22
@@ -233,6 +241,7 @@ function ListBottom() {
 ## configuration print function
 ############################################################################################
 PrintConfiguration() {
+    local ID
     local i
     local keys
     local found
@@ -313,6 +322,9 @@ PrintConfiguration() {
             APP_MODE)
                 PrintAppMode
                 ;;
+            APP_MODE_FLAVOR)
+                PrintAppModeFlavor
+                ;;
             FLAVOR)
                 PrintEffect bold "$sc_str"
                 ;;
@@ -369,10 +381,6 @@ case $LS_FORMAT in
         TableTop
         PrintConfiguration
         TableBottom
-        ;;
-    *)
-        ConsoleFatal "  ->" "lcfg: internal error: unknown list format '$LS_FORMAT'"
-        exit 69
         ;;
 esac
 

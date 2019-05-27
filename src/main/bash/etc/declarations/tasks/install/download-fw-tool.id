@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+##
+## Identity for download-fw-tool
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.4
+##
+
+SHORT=dfwt
+MODES="dev"
+MODE_FLAVOR="install"
+DESCRIPTION="uses curl to download the framework tool"
+EXEC_PATH=bin/tasks/install
+
+TaskRequire $ID dep curl
+
+TaskRequire $ID param SKB_FW_TOOL
+TaskRequire $ID dir ${CONFIG_MAP["FW_HOME"]}/lib/java opt

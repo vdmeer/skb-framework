@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.vandermeer</groupId>
     <artifactId>skb-framework-tool</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
@@ -29,10 +29,6 @@
         <skb.dep-version.asciilist>0.0.5</skb.dep-version.asciilist>
         <skb.dep-version.junit>4.12</skb.dep-version.junit>
     </properties>
-
-    <prerequisites>
-        <maven>3.0.0</maven>
-    </prerequisites>
 
     <distributionManagement>
         <site>

@@ -24,7 +24,7 @@
 ## describe-dependency - describes a dependency or dependencies
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -62,21 +62,25 @@ ConsoleResetWarnings
 ## set local variables
 ##
 PRINT_MODE=
+D_FORMAT=descr
+
 DEP_ID=
 TESTED=
 ORIGIN=
 REQUESTED=
 STATUS=
-ALL=
+INSTALL=
+
 CLI_SET=false
+ALL=
 
 
 
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=Ahi:o:P:rs:t
-CLI_LONG_OPTIONS=all,help,id:,origin:,print-mode:,status:,tested,requested
+CLI_OPTIONS=ADhi:Io:P:rs:t
+CLI_LONG_OPTIONS=all,debug,help,id:,install,origin:,print-mode:,status:,tested,requested
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-dependency -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -97,11 +101,13 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "describe-dependency")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
+                BuildTaskHelpLine D debug       "<none>"    "print debug information instead of description"    $PRINT_PADDING
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
                 printf "\n   filters\n"
                 BuildTaskHelpLine A all         "<none>"    "all dependencies, disables all other filters"                                      $PRINT_PADDING
                 BuildTaskHelpLine i id          "ID"        "dependency identifier"                                                             $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "only dependencies required only by install tasks"                                  $PRINT_PADDING
                 BuildTaskHelpLine o origin      "ORIGIN"    "only dependencies from origin: f(w), a(pp)"                                        $PRINT_PADDING
                 BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                                                       $PRINT_PADDING
                 BuildTaskHelpLine s status      "STATUS"    "only dependencies with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"     $PRINT_PADDING
@@ -111,10 +117,19 @@ while true; do
             fi
             exit 0
             ;;
+        -D | --debug)
+            shift
+            D_FORMAT=debug
+            ;;
         -i | --id)
             DEP_ID="$2"
             CLI_SET=true
             shift 2
+            ;;
+        -I | --install)
+            INSTALL=yes
+            CLI_SET=true
+            shift
             ;;
         -o | --origin)
             ORIGIN="$2"
@@ -167,7 +182,7 @@ if [[ "$ALL" == "yes" ]]; then
     ORIGIN=
     REQUESTED=
     STATUS=
-    ALL=
+    INSTALL=
 elif [[ $CLI_SET == false ]]; then
     TESTED=yes
 else
@@ -209,6 +224,14 @@ else
         esac
     fi
 fi
+case $D_FORMAT in
+    descr | debug)
+        ;;
+    *)
+        ConsoleFatal "  ->" "dd: internal error: unknown describe format '$D_FORMAT'"
+        exit 69
+        ;;
+esac
 
 
 
@@ -249,13 +272,50 @@ for ID in ${!DMAP_DEP_ORIGIN[@]}; do
             continue
         fi
     fi
+    if [[ "$INSTALL" == "yes" ]]; then
+        found=false
+        ## install set, so show all dependencies _only_ in 'install' tasks
+        ## so go through DMAP_TASK_REQ_DEP_MAN and DMAP_TASK_REQ_DEP_OPT until we find an 'install' task
+        for TASK_ID in ${!DMAP_TASK_REQ_DEP_MAN[@]}; do
+            for TDEP in ${DMAP_TASK_REQ_DEP_MAN[$TASK_ID]}; do
+                if [[ "$TDEP" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "install" ]]; then
+                    found=true
+                    break
+                fi
+            done
+            if [[ $found == true ]]; then
+                break
+            fi
+        done
+        if [[ $found == false ]]; then
+            for TASK_ID in ${!DMAP_TASK_REQ_DEP_OPT[@]}; do
+                for TDEP in ${DMAP_TASK_REQ_DEP_OPT[$TASK_ID]}; do
+                    if [[ "$TDEP" == "$ID" && "${DMAP_TASK_MODE_FLAVOR[$TASK_ID]:-}" == "install" ]]; then
+                        found=true
+                        break
+                    fi
+                done
+                if [[ $found == true ]]; then
+                    break
+                fi
+            done
+        fi
+        if [[ $found == false ]]; then
+            continue
+        fi
+    fi
     keys=(${keys[@]:-} $ID)
 done
 keys=($(printf '%s\n' "${keys[@]:-}"|sort))
 
 for i in ${!keys[@]}; do
     ID=${keys[$i]}
-    DescribeDependency $ID full "$PRINT_MODE line-indent" $PRINT_MODE
+    case $D_FORMAT in
+        descr)
+            DescribeDependency $ID full "$PRINT_MODE line-indent" $PRINT_MODE ;;
+        debug)
+            DebugDependency $ID ;;
+    esac
 done
 
 ConsoleInfo "  -->" "dd: done"

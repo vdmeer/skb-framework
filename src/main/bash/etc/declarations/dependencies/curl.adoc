@@ -1,0 +1,3 @@
+This checks for the availability of the `curl` command.
+Curl is a library and  command-line tool for transferring data using various protocols.
+It can be used by tasks to download artifacts.

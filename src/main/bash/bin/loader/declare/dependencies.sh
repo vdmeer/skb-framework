@@ -24,7 +24,7 @@
 ## Declare: dependencies
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -34,7 +34,7 @@
 
 
 declare -A DMAP_DEP_ORIGIN              # map [id]=origin
-declare -A DMAP_DEP_DECL                # map [id]=decl-file w/o .id eding
+declare -A DMAP_DEP_DECL                # map [id]=decl-file w/o .id ending
 declare -A DMAP_DEP_CMD                 # map [id]=exec-script
 declare -A DMAP_DEP_DESCR               # map [id]="descr-tag-line"
 declare -A DMAP_DEP_REQ_DEP             # map [id]=(dep-id, ...)

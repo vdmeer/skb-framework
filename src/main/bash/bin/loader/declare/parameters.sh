@@ -24,7 +24,7 @@
 ## Declare: parameters
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -34,12 +34,11 @@
 
 
 declare -A DMAP_PARAM_ORIGIN            # map [id]=origin
-declare -A DMAP_PARAM_DECL              # map [id]=decl-file w/o .id eding
+declare -A DMAP_PARAM_DECL              # map [id]=decl-file w/o .id ending
 declare -A DMAP_PARAM_DEFVAL            # map [id]="default value"
 declare -A DMAP_PARAM_DESCR             # map [id]="descr-tag-line"
 
 declare -A DMAP_PARAM_IS                # map [id]=none, file, dir, dir-cd, file-list, dir-list
-
 
 
 ##

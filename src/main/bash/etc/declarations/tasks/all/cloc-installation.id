@@ -3,11 +3,12 @@
 ## Identity for task cloc-inst
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 SHORT=cloci
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="counts lines of code of an installation"
 EXEC_PATH=bin/tasks/all
 

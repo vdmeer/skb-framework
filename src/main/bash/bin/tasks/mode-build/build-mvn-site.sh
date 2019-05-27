@@ -24,7 +24,7 @@
 ## build-mvn-site - builds one or more Maven sites
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -193,7 +193,7 @@ fi
 ############################################################################################
 LoadSite(){
     local ID
-    local Description
+    local DESCRIPTION
 
     if [[ ! -d "$1" ]]; then
         ConsoleError "  ->" "bdms: not a directory: '$1'"
@@ -208,9 +208,20 @@ LoadSite(){
         return
     fi
     source $1/skb-site.id
-    ConsoleDebug "found site '$ID' described as '$DESCRIPTION'"
+
+    if [[ -z "${ID:-}" ]]; then
+        ConsoleError "  ->" "bdms: no ID in 'skb-ts' in directory '$1'"
+        return
+    fi
+    if [[ -z "${DESCRIPTION:-}" ]]; then
+        ConsoleError "  ->" "bdms: no DESCRIPTION in 'skb-ts' in directory '$1'"
+        return
+    fi
+
     MVN_SITE_LIST[$ID]=$DESCRIPTION
     MVN_SITE_PATH[$ID]=$1
+
+    ConsoleDebug "found site '$ID' described as '$DESCRIPTION'"
 }
 
 
@@ -323,7 +334,7 @@ if [[ $DO_BUILD == true ]]; then
                 BuildSite $SITE_ID
             fi
         else
-            ConsoleError "  ->" "bdms: no side given for build, use --all or --id"
+            ConsoleError "  ->" "bdms: no site given for build, use --all or --id"
         fi
     else
         ConsoleError "  ->" "bdms: no targets given for build"

@@ -3,11 +3,12 @@
 ## Identity for task build-mvn-site
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 SHORT=bdms
 MODES="dev build"
+MODE_FLAVOR="std"
 DESCRIPTION="builds one or more Maven sites"
 EXEC_PATH=bin/tasks/mode-build
 

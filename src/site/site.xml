@@ -25,7 +25,7 @@
         </head>
 
         <menu name="SKB FRAMEWORK">
-            <item href="index.html" name="Wellcome" />
+            <item href="index.html" name="Welcome" />
             <item href="manual.html" name="Manual" collapse="false">
                 <item href="manual/options.html" name="Options" />
                 <item href="manual/parameters.html" name="Parameters" />
@@ -57,13 +57,15 @@
                     <item href="task-guide/tasks/wait.html" name="wait" />
                 </item>
                 <item href="task-guide/build-tasks.html" name="Build Tasks" collapse="true">
-                    <item href="task-guide/tasks/clean.html" name="clean" />
                     <item href="task-guide/tasks/build-manual.html" name="build-manual" />
                     <item href="task-guide/tasks/build-mvn-site.html" name="build-mvn-site" />
+                    <item href="task-guide/tasks/clean.html" name="clean" />
+                    <item href="task-guide/tasks/make-target-sets.html" name="make-target-sets" />
                 </item>
                 <item href="task-guide/dev-tasks.html" name="Development Tasks" collapse="true">
                     <item href="task-guide/tasks/build-cache.html" name="build-cache" />
                     <item href="task-guide/tasks/build-help.html" name="build-help" />
+                    <item href="task-guide/tasks/download-fw-tool.html" name="download-fw-tool" />
                     <item href="task-guide/tasks/set-file-versions.html" name="set-file-versions" />
                 </item>
             </item>
@@ -100,7 +102,7 @@
         <footer>
             <![CDATA[
                 <p>
-                    Copyright &copy; 2018 Sven van der Meer. All rights reserved.
+                    Copyright &copy; 2018-2019 Sven van der Meer. All rights reserved.
                 </p>
                 <p>
                     <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.

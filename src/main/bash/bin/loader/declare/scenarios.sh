@@ -24,7 +24,7 @@
 ## Declare: scenarios
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -34,11 +34,12 @@
 
 
 declare -A DMAP_SCN_ORIGIN              # map [id]=origin
-declare -A DMAP_SCN_DECL                # map [id]=decl-file w/o .id eding
+declare -A DMAP_SCN_DECL                # map [id]=decl-file w/o .id ending
 declare -A DMAP_SCN_SHORT               # map [id]=short-scenario ID
 declare -A DMAP_SCN_EXEC                # map [id]=scenario-script
 declare -A DMAP_SCN_DESCR               # map [id]="descr-tag-line"
 declare -A DMAP_SCN_MODES               # map [id]="modes"
+declare -A DMAP_SCN_MODE_FLAVOR         # map [id]=flavor
 
 declare -A DMAP_SCN_REQ_TASK_MAN        # map [id]=(task-id, ...)
 declare -A DMAP_SCN_REQ_TASK_OPT        # map [id]=(task-id, ...)
@@ -115,6 +116,7 @@ DeclareScenarioOrigin() {
         local TEST_ID
         local EXECUTABLE
         local MODES
+        local MODE_FLAVOR
         local DESCRIPTION
         local NO_ERRORS=true
         local mode
@@ -134,6 +136,7 @@ DeclareScenarioOrigin() {
 
             SHORT=
             MODES=
+            MODE_FLAVOR=
             DESCRIPTION=
             source "$file"
 
@@ -162,6 +165,21 @@ DeclareScenarioOrigin() {
                 done
             fi
 
+            if [[ -z "${MODE_FLAVOR:-}" ]]; then
+                ConsoleError " ->" "declare scenario - '$ID' has no app mode flavor defined"
+                HAVE_ERRORS=true
+            else
+                case $MODE_FLAVOR in
+                    std | install)
+                        ConsoleDebug "scenario '$ID' found app mode flavor '$MODE_FLAVOR'"
+                        ;;
+                    *)
+                        ConsoleError " ->" "declare scenario - '$ID' with unknown app mode flavor '$MODE_FLAVOR'"
+                        HAVE_ERRORS=true
+                        ;;
+                esac
+            fi
+
             if [[ -z "${DESCRIPTION:-}" ]]; then
                 ConsoleError " ->" "declare scenario - '$ID' has no description"
                 HAVE_ERRORS=true
@@ -184,6 +202,7 @@ DeclareScenarioOrigin() {
                 DMAP_SCN_DECL[$ID]=${file%.*}
                 DMAP_SCN_EXEC[$ID]=$EXECUTABLE
                 DMAP_SCN_MODES[$ID]="$MODES"
+                DMAP_SCN_MODE_FLAVOR[$ID]="$MODE_FLAVOR"
                 DMAP_SCN_DESCR[$ID]="$DESCRIPTION"
                 if [[ ! -z ${SHORT:-} ]]; then
                     DMAP_SCN_SHORT[$SHORT]=$ID

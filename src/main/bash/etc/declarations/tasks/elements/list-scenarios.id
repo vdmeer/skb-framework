@@ -3,11 +3,12 @@
 ## Identity for task list-scenarios
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 SHORT=ls
 MODES="dev build use"
+MODE_FLAVOR="std"
 DESCRIPTION="lists scenarios"
 EXEC_PATH=bin/tasks/elements
 

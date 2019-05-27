@@ -24,7 +24,7 @@
 ## Loader Initialisation: process tasks
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 
@@ -50,8 +50,7 @@ declare -A RTMAP_REQUESTED_PARAM    # map for requested parameters
 ##
 ## Add standard parameters settable from the outside as requested
 ##
-RTMAP_REQUESTED_PARAM["SHELL_PROMPT"]="SHELL_PROMPT"
-RTMAP_REQUESTED_PARAM["CACHE_DIR"]="CACHE_DIR"
+RTMAP_REQUESTED_PARAM["SHELL_PROMPT"]="loader"
 
 # RTMAP_REQUESTED_DEP["DUMMY"]=dummy
 
@@ -206,7 +205,7 @@ ProcessTaskReqParam() {
                 RTMAP_TASK_UNLOADED[$ID]="${RTMAP_TASK_UNLOADED[$ID]:-} par-id::$PARAM"
                 SetArtifactStatus task $ID E
             else
-                RTMAP_REQUESTED_PARAM[$PARAM]=$PARAM
+                RTMAP_REQUESTED_PARAM[$PARAM]="${RTMAP_REQUESTED_PARAM[$PARAM]:-} $ID"
                 if [[ -z "${CONFIG_MAP[$PARAM]:-}" ]]; then
                     ConsoleError " ->" "process-task/param - $ID with unset parameter '$PARAM', set as '${CONFIG_MAP["FLAVOR"]}_$PARAM'"
                     RTMAP_TASK_UNLOADED[$ID]="${RTMAP_TASK_UNLOADED[$ID]:-} par-set::$PARAM"
@@ -261,7 +260,7 @@ ProcessTaskReqParam() {
                 RTMAP_TASK_UNLOADED[$ID]="${RTMAP_TASK_UNLOADED[$ID]:-} par-id::$PARAM"
                 SetArtifactStatus task $ID E
             else
-                RTMAP_REQUESTED_PARAM[$PARAM]=$PARAM
+                RTMAP_REQUESTED_PARAM[$PARAM]="${RTMAP_REQUESTED_PARAM[$PARAM]:-} $ID"
                 if [[ -z "${CONFIG_MAP[$PARAM]:-}" ]]; then
                     ConsoleWarnStrict " ->" "process-task/param - $ID with unset parameter '$PARAM'"
                     if [[ "${CONFIG_MAP["STRICT"]}" == "on" ]]; then
@@ -324,17 +323,19 @@ ProcessTaskReqParam() {
 ## function: TestDependency
 ## - tests a dependency
 ## $1: dependency-id
+## $2: task-id of the requireing task
 ##
 TestDependency() {
     local DEP=$1
+    local TASK=$2
 
-    RTMAP_REQUESTED_DEP[$DEP]=$DEP
+    RTMAP_REQUESTED_DEP[$DEP]="${RTMAP_REQUESTED_DEP[$DEP]:-} $TASK"
     if [[ "${RTMAP_DEP_STATUS[$DEP]:-}" != "N" ]]; then
         ConsoleDebug "process-task/dep - dependency '$DEP' already tested"
     else
         if [[ ! -z ${DMAP_DEP_REQ_DEP[$DEP]:-} ]]; then
             ConsoleDebug "process-task/dep - testing prior dependency '${DMAP_DEP_REQ_DEP[$DEP]}'"
-            TestDependency ${DMAP_DEP_REQ_DEP[$DEP]}
+            TestDependency ${DMAP_DEP_REQ_DEP[$DEP]} $2
         fi
 
         ConsoleDebug "process-task/dep - testing dependency '$DEP'"
@@ -374,7 +375,7 @@ ProcessTaskReqDep() {
                 RTMAP_TASK_UNLOADED[$ID]="${RTMAP_TASK_UNLOADED[$ID]:-} dep-id::$DEP"
                 SetArtifactStatus task $ID E
             else
-                TestDependency $DEP
+                TestDependency $DEP $ID
                 if [[ "${RTMAP_DEP_STATUS[$DEP]:-}" == "S" ]]; then
                     SetArtifactStatus task $ID S
                     RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"
@@ -396,7 +397,7 @@ ProcessTaskReqDep() {
                 RTMAP_TASK_UNLOADED[$ID]="${RTMAP_TASK_UNLOADED[$ID]:-} dep-id::$DEP"
                 SetArtifactStatus task $ID E
             else
-                TestDependency $DEP
+                TestDependency $DEP $ID
                 if [[ "${RTMAP_DEP_STATUS[$DEP]:-}" == "S" ]]; then
                     SetArtifactStatus task $ID S
                     RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} dep"
@@ -608,18 +609,31 @@ ProcessTasks() {
             esac
         fi
 
+        if [[ $LOAD_TASK == false ]]; then
+            ConsoleDebug "task '$ID' not defined for current mode '${CONFIG_MAP["APP_MODE"]}', not loaded"
+            SetArtifactStatus task $ID N
+            continue
+        fi
+
+        if [[ "${CONFIG_MAP["APP_MODE_FLAVOR"]}" == "${DMAP_TASK_MODE_FLAVOR[$ID]:-}" ]]; then
+            LOAD_TASK=true
+        elif [[ "${DMAP_TASK_MODE_FLAVOR[$ID]:-}" == "std" ]]; then
+            LOAD_TASK=true
+        else
+            ConsoleDebug "task '$ID' not defined for current app mode flavor '${CONFIG_MAP["APP_MODE_FLAVOR"]}', not loaded"
+            SetArtifactStatus task $ID N
+            LOAD_TASK=false
+        fi
+
         if [[ $LOAD_TASK == true ]]; then
             RTMAP_TASK_LOADED[$ID]="${RTMAP_TASK_LOADED[$ID]:-} mode"
-            ConsoleDebug "process-task/mode - processed '$ID' for mode with success"
+            ConsoleDebug "process-task/mode - processed '$ID' for mode and flavor with success"
             SetArtifactStatus task $ID S
 
             ProcessTaskReqParam $ID
             ProcessTaskReqDep $ID
             ProcessTaskReqDir $ID
             ProcessTaskReqFile $ID
-        else
-            ConsoleDebug "task '$ID' not defined for current mode '${CONFIG_MAP["APP_MODE"]}', not loaded"
-            SetArtifactStatus task $ID N
         fi
     done
 
@@ -627,7 +641,9 @@ ProcessTasks() {
     for ID in "${!DMAP_TASK_ORIGIN[@]}"; do
         case ${DMAP_TASK_MODES[$ID]} in
             *${CONFIG_MAP["APP_MODE"]}*)
-                ProcessTaskReqTask $ID
+                if [[ "${CONFIG_MAP["APP_MODE_FLAVOR"]}" == "${DMAP_TASK_MODE_FLAVOR[$ID]:-}" || "${DMAP_TASK_MODE_FLAVOR[$ID]:-}" == "std" ]]; then
+                    ProcessTaskReqTask $ID
+                fi
                 ;;
         esac
     done
