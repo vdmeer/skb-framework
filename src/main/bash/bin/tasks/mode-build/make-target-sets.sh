@@ -382,7 +382,7 @@ done
 
 
 if [[ -n "$TARGET_SET_ID" ]]; then
-    if [[ -z "${:-}" ]]; then
+    if [[ -z "${TARGET_SET_LIST[$TARGET_SET_ID]:-}" ]]; then
         ConsoleError "  ->" "mts: unknown target set ID '$TARGET_SET_ID'"
     fi
 fi

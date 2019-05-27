@@ -13,6 +13,23 @@ TsRunTask() {
     shopt -s globstar
 
     case $1 in
+        help)
+            printf "\n    available targets"
+            printf "\n       all           - runs all targets, except help"
+            printf "\n       clean         - removes all created artifacts"
+            printf "\n       help          - prints this help"
+            printf "\n"
+            printf "\n       versions      - sets version strings in source files"
+            printf "\n       tool          - builds the framework tool (Java app to convert ADOC to TXT)"
+            printf "\n       mkdirs        - creates required directories"
+            printf "\n       dist          - builds distribution archives (not the PPA!)"
+            printf "\n       site          - creates the framework site"
+            printf "\n\n    Notes: "
+            printf "\n       - separate all required targets using a comma."
+            printf "\n       - sequence of given targets is not critical, they are always build in the right order."
+            printf "\n"
+            ;;
+
         clean)
             ./gradlew clean
             mvn clean

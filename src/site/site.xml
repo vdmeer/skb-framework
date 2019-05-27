@@ -57,9 +57,10 @@
                     <item href="task-guide/tasks/wait.html" name="wait" />
                 </item>
                 <item href="task-guide/build-tasks.html" name="Build Tasks" collapse="true">
-                    <item href="task-guide/tasks/clean.html" name="clean" />
                     <item href="task-guide/tasks/build-manual.html" name="build-manual" />
                     <item href="task-guide/tasks/build-mvn-site.html" name="build-mvn-site" />
+                    <item href="task-guide/tasks/clean.html" name="clean" />
+                    <item href="task-guide/tasks/make-target-sets.html" name="make-target-sets" />
                 </item>
                 <item href="task-guide/dev-tasks.html" name="Development Tasks" collapse="true">
                     <item href="task-guide/tasks/build-cache.html" name="build-cache" />

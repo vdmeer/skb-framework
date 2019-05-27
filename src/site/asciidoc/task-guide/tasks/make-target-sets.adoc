@@ -11,4 +11,4 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-manual.adoc[]
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/make-target-sets.adoc[]

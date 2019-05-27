@@ -11,7 +11,7 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-== build-mvn-site
+== make-target-sets
 This task can be used to build Maven sites.
 Beside calling Apache Maven, it also provides functionality to run scripts before building and before staging a site.
 Those scripts can take full advantage of the framework and its API.

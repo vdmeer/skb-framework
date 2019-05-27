@@ -24,7 +24,7 @@
 ## Describe: describe a (shell) command
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 CMD_PADDING=32

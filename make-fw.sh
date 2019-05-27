@@ -21,19 +21,52 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Build script for the SKB Framework
-## - builds all artifacts for distributions
+## make script for the SKB-Framework
+## - runs the SKB-Framework with task make-target-sets
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    v1.0.0
 ##
 
 set -o errexit -o pipefail -o noclobber -o nounset
 shopt -s globstar
 
+
+##
+## Basic settings
+##
+SKB_FRAMEWORK=src/main/bash/bin/skb-framework
+
+
+
+##
+## SKB-Framework settings (SF)
+##
 export SF_MVN_SITES=$PWD
 export SF_MAKE_TARGET_SETS=$PWD
 
+
+
+##
+## Check if we have some command line
+## - if not, we need help, and then exit
+## - if there's any indication for help, print help
+##
+if [[ -z "${1:-}" || "${1}" == "-h" || "${1}" == "--help" || "${1}" == "help" ]]; then
+    if [[ -z "${1:-}" ]]; then
+        printf "No target given\n"
+    fi
+    source skb-ts-scripts.skb
+    TsRunTask help
+    exit 1
+fi
+
+
+
+##
+## Everything looks ok, run SF and call 'make-target-sets' for our target set 'skb-fw'
+##
 mkdir -p src/main/bash/man/man1 2> /dev/null
 mkdir -p src/main/bash/doc/manual 2> /dev/null
 
-src/main/bash/bin/skb-framework --all-mode --snp --task-level debug --install -e make-target-sets -- --all -t $1
+$SKB_FRAMEWORK --all-mode --install --execute-task make-target-sets --snp --task-level debug -- --id skb-fw --targets $1
