@@ -19,7 +19,6 @@ TsRunTask() {
             printf "\n       clean         - removes all created artifacts"
             printf "\n       help          - prints this help"
             printf "\n"
-            printf "\n       versions      - sets version strings in source files"
             printf "\n       tool          - builds the framework tool (Java app to convert ADOC to TXT)"
             printf "\n       mkdirs        - creates required directories"
             printf "\n       dist          - builds distribution archives (not the PPA!)"
@@ -65,15 +64,6 @@ TsRunTask() {
                 rmdir src/main/bash/man/man1
                 rmdir src/main/bash/man
             fi
-            ;;
-
-        versions)
-            if [[ -f tool/src/main/resources/tool-version.txt ]]; then
-                rm tool/src/main/resources/tool-version.txt
-            fi
-            cp src/main/bash/etc/version.txt tool/src/main/resources/tool-version.txt
-            ant -f ant/build.xml -DmoduleVersion=${RELEASE_VERSION} -DmoduleDir=../
-            chmod 644 src/main/bash/**/*.id src/main/bash/**/*.scn tool/src/**/*.java
             ;;
 
         tool)

@@ -28,7 +28,7 @@
 ## - starts the shell for interactive use or runs the shell with a scenario
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.3
+## @version    0.0.4
 ##
 
 

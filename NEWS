@@ -12,7 +12,7 @@ Version 0.0.4 2019-##-##
         ** added install option for tasks and scenarios
     * RTMAP_REQUESTED_DEP and RTMAP_REQUESTED_PARAM now hold lists of tasks per entry
     * added debug option to describe task/dependency/parameter/scenario
-    * removed SKB Tool jar from distribution and added download-fw-tool task
+    * added download-fw-tool task for SKB Tool jar
     * added curl dependency
     * added command 'ta' as shortuct for 'list-tasks -o a'
     * added task 'make-target-sets'
