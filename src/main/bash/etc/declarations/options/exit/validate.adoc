@@ -2,3 +2,4 @@ Validates the installation of the application and exits.
 Internally, the task `validate-installation` is called.
 The validation is done for all targets and in `strict` mode.
 This means that all warnings result in errors.
+Requires the application to be started in `install` flavor (`-I` switch).

@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
 ##
-# Identity for Shell command exit
+## Identity for Shell command exit
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.4
