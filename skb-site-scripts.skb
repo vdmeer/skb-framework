@@ -77,6 +77,18 @@ MvnSitePostScript() {
     MvnSiteFixAdoc target/site/manual/exit-status           "Manual: Exit Status"
 
     MvnSiteFixAdoc target/site/user-guide                           "User Guide"
+        MvnSiteFixAdoc target/site/user-guide/install                   "Install"
+            MvnSiteFixAdoc target/site/user-guide/install/releases              "Releases"
+            MvnSiteFixAdoc target/site/user-guide/install/requirements          "Requirements"
+            MvnSiteFixAdoc target/site/user-guide/install/automated             "Automated"
+            MvnSiteFixAdoc target/site/user-guide/install/deb                   "DEB"
+            MvnSiteFixAdoc target/site/user-guide/install/rpm                   "RPM"
+            MvnSiteFixAdoc target/site/user-guide/install/tgz                   "TGZ"
+            MvnSiteFixAdoc target/site/user-guide/install/from-source           "Build and Install from Source"
+            MvnSiteFixAdoc target/site/user-guide/install/verify-installation   "Verify Installation"
+            MvnSiteFixAdoc target/site/user-guide/install/build-cache           "Build Runtime Cache"
+        MvnSiteFixAdoc target/site/user-guide/performance               "Performance"
+        MvnSiteFixAdoc target/site/user-guide/system-configuration      "System Configuration"
 
     MvnSiteFixAdoc target/site/task-guide                           "Task Guide"
         MvnSiteFixAdoc target/site/task-guide/use-tasks                 "Use Tasks"
@@ -106,6 +118,14 @@ MvnSitePostScript() {
             MvnSiteFixAdoc target/site/task-guide/tasks/set-file-versions   "Task: Set File Versions"
 
     MvnSiteFixAdoc target/site/developer-guide                      "Developer Guide"
+        MvnSiteFixAdoc target/site/developer-guide/layouts              "Dev Guide: Layouts and Directory Structure"
+            MvnSiteFixAdoc target/site/developer-guide/layouts/app-bin          "Layout: bin"
+            MvnSiteFixAdoc target/site/developer-guide/layouts/app-doc          "Layout: doc"
+            MvnSiteFixAdoc target/site/developer-guide/layouts/app-etc          "Layout: etc"
+            MvnSiteFixAdoc target/site/developer-guide/layouts/app-lib          "Layout: lib"
+            MvnSiteFixAdoc target/site/developer-guide/layouts/app-man          "Layout: man"
+            MvnSiteFixAdoc target/site/developer-guide/layouts/app-scenarios    "Layout: scenarios"
+
         MvnSiteFixAdoc target/site/developer-guide/api                  "Dev Guide: API"
             MvnSiteFixAdoc target/site/developer-guide/api/commands         "API: Commands"
             MvnSiteFixAdoc target/site/developer-guide/api/config           "API: Config"

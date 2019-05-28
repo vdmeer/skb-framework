@@ -13,6 +13,8 @@
 
 == Config
 
+The following function can be used to manage the runtime configuration of the framework (or the running application).
+
 === WriteRuntimeConfig
 Writes runtime configuration file.
 The file name is taken from `CONFIG_MAP["FW_L1_CONFIG"]`.

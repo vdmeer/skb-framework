@@ -1,0 +1,11 @@
+##
+## Scenario ID for: build-fw-cache
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.4
+##
+
+SHORT=bfc
+MODES="dev"
+MODE_FLAVOR="install"
+DESCRIPTION="builds the complete runtime cache"

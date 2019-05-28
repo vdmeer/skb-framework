@@ -12,3 +12,34 @@
 //
 
 == API
+
+The runtime API of the framework is a set of functions grouped into a few main categories:
+
+* Commands - function for framework commands
+* Config - functions for managing the runtime configuration
+* Console - console function, to write formated text to the console
+* Execute - functions to execute tasks and scenarios
+* Mvn-site - functions to build Maven sites
+* Print-ansi - functions to use ANSI effects (e.g. colors) when writing to the console
+* Print - general print functions
+* Prompt - functions to manage the shell prompt
+* Scenarios - functions for scenarios
+* System - functions for the underlying system
+* Tasks - functions to manage tasks
+
+There are two options to load API functions into a task.
+The first one is to source the provided `include` files, which in turn will source all available API files:
+
+[source%nowrap,bash,indent=0]
+----
+source $FW_HOME/bin/api/_include
+----
+
+The second option is to source API files individually, for instance:
+
+[source%nowrap,bash,indent=0]
+----
+source $FW_HOME/bin/api/print-ansi.sh
+source $FW_HOME/bin/api/print.sh
+----
+

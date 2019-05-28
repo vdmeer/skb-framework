@@ -13,6 +13,18 @@
 
 == Console
 
+One important aspect of an interactive shell is to write messages and text to the console.
+The functions here are provided to standardize this part of the user interface.
+They are written similar to what one will find in logging frameworks, such as the Java framework `log4j`.
+Messages can be of general nature, or specific to situations for
+    _fatal errors, standard _errors_, _warnings_, _information_, _debug_ information, or program execution _trace_(s)
+For _warnings_ and _errors_, the console functions will also increase the associated counters.
+
+One special case is _warn-strict_.
+If the application is running in a normal mode (`strict` not activated), then strict warnings are treated as warnings.
+However, if the application is running in `strict` mode, then strict warnings are treated as errors.
+
+
 === ConsoleMessage
 Prints a message to the console (standard error).
 The function uses `CONFIG_MAP["RUNNING_IN"]` to determine which setting to use:

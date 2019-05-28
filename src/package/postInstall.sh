@@ -25,7 +25,10 @@ chown -R skbuser:skbuser /opt/skb/skb-framework
 mkdir -p /var/cache/skb-framework
 chown -R skbuser:skbuser /var/cache/skb-framework
 
-mkdir -p /opt/skb/skb-framework/lib/java
-chown -R skbuser:skbuser /opt/skb/skb-framework/lib
-chmod 775 /opt/skb/skb-framework/lib
-chmod 775 /opt/skb/skb-framework/lib/java
+#mkdir -p /opt/skb/skb-framework/lib/java
+#chown -R skbuser:skbuser /opt/skb/skb-framework/lib
+#chmod 775 /opt/skb/skb-framework/lib
+#chmod 775 /opt/skb/skb-framework/lib/java
+
+(cd /usr/local/bin; ln -s /opt/skb/skb-framework/bin/skb-framework)
+(cd /usr/local/share/man/man1; ln -s /opt/skb/skb-framework/man/man1/skb-framework.1)

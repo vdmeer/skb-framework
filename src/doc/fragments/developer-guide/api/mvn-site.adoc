@@ -13,6 +13,8 @@
 
 == MVN Site
 
+The functions below help tasks that create Maven sites.
+
 === MvnSiteFixAdoc
 Fixes HTML files generated from ADOC sources by the Maven site and Asciidoctor plugins.
 The problems fixed are:

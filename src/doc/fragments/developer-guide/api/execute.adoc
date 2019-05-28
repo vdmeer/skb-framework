@@ -13,6 +13,8 @@
 
 == Execute
 
+The functions here can be used to easily execute tasks and scenarios.
+
 === ExecuteTask
 Executes a task.
 

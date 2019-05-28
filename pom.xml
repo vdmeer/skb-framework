@@ -35,6 +35,7 @@
         <skb.site.prefix>https://vdmeer.github.io/skb-framework/</skb.site.prefix>
 
         <!-- ADOC PROPERTIES -->
+        <release-version>${project.version}</release-version>
         <skb-site-main-dir>${project.basedir}/src</skb-site-main-dir>
         <skb-site-target-dir>${project.basedir}/target</skb-site-target-dir>
     </properties>

@@ -24,6 +24,7 @@ They can also be requested to use a specific, then forced, print mode.
 
 The printed text will not contain a line feed.
 
+
 === PrintColor
 Prints text in color in _ansi_ mode, just text otherwise.
 

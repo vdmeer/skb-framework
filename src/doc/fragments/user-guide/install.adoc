@@ -1,0 +1,39 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== Install
+
+There are multiple ways to install the framework:
+
+* Automated installation and updates using a package manager -
+    Use this option if you have a package manager or installation application that can access a Ubuntu Personal Package Archive (PPA).
+    On Ubuntu installations, this would be `apt` or `apt-get` or `aptitude`.
+    Your package manager will also, automatically, install updates of the framework.
+* From the release using the DEB, RPM, or TGZ (compressed tar) files -
+    Use this option if you want to use the provided release files to install with an install manager (DEB, RPM) or manually (TGZ).
+    ** DEB: this format is understood by Ubuntu and Debian tools such as `apt` and `dpkg`.
+    ** RPM: this format is understood by Redhat installation managers
+    ** TGZ: this is a compressed tar file, actually `tar.gz`.
+        Tar or GTar can be used to extract the file.
+* Directly from the source -
+    Use this option if you none of the above option suits you.
+    Please note: using the source will require to build a few artifacts, which means there are further requirements on external resources.
+
+The sub-sections here show where to find a release of the framework,
+    show the runtime requirements,
+    and detail the different installation options.
+Each sub-section explaining an install option will also note how to uninstall (remove) an installation.
+
+The last two sub-sections discuss a few steps that can be done after an installation, regardless of which installation option was used.
+First, the installation can be verified, to determine if anything went wrong or is missing.
+Second, we can create a (runtime) cache for the framework, which might (can) speed-up the start and a few of the core tasks.

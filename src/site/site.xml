@@ -26,6 +26,23 @@
 
         <menu name="SKB FRAMEWORK">
             <item href="index.html" name="Welcome" />
+
+            <item href="user-guide.html" name="User Guide" collapse="false">
+                <item href="user-guide/install.html" name="Install" collapse="true">
+                    <item href="user-guide/install/releases.html" name="Releases" />
+                    <item href="user-guide/install/requirements.html" name="Requirements" />
+                    <item href="user-guide/install/automated.html" name="Automated" />
+                    <item href="user-guide/install/deb.html" name="DEB" />
+                    <item href="user-guide/install/rpm.html" name="RPM" />
+                    <item href="user-guide/install/tgz.html" name="TGZ" />
+                    <item href="user-guide/install/from-source.html" name="Build and Install from Source" />
+                    <item href="user-guide/install/verify-installation.html" name="Verify Installation" />
+                    <item href="user-guide/install/build-cache.html" name="Build Cache" />
+                </item>
+                <item href="user-guide/performance.html" name="Performance" />
+                <item href="user-guide/system-configuration.html" name="System Configuration" />
+            </item>
+
             <item href="manual.html" name="Manual" collapse="false">
                 <item href="manual/options.html" name="Options" />
                 <item href="manual/parameters.html" name="Parameters" />
@@ -34,9 +51,6 @@
                 <item href="manual/commands.html" name="Commands" />
                 <item href="manual/scenarios.html" name="Scenarios" />
                 <item href="manual/exit-status.html" name="Exit Status" />
-            </item>
-
-            <item href="user-guide.html" name="User Guide" collapse="false">
             </item>
 
             <item href="task-guide.html" name="Task Guide" collapse="false">
@@ -71,6 +85,15 @@
             </item>
 
             <item href="developer-guide.html" name="Developer Guide" collapse="false">
+                <item href="developer-guide/layouts.html" name="Layout &amp; Directory Structure" collapse="true">
+                    <item href="developer-guide/layouts/app-bin.html" name="bin" />
+                    <item href="developer-guide/layouts/app-doc.html" name="doc" />
+                    <item href="developer-guide/layouts/app-etc.html" name="etc" />
+                    <item href="developer-guide/layouts/app-lib.html" name="lib" />
+                    <item href="developer-guide/layouts/app-man.html" name="man" />
+                    <item href="developer-guide/layouts/app-scenarios.html" name="scenarios" />
+                </item>
+
                 <item href="developer-guide/api.html" name="API" collapse="true">
                     <item href="developer-guide/api/commands.html" name="Commands" />
                     <item href="developer-guide/api/config.html" name="Config" />

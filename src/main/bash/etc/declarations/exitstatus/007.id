@@ -7,4 +7,4 @@
 
 ORIGIN=app
 PROBLEM=external
-DESCRIPTION="application: unable to set applicatin home"
+DESCRIPTION="application: unable to set application home"

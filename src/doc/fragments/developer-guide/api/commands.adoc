@@ -13,6 +13,9 @@
 
 == Commands
 
+_Commands_ are the commands a user can call in the interactive shell.
+Functions here help to manage commands.
+
 === GetCommandID
 Returns the identifier (name) of a command for a given input string.
 

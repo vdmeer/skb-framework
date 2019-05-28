@@ -27,6 +27,7 @@ Sven van_der_Meer <vdmeer.sven@mykolab.com>
 :icons: font
 
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/layouts.adoc[]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api.adoc[]
 

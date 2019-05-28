@@ -1,0 +1,61 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+The `bin` directory contains all _binaries_, actually all _executable_ parts (since we only use scripts) of the application.
+The files are separated into four main groups:
+
+    * `api` - all files with API functions, plus the main include file
+    * `loader`- the loader and files supporting the load process, plus a few functions for options
+    * `shell` - the interactive shell
+    * `tasks` - all tasks
+
+This directory must have the following layout and contents:
+
+[source%nowrap]
+----
+$HOME/bin
+    ├─── api                     <1>
+    │    ├───describe            <2>
+    │    └───scripts             <3>
+    ├─── loader                  <4>
+    │    ├─── declare            <5>
+    │    ├─── init               <6>
+    │    └─── options            <7>
+    ├─── shell                   <8>
+    └─── tasks                   <9>
+         ├─── all                <10>
+         ├─── elements           <11>
+         ├─── install            <12>
+         ├─── mode-build         <13>
+         ├─── mode-dev           <14>
+         └─── start              <15>
+----
+
+<1> The framework API with all main functions, e.g. _commands_, _config_, and _console_.
+<2> The functions for describing elements, grouped into files (per element).
+    For instance, the file `task.sh` contains functions to describe a task or a set of tasks.
+<3> The functions for external (none `bash`) scripts.
+<4> The framework loader functions, the main file being `loader.sh`.
+<5> Functions to declare elements (commands, parameters, tasks, etc.) and other artifacts (e.g. maps) during the load process.
+<6> Specific functions to support the load process, for instance parsing the CLI and process settings.
+<7> Functions that realize (command line) options.
+    Some of these functions are also used in the interactive shell for commands.
+<8> The interactive shell and its history function.
+<9> All tasks are in this directory, grouped sub-directories
+<10> Tasks that are always available, i.e. in any application mode.
+<11> Tasks that provide information for application elements, e.g. commands, parameters, options, tasks.
+<12> Tasks that are available in the _install_ application flavor.
+<13> Tasks that are visible in the `build` mode, i.e. they build something
+<14> Tasks that are visible in the `dev` mode, i.e. they are used to development something or in a general development workflow.
+<15> Tasks that are used to start an external application, for instance a PDF reader or an XTerm.
+

@@ -1,0 +1,42 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== Releases
+
+The framework is released in a few different formats, at a few different sites, all simultaneously (on the same day).
+The main release happens on a Ubuntu PPA on _Launchpad_.
+Then DEB and RPM files are released to _Bintray_.
+Finally, DEB, RPM, and TGZ files are released on _Github_.
+All releases are from the same original build, they might differ in some features (such as pre/post install automation).
+
+
+[cols="10,10,80", grid=rows, frame=none, %autowidth.stretch, options="header"]
+|===
+| Site | Links | Description
+
+| Launchpad | link:https://launchpad.net/~vdmeer/+archive/ubuntu/skb[ppa/skb] |
+This is the PPA and main release of the framework.
+Strict rules apply to packages here and they are checked at submission by _Launchpad_.
+
+| Bintray | link:https://bintray.com/vdmeer/deb/skb-framework[DEB], link:https://bintray.com/vdmeer/rpm/skb-framework[RPM] |
+I use _Bintray_ for binary releases of DEB and RPM files.
+You can find both of them here.
+
+| Github | link:https://github.com/vdmeer/skb-framework/releases[releases] a|
+When a new version is tagged on _Github_ (source directory, after successful deployment on _Launchpad_ and _Bintray_), the DEB and RPM files are also released here.
+This location provides two more release files:
+
+* A compressed tar archive with the same build that is released in DEB and RPM files
+* A compressed tar or zip archive with the associated sources from the Github repository
+
+|===

@@ -12,3 +12,4 @@
 //
 
 == User Guide
+include::{skb-site-main-dir}/doc/fragments/user-guide/introduction.adoc[]

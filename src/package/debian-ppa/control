@@ -8,6 +8,6 @@ Build-Depends: debhelper (>= 10)
 
 Package: skb-framework
 Architecture: all
-Depends: bash (>= 4), bc, sed
+Depends: bash (>= 4), bc
 Description: skb-framework
  flexible development and application framework

@@ -11,7 +11,7 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-== Prompt
+== Tasks
 Collection of functions for tasks.
 
 

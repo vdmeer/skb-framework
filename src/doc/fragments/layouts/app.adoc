@@ -1,0 +1,44 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+The application (`$APP_HOME`) or framework (`$FW_HOME`) home directory has a standardized (i.e. fixed) layout.
+On the top, it separates the main parts of the application into binaries (executable scripts), documentation (generated), configuration (and metadata), libraries (external), manpage(s), and scenarios.
+This directory must have the following layout and contents:
+
+[source%nowrap]
+----
+$HOME
+ ├─── bin            <1>
+ ├─── doc            <2>
+ ├─── etc            <3>
+ ├─── lib            <4>
+ ├─── man            <5>
+ └─── scenarios      <6>
+----
+
+<1> Directory for all binaries (shell scripts, other scripts),
+    the framework API, the loader, the shell, the start script, and of course all task implementations.
+    This directory is the same in the source and the runtime tree.
+<2> Directory for the _generated_ documentation.
+    The main contents is the manual in its different versions, for instance plain text, HTML, and/or PDF.
+    This directory is created when building a new distribution, and should be available in every installation.
+<3> Directory for all meta-data, documentation fragments, and other important information.
+    Most parts of this directory are identical in source and runtime tree.
+    Some files are generated when building a distribution, but otherwise rather static.
+<4> Directory for any required library.
+    This directory will be created when building a new distribution.
+<5> Directory for the manpage.
+    This directory will be created when building a new distribution.
+<6> Directory for scenarios.
+    This directory is the same in the source and the runtime tree.
+

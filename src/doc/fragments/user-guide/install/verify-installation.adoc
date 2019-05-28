@@ -1,0 +1,89 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== Verify Installation
+After an installation, a few commands can be run to very that the installation was successful.
+
+
+=== Check Version
+The most basic one is to start the framework with the `--version` (or `-v`) option to get version information.
+The following session shows the expected output:
+
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+$ skb-framework --version
+
+skb-framework version {release-version}
+
+
+$
+----
+
+Note: There is a bug in the original version 0.0.4.
+This version will show an error message instead of the version information.
+
+
+
+=== Check Help
+The next one is to use the `--help` (or `-h`) option to print the help screen.
+The output should be as follows:
+
+[source%nowrap,bash,indent=0]
+----
+include::{skb-site-main-dir}/main/bash/etc/help/options.text[]
+----
+
+
+
+=== Let teh Framework validate itself
+We can also use the task `validate-installation` to check all details of an installation and some runtime settings.
+We run this task from the command line using `--execute-task`, instead of starting the framework's interactive shell.
+We also set the task level is set to _debug_ to get all details of the process.
+The output should look similar to the following recorded session:
+
+[source%nowrap,bash,indent=0]
+----
+$ sudo -u skbuser skb-framework --all-mode --install --task-level info --validate
+
+  --> [Info] vi: starting task
+  --> [Info] validate target(s): msrc cmd dep es opt param scn task
+  --> [Info] validating manual source
+  --> [Info] done
+
+  --> [Info] validating command
+  --> [Info] done
+
+  --> [Info] validating dependency
+  --> [Info] done
+
+  --> [Info] validating exit-status
+  --> [Info] done
+
+  --> [Info] validating option
+  --> [Info] done
+
+  --> [Info] validating parameter
+  --> [Info] done
+
+  --> [Info] validating scenario
+  --> [Info] done
+
+  --> [Info] validating task
+  --> [Info] done
+
+  --> [Info] vi: done
+
+
+$
+----
+
