@@ -1,4 +1,8 @@
-Version 0.0.4 2019-##-##
+Version 0.0.## 2019-##-##
+
+    * fixed bug in '-v' switch
+
+Version 0.0.4 2019-05-27
 
     * added application mode flavor, supported is "install" and "std"
         ** new maps for tasks and scenarios for app mode flavor

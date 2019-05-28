@@ -15,7 +15,8 @@
 This category of tasks either _builds_ artifacts or _compiles_ source files to create artifacts.
 Those tasks should be available in the application mode _build_, but no _use_.
 They might be available in the application mode _dev_ if required.
-The exception to this general rule is the task `build-manual`, since it can be used to build an application-mode-specific manual and might thus be required in all application modes.
+The exception to this general rule is the task `build-manual`,
+    since it can be used to build an application-mode-specific manual and might thus be required in all application modes.
 
 By conventions, all _build_ and _compile_ tasks should provide an argument `-c` or `--clean`.
 This argument should clean (remove) all built or compiled artifacts (and directories if applicable).

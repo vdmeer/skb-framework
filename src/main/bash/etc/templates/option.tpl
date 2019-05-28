@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
 ##
-# Identity for CLI option ####
+## Identity for CLI option ####
 ##
 ## @author     #### <####>
 ## @version    v##.##.##

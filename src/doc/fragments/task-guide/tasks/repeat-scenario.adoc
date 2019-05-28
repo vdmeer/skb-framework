@@ -23,7 +23,7 @@ The option _scenario_ should be used to identify the scenario to repeat.
 The scenario must be loaded.
 For this option, the long or short name of the scenario can be used.
 
-The other options determine how often the scenario should be repeated (_times_) and how long the task should wait between repetisions (_wait_).
+The other options determine how often the scenario should be repeated (_times_) and how long the task should wait between repetitions (_wait_).
 Only positive integers are allowed for both options.
 The default value for both options is 1.
 So when only provided with a scenario, the task will run it once.
