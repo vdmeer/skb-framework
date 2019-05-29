@@ -62,8 +62,11 @@ unset JAVA_TOOL_OPTIONS
 ## - test for bc, for time calculations; exit 14 on error
 ## - test for mktemp, required to create temporary files and directories; exit 15 on error
 ## - test for sed, required in some API functions; exit 16 on error
+## - test for cat, required by the loader; exit 17 on error
+## - test for less, required by the manual command and option; exit 18 on error
+## - test for tput, required by the manual command and option; exit 19 on error
 ##
-## - exit with code 12-15 if we did not find a core requirements
+## - exit with code 12-19 if we did not find a core requirements
 ##
 #tag::core-dep[]
 if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then
@@ -86,6 +89,18 @@ fi
 if [[ ! $(command -v sed) ]]; then
     printf " ==> did not find sed, required by some API functions\n\n"
     exit 16
+fi
+if [[ ! $(command -v cat) ]]; then
+    printf " ==> did not find cat, required by the loader\n\n"
+    exit 17
+fi
+if [[ ! $(command -v less) ]]; then
+    printf " ==> did not find less, required by the manual command and option\n\n"
+    exit 18
+fi
+if [[ ! $(command -v tput) ]]; then
+    printf " ==> did not find tput, required by the manual command and option\n\n"
+    exit 19
 fi
 #end::core-dep[]
 

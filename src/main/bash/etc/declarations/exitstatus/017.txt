@@ -1,0 +1,3 @@
+        The loader did not find the application `sed`  being  installed.  This
+        tool is required by some API functions. Please install `sed`  on  your
+        system.                                                               

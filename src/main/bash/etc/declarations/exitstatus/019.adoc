@@ -1,0 +1,3 @@
+The loader did not find the application `tput` being installed.
+This tool is used by the manual command and option store and restore the terminal context when showing the manual.
+Please install `tput` on your system.

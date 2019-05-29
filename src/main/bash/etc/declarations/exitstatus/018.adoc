@@ -1,0 +1,3 @@
+The loader did not find the application `less` being installed.
+This tool is used by the manual command and option to show the manual.
+Please install `less` on your system.

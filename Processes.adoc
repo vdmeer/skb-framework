@@ -24,6 +24,7 @@ git branch -d dev
         *** ignore `tool/src/main/resources/tool-version.txt`, it'll be overwritten in the process
         *** Important: this file must have only 1 line, don't add a new line!
     ** `pom.xml` - the version here is used in the site and generated documents
+    ** `tool/pom.xml` - the version here is actually not used, but better keep it in sync
 . edit files to mark release
     ** `NEWS` - mark version and date
     ** `src/package/debian-ppa/changelog` - mark version, date, and time (pick one), also copy the notes for the new version from `NEWS` to here

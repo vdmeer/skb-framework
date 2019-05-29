@@ -134,22 +134,3 @@ SetArtifactStatus() {
     esac
 }
 
-
-
-##
-## function: MissingReqIsError
-## - determines if a missing requirement is an error
-## - true or false
-## $1: warning argument
-##
-# MissingReqIsError() {
-#     if [[ -n "$WARN" ]]; then
-#         if [[ "${CONFIG_MAP["STRICT"]}" == "on" ]]; then
-#             return 0
-#         else
-#             return 1
-#         fi
-#     else
-#         return 0
-#     fi
-# }
