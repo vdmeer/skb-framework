@@ -86,6 +86,54 @@ This software package also provides an application named `skb-framework` as a st
 For more information on the framework, how to use it, how to build software artifacts, and how develop your own application with it, please visit the SKB-Framework website at https://vdmeer.github.io/skb/framework/.
 
 
+== Requirements
+
+The framework is written in `bash`.
+It uses associative arrays, also known as hash maps.
+Thus version 4 or higher of `bash` is required.
+
+There are a few other requirements to start the framework.
+They are listed in the table below.
+All of the here listed requirements are tested during the application load, i.e. before the interactive shell is started.
+
+Note: these requirements are for the framework (start script, loader, interactive shell, and API).
+Tasks can define any other dependency to external applications and tools.
+Those dependencies are tested at runtime (start and load).
+
+[cols="10,80", grid=rows, frame=none, %autowidth.stretch, options="header"]
+|===
+| Dependency | Description
+
+| `bash` |
+The Bash shell version 4 or higher.
+On most UNIX/Linux system, Bash 4 will be part of a standard installation.
+
+| `bc` |
+This is an arbitrary precision calculator (language and application).
+It is used here to calculate the execution time of tasks and scenarios (since Bash does not offer floating point arithmetic).
+`bc` should be standard in almost all UNIX systems.
+
+See also the link:https://www.gnu.org/software/bc/manual/html_mono/bc.html[GNU manual page].
+
+| (GNU) `getopt` |
+The framework requires command line parsing for its own CLI arguments as well for every task.
+It uses the GNU enhanced version of `getopt`.
+The standard version is not supported.
+
+| (GNU) `mktemp` |
+The framework needs to create a temporary directory with runtime configuration files.
+It uses `mktemp` to create temporary file and directory names.
+This tool should be standard in Linux distributions.
+
+See also the link:https://www.gnu.org/software/autogen/mktemp.html[GNU page].
+
+| `sed` |
+The UNIX stream editor, used to manipulate text or files.
+The application is required by some API functions.
+
+|===
+
+
 == Releases
 
 The framework is released in a few different formats, at a few different sites, all simultaneously (on the same day).

@@ -1,3 +1,0 @@
-`sed` is the UNIX stream editor.
-It performs text transformations on input streams (file or pipeline).
-Some tasks require `sed` to manipulate text or files.

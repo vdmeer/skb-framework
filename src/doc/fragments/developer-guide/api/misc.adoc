@@ -1,0 +1,36 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== Misc
+
+Miscellaneous functions that do not really fit into any other category.
+
+=== ExitOnTaskErrors
+Tests if task errors are recorded and calls exit if any found.
+The exit uses the number of recorded task errors as exit code.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+| Arguments
+| Return
+| none
+| none
+|===
+
+[example]
+====
+ConsoleError "  ->" "unknown CLI option"
+
+ExitOnTaskErrors
+====
+

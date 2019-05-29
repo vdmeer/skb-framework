@@ -131,6 +131,7 @@ MvnSitePostScript() {
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/config"]="Developer Guide, API: Config"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/console"]="Developer Guide, API: Console"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/execute"]="Developer Guide, API: Execute"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/misc"]="Developer Guide, API: Miscellaneous"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/mvn-site"]="Developer Guide, API: MVN Site"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/print-ansi"]="Developer Guide, API: Print ANSI"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/print"]="Developer Guide, API: Print"

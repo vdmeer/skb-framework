@@ -35,15 +35,11 @@
 
 
 ##
-## function Trim
-## - trims a string, removes leading and trailing white spaces
-## https://web.archive.org/web/20121022051228/http://codesnippets.joyent.com/posts/show/1816
+## function ExitOnTaskErrors
+## - tests if task errors are recorded, and calls exit if any found
 ##
-# Trim() {
-#     local var=$1
-#     var="${var#"${var%%[![:space:]]*}"}"
-#     var="${var%"${var##*[![:space:]]}"}"
-#     echo $var
-# }
-:
-
+ExitOnTaskErrors(){
+    if [[ $TASK_ERRORS != 0 ]]; then
+        exit $TASK_ERRORS
+    fi
+}

@@ -99,6 +99,7 @@
                     <item href="developer-guide/api/config.html" name="Config" />
                     <item href="developer-guide/api/console.html" name="Console" />
                     <item href="developer-guide/api/execute.html" name="Execute" />
+                    <item href="developer-guide/api/misc.html" name="Miscellaneous" />
                     <item href="developer-guide/api/mvn-site.html" name="MVN Site" />
                     <item href="developer-guide/api/print-ansi.html" name="Print ANSI" />
                     <item href="developer-guide/api/print.html" name="Print" />

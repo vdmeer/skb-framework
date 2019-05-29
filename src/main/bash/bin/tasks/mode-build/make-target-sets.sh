@@ -224,17 +224,6 @@ PrintTargetEnd(){
 
 
 ############################################################################################
-## exit on errors function
-############################################################################################
-ExitOnErrors(){
-    if [[ $TASK_ERRORS != 0 ]]; then
-        exit $TASK_ERRORS
-    fi
-}
-
-
-
-############################################################################################
 ## load target sets function
 ############################################################################################
 LoadTargetsets(){
@@ -321,7 +310,7 @@ TestTargets(){
         IFS=,
     done
     IFS=$FIELD_SEAPARATOR
-    ExitOnErrors
+    ExitOnTaskErrors
 }
 
 
@@ -356,7 +345,7 @@ BuildTargetSet(){
         PrintTargetsetEnd $ID $DO_TARGETS
         IFS=$FIELD_SEAPARATOR
     fi
-    ExitOnErrors
+    ExitOnTaskErrors
 }
 
 
@@ -386,7 +375,7 @@ if [[ -n "$TARGET_SET_ID" ]]; then
         ConsoleError "  ->" "mts: unknown target set ID '$TARGET_SET_ID'"
     fi
 fi
-ExitOnErrors
+ExitOnTaskErrors
 
 
 
@@ -417,7 +406,7 @@ if [[ $DO_CLEAN == true ]]; then
         ConsoleError "  ->" "mts: no target set given for clean, use --all or --id ID"
     fi
 fi
-ExitOnErrors
+ExitOnTaskErrors
 
 
 
@@ -433,7 +422,7 @@ if [[ -n "${DO_TARGETS}" ]]; then
         ConsoleError "  ->" "mts: no target set given for targets, use --all or --id ID"
     fi
 fi
-ExitOnErrors
+ExitOnTaskErrors
 
 
 
