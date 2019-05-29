@@ -19,7 +19,7 @@ The functions below help tasks that create Maven sites.
 Fixes HTML files generated from ADOC sources by the Maven site and Asciidoctor plugins.
 The problems fixed are:
 
-*add a text to the HTML title of the page (empty otherwise)
+* add a text to the HTML title of the page (empty otherwise)
 * add text to the active bread crumb list item (empty otherwise)
 
 This function will take the file name (first argument, no extension) and use `sed` to add the text from the second argument to the HTML file.
@@ -43,4 +43,33 @@ $2: text
 ====
 MvnSiteFixAdoc target/site/developer-guide/api/mvn-site "API: MVN Site"
 ====
+
+
+
+
+=== MvnSiteFixAdocArray
+Uses an array to fix HTML files generated from ADOC sources when building a Maven site.
+The array is called `MVN_SITE_FIX_ADOC_ARRAY` and declared in the source file.
+The entry should be filled with file names and text to use for the fix.
+When called, the function will loop through the array and then call `MvnSiteFixAdoc` for each entry.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+| Arguments
+| Return
+| none
+| none
+|===
+
+[example]
+====
+MVN_SITE_FIX_ADOC_ARRAY["manual"]="Manual"
+
+MVN_SITE_FIX_ADOC_ARRAY["manual/commands"]="Commands"
+
+MVN_SITE_FIX_ADOC_ARRAY["manual/dependencies"]="Dependencies"
+
+MvnSiteFixAdocArray
+====
+
 

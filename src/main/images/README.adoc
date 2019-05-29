@@ -11,15 +11,9 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-=== Install
+== Images
 
-The easiest way to install the framework is using `apt` and the PPA distribution:
-[source%nowrap,bash,indent=0]
-----
-sudo add-apt-repository ppa:vdmeer/skb
-sudo apt-get update 
-sudo apt-get install skb-framework
-----
-
-For other installation options, please see the link:https://vdmeer.github.io/skb/framework/user-guide/install.html[Installation] section in the _User Guide_.
-
+The images here come in several source formats.
+We are not using any automation to create final versions, this seems to be too difficult.
+Instead, compiled (or exported) versions of the figures should be added to the site resource directory `src/site/resources/images/skb/`.
+The _build_ and _make_ tools are configured to pick them up from there.

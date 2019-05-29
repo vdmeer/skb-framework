@@ -40,6 +40,11 @@ It is used here to calculate the execution time of tasks and scenarios (since Ba
 
 See also the link:https://www.gnu.org/software/bc/manual/html_mono/bc.html[GNU manual page].
 
+| (GNU) `getopt` |
+The framework requires command line parsing for its own CLI arguments as well for every task.
+It uses the GNU enhanced version of `getopt`.
+The standard version is not supported.
+
 | (GNU) `mktemp` |
 The framework needs to create a temporary directory with runtime configuration files.
 It uses `mktemp` to create temporary file and directory names.
@@ -47,9 +52,8 @@ This tool should be standard in Linux distributions.
 
 See also the link:https://www.gnu.org/software/autogen/mktemp.html[GNU page].
 
-| (GNU) `getopt` |
-The framework requires command line parsing for its own CLI arguments as well for every task.
-It uses the GNU enhanced version of `getopt`.
-The standard version is not supported.
+| `sed` |
+The UNIX stream editor, used to manipulate text or files.
+The application is required by some API functions.
 
 |===

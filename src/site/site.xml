@@ -110,6 +110,9 @@
             </item>
 
             <item href="implementation.html" name="The Implementation" collapse="false">
+                <item href="implementation/sequences.html" name="Sequences" collapse="true">
+                    <item href="implementation/sequences/normal-interactive.html" name="Normal, Interactive" />
+                </item>
                 <item href="implementation/skb-framework.html" name="skb-framework" />
                 <item href="implementation/loader.html" name="loader" />
                 <item href="implementation/shell.html" name="shell" />

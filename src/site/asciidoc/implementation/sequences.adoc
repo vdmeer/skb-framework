@@ -11,15 +11,4 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-=== Install
-
-The easiest way to install the framework is using `apt` and the PPA distribution:
-[source%nowrap,bash,indent=0]
-----
-sudo add-apt-repository ppa:vdmeer/skb
-sudo apt-get update 
-sudo apt-get install skb-framework
-----
-
-For other installation options, please see the link:https://vdmeer.github.io/skb/framework/user-guide/install.html[Installation] section in the _User Guide_.
-
+include::{skb-site-main-dir}/doc/fragments/implementation/sequences.adoc[]

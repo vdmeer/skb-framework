@@ -35,7 +35,7 @@ include::{skb-site-main-dir}/doc/fragments/user-guide/install.adoc[]
 
 include::{skb-site-main-dir}/doc/fragments/releases.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/user-guide/install/requirements.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/requirements.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/user-guide/install/automated.adoc[leveloffset=+1]
 

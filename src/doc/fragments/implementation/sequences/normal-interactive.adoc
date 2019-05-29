@@ -11,15 +11,15 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-=== Install
+== Normal Execution with Interactions
 
-The easiest way to install the framework is using `apt` and the PPA distribution:
-[source%nowrap,bash,indent=0]
-----
-sudo add-apt-repository ppa:vdmeer/skb
-sudo apt-get update 
-sudo apt-get install skb-framework
-----
-
-For other installation options, please see the link:https://vdmeer.github.io/skb/framework/user-guide/install.html[Installation] section in the _User Guide_.
+ifeval::["{adoc-build-target}" == "pdf"]
+image::implementation/sequence-diagrams/normal-interactive.png[alt=Normal-Interactive, width=300, align="center"]
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+image::https://vdmeer.github.io/skb/images/skb/implementation/sequence-diagrams/normal-interactive.png[alt=Normal-Interactive, width=532, height=441, align="center"]
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+image::../../images/skb/implementation/sequence-diagrams/normal-interactive.png[alt=Normal-Interactive, width=532, height=441, align="center"]
+endif::[]
 
