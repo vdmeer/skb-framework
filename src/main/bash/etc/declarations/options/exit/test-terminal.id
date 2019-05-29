@@ -1,0 +1,10 @@
+##
+## Identity for CLI option test-terminal
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.4
+##
+
+
+
+DESCRIPTION="tests terminal UTF-8 and ANSI capabilities"

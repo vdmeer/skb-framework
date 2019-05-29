@@ -1,0 +1,10 @@
+##
+## Identity for CLI option test-utf8
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.4
+##
+
+
+
+DESCRIPTION="prints lines with used UTF-8 characters"

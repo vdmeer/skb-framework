@@ -37,3 +37,4 @@ if [[ "${CONFIG_MAP["APP_SCRIPT"]}" == "skb-framework" ]]; then
 else
     printf "\n%s version %s\n\n" "${CONFIG_MAP["APP_SCRIPT"]}" "${CONFIG_MAP["APP_VERSION"]}"
 fi
+DO_EXIT=true

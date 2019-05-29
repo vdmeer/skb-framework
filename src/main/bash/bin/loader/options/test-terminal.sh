@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Loader: commands to run on CLI --help
+## Loader: commands to run on CLI --test-terminal
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.4
@@ -32,6 +32,10 @@
 ## DO NOT CHANGE CODE BELOW, unless you know what you are doing
 ##
 
-
-cat ${CONFIG_MAP["FW_HOME"]}/etc/help/options.${CONFIG_MAP["PRINT_MODE"]}
+PrintTestColors
+printf "\n"
+PrintTestEffects
+printf "\n"
+PrintTestUtf8
+printf "\n"
 DO_EXIT=true

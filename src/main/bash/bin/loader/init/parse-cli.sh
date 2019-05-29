@@ -52,6 +52,7 @@ ParseCli() {
     CLI_LONG_OPTIONS+=,install
     CLI_LONG_OPTIONS+=,print-mode:,clean-cache,execute-task:,build-mode,dev-mode,all-mode
     CLI_LONG_OPTIONS+=,lq,sq,tq,snp
+    CLI_LONG_OPTIONS+=,test-terminal,test-ansi-colors,test-ansi-effects,test-utf8
 
     ConsoleDebug "running getopt"
     local PARSED
@@ -71,13 +72,9 @@ ParseCli() {
     while true; do
         case "$1" in
             -A | --all-mode)
-#                 CONFIG_MAP["APP_MODE"]="all"
-#                 CONFIG_SRC["APP_MODE"]="O"
                 shift 1
                 ;;
             -B | --build-mode)
-#                 CONFIG_MAP["APP_MODE"]="build"
-#                 CONFIG_SRC["APP_MODE"]="O"
                 shift 1
                 ;;
             -C | --clean-cache)
@@ -85,8 +82,6 @@ ParseCli() {
                 shift 1
                 ;;
             -D | --dev-mode)
-#                 CONFIG_MAP["APP_MODE"]="dev"
-#                 CONFIG_SRC["APP_MODE"]="O"
                 shift 1
                 ;;
             -d | --dependency)
@@ -165,6 +160,22 @@ ParseCli() {
                 CONFIG_MAP["TASK_LEVEL"]="$2"
                 CONFIG_SRC["TASK_LEVEL"]="O"
                 shift 2
+                ;;
+            --test-ansi-colors)
+                OPT_CLI_MAP["test-ansi-colors"]=true
+                shift
+                ;;
+            --test-ansi-effects)
+                OPT_CLI_MAP["test-ansi-effects"]=true
+                shift
+                ;;
+            --test-terminal)
+                OPT_CLI_MAP["test-terminal"]=true
+                shift
+                ;;
+            --test-utf8)
+                OPT_CLI_MAP["test-utf8"]=true
+                shift
                 ;;
             --tq)
                 CONFIG_MAP["TASK_QUIET"]="on"

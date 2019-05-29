@@ -1,0 +1,10 @@
+##
+## Identity for CLI option test-ansi-colors
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.4
+##
+
+
+
+DESCRIPTION="prints lines with used ANSI colors"

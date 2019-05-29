@@ -122,3 +122,18 @@ PrintShellSNP() {
         off)    PrintColor light-green "off" ;;
     esac
 }
+
+
+
+##
+## function: PrintTestUtf8
+## - prints a line with all used UTF-8 characters
+##
+PrintTestUtf8() {
+    local KEY
+    printf "\n  Used UTF-8 characters: "
+    for KEY in ${!CHAR_MAP[@]}; do
+        printf "%s  " "${CHAR_MAP[$KEY]}"
+    done
+    printf "\n"
+}
