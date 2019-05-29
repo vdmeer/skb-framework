@@ -34,9 +34,9 @@
 
 
 declare -A CHAR_MAP         # map/export characters
-    CHAR_MAP["AVAILABLE"]="✔"       # char something available
-    CHAR_MAP["NOT_AVAILABLE"]="✘"   # char something not available
-    CHAR_MAP["DIAMOND"]="◆"         # char diamond
+    CHAR_MAP["AVAILABLE"]="✔"        # char something available
+    CHAR_MAP["NOT_AVAILABLE"]="✘"    # char something not available
+    CHAR_MAP["DIAMOND"]="◆"          # char diamond
     CHAR_MAP["LEGEND"]="■"           # char legend
     CHAR_MAP["TOP_LINE"]="═"         # table top line
     CHAR_MAP["MID_LINE"]="─"         # table mid line

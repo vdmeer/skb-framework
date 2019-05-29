@@ -38,6 +38,7 @@
         <release-version>${project.version}</release-version>
         <skb-site-main-dir>${project.basedir}/src</skb-site-main-dir>
         <skb-site-target-dir>${project.basedir}/target</skb-site-target-dir>
+        <adoc-build-target>site</adoc-build-target>
     </properties>
 
     <distributionManagement>
@@ -61,7 +62,7 @@
                         <attributes>
                             <source-highlighter>coderay</source-highlighter>
                             <coderay-css>style</coderay-css>
-                            <imagesdir>images</imagesdir>
+                            <imagesdir>./</imagesdir>
                         </attributes>
                     </asciidoc>
                     <moduleExcludes>

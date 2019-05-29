@@ -43,8 +43,35 @@
 ## $2: text to add to title and bread crumbs
 ##
 MvnSiteFixAdoc() {
-    sed -i.bak 's,<li class="active "></li>,'"<li class=\"active \">${2}</li>"',g' $1.html
+    ConsoleTrace "MvnSiteFixAdoc: fixing breadcrumbs"
+    sed -i.bak 's%<li class="active "></li>%'"<li class=\"active \">${2}</li>"'%g' $1.html
     rm $1.html.bak
-    sed -i.bak 's,x2013; </title>,'"x2013; $2</title>"',g' $1.html
+    ConsoleTrace "MvnSiteFixAdoc: fixing title"
+    sed -i.bak 's%x2013; </title>%'"x2013; $2</title>"'%g' $1.html
     rm $1.html.bak
+}
+
+
+
+##
+## function: MvnSiteFixAdocArray()
+## - fixes HTML files generated from ADOC sources by the Maven site plugin
+##   -- add a text to the HTML title of the page (empty otherwise)
+##   -- add text to the active bread crumb list item (empty otherwise)
+## - calls MvnSiteFixAdoc for all elements of the array
+## MVN_SITE_FIX_ADOC_ARRAY: array as [file-name]="text", must be filled
+##
+declare -A MVN_SITE_FIX_ADOC_ARRAY
+MvnSiteFixAdocArray() {
+    if [[ ${#MVN_SITE_FIX_ADOC_ARRAY[@]} == 0 ]]; then
+        ConsoleError "  ->" "MvnSiteFixAdocArray: empty array given, please fill MVN_SITE_FIX_ADOC_ARRAY"
+        return
+    fi
+
+    ConsoleTrace "MvnSiteFixAdocArray: ${#MVN_SITE_FIX_ADOC_ARRAY[@]} entries in array"
+    local FILE_NAME
+    for FILE_NAME in ${!MVN_SITE_FIX_ADOC_ARRAY[@]}; do
+        ConsoleTrace "MvnSiteFixAdocArray: fixing file $FILE_NAME"
+        MvnSiteFixAdoc $FILE_NAME "${MVN_SITE_FIX_ADOC_ARRAY[$FILE_NAME]}"
+    done
 }

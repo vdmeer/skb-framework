@@ -27,6 +27,8 @@ TsRunTask() {
             printf "\n\n    Notes: "
             printf "\n       - separate all required targets using a comma."
             printf "\n       - sequence of given targets is not critical, they are always build in the right order."
+            printf "\n       - the site will not rebuild element lists if they do exist already"
+            printf "\n         -- use target clean or run 'mvn clean' to build a fresh site"
             printf "\n\n    Requirements:"
             printf "\n       - gradle           - to build the Java tool and the distributions"
             printf "\n       - JDK8             - to build the tool"
@@ -104,6 +106,9 @@ TsRunTask() {
 
             printf "\n\n== Description\n\n" >> $README_FILE
             cat src/main/bash/etc/manual/application/description.adoc >> $README_FILE
+            printf "\n\n" >> $README_FILE
+
+            tail -n +13 src/doc/fragments/requirements.adoc >> $README_FILE
             printf "\n\n" >> $README_FILE
 
             tail -n +13 src/doc/fragments/releases.adoc >> $README_FILE

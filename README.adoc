@@ -22,7 +22,7 @@ We have tested it on
 
 
 
-== Install
+=== Install
 
 The easiest way to install the framework is using `apt` and the PPA distribution:
 [source%nowrap,bash,indent=0]
@@ -32,10 +32,10 @@ sudo apt-get update
 sudo apt-get install skb-framework
 ----
 
-For other installation options, please see the _User Guide_ on the link:https://vdmeer.github.io/skb/framework/user-guide/install.html[website].
+For other installation options, please see the link:https://vdmeer.github.io/skb/framework/user-guide/install.html[Installation] section in the _User Guide_.
 
 
-== Run
+=== Run
 
 Ideally, the framework is run with a special user, with limited privileges.
 The installation will create a user `skbuser` for that purpose.
