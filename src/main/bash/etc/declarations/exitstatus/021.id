@@ -7,4 +7,4 @@
 
 ORIGIN=loader
 PROBLEM=external
-DESCRIPTION="loader: no application name set"
+DESCRIPTION="loader: no environment setting for application home"

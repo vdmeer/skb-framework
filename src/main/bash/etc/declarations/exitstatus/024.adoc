@@ -1,2 +1,2 @@
-The loader did find or could create the temporary directory, but then could not write to it.
-Please check the permissions for the temporary directory.
+This is an internal loader error: the application name was not set.
+This error is pointing to an application bug.

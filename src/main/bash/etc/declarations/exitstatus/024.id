@@ -7,4 +7,4 @@
 
 ORIGIN=loader
 PROBLEM=external
-DESCRIPTION="loader: TMP DIR not writable"
+DESCRIPTION="loader: no application name set"

@@ -7,4 +7,4 @@
 
 ORIGIN=loader
 PROBLEM=external
-DESCRIPTION="loader: no application script name set"
+DESCRIPTION="loader: no flavor set"

@@ -1,6 +1,3 @@
-Unknown base name or flavor.
-The start script is used for multiple programs.
-At the beginning of the initialization, it detects the current flavor (using the script name).
-If the flavor found is not known, it will exit with this status.
-This should not happen in an installed version.
-If it does, than the installation was broken (build) or manipulated (after installation).
+The loader did not find the application `sed` being installed.
+This tool is required by some API functions.
+Please install `sed` on your system.

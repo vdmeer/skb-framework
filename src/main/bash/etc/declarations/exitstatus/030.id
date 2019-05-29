@@ -7,4 +7,4 @@
 
 ORIGIN=loader
 PROBLEM=external
-DESCRIPTION="loader: dependency declaration error"
+DESCRIPTION="loader: could not create TMP DIR"

@@ -1,3 +1,4 @@
-The loader did experience errors while declaring parameters.
-This error points to an application bug or installation error.
-It should only happen when one or more parameter declarations are faulty.
+The loader did not find a required version file, for the framework.
+The file should be `$FW_HOME/etc/version.txt`.
+It must contain a single line with the version, usually using semantic versioning.
+This error points to a bug or installation error.

@@ -7,4 +7,4 @@
 
 ORIGIN=loader
 PROBLEM=external
-DESCRIPTION="loader: shell level unknown"
+DESCRIPTION="loader: errors in error-code declarations"

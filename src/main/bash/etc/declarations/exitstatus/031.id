@@ -7,4 +7,4 @@
 
 ORIGIN=loader
 PROBLEM=external
-DESCRIPTION="loader: task declaration error"
+DESCRIPTION="loader: TMP DIR not writable"

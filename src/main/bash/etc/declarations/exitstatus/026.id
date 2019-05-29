@@ -7,4 +7,4 @@
 
 ORIGIN=loader
 PROBLEM=external
-DESCRIPTION="loader: errors in options declarations"
+DESCRIPTION="loader: version file for application not found"

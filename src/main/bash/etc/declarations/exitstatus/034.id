@@ -7,4 +7,4 @@
 
 ORIGIN=loader
 PROBLEM=external
-DESCRIPTION="loader: process scenarios error"
+DESCRIPTION="loader: errors parsing CLI"

@@ -7,4 +7,4 @@
 
 ORIGIN=loader
 PROBLEM=external
-DESCRIPTION="loader: version file for application (or framework) not found"
+DESCRIPTION="loader: application home not a directory"

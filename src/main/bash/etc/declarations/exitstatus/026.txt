@@ -1,3 +1,6 @@
-        The loader did experience errors while  declaring  CLI  options.  This
-        error points to an application bug or installation  error.  It  should
-        only happen when one or more option declarations are faulty.          
+        The loader did not find  a  required  version  file,  for  either  the
+        application or the framework. The application version file  should  be
+        `$APP_HOME/etc/version.txt`. The  framework  version  file  should  be
+        `$FW_HOME/etc/version.txt`. Each of these file must contain  a  single
+        line with the version, usually using semantic versioning.  This  error
+        points to an application bug or installation error.                   
