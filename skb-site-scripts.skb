@@ -67,6 +67,8 @@ MvnSitePreScript() {
 
 
 MvnSitePostScript() {
+        MvnSiteFixAdoc target/site/index                    "SKB Framework"
+
     MvnSiteFixAdoc target/site/manual                       Manual
     MvnSiteFixAdoc target/site/manual/commands              "Manual: Commands"
     MvnSiteFixAdoc target/site/manual/dependencies          "Manual: Dependencies"
@@ -78,17 +80,17 @@ MvnSitePostScript() {
 
     MvnSiteFixAdoc target/site/user-guide                           "User Guide"
         MvnSiteFixAdoc target/site/user-guide/install                   "Install"
-            MvnSiteFixAdoc target/site/user-guide/install/releases              "Releases"
-            MvnSiteFixAdoc target/site/user-guide/install/requirements          "Requirements"
-            MvnSiteFixAdoc target/site/user-guide/install/automated             "Automated"
-            MvnSiteFixAdoc target/site/user-guide/install/deb                   "DEB"
-            MvnSiteFixAdoc target/site/user-guide/install/rpm                   "RPM"
-            MvnSiteFixAdoc target/site/user-guide/install/tgz                   "TGZ"
-            MvnSiteFixAdoc target/site/user-guide/install/from-source           "Build and Install from Source"
-            MvnSiteFixAdoc target/site/user-guide/install/verify-installation   "Verify Installation"
-            MvnSiteFixAdoc target/site/user-guide/install/build-cache           "Build Runtime Cache"
+            MvnSiteFixAdoc target/site/user-guide/install/releases                  "Releases"
+            MvnSiteFixAdoc target/site/user-guide/install/requirements              "Requirements"
+            MvnSiteFixAdoc target/site/user-guide/install/automated                 "Automated"
+            MvnSiteFixAdoc target/site/user-guide/install/deb                       "DEB"
+            MvnSiteFixAdoc target/site/user-guide/install/rpm                       "RPM"
+            MvnSiteFixAdoc target/site/user-guide/install/tgz                       "TGZ"
+            MvnSiteFixAdoc target/site/user-guide/install/from-source               "Build and Install from Source"
+            MvnSiteFixAdoc target/site/user-guide/install/verify-installation       "Verify Installation"
+            MvnSiteFixAdoc target/site/user-guide/install/terminal-configuration    "Configure and Test Terminal"
+            MvnSiteFixAdoc target/site/user-guide/install/build-cache               "Build Runtime Cache"
         MvnSiteFixAdoc target/site/user-guide/performance               "Performance"
-        MvnSiteFixAdoc target/site/user-guide/system-configuration      "System Configuration"
 
     MvnSiteFixAdoc target/site/task-guide                           "Task Guide"
         MvnSiteFixAdoc target/site/task-guide/use-tasks                 "Use Tasks"

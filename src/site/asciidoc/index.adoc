@@ -1,0 +1,38 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== SKB-Framework
+
+a flexible and extensible automation framework
+
+
+=== Description
+
+The SKB-Framework provides a flexible, metadata-driven automation framework.
+Its main objective is to load and provide flexible access to _tasks_.
+A task is a shell script with additional semantics (metadata) processed by the framework.
+These additional semantics allow the framework to take care of some common functions for defined tasks,
+    for example loading and evaluating parameters and dependencies.
+
+The framework provides definitions for seven different elements: tasks, their dependencies, their (configuration) parameters, application CLI options, shell commands, application exit status codes, and scenarios.
+The framework loader will load all those definitions and validate them based on the provided metadata.
+CLI options, commands, and exit status codes are handled by the framework itself.
+Tasks, dependencies, parameters, and scenarios can be defined by an application.
+This framework provides a basic set of tasks, dependencies, and parameters.
+It also defines some scenarios to build its own deployment artifacts.
+
+
+include::{skb-site-main-dir}/doc/fragments/releases.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/resources.adoc[leveloffset=+1]
+

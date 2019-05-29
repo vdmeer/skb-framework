@@ -11,4 +11,17 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-include::{skb-site-main-dir}/doc/fragments/releases.adoc[]
+== Introduction
+
+The framework is written in `bash`.
+It runs wherever `bash` version 4 installed.
+We have tested it on
+
+* Ubuntu 14/16/18
+* Debian 3
+* Raspian (on PI model B and B+)
+* Cygwin on Windows 7 and 10
+* Windows 10 WSL with Ubuntu 18 installed
+* Mac OS X
+
+

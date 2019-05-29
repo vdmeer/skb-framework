@@ -105,3 +105,22 @@ Supported effects are:
     * _italic_ - either italic, plain text or as annotation `_`
     * _reverse_ - either reverse, or plain text
 
+
+
+=== PrintTestColors
+Prints test lines for ANSI colors using the function `PrintColor`.
+The lines are printed in two sets: 
+    the first set for print mode _ansi (should be shown in full color), and
+    the second set for the print modes _text_, _adoc_, and _text-anon_ (should only show the names of the colors).
+The function has no argument.
+
+
+
+=== PrintTestEffects
+Prints test lines for ANSI effects using the function `PrintEffec`.
+The lines are printed in three sets:
+    the first set for print mode _ansi_ (should show the effects for bold, italic, and reverse text),
+    the second set for print mode _text_ (should just show the text), and
+    the third set for the print modes _adoc_ and _text-anon_ (should show the text with annotations).
+The function has no argument.
+

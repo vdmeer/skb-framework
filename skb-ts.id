@@ -8,4 +8,4 @@
 
 ID=skb-fw
 DESCRIPTION="targets to build the SKB-Framework distribution/site artifacts"
-TARGETS="help clean tool mkdirs dist site"
+TARGETS="help clean tool mkdirs readme dist site"

@@ -21,6 +21,7 @@ TsRunTask() {
             printf "\n"
             printf "\n       tool          - builds the framework tool (Java app to convert ADOC to TXT), gradle"
             printf "\n       mkdirs        - creates required directories"
+            printf "\n       readme        - creates the file README.adoc for the source repository"
             printf "\n       dist          - builds distribution archives (not the PPA!) using gradle"
             printf "\n       site          - creates the framework site (mvn)"
             printf "\n\n    Notes: "
@@ -34,6 +35,7 @@ TsRunTask() {
             printf "\n       - asciidoctor      - to build some targets for the manual"
             printf "\n       - asciidoctor-pdf  - to build the PDF manual"
             printf "\n       - coderay          - for syntax highlighting in ADOC files"
+            printf "\n"
             ;;
 
         clean)
@@ -84,12 +86,36 @@ TsRunTask() {
             mkdir -p src/main/bash/doc/manual 2> /dev/null
             ;;
 
+        readme)
+            README_FILE=./README.adoc
+            if [[ -f "$README_FILE" ]]; then
+                rm $README_FILE
+            fi
+            printf ":release-version: %s\n" "${RELEASE_VERSION}" > $README_FILE
+            printf "= SKB Framework\n" >> $README_FILE
+            printf "v{release-version}\n" >> $README_FILE
+            printf ":page-layout: base\n" >> $README_FILE
+            printf ":toc: preamble\n\n" >> $README_FILE
+            printf "a flexible and extensible automation framework\n\n" >> $README_FILE
+
+            tail -n +13 src/doc/fragments/readme/introduction.adoc >> $README_FILE
+            tail -n +13 src/doc/fragments/readme/install.adoc >> $README_FILE
+            tail -n +13 src/doc/fragments/readme/run.adoc >> $README_FILE
+
+            printf "\n\n== Description\n\n" >> $README_FILE
+            cat src/main/bash/etc/manual/application/description.adoc >> $README_FILE
+            printf "\n\n" >> $README_FILE
+
+            tail -n +13 src/doc/fragments/releases.adoc >> $README_FILE
+            printf "\n\n" >> $README_FILE
+
+            tail -n +13 src/doc/fragments/resources.adoc >> $README_FILE
+            printf "\n\n" >> $README_FILE
+            ;;
+
         dist)
             ExecuteScenario build-fw-distro
-#             printf "%s\n\n" "building distributions"
             ./gradlew
-#             printf "\n\n"
-#             printf "%s\n" "distributions in ./build/distributions"
             ls -l ./build/distributions
             ;;
 

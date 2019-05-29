@@ -11,4 +11,13 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-include::{skb-site-main-dir}/doc/fragments/user-guide/system-configuration.adoc[]
+== Run
+
+Ideally, the framework is run with a special user, with limited privileges.
+The installation will create a user `skbuser` for that purpose.
+[source%nowrap,bash,indent=0]
+----
+sudo -u skbuser skb-framework 
+----
+
+

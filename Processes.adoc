@@ -1,0 +1,123 @@
+:release-version: 0.0.4
+= Processes
+v{release-version}
+:page-layout: base
+:toc: preamble
+
+manual development steps.
+
+
+== A new Distribution
+
+. finish all changes in the `dev` branch
+. merge with the `master` branch, remove `dev` branch
++
+[source%nowrap,bash,indent=0]
+----
+git checkout master
+git merge --no-ff dev
+git branch -d dev
+----
+. edit the version in this file first, then reopen, to get all commands with the right version
+. edit files to change version
+    ** `src/main/bash/etc/version.txt` - the main version file used in the framework
+        *** ignore `tool/src/main/resources/tool-version.txt`, it'll be overwritten in the process
+        *** Important: this file must have only 1 line, don't add a new line!
+    ** `pom.xml` - the version here is used in the site and generated documents
+. edit files to mark release
+    ** `NEWS` - mark version and date
+    ** `src/package/debian-ppa/changelog` - mark version, date, and time (pick one), also copy the notes for the new version from `NEWS` to here
+. call `./set-versions.sh` to set version information in all other files
+    ** do *not* have a running instance of the framework, or any file open - files will get lost otherwise!
+. call `./make-fw.sh all` - this will generate artifacts, create distribution files, and create the website
+    ** distribution files then in `build/distributions`
+    ** staged site then in `target/site-framework`
+. call `./build-ppa.sh all` - this will build the PPA files to be send to _launchpad_
+    ** needs to run on Ubuntu with all PPT tools installed
+    ** needs certificates installed for signing
+. submit the new build PPA to _launchpad_
++
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+cd /tmp/skb-framework-{release-version}/
+dput ppa:vdmeer/skb skb-framework_{release-version}-1_source.changes 
+----
+    ** the revision number for the first PPA release is always `-1`
+    ** in any case: the complete version (semantic plus revision) must correspond to the entry in `src/package/debian-ppa/changelog`
+. wait for _launchpad_ to build and confirm publication
+    ** in case of errors, fix the errors which means edit files, then enter this process at step <7> again
+. publish the DEB and RPM releases on _bintray_, verify that they are published
+    DEB: https://bintray.com/vdmeer/deb/skb-framework
+    RPM: https://bintray.com/vdmeer/rpm/skb-framework
+. remove the `Makefile` from `build/distributions/skb-framework-{release-version}-src.tar.gz`
+. change that file's name as well
++
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+(cd build/distributions; mv skb-framework-{release-version}-src.tar.gz skb-framework-{release-version}.tar.gz)
+----
+. commit and push any changes, then tag the version in the source and push `master`
++
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+git commit -m "final edits for version {release-version}" .
+git push origin master
+git tag -a v{release-version} -m "SKB Framework version {release-version}"
+git describe --tags
+git push --tags
+----
+. add the distribution files to the new _github_ release
+    ** Page: https://github.com/vdmeer/skb-framework/releases
+    ** edit the new release here, first add the distribution files
+        *** `build/distributions/skb-framework-{release-version}.deb`
+        *** `build/distributions/skb-framework-{release-version}.rpm`
+        *** `build/distributions/skb-framework-{release-version}.tar.gz`
+    ** edit the tag/heading to something meaningful
+    ** edit the text by copying the news from `NEWS`, requires some reformatting from ADOC to MD
+    ** find the _Update release_ button
+. move back to `dev` branch
++
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+git checkout -b dev master
+----
+. done
+
+
+
+== New Documentation Fragment
+
+. create a new file in ` src/doc/fragments/...` as `something.adoc`
+    ** create a new folder if required
+    ** put sub-sections into a sub-folder, just to remember that they are sub-sections
+    ** use second level for main heading, as `== Main Heading`
+    ** use third and lower level for sub-sections, as `=== Sub Section`
+. add an include to the relevant document in `src/doc/documents/`
++
+[source%nowrap,indent=0]
+----
+\include::{skb-site-main-dir}/doc/fragments/.../something.adoc[]
+----
+    ** for a sub-section use `[leveloffset=+1]`
+    ** for a sub-sub-section use `[leveloffset=+2]`, and so on
+. add a file with the same name and in the same directory structure in the site
+    ** start directory is `src/site/asciidoc/`
+. only contents of this file should be an include directive
++
+[source%nowrap,indent=0]
+----
+\include::{skb-site-main-dir}/doc/fragments/.../something.adoc[]
+----
+. add an entry in the site menu if required, by editing the site descriptor
+    ** edit `src/site/site.xml`
+    ** as link use the generated HTML file, for instance: `.../something.html`
+    ** as name use the top heading or some abbreviated form of it
+. add a line in `skb-site-scripts.skb` for post-processing the HTML head information
+    ** in the function `MvnSitePostScript`
+    ** as `MvnSiteFixAdoc target/site/.../something           "Some Text"`
+    ** use the _name_ from `site.xml` as `"Some Text" - and use HTML entities for special characters
+. build the site to see if everything is ok and that the includes work
+    ** `./make-fw.sh site`
+    ** look for error messages, even when the process terminates successfully
+
+

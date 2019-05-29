@@ -37,10 +37,10 @@
                     <item href="user-guide/install/tgz.html" name="TGZ" />
                     <item href="user-guide/install/from-source.html" name="Build and Install from Source" />
                     <item href="user-guide/install/verify-installation.html" name="Verify Installation" />
+                    <item href="user-guide/install/terminal-configuration.html" name="Configure and Test Terminal" />
                     <item href="user-guide/install/build-cache.html" name="Build Cache" />
                 </item>
                 <item href="user-guide/performance.html" name="Performance" />
-                <item href="user-guide/system-configuration.html" name="System Configuration" />
             </item>
 
             <item href="manual.html" name="Manual" collapse="false">

@@ -1,0 +1,168 @@
+:release-version: 0.0.4
+= SKB Framework
+v{release-version}
+:page-layout: base
+:toc: preamble
+
+a flexible and extensible automation framework
+
+
+== Introduction
+
+The framework is written in `bash`.
+It runs wherever `bash` version 4 installed.
+We have tested it on
+
+* Ubuntu 14/16/18
+* Debian 3
+* Raspian (on PI model B and B+)
+* Cygwin on Windows 7 and 10
+* Windows 10 WSL with Ubuntu 18 installed
+* Mac OS X
+
+
+
+== Install
+
+The easiest way to install the framework is using `apt` and the PPA distribution:
+[source%nowrap,bash,indent=0]
+----
+sudo add-apt-repository ppa:vdmeer/skb
+sudo apt-get update 
+sudo apt-get install skb-framework
+----
+
+For other installation options, please see the _User Guide_ on the link:https://vdmeer.github.io/skb/framework/user-guide/install.html[website].
+
+
+== Run
+
+Ideally, the framework is run with a special user, with limited privileges.
+The installation will create a user `skbuser` for that purpose.
+[source%nowrap,bash,indent=0]
+----
+sudo -u skbuser skb-framework 
+----
+
+
+
+
+== Description
+
+The SKB-Framework provides a flexible, metadata-driven automation framework.
+Its main objective is to load and provide flexible access to _tasks_.
+A task is a shell script with additional semantics (metadata) processed by the framework.
+These additional semantics allow the framework to take care of some common functions for defined tasks,
+    for example loading and evaluating parameters and dependencies.
+
+The framework itself provides a start script, a loader, and an interactive shell.
+The start script sets initial parameters, such as name, acronym for name, path to an installation.
+The loader will process specifications (mainly tasks) and validate them.
+Once the loader is satisfied, it will start the interactive shell.
+
+An application using the framework can be started in one of three different modes:
+`dev` for a development mode,
+`build` for a build mode, and
+`use` for a use mode.
+The development mode `dev` should load tasks required to develop an application.
+The build mode `build` should load tasks required to build artifacts for a given application.
+The use mode `use` should load tasks required to use built artifacts for a given application.
+
+An application can also run in two different flavors:
+`std` or _standard_ for the standard flavor, and
+`install` for the installation flavor.
+Almost all tasks are visible in the `std` flavor.
+Only specific tasks, required when installing an application, are limited to the `install` flavor.
+
+The framework provides definitions for seven different elements: tasks, their dependencies, their (configuration) parameters, application CLI options, shell commands, application exit status codes, and scenarios.
+The framework loader will load all those definitions and validate them based on the provided metadata.
+CLI options, commands, and exit status codes are handled by the framework itself.
+Tasks, dependencies, parameters, and scenarios can be defined by an application.
+This framework provides a basic set of tasks, dependencies, and parameters.
+It also defines some scenarios to build its own deployment artifacts.
+
+This software package also provides an application named `skb-framework` as a standard application utilizing the framework's features and tasks.
+
+For more information on the framework, how to use it, how to build software artifacts, and how develop your own application with it, please visit the SKB-Framework website at https://vdmeer.github.io/skb/framework/.
+
+
+== Releases
+
+The framework is released in a few different formats, at a few different sites, all simultaneously (on the same day).
+The main release happens on a Ubuntu PPA on _Launchpad_.
+Then DEB and RPM files are released to _Bintray_.
+Finally, DEB, RPM, and TGZ files are released on _Github_.
+All releases are from the same original build, they might differ in some features (such as pre/post install automation).
+
+
+[cols="10,10,80", grid=rows, frame=none, %autowidth.stretch, options="header"]
+|===
+| Site | Links | Description
+
+| Launchpad | link:https://launchpad.net/~vdmeer/+archive/ubuntu/skb[ppa/skb] |
+This is the PPA and main release of the framework.
+Strict rules apply to packages here and they are checked at submission by _Launchpad_.
+
+| Bintray | link:https://bintray.com/vdmeer/deb/skb-framework[DEB], link:https://bintray.com/vdmeer/rpm/skb-framework[RPM] |
+I use _Bintray_ for binary releases of DEB and RPM files.
+You can find both of them here.
+
+| Github | link:https://github.com/vdmeer/skb-framework/releases[releases] a|
+When a new version is tagged on _Github_ (source directory, after successful deployment on _Launchpad_ and _Bintray_), the DEB and RPM files are also released here.
+This location provides two more release files:
+
+* A compressed tar archive with the same build that is released in DEB and RPM files
+* A compressed tar or zip archive with the associated sources from the Github repository
+
+|===
+
+
+
+== Resources
+
+[cols="15,20,65", grid=rows, frame=none, %autowidth.stretch, options="header"]
+|===
+| Item | Link(s) | Description
+
+| Website | link:https://vdmeer.github.io/skb/framework/index.html[web-site] |
+the framework's website with all information that has been produced
+
+| Source | link:https://github.com/vdmeer/skb-framework[github] |
+the software sources, in a Github repository, everything is here
+
+| Issues | link:https://github.com/vdmeer/skb-framework/issues[issues] |
+please look here for any issues, and if your issue or feature is not discussed already, then please add it!
+
+| Manual
+| link:https://vdmeer.github.io/skb/framework/manual.html[website], 
+  link:https://vdmeer.github.io/skb/framework/documents/manual.html[HTML], 
+  link:https://vdmeer.github.io/skb/framework/documents/manual.pdf[PDF]
+| The framework's manual page with the same content as the manual in the package and the manpage `skb-framework.1`.
+
+| User Guide
+| link:https://vdmeer.github.io/skb/framework/user-guide.html[website], 
+  link:https://vdmeer.github.io/skb/framework/documents/user-guide.html[HTML], 
+  link:https://vdmeer.github.io/skb/framework/documents/user-guide.pdf[PDF]
+| details how to install and use the framework
+
+| Task Guide
+| link:https://vdmeer.github.io/skb/framework/task-guide.html[website], 
+  link:https://vdmeer.github.io/skb/framework/documents/task-guide.html[HTML], 
+  link:https://vdmeer.github.io/skb/framework/documents/task-guide.pdf[PDF]
+| complete guide for all provided tasks
+
+| Developer Guide
+| link:https://vdmeer.github.io/skb/framework/developer-guide.html[website], 
+  link:https://vdmeer.github.io/skb/framework/documents/developer-guide.html[HTML], 
+  link:https://vdmeer.github.io/skb/framework/documents/developer-guide.pdf[PDF]
+| only if you are not afraid to see and use `bash` code :), comes with API documentation and more
+
+| The Implementation
+| link:https://vdmeer.github.io/skb/framework/implementation.html[website], 
+  link:https://vdmeer.github.io/skb/framework/documents/implementation.html[HTML], 
+  link:https://vdmeer.github.io/skb/framework/documents/implementation.pdf[PDF]
+| shows all details of the actual implementation of the start script, the loader, and the interactive shell
+
+|===
+
+

@@ -33,7 +33,7 @@ include::{skb-site-main-dir}/doc/fragments/user-guide/introduction.adoc[]
 
 include::{skb-site-main-dir}/doc/fragments/user-guide/install.adoc[]
 
-include::{skb-site-main-dir}/doc/fragments/user-guide/install/releases.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/releases.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/user-guide/install/requirements.adoc[leveloffset=+1]
 
@@ -49,6 +49,8 @@ include::{skb-site-main-dir}/doc/fragments/user-guide/install/from-source.adoc[l
 
 include::{skb-site-main-dir}/doc/fragments/user-guide/install/verify-installation.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/user-guide/install/terminal-configuration.adoc[leveloffset=+1]
+
 include::{skb-site-main-dir}/doc/fragments/user-guide/install/build-cache.adoc[leveloffset=+1]
 
 
@@ -56,5 +58,5 @@ include::{skb-site-main-dir}/doc/fragments/user-guide/install/build-cache.adoc[l
 include::{skb-site-main-dir}/doc/fragments/user-guide/performance.adoc[]
 
 
-include::{skb-site-main-dir}/doc/fragments/user-guide/system-configuration.adoc[]
+
 

@@ -29,9 +29,6 @@ skb-framework version {release-version}
 $
 ----
 
-Note: There is a bug in the original version 0.0.4.
-This version will show an error message instead of the version information.
-
 
 
 === Check Help
@@ -45,7 +42,7 @@ include::{skb-site-main-dir}/main/bash/etc/help/options.text[]
 
 
 
-=== Let teh Framework validate itself
+=== Let the Framework validate itself
 We can also use the task `validate-installation` to check all details of an installation and some runtime settings.
 We run this task from the command line using `--execute-task`, instead of starting the framework's interactive shell.
 We also set the task level is set to _debug_ to get all details of the process.

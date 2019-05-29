@@ -119,3 +119,10 @@ Prints the shell-prompt mode setting `CONFIG_MAP["SHELL_SNP"]`:
 ====
 PrintShellSNP
 ====
+
+
+
+=== PrintTestUtf8
+Prints all used UTF-8 characters in one line.
+The function has no argument.
+

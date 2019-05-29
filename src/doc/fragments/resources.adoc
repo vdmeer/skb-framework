@@ -1,0 +1,59 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== Resources
+
+[cols="15,20,65", grid=rows, frame=none, %autowidth.stretch, options="header"]
+|===
+| Item | Link(s) | Description
+
+| Website | link:https://vdmeer.github.io/skb/framework/index.html[web-site] |
+the framework's website with all information that has been produced
+
+| Source | link:https://github.com/vdmeer/skb-framework[github] |
+the software sources, in a Github repository, everything is here
+
+| Issues | link:https://github.com/vdmeer/skb-framework/issues[issues] |
+please look here for any issues, and if your issue or feature is not discussed already, then please add it!
+
+| Manual
+| link:https://vdmeer.github.io/skb/framework/manual.html[website], 
+  link:https://vdmeer.github.io/skb/framework/documents/manual.html[HTML], 
+  link:https://vdmeer.github.io/skb/framework/documents/manual.pdf[PDF]
+| The framework's manual page with the same content as the manual in the package and the manpage `skb-framework.1`.
+
+| User Guide
+| link:https://vdmeer.github.io/skb/framework/user-guide.html[website], 
+  link:https://vdmeer.github.io/skb/framework/documents/user-guide.html[HTML], 
+  link:https://vdmeer.github.io/skb/framework/documents/user-guide.pdf[PDF]
+| details how to install and use the framework
+
+| Task Guide
+| link:https://vdmeer.github.io/skb/framework/task-guide.html[website], 
+  link:https://vdmeer.github.io/skb/framework/documents/task-guide.html[HTML], 
+  link:https://vdmeer.github.io/skb/framework/documents/task-guide.pdf[PDF]
+| complete guide for all provided tasks
+
+| Developer Guide
+| link:https://vdmeer.github.io/skb/framework/developer-guide.html[website], 
+  link:https://vdmeer.github.io/skb/framework/documents/developer-guide.html[HTML], 
+  link:https://vdmeer.github.io/skb/framework/documents/developer-guide.pdf[PDF]
+| only if you are not afraid to see and use `bash` code :), comes with API documentation and more
+
+| The Implementation
+| link:https://vdmeer.github.io/skb/framework/implementation.html[website], 
+  link:https://vdmeer.github.io/skb/framework/documents/implementation.html[HTML], 
+  link:https://vdmeer.github.io/skb/framework/documents/implementation.pdf[PDF]
+| shows all details of the actual implementation of the start script, the loader, and the interactive shell
+
+|===
