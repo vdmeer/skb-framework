@@ -1,2 +1,3 @@
-        `pgrep` is a UNIX tool to search  for  process  names.  This  tool  is
-        required in tasks that search and kill processes.                     
+        `sed` is the UNIX stream editor. It performs text  transformations  on
+        input  streams  (file  or  pipeline).  Some  tasks  require  `sed`  to
+        manipulate text or files.                                             
