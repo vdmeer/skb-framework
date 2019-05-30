@@ -11,10 +11,24 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-== MVN Site
-Functions that support the build of a Maven site.
+== TestFileWritable
+Tests if a file exists and is writable, throws an error if not.
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/mvnsitefixadoc.adoc[leveloffset=+1]
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/mvnsitefixadocarray.adoc[leveloffset=+1]
+| Arguments
+| Return
+
+| $1: file name, including path if required
+
+$2: text for error message, e.g the calling task
+| none
+
+|===
+
+[example]
+====
+TestFileWritable ./target/site/index.html "my-task"
+====
 

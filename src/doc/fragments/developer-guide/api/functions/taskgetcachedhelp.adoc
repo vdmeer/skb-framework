@@ -1,0 +1,71 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== TaskGetCachedHelp
+
+_String TaskGetCachedHelp( $1 )_ - returns a file name with cached help for a task.
+
+This function tries to find a file with a help screen for the given task identifier, and returns it.
+File is searched in the directory given by _CONFIG_MAP["CACHE_DIR"]_, with sub-directory _tasks_.
+The file extension is taken from _CONFIG_MAP["PRINT_MODE"]_.
+If the configuration is set to _/var/cache/skb-framework_,
+    the task identifier is _clean_, and 
+    the _print mode_ is set to _ansi_;
+    the function will try to locate the file _/var/cache/skb-framework/tasks/clean.ansi_.
+
+*Parameters*:
+
+* `$1` - Task identifier (or name), must be the long name!
+
+*Return*:
+
+* _String_ - The file in the cache with a help screen for the task.
+    The return is realized as a print of the found file name or an empty string if none was found.
+
+*Errors* (as _Console Error_)
+
+* If the task given by `$1` was not found
+
+[source%nowrap,bash,linenumber]
+----
+CACHED_HELP=$(TaskGetCachedHelp "my-task")
+----
+
+The example above sets a variable _CACHED_HELP_ with the result of this function for a task with the name _my-task_.
+
+All tasks in the framework use this function to locate a help screen in the cache, before they attempt to print help information.
+The standard code used in the tasks is shown below (taken from the task _clean_):
+
+[source%nowrap,bash,linenumber]
+CACHED_HELP=$(TaskGetCachedHelp "clean")
+if [[ -z ${CACHED_HELP:-} ]]; then
+    # print help
+else
+    cat $CACHED_HELP
+fi
+----
+
+Line 1 calls this function to locate a cached help file.
+If the file was not found (test in line 2), the help is printed locally (line 3, actually a few print lines, usually some calls to
+ifeval::["{adoc-build-target}" == "pdf"]
+_<<_buildtaskhelpline>>_
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+_<<_buildtaskhelpline>>_
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+_link:tasks.html#buildtaskhelpline[BuildTaskHelpLine]_
+endif::[]
+).
+Otherwise (line 4), the found file is printed (line 5).
+

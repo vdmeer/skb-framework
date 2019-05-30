@@ -15,69 +15,7 @@
 Functions to execute tasks or scenarios.
 They are used for instance in the interactive shell.
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/executescenario.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/executetask.adoc[leveloffset=+1]
 
-=== ExecuteTask
-
-_void ExecuteTask( $1 )_ - executes a task.
-
-The task must be loaded and available for execution.
-For the task _wait_, an additional calculation of the actual wait time is displayed.
-This function will print extra information (header and footer, execution time calculations) for most tasks.
-The exception here are:
-
-* all _standard_ tasks known to not need header and footers: _list-*_, _describe-*_, _setting_, _manual_, _statistics_, and _wait_
-* any task execution that includes the arguments _-h_ or _--help_.
-
-*Parameters*:
-
-* `$1` - String with the full command line for the task.
-    The first word is taken as the task ID (or name), which can be the task's short or long name.
-
-*Errors* (as _Console Error_)
-
-* Empty task name (first word of `$1`)
-* Task not loaded in current mode and flavor
-* Error executing the task with given arguments
-
-*External Dependencies*
-
-* _bc_ is used to calculate the task execution time
-* _cut_ is used to separate the task name from the arguments in `$1`
-* _date_ is used to to get start and end time of the task execution
-* _tput_ is used to get the current line width of the terminal
-
-[source%nowrap,bash,linenumber]
-----
-ExecuteTask "$SARG"
-ExecuteTask "list-tasks -AT"
-----
-
-The example above shows two calls of the function.
-Line 1 calls the function with a variable _$ARG_.
-Line 2 calls the function with a task named _list-tasks_ and task arguments as _-AT_.
-
-
-
-=== ExecuteScenario
-
-_void ExecuteScenario( $1 )_ - executes a scenario.
-
-The scenario must be loaded and available for execution.
-
-*Parameters*:
-
-* `$1` - String with the scenario ID (or name) as short or long name.
-
-*Errors* (as _Console Error_)
-
-* An unknown scenario name
-* Scenario file (script) not found
-* Any error detected in the scenario file, then with line number
-
-[source%nowrap,bash,linenumber]
-----
-ExecuteScenario build-site
-----
-
-The example above calls the function with the scenario name _build-site_.

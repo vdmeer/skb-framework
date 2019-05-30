@@ -14,129 +14,14 @@
 == System
 Collection of functions for the underlying system.
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/pathtosystempath.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/testdirectoryexists.adoc[leveloffset=+1]
 
-=== PathToSystemPath
-Converts a given path to a system-specific representation.
-This can be important when running on hybrid systems.
-In Cygwin for instance, one can execute Windows programs that do not understand UNIx path.
-This function can convert the paths.
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/testdirectorywritable.adoc[leveloffset=+1]
 
-The system is taken from `CONFIG_MAP["SYSTEM"]`.
-If no special path conversion is implemented for the system, the original path is returned.
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/testfileexists.adoc[leveloffset=+1]
 
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-
-| Arguments
-| Return (print)
-
-| $1: path to convert
-| converted or original path
-
-|===
-
-[example]
-====
-VARIABLE=$(PathToSystemPath "path")
-====
-
-Currently supported conversions are:
-
-* Cygwin: uses `cygpath -m` for the conversion
-
-
-
-=== TestDirectoryExists
-Tests if a directory exists and is readable, throws an error if not.
-
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-
-| Arguments
-| Return
-
-| $1: directory name, including path if required
-
-$2: text for error message, e.g the calling task
-| none
-
-|===
-
-[example]
-====
-TestDirectoryExists ./target/site "my-task"
-====
-
-
-
-=== TestFileExists
-Tests if a file exists and is readable, throws an error if not.
-
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-
-| Arguments
-| Return
-
-| $1: file name, including path if required
-
-$2: text for error message, e.g the calling task
-| none
-
-|===
-
-[example]
-====
-TestFileExists ./target/site/index.html "my-task"
-====
-
-
-
-=== TestDirectoryWritable
-Tests if a directory exists and is writable, throws an error if not.
-
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-
-| Arguments
-| Return
-
-| $1: directory name, including path if required
-
-$2: text for error message, e.g the calling task
-| none
-
-|===
-
-[example]
-====
-TestDirectoryExists ./target/site "my-task"
-====
-
-
-
-=== TestFileWritable
-Tests if a file exists and is writable, throws an error if not.
-
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-
-| Arguments
-| Return
-
-| $1: file name, including path if required
-
-$2: text for error message, e.g the calling task
-| none
-
-|===
-
-[example]
-====
-TestFileWritable ./target/site/index.html "my-task"
-====
-
-
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/testfilewritable.adoc[leveloffset=+1]
 
 

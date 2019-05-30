@@ -1,0 +1,53 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== MvnSiteFixAdocArray
+
+_void MvnSiteFixAdocArray ()_ - fixes HTML files generated from ADOC sources by the Maven site plugin using an array.
+
+This function uses the array _MVN_SITE_FIX_ADOC_ARRAY_ to fix a set of files.
+The array is declared when the file _mvn-site.sh_ is included.
+it must be filled by the callee prior to calling this function.
+The array is declared as an associative array (or hash map): _declare -A MVN_SITE_FIX_ADOC_ARRAY_.
+The keys in the array should be file names, the values should be strings for the substitution.
+
+This function will call 
+ifeval::["{adoc-build-target}" == "pdf"]
+_<<_mvnsitefixadoc>>_
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+_<<_mvnsitefixadoc>>_
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+_link:mvn-site.html#mvnsitefixadoc[MvnSiteFixAdoc]_
+endif::[]
+for every entry of the array.
+
+In task level _trace_, extra progress information will be printed.
+The function will print the number of entries in the array, and then for each entry the file name.
+
+*Errors* (as _Console Error_)
+
+* If the array has no entries, i.e. is of size 0
+
+
+[source%nowrap,bash,linenumber]
+----
+MVN_SITE_FIX_ADOC_ARRAY["manual"]="Manual"
+MVN_SITE_FIX_ADOC_ARRAY["manual/commands"]="Commands"
+MVN_SITE_FIX_ADOC_ARRAY["manual/dependencies"]="Dependencies"
+MvnSiteFixAdocArray
+----
+
+The example above fills the array with 3 entries (line 1-3), then calls this function (line 4).
+

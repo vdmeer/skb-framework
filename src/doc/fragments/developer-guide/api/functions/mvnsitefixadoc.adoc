@@ -1,0 +1,53 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+== MvnSiteFixAdoc
+
+_void MvnSiteFixAdoc( $1, $2 )_ - fixes HTML files generated from ADOC sources by the Maven site plugin.
+
+This function will fix a problem with the _Asciidoctor_ plugin used in the creation of a Maven site.
+The problem here is that for every _ADOC_ file, the _HTML_ title and the _breadcrumbs_ are not generated properly.
+The title contains only a general text, while the bread crumb link is empty.
+
+The title is fixed first.
+The function will substitute `x2013; </title>` with `x2013; $2</title>`.
+The bread crumb is fixed next.
+The function will substitute `<li class="active "></li>` with `<li class=\"active \">${2}</li>`.
+No substitution is done in case of any error.
+
+In task level _trace_, extra progress information will be printed.
+The function will print when it when it substitutes the title and the bread crumb.
+
+*Parameters*:
+
+* `$1` - String with file name, without _.html_ extension, of the file to fix.
+* `$2` - String with text to insert into title and bread crumb parts of the file.
+
+*Errors* (as _Console Error_)
+
+* If the file does not exist
+* If the file is not readable
+* If the file is not writable
+
+*External Dependencies*
+
+* _sed_ is used to process the _HTML_ file and run all substitutions.
+    Each substitution will create a backup file, which is removed on success.
+
+[source%nowrap,bash,linenumber]
+----
+MvnSiteFixAdoc target/site/developer-guide/api/mvn-site "API: MVN Site"
+----
+
+The example above calls the function for a file _target/site/developer-guide/api/mvn-site.html_ and the substitution text _API: MVN Site_.
+
