@@ -1,0 +1,168 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+//
+
+
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_commandintable>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_commandintable>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/describe-command.html#commandintable[CommandInTable] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consoledebug>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consoledebug>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consoledebug[ConsoleDebug] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consoleerror>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consoleerror>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consoleerror[ConsoleError] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consolefatal>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consolefatal>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consolefatal[ConsoleFatal] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consolehaserrors>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consolehaserrors>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consolehaserrors[ConsoleHasErrors] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consolehaswarnings>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consolehaswarnings>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consolehaswarnings[ConsoleHasWarnings] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consoleinfo>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consoleinfo>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consoleinfo[ConsoleInfo] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consoleisdebug>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consoleisdebug>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consoleisdebug[ConsoleIsDebug] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consoleismessage>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consoleismessage>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consoleismessage[ConsoleIsMessage] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consoleisprompt>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consoleisprompt>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consoleisprompt[ConsoleIsPrompt] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consoleistrace>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consoleistrace>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consoleistrace[ConsoleIsTrace] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consolemessage>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consolemessage>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consolemessage[ConsoleMessage] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consolereseterrors>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consolereseterrors>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consolereseterrors[ConsoleResetErrors] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consoleresetwarnings>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consoleresetwarnings>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consoleresetwarnings[ConsoleResetWarnings] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consoletrace>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consoletrace>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consoletrace[ConsoleTrace] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consolewarn>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consolewarn>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consolewarn[ConsoleWarn] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_consolewarnstrict>>
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_consolewarnstrict>>
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/console.html#consolewarnstrict[ConsoleWarnStrict]
+endif::[]
+

@@ -11,6 +11,13 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-:sectlinks:
 
-include::{skb-site-main-dir}/doc/fragments/implementation/loader.adoc[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_writeruntimeconfig>>
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_writeruntimeconfig>>
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/config.html#writeruntimeconfig[WriteRuntimeConfig]
+endif::[]

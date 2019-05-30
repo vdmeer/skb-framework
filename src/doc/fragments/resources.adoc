@@ -48,12 +48,6 @@ please look here for any issues, and if your issue or feature is not discussed a
 | link:https://vdmeer.github.io/skb/framework/developer-guide.html[website], 
   link:https://vdmeer.github.io/skb/framework/documents/developer-guide.html[HTML], 
   link:https://vdmeer.github.io/skb/framework/documents/developer-guide.pdf[PDF]
-| only if you are not afraid to see and use `bash` code :), comes with API documentation and more
-
-| The Implementation
-| link:https://vdmeer.github.io/skb/framework/implementation.html[website], 
-  link:https://vdmeer.github.io/skb/framework/documents/implementation.html[HTML], 
-  link:https://vdmeer.github.io/skb/framework/documents/implementation.pdf[PDF]
-| shows all details of the actual implementation of the start script, the loader, and the interactive shell
+| only if you are not afraid to see and use `bash` code :), comes with layout description, sequence charts, details on the implementation, API documentation, function index, and more.
 
 |===

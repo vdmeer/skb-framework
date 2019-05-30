@@ -11,6 +11,4 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-:sectlinks:
-
 == Implementation

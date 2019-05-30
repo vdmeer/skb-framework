@@ -11,493 +11,375 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-== Function Index
-Collection of functions for tasks.
-
-
-=== Alphabetically
-
-[frame=none, grid=none, cols="a,a,a,a"]
-|===
-
-|
-ifeval::["{adoc-build-target}" == "pdf"]
-<<_buildtaskhelpline>>
-endif::[]
-ifeval::["{adoc-build-target}" == "html"]
-<<_buildtaskhelpline>>
-endif::[]
-ifeval::["{adoc-build-target}" == "site"]
-link:tasks.html#buildtaskhelpline[BuildTaskHelpLine]
-endif::[]
-| | |
-
-|===
-
-'''
-
-[frame=none, grid=none, cols="a,a,a,a"]
-|===
-
-|
-ifeval::["{adoc-build-target}" == "pdf"]
-<<_consoledebug>>
-endif::[]
-ifeval::["{adoc-build-target}" == "html"]
-<<_consoledebug>>
-endif::[]
-ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consoledebug[ConsoleDebug]
-endif::[]
 
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consolehaswarnings>>
+<<_debugdependency>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consolehaswarnings>>
+<<_debugdependency>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consolehaswarnings[ConsoleHasWarnings]
+link:api/describe-dependency.html#debugdependency[DebugDependency] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consoleisprompt>>
+<<_debugparameter>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consoleisprompt>>
+<<_debugparameter>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consoleisprompt[ConsoleIsPrompt]
+link:api/describe-parameter.html#debugparameter[DebugParameter] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consoleresetwarnings>>
+<<_debugscenario>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consoleresetwarnings>>
+<<_debugscenario>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consoleresetwarnings[ConsoleResetWarnings]
+link:api/describe-scenario.html#debugscenario[DebugScenario] -- 
 endif::[]
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consoleerror>>
+<<_debugtask>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consoleerror>>
+<<_debugtask>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consoleerror[ConsoleError]
+link:api/describe-task.html#debugtask[DebugTask] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consoleinfo>>
+<<_dependencyintable>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consoleinfo>>
+<<_dependencyintable>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consoleinfo[ConsoleInfo]
+link:api/describe-dependency.html#dependencyintable[DependencyInTable] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consoleistrace>>
+<<_describeapplicationauthors>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consoleistrace>>
+<<_describeapplicationauthors>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consoleistrace[ConsoleIsTrace]
+link:api/describe-application.html#describeapplicationauthors[DescribeApplicationAuthors] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consoletrace>>
+<<_describeapplicationbugs>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consoletrace>>
+<<_describeapplicationbugs>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consoletrace[ConsoleTrace]
+link:api/describe-application.html#describeapplicationbugs[DescribeApplicationBugs] -- 
 endif::[]
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consolefatal>>
+<<_describeapplicationcopying>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consolefatal>>
+<<_describeapplicationcopying>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consolefatal[ConsoleFatal]
+link:api/describe-application.html#describeapplicationcopying[DescribeApplicationCopying] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consoleisdebug>>
+<<_describeapplicationdescription>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consoleisdebug>>
+<<_describeapplicationdescription>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consoleisdebug[ConsoleIsDebug]
+link:api/describe-application.html#describeapplicationdescription[DescribeApplicationDescription] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consolemessage>>
+<<_describeapplicationresources>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consolemessage>>
+<<_describeapplicationresources>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consolemessage[ConsoleMessage]
+link:api/describe-application.html#describeapplicationresources[DescribeApplicationResources] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consolewarn>>
+<<_describeapplicationsecurity>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consolewarn>>
+<<_describeapplicationsecurity>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consolewarn[ConsoleWarn]
+link:api/describe-application.html#describeapplicationsecurity[DescribeApplicationSecurity] -- 
 endif::[]
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consolehaserrors>>
+<<_describecommand>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consolehaserrors>>
+<<_describecommand>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consolehaserrors[ConsoleHasErrors]
+link:api/describe-command.html#describecommand[DescribeCommand] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consoleismessage>>
+<<_describecommanddescription>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consoleismessage>>
+<<_describecommanddescription>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consoleismessage[ConsoleIsMessage]
+link:api/describe-command.html#describecommanddescription[DescribeCommandDescription] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consolereseterrors>>
+<<_describedependency>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consolereseterrors>>
+<<_describedependency>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consolereseterrors[ConsoleResetErrors]
+link:api/describe-dependency.html#describedependency[DescribeDependency] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_consolewarnstrict>>
+<<_describedependencydescription>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_consolewarnstrict>>
+<<_describedependencydescription>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:console.html#consolewarnstrict[ConsoleWarnStrict]
+link:api/describe-dependency.html#describedependencydescription[DescribeDependencyDescription] -- 
 endif::[]
-|===
-
-'''
-
-[frame=none, grid=none, cols="a,a,a,a"]
-|===
-
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_executescenario>>
+<<_describedependencystatus>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_executescenario>>
+<<_describedependencystatus>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:execute.html#executescenario[ExecuteScenario]
+link:api/describe-dependency.html#describedependencystatus[DescribeDependencyStatus] -- 
 endif::[]
-
-
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_executetask>>
+<<_describeelementcommands>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_executetask>>
+<<_describeelementcommands>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:execute.html#executetask[ExecuteTask]
+link:api/describe-element.html#describeelementcommands[DescribeElementCommands] -- 
 endif::[]
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_exitontaskerrors>>
+<<_describeelementdependencies>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_exitontaskerrors>>
+<<_describeelementdependencies>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:misc.html#exitontaskerrors[ExitOnTaskErrors]
+link:api/describe-element.html#describeelementdependencies[DescribeElementDependencies] -- 
 endif::[]
-|
-|===
-
-'''
-
-[frame=none, grid=none, cols="a,a,a,a"]
-|===
-
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_getcommandid>>
+<<_describeelementexitstatus>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_getcommandid>>
+<<_describeelementexitstatus>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:commands.html#getcommandid[GetCommandID]
+link:api/describe-element.html#describeelementexitstatus[DescribeElementExitStatus] -- 
 endif::[]
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_getscenarioid>>
+<<_describeelementoptions>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_getscenarioid>>
+<<_describeelementoptions>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:scenarios.html#getscenarioid[GetScenarioID]
+link:api/describe-element.html#describeelementoptions[DescribeElementOptions] -- 
 endif::[]
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_gettaskid>>
+<<_describeelementoptionsexit>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_gettaskid>>
+<<_describeelementoptionsexit>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:tasks.html#gettaskid[GetTaskID]
+link:api/describe-element.html#describeelementoptionsexit[DescribeElementOptionsExit] -- 
 endif::[]
-|
-|===
-
-'''
-
-[frame=none, grid=none, cols="a,a,a,a"]
-|===
-
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_mvnsitefixadoc>>
+<<_describeelementoptionsruntime>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_mvnsitefixadoc>>
+<<_describeelementoptionsruntime>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:mvn-site.html#mvnsitefixadoc[MvnSiteFixAdoc]
+link:api/describe-element.html#describeelementoptionsruntime[DescribeElementOptionsRuntime] -- 
 endif::[]
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_mvnsitefixadocarray>>
+<<_describeelementparameters>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_mvnsitefixadocarray>>
+<<_describeelementparameters>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:mvn-site.html#mvnsitefixadocarray[MvnSiteFixAdocArray]
+link:api/describe-element.html#describeelementparameters[DescribeElementParameters] -- 
 endif::[]
-| |
-|===
-
-'''
-
-[frame=none, grid=none, cols="a,a,a,a"]
-|===
-
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_pathtosystempath>>
+<<_describeelementscenarios>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_pathtosystempath>>
+<<_describeelementscenarios>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:system.html#pathtosystempath[PathToSystemPath]
+link:api/describe-element.html#describeelementscenarios[DescribeElementScenarios] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_printquiet>>
+<<_describeelementtasks>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_printquiet>>
+<<_describeelementtasks>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:print.html#printquiet[PrintQuiet]
+link:api/describe-element.html#describeelementtasks[DescribeElementTasks] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_printtesteffects>>
+<<_describeexitstatus>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_printtesteffects>>
+<<_describeexitstatus>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:print-ansi.html#printtesteffects[PrintTestEffects]
+link:api/describe-exitstatus.html#describeexitstatus[DescribeExitstatus] -- 
 endif::[]
-
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_printappmode>>
+<<_describeexitstatusdescription>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_printappmode>>
+<<_describeexitstatusdescription>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:print.html#printappmode[PrintAppMode]
+link:api/describe-exitstatus.html#describeexitstatusdescription[DescribeExitstatusDescription] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_printshellsnp>>
+<<_describeexitstatusstatus>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_printshellsnp>>
+<<_describeexitstatusstatus>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:print.html#printshellsnp[PrintShellSNP]
+link:api/describe-exitstatus.html#describeexitstatusstatus[DescribeExitstatusStatus] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_printtestutf8>>
+<<_describeoption>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_printtestutf8>>
+<<_describeoption>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:print.html#printtestutf8[PrintTestUtf8]
+link:api/describe-option.html#describeoption[DescribeOption] -- 
 endif::[]
-
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_printappmodeflavor>>
+<<_describeoptiondescription>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_printappmodeflavor>>
+<<_describeoptiondescription>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:print.html#printappmodeflavor[PrintAppModeFlavor]
+link:api/describe-option.html#describeoptiondescription[DescribeOptionDescription] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_printstrict>>
+<<_describeoptionstatus>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_printstrict>>
+<<_describeoptionstatus>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:print.html#printstrict[PrintStrict]
+link:api/describe-option.html#describeoptionstatus[DescribeOptionStatus] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_promptsfmode>>
+<<_describeparameter>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_promptsfmode>>
+<<_describeparameter>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:prompt.html#promptsfmode[PromptSfMode]
+link:api/describe-parameter.html#describeparameter[DescribeParameter] -- 
 endif::[]
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_printconsolelevel>>
+<<_describeparameterdefvalue>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_printconsolelevel>>
+<<_describeparameterdefvalue>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:print.html#printconsolelevel[PrintConsoleLevel]
+link:api/describe-parameter.html#describeparameterdefvalue[DescribeParameterDefValue] -- 
 endif::[]
-
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_printtestcolors>>
+<<_describeparameterdescription>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_printtestcolors>>
+<<_describeparameterdescription>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:print-ansi.html#printtestcolors[PrintTestColors]
+link:api/describe-parameter.html#describeparameterdescription[DescribeParameterDescription] -- 
 endif::[]
-|===
-
-'''
-
-[frame=none, grid=none, cols="a,a,a,a"]
-|===
-
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_testdirectoryexists>>
+<<_describeparameterstatus>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_testdirectoryexists>>
+<<_describeparameterstatus>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:system.html#testdirectoryexists[TestDirectoryExists]
+link:api/describe-parameter.html#describeparameterstatus[DescribeParameterStatus] -- 
 endif::[]
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_testdirectorywritable>>
+<<_describescenario>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_testdirectorywritable>>
+<<_describescenario>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:system.html#testdirectorywritable[TestDirectoryWritable]
+link:api/describe-scenario.html#describescenario[DescribeScenario] -- 
 endif::[]
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_testfileexists>>
+<<_describescenariodescription>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_testfileexists>>
+<<_describescenariodescription>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:system.html#testfileexists[TestFileExists]
+link:api/describe-scenario.html#describescenariodescription[DescribeScenarioDescription] -- 
 endif::[]
-
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_testfilewritable>>
+<<_describescenariostatus>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_testfilewritable>>
+<<_describescenariostatus>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:system.html#testfilewritable[TestFileWritable]
+link:api/describe-scenario.html#describescenariostatus[DescribeScenarioStatus] -- 
 endif::[]
-|===
-
-'''
-
-[frame=none, grid=none, cols="a,a,a,a"]
-|===
-
-|
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_writeruntimeconfig>>
+<<_describetask>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_writeruntimeconfig>>
+<<_describetask>>, 
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:config.html#writeruntimeconfig[WriteRuntimeConfig]
+link:api/describe-task.html#describetask[DescribeTask] -- 
 endif::[]
-| | |
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_describetaskdescription>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_describetaskdescription>>, 
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/describe-task.html#describetaskdescription[DescribeTaskDescription] -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_describetaskstatus>>
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_describetaskstatus>>
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:api/describe-task.html#describetaskstatus[DescribeTaskStatus]
+endif::[]
 
 
-
-|===
-
-=== By Element
-
-[frame=topbot, grid=rows, cols="d,d,d,d", options="header"]
-|===
-
-|===

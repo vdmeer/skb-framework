@@ -13,4 +13,4 @@
 
 :sectlinks:
 
-include::{skb-site-main-dir}/doc/fragments/implementation/sequences.adoc[]
+include::{skb-site-main-dir}/doc/fragments/developer-guide/sequences/normal-interactive.adoc[]

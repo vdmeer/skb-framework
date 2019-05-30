@@ -58,6 +58,23 @@ include::{skb-site-main-dir}/doc/fragments/developer-guide/api/system.adoc[level
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/tasks.adoc[leveloffset=+1]
 
 
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/sequences.adoc[]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/sequences/normal-interactive.adoc[leveloffset=+1]
+
+
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/implementation.adoc[]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/implementation/skb-framework.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/implementation/loader.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/implementation/shell.adoc[leveloffset=+1]
+
+
+
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api-describe.adoc[]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/describe-application.adoc[leveloffset=+1]
@@ -79,4 +96,5 @@ include::{skb-site-main-dir}/doc/fragments/developer-guide/api/describe-scenario
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/describe-task.adoc[leveloffset=+1]
 
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-index.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api-function-index.adoc[]
+
