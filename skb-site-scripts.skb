@@ -126,6 +126,12 @@ MvnSitePostScript() {
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-lib"]="Developer Guide, Layouts: lib"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-man"]="Developer Guide, Layouts: man"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-scenarios"]="Developer Guide, Layouts: scenarios"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/sequences"]="Developer Guide: Sequences"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/sequences/normal-interactive"]="Developer Guide, Sequences: Normal and Interactive"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation"]="Developer Guide: The Implementation"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation/skb-framework"]="Developer Guide, Implementation: skb-framework"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation/loader"]="Developer Guide, Implementation: loader"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation/shell"]="Developer Guide, Implementation: shell"
         MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api-main"]="Developer Guide: API-Main"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/commands"]="Developer Guide, API: Commands"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/config"]="Developer Guide, API: Config"
@@ -149,14 +155,7 @@ MvnSitePostScript() {
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-parameter"]="Developer Guide, API: Describe/Parameter"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-scenario"]="Developer Guide, API: Describe/Scenario"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-task"]="Developer Guide, API: Describe/Task"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/function-index"]="Developer Guide, API: Function Index"
-
-    MVN_SITE_FIX_ADOC_ARRAY["target/site/implementation"]="The Implementation"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/implementation/sequences"]="Implementation: Sequences"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/implementation/sequences/normal-interactive"]="Implementation, Sequences: Normal and Interactive"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/implementation/skb-framework"]="Implementation: skb-framework"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/implementation/loader"]="Implementation: loader"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/implementation/shell"]="Implementation: shell"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api-function-index"]="Developer Guide: API Function Index"
 
 #     MVN_SITE_FIX_ADOC_ARRAY["target/site/"]=""
 
@@ -195,8 +194,6 @@ MvnSitePostScript() {
         asciidoctor ./src/doc/documents/task-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=html -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
     printf "         -> developer guide\n"
         asciidoctor ./src/doc/documents/developer-guide.adoc    -D ${DOC_TARGET_DIR} -a adoc-build-target=html -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
-    printf "         -> implementation\n"
-        asciidoctor ./src/doc/documents/implementation.adoc     -D ${DOC_TARGET_DIR} -a adoc-build-target=html -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
 
     printf "      -> building pdf documents\n"
     printf "         -> user guide\n"
@@ -205,8 +202,6 @@ MvnSitePostScript() {
         asciidoctor-pdf ./src/doc/documents/task-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
     printf "         -> developer guide\n"
         asciidoctor-pdf ./src/doc/documents/developer-guide.adoc    -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
-    printf "         -> implementation\n"
-        asciidoctor-pdf ./src/doc/documents/implementation.adoc     -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
 
 }
 

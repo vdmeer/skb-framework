@@ -82,6 +82,7 @@ git push --tags
 ----
 git checkout -b dev master
 ----
+. Publish the new site
 . done
 
 
@@ -122,3 +123,49 @@ git checkout -b dev master
     ** look for error messages, even when the process terminates successfully
 
 
+=== Links
+ADOC fragments appear on the web-site, in HTML documents, and in PDF documents.
+Links need to be done per target.
+Here is the template using the Asciidoctor conditional pre-processor.
+Settings for `{adoc-build-target}` are done by our build/make scripts.
+
+[source, subs="verbatim"]
+----
+\ifeval::["{adoc-build-target}" == "pdf"]
+<<_%%11%%>>
+\endif::[]
+\ifeval::["{adoc-build-target}" == "html"]
+<<_%%11%%>>
+\endif::[]
+\ifeval::["{adoc-build-target}" == "site"]
+link:%%33$%.html#%%1%%[%%22%%]
+\endif::[]
+----
+
+Substitute `%%11%%`with anchor in page/document (e.g. section anchor
+    `%%22%%` with the actual link name (e.g. heading), and
+    `%%33%%` with the file name in the site structure.
+Note: in HTML and PDF documents, the link name is generated automatically.
+
+
+=== Images
+Same problem as with links, the different targets have different constrains.
+So we are using conditional processing again, with specific `{imagedir}` set per target.
+Settings for `{adoc-build-target}` are done by our build/make scripts.
+
+[source, subs="verbatim"]
+----
+\ifeval::["{adoc-build-target}" == "pdf"]
+image::%%11%%[alt=%%22%%, align="center"]
+\endif::[]
+\ifeval::["{adoc-build-target}" == "html"]
+image::https://vdmeer.github.io/skb/images/skb/%%11%%[alt=%%22%%, align="center"]
+\endif::[]
+\ifeval::["{adoc-build-target}" == "site"]
+image::../../images/skb/%%11%%[alt=%%22%%, align="center"]
+\endif::[]
+----
+
+Substitute `%%11%%`with the path and name of the image and
+    `%%22%%` with the alternative tag (or caption) of the image.
+Add width and height is required.

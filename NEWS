@@ -1,10 +1,7 @@
 Version 0.0.5 2019-##-##
 
-    * fixed issue 1, https://github.com/vdmeer/skb-framework/issues/1
-    * added install scenario 'build-fw-cache'
-    * added information to the user-guide on installation and performance
-    * added more links to the manual (bugs, resources)
-    * changed tag line to: a flexible and extensible automation framework
+    * Issues, fixed
+        ** https://github.com/vdmeer/skb-framework/issues/1
     * API additions
         ** PrintTestColors in api/print-ansi.sh
         ** PrintTestEffects in api/print-ansi.sh
@@ -15,14 +12,23 @@ Version 0.0.5 2019-##-##
         ** TestFileExists in api/system.sh
         ** TestDirectoryWritable in api/system.sh
         ** TestFileWritable in api/system.sh
-    * Added options
+    * Added CLI options
         ** '--test-terminal' to test terminal capabilities for UTF-8, ANSI colors, and ANSI effects (exit option)
         ** '--test-ansi-colors' to test terminal ANSI color capabilities (used colors, exit option)
         ** '--test-ansi-effects' to test terminal ANSI color capabilities (used effects, exit option)
         ** '--test-utf8' to test terminal UTF-8 capabilities (used UTF-8 characters, exit option)
+    * Misc additions
+        ** new install scenario 'build-fw-cache'
     * Changed exit codes (declarations, loader, shell, some tasks)
         ** new structure leaving a larger gap in the 10-30 numbers for future additional codes
         ** added codes for missing commands: sed, cat, less, and tput (all tested in the loader now)
+    * Documentation updates
+        ** changed tag line to: a flexible and extensible automation framework
+        ** User-Guide: added information on installation, performance
+        ** Dev-Guide: moved Implementation into here
+        ** Dev-Guide: added layouts, sequence charts, and function index to Developer Guide
+        ** Dev-Guide: added to API, changed API description template and content for all functions
+        ** Manual: added links to bugs and resources
 
 Version 0.0.4 2019-05-27
 
