@@ -27,7 +27,7 @@
         <menu name="SKB FRAMEWORK">
             <item href="index.html" name="Welcome" />
 
-            <item href="user-guide.html" name="User Guide" collapse="false">
+            <item href="user-guide.html" name="User Guide" collapse="true">
                 <item href="user-guide/install.html" name="Install" collapse="true">
                     <item href="user-guide/install/releases.html" name="Releases" />
                     <item href="user-guide/install/requirements.html" name="Requirements" />
@@ -43,7 +43,7 @@
                 <item href="user-guide/performance.html" name="Performance" />
             </item>
 
-            <item href="manual.html" name="Manual" collapse="false">
+            <item href="manual.html" name="Manual" collapse="true">
                 <item href="manual/options.html" name="Options" />
                 <item href="manual/parameters.html" name="Parameters" />
                 <item href="manual/tasks.html" name="Tasks" />
@@ -53,7 +53,7 @@
                 <item href="manual/exit-status.html" name="Exit Status" />
             </item>
 
-            <item href="task-guide.html" name="Task Guide" collapse="false">
+            <item href="task-guide.html" name="Task Guide" collapse="true">
                 <item href="task-guide/use-tasks.html" name="Use Tasks" collapse="true">
                     <item href="task-guide/tasks/list-.html" name="list-*" />
                     <item href="task-guide/tasks/describe-.html" name="describe-*" />
@@ -84,7 +84,7 @@
                 </item>
             </item>
 
-            <item href="developer-guide.html" name="Developer Guide" collapse="false">
+            <item href="developer-guide.html" name="Developer Guide" collapse="true">
                 <item href="developer-guide/layouts.html" name="Layout &amp; Directory Structure" collapse="true">
                     <item href="developer-guide/layouts/app-bin.html" name="bin" />
                     <item href="developer-guide/layouts/app-doc.html" name="doc" />
@@ -93,8 +93,7 @@
                     <item href="developer-guide/layouts/app-man.html" name="man" />
                     <item href="developer-guide/layouts/app-scenarios.html" name="scenarios" />
                 </item>
-
-                <item href="developer-guide/api.html" name="API" collapse="true">
+                <item href="developer-guide/api-main.html" name="API-Main" collapse="true">
                     <item href="developer-guide/api/commands.html" name="Commands" />
                     <item href="developer-guide/api/config.html" name="Config" />
                     <item href="developer-guide/api/console.html" name="Console" />
@@ -108,9 +107,21 @@
                     <item href="developer-guide/api/system.html" name="System" />
                     <item href="developer-guide/api/tasks.html" name="Tasks" />
                 </item>
+                <item href="developer-guide/api-describe.html" name="API-Describe" collapse="true">
+                    <item href="developer-guide/api/describe-application.html" name="Describe/Application" />
+                    <item href="developer-guide/api/describe-command.html" name="Describe/Command" />
+                    <item href="developer-guide/api/describe-dependency.html" name="Describe/Dependency" />
+                    <item href="developer-guide/api/describe-element.html" name="Describe/Element" />
+                    <item href="developer-guide/api/describe-exitstatus.html" name="Describe/Exit Status" />
+                    <item href="developer-guide/api/describe-option.html" name="Describe/Option" />
+                    <item href="developer-guide/api/describe-parameter.html" name="Describe/Parameter" />
+                    <item href="developer-guide/api/describe-scenario.html" name="Describe/Scenario" />
+                    <item href="developer-guide/api/describe-task.html" name="Describe/Task" />
+                </item>
+                <item href="developer-guide/api/function-index.html" name="Function Index" />
             </item>
 
-            <item href="implementation.html" name="The Implementation" collapse="false">
+            <item href="implementation.html" name="The Implementation" collapse="true">
                 <item href="implementation/sequences.html" name="Sequences" collapse="true">
                     <item href="implementation/sequences/normal-interactive.html" name="Normal, Interactive" />
                 </item>

@@ -34,7 +34,7 @@
 
 
 ##
-## function: GetCommandID
+## function: GetCommandID()
 ## - returns a command ID for a given ID or SHORT, empty string if not declared
 ## $1: ID to process
 ##

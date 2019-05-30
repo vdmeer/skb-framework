@@ -41,7 +41,7 @@ DESCRIPTION_LENGTH=$((COLUMNS - ES_PADDING - ES_STATUS_LENGHT - 1))
 
 
 ##
-## DescribeExitstatus
+## DescribeExitstatus()
 ## - describes an exitstatus using print options and print features
 ## $1: exitstatus id
 ## $2: print option: standard, full
@@ -133,7 +133,7 @@ DescribeExitstatus() {
 
 
 ##
-## function: DescribeExitstatusDescription
+## function: DescribeExitstatusDescription()
 ## - describes the exitstatus description
 ## $1: exitstatus ID
 ## $2: indentation adjustment, 0 or empty for none
@@ -168,7 +168,7 @@ DescribeExitstatusDescription() {
 
 
 ##
-## function: DescribeExitstatusStatus
+## function: DescribeExitstatusStatus()
 ## - describes the exitstatus status
 ## $1: exitstatus ID
 ##
@@ -204,7 +204,7 @@ DescribeExitstatusStatus() {
 
 
 ##
-## function: ExitstatusInTable
+## function: ExitstatusInTable()
 ## - main exitstatus details for table views
 ## $1: ID
 ## optional $2: print mode (adoc, ansi, text)

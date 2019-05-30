@@ -34,7 +34,7 @@
 
 
 ##
-## DescribeApplicationAuthors
+## DescribeApplicationAuthors()
 ## - description application authors
 ##
 DescribeApplicationAuthors() {
@@ -57,7 +57,7 @@ DescribeApplicationAuthors() {
 
 
 ##
-## DescribeApplicationBugs
+## DescribeApplicationBugs()
 ## - description application bugs
 ##
 DescribeApplicationBugs() {
@@ -80,7 +80,7 @@ DescribeApplicationBugs() {
 
 
 ##
-## DescribeApplicationCopying
+## DescribeApplicationCopying()
 ## - description application copying
 ##
 DescribeApplicationCopying() {
@@ -103,7 +103,7 @@ DescribeApplicationCopying() {
 
 
 ##
-## DescribeApplicationDescription
+## DescribeApplicationDescription()
 ## - description application
 ##
 DescribeApplicationDescription() {
@@ -126,7 +126,7 @@ DescribeApplicationDescription() {
 
 
 ##
-## DescribeApplicationResources
+## DescribeApplicationResources()
 ## - description application resources
 ##
 DescribeApplicationResources() {
@@ -149,7 +149,7 @@ DescribeApplicationResources() {
 
 
 ##
-## DescribeApplicationSecurity
+## DescribeApplicationSecurity()
 ## - description application security
 ##
 DescribeApplicationSecurity() {

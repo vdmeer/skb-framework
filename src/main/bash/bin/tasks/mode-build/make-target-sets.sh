@@ -338,6 +338,7 @@ BuildTargetSet(){
                     PrintTargetStart $ID $TGT
                     (cd ${TARGET_SET_PATH[$ID]}; TsRunTask $TGT)
                     PrintTargetEnd $ID $TGT
+                    ExitOnTaskErrors
                 fi
             done
             IFS=$FIELD_SEAPARATOR

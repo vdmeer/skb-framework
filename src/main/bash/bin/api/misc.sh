@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Functions: misc
+## Miscellaneous functions that do not fit into any other category.
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.4
@@ -35,7 +35,7 @@
 
 
 ##
-## function ExitOnTaskErrors
+## function ExitOnTaskErrors()
 ## - tests if task errors are recorded, and calls exit if any found
 ##
 ExitOnTaskErrors(){

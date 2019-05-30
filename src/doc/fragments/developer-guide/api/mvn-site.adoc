@@ -12,64 +12,87 @@
 //
 
 == MVN Site
-
-The functions below help tasks that create Maven sites.
+Functions that support the build of a Maven site.
 
 === MvnSiteFixAdoc
-Fixes HTML files generated from ADOC sources by the Maven site and Asciidoctor plugins.
-The problems fixed are:
 
-* add a text to the HTML title of the page (empty otherwise)
-* add text to the active bread crumb list item (empty otherwise)
+_void MvnSiteFixAdoc( $1, $2 )_ - fixes HTML files generated from ADOC sources by the Maven site plugin.
 
-This function will take the file name (first argument, no extension) and use `sed` to add the text from the second argument to the HTML file.
-For the title, it assumes that there is a prefix in the title, so it adds `x2013; $2`.
+This function will fix a problem with the _Asciidoctor_ plugin used in the creation of a Maven site.
+The problem here is that for every _ADOC_ file, the _HTML_ title and the _breadcrumbs_ are not generated properly.
+The title contains only a general text, while the bread crumb link is empty.
 
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
+The title is fixed first.
+The function will substitute `x2013; </title>` with `x2013; $2</title>`.
+The bread crumb is fixed next.
+The function will substitute `<li class="active "></li>` with `<li class=\"active \">${2}</li>`.
+No substitution is done in case of any error.
 
-| Arguments
-| Return
+In task level _trace_, extra progress information will be printed.
+The function will print when it when it substitutes the title and the bread crumb.
 
-| $1: file name
+*Parameters*:
 
-$2: text
-| none
+* `$1` - String with file name, without _.html_ extension, of the file to fix.
+* `$2` - String with text to insert into title and bread crumb parts of the file.
 
-|===
+*Errors* (as _Console Error_)
 
+* If the file does not exist
+* If the file is not readable
+* If the file is not writable
 
-[example]
-====
+*External Dependencies*
+
+* _sed_ is used to process the _HTML_ file and run all substitutions.
+    Each substitution will create a backup file, which is removed on success.
+
+[source%nowrap,bash,linenumber]
+----
 MvnSiteFixAdoc target/site/developer-guide/api/mvn-site "API: MVN Site"
-====
+----
 
+The example above calls the function for a file _target/site/developer-guide/api/mvn-site.html_ and the substitution text _API: MVN Site_.
 
 
 
 === MvnSiteFixAdocArray
-Uses an array to fix HTML files generated from ADOC sources when building a Maven site.
-The array is called `MVN_SITE_FIX_ADOC_ARRAY` and declared in the source file.
-The entry should be filled with file names and text to use for the fix.
-When called, the function will loop through the array and then call `MvnSiteFixAdoc` for each entry.
 
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-| Arguments
-| Return
-| none
-| none
-|===
+_void MvnSiteFixAdocArray ()_ - fixes HTML files generated from ADOC sources by the Maven site plugin using an array.
 
-[example]
-====
+This function uses the array _MVN_SITE_FIX_ADOC_ARRAY_ to fix a set of files.
+The array is declared when the file _mvn-site.sh_ is included.
+it must be filled by the callee prior to calling this function.
+The array is declared as an associative array (or hash map): _declare -A MVN_SITE_FIX_ADOC_ARRAY_.
+The keys in the array should be file names, the values should be strings for the substitution.
+
+This function will call 
+ifeval::["{adoc-build-target}" == "pdf"]
+_<<_mvnsitefixadoc>>_
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+_<<_mvnsitefixadoc>>_
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+_link:mvn-site.html#mvnsitefixadoc[MvnSiteFixAdoc]_
+endif::[]
+for every entry of the array.
+
+In task level _trace_, extra progress information will be printed.
+The function will print the number of entries in the array, and then for each entry the file name.
+
+*Errors* (as _Console Error_)
+
+* If the array has no entries, i.e. is of size 0
+
+
+[source%nowrap,bash,linenumber]
+----
 MVN_SITE_FIX_ADOC_ARRAY["manual"]="Manual"
-
 MVN_SITE_FIX_ADOC_ARRAY["manual/commands"]="Commands"
-
 MVN_SITE_FIX_ADOC_ARRAY["manual/dependencies"]="Dependencies"
-
 MvnSiteFixAdocArray
-====
+----
 
+The example above fills the array with 3 entries (line 1-3), then calls this function (line 4).
 

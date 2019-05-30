@@ -126,7 +126,7 @@ MvnSitePostScript() {
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-lib"]="Developer Guide, Layouts: lib"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-man"]="Developer Guide, Layouts: man"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-scenarios"]="Developer Guide, Layouts: scenarios"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api"]="Developer Guide: API"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api-main"]="Developer Guide: API-Main"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/commands"]="Developer Guide, API: Commands"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/config"]="Developer Guide, API: Config"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/console"]="Developer Guide, API: Console"
@@ -139,6 +139,17 @@ MvnSitePostScript() {
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/scenarios"]="Developer Guide, API: Scenarios"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/system"]="Developer Guide, API: System"
             MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/tasks"]="Developer Guide, API: Tasks"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api-describe"]="Developer Guide: API-Describe"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-application"]="Developer Guide, API: Describe/Application"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-command"]="Developer Guide, API: Describe/Command"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-dependency"]="Developer Guide, API: Describe/Dependency"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-element"]="Developer Guide, API: Describe/Element"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-exitstatus"]="Developer Guide, API: Describe/Exit Status"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-option"]="Developer Guide, API: Describe/Option"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-parameter"]="Developer Guide, API: Describe/Parameter"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-scenario"]="Developer Guide, API: Describe/Scenario"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-task"]="Developer Guide, API: Describe/Task"
+            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/function-index"]="Developer Guide, API: Function Index"
 
     MVN_SITE_FIX_ADOC_ARRAY["target/site/implementation"]="The Implementation"
         MVN_SITE_FIX_ADOC_ARRAY["target/site/implementation/sequences"]="Implementation: Sequences"
@@ -151,6 +162,7 @@ MvnSitePostScript() {
 
     printf "      -> fixing %s adoc files (MvnSiteFixAdocArray)\n" "${#MVN_SITE_FIX_ADOC_ARRAY[@]}"
     MvnSiteFixAdocArray
+    ExitOnTaskErrors
 
 
     local SKB_SITE_MAIN_DIR=$PWD/src
@@ -170,6 +182,9 @@ MvnSitePostScript() {
 
     mkdir -p ${DOC_TARGET_DIR}
     printf "      -> copy manual documents\n"
+    TestFileExists "src/main/bash/doc/manual/skb-framework.html" "site-fw"
+    TestFileExists "src/main/bash/doc/manual/skb-framework.pdf" "site-fw"
+    ExitOnTaskErrors
     cp src/main/bash/doc/manual/skb-framework.html ${DOC_TARGET_DIR}/manual.html
     cp src/main/bash/doc/manual/skb-framework.pdf  ${DOC_TARGET_DIR}/manual.pdf
 

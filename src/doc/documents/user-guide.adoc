@@ -25,10 +25,11 @@ Sven van_der_Meer <vdmeer.sven@mykolab.com>
 :toc:
 :toclevels: 4
 :icons: font
+:sectlinks:
+
 
 == Introduction
 include::{skb-site-main-dir}/doc/fragments/user-guide/introduction.adoc[]
-
 
 
 include::{skb-site-main-dir}/doc/fragments/user-guide/install.adoc[]

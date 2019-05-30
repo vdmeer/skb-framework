@@ -25,11 +25,13 @@ Sven van_der_Meer <vdmeer.sven@mykolab.com>
 :toc:
 :toclevels: 4
 :icons: font
+:sectlinks:
 
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/layouts.adoc[]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api.adoc[]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api-main.adoc[]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/commands.adoc[leveloffset=+1]
 
@@ -45,6 +47,8 @@ include::{skb-site-main-dir}/doc/fragments/developer-guide/api/mvn-site.adoc[lev
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/print-ansi.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/print.adoc[leveloffset=+1]
+
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/prompt.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/scenarios.adoc[leveloffset=+1]
@@ -52,3 +56,27 @@ include::{skb-site-main-dir}/doc/fragments/developer-guide/api/scenarios.adoc[le
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/system.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/tasks.adoc[leveloffset=+1]
+
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api-describe.adoc[]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/describe-application.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/describe-command.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/describe-dependency.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/describe-element.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/describe-exitstatus.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/describe-option.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/describe-parameter.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/describe-scenario.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/describe-task.adoc[leveloffset=+1]
+
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-index.adoc[leveloffset=+1]

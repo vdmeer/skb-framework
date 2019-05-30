@@ -34,7 +34,7 @@
 
 
 ##
-## function: WriteRuntimeConfig
+## function: WriteRuntimeConfig()
 ## - writes runtime configuration file
 ##
 WriteRuntimeConfig() {

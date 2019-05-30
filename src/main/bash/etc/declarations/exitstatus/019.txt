@@ -1,3 +1,4 @@
-        The loader did not find the application `sed`  being  installed.  This
-        tool is required by some API functions. Please install `sed`  on  your
-        system.                                                               
+        The loader did not find the application `tput` being  installed.  This
+        tool is used by the manual command and option store  and  restore  the
+        terminal context when showing the manual.  Please  install  `tput`  on
+        your system.                                                          

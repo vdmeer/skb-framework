@@ -41,7 +41,7 @@ DESCRIPTION_LENGTH=$((COLUMNS - OPT_PADDING - OPT_STATUS_LENGHT - 1))
 
 
 ##
-## DescribeOption
+## DescribeOption()
 ## - describes a option using print options and print features
 ## $1: option id, mustbe long form
 ## $2: print option: standard, full
@@ -161,7 +161,7 @@ DescribeOption() {
 
 
 ##
-## function: DescribeOptionDescription
+## function: DescribeOptionDescription()
 ## - describes the option description
 ## $1: option ID, mustbe long form
 ## $2: indentation adjustment, 0 or empty for none
@@ -196,7 +196,7 @@ DescribeOptionDescription() {
 
 
 ##
-## function: DescribeOptionStatus
+## function: DescribeOptionStatus()
 ## - describes the option status
 ## $1: option ID, mustbe long form
 ##
@@ -218,7 +218,7 @@ DescribeOptionStatus() {
 
 
 ##
-## function: OptionInTable
+## function: OptionInTable()
 ## - main option details for table views
 ## $1: ID, mustbe long form
 ## optional $2: print mode (adoc, ansi, text)

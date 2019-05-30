@@ -79,6 +79,10 @@ TsRunTask() {
 
         tool)
             (cd tool; ./gradlew)
+
+            TestFileExists "tool/build/libs/skb-framework-tool-${TOOL_VERSION}-all.jar" "skb-fw"
+            ExitOnTaskErrors
+
             mkdir -p src/main/bash/lib/java
             cp tool/build/libs/skb-framework-tool-${TOOL_VERSION}-all.jar src/main/bash/lib/java
             ;;
@@ -93,6 +97,17 @@ TsRunTask() {
             if [[ -f "$README_FILE" ]]; then
                 rm $README_FILE
             fi
+
+            ## error handling first
+            TestFileExists "src/doc/fragments/readme/introduction.adoc" "skb-fw"
+            TestFileExists "src/doc/fragments/readme/install.adoc" "skb-fw"
+            TestFileExists "src/doc/fragments/readme/run.adoc" "skb-fw"
+            TestFileExists "src/main/bash/etc/manual/application/description.adoc" "skb-fw"
+            TestFileExists "src/doc/fragments/requirements.adoc" "skb-fw"
+            TestFileExists "src/doc/fragments/releases.adoc" "skb-fw"
+            TestFileExists "src/doc/fragments/resources.adoc" "skb-fw"
+            ExitOnTaskErrors
+
             printf ":release-version: %s\n" "${RELEASE_VERSION}" > $README_FILE
             printf "= SKB Framework\n" >> $README_FILE
             printf "v{release-version}\n" >> $README_FILE

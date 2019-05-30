@@ -10,5 +10,7 @@
 //
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
+ 
+:sectlinks:
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/tasks.adoc[]

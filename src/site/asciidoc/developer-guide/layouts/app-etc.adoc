@@ -11,6 +11,8 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
+:sectlinks:
+
 == Directory `etc`
 
 include::{skb-site-main-dir}/doc/fragments/layouts/app-etc.adoc[]

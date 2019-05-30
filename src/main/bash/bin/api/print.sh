@@ -34,7 +34,7 @@
 
 
 ##
-## function: PrintAppMode
+## function: PrintAppMode()
 ## - prints the application mode
 ##
 PrintAppMode() {
@@ -62,7 +62,7 @@ PrintAppModeFlavor() {
 
 
 ##
-## function: PrintConsoleLevel
+## function: PrintConsoleLevel()
 ## - prints the level (loader, shell, task) in color
 ## $1: level
 ##
@@ -84,7 +84,7 @@ PrintConsoleLevel() {
 
 
 ##
-## function: PrintStrict
+## function: PrintStrict()
 ## - prints the strict setting
 ##
 PrintStrict() {
@@ -97,7 +97,7 @@ PrintStrict() {
 
 
 ##
-## function: PrintQuiet
+## function: PrintQuiet()
 ## - prints the quiet setting
 ## $1: setting
 ##
@@ -113,7 +113,7 @@ PrintQuiet() {
 
 
 ##
-## function: PrintShellSNP
+## function: PrintShellSNP()
 ## - prints the shell no-prompt- setting
 ##
 PrintShellSNP() {
@@ -126,7 +126,7 @@ PrintShellSNP() {
 
 
 ##
-## function: PrintTestUtf8
+## function: PrintTestUtf8()
 ## - prints a line with all used UTF-8 characters
 ##
 PrintTestUtf8() {

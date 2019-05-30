@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Functions to execute a tasks and scenarios
+## Functions to execute tasks or scenarios.
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.4
@@ -34,7 +34,7 @@
 
 
 ##
-## function: ExecuteTask
+## function: ExecuteTask()
 ## - executes a task
 ## $1: full command line for the task, first word being the task ID (short or long form)
 ##
@@ -171,7 +171,7 @@ ExecuteTask() {
 
 
 ##
-## function: ExecuteScenario
+## function: ExecuteScenario()
 ## - executes a scenario
 ## $1: scenario ID, short or long form
 ##

@@ -34,7 +34,7 @@
 
 
 ##
-## function: GetScenarioID
+## function: GetScenarioID()
 ## - returns a scenario ID for a given ID or SHORT, empty string if not declared
 ## $1: ID to process
 ##
@@ -55,5 +55,3 @@ GetScenarioID() {
         printf ""
     fi
 }
-
-

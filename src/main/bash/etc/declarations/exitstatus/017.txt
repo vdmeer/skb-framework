@@ -1,3 +1,3 @@
-        The loader did not find the application `sed`  being  installed.  This
-        tool is required by some API functions. Please install `sed`  on  your
-        system.                                                               
+        The loader did not find the application `cat`  being  installed.  This
+        tool is used by the loader to read the version files.  Please  install
+        `cat` on your system.                                                 

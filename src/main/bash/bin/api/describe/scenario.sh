@@ -41,7 +41,7 @@ DESCRIPTION_LENGTH=$((COLUMNS - SCN_PADDING - SCN_STATUS_LENGHT - 1))
 
 
 ##
-## DescribeScenario
+## DescribeScenario()
 ## - describes a scenario using print options and print features
 ## $1: scenario id, must be long form
 ## $2: print option: standard, full
@@ -141,7 +141,7 @@ DescribeScenario() {
 
 
 ##
-## function: DescribeScenarioDescription
+## function: DescribeScenarioDescription()
 ## - describes the scenario description
 ## $1: scenario ID, must be long form
 ## $2: indentation adjustment, 0 or empty for none
@@ -176,7 +176,7 @@ DescribeScenarioDescription() {
 
 
 ##
-## function: DescribeScenarioStatus
+## function: DescribeScenarioStatus()
 ## - describes the scenario status for the scenario screen
 ## $1: scenario ID, must be long form
 ## optional $2: print mode (adoc, ansi, text)
@@ -244,7 +244,7 @@ DescribeScenarioStatus() {
 
 
 ##
-## function: ScenarioInTable
+## function: ScenarioInTable()
 ## - main scenario details for table views
 ## $1: ID, must be long form
 ## optional $2: print mode (adoc, ansi, text)
@@ -274,7 +274,7 @@ ScenarioInTable() {
 
 
 ##
-## DebugScenario
+## DebugScenario()
 ## - debugs a scenario, provides all internal information about a scenario
 ## $1: scenario id, must be long form
 ##

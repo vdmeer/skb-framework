@@ -34,7 +34,7 @@
 
 
 ##
-## function: PrintColor
+## function: PrintColor()
 ## - prints message in color
 ## $1: color: black, red, green, brown, blue, purple, cyan, light-gray, dark-gray
 ##            light-red, light-green, yellow, light-blue, light-purple, light-cyan
@@ -78,7 +78,7 @@ PrintColor() {
 
 
 ##
-## function: PrintEffect
+## function: PrintEffect()
 ## - prints message using ANSI effects
 ## $1: effect: bold, italic, reverse
 ## $2: message
@@ -161,7 +161,7 @@ PrintTestColors() {
 
 
 ##
-## function: PrintTestEffects
+## function: PrintTestEffects()
 ## - prints lines to test terminal ANSI effect capabilities and show alternatives for other print modes
 ##
 PrintTestEffects() {

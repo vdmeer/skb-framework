@@ -115,10 +115,20 @@ It is used here to calculate the execution time of tasks and scenarios (since Ba
 
 See also the link:https://www.gnu.org/software/bc/manual/html_mono/bc.html[GNU manual page].
 
+| `cat` |
+This standard tool concatenates files and prints them to the standard output.
+The loader is using `cat` to read the version files.
+
 | (GNU) `getopt` |
 The framework requires command line parsing for its own CLI arguments as well for every task.
 It uses the GNU enhanced version of `getopt`.
 The standard version is not supported.
+
+| `less` |
+As the manual states: "less is the opposite of more".
+It essentially allows to show a file and move backwards and forwards, search the content, and more interactions.
+The `manual` option and command is using `less` to show the manual.
+
 
 | (GNU) `mktemp` |
 The framework needs to create a temporary directory with runtime configuration files.
@@ -130,6 +140,10 @@ See also the link:https://www.gnu.org/software/autogen/mktemp.html[GNU page].
 | `sed` |
 The UNIX stream editor, used to manipulate text or files.
 The application is required by some API functions.
+
+| `tput` |
+This tool can be used to initialize a terminal or to query the terminal database (_terminfo_).
+The `manual` option and command is using `tput` to store (`smcup`) and restore (`rmcup`) the terminal context when showing the manual.
 
 |===
 

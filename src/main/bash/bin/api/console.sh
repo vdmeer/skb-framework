@@ -36,7 +36,7 @@
 
 
 ##
-## function: ConsoleMessage
+## function: ConsoleMessage()
 ## - prints a message to console
 ## $1: the message
 ##
@@ -66,7 +66,7 @@ ConsoleMessage() {
 
 
 ##
-## function: ConsoleIsMessage
+## function: ConsoleIsMessage()
 ## - returns message status: true if on, false if off
 ##
 ConsoleIsMessage(){
@@ -92,7 +92,7 @@ ConsoleIsMessage(){
 
 
 ##
-## function: ConsoleIsPrompt
+## function: ConsoleIsPrompt()
 ## - returns shell-prompt status: true if on, false if off
 ##
 ConsoleIsPrompt(){
@@ -105,7 +105,7 @@ ConsoleIsPrompt(){
 
 
 ##
-## function: ConsoleFatal
+## function: ConsoleFatal()
 ## - prints a fatal error message with [Fatal] tag, increases *_ERRORS
 ## - $1: error prefix, e.g. script name with colon
 ## - $2: the error message
@@ -144,7 +144,7 @@ ConsoleFatal() {
 
 
 ##
-## function: ConsoleError
+## function: ConsoleError()
 ## - prints an error message with [Error] tag, increases *_ERRORS
 ## - $1: error prefix, e.g. script name with colon
 ## - $2: the error message
@@ -183,7 +183,7 @@ ConsoleError() {
 
 
 ##
-## function ConsoleResetErrors
+## function ConsoleResetErrors()
 ## - resets the error counter *_ERRORS
 ##
 ConsoleResetErrors() {
@@ -197,7 +197,7 @@ ConsoleResetErrors() {
 
 
 ##
-## function ConsoleHasErrors
+## function ConsoleHasErrors()
 ## - returns true if counter *_ERRORS is larger than 0, i.e. there are errors
 ##
 ConsoleHasErrors() {
@@ -217,7 +217,7 @@ ConsoleHasErrors() {
 
 
 ##
-## function: ConsoleWarnStrict
+## function: ConsoleWarnStrict()
 ## - in non-strict mode: prints a warning message with [Warn/Strict] tag, increases *_WARNINGS
 ## - in strict mode: prints a error message with [Error/Strict] tag, increases *_ERRORS
 ## - $1: warning/error prefix, e.g. script name with colon
@@ -291,7 +291,7 @@ ConsoleWarnStrict() {
 
 
 ##
-## function: ConsoleWarn
+## function: ConsoleWarn()
 ## - prints a warning message with [Warn] tag, increases *_WARNINGS
 ## - $1: warning prefix, e.g. script name with colon
 ## - $2: the warning message
@@ -329,7 +329,7 @@ ConsoleWarn() {
 
 
 ##
-## function ConsoleResetWarnings
+## function ConsoleResetWarnings()
 ## - resets the error counter *_WARNINGS
 ##
 ConsoleResetWarnings() {
@@ -343,7 +343,7 @@ ConsoleResetWarnings() {
 
 
 ##
-## function ConsoleHasWarnings
+## function ConsoleHasWarnings()
 ## - returns true if counter *_WARNINGS is larger than 0, i.e. there are warnings
 ##
 ConsoleHasWarnings() {
@@ -363,7 +363,7 @@ ConsoleHasWarnings() {
 
 
 ##
-## function: ConsoleInfo
+## function: ConsoleInfo()
 ## - prints an info message with [Info] tag
 ## - adds extra line for message "done"
 ## - $1: info prefix, e.g. script name with colon
@@ -402,7 +402,7 @@ ConsoleInfo() {
 
 
 ##
-## function: ConsoleDebug
+## function: ConsoleDebug()
 ## - prints a debug message
 ## - $1: the debug message
 ##
@@ -435,7 +435,7 @@ ConsoleDebug() {
 
 
 ##
-## function: ConsoleTrace
+## function: ConsoleTrace()
 ## - prints a trace message
 ## - $1: the trace message
 ##

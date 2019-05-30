@@ -34,7 +34,7 @@
 
 
 ##
-## DescribeElementCommands
+## DescribeElementCommands()
 ## - description for commands
 ##
 DescribeElementCommands() {
@@ -57,7 +57,7 @@ DescribeElementCommands() {
 
 
 ##
-## DescribeElementOptions
+## DescribeElementOptions()
 ## - description for options
 ##
 DescribeElementOptions() {
@@ -80,7 +80,7 @@ DescribeElementOptions() {
 
 
 ##
-## DescribeElementExitStatus
+## DescribeElementExitStatus()
 ## - description for exit status
 ##
 DescribeElementExitStatus() {
@@ -103,7 +103,7 @@ DescribeElementExitStatus() {
 
 
 ##
-## DescribeElementOptionsExit
+## DescribeElementOptionsExit()
 ## - description for exit options
 ##
 DescribeElementOptionsExit() {
@@ -126,7 +126,7 @@ DescribeElementOptionsExit() {
 
 
 ##
-## DescribeElementOptionsRuntime
+## DescribeElementOptionsRuntime()
 ## - description for exit options
 ##
 DescribeElementOptionsRuntime() {
@@ -149,7 +149,7 @@ DescribeElementOptionsRuntime() {
 
 
 ##
-## DescribeElementParameters
+## DescribeElementParameters()
 ## - description for parameters
 ##
 DescribeElementParameters() {
@@ -172,7 +172,7 @@ DescribeElementParameters() {
 
 
 ##
-## DescribeElementDependencies
+## DescribeElementDependencies()
 ## - description for dependencies
 ##
 DescribeElementDependencies() {
@@ -195,7 +195,7 @@ DescribeElementDependencies() {
 
 
 ##
-## DescribeElementScenarios
+## DescribeElementScenarios()
 ## - description for scenarios
 ##
 DescribeElementScenarios() {
@@ -218,7 +218,7 @@ DescribeElementScenarios() {
 
 
 ##
-## DescribeElementTasks
+## DescribeElementTasks()
 ## - description for tasks
 ##
 DescribeElementTasks() {

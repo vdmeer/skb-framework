@@ -41,7 +41,7 @@ DESCRIPTION_LENGTH=$((COLUMNS - CMD_PADDING - CMD_STATUS_LENGHT - 1))
 
 
 ##
-## DescribeCommand
+## DescribeCommand()
 ## - describes a command using print options and print features
 ## $1: command id, mustbe long form
 ## $2: print option: standard, full
@@ -149,7 +149,7 @@ DescribeCommand() {
 
 
 ##
-## function: DescribeCommandDescription
+## function: DescribeCommandDescription()
 ## - describes the command description
 ## $1: command ID, mustbe long form
 ## $2: indentation adjustment, 0 or empty for none
@@ -184,7 +184,7 @@ DescribeCommandDescription() {
 
 
 ##
-## function: CommandInTable
+## function: CommandInTable()
 ## - main command details for table views
 ## $1: ID, mustbe long form
 ## optional $2: print mode (adoc, ansi, text)

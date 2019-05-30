@@ -41,7 +41,7 @@ DESCRIPTION_LENGTH=$((COLUMNS - DEP_PADDING - DEP_STATUS_LENGHT - 1))
 
 
 ##
-## DescribeDependency
+## DescribeDependency()
 ## - describes a dependency using print options and print features
 ## $1: dependency id
 ## $2: print option: standard, full
@@ -131,7 +131,7 @@ DescribeDependency() {
 
 
 ##
-## function: DescribeDependencyDescription
+## function: DescribeDependencyDescription()
 ## - describes the dependency description
 ## $1: dependency ID
 ## $2: indentation adjustment, 0 or empty for none
@@ -166,7 +166,7 @@ DescribeDependencyDescription() {
 
 
 ##
-## function: DescribeDependencyStatus
+## function: DescribeDependencyStatus()
 ## - describes the dependency status for the dependency screen
 ## $1: dependency ID
 ##
@@ -189,7 +189,7 @@ DescribeDependencyStatus() {
 
 
 ##
-## function: DependencyInTable
+## function: DependencyInTable()
 ## - main dependency details for table views
 ## $1: ID
 ## optional $2: print mode (adoc, ansi, text)
@@ -220,7 +220,7 @@ DependencyInTable() {
 
 
 ##
-## DebugDependency
+## DebugDependency()
 ## - debugs a dependency, provides all internal information about a dependency
 ## $1: dependency id
 ##

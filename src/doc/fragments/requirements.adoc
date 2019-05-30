@@ -71,3 +71,7 @@ This tool can be used to initialize a terminal or to query the terminal database
 The `manual` option and command is using `tput` to store (`smcup`) and restore (`rmcup`) the terminal context when showing the manual.
 
 |===
+
+
+//cut, date
+

@@ -44,3 +44,99 @@ VARIABLE=$(PathToSystemPath "path")
 Currently supported conversions are:
 
 * Cygwin: uses `cygpath -m` for the conversion
+
+
+
+=== TestDirectoryExists
+Tests if a directory exists and is readable, throws an error if not.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return
+
+| $1: directory name, including path if required
+
+$2: text for error message, e.g the calling task
+| none
+
+|===
+
+[example]
+====
+TestDirectoryExists ./target/site "my-task"
+====
+
+
+
+=== TestFileExists
+Tests if a file exists and is readable, throws an error if not.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return
+
+| $1: file name, including path if required
+
+$2: text for error message, e.g the calling task
+| none
+
+|===
+
+[example]
+====
+TestFileExists ./target/site/index.html "my-task"
+====
+
+
+
+=== TestDirectoryWritable
+Tests if a directory exists and is writable, throws an error if not.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return
+
+| $1: directory name, including path if required
+
+$2: text for error message, e.g the calling task
+| none
+
+|===
+
+[example]
+====
+TestDirectoryExists ./target/site "my-task"
+====
+
+
+
+=== TestFileWritable
+Tests if a file exists and is writable, throws an error if not.
+
+[frame=topbot, grid=rows, cols="d,d", options="header"]
+|===
+
+| Arguments
+| Return
+
+| $1: file name, including path if required
+
+$2: text for error message, e.g the calling task
+| none
+
+|===
+
+[example]
+====
+TestFileWritable ./target/site/index.html "my-task"
+====
+
+
+
+

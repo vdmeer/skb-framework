@@ -34,7 +34,7 @@
 
 
 ##
-## function: GetTaskID
+## function: GetTaskID()
 ## - returns a task ID for a given ID or SHORT, empty string if not declared
 ## $1: ID to process
 ##
@@ -59,7 +59,7 @@ GetTaskID() {
 
 
 ##
-## function: BuildTaskHelpLine
+## function: BuildTaskHelpLine()
 ## - builds a help line for a task CLI option
 ## - line is printed when finished, otherwise error messages
 ## $1: short option, "<none>" if none
@@ -182,7 +182,7 @@ BuildTaskHelpLine() {
 
 
 ##
-## function: TaskGetCachedHelp
+## function: TaskGetCachedHelp()
 ## - returns a file name with cached help screen for current print-mode, none if none found
 ## $1: task ID - must be long version
 ##

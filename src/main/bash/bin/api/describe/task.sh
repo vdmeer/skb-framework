@@ -41,7 +41,7 @@ DESCRIPTION_LENGTH=$((COLUMNS - TASK_PADDING - TASK_STATUS_LENGHT - 1))
 
 
 ##
-## DescribeTask
+## DescribeTask()
 ## - describes a task using print options and print features
 ## $1: task id, must be long form
 ## $2: print option: standard, full
@@ -141,7 +141,7 @@ DescribeTask() {
 
 
 ##
-## function: DescribeTaskDescription
+## function: DescribeTaskDescription()
 ## - describes the task description
 ## $1: task ID, must be long form
 ## $2: indentation adjustment, 0 or empty for none
@@ -176,7 +176,7 @@ DescribeTaskDescription() {
 
 
 ##
-## function: DescribeTaskStatus
+## function: DescribeTaskStatus()
 ## - describes the task status for the task screen
 ## $1: task ID, must be long form
 ## optional $2: print mode (adoc, ansi, text)
@@ -245,7 +245,7 @@ DescribeTaskStatus() {
 
 
 ##
-## function: TaskInTable
+## function: TaskInTable()
 ## - main task details for table views
 ## $1: ID, must be long form
 ## optional $2: print mode (adoc, ansi, text)
@@ -275,7 +275,7 @@ TaskInTable() {
 
 
 ##
-## DebugTask
+## DebugTask()
 ## - debugs a task, provides all internal information about a task
 ## $1: task id, must be long form
 ##

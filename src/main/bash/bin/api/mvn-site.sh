@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Functions for build-mvn-site (Maven site)
+## Functions that support the build of a Maven site.
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.4
@@ -39,15 +39,30 @@
 ## - fixes HTML files generated from ADOC sources by the Maven site plugin
 ##   -- add a text to the HTML title of the page (empty otherwise)
 ##   -- add text to the active bread crumb list item (empty otherwise)
+## - will first test if the file exists and is writable, throw an error if not
+## - prints extra information in task level _trace_
 ## $1: file name, with leading directory if required
 ## $2: text to add to title and bread crumbs
 ##
 MvnSiteFixAdoc() {
-    ConsoleTrace "MvnSiteFixAdoc: fixing breadcrumbs"
-    sed -i.bak 's%<li class="active "></li>%'"<li class=\"active \">${2}</li>"'%g' $1.html
-    rm $1.html.bak
+    local ERRORS=$TASK_ERRORS
+    TestFileExists "$1.html" "skb-fw"
+    if [[ $ERRORS < $TASK_ERRORS ]]; then
+        return
+    fi
+
+    local ERRORS=$TASK_ERRORS
+    TestFileWritable "$1.html" "skb-fw"
+    if [[ $ERRORS < $TASK_ERRORS ]]; then
+        return
+    fi
+
     ConsoleTrace "MvnSiteFixAdoc: fixing title"
     sed -i.bak 's%x2013; </title>%'"x2013; $2</title>"'%g' $1.html
+    rm $1.html.bak
+
+    ConsoleTrace "MvnSiteFixAdoc: fixing breadcrumbs"
+    sed -i.bak 's%<li class="active "></li>%'"<li class=\"active \">${2}</li>"'%g' $1.html
     rm $1.html.bak
 }
 
@@ -59,6 +74,7 @@ MvnSiteFixAdoc() {
 ##   -- add a text to the HTML title of the page (empty otherwise)
 ##   -- add text to the active bread crumb list item (empty otherwise)
 ## - calls MvnSiteFixAdoc for all elements of the array
+## - prints extra information in task level _trace_
 ## MVN_SITE_FIX_ADOC_ARRAY: array as [file-name]="text", must be filled
 ##
 declare -A MVN_SITE_FIX_ADOC_ARRAY

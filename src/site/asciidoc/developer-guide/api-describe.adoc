@@ -11,4 +11,6 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api.adoc[]
+:sectlinks:
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api-describe.adoc[]

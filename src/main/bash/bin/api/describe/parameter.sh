@@ -41,7 +41,7 @@ DESCRIPTION_LENGTH=$((COLUMNS - PARAM_PADDING - PARAM_STATUS_LENGHT - 1))
 
 
 ##
-## DescribeParameter
+## DescribeParameter()
 ## - describes a parameter using print options and print features
 ## $1: parameter id
 ## $2: print option: standard, full, default-value
@@ -145,7 +145,7 @@ DescribeParameter() {
 
 
 ##
-## function: DescribeParameterDefValue
+## function: DescribeParameterDefValue()
 ## - describes the parameter default value
 ## $1: param ID
 ##
@@ -174,7 +174,7 @@ DescribeParameterDefValue() {
 
 
 ##
-## function: DescribeParameterDescription
+## function: DescribeParameterDescription()
 ## - describes the parameter description
 ## $1: parameter ID
 ## $2: indentation adjustment, 0 or empty for none
@@ -209,7 +209,7 @@ DescribeParameterDescription() {
 
 
 ##
-## function: DescribeParameterStatus
+## function: DescribeParameterStatus()
 ## - describes the parameter status for the parameter screen
 ## $1: param ID
 ## optional $2: print mode (adoc, ansi, text)
@@ -241,7 +241,7 @@ DescribeParameterStatus() {
 
 
 ##
-## function: ParameterInTable
+## function: ParameterInTable()
 ## - main parameter details for table views
 ## $1: ID
 ## optional $2: print mode (adoc, ansi, text)
@@ -272,7 +272,7 @@ ParameterInTable() {
 
 
 ##
-## DebugParameter
+## DebugParameter()
 ## - debugs a parameter, provides all internal information about a parameter
 ## $1: parameter id
 ##

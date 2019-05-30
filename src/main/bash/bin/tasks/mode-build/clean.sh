@@ -77,7 +77,9 @@ if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 fi
 eval set -- "$PARSED"
 
+#tag::helpline-padding[]
 PRINT_PADDING=19
+#end::helpline-padding[]
 while true; do
     case "$1" in
         -f | --force)
@@ -88,9 +90,11 @@ while true; do
             CACHED_HELP=$(TaskGetCachedHelp "clean")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n   options\n"
+#tag::helpline[]
                 BuildTaskHelpLine f force       "<none>"    "force mode, not questions asked"                   $PRINT_PADDING
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
                 BuildTaskHelpLine s simulate    "<none>"    "print only, removes nothing, overwrites force"     $PRINT_PADDING
+#end::helpline[]
             else
                 cat $CACHED_HELP
             fi

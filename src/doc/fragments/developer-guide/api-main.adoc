@@ -11,7 +11,7 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-== API
+== API-Main
 
 The runtime API of the framework is a set of functions grouped into a few main categories:
 

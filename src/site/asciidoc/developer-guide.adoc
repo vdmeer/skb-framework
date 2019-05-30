@@ -11,4 +11,6 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
+:sectlinks:
+
 == Developer Guide

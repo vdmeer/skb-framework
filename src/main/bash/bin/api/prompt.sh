@@ -34,7 +34,7 @@
 
 
 ##
-## function: PromptSfMode
+## function: PromptSfMode()
 ## - prints the application flavor and the mode in brackets
 ##
 PromptSfMode() {

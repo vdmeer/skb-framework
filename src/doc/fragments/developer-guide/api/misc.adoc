@@ -13,24 +13,33 @@
 
 == Misc
 
-Miscellaneous functions that do not really fit into any other category.
+Miscellaneous functions that do not fit into any other category.
 
 === ExitOnTaskErrors
-Tests if task errors are recorded and calls exit if any found.
+
+_void ExitOnTaskErrors()_ - exits if any task errors are recorded.
+
+The number of recorded task errors is taken from _$TASK_ERRORS_.
+This variable will be altered by console functions such as
+ifeval::["{adoc-build-target}" == "pdf"]
+_<<_consoleerror>>_
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+_<<_consoleerror>>_
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+_link:console.html#consoleerror[ConsoleError]_
+endif::[]
+.
+It can also be manipulated directly.
 The exit uses the number of recorded task errors as exit code.
 
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-| Arguments
-| Return
-| none
-| none
-|===
-
-[example]
-====
+[source%nowrap,bash,linenumber]
+----
 ConsoleError "  ->" "unknown CLI option"
-
 ExitOnTaskErrors
-====
+----
+
+The example above throws an error in line 1 and the calls this function in line 2.
+The result is that the current process will exit with the current number of task errors.
 

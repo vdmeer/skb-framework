@@ -11,6 +11,8 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
+:sectlinks:
+
 == SKB-Framework
 
 a flexible and extensible automation framework
