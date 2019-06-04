@@ -12,115 +12,24 @@
 //
 
 == Print ANSI
-The functions here will print text according to the current print mode in `CONFIG_MAP["PRINT_MODE"]`:
+Collection of functions for printing text with ANSI formatting for colors and font effects, such as bold, italic, and reverse.
+The formatting is printed according to the setting in _CONFIG_MAP["PRINT_MODE"]_:
 
-* _ansi_ - with ANSI encoded colors or effects
-* _adoc_ - in AsciiDoc notation
-* _text_ - as plain text
-* _text-anon_ - as annotated text
+* _ansi_ - full ANSI encoded colors or effects,
+* _adoc_ - in AsciiDoc notation,
+* _text_ - as plain text, and
+* _text-anon_ - as annotated text (very much like _adoc).
 
 By default, the functions take the current print mode.
 They can also be requested to use a specific, then forced, print mode.
-
-The printed text will not contain a line feed.
-
-
-=== PrintColor
-Prints text in color in _ansi_ mode, just text otherwise.
-
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-
-| Arguments
-| Return
-
-| $1: color
-
-$2: message
-
-$3: forced print mode
-| none
-
-|===
+The printed text will not contain a newline.
 
 
-[example]
-====
-PrintColor light-green "I am available"
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/printcolor.adoc[leveloffset=+1]
 
-PrintColor yellow "some problem here"
-====
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/printeffect.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/printtestcolors.adoc[leveloffset=+1]
 
-Supported colors are:
-
-    * black
-    * red
-    * green
-    * brown
-    * blue
-    * purple
-    * cyan
-    * light-gray
-    * dark-gray
-    * light-red
-    * light-green
-    * yellow
-    * light-blue
-    * light-purple
-    * light-cyan
-
-
-
-=== PrintEffect
-Prints text with an effect in _ansi_ mode, plain text in _text_ mode, and text with some annotation in _adoc_ and _text-anon_ mode.
-
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-
-| Arguments
-| Return
-
-| $1: effect
-
-$2: message
-
-$3: forced print mode
-| none
-
-|===
-
-
-[example]
-====
-PrintColor bold "I am available"
-
-PrintColor reverse "Name   Description"
-====
-
-
-Supported effects are:
-
-    * _bold_ - either bold, plain text or as annotation using `*`
-    * _italic_ - either italic, plain text or as annotation `_`
-    * _reverse_ - either reverse, or plain text
-
-
-
-=== PrintTestColors
-Prints test lines for ANSI colors using the function `PrintColor`.
-The lines are printed in two sets: 
-    the first set for print mode _ansi (should be shown in full color), and
-    the second set for the print modes _text_, _adoc_, and _text-anon_ (should only show the names of the colors).
-The function has no argument.
-
-
-
-=== PrintTestEffects
-Prints test lines for ANSI effects using the function `PrintEffec`.
-The lines are printed in three sets:
-    the first set for print mode _ansi_ (should show the effects for bold, italic, and reverse text),
-    the second set for print mode _text_ (should just show the text), and
-    the third set for the print modes _adoc_ and _text-anon_ (should show the text with annotations).
-The function has no argument.
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/printtesteffects.adoc[leveloffset=+1]
 
