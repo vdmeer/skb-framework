@@ -99,7 +99,7 @@ DescribeParameter() {
     SPRINT+=$LINE_INDENT
 
     local DESCRIPTION=${DMAP_PARAM_DESCR[$ID]:-}
-    local DEFAULT_VALUE=$(DescribeParameterDefValue $ID ${4:-})
+    local DEFAULT_VALUE=$(ParameterDefvalueDescription $ID ${4:-})
 
     local TEMPLATE="%ID%"
     if [[ "$PRINT_OPTION" == "full" ]]; then
@@ -140,35 +140,6 @@ DescribeParameter() {
     if [[ -n "$DEF_TEMPLATE" ]]; then
         printf "$DEF_TEMPLATE $DEFAULT_VALUE\n\n"
     fi
-}
-
-
-
-##
-## function: DescribeParameterDefValue()
-## - describes the parameter default value
-## $1: param ID
-##
-DescribeParameterDefValue() {
-    local ID=$1
-    if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
-        ConsoleError " ->" "describe-parameter/defval - unknown '$ID'"
-        return
-    fi
-
-    local DEFAULT_VALUE=${DMAP_PARAM_DEFVAL[$ID]}
-    if [[ "$DEFAULT_VALUE" == "" ]]; then
-        DEFAULT_VALUE="none defined"
-    else
-        DEFAULT_VALUE=${DEFAULT_VALUE/${CONFIG_MAP["FW_HOME"]}/\$FW_HOME}
-        DEFAULT_VALUE=${DEFAULT_VALUE/${CONFIG_MAP["APP_HOME"]}/\$APP_HOME}
-        if [[ "${2:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
-            DEFAULT_VALUE="\`"$DEFAULT_VALUE"\`"
-        else
-            DEFAULT_VALUE='"'$DEFAULT_VALUE'"'
-        fi
-    fi
-    printf "%s" "$DEFAULT_VALUE"
 }
 
 
@@ -267,45 +238,4 @@ ParameterInTable() {
     SPRINT=$SPRINT$(printf '%*s' "$PADDING")
 
     printf "$SPRINT"
-}
-
-
-
-##
-## DebugParameter()
-## - debugs a parameter, provides all internal information about a parameter
-## $1: parameter id
-##
-DebugParameter() {
-    local ID=${1:-}
-    if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
-        ConsoleError " ->" "debug-param - unknown parameter '$ID'"
-        return
-    fi
-
-    local SPRINT=""
-    local TMP_VAL
-    local FOUND
-    local DESCRIPTION=${DMAP_PARAM_DESCR[$ID]:-}
-    local TEMPLATE="  %ID% - %DESCRIPTION%"
-    TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID")}
-    TEMPLATE=${TEMPLATE//%DESCRIPTION%/$(PrintEffect italic "$DESCRIPTION")}
-    SPRINT+=$TEMPLATE"\n"
-
-    SPRINT+="    - origin:        "${DMAP_PARAM_ORIGIN[$ID]}"\n"
-    SPRINT+="    - default value: "$(DescribeParameterDefValue $ID)"\n"
-    if [[ -n "${DMAP_PARAM_IS[$ID]:-}" ]]; then
-        SPRINT+="    - param is:      "${DMAP_PARAM_IS[$ID]}"\n"
-    fi
-
-    TMP_VAL=${DMAP_PARAM_DECL[$ID]}
-    TMP_VAL=${TMP_VAL/${CONFIG_MAP["FW_HOME"]}/\$FW_HOME}
-    TMP_VAL=${TMP_VAL/${CONFIG_MAP["APP_HOME"]}/\$APP_HOME}
-    SPRINT+="    - declaration:   "$TMP_VAL"\n"
-
-    if [[ -n "${RTMAP_REQUESTED_PARAM[$ID]:-}" ]]; then
-        SPRINT+="    - requested by: "${RTMAP_REQUESTED_PARAM[$ID]}"\n"
-    fi
-
-    printf "$SPRINT\n"
 }

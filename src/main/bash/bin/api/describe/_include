@@ -33,12 +33,12 @@
 ##
 
 
-source $FW_HOME/bin/api/describe/application.sh
-source $FW_HOME/bin/api/describe/command.sh
-source $FW_HOME/bin/api/describe/dependency.sh
-source $FW_HOME/bin/api/describe/elements.sh
-source $FW_HOME/bin/api/describe/exitstatus.sh
-source $FW_HOME/bin/api/describe/option.sh
-source $FW_HOME/bin/api/describe/parameter.sh
-source $FW_HOME/bin/api/describe/scenario.sh
-source $FW_HOME/bin/api/describe/task.sh
+source $FW_HOME/bin/api/describe-application.sh
+source $FW_HOME/bin/api/describe-command.sh
+source $FW_HOME/bin/api/describe-dependency.sh
+source $FW_HOME/bin/api/describe-elements.sh
+source $FW_HOME/bin/api/describe-exitstatus.sh
+source $FW_HOME/bin/api/describe-option.sh
+source $FW_HOME/bin/api/describe-parameter.sh
+source $FW_HOME/bin/api/describe-scenario.sh
+source $FW_HOME/bin/api/describe-task.sh
