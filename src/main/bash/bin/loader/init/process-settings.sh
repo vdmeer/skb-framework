@@ -28,11 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
-
 
 ##
 ## function: ProcessShellPromptLength
@@ -70,7 +65,7 @@ ProcessShellPromptLength() {
 ## - process settings: envrironment
 ##
 ProcessSettingsEnvironment() {
-    ConsoleInfo "-->" "process settings: environment for flavor ${CONFIG_MAP["FLAVOR"]}"
+    ConsolePrint info "process settings: environment for flavor ${CONFIG_MAP["FLAVOR"]}"
     local ENV_KEY
     local KEY
 
@@ -78,14 +73,14 @@ ProcessSettingsEnvironment() {
         ENV_KEY=${CONFIG_MAP["FLAVOR"]}_$KEY
         if [[ ! -z "${!ENV_KEY:-}" ]]; then
             if [[ ! -z ${CONFIG_MAP[$KEY]:-} ]]; then
-                ConsoleWarn "    >" "overwriting $KEY"
+                ConsolePrint warn "overwriting $KEY"
             fi
             CONFIG_MAP[$KEY]="${!ENV_KEY}"
             CONFIG_SRC[$KEY]="E"
-            ConsoleDebug "set $KEY = '${CONFIG_MAP[$KEY]}'"
+            ConsolePrint debug "set $KEY = '${CONFIG_MAP[$KEY]}'"
         fi
     done
-    ConsoleInfo "-->" "done"
+    ConsolePrint info "done"
 }
 
 
@@ -95,7 +90,7 @@ ProcessSettingsEnvironment() {
 ## - process settings: USER/.skb
 ##
 ProcessSettingsConfig() {
-    ConsoleInfo "-->" "process settings: ${CONFIG_MAP["CONFIG_FILE"]} for flavor ${CONFIG_MAP["FLAVOR"]}"
+    ConsolePrint info "process settings: ${CONFIG_MAP["CONFIG_FILE"]} for flavor ${CONFIG_MAP["FLAVOR"]}"
     local ENV_KEY
     local KEY
 
@@ -107,14 +102,14 @@ ProcessSettingsConfig() {
                 if [[ -z "${CONFIG_MAP[$KEY]:-}" ]]; then
                     CONFIG_MAP[$KEY]="${!ENV_KEY}"
                     CONFIG_SRC[$KEY]="F"
-                    ConsoleDebug "set $KEY = '${CONFIG_MAP[$KEY]}'"
+                    ConsolePrint debug "set $KEY = '${CONFIG_MAP[$KEY]}'"
                 fi
             fi
         done
     else
-        ConsoleWarn "    >" "did not find config file, tried ${CONFIG_MAP["CONFIG_FILE"]}"
+        ConsolePrint warn "did not find config file, tried ${CONFIG_MAP["CONFIG_FILE"]}"
     fi
-    ConsoleInfo "-->" "done"
+    ConsolePrint info "done"
 }
 
 
@@ -124,7 +119,7 @@ ProcessSettingsConfig() {
 ## - process settings: default values
 ##
 ProcessSettingsDefault() {
-    ConsoleInfo "-->" "process settings: default values"
+    ConsolePrint info "process settings: default values"
     local DEFAULT_VALUE
     local KEY
 
@@ -134,11 +129,11 @@ ProcessSettingsDefault() {
             if [[ ! -z ${DEFAULT_VALUE:-} && -z "${CONFIG_MAP[$KEY]:-}" ]]; then
                 CONFIG_MAP[$KEY]="$DEFAULT_VALUE"
                 CONFIG_SRC[$KEY]="D"
-                ConsoleDebug "set $KEY = '${CONFIG_MAP[$KEY]}'"
+                ConsolePrint debug "set $KEY = '${CONFIG_MAP[$KEY]}'"
             fi
         fi
     done
-    ConsoleInfo "-->" "done"
+    ConsolePrint info "done"
 }
 
 

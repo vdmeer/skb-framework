@@ -11,21 +11,26 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-== ExecuteScenario
 
+== ExecuteScenario()
 _void ExecuteScenario( $1 )_ - executes a scenario.
 
 The scenario must be loaded and available for execution.
 
+
 *Parameters*:
 
 * `$1` - String with the scenario ID (or name) as short or long name.
+
 
 *Errors* (as _Console Error_)
 
 * An unknown scenario name
 * Scenario file (script) not found
 * Any error detected in the scenario file, then with line number
+
+
+*Examples*
 
 [source%nowrap,bash,linenumber]
 ----

@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,8 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -80,7 +77,7 @@ CLI_LONG_OPTIONS+=,ad,site,stage,profile:,targets
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-mvn-site -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "build-mvn-site: unknown CLI options"
+    ConsolePrint error "build-mvn-site: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -167,7 +164,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "build-mvn-site: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "build-mvn-site: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -178,11 +175,11 @@ done
 ## test CLI and settings
 ############################################################################################
 if [[ "${RTMAP_DEP_STATUS["maven"]}" != "S" ]]; then
-    ConsoleError "  ->" "bdms: dependency Maven not loaded, cannot proceed"
+    ConsolePrint error "bdms: dependency Maven not loaded, cannot proceed"
     exit 60
 fi
 if [[ -z "${CONFIG_MAP["MVN_SITES"]:-}" ]]; then
-    ConsoleError "  ->" "bdms: no settings found for MVN_SITES, cannot proceed"
+    ConsolePrint error "bdms: no settings found for MVN_SITES, cannot proceed"
     exit 61
 fi
 
@@ -196,32 +193,32 @@ LoadSite(){
     local DESCRIPTION
 
     if [[ ! -d "$1" ]]; then
-        ConsoleError "  ->" "bdms: not a directory: '$1'"
+        ConsolePrint error "bdms: not a directory: '$1'"
         return
     fi
     if [[ ! -f "$1/skb-site.id" ]]; then
-        ConsoleError "  ->" "bdms: no ID file in directory: '$1', looking for 'skb-site'"
+        ConsolePrint error "bdms: no ID file in directory: '$1', looking for 'skb-site'"
         return
     fi
     if [[ ! -f "$1/pom.xml" ]]; then
-        ConsoleError "  ->" "bdms: no POM file in directory: '$1'"
+        ConsolePrint error "bdms: no POM file in directory: '$1'"
         return
     fi
     source $1/skb-site.id
 
     if [[ -z "${ID:-}" ]]; then
-        ConsoleError "  ->" "bdms: no ID in 'skb-ts' in directory '$1'"
+        ConsolePrint error "bdms: no ID in 'skb-ts' in directory '$1'"
         return
     fi
     if [[ -z "${DESCRIPTION:-}" ]]; then
-        ConsoleError "  ->" "bdms: no DESCRIPTION in 'skb-ts' in directory '$1'"
+        ConsolePrint error "bdms: no DESCRIPTION in 'skb-ts' in directory '$1'"
         return
     fi
 
     MVN_SITE_LIST[$ID]=$DESCRIPTION
     MVN_SITE_PATH[$ID]=$1
 
-    ConsoleDebug "found site '$ID' described as '$DESCRIPTION'"
+    ConsolePrint debug "found site '$ID' described as '$DESCRIPTION'"
 }
 
 
@@ -231,34 +228,67 @@ LoadSite(){
 ############################################################################################
 BuildSite(){
     local HAVE_SCRIPTS=false
+    local FILE_NAME
+    local CHANGE
+    local ERRORS
+    declare -A MVN_SITE_FIX_ADOC_ARRAY
+
     if [[ -r ${MVN_SITE_PATH[$1]}/skb-site-scripts.skb ]]; then
         source ${MVN_SITE_PATH[$1]}/skb-site-scripts.skb
         HAVE_SCRIPTS=true
     fi
 
-    ConsoleDebug "build site $1 :: $MVN_TARGET :: in ${MVN_SITE_PATH[$1]}\n\n"
+    ConsolePrint debug "build site $1 :: $MVN_TARGET :: in ${MVN_SITE_PATH[$1]}\n\n"
 
     if [[ $HAVE_SCRIPTS == true ]]; then
-        ConsoleDebug "running MvnSitePreScript"
+        ConsolePrint debug "running MvnSitePreScript"
         (cd ${MVN_SITE_PATH[$1]}; MvnSitePreScript)
-        ConsoleDebug "done MvnSitePreScript"
+        ConsolePrint debug "done MvnSitePreScript\n"
+        ExitOnTaskErrors
     fi
 
+    ConsolePrint debug "running mvn $MVN_TARGET"
     (cd ${MVN_SITE_PATH[$1]}; mvn $MVN_TARGET)
-    ConsoleDebug "done mvn $MVN_TARGET"
+    ConsolePrint debug "done mvn $MVN_TARGET\n"
+
+    if [[ -v MVN_SITE_FIX_ADOC_ARRAY[@] ]]; then
+        ConsolePrint debug "running ADOC fix for ${#MVN_SITE_FIX_ADOC_ARRAY[@]} files (MVN_SITE_FIX_ADOC_ARRAY)"
+        for FILE_NAME in ${!MVN_SITE_FIX_ADOC_ARRAY[@]}; do
+            ConsolePrint trace "MvnSiteFixAdocArray: fixing file $FILE_NAME"
+            ERRORS=$TASK_ERRORS
+            TestFS "$FILE_NAME.html" file exists,read,write "mvn-adoc-fix"
+            if (( $ERRORS == $TASK_ERRORS )); then
+                CHANGE="${MVN_SITE_FIX_ADOC_ARRAY[$FILE_NAME]}"
+                ConsolePrint trace "MvnSiteFixAdoc: fixing title"
+                sed -i.bak 's%x2013; </title>%'"x2013; $CHANGE</title>"'%g' $FILE_NAME.html
+                rm $FILE_NAME.html.bak
+                ConsolePrint trace "MvnSiteFixAdoc: fixing breadcrumbs"
+                sed -i.bak 's%<li class="active "></li>%'"<li class=\"active \">${CHANGE}</li>"'%g' $FILE_NAME.html
+                rm $FILE_NAME.html.bak
+            fi
+        done
+        ConsolePrint debug "done ADOC fix\n"
+        ExitOnTaskErrors
+    else
+        ConsolePrint debug "ADOC: fix not required, MVN_SITE_FIX_ADOC_ARRAY is empty\n"
+    fi
 
     if [[ $HAVE_SCRIPTS == true ]]; then
-        ConsoleDebug "running MvnSitePostScript"
+        ConsolePrint debug "running MvnSitePostScript"
         (cd ${MVN_SITE_PATH[$1]}; MvnSitePostScript)
-        ConsoleDebug "done MvnSitePostScript"
+        ConsolePrint debug "done MvnSitePostScript\n"
+        ExitOnTaskErrors
     fi
 
     case "$TARGETS" in
         *"stage"*)
+            ConsolePrint debug "running mvn initialize site:stage"
             (cd ${MVN_SITE_PATH[$1]}; mvn initialize site:stage)
-            ConsoleDebug "done mvn initialize site:stage"
+            ConsolePrint debug "done mvn initialize site:stage"
             ;;
     esac
+
+    unset MVN_SITE_FIX_ADOC_ARRAY
 }
 
 
@@ -273,10 +303,10 @@ TestSite(){
             ${DMAP_TASK_EXEC["start-browser"]} --url file://$(PathToSystemPath ${MVN_SITE_PATH[$1]}/target/site/index.html)
             set -e
         else
-            ConsoleError " ->" "bdms/test: no index file - ${MVN_SITE_PATH[$1]}/target/site/index.html"
+            ConsolePrint error "bdms/test: no index file - ${MVN_SITE_PATH[$1]}/target/site/index.html"
         fi
     else
-        ConsoleError " ->" "bdms/test: cannot test, task 'start-browser' not loaded"
+        ConsolePrint error "bdms/test: cannot test, task 'start-browser' not loaded"
     fi
 }
 
@@ -287,8 +317,8 @@ TestSite(){
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "bdms: starting task"
-ConsoleResetErrors
+ConsolePrint info "bdms: starting task"
+ResetCounter errors
 
 declare -A MVN_SITE_LIST
 declare -A MVN_SITE_PATH
@@ -306,9 +336,9 @@ fi
 
 if [[ $DO_CLEAN == true ]]; then
     for ID in ${!MVN_SITE_LIST[@]}; do
-        ConsoleDebug "clean site $ID\n\n"
+        ConsolePrint debug "clean site $ID\n\n"
         (cd ${MVN_SITE_PATH[$ID]}; mvn clean)
-        ConsoleDebug "\n\n"
+        ConsolePrint debug "\n\n"
     done
 fi
 
@@ -322,42 +352,42 @@ if [[ $DO_BUILD == true ]]; then
     esac
     if [[ -n "$MVN_TARGET" ]]; then
         if [[ "$ALL" == "yes" ]]; then
-            ConsoleInfo "  -->" "building all sites"
+            ConsolePrint info "building all sites"
             for ID in ${!MVN_SITE_LIST[@]}; do
                 BuildSite $ID
             done
         elif [[ -n "$SITE_ID" ]]; then
-            ConsoleInfo "  -->" "building site '$SITE_ID'"
+            ConsolePrint info "building site '$SITE_ID'"
             if [[ -z "${MVN_SITE_LIST[$SITE_ID]:-}" ]]; then
-                ConsoleError "  ->" "bdms: unknown site '$SITE_ID'"
+                ConsolePrint error "bdms: unknown site '$SITE_ID'"
             else
                 BuildSite $SITE_ID
             fi
         else
-            ConsoleError "  ->" "bdms: no site given for build, use --all or --id"
+            ConsolePrint error "bdms: no site given for build, use --all or --id"
         fi
     else
-        ConsoleError "  ->" "bdms: no targets given for build"
+        ConsolePrint error "bdms: no targets given for build"
     fi
 fi
 
 if [[ $DO_TEST == true ]]; then
     if [[ "$ALL" == "yes" ]]; then
-        ConsoleInfo "  -->" "testing all sites"
+        ConsolePrint info "testing all sites"
         for ID in ${!MVN_SITE_LIST[@]}; do
             TestSite $ID
         done
     elif [[ -n "$SITE_ID" ]]; then
-        ConsoleInfo "  -->" "test site '$SITE_ID'"
+        ConsolePrint info "test site '$SITE_ID'"
         if [[ -z "${MVN_SITE_LIST[$SITE_ID]:-}" ]]; then
-            ConsoleError "  ->" "bdms: unknown site '$SITE_ID'"
+            ConsolePrint error "bdms: unknown site '$SITE_ID'"
         else
             TestSite $SITE_ID
         fi
     else
-        ConsoleError "  ->" "bdms: no side given for build, use --all or --id"
+        ConsolePrint error "bdms: no side given for build, use --all or --id"
     fi
 fi
 
-ConsoleInfo "  -->" "bdms: done"
+ConsolePrint info "bdms: done"
 exit $TASK_ERRORS

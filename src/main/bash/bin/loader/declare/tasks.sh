@@ -28,10 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
 
 declare -A DMAP_TASK_ORIGIN             # map [id]=origin
 declare -A DMAP_TASK_DECL               # map [id]=decl-file w/o .id ending
@@ -80,13 +76,13 @@ DMAP_TASK_REQ_FILE_OPT["DUMMY"]=$FW_HOME/etc/version.txt
 ##
 TaskRequire() {
     if [[ -z $1 ]]; then
-        ConsoleError " ->" "task-require - no task ID given"
+        ConsolePrint error "task-require - no task ID given"
         return
     elif [[ -z $2 ]]; then
-        ConsoleError " ->" "task-require - missing requirement type for task '$1'"
+        ConsolePrint error "task-require - missing requirement type for task '$1'"
         return
     elif [[ -z $3 ]]; then
-        ConsoleError " ->" "task-require - missing requirement value for task '$1'"
+        ConsolePrint error "task-require - missing requirement value for task '$1'"
         return
     fi
 
@@ -94,7 +90,7 @@ TaskRequire() {
     local TYPE=$2
     local VALUE=$3
     local OPTIONAL=${4:-}
-    ConsoleDebug "task $ID requires '$TYPE' value '$VALUE' option '$OPTIONAL'"
+    ConsolePrint debug "task $ID requires '$TYPE' value '$VALUE' option '$OPTIONAL'"
 
     if [[ -z $OPTIONAL ]]; then
         case "$TYPE" in
@@ -103,7 +99,7 @@ TaskRequire() {
             task)   DMAP_TASK_REQ_TASK_MAN[$ID]="${DMAP_TASK_REQ_TASK_MAN[$ID]:-} $VALUE" ;;
             dir)    DMAP_TASK_REQ_DIR_MAN[$ID]="${DMAP_TASK_REQ_DIR_MAN[$ID]:-} $VALUE" ;;
             file)   DMAP_TASK_REQ_FILE_MAN[$ID]="${DMAP_TASK_REQ_FILE_MAN[$ID]:-} $VALUE" ;;
-            *)      ConsoleError " ->" "task-require -task $ID requires unknown type '$TYPE'" ;;
+            *)      ConsolePrint error "task-require -task $ID requires unknown type '$TYPE'" ;;
         esac
     else
         case "$TYPE" in
@@ -112,7 +108,7 @@ TaskRequire() {
             task)   DMAP_TASK_REQ_TASK_OPT[$ID]="${DMAP_TASK_REQ_TASK_OPT[$ID]:-} $VALUE" ;;
             dir)    DMAP_TASK_REQ_DIR_OPT[$ID]="${DMAP_TASK_REQ_DIR_OPT[$ID]:-} $VALUE" ;;
             file)   DMAP_TASK_REQ_FILE_OPT[$ID]="${DMAP_TASK_REQ_FILE_OPT[$ID]:-} $VALUE" ;;
-            *)      ConsoleError " ->" "task-require -task $ID requires unknown type '$TYPE'" ;;
+            *)      ConsolePrint error "task-require -task $ID requires unknown type '$TYPE'" ;;
         esac
     fi
 }
@@ -127,10 +123,10 @@ TaskRequire() {
 DeclareTasksOrigin() {
     local ORIGIN=$1
 
-    ConsoleInfo "-->" "scanning $ORIGIN"
+    ConsolePrint info "scanning $ORIGIN"
     local TASK_PATH=${CONFIG_MAP[$ORIGIN]}/${APP_PATH_MAP["TASK_DECL"]}
     if [[ ! -d $TASK_PATH ]]; then
-        ConsoleWarn " ->" "declare task - did not find task directory '$TASK_PATH' at origin '$ORIGIN'"
+        ConsolePrint warn "declare task - did not find task directory '$TASK_PATH' at origin '$ORIGIN'"
     else
         local ID
         local SHORT
@@ -167,24 +163,24 @@ DeclareTasksOrigin() {
                 EXECUTABLE=${CONFIG_MAP[$ORIGIN]}/$EXEC_PATH/$ID.sh
             fi
             if [[ ! -f $EXECUTABLE ]]; then
-                ConsoleError " ->" "declare task - '$ID' without script (executable)"
+                ConsolePrint error "declare task - '$ID' without script (executable)"
                 HAVE_ERRORS=true
             elif [[ ! -x $EXECUTABLE ]]; then
-                ConsoleError " ->" "declare task - '$ID' script not executable"
+                ConsolePrint error "declare task - '$ID' script not executable"
                 HAVE_ERRORS=true
             fi
 
             if [[ -z "${MODES:-}" ]]; then
-                ConsoleError " ->" "declare task - '$ID' has no modes defined"
+                ConsolePrint error "declare task - '$ID' has no modes defined"
                 HAVE_ERRORS=true
             else
                 for mode in $MODES; do
                     case $mode in
                         dev | build | use)
-                            ConsoleDebug "task '$ID' found mode '$mode'"
+                            ConsolePrint debug "task '$ID' found mode '$mode'"
                             ;;
                         *)
-                            ConsoleError " ->" "declare task - '$ID' with unknown mode '$mode'"
+                            ConsolePrint error "declare task - '$ID' with unknown mode '$mode'"
                             HAVE_ERRORS=true
                             ;;
                     esac
@@ -192,53 +188,53 @@ DeclareTasksOrigin() {
             fi
 
             if [[ -z "${MODE_FLAVOR:-}" ]]; then
-                ConsoleError " ->" "declare task - '$ID' has no app mode flavor defined"
+                ConsolePrint error "declare task - '$ID' has no app mode flavor defined"
                 HAVE_ERRORS=true
             else
                 case $MODE_FLAVOR in
                     std | install)
-                        ConsoleDebug "task '$ID' found app mode flavor '$MODE_FLAVOR'"
+                        ConsolePrint debug "task '$ID' found app mode flavor '$MODE_FLAVOR'"
                         ;;
                     *)
-                        ConsoleError " ->" "declare task - '$ID' with unknown app mode flavor '$MODE_FLAVOR'"
+                        ConsolePrint error "declare task - '$ID' with unknown app mode flavor '$MODE_FLAVOR'"
                         HAVE_ERRORS=true
                         ;;
                 esac
             fi
 
             if [[ -z "${DESCRIPTION:-}" ]]; then
-                ConsoleError " ->" "declare task - '$ID' has no description"
+                ConsolePrint error "declare task - '$ID' has no description"
                 HAVE_ERRORS=true
             fi
 
             if [[ ! -z ${DMAP_CMD[$ID]:-} ]]; then
-                ConsoleError " ->" "declare task - '$ID' already used as long shell command"
+                ConsolePrint error "declare task - '$ID' already used as long shell command"
                 HAVE_ERRORS=true
             fi
             if [[ ! -z ${DMAP_CMD[$SHORT]:-} ]]; then
-                ConsoleError " ->" "declare task - '$ID' short '$SHORT' already used as long shell command"
+                ConsolePrint error "declare task - '$ID' short '$SHORT' already used as long shell command"
                 HAVE_ERRORS=true
             fi
 
             if [[ ! -z ${DMAP_CMD_SHORT[$ID]:-} ]]; then
-                ConsoleError " ->" "declare task - task '$ID' already used as short shell command"
+                ConsolePrint error "declare task - task '$ID' already used as short shell command"
                 HAVE_ERRORS=true
             fi
             if [[ ! -z ${DMAP_CMD_SHORT[$SHORT]:-} ]]; then
-                ConsoleError " ->" "declare task - '$ID' short '$SHORT' already used as short shell command"
+                ConsolePrint error "declare task - '$ID' short '$SHORT' already used as short shell command"
                 HAVE_ERRORS=true
             fi
 
             if [[ ! -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
-                ConsoleError "    >" "overwriting ${DMAP_TASK_ORIGIN[$ID]}:::$ID with $ORIGIN:::$ID"
+                ConsolePrint error "overwriting ${DMAP_TASK_ORIGIN[$ID]}:::$ID with $ORIGIN:::$ID"
                 HAVE_ERRORS=true
             fi
             if [[ ! -z ${SHORT:-} && ! -z ${DMAP_TASK_SHORT[${SHORT:-}]:-} ]]; then
-                ConsoleError "    >" "overwriting task short from ${DMAP_TASK_SHORT[$SHORT]} to $ID"
+                ConsolePrint error "overwriting task short from ${DMAP_TASK_SHORT[$SHORT]} to $ID"
                 HAVE_ERRORS=true
             fi
             if [[ $HAVE_ERRORS == true ]]; then
-                ConsoleError " ->" "declare task - could not declare task"
+                ConsolePrint error "declare task - could not declare task"
                 NO_ERRORS=false
             else
                 DMAP_TASK_ORIGIN[$ID]=$ORIGIN
@@ -249,9 +245,9 @@ DeclareTasksOrigin() {
                 DMAP_TASK_DESCR[$ID]="$DESCRIPTION"
                 if [[ ! -z ${SHORT:-} ]]; then
                     DMAP_TASK_SHORT[$SHORT]=$ID
-                    ConsoleInfo "-->" "declared $ORIGIN:::$ID with short '$SHORT'"
+                    ConsolePrint info "declared $ORIGIN:::$ID with short '$SHORT'"
                 else
-                    ConsoleInfo "-->" "declared $ORIGIN:::$ID without short"
+                    ConsolePrint info "declared $ORIGIN:::$ID without short"
                 fi
             fi
         done
@@ -265,12 +261,12 @@ DeclareTasksOrigin() {
 ## - declares tasks from multiple sources
 ##
 DeclareTasks() {
-    ConsoleInfo "-->" "declare tasks"
-    ConsoleResetErrors
+    ConsolePrint info "declare tasks"
+    ResetCounter errors
 
     DeclareTasksOrigin FW_HOME
     if [[ "${CONFIG_MAP["FW_HOME"]}" != ${CONFIG_MAP["APP_HOME"]} ]]; then
         DeclareTasksOrigin APP_HOME
     fi
-    ConsoleInfo "-->" "done"
+    ConsolePrint info "done"
 }

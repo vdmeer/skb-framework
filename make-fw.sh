@@ -57,7 +57,9 @@ if [[ -z "${1:-}" || "${1}" == "-h" || "${1}" == "--help" || "${1}" == "help" ]]
         printf "No target given\n"
     fi
     source skb-ts-scripts.skb
-    TsRunTask help
+    TsRunTargets help
+    printf "\n    Note: the skb-framework will be started with --snp --task-level debug\n"
+    printf "          this means no shell prompt, tasks will print debug-level messages\n\n"
     exit 1
 fi
 

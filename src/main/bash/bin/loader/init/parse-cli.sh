@@ -28,10 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
 
 ##
 ## function: ParseCli
@@ -40,8 +36,8 @@
 ## - $@: the CLI options
 ##
 ParseCli() {
-    ConsoleInfo "-->" "parse-cli"
-    ConsoleResetErrors
+    ConsolePrint info "parse-cli"
+    ResetCounter errors
 
     local CLI_OPTIONS=ABCcDd:e:hIL:mo:p:P:r:sS:T:vV
 
@@ -54,21 +50,21 @@ ParseCli() {
     CLI_LONG_OPTIONS+=,lq,sq,tq,snp
     CLI_LONG_OPTIONS+=,test-terminal,test-ansi-colors,test-ansi-effects,test-utf8
 
-    ConsoleDebug "running getopt"
+    ConsolePrint debug "running getopt"
     local PARSED
     ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name skb -- "$@")
     if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-        ConsoleError " ->" "unknown CLI options"
+        ConsolePrint error "unknown CLI options"
         return
     fi
 
-    ConsoleDebug "getopt passed"
+    ConsolePrint debug "getopt passed"
     eval set -- "$PARSED"
     DO_EXIT=false
     DO_EXIT_2=false
     CLI_EXTRA_ARGS=
 
-    ConsoleDebug "looping through options"
+    ConsolePrint debug "looping through options"
     while true; do
         case "$1" in
             -A | --all-mode)
@@ -199,10 +195,10 @@ ParseCli() {
                 break
                 ;;
             *)
-                ConsoleFatal " ->" "internal error: CLI parsing bug"
+                ConsolePrint fatal "internal error: CLI parsing bug"
                 exit 1
         esac
     done
-    ConsoleInfo "-->" "done"
+    ConsolePrint info "done"
 }
 

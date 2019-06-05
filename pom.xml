@@ -39,6 +39,7 @@
         <skb-site-main-dir>${project.basedir}/src</skb-site-main-dir>
         <skb-site-target-dir>${project.basedir}/target</skb-site-target-dir>
         <adoc-build-target>site</adoc-build-target>
+        <adoc-build-link-post> -- </adoc-build-link-post>
     </properties>
 
     <distributionManagement>

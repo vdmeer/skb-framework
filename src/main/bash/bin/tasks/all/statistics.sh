@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,8 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -83,7 +80,7 @@ CLI_LONG_OPTIONS+=,all,ov,cmd,dep,es,opt,param,scn,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name statistics -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "statistics: unknown CLI options"
+    ConsolePrint error "statistics: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -170,7 +167,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "statistics: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "statistics: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -338,7 +335,7 @@ StatsExitStatus(){
             loader)     COUNT_ES_LOADER=$((COUNT_ES_LOADER + 1)) ;;
             shell)      COUNT_ES_SHELL=$((COUNT_ES_SHELL + 1)) ;;
             task)       COUNT_ES_TASK=$((COUNT_ES_TASK + 1)) ;;
-            *)          ConsoleError " ->" "stats/exit-status - unknown origin '${DMAP_ES[$ES]}'"
+            *)          ConsolePrint error "stats/exit-status - unknown origin '${DMAP_ES[$ES]}'"
         esac
     done
 
@@ -348,7 +345,7 @@ StatsExitStatus(){
         case ${DMAP_ES_PROBLEM[$ES]} in
             external)   COUNT_ES_INT=$((COUNT_ES_INT + 1)) ;;
             internal)   COUNT_ES_EXT=$((COUNT_ES_EXT + 1)) ;;
-            *)          ConsoleError " ->" "stats/exit-status - unknown '${DMAP_ES_PROBLEM[$ES]}'"
+            *)          ConsolePrint error "stats/exit-status - unknown '${DMAP_ES_PROBLEM[$ES]}'"
         esac
     done
 
@@ -548,7 +545,7 @@ StatsScenarios(){
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "stats: starting task"
+ConsolePrint info "stats: starting task"
 
 if [[ "$OVERVIEW" == "yes" ]]; then
     StatsOverview
@@ -582,5 +579,5 @@ if [[ "$SCENARIOS" == "yes" ]]; then
     StatsScenarios
 fi
 
-ConsoleInfo "  -->" "stats: done"
+ConsolePrint info "stats: done"
 exit $TASK_ERRORS

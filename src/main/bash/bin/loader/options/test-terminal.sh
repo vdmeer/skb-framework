@@ -28,14 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
-PrintTestColors
-printf "\n"
-PrintTestEffects
-printf "\n"
-PrintTestUtf8
-printf "\n"
+PrintTests all
 DO_EXIT=true

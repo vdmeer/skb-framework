@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 printf "cleaning ${CONFIG_MAP["CACHE_DIR"]}\n"
 if [[ -d ${CONFIG_MAP["CACHE_DIR"]} ]]; then

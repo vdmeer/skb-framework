@@ -28,10 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
 
 OPT_CLI_MAP["execute-task"]+=" "$CLI_EXTRA_ARGS
 DO_EXIT_2=true

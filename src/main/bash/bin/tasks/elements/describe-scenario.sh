@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,9 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/scenario.sh
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -84,7 +80,7 @@ CLI_LONG_OPTIONS=all,debug,mode:,help,id:,install,loaded,origin:,print-mode:,sta
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-scenario -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "describe-scenario: unknown CLI options"
+    ConsolePrint error "describe-scenario: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -168,7 +164,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "describe-scenario: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-scenario: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -198,11 +194,11 @@ else
         ORIG_SCN=$SCN_ID
         SCN_ID=$(GetScenarioID $SCN_ID)
         if [[ -z ${SCN_ID:-} ]]; then
-            ConsoleError " ->" "ds: unknown scenario: $ORIG_SCN"
+            ConsolePrint error "ds: unknown scenario: $ORIG_SCN"
             exit 60
         else
             if [[ -z ${DMAP_SCN_ORIGIN[$SCN_ID]:-} ]]; then
-                ConsoleError " ->" "ds: unknown scenario: $ORIG_SCN"
+                ConsolePrint error "ds: unknown scenario: $ORIG_SCN"
                 exit 61
             fi
         fi
@@ -218,7 +214,7 @@ else
             *)
                 case $ORIGIN in
                     *[!0-9]*)
-                        ConsoleError " ->" "ds: unknown origin: $ORIGIN"
+                        ConsolePrint error "ds: unknown origin: $ORIGIN"
                         exit 62
                     ;;
                 esac
@@ -239,7 +235,7 @@ else
                 APP_MODE=use
                 ;;
             *)
-                ConsoleError "  ->" "ds: unknown application mode: $APP_MODE"
+                ConsolePrint error "ds: unknown application mode: $APP_MODE"
                 exit 64
         esac
     fi
@@ -258,7 +254,7 @@ else
                 STATUS=N
                 ;;
             *)
-                ConsoleError "  ->" "ds: unknown status: $STATUS"
+                ConsolePrint error "ds: unknown status: $STATUS"
                 exit 65
         esac
     fi
@@ -267,7 +263,7 @@ case $D_FORMAT in
     descr | debug)
         ;;
     *)
-        ConsoleFatal "  ->" "ds: internal error: unknown describe format '$D_FORMAT'"
+        ConsolePrint fatal "ds: internal error: unknown describe format '$D_FORMAT'"
         exit 69
         ;;
 esac
@@ -278,7 +274,7 @@ esac
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "ds: starting task"
+ConsolePrint info "ds: starting task"
 
 for ID in ${!DMAP_SCN_ORIGIN[@]}; do
     if [[ -n "$SCN_ID" ]]; then
@@ -341,5 +337,5 @@ for i in ${!keys[@]}; do
     esac
 done
 
-ConsoleInfo "  -->" "ds: done"
+ConsolePrint info "ds: done"
 exit $TASK_ERRORS

@@ -8,7 +8,7 @@
 SHORT=mts
 MODES="dev build"
 MODE_FLAVOR="std"
-DESCRIPTION="runs build on one or more target sets"
+DESCRIPTION="runs build on one or more targets"
 EXEC_PATH=bin/tasks/mode-build
 
 TaskRequire $ID param MAKE_TARGET_SETS opt

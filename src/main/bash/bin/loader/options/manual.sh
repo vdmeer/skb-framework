@@ -28,10 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
 
 _file="${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.${CONFIG_MAP["PRINT_MODE"]}"
 if [[ -f $_file ]]; then
@@ -40,6 +36,6 @@ if [[ -f $_file ]]; then
     less -r -C -f -M -d $_file
     tput rmcup
 else
-    ConsoleError " ->" "manual - no manual file, tried \$APP_HOME/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.${CONFIG_MAP["PRINT_MODE"]}"
+    ConsolePrint error "manual - no manual file, tried \$APP_HOME/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.${CONFIG_MAP["PRINT_MODE"]}"
 fi
 DO_EXIT=true

@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,8 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -77,7 +74,7 @@ CLI_LONG_OPTIONS+=,targets:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name make-target-sets -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "make-target-sets: unknown CLI options"
+    ConsolePrint error "make-target-sets: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -133,7 +130,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "make-target-sets: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "make-target-sets: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -144,7 +141,7 @@ done
 ## test CLI and settings
 ############################################################################################
 if [[ -z "${CONFIG_MAP["MAKE_TARGET_SETS"]:-}" ]]; then
-    ConsoleError "  ->" "mts: no settings found for MAKE_TARGET_SETS, cannot proceed"
+    ConsolePrint error "mts: no settings found for MAKE_TARGET_SETS, cannot proceed"
     exit 61
 fi
 
@@ -233,25 +230,25 @@ LoadTargetsets(){
     local HAVE_TARGET_CLEAN=false
 
     if [[ ! -d "$1" ]]; then
-        ConsoleError "  ->" "mts: not a directory: '$1'"
+        ConsolePrint error "mts: not a directory: '$1'"
         return
     fi
     if [[ ! -f "$1/skb-ts.id" ]]; then
-        ConsoleError "  ->" "mts: no ID file in directory: '$1', looking for 'skb-ts'"
+        ConsolePrint error "mts: no ID file in directory: '$1', looking for 'skb-ts'"
         return
     fi
     source $1/skb-ts.id
 
     if [[ -z "${ID:-}" ]]; then
-        ConsoleError "  ->" "mts: no ID in 'skb-ts' in directory '$1'"
+        ConsolePrint error "mts: no ID in 'skb-ts' in directory '$1'"
         return
     fi
     if [[ -z "${DESCRIPTION:-}" ]]; then
-        ConsoleError "  ->" "mts: no DESCRIPTION in 'skb-ts' in directory '$1'"
+        ConsolePrint error "mts: no DESCRIPTION in 'skb-ts' in directory '$1'"
         return
     fi
     if [[ -z "${TARGETS:-}" ]]; then
-        ConsoleError "  ->" "mts: no TARGETS in 'skb-ts' in directory '$1'"
+        ConsolePrint error "mts: no TARGETS in 'skb-ts' in directory '$1'"
         return
     fi
 
@@ -266,7 +263,7 @@ LoadTargetsets(){
     done
 
     if [[ ${HAVE_TARGET_CLEAN} == false ]]; then
-        ConsoleError "  ->" "mts: 'skb-ts' in directory '$1' does not define a target 'clean'"
+        ConsolePrint error "mts: 'skb-ts' in directory '$1' does not define a target 'clean'"
         return
     fi
 
@@ -275,11 +272,11 @@ LoadTargetsets(){
     TARGET_SET_PATH[$ID]=$1
 
     if [[ ! -r ${TARGET_SET_PATH[$ID]}/skb-ts-scripts.skb ]]; then
-        ConsoleError "  ->" "mts: no script file in directory: '$1', looking for 'skb-ts-scripts'"
+        ConsolePrint error "mts: no script file in directory: '$1', looking for 'skb-ts-scripts'"
     fi
 
-    ConsoleDebug "found target set '$ID' described as '$DESCRIPTION'"
-    ConsoleDebug "found target set '$ID' with targets '$TARGETS'"
+    ConsolePrint debug "found target set '$ID' described as '$DESCRIPTION'"
+    ConsolePrint debug "found target set '$ID' with targets '$TARGETS'"
 }
 
 
@@ -305,7 +302,7 @@ TestTargets(){
             fi
         done
         if [[ $FOUND == false ]]; then
-            ConsoleError "  ->" "mts: requested target '$TGT_USER' not in target set '$ID'"
+            ConsolePrint error "mts: requested target '$TGT_USER' not in target set '$ID'"
         fi
         IFS=,
     done
@@ -326,7 +323,7 @@ BuildTargetSet(){
     if [[ "${DO_TARGETS}" == "all" ]]; then
         for TGT in ${TARGET_SET_TARGETS[$ID]}; do
             PrintTargetStart $ID $TGT
-            (cd ${TARGET_SET_PATH[$ID]}; TsRunTask $TGT)
+            (cd ${TARGET_SET_PATH[$ID]}; TsRunTargets $TGT)
             PrintTargetEnd $ID $TGT
         done
     else
@@ -336,7 +333,7 @@ BuildTargetSet(){
             for TGT_USER in $DO_TARGETS; do
                 if [[ "$TGT" == "$TGT_USER" ]]; then
                     PrintTargetStart $ID $TGT
-                    (cd ${TARGET_SET_PATH[$ID]}; TsRunTask $TGT)
+                    (cd ${TARGET_SET_PATH[$ID]}; TsRunTargets $TGT)
                     PrintTargetEnd $ID $TGT
                     ExitOnTaskErrors
                 fi
@@ -356,8 +353,8 @@ BuildTargetSet(){
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "mts: starting task"
-ConsoleResetErrors
+ConsolePrint info "mts: starting task"
+ResetCounter errors
 LEVEL=${CONFIG_MAP["TASK_LEVEL"]}   ## get task level for local prints
 
 
@@ -373,7 +370,7 @@ done
 
 if [[ -n "$TARGET_SET_ID" ]]; then
     if [[ -z "${TARGET_SET_LIST[$TARGET_SET_ID]:-}" ]]; then
-        ConsoleError "  ->" "mts: unknown target set ID '$TARGET_SET_ID'"
+        ConsolePrint error "mts: unknown target set ID '$TARGET_SET_ID'"
     fi
 fi
 ExitOnTaskErrors
@@ -395,16 +392,16 @@ if [[ $DO_CLEAN == true ]]; then
         for ID in ${!TARGET_SET_LIST[@]}; do
             PrintTargetStart $ID "clean"
             source ${TARGET_SET_PATH[$ID]}/skb-ts-scripts.skb
-            (cd ${TARGET_SET_PATH[$ID]}; TsRunTask clean)
+            (cd ${TARGET_SET_PATH[$ID]}; TsRunTargets clean)
             PrintTargetEnd $ID "clean"
         done
     elif [[ -n "$TARGET_SET_ID" ]]; then
         PrintTargetStart $ID "clean"
         source ${TARGET_SET_PATH[$TARGET_SET_ID]}/skb-ts-scripts.skb
-        (cd ${TARGET_SET_PATH[$TARGET_SET_ID]}; TsRunTask clean)
+        (cd ${TARGET_SET_PATH[$TARGET_SET_ID]}; TsRunTargets clean)
         PrintTargetEnd $ID "clean"
     else
-        ConsoleError "  ->" "mts: no target set given for clean, use --all or --id ID"
+        ConsolePrint error "mts: no target set given for clean, use --all or --id ID"
     fi
 fi
 ExitOnTaskErrors
@@ -420,7 +417,7 @@ if [[ -n "${DO_TARGETS}" ]]; then
     elif [[ -n "$TARGET_SET_ID" ]]; then
         TestTargets $TARGET_SET_ID
     else
-        ConsoleError "  ->" "mts: no target set given for targets, use --all or --id ID"
+        ConsolePrint error "mts: no target set given for targets, use --all or --id ID"
     fi
 fi
 ExitOnTaskErrors
@@ -436,9 +433,9 @@ if [[ -n "${DO_TARGETS}" ]]; then
     elif [[ -n "$TARGET_SET_ID" ]]; then
         BuildTargetSet $TARGET_SET_ID
     else
-        ConsoleError "  ->" "mts: no target set given for targets, use --all or --id ID"
+        ConsolePrint error "mts: no target set given for targets, use --all or --id ID"
     fi
 fi
 
-ConsoleInfo "  -->" "mts: done"
+ConsolePrint info "mts: done"
 exit $TASK_ERRORS

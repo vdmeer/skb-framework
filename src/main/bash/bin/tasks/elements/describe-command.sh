@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,9 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/command.sh
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -76,7 +72,7 @@ CLI_LONG_OPTIONS=all,help,id:,print-mode:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-command -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "describe-command: unknown CLI options"
+    ConsolePrint error "describe-command: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -118,7 +114,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "describe-command: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-command: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -138,7 +134,7 @@ else
     if [[ -n "$CMD_ID" ]]; then
         TESTED_CMD_ID=$(GetCommandID $CMD_ID)
         if [[ -z "${TESTED_CMD_ID:-}" ]]; then
-            ConsoleError " ->" "dc: unknown command ID '$CMD_ID'"
+            ConsolePrint error "dc: unknown command ID '$CMD_ID'"
             exit 60
         else
             CMD_ID=$TESTED_CMD_ID
@@ -152,7 +148,7 @@ fi
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "dc: starting task"
+ConsolePrint info "dc: starting task"
 
 for ID in ${!DMAP_CMD[@]}; do
     if [[ -n "$CMD_ID" ]]; then
@@ -169,5 +165,5 @@ for i in ${!keys[@]}; do
     DescribeCommand $ID full "$PRINT_MODE line-indent" $PRINT_MODE
 done
 
-ConsoleInfo "  -->" "dc: done"
+ConsolePrint info "dc: done"
 exit $TASK_ERRORS

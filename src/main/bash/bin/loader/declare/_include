@@ -28,10 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
 
 source $FW_HOME/bin/loader/declare/ansi-maps.sh
 #source $FW_HOME/bin/loader/declare/app-maps.sh     # we load this after basic CONFIG_MAP seetings are done

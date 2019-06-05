@@ -28,10 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
 
 CONFIG_MAP["LOADER_QUIET"]=on
 CONFIG_MAP["SHELL_QUIET"]=on

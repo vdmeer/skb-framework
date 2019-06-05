@@ -27,6 +27,13 @@ Sven van_der_Meer <vdmeer.sven@mykolab.com>
 :icons: font
 :sectlinks:
 
+ifeval::["{adoc-build-target}" == "pdf"]
+:adoc-build-link-post: -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+:adoc-build-link-post: -- 
+endif::[]
+
 
 == Introduction
 include::{skb-site-main-dir}/doc/fragments/user-guide/introduction.adoc[]

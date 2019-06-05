@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,9 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/parameter.sh
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -84,7 +80,7 @@ CLI_LONG_OPTIONS=all,debug,default,help,id:,install,origin:,print-mode:,requeste
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-parameter -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "describe-parameter: unknown CLI options"
+    ConsolePrint error "describe-parameter: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -162,7 +158,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "describe-parameter: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-parameter: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -185,7 +181,7 @@ if [[ "$ALL" == "yes" || $CLI_SET == false ]]; then
 else
     if [[ -n "$PARAM_ID" ]]; then
         if [[ -z ${DMAP_PARAM_ORIGIN[$PARAM_ID]:-} ]]; then
-            ConsoleError " ->" "dp: unknown parameter: $PARAM_ID"
+            ConsolePrint error "dp: unknown parameter: $PARAM_ID"
             exit 60
         fi
     fi
@@ -198,7 +194,7 @@ else
                 ORIGIN=APP_HOME
                 ;;
             *)
-                ConsoleError " ->" "dp: unknown origin: $ORIGIN"
+                ConsolePrint error "dp: unknown origin: $ORIGIN"
                 exit 61
         esac
     fi
@@ -220,7 +216,7 @@ else
                 STATUS=D
                 ;;
             *)
-                ConsoleError "  ->" "dp: unknown status: $STATUS"
+                ConsolePrint error "dp: unknown status: $STATUS"
                 exit 62
         esac
     fi
@@ -229,7 +225,7 @@ case $D_FORMAT in
     descr | debug)
         ;;
     *)
-        ConsoleFatal "  ->" "dp: internal error: unknown describe format '$D_FORMAT'"
+        ConsolePrint fatal "dp: internal error: unknown describe format '$D_FORMAT'"
         exit 69
         ;;
 esac
@@ -240,7 +236,7 @@ esac
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "dp: starting task"
+ConsolePrint info "dp: starting task"
 
 for ID in ${!DMAP_PARAM_ORIGIN[@]}; do
     if [[ -n "$PARAM_ID" ]]; then
@@ -324,5 +320,5 @@ for i in ${!keys[@]}; do
     esac
 done
 
-ConsoleInfo "  -->" "dp: done"
+ConsolePrint info "dp: done"
 exit $TASK_ERRORS

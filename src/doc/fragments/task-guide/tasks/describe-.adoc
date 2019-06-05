@@ -11,6 +11,7 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
+
 == describe-*
 
 There are nine tasks that start with _describe-_.
@@ -161,8 +162,8 @@ The other filters focus on the option type, being either _exit_ options or _runt
 [source%nowrap,bash,indent=0]
 ----
    -e | --exit              only exit options
-   -i | --id ID             long option identifier
-   -r | --run               only runtime options
+   -i | --id ID             option identifier, long or short form
+   -r | --run               only runtime options, default filter
 ----
 
 === describe-parameter

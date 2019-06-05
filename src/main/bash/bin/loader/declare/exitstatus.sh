@@ -28,10 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
 
 declare -A DMAP_ES                      # map [id]="origin"
 declare -A DMAP_ES_PROBLEM              # map [id]="problem"
@@ -45,11 +41,11 @@ declare -A DMAP_ES_DESCR                # map [id]="descr-tag-line"
 ##
 DeclareExitStatus() {
     if [[ ! -d $FW_HOME/${FW_PATH_MAP["EXITSTATUS"]} ]]; then
-        ConsoleError " ->" "declare-exitstatus - did not find option directory, tried \$FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}"
-        ConsoleInfo "-->" "done"
+        ConsolePrint error "declare-exitstatus - did not find option directory, tried \$FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}"
+        ConsolePrint info "done"
     else
-        ConsoleDebug "building new declaration map from directory: \$FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}"
-        ConsoleResetErrors
+        ConsolePrint debug "building new declaration map from directory: \$FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}"
+        ResetCounter errors
 
         local file
         local ID
@@ -63,7 +59,7 @@ DeclareExitStatus() {
             ID=${ID%.*}
 
             if [[ ! -z ${DMAP_ES[$ID]:-} ]]; then
-                ConsoleError " ->" "internal error: DMAP_ES for id '$ID' already set"
+                ConsolePrint error "internal error: DMAP_ES for id '$ID' already set"
             else
                 local HAVE_ERRORS=false
 
@@ -71,29 +67,29 @@ DeclareExitStatus() {
                 source "$file"
 
                 if [[ -z "${DESCRIPTION:-}" ]]; then
-                    ConsoleError " ->" "declare exit-status - '$ID' has no description"
+                    ConsolePrint error "declare exit-status - '$ID' has no description"
                     HAVE_ERRORS=true
                 fi
                 if [[ -z "${PROBLEM:-}" ]]; then
-                    ConsoleError " ->" "declare exit-status - '$ID' has no problem defined"
+                    ConsolePrint error "declare exit-status - '$ID' has no problem defined"
                     HAVE_ERRORS=true
                 fi
                 if [[ -z "${ORIGIN:-}" ]]; then
-                    ConsoleError " ->" "declare exit-status - '$ID' has no origin defined"
+                    ConsolePrint error "declare exit-status - '$ID' has no origin defined"
                     HAVE_ERRORS=true
                 fi
 
                 if [[ $HAVE_ERRORS == true ]]; then
-                    ConsoleError " ->" "declare exit-status - could not declare exit-status"
+                    ConsolePrint error "declare exit-status - could not declare exit-status"
                     NO_ERRORS=false
                 else
                     DMAP_ES[$ID]=$ORIGIN
                     DMAP_ES_PROBLEM[$ID]=$PROBLEM
                     DMAP_ES_DESCR[$ID]=$DESCRIPTION
-                    ConsoleDebug "declared exit-status $ID"
+                    ConsolePrint debug "declared exit-status $ID"
                 fi
             fi
         done
     fi
-    ConsoleInfo "-->" "done"
+    ConsolePrint info "done"
 }

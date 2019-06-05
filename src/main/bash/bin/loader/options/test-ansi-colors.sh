@@ -28,10 +28,7 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
-PrintTestColors
+PrintTests colors
 printf "\n"
 DO_EXIT=true

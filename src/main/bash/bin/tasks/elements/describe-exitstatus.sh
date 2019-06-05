@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,9 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/exitstatus.sh
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -76,7 +72,7 @@ CLI_LONG_OPTIONS=all,help,id:,print-mode:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-exitstatus -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "describe-exitstatus: unknown CLI options"
+    ConsolePrint error "describe-exitstatus: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -118,7 +114,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "describe-exitstatus: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-exitstatus: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -137,7 +133,7 @@ if [[ "$ALL" == "yes" ]]; then
 else
     if [[ -n "$ES_ID" ]]; then
         if [[ ! -n "${DMAP_ES[$ES_ID]:-}" ]]; then
-            ConsoleError " ->" "des: unknown exit status ID '$ES_ID'"
+            ConsolePrint error "des: unknown exit status ID '$ES_ID'"
             exit 60
         fi
     fi
@@ -149,7 +145,7 @@ fi
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "des: starting task"
+ConsolePrint info "des: starting task"
 
 for ID in ${!DMAP_ES[@]}; do
     if [[ -n "$ES_ID" ]]; then
@@ -166,5 +162,5 @@ for i in ${!keys[@]}; do
     DescribeExitstatus $ID full "$PRINT_MODE line-indent" $PRINT_MODE
 done
 
-ConsoleInfo "  -->" "des: done"
+ConsolePrint info "des: done"
 exit $TASK_ERRORS

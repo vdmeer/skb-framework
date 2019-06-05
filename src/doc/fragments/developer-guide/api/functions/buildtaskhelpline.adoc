@@ -11,8 +11,7 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-== BuildTaskHelpLine
-
+== BuildTaskHelpLine()
 _String BuildTaskHelpLine( $1, $2, $3, $4, [$5] )_ - builds a help line for a task's CLI option.
 
 The help line is a single line for the task help screen.
@@ -25,27 +24,7 @@ If no short option is given, the long option will have a further indentation of 
 If short and long options are present, they will be separated by `⎵|⎵`.
 The argument will be printed in _light-blue_.
 The description will be printed as plain text.
-See
-ifeval::["{adoc-build-target}" == "pdf"]
-_<<_printtesteffects>>_
-endif::[]
-ifeval::["{adoc-build-target}" == "html"]
-_<<_printtesteffects>>_
-endif::[]
-ifeval::["{adoc-build-target}" == "site"]
-_link:print-ansi.html#printtesteffects[PrintTestEffects]_
-endif::[]
-for how effects are printed in different _print modes_ and
-ifeval::["{adoc-build-target}" == "pdf"]
-_<<_printtestcolors>>_
-endif::[]
-ifeval::["{adoc-build-target}" == "html"]
-_<<_printtestcolors>>_
-endif::[]
-ifeval::["{adoc-build-target}" == "site"]
-_link:print-ansi.html#printtestcolors[PrintTestColors]_
-endif::[]
-for how colors are printed in different _print modes_.
+
 
 *Parameters*:
 
@@ -60,10 +39,12 @@ for how colors are printed in different _print modes_.
     If empty or not provided, the default value _24_ is used.
     This value is the padding between short/long/argument and the description.
 
+
 *Return*:
 
 * _String_ - the final help line or an error message.
     The return is realized as a print.
+
 
 *Errors* (as _Console Error_)
 
@@ -75,6 +56,19 @@ for how colors are printed in different _print modes_.
     This case can have multiple cause.
     It might be that the value was set bypassing the framework to a none-supported value.
     It might also be that a new _print mode_ was added to the framework, but this function was not updated.
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
+for printing effects, such as bold and italic.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
+for printing colors.
+
+
+*Examples*
 
 [source%nowrap,bash,linenumber]
 ----
@@ -117,4 +111,3 @@ with the resulting output lines
    *-h* | *--help*        print help screen and exit
    *-s* | *--simulate*    print only, removes nothing, overwrites force
 ----
-

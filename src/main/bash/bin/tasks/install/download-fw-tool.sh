@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -57,9 +54,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/_include
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -78,7 +74,7 @@ CLI_LONG_OPTIONS=force,help,simulate
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name download-fw-tool -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "download-fw-tool: unknown CLI options"
+    ConsolePrint error "download-fw-tool: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -113,7 +109,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "download-fw-tool: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "download-fw-tool: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -131,37 +127,37 @@ done
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "dfwt: starting task"
-ConsoleResetErrors
+ConsolePrint info "dfwt: starting task"
+ResetCounter errors
 
 FW_TOOL_FILE="${CONFIG_MAP[SKB_FW_TOOL]}"
-ConsoleDebug "FW Tool file: $FW_TOOL_FILE"
+ConsolePrint debug "FW Tool file: $FW_TOOL_FILE"
 if [[ -f "$FW_TOOL_FILE" && $SIMULATE == true ]]; then
-    ConsoleMessage "  -> dfwt/simulate: tool file exists\n"
+    ConsolePrint message "  -> dfwt/simulate: tool file exists\n"
 elif [[ -f "$FW_TOOL_FILE" && $FORCE == false ]]; then
-    ConsoleWarn " ->" "dfwt: tool file exists, use --force to overwrite"
+    ConsolePrint warn "dfwt: tool file exists, use --force to overwrite"
     exit 0
 fi
 
-ConsoleInfo "  -->" "create directory: ${CONFIG_MAP["FW_HOME"]}/lib/java"
+ConsolePrint info "create directory: ${CONFIG_MAP["FW_HOME"]}/lib/java"
 if [[ ! -d "${CONFIG_MAP["FW_HOME"]}/lib/java" && $SIMULATE == true ]]; then
-    ConsoleMessage "  -> dfwt/simulate: create directory: ${CONFIG_MAP["FW_HOME"]}/lib/java\n"
+    ConsolePrint message "  -> dfwt/simulate: create directory: ${CONFIG_MAP["FW_HOME"]}/lib/java\n"
 elif [[ ! -d "${CONFIG_MAP["FW_HOME"]}/lib/java" ]]; then
     mkdir -p ${CONFIG_MAP["FW_HOME"]}/lib/java
 fi
 if [[ ! -d "${CONFIG_MAP["FW_HOME"]}/lib/java" ]]; then
-    ConsoleError " ->" "dfwt: lib directory ${CONFIG_MAP["FW_HOME"]}/lib/java does not exist"
+    ConsolePrint error "dfwt: lib directory ${CONFIG_MAP["FW_HOME"]}/lib/java does not exist"
     exit 61
 fi
 
-ConsoleInfo "  -->" "calling curl"
+ConsolePrint info "calling curl"
 CURL_URL="https://dl.bintray.com/vdmeer/generic/${FW_TOOL_FILE##*/}"
-ConsoleDebug "curl URL: $CURL_URL"
+ConsolePrint debug "curl URL: $CURL_URL"
 if [[ $SIMULATE == true ]]; then
-    ConsoleMessage "  -> dfwt/simulate: curl -L --output $FW_TOOL_FILE $CURL_URL\n"
+    ConsolePrint message "  -> dfwt/simulate: curl -L --output $FW_TOOL_FILE $CURL_URL\n"
 else
     curl -L --output $FW_TOOL_FILE $CURL_URL
 fi
 
-ConsoleInfo "  -->" "dfwt: done"
+ConsolePrint info "dfwt: done"
 exit $TASK_ERRORS

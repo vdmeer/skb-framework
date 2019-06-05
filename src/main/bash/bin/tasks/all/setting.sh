@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,9 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -74,7 +70,7 @@ CLI_LONG_OPTIONS+=,pm:,shell-level:,snp,sq,strict,task-level:,tq
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name setting -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "setting: unknown CLI options"
+    ConsolePrint error "setting: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -106,11 +102,11 @@ while true; do
             case "$2" in
                 ansi | text | text-anon)
                     CONFIG_MAP["PRINT_MODE"]=$2
-                    ConsoleMessage "  set print mode to ${CONFIG_MAP["PRINT_MODE"]}\n"
+                    ConsolePrint message "  set print mode to ${CONFIG_MAP["PRINT_MODE"]}\n"
                     CHANGE_SET=true
                     ;;
                 *)
-                    ConsoleError " ->" "setting: unknown print mode '$2'"
+                    ConsolePrint error "setting: unknown print mode '$2'"
                     ;;
             esac
             shift 2
@@ -119,11 +115,11 @@ while true; do
             case "$2" in
                 all | fatal | error | warn-strict | warn | info | debug | trace | off)
                     CONFIG_MAP["SHELL_LEVEL"]=$2
-                    ConsoleMessage "  set shell level to ${CONFIG_MAP["SHELL_LEVEL"]}\n"
+                    ConsolePrint message "  set shell level to ${CONFIG_MAP["SHELL_LEVEL"]}\n"
                     CHANGE_SET=true
                     ;;
                 *)
-                    ConsoleError " ->" "setting: unknown shell level '$2'"
+                    ConsolePrint error "setting: unknown shell level '$2'"
                     ;;
             esac
             shift 2
@@ -134,7 +130,7 @@ while true; do
             else
                 CONFIG_MAP["SHELL_SNP"]="off"
             fi
-            ConsoleMessage "  set shell prompt mode to ${CONFIG_MAP["SHELL_SNP"]}\n"
+            ConsolePrint message "  set shell prompt mode to ${CONFIG_MAP["SHELL_SNP"]}\n"
             CHANGE_SET=true
             shift
             ;;
@@ -144,7 +140,7 @@ while true; do
             else
                 CONFIG_MAP["SHELL_QUIET"]="off"
             fi
-            ConsoleMessage "  set shell quiet mode to ${CONFIG_MAP["SHELL_QUIET"]}\n"
+            ConsolePrint message "  set shell quiet mode to ${CONFIG_MAP["SHELL_QUIET"]}\n"
             CHANGE_SET=true
             shift
             ;;
@@ -154,7 +150,7 @@ while true; do
             else
                 CONFIG_MAP["STRICT"]="off"
             fi
-            ConsoleMessage "  set strict to ${CONFIG_MAP["STRICT"]}\n"
+            ConsolePrint message "  set strict to ${CONFIG_MAP["STRICT"]}\n"
             CHANGE_SET=true
             shift
             ;;
@@ -162,11 +158,11 @@ while true; do
             case "$2" in
                 all | fatal | error | warn-strict | warn | info | debug | trace | off)
                     CONFIG_MAP["TASK_LEVEL"]=$2
-                    ConsoleMessage "  set task level to ${CONFIG_MAP["TASK_LEVEL"]}\n"
+                    ConsolePrint message "  set task level to ${CONFIG_MAP["TASK_LEVEL"]}\n"
                     CHANGE_SET=true
                     ;;
                 *)
-                    ConsoleError " ->" "setting: unknown task level '$2'"
+                    ConsolePrint error "setting: unknown task level '$2'"
                     ;;
             esac
             shift 2
@@ -177,7 +173,7 @@ while true; do
             else
                 CONFIG_MAP["TASK_QUIET"]="off"
             fi
-            ConsoleMessage "  set task quiet mode to ${CONFIG_MAP["TASK_QUIET"]}\n"
+            ConsolePrint message "  set task quiet mode to ${CONFIG_MAP["TASK_QUIET"]}\n"
             CHANGE_SET=true
             shift
             ;;
@@ -187,7 +183,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "setting: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "setting: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -199,12 +195,12 @@ done
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "set: starting task"
+ConsolePrint info "set: starting task"
 
 if [[ $CHANGE_SET == true ]]; then
     WriteRuntimeConfig
-    ConsoleDebug "wrote L1 configuration due to settings changes"
+    ConsolePrint debug "wrote L1 configuration due to settings changes"
 fi
 
-ConsoleInfo "  -->" "set: done"
+ConsolePrint info "set: done"
 exit $TASK_ERRORS

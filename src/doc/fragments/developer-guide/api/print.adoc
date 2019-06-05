@@ -11,118 +11,33 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
+
 == Print
-Collection of standard print functions for keys and values.
+A collection of functions to print formatted text.
+There are three types of functions here:
+
+* Print text with formatting for colors and text effects (e.g. bold, italic, or reverse),
+* Print standard settings with formatting, and
+* a test function to test a terminal's capabilities.
+
+The formatting of the printed text can be changed using _print mode_.
+This can be done either using the current setting in _CONFIG_MAP["PRINT_MODE"]_ or by setting a specific _print mode_ when calling a function (available for some functions).
+The supported modes are:
+
+* _ansi_ - full ANSI encoded colors or effects,
+* _adoc_ - in AsciiDoc notation,
+* _text_ - as plain text, and
+* _text-anon_ - as annotated text (very much like _adoc).
+
+For most of the functions, the printed text will not contain a newline.
 
 
-=== PrintAppMode
-Prints the application mode setting `CONFIG_MAP["APP_MODE"]`:
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/printcolor.adoc[leveloffset=+1]
 
-    * _all_ in red,
-    * _dev_ in yellow,
-    * _build_ in light blue, and
-    * _use_ in green
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/printeffect.adoc[leveloffset=+1]
 
-[example]
-====
-PrintAppMode
-====
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/printprompt.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/printsetting.adoc[leveloffset=+1]
 
-=== PrintAppModeFlavor
-Prints the application mode flavor setting `CONFIG_MAP["APP_MODE_FLAVOR"]`:
-
-    * _std_ in cyan,
-    * _install_ in purple
-
-[example]
-====
-PrintAppModeFlavor
-====
-
-
-=== PrintConsoleLevel
-Prints the console level:
-
-    * _all_ in light cyan,
-    * _fatal_ in red,
-    * _error_ in light red,
-    * _warn-strict_ - here _warn_ in yellow and _strict_ in red,
-    * _warn_ in yellow,
-    * _info_ in green,
-    * _debug_ and _trace_ in light blue, and
-    * _off_ and any other input in light purple.
-
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-
-| Arguments
-| Return
-
-| $1: level
-| none
-
-|===
-
-[example]
-====
-PrintConsoleLevel all
-====
-
-
-
-=== PrintStrict
-Prints the strict mode setting `CONFIG_MAP["STRICT"]`:
-
-    * _on_ in light red, and
-    * _off_ in light green.
-
-[example]
-====
-PrintStrict
-====
-
-
-
-=== PrintQuiet
-Prints the quiet setting
-
-    * _on_ in light green,
-    * _off_ in light red, and
-    * any other input in light purple.
-
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-
-| Arguments
-| Return
-
-| $1: setting
-| none
-
-|===
-
-[example]
-====
-PrintQuiet on
-====
-
-
-
-=== PrintShellSNP
-Prints the shell-prompt mode setting `CONFIG_MAP["SHELL_SNP"]`:
-
-    * _on_ in light red, and
-    * _off_ in light green.
-
-[example]
-====
-PrintShellSNP
-====
-
-
-
-=== PrintTestUtf8
-Prints all used UTF-8 characters in one line.
-The function has no argument.
-
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/printtests.adoc[leveloffset=+1]

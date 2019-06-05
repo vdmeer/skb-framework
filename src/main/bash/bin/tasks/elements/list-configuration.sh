@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,8 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -80,7 +77,7 @@ CLI_LONG_OPTIONS+=,cli,default,file,env,internal
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-configuration -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "list-configuration: unknown CLI options"
+    ConsolePrint error "list-configuration: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -153,7 +150,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "list-configuration: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "list-configuration: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -170,21 +167,13 @@ case $LS_FORMAT in
     list | table)
         ;;
     *)
-        ConsoleFatal "  ->" "lcfg: internal error: unknown list format '$LS_FORMAT'"
+        ConsolePrint fatal "lcfg: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac
 
-
-STATUS_PADDING=22
-STATUS_STATUS_LENGHT=1
-STATUS_LINE_MIN_LENGTH=35
-COLUMNS=$(tput cols)
-COLUMNS=$((COLUMNS - 2))
-VALUE_LENGTH=$((COLUMNS - STATUS_PADDING - STATUS_STATUS_LENGHT - 1))
-
-if (( $STATUS_LINE_MIN_LENGTH > $COLUMNS )); then
-    ConsoleError "  ->" "lcfg: not enough columns for table, need $STATUS_LINE_MIN_LENGTH found $COLUMNS"
+if (( ${CONSOLE_MAP["CONFIG_LINE_MIN_LENGTH"]} > ${CONSOLE_MAP["CONFIG_COLUMNS_PADDED"]} )); then
+    ConsolePrint error "lcfg: not enough columns for table, need ${CONSOLE_MAP["CONFIG_LINE_MIN_LENGTH"]} found ${CONSOLE_MAP["CONFIG_COLUMNS_PADDED"]}"
     exit 60
 fi
 
@@ -195,19 +184,19 @@ fi
 ############################################################################################
 function TableTop() {
     printf "\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["CONFIG_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
     done
     printf "\n ${EFFECTS["REVERSE_ON"]}Name"
-    printf "%*s" "$((STATUS_PADDING - 4))" ''
+    printf "%*s" "$((${CONSOLE_MAP["CONFIG_PADDING"]} - 4))" ''
     printf "Value"
-    printf '%*s' "$((VALUE_LENGTH - 5))" ''
+    printf '%*s' "$((${CONSOLE_MAP["VALUE_LENGTH"]} - 5))" ''
     printf "S${EFFECTS["REVERSE_OFF"]}\n\n"
 }
 
 function TableBottom() {
     printf " "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["CONFIG_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
     printf "\n\n"
@@ -221,7 +210,7 @@ function TableBottom() {
     printf " , default ";       PrintColor light-red    ${CHAR_MAP["LEGEND"]}
 
     printf "\n\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["CONFIG_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
     done
     printf "\n\n"
@@ -302,28 +291,40 @@ PrintConfiguration() {
         ID=${keys[$i]}
         printf " %s%s" "$INDENT" "$ID"
         str_len=${#ID}
-        padding=$((STATUS_PADDING - $str_len))
+        padding=$((${CONSOLE_MAP["CONFIG_PADDING"]} - $str_len))
         printf '%*s' "$padding"
 
         sc_str=${CONFIG_MAP[$ID]}
         case $ID in
-            LOADER_LEVEL | SHELL_LEVEL | TASK_LEVEL)
-                PrintConsoleLevel "$sc_str"
+            LOADER_LEVEL)
+                PrintSetting loader-level
                 ;;
-            LOADER_QUIET | SHELL_QUIET | TASK_QUIET)
-                PrintQuiet "$sc_str"
+            SHELL_LEVE)
+                PrintSetting shell-level
+                ;;
+            TASK_LEVEL)
+                PrintSetting task-level
+                ;;
+            LOADER_QUIET)
+                PrintSetting loader-quiet
+                ;;
+            SHELL_QUIET)
+                PrintSetting shell-quiet
+                ;;
+            TASK_QUIET)
+                PrintSetting task-quiet
                 ;;
             SHELL_SNP)
-                PrintShellSNP
+                PrintSetting shell-snp
                 ;;
             STRICT)
-                PrintStrict
+                PrintSetting strict
                 ;;
             APP_MODE)
-                PrintAppMode
+                PrintSetting app-mode
                 ;;
             APP_MODE_FLAVOR)
-                PrintAppModeFlavor
+                PrintSetting app-mode-flavor
                 ;;
             FLAVOR)
                 PrintEffect bold "$sc_str"
@@ -346,7 +347,7 @@ PrintConfiguration() {
                 if [[ "$ID" == "SHELL_PROMPT" ]]; then
                     str_len=${CONFIG_MAP["PROMPT_LENGTH"]}
                 fi
-                PADDING=$((VALUE_LENGTH - str_len))
+                PADDING=$((${CONSOLE_MAP["VALUE_LENGTH"]} - str_len))
                 printf '%*s' "$PADDING"
 
                 case ${CONFIG_SRC[$ID]:-} in
@@ -369,7 +370,7 @@ PrintConfiguration() {
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "lcfg: starting task"
+ConsolePrint info "lcfg: starting task"
 
 case $LS_FORMAT in
     list)
@@ -384,5 +385,5 @@ case $LS_FORMAT in
         ;;
 esac
 
-ConsoleInfo "  -->" "lcfg: done"
+ConsolePrint info "lcfg: done"
 exit $TASK_ERRORS

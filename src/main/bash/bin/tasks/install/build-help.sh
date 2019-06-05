@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,8 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -72,7 +69,7 @@ CLI_LONG_OPTIONS=clean,help
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-help -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "build-help: unknown CLI options"
+    ConsolePrint error "build-help: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -101,7 +98,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "build-help: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "build-help: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -114,27 +111,27 @@ done
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "bdh: starting task"
-ConsoleResetErrors
+ConsolePrint info "bdh: starting task"
+ResetCounter errors
 
 
 if [[ $DO_CLEAN == true ]]; then
     ## we do not do a clean on the help files
-    ConsoleInfo "  -->" "bdh: done"
+    ConsolePrint info "bdh: done"
     exit 0
 fi
 
 PRINT_MODES="ansi text"
-ConsoleInfo "  -->" "build help for options and commands"
+ConsolePrint info "build help for options and commands"
 
 if [[ ! -d "${CONFIG_MAP["FW_HOME"]}/etc" ]]; then
-    ConsoleError " ->" "bdh: \$FW_HOME/etc does not exist"
+    ConsolePrint error "bdh: \$FW_HOME/etc does not exist"
 fi
 if [[ ! -d "${CONFIG_MAP["FW_HOME"]}/etc/help" ]]; then
     mkdir -p ${CONFIG_MAP["FW_HOME"]}/etc/help
 fi
 
-ConsoleDebug "target: command help"
+ConsolePrint debug "target: command help"
 if [[ ! -z "${RTMAP_TASK_LOADED["list-commands"]}" ]]; then
     for MODE in $PRINT_MODES; do
         FILE=${CONFIG_MAP["FW_HOME"]}/etc/help/commands.$MODE
@@ -146,10 +143,10 @@ if [[ ! -z "${RTMAP_TASK_LOADED["list-commands"]}" ]]; then
         set -e
     done
 else
-    ConsoleError " ->" "bdh/cmd-list: did not find task 'list-commands', not loaded?"
+    ConsolePrint error "bdh/cmd-list: did not find task 'list-commands', not loaded?"
 fi
 
-ConsoleDebug "target: option help"
+ConsolePrint debug "target: option help"
 if [[ ! -z "${RTMAP_TASK_LOADED["list-options"]}" ]]; then
     for MODE in $PRINT_MODES; do
         FILE=${CONFIG_MAP["FW_HOME"]}/etc/help/options.$MODE
@@ -163,8 +160,8 @@ if [[ ! -z "${RTMAP_TASK_LOADED["list-options"]}" ]]; then
         set -e
     done
 else
-    ConsoleError " ->" "bdh/opt-list: did not find task 'list-options', not loaded?"
+    ConsolePrint error "bdh/opt-list: did not find task 'list-options', not loaded?"
 fi
 
-ConsoleInfo "  -->" "bdh: done"
+ConsolePrint info "bdh: done"
 exit $TASK_ERRORS

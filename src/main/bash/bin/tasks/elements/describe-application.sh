@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,9 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/application.sh
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -82,7 +78,7 @@ CLI_LONG_OPTIONS+=,app,authors,bugs,copying,resources,security
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-application -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "describe-application: unknown CLI options"
+    ConsolePrint error "describe-application: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -157,7 +153,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "describe-application: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-application: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -170,7 +166,6 @@ done
 if [[ ! -n "$PRINT_MODE" ]]; then
     PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
 fi
-TARGET=$PRINT_MODE
 
 if [[ "$ALL" == "yes" || $CLI_SET == false ]]; then
     APP=yes
@@ -188,31 +183,31 @@ fi
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "da: starting task"
+ConsolePrint info "da: starting task"
 
 if [[ "$APP" == "yes" ]]; then
-    DescribeApplicationDescription
+    DescribeApplication description $PRINT_MODE
 fi
 
 if [[ "$SECURITY" == "yes" ]]; then
-    DescribeApplicationSecurity
+    DescribeApplication security $PRINT_MODE
 fi
 
 if [[ "$BUGS" == "yes" ]]; then
-    DescribeApplicationBugs
+    DescribeApplication bugs $PRINT_MODE
 fi
 
 if [[ "$AUTHORS" == "yes" ]]; then
-    DescribeApplicationAuthors
+    DescribeApplication authors $PRINT_MODE
 fi
 
 if [[ "$RESOURCES" == "yes" ]]; then
-    DescribeApplicationResources
+    DescribeApplication resources $PRINT_MODE
 fi
 
 if [[ "$COPYING" == "yes" ]]; then
-    DescribeApplicationCopying
+    DescribeApplication copying $PRINT_MODE
 fi
 
-ConsoleInfo "  -->" "da: done"
+ConsolePrint info "da: done"
 exit $TASK_ERRORS

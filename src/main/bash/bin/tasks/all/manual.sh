@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,8 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -75,7 +72,7 @@ CLI_LONG_OPTIONS+=,adoc,ansi,html,manp,pdf,text,text-anon
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name manual -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "manual: unknown CLI options"
+    ConsolePrint error "manual: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -149,7 +146,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "manual: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "manual: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -173,7 +170,7 @@ fi
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "man: starting task"
+ConsolePrint info "man: starting task"
 
 for fil in $FILTER; do
     case "$fil" in
@@ -186,7 +183,7 @@ for fil in $FILTER; do
                 tput rmcup
                 set -e
             else
-                ConsoleError "  ->" "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.$fil"
+                ConsolePrint error "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.$fil"
             fi
             ;;
         html)
@@ -196,10 +193,10 @@ for fil in $FILTER; do
                     ${DMAP_TASK_EXEC["start-browser"]} --url file://$(PathToSystemPath ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.html)
                     set -e
                 else
-                    ConsoleError " ->" "man/html: cannot test, task 'start-browser' not loaded"
+                    ConsolePrint error "man/html: cannot test, task 'start-browser' not loaded"
                 fi
             else
-                ConsoleError " -->" "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.html"
+                ConsolePrint error "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.html"
             fi
             ;;
         manp)
@@ -208,7 +205,7 @@ for fil in $FILTER; do
                 man -M ${CONFIG_MAP["APP_HOME"]}/man ${CONFIG_MAP["APP_SCRIPT"]}
                 set -e
             else
-                ConsoleError " -->" "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/man/man1/${CONFIG_MAP["APP_SCRIPT"]}.1"
+                ConsolePrint error "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/man/man1/${CONFIG_MAP["APP_SCRIPT"]}.1"
             fi
             ;;
         pdf)
@@ -218,14 +215,14 @@ for fil in $FILTER; do
                     ${DMAP_TASK_EXEC["start-pdf-viewer"]} --file ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf
                     set -e
                 else
-                    ConsoleError " ->" "man/pdf: cannot show PDF manual, task 'start-pdf-viewer' not loaded"
+                    ConsolePrint error "man/pdf: cannot show PDF manual, task 'start-pdf-viewer' not loaded"
                 fi
             else
-                ConsoleError "  ->" "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf"
+                ConsolePrint error "man: did not find manual file: ${CONFIG_MAP["APP_HOME"]}/doc/manual/${CONFIG_MAP["APP_SCRIPT"]}.pdf"
             fi
             ;;
     esac
 done
 
-ConsoleInfo "  -->" "man: done"
+ConsolePrint info "man: done"
 exit $TASK_ERRORS

@@ -28,8 +28,7 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
+
 ##
 ## NOTE: do not remove lines that start with "#tag::" or "#end::"
 ## - the lines mark import regions for AsciiDoctor includes
@@ -66,12 +65,11 @@ CONFIG_MAP["RUNNING_IN"]="shell"
 ##
 #tag::include[]
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/task.sh
 source $FW_HOME/bin/shell/history.sh
 
-ConsoleResetErrors
-ConsoleResetWarnings
-ConsoleMessage "\n"
+ResetCounter errors
+ResetCounter warnings
+ConsolePrint message "\n"
 #end::include[]
 
 
@@ -226,7 +224,7 @@ FWShell() {
             CONFIG_MAP["RUNNING_IN"]="shell"
             RELOAD_CFG=false
         fi
-        if ConsoleIsPrompt; then ConsoleMessage "${CONFIG_MAP["SHELL_PROMPT"]}"; fi
+        if $(ConsoleIs prompt); then ConsolePrint message "${CONFIG_MAP["SHELL_PROMPT"]}"; fi
     done
 }
 #end::fws-end[]
@@ -239,7 +237,7 @@ FWShell() {
 ##
 #tag::run[]
 exec 3</dev/tty || exec 3<&0
-if ConsoleIsPrompt; then ConsoleMessage "${CONFIG_MAP["SHELL_PROMPT"]}"; fi
+if $(ConsoleIs prompt); then ConsolePrint message "${CONFIG_MAP["SHELL_PROMPT"]}"; fi
 FWShell
 exec 3<&-
 #end::run[]

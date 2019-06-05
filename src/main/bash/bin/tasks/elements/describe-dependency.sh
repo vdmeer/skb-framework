@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,9 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/dependency.sh
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -84,7 +80,7 @@ CLI_LONG_OPTIONS=all,debug,help,id:,install,origin:,print-mode:,status:,tested,r
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-dependency -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "describe-dependency: unknown CLI options"
+    ConsolePrint error "describe-dependency: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -162,7 +158,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "describe-dependency: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-dependency: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -188,7 +184,7 @@ elif [[ $CLI_SET == false ]]; then
 else
     if [[ -n "$DEP_ID" ]]; then
         if [[ -z ${DMAP_DEP_ORIGIN[$DEP_ID]:-} ]]; then
-            ConsoleError " ->" "dd: unknown dependency: $DEP_ID"
+            ConsolePrint error "dd: unknown dependency: $DEP_ID"
         fi
     fi
     if [[ -n "$ORIGIN" ]]; then
@@ -200,7 +196,7 @@ else
                 ORIGIN=APP_HOME
                 ;;
             *)
-                ConsoleError "  ->" "dd: unknown origin: $ORIGIN"
+                ConsolePrint error "dd: unknown origin: $ORIGIN"
                 exit 60
         esac
     fi
@@ -219,7 +215,7 @@ else
                 STATUS=N
                 ;;
             *)
-                ConsoleError "  ->" "dd: unknown status: $STATUS"
+                ConsolePrint error "dd: unknown status: $STATUS"
                 exit 61
         esac
     fi
@@ -228,7 +224,7 @@ case $D_FORMAT in
     descr | debug)
         ;;
     *)
-        ConsoleFatal "  ->" "dd: internal error: unknown describe format '$D_FORMAT'"
+        ConsolePrint fatal "dd: internal error: unknown describe format '$D_FORMAT'"
         exit 69
         ;;
 esac
@@ -240,7 +236,7 @@ esac
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "dd: starting task"
+ConsolePrint info "dd: starting task"
 
 for ID in ${!DMAP_DEP_ORIGIN[@]}; do
     if [[ -n "$DEP_ID" ]]; then
@@ -318,5 +314,5 @@ for i in ${!keys[@]}; do
     esac
 done
 
-ConsoleInfo "  -->" "dd: done"
+ConsolePrint info "dd: done"
 exit $TASK_ERRORS

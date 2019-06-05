@@ -58,7 +58,6 @@
                     <item href="task-guide/tasks/list-.html" name="list-*" />
                     <item href="task-guide/tasks/describe-.html" name="describe-*" />
                     <item href="task-guide/tasks/cloc-installation.html" name="cloc-installation" />
-                    <item href="task-guide/tasks/execute-program.html" name="execute-program" />
                     <item href="task-guide/tasks/manual.html" name="manual" />
                     <item href="task-guide/tasks/repeat-scenario.html" name="repeat-scenario" />
                     <item href="task-guide/tasks/repeat-task.html" name="repeat-task" />
@@ -101,32 +100,20 @@
                     <item href="developer-guide/implementation/loader.html" name="loader" />
                     <item href="developer-guide/implementation/shell.html" name="shell" />
                 </item>
-                <item href="developer-guide/api-main.html" name="API-Main" collapse="true">
+                <item href="developer-guide/api.html" name="API" collapse="true">
+                    <item href="developer-guide/api/applications.html" name="Applications" />
                     <item href="developer-guide/api/commands.html" name="Commands" />
-                    <item href="developer-guide/api/config.html" name="Config" />
                     <item href="developer-guide/api/console.html" name="Console" />
-                    <item href="developer-guide/api/execute.html" name="Execute" />
+                    <item href="developer-guide/api/dependencies.html" name="Dependencies" />
+                    <item href="developer-guide/api/exit-status.html" name="Exit Status" />
                     <item href="developer-guide/api/misc.html" name="Miscellaneous" />
-                    <item href="developer-guide/api/mvn-site.html" name="MVN Site" />
-                    <item href="developer-guide/api/print-ansi.html" name="Print ANSI" />
+                    <item href="developer-guide/api/options.html" name="Options" />
+                    <item href="developer-guide/api/parameters.html" name="Parameters" />
                     <item href="developer-guide/api/print.html" name="Print" />
-                    <item href="developer-guide/api/prompt.html" name="Prompt" />
                     <item href="developer-guide/api/scenarios.html" name="Scenarios" />
-                    <item href="developer-guide/api/system.html" name="System" />
                     <item href="developer-guide/api/tasks.html" name="Tasks" />
                 </item>
-                <item href="developer-guide/api-describe.html" name="API-Describe" collapse="true">
-                    <item href="developer-guide/api/describe-application.html" name="Describe/Application" />
-                    <item href="developer-guide/api/describe-command.html" name="Describe/Command" />
-                    <item href="developer-guide/api/describe-dependency.html" name="Describe/Dependency" />
-                    <item href="developer-guide/api/describe-element.html" name="Describe/Element" />
-                    <item href="developer-guide/api/describe-exitstatus.html" name="Describe/Exit Status" />
-                    <item href="developer-guide/api/describe-option.html" name="Describe/Option" />
-                    <item href="developer-guide/api/describe-parameter.html" name="Describe/Parameter" />
-                    <item href="developer-guide/api/describe-scenario.html" name="Describe/Scenario" />
-                    <item href="developer-guide/api/describe-task.html" name="Describe/Task" />
-                </item>
-                <item href="developer-guide/api-function-index.html" name="API Function Index" />
+                <item href="developer-guide/api/function-index.html" name="API Function Index" />
             </item>
         </menu>
 

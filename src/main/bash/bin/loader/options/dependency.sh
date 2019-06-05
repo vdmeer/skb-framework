@@ -28,10 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
 
 DescribeDependency ${OPT_CLI_MAP["dependency"]} full "enter ${CONFIG_MAP["PRINT_MODE"]} line-indent"
 DO_EXIT=true

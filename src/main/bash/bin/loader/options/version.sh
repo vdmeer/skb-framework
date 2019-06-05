@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 if [[ "${CONFIG_MAP["APP_SCRIPT"]}" == "skb-framework" ]]; then
     printf "\n%s version %s\n\n" "${CONFIG_MAP["APP_SCRIPT"]}" "${CONFIG_MAP["FW_VERSION"]}"

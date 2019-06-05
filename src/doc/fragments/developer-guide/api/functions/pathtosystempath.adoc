@@ -11,33 +11,44 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-== PathToSystemPath
-Converts a given path to a system-specific representation.
+
+== PathToSystemPath()
+_String PathToSystemPath( $1 )_ - converts a path to a system-specific representation.
+
 This can be important when running on hybrid systems.
-In Cygwin for instance, one can execute Windows programs that do not understand UNIx path.
-This function can convert the paths.
+In _Cygwin_ for instance, one can execute Windows programs that do not understand UNIX paths.
+Note: most conversions have an effect only when absolute paths are used.
 
 The system is taken from `CONFIG_MAP["SYSTEM"]`.
 If no special path conversion is implemented for the system, the original path is returned.
+The return is realized as a print.
+Supported conversions are:
 
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-
-| Arguments
-| Return (print)
-
-| $1: path to convert
-| converted or original path
-
-|===
-
-[example]
-====
-VARIABLE=$(PathToSystemPath "path")
-====
-
-Currently supported conversions are:
-
-* Cygwin: uses `cygpath -m` for the conversion
+* Cygwin using `cygpath -m` for the conversion
 
 
+*Parameters*
+
+* `$1` - the path to convert.
+
+
+*Return*
+
+* _String_ with the original or converted path.
+
+
+*External Dependencies*
+
+* On _Cygwin_: `cygpath`, which is part of a standard installation.
+
+
+*Examples*
+
+[source%nowrap,bash,linenumber]
+----
+VARIABLE=$(PathToSystemPath /cygdrive/c/dev/framework/target/site/index.html)
+----
+
+On a cygwin system, the function will convert the path to a _mixed_ representation
+`C:/dev/framework/target/site/index.html`.
+On all other system, the original path will not be changed.

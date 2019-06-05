@@ -11,29 +11,23 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
+
 == Scenarios
 Collection of functions for scenarios.
 
 
-=== GetScenarioID
-Returns the identifier (name) of a scenario for a given input string.
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/debugscenario.adoc[leveloffset=+1]
 
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/describescenario.adoc[leveloffset=+1]
 
-| Arguments
-| Return (print)
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/executescenario.adoc[leveloffset=+1]
 
-| $1: the input string to test for a scenario identifier
-| Success: long form of the scenario
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/getscenarioid.adoc[leveloffset=+1]
 
-Error: empty string
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/scenariodescription.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/scenarioelementdescription.adoc[leveloffset=+1]
 
-|===
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/scenariointable.adoc[leveloffset=+1]
 
-
-[example]
-====
-id=$(GetScenarioID "string")
-====
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/scenariostatus.adoc[leveloffset=+1]

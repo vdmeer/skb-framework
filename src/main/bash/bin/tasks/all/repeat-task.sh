@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,8 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -75,7 +72,7 @@ CLI_LONG_OPTIONS=help,times:,wait:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name repeat-task -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "repeat-task: unknown CLI options"
+    ConsolePrint error "repeat-task: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -108,7 +105,7 @@ while true; do
             shift
             TASK=${1-}
             if [[ ! -n "$TASK" ]]; then
-                ConsoleError "  ->" "repeat-task: a task identifier / name is required"
+                ConsolePrint error "repeat-task: a task identifier / name is required"
                 exit 60
             fi
             shift
@@ -116,7 +113,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "repeat-task: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "repeat-task: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -129,7 +126,7 @@ done
 ##
 ############################################################################################
 ERRNO=0
-ConsoleInfo "  -->" "rt: starting task"
+ConsolePrint info "rt: starting task"
 
 __found=false
 TASK=$(GetTaskID $TASK)
@@ -141,32 +138,30 @@ for ID in "${!RTMAP_TASK_LOADED[@]}"; do
 done
 
 if [[ $__found == false ]]; then
-    ConsoleError "  ->" "rt: unknown or unloaded task '$TASK'"
+    ConsolePrint error "rt: unknown or unloaded task '$TASK'"
     exit 61
 fi
 
 case $TIMES in
     '' | *[!0-9.]* | '.' | *.*.*)
-        ConsoleError " ->" "rt: repeat times requires a number, got '$TIMES'"
+        ConsolePrint error "rt: repeat times requires a number, got '$TIMES'"
         exit 62
         ;;
 esac
 
 case $WAIT in
     '' | *[!0-9.]* | '.' | *.*.*)
-        ConsoleError " ->" "rt: wait requires a number, got '$WAIT'"
+        ConsolePrint error "rt: wait requires a number, got '$WAIT'"
         exit 63
         ;;
 esac
 
-COLUMNS=$(tput cols)
-COLUMNS=$((COLUMNS - 5))
 for (( _repeat=1; _repeat<=$TIMES; _repeat++ )); do
     printf "\n\n    ["
     PrintColor light-blue "run $_repeat of $TIMES"
     printf ' %s %s %s' "--" $TASK $ARGS
     printf "]\n    "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["TASK_COLUMNS_PADDED5"]}; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
     printf "\n\n"
@@ -177,5 +172,5 @@ for (( _repeat=1; _repeat<=$TIMES; _repeat++ )); do
     printf "\n"
 done
 
-ConsoleInfo "  -->" "rt: done"
+ConsolePrint info "rt: done"
 exit $ERRNO

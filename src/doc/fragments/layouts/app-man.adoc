@@ -11,6 +11,7 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
+
 The `man` contains the generated manpage(s) of the application.
 This directory must have the following layout and contents:
 

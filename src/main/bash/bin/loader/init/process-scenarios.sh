@@ -28,11 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
-
 
 declare -A RTMAP_SCN_STATUS             # map [id]="status" -> Not Error Warn Success
 declare -A RTMAP_SCN_LOADED             # map of loaded scenarios [id]=ok
@@ -55,20 +50,20 @@ ProcessScenarioReqTask() {
 
     if [[ ! -z "${DMAP_SCN_REQ_TASK_MAN[$ID]:-}" ]]; then
         for TASK in ${DMAP_SCN_REQ_TASK_MAN[$ID]}; do
-            ConsoleTrace "   $ID - task man $TASK"
+            ConsolePrint trace "   $ID - task man $TASK"
             if [[ -z ${DMAP_TASK_ORIGIN[$TASK]:-} ]]; then
-                ConsoleError " ->" "process-scenario/task - $ID unknown task '$TASK'"
+                ConsolePrint error "process-scenario/task - $ID unknown task '$TASK'"
                 RTMAP_SCN_UNLOADED[$ID]="${RTMAP_SCN_UNLOADED[$ID]:-} task-id::$TASK"
                 SetArtifactStatus scn $ID E
             else
                 if [[ ! -z "${RTMAP_TASK_UNLOADED[$TASK]:-}" ]]; then
-                    ConsoleError " ->" "process-scenario/task - $ID with unloaded task '$TASK'"
+                    ConsolePrint error "process-scenario/task - $ID with unloaded task '$TASK'"
                     RTMAP_SCN_UNLOADED[$ID]="${RTMAP_SCN_UNLOADED[$ID]:-} task-set::$TASK"
                     SetArtifactStatus scn $ID E
                 else
                     SetArtifactStatus scn $ID S
                     RTMAP_SCN_LOADED[$ID]="${RTMAP_SCN_LOADED[$ID]:-} task"
-                    ConsoleDebug "process-scenario/task - processed '$ID' for task '$TASK' with success"
+                    ConsolePrint debug "process-scenario/task - processed '$ID' for task '$TASK' with success"
                 fi
             fi
         done
@@ -76,26 +71,26 @@ ProcessScenarioReqTask() {
 
     if [[ ! -z "${DMAP_SCN_REQ_TASK_OPT[$ID]:-}" ]]; then
         for TASK in ${DMAP_SCN_REQ_TASK_OPT[$ID]}; do
-            ConsoleTrace "   $ID - task opt $TASK"
+            ConsolePrint trace "   $ID - task opt $TASK"
             if [[ -z ${DMAP_TASK_ORIGIN[$TASK]:-} ]]; then
-                ConsoleError " ->" "process-scenario/task - $ID unknown task '$TASK'"
+                ConsolePrint error "process-scenario/task - $ID unknown task '$TASK'"
                 RTMAP_SCN_UNLOADED[$ID]="${RTMAP_SCN_UNLOADED[$ID]:-} task-id::$TASK"
                 SetArtifactStatus scn $ID E
             else
                 if [[ ! -z "${RTMAP_TASK_UNLOADED[$TASK]:-}" ]]; then
-                    ConsoleWarnStrict " ->" "process-scenario/task - $ID with unloaded task '$TASK'"
+                    ConsolePrint warn-strict "process-scenario/task - $ID with unloaded task '$TASK'"
                     if [[ "${CONFIG_MAP["STRICT"]}" == "on" ]]; then
                         RTMAP_SCN_UNLOADED[$ID]="${RTMAP_SCN_UNLOADED[$ID]:-} task-set::$TASK"
                         SetArtifactStatus scn $ID E
                     else
                         SetArtifactStatus scn $ID W
                         RTMAP_SCN_LOADED[$ID]="${RTMAP_SCN_LOADED[$ID]:-} task"
-                        ConsoleDebug "process-scenario/task - processed '$ID' for task '$TASK' with warn"
+                        ConsolePrint debug "process-scenario/task - processed '$ID' for task '$TASK' with warn"
                     fi
                 else
                     SetArtifactStatus scn $ID S
                     RTMAP_SCN_LOADED[$ID]="${RTMAP_SCN_LOADED[$ID]:-} task"
-                    ConsoleDebug "process-scenario/task - processed '$ID' for task '$TASK' with success"
+                    ConsolePrint debug "process-scenario/task - processed '$ID' for task '$TASK' with success"
                 fi
             fi
         done
@@ -109,8 +104,8 @@ ProcessScenarioReqTask() {
 ## - process all scenarios
 ##
 ProcessScenarios() {
-    ConsoleResetErrors
-    ConsoleInfo "-->" "process scenarios"
+    ResetCounter errors
+    ConsolePrint info "process scenarios"
 
     local ID
     local LOAD_SCN
@@ -133,7 +128,7 @@ ProcessScenarios() {
         fi
 
         if [[ $LOAD_SCN == false ]]; then
-            ConsoleDebug "scenario '$ID' not defined for current mode '${CONFIG_MAP["APP_MODE"]}', not loaded"
+            ConsolePrint debug "scenario '$ID' not defined for current mode '${CONFIG_MAP["APP_MODE"]}', not loaded"
             SetArtifactStatus scn $ID N
             continue
         fi
@@ -143,7 +138,7 @@ ProcessScenarios() {
         elif [[ "${DMAP_SCN_MODE_FLAVOR[$ID]:-}" == "std" ]]; then
             LOAD_SCN=true
         else
-            ConsoleDebug "scenario '$ID' not defined for current app mode flavor '${CONFIG_MAP["APP_MODE_FLAVOR"]}', not loaded"
+            ConsolePrint debug "scenario '$ID' not defined for current app mode flavor '${CONFIG_MAP["APP_MODE_FLAVOR"]}', not loaded"
             SetArtifactStatus scn $ID N
             LOAD_SCN=false
         fi
@@ -151,7 +146,7 @@ ProcessScenarios() {
 
         if [[ $LOAD_SCN == true ]]; then
             RTMAP_SCN_LOADED[$ID]="${RTMAP_SCN_LOADED[$ID]:-} mode"
-            ConsoleDebug "process-scenario/mode - processed '$ID' for mode and flavor with success"
+            ConsolePrint debug "process-scenario/mode - processed '$ID' for mode and flavor with success"
             SetArtifactStatus scn $ID S
 
             ProcessScenarioReqTask $ID
@@ -165,5 +160,5 @@ ProcessScenarios() {
         fi
     done
 
-    ConsoleInfo "-->" "done"
+    ConsolePrint info "done"
 }

@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,9 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/exitstatus.sh
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -82,7 +78,7 @@ CLI_LONG_OPTIONS=help,print-mode:,table,all,app,fw,loader,shell,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-exitstatus -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "list-exitstatus: unknown CLI options"
+    ConsolePrint error "list-exitstatus: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -154,7 +150,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "list-exitstatus: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "list-exitstatus: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -175,7 +171,7 @@ case $LS_FORMAT in
     list | table)
         ;;
     *)
-        ConsoleFatal "  ->" "les: internal error: unknown list format '$LS_FORMAT'"
+        ConsolePrint fatal "les: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac
@@ -196,26 +192,26 @@ fi
 ############################################################################################
 function TableTop() {
     printf "\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["ES_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
     done
     printf "\n ${EFFECTS["REVERSE_ON"]}#"
-    printf "%*s" "$((ES_PADDING - 1))" ''
+    printf "%*s" "$((${CONSOLE_MAP["ES_PADDING"]} - 1))" ''
     printf "Description"
-    printf '%*s' "$((DESCRIPTION_LENGTH - 11))" ''
+    printf '%*s' "$((${CONSOLE_MAP["ES_DESCRIPTION_LENGTH"]} - 11))" ''
     printf "Origin  Problem "
     printf "${EFFECTS["REVERSE_OFF"]}\n\n"
 }
 
 function TableBottom() {
     printf " "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["ES_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
     printf "\n\n"
 
     printf " "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["ES_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
     done
     printf "\n\n"
@@ -279,7 +275,7 @@ PrintExitstatus() {
                 else
                     printf "${ES_TABLE[$ID]}"
                 fi
-                DescribeExitstatusDescription $ID 3 none
+                ExitstatusDescription $ID 3 none
                 ;;
             table)
                 if [[ -z "${ES_TABLE[$ID]:-}" ]]; then
@@ -287,8 +283,8 @@ PrintExitstatus() {
                 else
                     printf "${ES_TABLE[$ID]}"
                 fi
-                DescribeExitstatusDescription $ID
-                DescribeExitstatusStatus $ID
+                ExitstatusDescription $ID
+                ExitstatusStatus $ID
                 ;;
         esac
         printf "\n"
@@ -302,7 +298,7 @@ PrintExitstatus() {
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "les: starting task"
+ConsolePrint info "les: starting task"
 
 case $LS_FORMAT in
     list)
@@ -317,5 +313,5 @@ case $LS_FORMAT in
         ;;
 esac
 
-ConsoleInfo "  -->" "les: done"
+ConsolePrint info "les: done"
 exit $TASK_ERRORS

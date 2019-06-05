@@ -28,20 +28,32 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
-
-source $FW_HOME/bin/api/commands.sh
-source $FW_HOME/bin/api/console.sh
-source $FW_HOME/bin/api/config.sh
-source $FW_HOME/bin/api/execute.sh
 source $FW_HOME/bin/api/misc.sh
-source $FW_HOME/bin/api/mvn-site.sh
-source $FW_HOME/bin/api/print-ansi.sh
 source $FW_HOME/bin/api/print.sh
-source $FW_HOME/bin/api/prompt.sh
+source $FW_HOME/bin/api/console.sh
+ConsolePrint trace "included from api: misc, print, console"
+
+ConsolePrint trace "including api/commands"
+source $FW_HOME/bin/api/commands.sh
+
+ConsolePrint trace "including api/dependencies"
+source $FW_HOME/bin/api/dependencies.sh
+
+ConsolePrint trace "including api/exit-status"
+source $FW_HOME/bin/api/exit-status.sh
+
+ConsolePrint trace "including api/options"
+source $FW_HOME/bin/api/options.sh
+
+ConsolePrint trace "including api/parameters"
+source $FW_HOME/bin/api/parameters.sh
+
+ConsolePrint trace "including api/scenarios"
 source $FW_HOME/bin/api/scenarios.sh
-source $FW_HOME/bin/api/system.sh
+
+ConsolePrint trace "including api/tasks"
 source $FW_HOME/bin/api/tasks.sh
+
+ConsolePrint trace "including api/applications"
+source $FW_HOME/bin/api/applications.sh

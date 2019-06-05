@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,9 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/elements.sh
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -83,7 +79,7 @@ CLI_LONG_OPTIONS+=,cmd,dep,es,opt,param,scn,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-element -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "describe-element: unknown CLI options"
+    ConsolePrint error "describe-element: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -164,7 +160,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "describe-element: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-element: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -196,37 +192,37 @@ fi
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "de: starting task"
+ConsolePrint info "de: starting task"
 
 if [[ "$OPTIONS" == "yes" ]]; then
-    DescribeElementOptions
-    DescribeElementOptionsRuntime
-    DescribeElementOptionsExit
+    OptionElementDescription
+    RuntimeOptionElementDescription
+    ExitOptionElementDescription
 fi
 
 if [[ "$PARAMETERS" == "yes" ]]; then 
-    DescribeElementParameters
+    ParameterElementDescription
 fi
 
 if [[ "$TASKS" == "yes" ]]; then
-    DescribeElementTasks
+    TaskElementDescription
 fi
 
 if [[ "$DEPENDENCIES" == "yes" ]]; then
-    DescribeElementDependencies
+    DependencyElemendDescription
 fi
 
 if [[ "$COMMANDS" == "yes" ]]; then
-    DescribeElementCommands
+    CommandElementDescription
 fi
 
 if [[ "$EXITSTATUS" == "yes" ]]; then
-    DescribeElementExitStatus
+    ExitStatusElementDescription
 fi
 
 if [[ "$SCENARIOS" == "yes" ]]; then
-    DescribeElementScenarios
+    ScenarioElementDescription
 fi
 
-ConsoleInfo "  -->" "de: done"
+ConsolePrint info "de: done"
 exit $TASK_ERRORS

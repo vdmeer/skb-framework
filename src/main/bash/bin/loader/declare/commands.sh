@@ -28,11 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
-
 
 declare -A DMAP_CMD                     # map [id]=short | --
 declare -A DMAP_CMD_SHORT               # map [id]=long
@@ -46,15 +41,15 @@ declare -A DMAP_CMD_DESCR               # map [id]="descr-tag-line"
 ## - declares Shell commands from FW_HOME directory
 ##
 DeclareCommands() {
-    ConsoleInfo "-->" "declare commands"
-    ConsoleResetErrors
+    ConsolePrint info "declare commands"
+    ResetCounter errors
 
     if [[ ! -d $FW_HOME/${FW_PATH_MAP["COMMANDS"]} ]]; then
-        ConsoleError " ->" "declare-cmd - did not find command directory, tried \$FW_HOME/${FW_PATH_MAP["COMMANDS"]}"
-        ConsoleInfo "-->" "done"
+        ConsolePrint error "declare-cmd - did not find command directory, tried \$FW_HOME/${FW_PATH_MAP["COMMANDS"]}"
+        ConsolePrint info "done"
     else
-        ConsoleDebug "building new declaration map from directory: \$FW_HOME/${FW_PATH_MAP["COMMANDS"]}"
-        ConsoleResetErrors
+        ConsolePrint debug "building new declaration map from directory: \$FW_HOME/${FW_PATH_MAP["COMMANDS"]}"
+        ResetCounter errors
 
         local file
         local ID
@@ -69,7 +64,7 @@ DeclareCommands() {
             ID=${ID%.*}
 
             if [[ ! -z ${DMAP_CMD[$ID]:-} ]]; then
-                ConsoleError " ->" "internal error: DMAP_CMD for id '$ID' already set"
+                ConsolePrint error "internal error: DMAP_CMD for id '$ID' already set"
             else
                 local HAVE_ERRORS=false
 
@@ -79,12 +74,12 @@ DeclareCommands() {
                 source "$file"
 
                 if [[ -z "${DESCRIPTION:-}" ]]; then
-                    ConsoleError " ->" "declare command - '$ID' has no description"
+                    ConsolePrint error "declare command - '$ID' has no description"
                     HAVE_ERRORS=true
                 fi
 
                 if [[ $HAVE_ERRORS == true ]]; then
-                    ConsoleError " ->" "declare command - could not declare command"
+                    ConsolePrint error "declare command - could not declare command"
                     NO_ERRORS=false
                 else
                     if [[ -n "$SHORT" ]]; then
@@ -95,10 +90,10 @@ DeclareCommands() {
                     fi
                     DMAP_CMD_ARG[$ID]=$ARGUMENT
                     DMAP_CMD_DESCR[$ID]=$DESCRIPTION
-                    ConsoleDebug "declared command $ID"
+                    ConsolePrint debug "declared command $ID"
                 fi
             fi
         done
     fi
-    ConsoleInfo "-->" "done"
+    ConsolePrint info "done"
 }

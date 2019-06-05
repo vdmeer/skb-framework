@@ -28,11 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
-
 
 ##
 ## funct: CalculateNewArtifactStatus
@@ -89,7 +84,7 @@ SetArtifactStatus() {
     case "$ARTIFACT_TYPE" in
         dep)
             if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
-                ConsoleError " ->" "set-artifact-status - unknown dependency '$ID'"
+                ConsolePrint error "set-artifact-status - unknown dependency '$ID'"
                 return
             fi
             OLD=${RTMAP_DEP_STATUS[$ID]:-}
@@ -97,7 +92,7 @@ SetArtifactStatus() {
         task)
             ID=$(GetTaskID $ID)
             if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
-                ConsoleError " ->" "set-artifact-status - unknown task '$ID'"
+                ConsolePrint error "set-artifact-status - unknown task '$ID'"
                 return
             fi
             OLD=${RTMAP_TASK_STATUS[$ID]:-}
@@ -105,13 +100,13 @@ SetArtifactStatus() {
         scn)
             ID=$(GetScenarioID $ID)
             if [[ -z ${DMAP_SCN_ORIGIN[$ID]:-} ]]; then
-                ConsoleError " ->" "set-artifact-status - unknown scenario '$ID'"
+                ConsolePrint error "set-artifact-status - unknown scenario '$ID'"
                 return
             fi
             OLD=${RTMAP_SCN_STATUS[$ID]:-}
             ;;
         *)
-            ConsoleError " ->" "set-artifact-status - unknown artifact type '$ARTIFACT_TYPE'"
+            ConsolePrint error "set-artifact-status - unknown artifact type '$ARTIFACT_TYPE'"
             return
             ;;
     esac
@@ -122,7 +117,7 @@ SetArtifactStatus() {
         W | warning)    STATUS=W ;;
         E | error)      STATUS=E ;;
         *)
-            ConsoleError " ->" "set-artifact-status - unknown status '$STATUS'"
+            ConsolePrint error "set-artifact-status - unknown status '$STATUS'"
             return
             ;;
     esac

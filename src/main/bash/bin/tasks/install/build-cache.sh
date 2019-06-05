@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -57,9 +54,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/_include
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -90,7 +86,7 @@ CLI_LONG_OPTIONS+=,tasks
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-cache -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "build-cache: unknown CLI options"
+    ConsolePrint error "build-cache: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -223,7 +219,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "build-cache: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "build-cache: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -248,7 +244,7 @@ if [[ $DO_FULL == true ]]; then
 fi
 if [[ $DO_BUILD == true ]]; then
     if [[ ! -n "$TARGET" ]]; then
-        ConsoleError " ->" "build required, but no target set"
+        ConsolePrint error "build required, but no target set"
         exit 60
     fi
 fi
@@ -260,8 +256,8 @@ fi
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "bdc: starting task"
-ConsoleResetErrors
+ConsolePrint info "bdc: starting task"
+ResetCounter errors
 
 
 PRINT_MODES="ansi text"
@@ -280,16 +276,16 @@ if [[ $DO_CLEAN == true ]]; then
 fi
 
 if [[ $DO_BUILD == true ]]; then
-    ConsoleInfo "  -->" "build for target(s): $TARGET"
+    ConsolePrint info "build for target(s): $TARGET"
 
     if [[ ! -d "${CONFIG_MAP["CACHE_DIR"]}" ]]; then
         mkdir -p ${CONFIG_MAP["CACHE_DIR"]}
     fi
     if [[ ! -d "${CONFIG_MAP["CACHE_DIR"]}" ]]; then
-        ConsoleError " ->" "bdc: cache directory ${CONFIG_MAP["CACHE_DIR"]} does not exist"
+        ConsolePrint error "bdc: cache directory ${CONFIG_MAP["CACHE_DIR"]} does not exist"
     else
         for TODO in $TARGET; do
-            ConsoleDebug "target: $TODO"
+            ConsolePrint debug "target: $TODO"
             case $TODO in
                 cmd-decl)
                     FILE=${CONFIG_MAP["CACHE_DIR"]}/cmd-decl.map
@@ -456,7 +452,7 @@ if [[ $DO_BUILD == true ]]; then
                         for MODE in $PRINT_MODES; do
                             CONFIG_MAP["PRINT_MODE"]=$MODE
                             FILE=${CONFIG_MAP["CACHE_DIR"]}/tasks/$TPATH/$ID.$MODE
-                            ConsoleDebug "caching task $ID to $FILE"
+                            ConsolePrint debug "caching task $ID to $FILE"
                             if [[ -f $FILE ]]; then
                                 rm $FILE
                             fi
@@ -469,13 +465,13 @@ if [[ $DO_BUILD == true ]]; then
                     ;;
 
                 *)
-                    ConsoleError " ->" "bdc: unknown target $TODO"
+                    ConsolePrint error "bdc: unknown target $TODO"
             esac
-            ConsoleDebug "done target - $TODO"
+            ConsolePrint debug "done target - $TODO"
         done
     fi
-    ConsoleInfo "  -->" "done build"
+    ConsolePrint info "done build"
 fi
 
-ConsoleInfo "  -->" "bdc: done"
+ConsolePrint info "bdc: done"
 exit $TASK_ERRORS

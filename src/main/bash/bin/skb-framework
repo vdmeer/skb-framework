@@ -29,13 +29,10 @@
 
 
 ##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 ## NOTE: do not remove lines that start with "#tag::" or "#end::"
 ## - the lines mark import regions for AsciiDoctor includes
 ## - they are used in the documentation, e.g. the Developer Guide
 ##
-
 
 #tag::self-flavor[]
 if [[ -z ${__FW_LOADER_FLAVOR:-} ]]; then

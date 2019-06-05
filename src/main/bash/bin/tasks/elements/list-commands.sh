@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,9 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/command.sh
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -74,7 +70,7 @@ CLI_LONG_OPTIONS=help,print-mode:,table
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-commands -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "list-commands: unknown CLI options"
+    ConsolePrint error "list-commands: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -108,7 +104,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "list-commands: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "list-commands: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -122,7 +118,7 @@ case $LS_FORMAT in
     list | table)
         ;;
     *)
-        ConsoleFatal "  ->" "lc: internal error: unknown list format '$LS_FORMAT'"
+        ConsolePrint fatal "lc: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac
@@ -143,19 +139,19 @@ fi
 ############################################################################################
 function TableTop() {
     printf "\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["CMD_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
     done
     printf "\n ${EFFECTS["REVERSE_ON"]}Command"
-    printf "%*s" "$((CMD_PADDING - 7))" ''
+    printf "%*s" "$((${CONSOLE_MAP["CMD_PADDING"]} - 7))" ''
     printf "Description"
-    printf '%*s' "$((DESCRIPTION_LENGTH - 11))" ''
+    printf '%*s' "$((${CONSOLE_MAP["CMD_DESCRIPTION_LENGTH"]} - 11))" ''
     printf "${EFFECTS["REVERSE_OFF"]}\n\n"
 }
 
 function TableBottom() {
     printf " "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["CMD_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
     printf "\n\n"
@@ -163,7 +159,7 @@ function TableBottom() {
     printf " All other input will be treated as an attempt to run a task with arguments.\n\n"
 
     printf " "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["CMD_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
     done
     printf "\n\n"
@@ -201,7 +197,7 @@ PrintCommands() {
                 else
                     printf "${COMMAND_TABLE[$ID]}"
                 fi
-                DescribeCommandDescription $ID 3 none
+                CommandDescription $ID 3 none
                 ;;
             table)
                 if [[ -z "${COMMAND_TABLE[$ID]:-}" ]]; then
@@ -209,7 +205,7 @@ PrintCommands() {
                 else
                     printf "${COMMAND_TABLE[$ID]}"
                 fi
-                DescribeCommandDescription $ID
+                CommandDescription $ID
                 ;;
         esac
         printf "\n"
@@ -223,7 +219,7 @@ PrintCommands() {
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "lc: starting task"
+ConsolePrint info "lc: starting task"
 
 case $LS_FORMAT in
     list)
@@ -238,5 +234,5 @@ case $LS_FORMAT in
         ;;
 esac
 
-ConsoleInfo "  -->" "lc: done"
+ConsolePrint info "lc: done"
 exit $TASK_ERRORS

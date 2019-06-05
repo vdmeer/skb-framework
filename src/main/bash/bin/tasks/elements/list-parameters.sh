@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,9 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/parameter.sh
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -83,7 +79,7 @@ CLI_LONG_OPTIONS=all,default,def-table,help,install,origin:,print-mode:,requeste
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-parameters -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "list-parameters: unknown CLI options"
+    ConsolePrint error "list-parameters: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -161,7 +157,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "list-parameters: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "list-parameters: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -189,7 +185,7 @@ else
                 ORIGIN=APP_HOME
                 ;;
             *)
-                ConsoleError " ->" "dp: unknown origin: $ORIGIN"
+                ConsolePrint error "dp: unknown origin: $ORIGIN"
                 exit 61
         esac
     fi
@@ -211,7 +207,7 @@ else
                 STATUS=D
                 ;;
             *)
-                ConsoleError "  ->" "dp: unknown status: $STATUS"
+                ConsolePrint error "dp: unknown status: $STATUS"
                 exit 62
         esac
     fi
@@ -220,7 +216,7 @@ case $LS_FORMAT in
     list | table | default-table)
         ;;
     *)
-        ConsoleFatal "  ->" "lp: internal error: unknown list format '$LS_FORMAT'"
+        ConsolePrint fatal "lp: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac
@@ -236,8 +232,8 @@ if [[ -f $FILE ]]; then
 fi
 
 
-if (( $PARAM_LINE_MIN_LENGTH > $COLUMNS )); then
-    ConsoleError "  ->" "lp: not enough columns for table, need $PARAM_LINE_MIN_LENGTH found $COLUMNS"
+if (( ${CONSOLE_MAP["PARAM_LINE_MIN_LENGTH"]} > ${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]} )); then
+    ConsolePrint error "lp: not enough columns for table, need ${CONSOLE_MAP["PARAM_LINE_MIN_LENGTH"]} found ${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]}"
     exit 60
 fi
 
@@ -248,19 +244,19 @@ fi
 ############################################################################################
 function TableTop() {
     printf "\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
     done
     printf "\n ${EFFECTS["REVERSE_ON"]}Parameter"
-    printf "%*s" "$((PARAM_PADDING - 9))" ''
+    printf "%*s" "$((${CONSOLE_MAP["PARAM_PADDING"]} - 9))" ''
     printf "Description"
-    printf '%*s' "$((DESCRIPTION_LENGTH - 11))" ''
+    printf '%*s' "$((${CONSOLE_MAP["PARAM_DESCRIPTION_LENGTH"]} - 11))" ''
     printf "O D S${EFFECTS["REVERSE_OFF"]}\n\n"
 }
 
 function TableBottom() {
     printf " "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
 
@@ -285,7 +281,7 @@ function TableBottom() {
 
     printf "\n\n "
 
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
     done
     printf "\n\n"
@@ -293,19 +289,19 @@ function TableBottom() {
 
 function DefaultTableTop() {
     printf "\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
     done
     printf "\n ${EFFECTS["REVERSE_ON"]}Parameter"
-    printf "%*s" "$((PARAM_PADDING - 9))" ''
+    printf "%*s" "$((${CONSOLE_MAP["PARAM_PADDING"]} - 9))" ''
     printf "Default Value"
-    printf '%*s' "$((DESCRIPTION_LENGTH - 8))" ''
+    printf '%*s' "$((${CONSOLE_MAP["PARAM_DESCRIPTION_LENGTH"]} - 8))" ''
     printf "${EFFECTS["REVERSE_OFF"]}\n\n"
 }
 
 function DefaultTableBottom() {
     printf "\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
     done
     printf "\n\n"
@@ -409,7 +405,7 @@ PrintParameters() {
                 else
                     printf "${PARAM_TABLE[$ID]}"
                 fi
-                DescribeParameterDescription $ID 3 none
+                ParameterDescription $ID 3 none
                 ;;
             table)
                 if [[ -z "${PARAM_TABLE[$ID]:-}" ]]; then
@@ -417,8 +413,8 @@ PrintParameters() {
                 else
                     printf "${PARAM_TABLE[$ID]}"
                 fi
-                DescribeParameterDescription $ID
-                DescribeParameterStatus $ID $PRINT_MODE
+                ParameterDescription $ID
+                ParameterStatus $ID $PRINT_MODE
                 ;;
             default-table)
                 if [[ -z "${PARAM_TABLE[$ID]:-}" ]]; then
@@ -426,7 +422,7 @@ PrintParameters() {
                 else
                     printf "${PARAM_TABLE[$ID]}"
                 fi
-                printf "%s" "$(DescribeParameterDefValue $ID)"
+                printf "%s" "$(ParameterDefvalueDescription $ID)"
                 ;;
         esac
         printf "\n"
@@ -440,7 +436,7 @@ PrintParameters() {
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "lp: starting task"
+ConsolePrint info "lp: starting task"
 
 case $LS_FORMAT in
     list)
@@ -460,5 +456,5 @@ case $LS_FORMAT in
         ;;
 esac
 
-ConsoleInfo "  -->" "lp: done"
+ConsolePrint info "lp: done"
 exit $TASK_ERRORS

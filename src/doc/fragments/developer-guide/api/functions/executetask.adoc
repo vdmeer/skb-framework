@@ -11,8 +11,8 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-== ExecuteTask
 
+== ExecuteTask()
 _void ExecuteTask( $1 )_ - executes a task.
 
 The task must be loaded and available for execution.
@@ -23,10 +23,12 @@ The exception here are:
 * all _standard_ tasks known to not need header and footers: _list-*_, _describe-*_, _setting_, _manual_, _statistics_, and _wait_
 * any task execution that includes the arguments _-h_ or _--help_.
 
+
 *Parameters*:
 
 * `$1` - String with the full command line for the task.
     The first word is taken as the task ID (or name), which can be the task's short or long name.
+
 
 *Errors* (as _Console Error_)
 
@@ -34,12 +36,16 @@ The exception here are:
 * Task not loaded in current mode and flavor
 * Error executing the task with given arguments
 
+
 *External Dependencies*
 
 * _bc_ is used to calculate the task execution time
 * _cut_ is used to separate the task name from the arguments in `$1`
 * _date_ is used to to get start and end time of the task execution
 * _tput_ is used to get the current line width of the terminal
+
+
+*Examples*
 
 [source%nowrap,bash,linenumber]
 ----

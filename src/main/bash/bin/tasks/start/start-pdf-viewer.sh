@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,8 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -71,7 +68,7 @@ CLI_LONG_OPTIONS=help,file:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name start-pdf-viewer -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "start-pdf-viewer: unknown CLI options"
+    ConsolePrint error "start-pdf-viewer: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -99,7 +96,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "start-pdf-viewer: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "start-pdf-viewer: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -112,34 +109,34 @@ done
 ##
 ############################################################################################
 ERRNO=0
-ConsoleInfo "  -->" "spv: starting task"
+ConsolePrint info "spv: starting task"
 
 if [[ -z "${CONFIG_MAP["PDF_VIEWER"]:-}" ]]; then
-    ConsoleError "  ->" "spv: no setting for PDF_VIEWER, cannot start any"
-    ConsoleInfo "  -->" "spv: done"
+    ConsolePrint error "spv: no setting for PDF_VIEWER, cannot start any"
+    ConsolePrint info "spv: done"
     exit 60
 fi
 if [[ ! -n "$FILE" ]]; then
-    ConsoleError "  ->" "spv: empty file? - '$FILE'"
-    ConsoleInfo "  -->" "spv: done"
+    ConsolePrint error "spv: empty file? - '$FILE'"
+    ConsolePrint info "spv: done"
     exit 61
 fi
 if [[ ! -r "$FILE" ]]; then
-    ConsoleError "  ->" "spv: cannot read file '$FILE'"
-    ConsoleInfo "  -->" "spv: done"
+    ConsolePrint error "spv: cannot read file '$FILE'"
+    ConsolePrint info "spv: done"
     exit 62
 fi
 
-ConsoleDebug "spv: original file: ${FILE}"
+ConsolePrint debug "spv: original file: ${FILE}"
 FILE=$(PathToSystemPath $FILE)
-ConsoleDebug "spv: system file: ${FILE}"
+ConsolePrint debug "spv: system file: ${FILE}"
 
 SCRIPT=${CONFIG_MAP["PDF_VIEWER"]}
 SCRIPT=${SCRIPT//%FILE%/$FILE}
-ConsoleDebug "spv: running - $SCRIPT"
+ConsolePrint debug "spv: running - $SCRIPT"
 
 $SCRIPT &
 ERRNO=$?
 
-ConsoleInfo "  -->" "spv: done"
+ConsolePrint info "spv: done"
 exit $ERRNO

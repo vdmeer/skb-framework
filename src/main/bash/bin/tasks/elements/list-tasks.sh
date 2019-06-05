@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,9 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/task.sh
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -92,7 +88,7 @@ CLI_LONG_OPTIONS=all,mode:,help,install,loaded,origin:,print-mode:,status:,unloa
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-tasks -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "list-tasks: unknown CLI options"
+    ConsolePrint error "list-tasks: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -214,7 +210,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "list-tasks: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "list-tasks: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -249,7 +245,7 @@ else
                 ORIGIN=APP_HOME
                 ;;
             *)
-                ConsoleError "  ->" "lt: unknown origin: $ORIGIN"
+                ConsolePrint error "lt: unknown origin: $ORIGIN"
                 exit 61
         esac
     fi
@@ -268,7 +264,7 @@ else
                 APP_MODE=use
                 ;;
             *)
-                ConsoleError "  ->" "lt: unknown application mode: $APP_MODE"
+                ConsolePrint error "lt: unknown application mode: $APP_MODE"
                 exit 62
         esac
     fi
@@ -287,7 +283,7 @@ else
                 STATUS=N
                 ;;
             *)
-                ConsoleError "  ->" "lt: unknown status: $STATUS"
+                ConsolePrint error "lt: unknown status: $STATUS"
                 exit 63
         esac
     fi
@@ -303,7 +299,7 @@ case $LS_FORMAT in
     list | table)
         ;;
     *)
-        ConsoleFatal "  ->" "lt: internal error: unknown list format '$LS_FORMAT'"
+        ConsolePrint fatal "lt: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac
@@ -319,8 +315,8 @@ if [[ -f $FILE ]]; then
 fi
 
 
-if (( $TASK_LINE_MIN_LENGTH > $COLUMNS )); then
-    ConsoleError "  ->" "lt: not enough columns for table, need $TASK_LINE_MIN_LENGTH found $COLUMNS"
+if (( ${CONSOLE_MAP["TASK_LINE_MIN_LENGTH"]} > ${CONSOLE_MAP["TASK_COLUMNS_PADDED"]} )); then
+    ConsolePrint error "lt: not enough columns for table, need ${CONSOLE_MAP["TASK_LINE_MIN_LENGTH"]} found ${CONSOLE_MAP["TASK_COLUMNS_PADDED"]}"
     exit 60
 fi
 
@@ -331,19 +327,19 @@ fi
 ############################################################################################
 function TableTop() {
     printf "\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["TASK_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
     done
     printf "\n ${EFFECTS["REVERSE_ON"]}Task"
-    printf "%*s" "$((TASK_PADDING - 4))" ''
+    printf "%*s" "$((${CONSOLE_MAP["TASK_PADDING"]} - 4))" ''
     printf "Description"
-    printf '%*s' "$((DESCRIPTION_LENGTH - 11))" ''
+    printf '%*s' "$((${CONSOLE_MAP["TASK_DESCRIPTION_LENGTH"]} - 11))" ''
     printf "O F D B U S${EFFECTS["REVERSE_OFF"]}\n\n"
 }
 
 function TableBottom() {
     printf " "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["TASK_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
     printf "\n\n"
@@ -369,7 +365,7 @@ function TableBottom() {
     printf " reverted"
 
     printf "\n\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["TASK_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
     done
     printf "\n\n"
@@ -488,7 +484,7 @@ PrintTasks() {
                 else
                     printf "${TASK_TABLE[$ID]}"
                 fi
-                DescribeTaskDescription $ID 3 none
+                TaskDescription $ID 3 none
                 ;;
             table)
                 if [[ -z "${TASK_TABLE[$ID]:-}" ]]; then
@@ -496,8 +492,8 @@ PrintTasks() {
                 else
                     printf "${TASK_TABLE[$ID]}"
                 fi
-                DescribeTaskDescription $ID
-                DescribeTaskStatus $ID $PRINT_MODE
+                TaskDescription $ID
+                TaskStatus $ID $PRINT_MODE
                 ;;
         esac
         printf "\n"
@@ -509,7 +505,7 @@ PrintTasks() {
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "lt: starting task"
+ConsolePrint info "lt: starting task"
 
 case $LS_FORMAT in
     list)
@@ -524,5 +520,5 @@ case $LS_FORMAT in
         ;;
 esac
 
-ConsoleInfo "  -->" "lt: done"
+ConsolePrint info "lt: done"
 exit $TASK_ERRORS

@@ -11,28 +11,23 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-== ExitOnTaskErrors
 
+== ExitOnTaskErrors()
 _void ExitOnTaskErrors()_ - exits if any task errors are recorded.
 
 The number of recorded task errors is taken from _$TASK_ERRORS_.
 This variable will be altered by console functions such as
-ifeval::["{adoc-build-target}" == "pdf"]
-_<<_consoleerror>>_
-endif::[]
-ifeval::["{adoc-build-target}" == "html"]
-_<<_consoleerror>>_
-endif::[]
-ifeval::["{adoc-build-target}" == "site"]
-_link:console.html#consoleerror[ConsoleError]_
-endif::[]
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
 .
 It can also be manipulated directly.
 The exit uses the number of recorded task errors as exit code.
 
+
+*Examples*
+
 [source%nowrap,bash,linenumber]
 ----
-ConsoleError "  ->" "unknown CLI option"
+ConsolePrint error "unknown CLI option"
 ExitOnTaskErrors
 ----
 

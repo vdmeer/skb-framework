@@ -11,6 +11,7 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
+
 == build-mvn-site
 This task can be used to build Maven sites.
 Beside calling Apache Maven, it also provides functionality to run scripts before building and before staging a site.
@@ -181,9 +182,28 @@ MvnSitePostScript() {
 
 To see an example have a look at the framework's script file.
 The current file can be found in the Github repository: link:https://raw.githubusercontent.com/vdmeer/skb-framework/master/skb-site-scripts.skb[skb-site-scripts.skb].
-Here, the function `MvnSitePreScript` executes framework tasks to create files for the site.
-The function `MvnSitePostScript` calls tools from the AsciiDoctor tool chain to create documents.
-It also uses the framework's API function `MvnSiteFixAdoc`, which helps to fix some AsciiDoctor problem in generated HTML files in the site.
+Here, the function `MvnSitePreScript` executes framework tasks to create files for the site, tests if some other artifacts have been build, and copies those artifacts into the site.
+The function `MvnSitePostScript` is empty, there is no required post processing.
+This can be achieved by using a colon ':' in the function:
+
+[source%nowrap,bash]
+----
+MvnSitePostScript() {
+    :
+}
+----
+
+The task also supports an important feature when building sites with the Asciidoctor plugin.
+This plugin creates HTML files that do not have text for the title or the breadcrumbs.
+This information needs to be fixed in the actually generated files.
+To automate this, the task declares an array _MVN_SITE_FIX_ADOC_ARRAY_, which can be filled in the site file (outside the two required functions).
+The task will run `sed` to fix the HTML problems.
+Each entry in the array must provide the file name (without the `.html` extension) as key and the text for the correction as value.
+The example below shows a few lines from the framework's script file:
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/../skb-site-scripts.skb[tags=task-guide]
+----
 
 
 

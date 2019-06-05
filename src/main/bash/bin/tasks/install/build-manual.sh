@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer and globbing for finding files
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -56,9 +53,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/_include
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -110,7 +106,7 @@ CLI_LONG_OPTIONS+=,loaded,install
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-manual -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "build-manual: unknown CLI options"
+    ConsolePrint error "build-manual: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -317,7 +313,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "build-manual: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "build-manual: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -334,7 +330,7 @@ if [[ $DO_ALL == true ]]; then
 fi
 if [[ $DO_BUILD == true || $DO_TEST == true ]]; then
     if [[ ! -n "$TARGET" ]]; then
-        ConsoleError " ->" "bdm: build/test required, but no target set"
+        ConsolePrint error "bdm: build/test required, but no target set"
         exit 60
     fi
 fi
@@ -361,7 +357,7 @@ fi
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "bdm: starting task"
+ConsolePrint info "bdm: starting task"
 
 
 
@@ -371,7 +367,7 @@ ConsoleInfo "  -->" "bdm: starting task"
 ValidateSrc(){
     STRICT=${CONFIG_MAP["STRICT"]}
     CONFIG_MAP["STRICT"]=on
-    ConsoleResetErrors
+    ResetCounter errors
 
     set +e
     ${DMAP_TASK_EXEC["validate-installation"]} --strict --msrc
@@ -379,8 +375,8 @@ ValidateSrc(){
     set -e
 
     if (( $__errno > 0 )); then
-        ConsoleError " ->" "bdm: found documentation errors, cannot continue"
-        ConsoleInfo "  -->" "bdm: done"
+        ConsolePrint error "bdm: found documentation errors, cannot continue"
+        ConsolePrint info "bdm: done"
         exit 61
     fi
     CONFIG_MAP["STRICT"]=$STRICT
@@ -415,7 +411,6 @@ BuildManualCore() {
             printf ":man manual: %s Manual\n" "${CONFIG_MAP["APP_NAME"]}"
             printf ":man source: %s %s\n" "${CONFIG_MAP["APP_NAME"]}" "${CONFIG_MAP["APP_VERSION"]}"
             printf ":page-layout: base\n"
-#             printf ":toc: left\n"
             printf ":toclevels: 4\n\n"
             printf "== NAME\n"
             ;;
@@ -472,19 +467,19 @@ BuildManualCore() {
     printf "\n"
 
 
-    DescribeApplicationDescription
+    DescribeApplication description $TARGET
 
     if [[ "$NO_OPTIONS" == false ]]; then
-        DescribeElementOptions
+        OptionElementDescription
 
-        DescribeElementOptionsRuntime
+        RuntimeOptionElementDescription
         if [[ "$NO_OPTION_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-option"]} --run --print-mode $TARGET
             set -e
         fi
 
-        DescribeElementOptionsExit
+        ExitOptionElementDescription
         if [[ "$NO_OPTION_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-option"]} --exit --print-mode $TARGET
@@ -493,7 +488,7 @@ BuildManualCore() {
     fi
 
     if [[ "$NO_PARAMS" == false ]]; then
-        DescribeElementParameters
+        ParameterElementDescription
         if [[ "$NO_PARAM_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-parameter"]} $REQUESTED $INSTALL --print-mode $TARGET
@@ -502,7 +497,7 @@ BuildManualCore() {
     fi
 
     if [[ "$NO_TASKS" == false ]]; then
-        DescribeElementTasks
+        TaskElementDescription
         if [[ "$NO_TASK_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-task"]} $LOADED $INSTALL --print-mode $TARGET
@@ -511,7 +506,7 @@ BuildManualCore() {
     fi
 
     if [[ "$NO_DEPS" == false ]]; then
-        DescribeElementDependencies
+        DependencyElemendDescription
         if [[ "$NO_DEP_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-dependency"]} $REQUESTED $INSTALL --print-mode $TARGET
@@ -520,7 +515,7 @@ BuildManualCore() {
     fi
 
     if [[ "$NO_COMMANDS" == false ]]; then
-        DescribeElementCommands
+        CommandElementDescription
         if [[ "$NO_COMMAND_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-command"]} --all --print-mode $TARGET
@@ -529,7 +524,7 @@ BuildManualCore() {
     fi
 
     if [[ "$NO_EXITSTATUS" == false ]]; then
-        DescribeElementExitStatus
+        ExitStatusElementDescription
         if [[ "$NO_EXITSTATUS_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode $TARGET
@@ -538,7 +533,7 @@ BuildManualCore() {
     fi
 
     if [[ "$NO_SCENARIOS" == false ]]; then
-        DescribeElementScenarios
+        ScenarioElementDescription
         if [[ "$NO_SCENARIO_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-scenario"]} $LOADED $INSTALL --print-mode $TARGET
@@ -548,23 +543,23 @@ BuildManualCore() {
 
 
     if [[ "$NO_SECURITY" == false ]]; then
-        DescribeApplicationSecurity
+        DescribeApplication security $TARGET
     fi
 
     if [[ "$NO_BUGS" == false ]]; then
-        DescribeApplicationBugs
+        DescribeApplication bugs $TARGET
     fi
 
     if [[ "$NO_AUTHORS" == false ]]; then
-        DescribeApplicationAuthors
+        DescribeApplication authors $TARGET
     fi
 
     if [[ "$NO_RESOURCES" == false ]]; then
-        DescribeApplicationResources
+        DescribeApplication resources $TARGET
     fi
 
     if [[ "$NO_COPYING" == false ]]; then
-        DescribeApplicationCopying
+        DescribeApplication copying $TARGET
     fi
 
     printf "\n"
@@ -590,60 +585,60 @@ BuildSrcPath() {
             rm $TARGET.txt
         fi
         java -jar $(PathToSystemPath $JAR) $(PathToSystemPath $FILE) $LEVEL > $TARGET.txt
-        ConsoleTrace "  wrote file $TARGET.txt"
+        ConsolePrint trace "  wrote file $TARGET.txt"
     done
 }
 
 BuildSrc() {
-    ConsoleInfo "  -->" "bdm/src"
+    ConsolePrint info "bdm/src"
     if [[ -z ${CONFIG_MAP["SKB_FW_TOOL"]:-} ]]; then
-        ConsoleError " ->" "bdm/src: no setting for SKB_FW_TOOL found, cannot build"
+        ConsolePrint error "bdm/src: no setting for SKB_FW_TOOL found, cannot build"
         return
     fi
     if [[ "${RTMAP_DEP_STATUS["jre"]:-}" == "S" ]]; then
-        ConsoleDebug "bdm/src - manual"
+        ConsolePrint debug "bdm/src - manual"
         BuildSrcPath ${CONFIG_MAP["MANUAL_SRC"]} l1
 
-        ConsoleDebug "bdm/src - commands"
+        ConsolePrint debug "bdm/src - commands"
         BuildSrcPath ${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["COMMANDS"]} l2
-        ConsoleDebug "bdm/src - error status"
+        ConsolePrint debug "bdm/src - error status"
         BuildSrcPath ${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["EXITSTATUS"]} l2
-        ConsoleDebug "bdm/src - options"
+        ConsolePrint debug "bdm/src - options"
         BuildSrcPath ${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["OPTIONS"]} l2
 
 
         if [[ -d "${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["DEP_DECL"]}" ]]; then
-            ConsoleDebug "bdm/src - dependencies"
+            ConsolePrint debug "bdm/src - dependencies"
             BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["DEP_DECL"]} l2
         else
-            ConsoleDebug "bdm/src - no dependency declarations found"
+            ConsolePrint debug "bdm/src - no dependency declarations found"
         fi
 
         if [[ -d "${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["PARAM_DECL"]}" ]]; then
-            ConsoleDebug "bdm/src - parameters"
+            ConsolePrint debug "bdm/src - parameters"
             BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["PARAM_DECL"]} l2
         else
-            ConsoleDebug "bdm/src - no parameter declarations found"
+            ConsolePrint debug "bdm/src - no parameter declarations found"
         fi
 
         if [[ -d "${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["TASK_DECL"]}" ]]; then
-            ConsoleDebug "bdm/src - tasks"
+            ConsolePrint debug "bdm/src - tasks"
             BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["TASK_DECL"]} l2
         else
-            ConsoleDebug "bdm/src - no task declarations found"
+            ConsolePrint debug "bdm/src - no task declarations found"
         fi
 
         if [[ -d "${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["SCENARIOS"]}" ]]; then
-            ConsoleDebug "bdm/src - scenarios"
+            ConsolePrint debug "bdm/src - scenarios"
             BuildSrcPath ${CONFIG_MAP["APP_HOME"]}/${APP_PATH_MAP["SCENARIOS"]} l2
         else
-            ConsoleDebug "bdm/src - no scenario declarations found"
+            ConsolePrint debug "bdm/src - no scenario declarations found"
         fi
 
     else
-        ConsoleError " ->" "bdm/src: dependency 'jre' not loaded, could not build"
+        ConsolePrint error "bdm/src: dependency 'jre' not loaded, could not build"
     fi
-    ConsoleInfo "  -->" "done"
+    ConsolePrint info "done"
 }
 
 
@@ -676,17 +671,17 @@ BuildText() {
     fi
     local file
 
-    ConsoleDebug "bdm/text"
+    ConsolePrint debug "bdm/text"
     for target in $targets; do
-        ConsoleDebug "building: $target"
+        ConsolePrint debug "building: $target"
         file=$MAN_DOC_DIR/${CONFIG_MAP["APP_SCRIPT"]}.$target
         if [[ -f $file ]]; then
             rm $file
         fi
-        ConsoleTrace "  for $target"
+        ConsolePrint trace "  for $target"
         BuildManualCore $target 1> $file
     done
-    ConsoleDebug "done/text"
+    ConsolePrint debug "done/text"
 }
 
 TestText() {
@@ -720,7 +715,7 @@ TestText() {
 ##
 ############################################################################################
 BuildHtml() {
-    ConsoleDebug "bdm/html"
+    ConsolePrint debug "bdm/html"
     if [[ ! -f $MAN_ADOC_FILE ]]; then
         BuildText adoc
     fi
@@ -731,12 +726,12 @@ BuildHtml() {
         if [[ -f $MAN_ADOC_FILE ]]; then
             asciidoctor $MAN_ADOC_FILE --backend html -a toc=left
         else
-            ConsoleError " ->" "bdm/html: problem building ADOC"
+            ConsolePrint error "bdm/html: problem building ADOC"
         fi
     else
-        ConsoleError " ->" "bdm/html: dependency 'asciidoctor' not loaded, could not build"
+        ConsolePrint error "bdm/html: dependency 'asciidoctor' not loaded, could not build"
     fi
-    ConsoleDebug "done: bdm/html"
+    ConsolePrint debug "done: bdm/html"
 }
 
 TestHtml() {
@@ -749,10 +744,10 @@ TestHtml() {
             ${DMAP_TASK_EXEC["start-browser"]} --url file://$(PathToSystemPath $MAN_HTML_FILE)
             set -e
         else
-            ConsoleError " ->" "bdm/html: cannot test, task 'start-browser' not loaded"
+            ConsolePrint error "bdm/html: cannot test, task 'start-browser' not loaded"
         fi
     else
-        ConsoleError " ->" "bdm/problem building HTML"
+        ConsolePrint error "bdm/problem building HTML"
     fi
 }
 
@@ -764,7 +759,7 @@ TestHtml() {
 ##
 ############################################################################################
 BuildManp() {
-    ConsoleDebug "bdm/manp"
+    ConsolePrint debug "bdm/manp"
     if [[ ! -f $MAN_ADOC_FILE ]]; then
         BuildText adoc
     fi
@@ -775,12 +770,12 @@ BuildManp() {
         if [[ -f $MAN_ADOC_FILE ]]; then
             asciidoctor $MAN_ADOC_FILE --backend manpage --destination-dir $MAN_PAGE_DIR
         else
-            ConsoleError " ->" "bdm/manp: problem building ADOC"
+            ConsolePrint error "bdm/manp: problem building ADOC"
         fi
     else
-        ConsoleError " ->" "bdm/manp: dependency 'asciidoctor' not loaded, could not build"
+        ConsolePrint error "bdm/manp: dependency 'asciidoctor' not loaded, could not build"
     fi
-    ConsoleDebug "done: bdm/manp"
+    ConsolePrint debug "done: bdm/manp"
 }
 
 TestManp() {
@@ -790,7 +785,7 @@ TestManp() {
     if [[ -f $MAN_PAGE_FILE ]]; then
         man -M $MAN_PAGE_DIR/.. ${CONFIG_MAP["APP_SCRIPT"]}
     else
-        ConsoleError " ->" "bdm/problem building MANP"
+        ConsolePrint error "bdm/problem building MANP"
     fi
 }
 
@@ -802,7 +797,7 @@ TestManp() {
 ##
 ############################################################################################
 BuildPdf() {
-    ConsoleDebug "bdm/pdf"
+    ConsolePrint debug "bdm/pdf"
     if [[ ! -f $MAN_ADOC_FILE ]]; then
         BuildText adoc
     fi
@@ -813,12 +808,12 @@ BuildPdf() {
         if [[ -f $MAN_ADOC_FILE ]]; then
             asciidoctor-pdf $MAN_ADOC_FILE
         else
-            ConsoleError " ->" "bdm/pdf: problem building ADOC"
+            ConsolePrint error "bdm/pdf: problem building ADOC"
         fi
     else
-        ConsoleError " ->" "bdm/pdf: dependency 'asciidoctor' not loaded, could not build"
+        ConsolePrint error "bdm/pdf: dependency 'asciidoctor' not loaded, could not build"
     fi
-    ConsoleDebug "done: bdm/pdf"
+    ConsolePrint debug "done: bdm/pdf"
 }
 
 TestPdf() {
@@ -831,10 +826,10 @@ TestPdf() {
             ${DMAP_TASK_EXEC["start-pdf"]} --file $MAN_PDF_FILE
             set -e
         else
-            ConsoleError " ->" "bdm/pdf: cannot test, task 'start-pdf' not loaded"
+            ConsolePrint error "bdm/pdf: cannot test, task 'start-pdf' not loaded"
         fi
     else
-        ConsoleError " ->" "bdm/problem building PDF"
+        ConsolePrint error "bdm/problem building PDF"
     fi
 }
 
@@ -846,25 +841,25 @@ TestPdf() {
 ##
 ############################################################################################
 if [[ $DO_CLEAN == true ]]; then
-    ConsoleInfo "  -->" "bdm/clean: all targets"
+    ConsolePrint info "bdm/clean: all targets"
 
-    ConsoleDebug "scanning $MAN_PAGE_DIR"
+    ConsolePrint debug "scanning $MAN_PAGE_DIR"
     for file in $MAN_PAGE_DIR/**; do
         if [[ -f $file ]]; then
             rm $file
-            ConsoleTrace "  removed file $file"
+            ConsolePrint trace "  removed file $file"
         fi
     done
 
-    ConsoleDebug "scanning $MAN_DOC_DIR"
+    ConsolePrint debug "scanning $MAN_DOC_DIR"
     for file in $MAN_DOC_DIR/**; do
         if [[ -f $file ]]; then
             rm $file
-            ConsoleTrace "  removed file $file"
+            ConsolePrint trace "  removed file $file"
         fi
     done
 
-    ConsoleInfo "  -->" "done clean"
+    ConsolePrint info "done clean"
 fi
 
 if [[ $DO_BUILD == true ]]; then
@@ -873,7 +868,7 @@ if [[ $DO_BUILD == true ]]; then
     esac
 
     ValidateSrc
-    ConsoleInfo "  -->" "build for target(s): $TARGET"
+    ConsolePrint info "build for target(s): $TARGET"
     for TODO in $TARGET; do
         case $TODO in
             adoc)   BuildText "adoc" ;;
@@ -882,14 +877,14 @@ if [[ $DO_BUILD == true ]]; then
             pdf)    BuildPdf ;;
             text)   BuildText "ansi text text-anon" ;;
             src)    ;;
-            *)      ConsoleError " ->" "bdm/build, unknown target '$TODO'"
+            *)      ConsolePrint error "bdm/build, unknown target '$TODO'"
         esac
     done
-    ConsoleInfo "  -->" "done build"
+    ConsolePrint info "done build"
 fi
 
 if [[ $DO_TEST == true ]]; then
-    ConsoleInfo "  -->" "test for target(s): $TARGET"
+    ConsolePrint info "test for target(s): $TARGET"
     for TODO in $TARGET; do
         case $TODO in
             adoc)   TestText "adoc" ;;
@@ -898,11 +893,11 @@ if [[ $DO_TEST == true ]]; then
             pdf)    TestPdf ;;
             text)   TestText "ansi text text-anon" ;;
             src)    ;;
-            *)      ConsoleError " ->" "bdm/test, unknown target '$TODO'"
+            *)      ConsolePrint error "bdm/test, unknown target '$TODO'"
         esac
     done
-    ConsoleInfo "  -->" "done test"
+    ConsolePrint info "done test"
 fi
 
-ConsoleInfo "  -->" "bdm: done"
+ConsolePrint info "bdm: done"
 exit $TASK_ERRORS

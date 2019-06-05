@@ -28,10 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
 
 declare -A CONFIG_MAP               # map/export for main configuration, keys are less FLAVOR
 declare -A CONFIG_SRC               # map/export for configuration source, i.e. where a setting comes from: [E]nv, [F]ile (.skb), [D]efault, CLI [O]ption

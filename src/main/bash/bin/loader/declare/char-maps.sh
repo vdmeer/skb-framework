@@ -28,10 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
 
 declare -A CHAR_MAP         # map/export characters
     CHAR_MAP["AVAILABLE"]="✔"        # char something available

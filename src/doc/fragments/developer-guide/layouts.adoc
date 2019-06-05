@@ -11,6 +11,7 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
+
 == Layout and Directory Structure
 
 include::{skb-site-main-dir}/doc/fragments/layouts/app.adoc[]

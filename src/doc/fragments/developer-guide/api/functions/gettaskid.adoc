@@ -11,18 +11,23 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-== GetTaskID
 
+== GetTaskID()
 _String GetTaskID( $1 )_ - returns a task identifier (name) for a given short or long name.
+
 
 *Parameters*:
 
 * `$1` - String with the Id to process, which can be the task's short or long name.
 
+
 *Return*:
 
 * _String_ - the task name, empty if not found, i.e. no task is declared for the given identifier.
     The return is realized as a print of the found name or an empty string.
+
+
+*Examples*
 
 [source%nowrap,bash,linenumber]
 ----

@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,9 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/scenario.sh
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -92,7 +88,7 @@ CLI_LONG_OPTIONS=all,mode:,help,install,loaded,origin:,print-mode:,status:,unloa
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-scenarios -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "list-scenarios: unknown CLI options"
+    ConsolePrint error "list-scenarios: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -214,7 +210,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "list-scenarios: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "list-scenarios: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -251,7 +247,7 @@ else
             *)
                 case $ORIGIN in
                     *[!0-9]*)
-                        ConsoleError "  ->" "ls: unknown origin: $ORIGIN"
+                        ConsolePrint error "ls: unknown origin: $ORIGIN"
                         exit 61
                     ;;
                 esac
@@ -272,7 +268,7 @@ else
                 APP_MODE=use
                 ;;
             *)
-                ConsoleError "  ->" "ls: unknown application mode: $APP_MODE"
+                ConsolePrint error "ls: unknown application mode: $APP_MODE"
                 exit 62
         esac
     fi
@@ -291,7 +287,7 @@ else
                 STATUS=N
                 ;;
             *)
-                ConsoleError "  ->" "ls: unknown status: $STATUS"
+                ConsolePrint error "ls: unknown status: $STATUS"
                 exit 63
         esac
     fi
@@ -307,7 +303,7 @@ case $LS_FORMAT in
     list | table)
         ;;
     *)
-        ConsoleFatal "  ->" "ls: internal error: unknown list format '$LS_FORMAT'"
+        ConsolePrint fatal "ls: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac
@@ -323,8 +319,8 @@ if [[ -f $FILE ]]; then
 fi
 
 
-if (( $SCN_LINE_MIN_LENGTH > $COLUMNS )); then
-    ConsoleError "  ->" "ls: not enough columns for table, need $SCN_LINE_MIN_LENGTH found $COLUMNS"
+if (( ${CONSOLE_MAP["SCN_LINE_MIN_LENGTH"]} > ${CONSOLE_MAP["SCN_COLUMNS_PADDED"]} )); then
+    ConsolePrint error "ls: not enough columns for table, need ${CONSOLE_MAP["SCN_LINE_MIN_LENGTH"]} found ${CONSOLE_MAP["SCN_COLUMNS_PADDED"]}"
     exit 60
 fi
 
@@ -335,19 +331,19 @@ fi
 ############################################################################################
 function TableTop() {
     printf "\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["SCN_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
     done
     printf "\n ${EFFECTS["REVERSE_ON"]}Scenario"
-    printf "%*s" "$((SCN_PADDING - 8))" ''
+    printf "%*s" "$((${CONSOLE_MAP["SCN_PADDING"]} - 8))" ''
     printf "Description"
-    printf '%*s' "$((DESCRIPTION_LENGTH - 11))" ''
+    printf '%*s' "$((${CONSOLE_MAP["SCN_DESCRIPTION_LENGTH"]} - 11))" ''
     printf "O F D B U S${EFFECTS["REVERSE_OFF"]}\n\n"
 }
 
 function TableBottom() {
     printf " "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["SCN_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
     printf "\n\n"
@@ -373,7 +369,7 @@ function TableBottom() {
     printf " reverted"
 
     printf "\n\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["SCN_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
     done
     printf "\n\n"
@@ -491,7 +487,7 @@ PrintScenarios() {
                 else
                     printf "${SCN_TABLE[$ID]}"
                 fi
-                DescribeScenarioDescription $ID 3 none
+                ScenarioDescription $ID 3 none
                 ;;
             table)
                 if [[ -z "${SCN_TABLE[$ID]:-}" ]]; then
@@ -499,8 +495,8 @@ PrintScenarios() {
                 else
                     printf "${SCN_TABLE[$ID]}"
                 fi
-                DescribeScenarioDescription $ID
-                DescribeScenarioStatus $ID $PRINT_MODE
+                ScenarioDescription $ID
+                ScenarioStatus $ID $PRINT_MODE
                 ;;
         esac
         printf "\n"
@@ -512,7 +508,7 @@ PrintScenarios() {
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "ls: starting task"
+ConsolePrint info "ls: starting task"
 
 case $LS_FORMAT in
     list)
@@ -527,74 +523,5 @@ case $LS_FORMAT in
         ;;
 esac
 
-ConsoleInfo "  -->" "ls: done"
+ConsolePrint info "ls: done"
 exit $TASK_ERRORS
-
-
-
-
-
-
-
-
-# ShellCmdListScenarios() {
-# local COLUMNS=$(tput cols)
-#     COLUMNS=$((COLUMNS - 2))
-# 
-#     local FILE
-#     local DESCRIPTION
-#     local SPRINT
-#     local MAX_LEN=0
-#     local i
-#     local keys
-# 
-#     declare -A SC_MAP
-# 
-#     if [[ -d ${CONFIG_MAP["FW_HOME"]}/${APP_PATH_MAP["SCENARIOS"]} ]]; then
-#         for FILE in $(cd ${CONFIG_MAP["FW_HOME"]}/${APP_PATH_MAP["SCENARIOS"]}; find -type f | grep "\.scn"); do
-#             SPRINT=
-#             DESCRIPTION=$(cat ${CONFIG_MAP["FW_HOME"]}/${APP_PATH_MAP["SCENARIOS"]}/$FILE | grep Description:)
-#             DESCRIPTION=${DESCRIPTION#\#// Description: }
-#             FILE=${FILE#./}
-#             FILE=${FILE%.*}
-# 
-#             SC_MAP[$FILE]=$DESCRIPTION
-#             if (( $MAX_LEN < ${#FILE} )); then
-#                 MAX_LEN=${#FILE}
-#             fi
-# 
-# 
-#         done
-#     fi
-#     MAX_LEN=$((MAX_LEN + 4))
-#     for i in ${!SC_MAP[@]}; do
-#         keys=(${keys[@]:-} $i)
-#     done
-#     keys=($(printf '%s\n' "${keys[@]:-}"|sort))
-# 
-#     printf "\n "
-#     for ((x = 1; x < $COLUMNS; x++)); do
-#         printf %s "${CHAR_MAP["TOP_LINE"]}"
-#     done
-#     printf "\n"
-#     printf " ${EFFECTS["REVERSE_ON"]}Scenario"
-#     padding=$(( $MAX_LEN - 8 ))
-#     printf '%*s' "$padding"
-#     printf "Description"
-#     padding=$(( 79 - $MAX_LEN - 8 - -8 - 11 ))
-#     printf '%*s' "$padding"
-#     printf "${EFFECTS["REVERSE_OFF"]}\n\n"
-# 
-#     for i in ${keys[@]}; do
-#         SPRINT=$(printf " $i")
-#         padding=$(( $MAX_LEN - ${#i} ))
-#         SPRINT+=$(printf '%*s' "$padding")$DESCRIPTION
-#         printf "$SPRINT"
-#     done
-# 
-#     printf "\n "
-#     for ((x = 1; x < $COLUMNS; x++)); do
-#         printf %s "${CHAR_MAP["TOP_LINE"]}"
-#     done
-#     printf "\n\n"
-# }

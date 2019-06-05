@@ -32,14 +32,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-## NOTE: do not remove lines that start with "#tag::" or "#end::"
-## - the lines mark import regions for AsciiDoctor includes
-## - they are used in the documentation, e.g. the Developer Guide
-##
-
 
 ##
 ## basic options / settings
@@ -145,10 +137,9 @@ CONFIG_MAP["SHELL_SNP"]="off"                       # shell shows prompt, change
 ##
 #tag::core-includes[]
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
-source $FW_HOME/bin/api/describe/_include
 source $FW_HOME/bin/loader/init/parse-cli.sh
 #end::core-includes[]
 
@@ -166,7 +157,7 @@ source $FW_HOME/bin/loader/init/parse-cli.sh
 ##
 #tag::flavor-app[]
 if [[ -z ${__FW_LOADER_FLAVOR:-} ]]; then
-    ConsoleFatal " ->" "interal error: no flavor set"
+    ConsolePrint fatal "internal error: no flavor set"
     printf "\n"
     exit 20
 else
@@ -174,7 +165,7 @@ else
     CONFIG_SRC["FLAVOR"]="E"
     if [[ -z ${CONFIG_MAP["FLAVOR"]} ]]; then
         ## did not find FLAVOR
-        ConsoleFatal " ->" "internal error: did not find setting for flavor"
+        ConsolePrint fatal "internal error: did not find setting for flavor"
         printf "\n"
         exit 21
     fi
@@ -183,26 +174,26 @@ else
     CONFIG_MAP["APP_HOME"]=${!FLAVOR_HOME:-}
     CONFIG_SRC["APP_HOME"]="E"
     if [[ -z ${CONFIG_MAP["APP_HOME"]:-} ]]; then
-        ConsoleFatal " ->" "did not find environment setting for application home, tried \$${CONFIG_MAP["FLAVOR"]}_HOME"
+        ConsolePrint fatal "did not find environment setting for application home, tried \$${CONFIG_MAP["FLAVOR"]}_HOME"
         printf "\n"
         exit 21
     elif [[ ! -d ${CONFIG_MAP["APP_HOME"]} ]]; then
         ## found home, but is no directory
-        ConsoleFatal " ->" "\$${CONFIG_MAP["FLAVOR"]}_HOME set as ${CONFIG_MAP["APP_HOME"]} does not point to a directory"
+        ConsolePrint fatal "\$${CONFIG_MAP["FLAVOR"]}_HOME set as ${CONFIG_MAP["APP_HOME"]} does not point to a directory"
         printf "\n"
         exit 22
     fi
 fi
 
 if [[ -z ${__FW_LOADER_SCRIPTNAME:-} ]]; then
-    ConsoleFatal " ->" "interal error: no application script name set"
+    ConsolePrint fatal "internal error: no application script name set"
     printf "\n"
     exit 23
 else
     CONFIG_MAP["APP_SCRIPT"]=${__FW_LOADER_SCRIPTNAME##*/}
 fi
 if [[ -z "${__FW_LOADER_APPNAME:-}" ]]; then
-    ConsoleFatal " ->" "interal error: no application name set"
+    ConsolePrint fatal "internal error: no application name set"
     printf "\n"
     exit 24
 else
@@ -212,14 +203,14 @@ fi
 if [[ -f ${CONFIG_MAP["FW_HOME"]}/etc/version.txt ]]; then
     CONFIG_MAP["FW_VERSION"]=$(cat ${CONFIG_MAP["FW_HOME"]}/etc/version.txt)
 else
-    ConsoleFatal " ->" "no framework version found, tried \$FW_HOME/etc/version.txt"
+    ConsolePrint fatal "no framework version found, tried \$FW_HOME/etc/version.txt"
     printf "\n"
     exit 25
 fi
 if [[ -f ${CONFIG_MAP["APP_HOME"]}/etc/version.txt ]]; then
     CONFIG_MAP["APP_VERSION"]=$(cat ${CONFIG_MAP["APP_HOME"]}/etc/version.txt)
 else
-    ConsoleFatal " ->" "no application version found, tried \$APP_HOME/etc/version.txt"
+    ConsolePrint fatal "no application version found, tried \$APP_HOME/etc/version.txt"
     printf "\n"
     exit 26
 fi
@@ -243,13 +234,13 @@ if [[ ! -d $TMP_DIRECTORY ]]; then
     mkdir $TMP_DIRECTORY 2> /dev/null
     __errno=$?
     if [[ $__errno != 0 ]]; then
-        ConsoleFatal " ->" "could not create temporary directory $TMP_DIRECTORY, please check owner and permissions"
+        ConsolePrint fatal "could not create temporary directory $TMP_DIRECTORY, please check owner and permissions"
         printf "\n"
         exit 30
     fi
 fi
 if [[ ! -w $TMP_DIRECTORY ]]; then
-    ConsoleFatal " ->" "cannot write to temporary directory $TMP_DIRECTORY, please check owner and permissions"
+    ConsolePrint fatal "cannot write to temporary directory $TMP_DIRECTORY, please check owner and permissions"
     printf "\n"
     exit 31
 fi
@@ -285,7 +276,7 @@ esac
 ##
 #tag::param-decl[]
 DeclareParameters
-if ConsoleHasErrors; then printf "\n"; exit 32; fi
+if $(ConsoleHas errors); then printf "\n"; exit 32; fi
 source $FW_HOME/bin/loader/init/process-settings.sh
 ProcessSettings
 #end::param-decl[]
@@ -302,11 +293,11 @@ ProcessSettings
 ##
 #tag::opt-decl[]
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/opt-decl.map ]]; then
-    ConsoleInfo "-->" "declaring options from cache"
+    ConsolePrint info "declaring options from cache"
     source ${CONFIG_MAP["CACHE_DIR"]}/opt-decl.map
 else
     DeclareOptions
-    if ConsoleHasErrors; then printf "\n"; exit 33; fi
+    if $(ConsoleHas errors); then printf "\n"; exit 33; fi
 fi
 declare -A OPT_CLI_MAP
 for ID in ${!DMAP_OPT_ORIGIN[@]}; do
@@ -316,15 +307,15 @@ done
 
 #tag::parse-cli[]
 ParseCli $@
-if ConsoleHasErrors; then printf "\n"; exit 34; fi
+if $(ConsoleHas errors); then printf "\n"; exit 34; fi
 case "${CONFIG_MAP["PRINT_MODE"]:-}" in
     ansi | text | adoc)
-        ConsoleInfo "-->" "found print mode '${CONFIG_MAP["PRINT_MODE"]}'"
+        ConsolePrint info "found print mode '${CONFIG_MAP["PRINT_MODE"]}'"
         ;;
     *)
         CONFIG_MAP["PRINT_MODE"]=ansi
         CONFIG_SRC["PRINT_MODE"]=
-        ConsoleWarn "-->" "unknown print mode '${CONFIG_MAP["PRINT_MODE"]}', assuming 'ansi'"
+        ConsolePrint warn "unknown print mode '${CONFIG_MAP["PRINT_MODE"]}', assuming 'ansi'"
         ;;
 esac
 #end::parse-cli[]
@@ -336,7 +327,7 @@ esac
 ##
 #tag::exit-options[]
 if [[ ${OPT_CLI_MAP["clean-cache"]} != false ]]; then
-    ConsoleInfo "-->" "cleaning cache and exit"
+    ConsolePrint info "cleaning cache and exit"
     source ${CONFIG_MAP["FW_HOME"]}/bin/loader/options/clean-cache.sh
     exit 0
 fi
@@ -359,18 +350,18 @@ fi
 ##
 #tag::cmdes-decl[]
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/cmd-decl.map ]]; then
-    ConsoleInfo "-->" "declaring commands from cache"
+    ConsolePrint info "declaring commands from cache"
     source ${CONFIG_MAP["CACHE_DIR"]}/cmd-decl.map
 else
     DeclareCommands
-    if ConsoleHasErrors; then printf "\n"; exit 35; fi
+    if $(ConsoleHas errors); then printf "\n"; exit 35; fi
 fi
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/es-decl.map ]]; then
-    ConsoleInfo "-->" "declaring exit-status from cache"
+    ConsolePrint info "declaring exit-status from cache"
     source ${CONFIG_MAP["CACHE_DIR"]}/es-decl.map
 else
     DeclareExitStatus
-    if ConsoleHasErrors; then printf "\n"; exit 36; fi
+    if $(ConsoleHas errors); then printf "\n"; exit 36; fi
 fi
 #end::cmdes-decl[]
 
@@ -384,27 +375,27 @@ fi
 ##
 #tag::dep-decl[]
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/dep-decl.map ]]; then
-    ConsoleInfo "-->" "declaring dependencies from cache"
+    ConsolePrint info "declaring dependencies from cache"
     source ${CONFIG_MAP["CACHE_DIR"]}/dep-decl.map
 else
-    ConsoleInfo "-->" "declaring dependencies from source"
+    ConsolePrint info "declaring dependencies from source"
     DeclareDependencies
-    if ConsoleHasErrors; then printf "\n"; exit 40; fi
+    if $(ConsoleHas errors); then printf "\n"; exit 40; fi
 fi
 #end::dep-decl[]
 
 #tag::task-decl[]
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/task-decl.map ]]; then
-    ConsoleInfo "-->" "declaring tasks from cache"
+    ConsolePrint info "declaring tasks from cache"
     source ${CONFIG_MAP["CACHE_DIR"]}/task-decl.map
 else
-    ConsoleInfo "-->" "declaring tasks from source"
+    ConsolePrint info "declaring tasks from source"
     DeclareTasks
-    if ConsoleHasErrors; then printf "\n"; exit 41; fi
+    if $(ConsoleHas errors); then printf "\n"; exit 41; fi
 fi
 source $FW_HOME/bin/loader/init/process-tasks.sh
 ProcessTasks
-if ConsoleHasErrors; then printf "\n"; exit 42; fi
+if $(ConsoleHas errors); then printf "\n"; exit 42; fi
 #end::task-decl[]
 
 
@@ -415,12 +406,12 @@ if ConsoleHasErrors; then printf "\n"; exit 42; fi
 ## - exit with code 44: if scenario tests failed
 ##
 #tag::scn-decl[]
-ConsoleInfo "-->" "declaring scenarios from source"
+ConsolePrint info "declaring scenarios from source"
 DeclareScenarios
-if ConsoleHasErrors; then printf "\n"; exit 43; fi
+if $(ConsoleHas errors); then printf "\n"; exit 43; fi
 source $FW_HOME/bin/loader/init/process-scenarios.sh
 ProcessScenarios
-if ConsoleHasErrors; then printf "\n"; exit 44; fi
+if $(ConsoleHas errors); then printf "\n"; exit 44; fi
 #end::scn-decl[]
 
 
@@ -436,7 +427,7 @@ case "${CONFIG_MAP["LOADER_LEVEL"]}" in
     off | all | fatal | error | warn-strict | warn | info | debug | trace)
         ;;
     *)
-        ConsoleError "-->" "unknown loader-level: ${CONFIG_MAP["LOADER_LEVEL"]}"
+        ConsolePrint error "unknown loader-level: ${CONFIG_MAP["LOADER_LEVEL"]}"
         printf "    use: off, all, fatal, error, warn-strict, warn, info, debug, trace\n\n"
         exit 45
         ;;
@@ -445,7 +436,7 @@ case "${CONFIG_MAP["SHELL_LEVEL"]}" in
     off | all | fatal | error | warn-strict | warn | info | debug | trace)
         ;;
     *)
-        ConsoleError "-->" "unknown shell-level: ${CONFIG_MAP["SHELL_LEVEL"]}"
+        ConsolePrint error "unknown shell-level: ${CONFIG_MAP["SHELL_LEVEL"]}"
         printf "    use: off, all, fatal, error, warn-strict, warn, info, debug, trace\n\n"
         exit 46
         ;;
@@ -454,7 +445,7 @@ case "${CONFIG_MAP["TASK_LEVEL"]}" in
     off | all | fatal | error | warn-strict | warn | info | debug | trace)
         ;;
     *)
-        ConsoleError "-->" "unknown task-level: ${CONFIG_MAP["TASK_LEVEL"]}"
+        ConsolePrint error "unknown task-level: ${CONFIG_MAP["TASK_LEVEL"]}"
         printf "    use: off, all, fatal, error, warn-strict, warn, info, debug, trace\n\n"
         exit 47
         ;;
@@ -471,13 +462,13 @@ esac
 #tag::do-options[]
 source $FW_HOME/bin/loader/init/do-options.sh
 DoOptions
-if ConsoleHasErrors; then printf "\n"; exit 48; fi
+if $(ConsoleHas errors); then printf "\n"; exit 48; fi
 
 if [[ $DO_EXIT == true ]]; then
     _te=$(date +%s.%N)
     _exec_time=$_te-$_ts
-    ConsoleInfo "-->" "execution time: $(echo $_exec_time | bc -l) sec"
-    ConsoleInfo "-->" "done"
+    ConsolePrint info "execution time: $(echo $_exec_time | bc -l) sec"
+    ConsolePrint info "done"
     exit 0
 fi
 #end::do-options[]
@@ -546,6 +537,6 @@ fi
 ## done
 ##
 #tag::done[]
-ConsoleMessage "\n\nhave a nice day\n\n\n"
+#ConsolePrint message "\n\n    have a nice day\n\n"
 exit $__errno
 #end::done[]

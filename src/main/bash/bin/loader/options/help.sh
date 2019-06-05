@@ -28,10 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
 
 cat ${CONFIG_MAP["FW_HOME"]}/etc/help/options.${CONFIG_MAP["PRINT_MODE"]}
 DO_EXIT=true

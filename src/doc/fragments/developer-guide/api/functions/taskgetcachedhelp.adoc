@@ -11,8 +11,8 @@
 // @author Sven van der Meer (vdmeer.sven@mykolab.com)
 //
 
-== TaskGetCachedHelp
 
+== TaskGetCachedHelp()
 _String TaskGetCachedHelp( $1 )_ - returns a file name with cached help for a task.
 
 This function tries to find a file with a help screen for the given task identifier, and returns it.
@@ -23,18 +23,24 @@ If the configuration is set to _/var/cache/skb-framework_,
     the _print mode_ is set to _ansi_;
     the function will try to locate the file _/var/cache/skb-framework/tasks/clean.ansi_.
 
+
 *Parameters*:
 
 * `$1` - Task identifier (or name), must be the long name!
+
 
 *Return*:
 
 * _String_ - The file in the cache with a help screen for the task.
     The return is realized as a print of the found file name or an empty string if none was found.
 
+
 *Errors* (as _Console Error_)
 
 * If the task given by `$1` was not found
+
+
+*Examples*
 
 [source%nowrap,bash,linenumber]
 ----
@@ -47,6 +53,7 @@ All tasks in the framework use this function to locate a help screen in the cach
 The standard code used in the tasks is shown below (taken from the task _clean_):
 
 [source%nowrap,bash,linenumber]
+----
 CACHED_HELP=$(TaskGetCachedHelp "clean")
 if [[ -z ${CACHED_HELP:-} ]]; then
     # print help
@@ -57,15 +64,7 @@ fi
 
 Line 1 calls this function to locate a cached help file.
 If the file was not found (test in line 2), the help is printed locally (line 3, actually a few print lines, usually some calls to
-ifeval::["{adoc-build-target}" == "pdf"]
-_<<_buildtaskhelpline>>_
-endif::[]
-ifeval::["{adoc-build-target}" == "html"]
-_<<_buildtaskhelpline>>_
-endif::[]
-ifeval::["{adoc-build-target}" == "site"]
-_link:tasks.html#buildtaskhelpline[BuildTaskHelpLine]_
-endif::[]
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/buildtaskhelpline-link.adoc[]
 ).
 Otherwise (line 4), the found file is printed (line 5).
 

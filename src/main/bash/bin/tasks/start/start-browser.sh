@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,8 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -71,7 +68,7 @@ CLI_LONG_OPTIONS=help,url:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name start-browser -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "start-browser: unknown CLI options"
+    ConsolePrint error "start-browser: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -99,7 +96,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "start-browser: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "start-browser: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -112,20 +109,20 @@ done
 ##
 ############################################################################################
 ERRNO=0
-ConsoleInfo "  -->" "sb: starting task"
+ConsolePrint info "sb: starting task"
 
 if [[ -z "${CONFIG_MAP["BROWSER"]:-}" ]]; then
-    ConsoleError "  ->" "sb: no setting for BROWSER, cannot start any"
-    ConsoleInfo "  -->" "sb: done"
+    ConsolePrint error "sb: no setting for BROWSER, cannot start any"
+    ConsolePrint info "sb: done"
     exit 60
 fi
 
 SCRIPT=${CONFIG_MAP["BROWSER"]}
 SCRIPT=${SCRIPT//%URL%/$URL}
 
-ConsoleDebug "sb: running - $SCRIPT"
+ConsolePrint debug "sb: running - $SCRIPT"
 $SCRIPT &
 ERRNO=$?
 
-ConsoleInfo "  -->" "sb: done"
+ConsolePrint info "sb: done"
 exit $ERRNO

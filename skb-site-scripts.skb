@@ -7,7 +7,6 @@
 ##
 
 MvnSitePreScript() {
-
     ## only create element-lists of they do not exist, use "clean" or "mvn clean" to remove them
     if [[ ! -d target/element-lists ]]; then
         mkdir -p target/element-lists
@@ -60,148 +59,116 @@ MvnSitePreScript() {
         fi
         ${DMAP_TASK_EXEC["describe-scenario"]} --all --print-mode adoc > target/element-lists/scenario-list.adoc
     fi
+
+
+    local SOURCE_DOC_DIR=target/documents
+    local SITE_DOC_DIR=target/site/documents
+    mkdir -p $SITE_DOC_DIR
+
+    ConsolePrint debug "  -> copy manual documents"
+    TestFS "src/main/bash/doc/manual/skb-framework.html" file exists,read site-fw
+    TestFS "src/main/bash/doc/manual/skb-framework.pdf" file exists,read site-fw
+    ExitOnTaskErrors
+    cp src/main/bash/doc/manual/skb-framework.html $SITE_DOC_DIR/manual.html
+    cp src/main/bash/doc/manual/skb-framework.pdf  $SITE_DOC_DIR/manual.pdf
+
+    ConsolePrint debug "  -> copy stand-alone documents"
+    TestFS $SOURCE_DOC_DIR/developer-guide.html file exists,read site-fw
+    TestFS $SOURCE_DOC_DIR/developer-guide.pdf file exists,read site-fw
+    TestFS $SOURCE_DOC_DIR/task-guide.html file exists,read site-fw
+    TestFS $SOURCE_DOC_DIR/task-guide.pdf file exists,read site-fw
+    TestFS $SOURCE_DOC_DIR/user-guide.html file exists,read site-fw
+    TestFS $SOURCE_DOC_DIR/user-guide.pdf file exists,read site-fw
+    ExitOnTaskErrors
+    cp $SOURCE_DOC_DIR/*.html $SITE_DOC_DIR
+    cp $SOURCE_DOC_DIR/*.pdf $SITE_DOC_DIR
 }
 
 
 
 MvnSitePostScript() {
-     declare -A MVN_SITE_FIX_ADOC_ARRAY
-    MVN_SITE_FIX_ADOC_ARRAY["target/site/index"]="SKB Framework"
-
-    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual"]="Manual"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/commands"]="Manual: Commands"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/dependencies"]="Manual: Dependencies"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/options"]="Manual: Options"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/parameters"]="Manual: Parameters"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/scenarios"]="Manual: Scenarios"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/tasks"]="Manual: Tasks"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/exit-status"]="Manual: Exit Status"
-
-    MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide"]="User Guide"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install"]="User Guide: Install"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/releases"]="User Guide, Install: Releases"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/requirements"]="User Guide, Install: Requirements"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/automated"]="User Guide, Install: Automated"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/deb"]="User Guide, Install: DEB"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/rpm"]="User Guide, Install: RPM"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/tgz"]="User Guide, Install: TGZ"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/from-source"]="User Guide, Install: Build and Install from Source"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/verify-installation"]="User Guide, Install: Verify Installation"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/terminal-configuration"]="User Guide, Install: Configure and Test Terminal"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/build-cache"]="User Guide, Install: Build Runtime Cache"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/performance"]="User Guide: Performance"
-
-    MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide"]="Task Guide"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/use-tasks"]="Task Guide: Use Tasks"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/list-"]="Task Guide, Use Tasks: list-*"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/describe-"]="Task Guide, Use Tasks: describe-*"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/cloc-installation"]="Task Guide, Use Tasks: CLOC Installation"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/execute-program"]="Task Guide, Use Tasks: Execute Program"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/manual"]="Task Guide, Use Tasks: Manual"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/repeat-scenario"]="Task Guide, Use Tasks: Repeat Scenario"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/repeat-task"]="Task Guide, Use Tasks: Repeat Task"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/setting"]="Task Guide, Use Tasks: Setting"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/start-browser"]="Task Guide, Use Tasks: Start Browser"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/start-pdf-viewer"]="Task Guide, Use Tasks: Start PDF Viewer"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/start-xterm"]="Task Guide, Use Tasks: Start XTerm"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/statistics"]="Task Guide, Use Tasks: Statistics"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/validate-installation"]="Task Guide, Use Tasks: Validate Installation"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/wait"]="Task Guide, Use Tasks: Wait"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/build-tasks"]="Task Guide: Build Tasks"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/build-manual"]="Task Guide, Build Tasks: Build Manual"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/build-mvn-site"]="Task Guide, Build Tasks: Build MVN Site"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/clean"]="Task Guide, Build Tasks: Clean"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/make-target-sets"]="Task Guide, Build Tasks: Make Target Sets"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/dev-tasks"]="Task Guide: Development Tasks"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/build-cache"]="Task Guide, Development Tasks: Builde Cache"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/build-help"]="Task Guide, Development Tasks: Build Help"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/download-fw-tool"]="Task Guide, Development Tasks: Download-FW Tool"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/set-file-versions"]="Task Guide, Development Tasks: Set File Versions"
-
-    MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide"]="Developer Guide"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts"]="Developer Guide: Layouts and Directory Structure"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-bin"]="Developer Guide, Layouts: bin"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-doc"]="Developer Guide, Layouts: doc"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-etc"]="Developer Guide, Layouts: etc"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-lib"]="Developer Guide, Layouts: lib"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-man"]="Developer Guide, Layouts: man"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-scenarios"]="Developer Guide, Layouts: scenarios"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/sequences"]="Developer Guide: Sequences"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/sequences/normal-interactive"]="Developer Guide, Sequences: Normal and Interactive"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation"]="Developer Guide: The Implementation"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation/skb-framework"]="Developer Guide, Implementation: skb-framework"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation/loader"]="Developer Guide, Implementation: loader"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation/shell"]="Developer Guide, Implementation: shell"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api-main"]="Developer Guide: API-Main"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/commands"]="Developer Guide, API: Commands"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/config"]="Developer Guide, API: Config"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/console"]="Developer Guide, API: Console"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/execute"]="Developer Guide, API: Execute"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/misc"]="Developer Guide, API: Miscellaneous"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/mvn-site"]="Developer Guide, API: MVN Site"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/print-ansi"]="Developer Guide, API: Print ANSI"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/print"]="Developer Guide, API: Print"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/prompt"]="Developer Guide, API: Prompt"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/scenarios"]="Developer Guide, API: Scenarios"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/system"]="Developer Guide, API: System"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/tasks"]="Developer Guide, API: Tasks"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api-describe"]="Developer Guide: API-Describe"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-application"]="Developer Guide, API: Describe/Application"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-command"]="Developer Guide, API: Describe/Command"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-dependency"]="Developer Guide, API: Describe/Dependency"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-element"]="Developer Guide, API: Describe/Element"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-exitstatus"]="Developer Guide, API: Describe/Exit Status"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-option"]="Developer Guide, API: Describe/Option"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-parameter"]="Developer Guide, API: Describe/Parameter"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-scenario"]="Developer Guide, API: Describe/Scenario"
-            MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/describe-task"]="Developer Guide, API: Describe/Task"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api-function-index"]="Developer Guide: API Function Index"
-
-#     MVN_SITE_FIX_ADOC_ARRAY["target/site/"]=""
-
-    printf "      -> fixing %s adoc files (MvnSiteFixAdocArray)\n" "${#MVN_SITE_FIX_ADOC_ARRAY[@]}"
-    MvnSiteFixAdocArray
-    ExitOnTaskErrors
-
-
-    local SKB_SITE_MAIN_DIR=$PWD/src
-    local RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
-    local RELEASE_NOTES="for SKB-Framework v${RELEASE_VERSION}"
-    local RELEASE_DATE="$(date '+%B %d, %Y')"
-    local DOC_TARGET_DIR=target/site/documents
-
-    local SOURCE_HIGHLIGHTER=coderay
-    local SECT_NUMS=4
-    local TOC_LEVELS=4
-
-    local PDF_IMAGES_DIR=$PWD/target/site/images/skb
-
-    local HTML_STYLESHEET="compass/rocket-panda.css"
-    local PDF_STYLE=skb-pdf
-
-    mkdir -p ${DOC_TARGET_DIR}
-    printf "      -> copy manual documents\n"
-    TestFileExists "src/main/bash/doc/manual/skb-framework.html" "site-fw"
-    TestFileExists "src/main/bash/doc/manual/skb-framework.pdf" "site-fw"
-    ExitOnTaskErrors
-    cp src/main/bash/doc/manual/skb-framework.html ${DOC_TARGET_DIR}/manual.html
-    cp src/main/bash/doc/manual/skb-framework.pdf  ${DOC_TARGET_DIR}/manual.pdf
-
-    printf "      -> building html documents\n"
-    printf "         -> user guide\n"
-        asciidoctor ./src/doc/documents/user-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=html -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
-    printf "         -> task guide\n"
-        asciidoctor ./src/doc/documents/task-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=html -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
-    printf "         -> developer guide\n"
-        asciidoctor ./src/doc/documents/developer-guide.adoc    -D ${DOC_TARGET_DIR} -a adoc-build-target=html -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
-
-    printf "      -> building pdf documents\n"
-    printf "         -> user guide\n"
-        asciidoctor-pdf ./src/doc/documents/user-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
-    printf "         -> task guide\n"
-        asciidoctor-pdf ./src/doc/documents/task-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
-    printf "         -> developer guide\n"
-        asciidoctor-pdf ./src/doc/documents/developer-guide.adoc    -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
-
+    :
 }
 
+
+#tag::task-guide[]
+MVN_SITE_FIX_ADOC_ARRAY["target/site/index"]="SKB Framework"
+
+MVN_SITE_FIX_ADOC_ARRAY["target/site/manual"]="Manual"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/commands"]="Manual: Commands"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/dependencies"]="Manual: Dependencies"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/options"]="Manual: Options"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/parameters"]="Manual: Parameters"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/scenarios"]="Manual: Scenarios"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/tasks"]="Manual: Tasks"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/exit-status"]="Manual: Exit Status"
+#end::task-guide[]
+
+MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide"]="User Guide"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install"]="User Guide: Install"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/releases"]="User Guide, Install: Releases"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/requirements"]="User Guide, Install: Requirements"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/automated"]="User Guide, Install: Automated"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/deb"]="User Guide, Install: DEB"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/rpm"]="User Guide, Install: RPM"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/tgz"]="User Guide, Install: TGZ"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/from-source"]="User Guide, Install: Build and Install from Source"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/verify-installation"]="User Guide, Install: Verify Installation"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/terminal-configuration"]="User Guide, Install: Configure and Test Terminal"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/build-cache"]="User Guide, Install: Build Runtime Cache"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/performance"]="User Guide: Performance"
+
+MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide"]="Task Guide"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/use-tasks"]="Task Guide: Use Tasks"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/list-"]="Task Guide, Use Tasks: list-*"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/describe-"]="Task Guide, Use Tasks: describe-*"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/cloc-installation"]="Task Guide, Use Tasks: CLOC Installation"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/execute-program"]="Task Guide, Use Tasks: Execute Program"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/manual"]="Task Guide, Use Tasks: Manual"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/repeat-scenario"]="Task Guide, Use Tasks: Repeat Scenario"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/repeat-task"]="Task Guide, Use Tasks: Repeat Task"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/setting"]="Task Guide, Use Tasks: Setting"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/start-browser"]="Task Guide, Use Tasks: Start Browser"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/start-pdf-viewer"]="Task Guide, Use Tasks: Start PDF Viewer"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/start-xterm"]="Task Guide, Use Tasks: Start XTerm"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/statistics"]="Task Guide, Use Tasks: Statistics"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/validate-installation"]="Task Guide, Use Tasks: Validate Installation"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/wait"]="Task Guide, Use Tasks: Wait"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/build-tasks"]="Task Guide: Build Tasks"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/build-manual"]="Task Guide, Build Tasks: Build Manual"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/build-mvn-site"]="Task Guide, Build Tasks: Build MVN Site"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/clean"]="Task Guide, Build Tasks: Clean"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/make-target-sets"]="Task Guide, Build Tasks: Make Target Sets"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/dev-tasks"]="Task Guide: Development Tasks"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/build-cache"]="Task Guide, Development Tasks: Builde Cache"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/build-help"]="Task Guide, Development Tasks: Build Help"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/download-fw-tool"]="Task Guide, Development Tasks: Download-FW Tool"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/set-file-versions"]="Task Guide, Development Tasks: Set File Versions"
+
+MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide"]="Developer Guide"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts"]="Developer Guide: Layouts and Directory Structure"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-bin"]="Developer Guide, Layouts: bin"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-doc"]="Developer Guide, Layouts: doc"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-etc"]="Developer Guide, Layouts: etc"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-lib"]="Developer Guide, Layouts: lib"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-man"]="Developer Guide, Layouts: man"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-scenarios"]="Developer Guide, Layouts: scenarios"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/sequences"]="Developer Guide: Sequences"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/sequences/normal-interactive"]="Developer Guide, Sequences: Normal and Interactive"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation"]="Developer Guide: The Implementation"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation/skb-framework"]="Developer Guide, Implementation: skb-framework"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation/loader"]="Developer Guide, Implementation: loader"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation/shell"]="Developer Guide, Implementation: shell"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api"]="Developer Guide: API"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/applications"]="Developer Guide, API: Applications"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/commands"]="Developer Guide, API: Commands"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/console"]="Developer Guide, API: Console"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/dependencies"]="Developer Guide, API: Dependencies"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/exit-status"]="Developer Guide, API: Exit Status"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/misc"]="Developer Guide, API: Miscellaneous"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/options"]="Developer Guide, API: Options"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/parameters"]="Developer Guide, API: Parameters"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/print"]="Developer Guide, API: Print"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/scenarios"]="Developer Guide, API: Scenarios"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/tasks"]="Developer Guide, API: Tasks"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/function-index"]="Developer Guide: API Function Index"

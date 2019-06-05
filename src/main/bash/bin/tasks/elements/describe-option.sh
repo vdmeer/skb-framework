@@ -28,9 +28,6 @@
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -53,9 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 ## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/option.sh
-ConsoleResetErrors
-ConsoleResetWarnings
+ResetCounter errors
+ResetCounter warnings
 
 
 ##
@@ -78,7 +74,7 @@ CLI_LONG_OPTIONS=all,exit,help,id:,print-mode:,run
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-option -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "describe-option: unknown CLI options"
+    ConsolePrint error "describe-option: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -100,8 +96,8 @@ while true; do
                 printf "\n   filters\n"
                 BuildTaskHelpLine A all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
                 BuildTaskHelpLine e exit        "<none>"    "only exit options"                             $PRINT_PADDING
-                BuildTaskHelpLine i id          "ID"        "long option identifier"                        $PRINT_PADDING
-                BuildTaskHelpLine r run         "<none>"    "only runtime options"                          $PRINT_PADDING
+                BuildTaskHelpLine i id          "ID"        "option identifier, long or short form"         $PRINT_PADDING
+                BuildTaskHelpLine r run         "<none>"    "only runtime options, default filter"          $PRINT_PADDING
             else
                 cat $CACHED_HELP
             fi
@@ -132,7 +128,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "describe-option: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-option: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -163,7 +159,7 @@ else
         fi
 
         if [[ -z ${DMAP_OPT_ORIGIN[$OPT_ID]:-} ]]; then
-            ConsoleError " ->" "do: unknown option ID '$OPT_ID'"
+            ConsolePrint error "do: unknown option ID '$OPT_ID'"
             exit 60
         fi
     fi
@@ -176,7 +172,7 @@ fi
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "do: starting task"
+ConsolePrint info "do: starting task"
 
 for ID in ${!DMAP_OPT_ORIGIN[@]}; do
     if [[ -n "$OPT_ID" ]]; then
@@ -184,14 +180,16 @@ for ID in ${!DMAP_OPT_ORIGIN[@]}; do
             continue
         fi
     fi
-    if [[ -n "$EXIT" ]]; then
-        if [[ "${DMAP_OPT_ORIGIN[$ID]:-}" != "exit" ]]; then
-            continue
+    if [[ "$ALL" != "yes" ]]; then
+        if [[ -n "$EXIT" ]]; then
+            if [[ "${DMAP_OPT_ORIGIN[$ID]:-}" != "exit" ]]; then
+                continue
+            fi
         fi
-    fi
-    if [[ -n "$RUN" ]]; then
-        if [[ "${DMAP_OPT_ORIGIN[$ID]:-}" != "run" ]]; then
-            continue
+        if [[ -n "$RUN" ]]; then
+            if [[ "${DMAP_OPT_ORIGIN[$ID]:-}" != "run" ]]; then
+                continue
+            fi
         fi
     fi
     keys=(${keys[@]:-} $ID)
@@ -203,5 +201,5 @@ for i in ${!keys[@]}; do
     DescribeOption $ID full "$PRINT_MODE line-indent" $PRINT_MODE
 done
 
-ConsoleInfo "  -->" "do: done"
+ConsolePrint info "do: done"
 exit $TASK_ERRORS

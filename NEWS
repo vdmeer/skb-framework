@@ -2,16 +2,10 @@ Version 0.0.5 2019-##-##
 
     * Issues, fixed
         ** https://github.com/vdmeer/skb-framework/issues/1
-    * API additions
-        ** PrintTestColors in api/print-ansi.sh
-        ** PrintTestEffects in api/print-ansi.sh
-        ** TestUtf8 in api/print.sh
-        ** MvnSiteFixAdocArray in api/mvn-site.sh
-        ** ExitOnTaskErrors in api/misc.sh
-        ** TestDirectoryExists in api/system.sh
-        ** TestFileExists in api/system.sh
-        ** TestDirectoryWritable in api/system.sh
-        ** TestFileWritable in api/system.sh
+    * Major API refactoring
+        ** joint a few functions into uber-functions with new arguments
+        ** removed a few API files, moved functions into other files better suited
+        ** added functions: PrintTests, ExitOnTaskErrors, TestFS
     * Added CLI options
         ** '--test-terminal' to test terminal capabilities for UTF-8, ANSI colors, and ANSI effects (exit option)
         ** '--test-ansi-colors' to test terminal ANSI color capabilities (used colors, exit option)
@@ -22,6 +16,9 @@ Version 0.0.5 2019-##-##
     * Changed exit codes (declarations, loader, shell, some tasks)
         ** new structure leaving a larger gap in the 10-30 numbers for future additional codes
         ** added codes for missing commands: sed, cat, less, and tput (all tested in the loader now)
+    * Changes
+        ** moved api/mvn-site into task build-mvn-site (MvnSiteAdocFix now automated from MVN_SITE_FIX_ADOC_ARRAY)
+        ** moved API scripts to top-level directory
     * Documentation updates
         ** changed tag line to: a flexible and extensible automation framework
         ** User-Guide: added information on installation, performance

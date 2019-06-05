@@ -6,7 +6,7 @@
 ## @version    v0.0.0
 ##
 
-TsRunTask() {
+TsRunTargets() {
     local RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
     local TOOL_VERSION="${RELEASE_VERSION}"
 
@@ -23,6 +23,8 @@ TsRunTask() {
             printf "\n       mkdirs        - creates required directories"
             printf "\n       readme        - creates the file README.adoc for the source repository"
             printf "\n       dist          - builds distribution archives (not the PPA!) using gradle"
+            printf "\n       adocindex     - creates the ADOC index files for site and documents"
+            printf "\n       documents     - build the stand-alone documents (HTML and PDF)"
             printf "\n       site          - creates the framework site (mvn)"
             printf "\n\n    Notes: "
             printf "\n       - separate all required targets using a comma."
@@ -34,8 +36,8 @@ TsRunTask() {
             printf "\n       - JDK8             - to build the tool"
             printf "\n       - Apache Ant       - to set file versions"
             printf "\n       - Apache Maven     - to build the site"
-            printf "\n       - asciidoctor      - to build some targets for the manual"
-            printf "\n       - asciidoctor-pdf  - to build the PDF manual"
+            printf "\n       - asciidoctor      - to build some targets for the manual, manual, and documents"
+            printf "\n       - asciidoctor-pdf  - to build the PDF manual and documents"
             printf "\n       - coderay          - for syntax highlighting in ADOC files"
             printf "\n"
             ;;
@@ -80,7 +82,7 @@ TsRunTask() {
         tool)
             (cd tool; ./gradlew)
 
-            TestFileExists "tool/build/libs/skb-framework-tool-${TOOL_VERSION}-all.jar" "skb-fw"
+            TestFS tool/build/libs/skb-framework-tool-${TOOL_VERSION}-all.jar file exists,read ts-fw
             ExitOnTaskErrors
 
             mkdir -p src/main/bash/lib/java
@@ -99,13 +101,13 @@ TsRunTask() {
             fi
 
             ## error handling first
-            TestFileExists "src/doc/fragments/readme/introduction.adoc" "skb-fw"
-            TestFileExists "src/doc/fragments/readme/install.adoc" "skb-fw"
-            TestFileExists "src/doc/fragments/readme/run.adoc" "skb-fw"
-            TestFileExists "src/main/bash/etc/manual/application/description.adoc" "skb-fw"
-            TestFileExists "src/doc/fragments/requirements.adoc" "skb-fw"
-            TestFileExists "src/doc/fragments/releases.adoc" "skb-fw"
-            TestFileExists "src/doc/fragments/resources.adoc" "skb-fw"
+            TestFS src/doc/fragments/readme/introduction.adoc file exists,read ts-fw
+            TestFS src/doc/fragments/readme/install.adoc file exists,read ts-fw
+            TestFS src/doc/fragments/readme/run.adoc file exists,read ts-fw
+            TestFS src/main/bash/etc/manual/application/description.adoc file exists,read ts-fw
+            TestFS src/doc/fragments/requirements.adoc file exists,read ts-fw
+            TestFS src/doc/fragments/releases.adoc file exists,read ts-fw
+            TestFS src/doc/fragments/resources.adoc file exists,read ts-fw
             ExitOnTaskErrors
 
             printf ":release-version: %s\n" "${RELEASE_VERSION}" > $README_FILE
@@ -135,16 +137,163 @@ TsRunTask() {
 
         dist)
             ExecuteScenario build-fw-distro
+            ExitOnTaskErrors
             ./gradlew
             ls -l ./build/distributions
             ;;
 
+        adocindex)
+            TestFS src/doc/fragments/developer-guide/api/function-links directory exists,read ts-fw
+            ExitOnTaskErrors
+
+            if [[ -d target/adoc-index ]]; then
+                rm -f target/adoc-index/*
+            fi
+            mkdir -p target/adoc-index
+
+            local CHAR
+            local COUNT
+            local ENTRY
+            local FILE
+            local FOUND
+            local MAC
+            local OUT_FILE
+            local TAG
+            local WC_LIST
+            local WC_REPLACE=" "
+            local FIELD_SEAPARATOR=$IFS
+            IFS=,
+
+            declare -A FILE_ARRAY
+            ConsolePrint debug "scanning index alphabetical"
+            printf "      "
+            COUNT=0
+            for FILE in src/doc/fragments/developer-guide/api/function-links/*.adoc; do
+                FILE=${FILE##*/}
+                CHAR=${FILE:0:1}
+                FILE_ARRAY[$CHAR]="${FILE_ARRAY[$CHAR]:-},$FILE"
+                printf "$CHAR"
+                COUNT=$(($COUNT + 1))
+            done
+            printf "\n"
+            ConsolePrint debug "files: $COUNT, characters: ${#FILE_ARRAY[@]}"
+            OUT_FILE=target/adoc-index/alphabetical.adoc
+            touch ${OUT_FILE}
+            for FOUND in ${!FILE_ARRAY[@]}; do
+                WC_LIST=${FILE_ARRAY[$FOUND]}
+                WC_LIST=${WC_LIST//,/$WC_REPLACE}
+                MAX=$( echo "$WC_LIST" | wc -w )
+                ConsolePrint debug "${FOUND^^} ($MAX)"
+                COUNT=0;
+                for ENTRY in ${FILE_ARRAY[$FOUND]}; do
+                    if [[ -n "$ENTRY" ]]; then
+                        COUNT=$(($COUNT + 1))
+                        printf "include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/%s[]" "$ENTRY" >> ${OUT_FILE}
+                        if (( $COUNT < $MAX )); then
+                            printf "\n{adoc-build-link-post}\n" >> ${OUT_FILE}
+                        else
+                            printf "\n" >> ${OUT_FILE}
+                        fi
+                    fi
+                done
+                printf "\n'''\n\n" >> ${OUT_FILE}
+            done
+
+            declare -A TAG_ARRAY
+            ConsolePrint debug "scanning index per tag"
+            printf "      "
+            COUNT=0
+            for FILE in src/doc/fragments/developer-guide/api/function-links/*.adoc; do
+                TAG=$( cat $FILE | { grep "//tag:" || true; } )
+                if [[ -n "$TAG" ]]; then
+                    TAG=${TAG#*:}
+                    FILE=${FILE##*/}
+                    TAG_ARRAY[$TAG]="${TAG_ARRAY[$TAG]:-},$FILE"
+                    printf "%s" "${TAG:0:1}"
+                else
+                    printf "."
+                fi
+                COUNT=$(($COUNT + 1))
+            done
+            printf "\n"
+            ConsolePrint debug "files: $COUNT, tags: ${#TAG_ARRAY[@]}"
+            for FOUND in ${!TAG_ARRAY[@]}; do
+                OUT_FILE=target/adoc-index/$FOUND.adoc
+                touch $OUT_FILE
+                WC_LIST=${TAG_ARRAY[$FOUND]}
+                WC_LIST=${WC_LIST//,/$WC_REPLACE}
+                MAX=$( echo "$WC_LIST" | wc -w )
+                ConsolePrint debug "${FOUND^^} ($MAX)"
+                COUNT=0;
+                for ENTRY in ${TAG_ARRAY[$FOUND]}; do
+                    if [[ -n "$ENTRY" ]]; then
+                        COUNT=$(($COUNT + 1))
+                        printf "include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/%s[]" "$ENTRY" >> $OUT_FILE
+                        if (( $COUNT < $MAX )); then
+                            printf "\n{adoc-build-link-post}\n" >> $OUT_FILE
+                        else
+                            printf "\n" >> $OUT_FILE
+                        fi
+                    fi
+                done
+            done
+
+            IFS=$FIELD_SEAPARATOR
+            ;;
+
+        documents)
+            TestFS src/doc/documents/developer-guide.adoc file exists,read ts-fw
+            TestFS src/doc/documents/task-guide.adoc file exists,read ts-fw
+            TestFS src/doc/documents/user-guide.adoc file exists,read ts-fw
+            ExitOnTaskErrors
+
+            if [[ -d target/documents ]]; then
+                rm -f target/documents/*
+            fi
+            mkdir -p target/documents
+
+            local SKB_SITE_MAIN_DIR=$PWD/src
+            local SKB_SITE_TARGET_DIR=$PWD/target
+            local RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
+            local RELEASE_NOTES="for SKB-Framework v${RELEASE_VERSION}"
+            local RELEASE_DATE="$(date '+%B %d, %Y')"
+            local DOC_TARGET_DIR=target/documents
+
+            local SOURCE_HIGHLIGHTER=coderay
+            local SECT_NUMS=4
+            local TOC_LEVELS=4
+
+            local PDF_IMAGES_DIR=$PWD/src/site/resources/images/skb
+
+            local HTML_STYLESHEET="compass/rocket-panda.css"
+            local PDF_STYLE=skb-pdf
+
+            mkdir -p ${DOC_TARGET_DIR}
+
+            ConsolePrint debug "building html documents"
+            ConsolePrint debug "  -> user guide"
+                asciidoctor ./src/doc/documents/user-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=html -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
+            ConsolePrint debug "  -> task guide"
+                asciidoctor ./src/doc/documents/task-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=html -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
+            ConsolePrint debug "  -> developer guide"
+                asciidoctor ./src/doc/documents/developer-guide.adoc    -D ${DOC_TARGET_DIR} -a adoc-build-target=html -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
+
+            ConsolePrint debug "building pdf documents"
+            ConsolePrint debug "  -> user guide"
+                asciidoctor-pdf ./src/doc/documents/user-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
+            ConsolePrint debug "  -> task guide"
+                asciidoctor-pdf ./src/doc/documents/task-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
+            ConsolePrint debug "  -> developer guide"
+                asciidoctor-pdf ./src/doc/documents/developer-guide.adoc    -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
+            ;;
+
         site)
             ${DMAP_TASK_EXEC["build-mvn-site"]} --build --targets --id fw
+            ExitOnTaskErrors
             ;;
 
         *)
-            ConsoleWarnStrict "skb-fw:" "nunknown target '$TARGET'\nThis is a programming error in the script"
+            ConsolePrint warn-strict "nunknown target '$TARGET'\nThis is a programming error in the script"
             ;;
     esac
 }
