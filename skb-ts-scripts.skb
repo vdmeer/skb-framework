@@ -12,7 +12,7 @@ TsRunTargets() {
 
     ## required in JAVA > 9 to avoid juice reflector problems
     ## see: https://github.com/google/guice/issues/1133 (cplerch commented on Oct 31, 2018)
-    export MAVEN_OPTS=${MAVEN_OPTS:-}" --add-opens java.base/java.lang=ALL-UNNAMED"
+#    export MAVEN_OPTS=${MAVEN_OPTS:-}" --add-opens java.base/java.lang=ALL-UNNAMED"
 
     shopt -s globstar
 
@@ -86,11 +86,11 @@ TsRunTargets() {
         tool)
             (cd tool; ./gradlew)
 
-            TestFS tool/build/libs/skb-framework-tool-${TOOL_VERSION}-all.jar file exists,read ts-fw
+            TestFS tool/build/libs/skb-framework-tool-${TOOL_VERSION}.jar file exists,read ts-fw
             ExitOnTaskErrors
 
             mkdir -p src/main/bash/lib/java
-            cp tool/build/libs/skb-framework-tool-${TOOL_VERSION}-all.jar src/main/bash/lib/java
+            cp tool/build/libs/skb-framework-tool-${TOOL_VERSION}.jar src/main/bash/lib/java
             ;;
 
         mkdirs)
