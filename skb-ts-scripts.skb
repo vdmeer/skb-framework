@@ -10,6 +10,10 @@ TsRunTargets() {
     local RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
     local TOOL_VERSION="${RELEASE_VERSION}"
 
+    ## required in JAVA > 9 to avoid juice reflector problems
+    ## see: https://github.com/google/guice/issues/1133 (cplerch commented on Oct 31, 2018)
+    export MAVEN_OPTS=${MAVEN_OPTS:-}" --add-opens java.base/java.lang=ALL-UNNAMED"
+
     shopt -s globstar
 
     case $1 in
