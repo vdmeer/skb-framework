@@ -203,7 +203,7 @@ ExitstatusInTable() {
 
     PAD_STR=$(DescribeExitstatus $ID standard "none" text)
     PAD_STR_LEN=${#PAD_STR}
-    PADDING=$((ES_PADDING - $PAD_STR_LEN))
+    PADDING=$((${CONSOLE_MAP["ES_PADDING"]} - $PAD_STR_LEN))
     SPRINT=$SPRINT$(printf '%*s' "$PADDING")
 
     printf "$SPRINT"

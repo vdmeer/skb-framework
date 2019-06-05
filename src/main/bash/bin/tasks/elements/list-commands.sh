@@ -154,9 +154,9 @@ function TableBottom() {
     for ((x = 1; x < ${CONSOLE_MAP["CMD_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
-    printf "\n\n"
 
-    printf " All other input will be treated as an attempt to run a task with arguments.\n\n"
+    printf "\n\n All other input will be treated as an attempt to run a task with arguments.\n"
+    printf " Use 'list-tasks' (or 'lt') for a list of tasks, 'list-tasks --help' for more help.\n\n"
 
     printf " "
     for ((x = 1; x < ${CONSOLE_MAP["CMD_COLUMNS_PADDED"]}; x++)); do
@@ -170,7 +170,8 @@ function ListTop() {
 }
 
 function ListBottom() {
-    printf "\n\n  All other input will be treated as an attempt to run a task with arguments.\n\n"
+    printf "\n\n All other input will be treated as an attempt to run a task with arguments.\n"
+    printf " Use 'list-tasks' (or 'lt') for a list of tasks, 'list-tasks --help' for more help.\n\n"
 }
 
 

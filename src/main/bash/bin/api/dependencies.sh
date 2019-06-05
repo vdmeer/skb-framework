@@ -153,7 +153,7 @@ DependencyInTable() {
 
     PAD_STR=$(DescribeDependency $ID standard "none" text)
     PAD_STR_LEN=${#PAD_STR}
-    PADDING=$((DEP_PADDING - $PAD_STR_LEN))
+    PADDING=$((${CONSOLE_MAP["DEP_PADDING"]} - $PAD_STR_LEN))
     SPRINT=$SPRINT$(printf '%*s' "$PADDING")
 
     printf "$SPRINT"
