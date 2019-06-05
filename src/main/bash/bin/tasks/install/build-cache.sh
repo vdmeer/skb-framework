@@ -24,7 +24,7 @@
 ## build-cache - builds cache for maps and screens
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
@@ -229,7 +229,6 @@ done
 ############################################################################################
 ## test CLI and settings
 ############################################################################################
-
 if [[ $DO_DECL == true ]]; then
     TARGET="cmd-decl dep-decl es-decl opt-decl task-decl"
 fi

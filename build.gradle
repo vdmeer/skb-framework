@@ -36,10 +36,10 @@ ospackage {
         fileMode 0664
         into 'etc'
     }
-    from('src/main/bash/lib') {
-        fileMode 0444
-        into 'lib'
-    }
+//    from('src/main/bash/lib') {
+//        fileMode 0444
+//        into 'lib'
+//    }
     from('src/main/bash/man') {
         fileMode 0444
         into 'man'
@@ -79,10 +79,10 @@ task tgz(type: Tar){
         fileMode 0664
         into  project.ext.startDir + '/etc'
     }
-    from('src/main/bash/lib') {
-        fileMode 0664
-        into  project.ext.startDir + '/lib'
-    }
+//    from('src/main/bash/lib') {
+//        fileMode 0664
+//        into  project.ext.startDir + '/lib'
+//    }
     from('src/main/bash/man') {
         fileMode 0664
         into  project.ext.startDir + '/man'

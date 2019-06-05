@@ -24,7 +24,7 @@
 ## Loader Initialisation: process settings
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 

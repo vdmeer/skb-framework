@@ -26,6 +26,12 @@ Version 0.0.5 2019-##-##
         ** Dev-Guide: added layouts, sequence charts, and function index to Developer Guide
         ** Dev-Guide: added to API, changed API description template and content for all functions
         ** Manual: added links to bugs and resources
+    * Updated gradlew and tool/gradlew to version 5.4.1
+    * SKB Tool changes
+        ** remove '-all' suffix from tool, due to new build by gradle
+        ** removed tool from source and distributions
+        ** added directory with permissions (dfwt can be used to download tool after installation)
+
 
 Version 0.0.4 2019-05-27
 

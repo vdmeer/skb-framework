@@ -24,7 +24,7 @@
 ## Declare: maps with ANSI codes for colors and effects for screen printing
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 

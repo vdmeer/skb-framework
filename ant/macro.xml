@@ -31,6 +31,18 @@
         <sequential>
             <replaceregexp byline="false" encoding="UTF-8">
                 <!-- sed "s/^ \* @version.*$/ \* @version    ${version}/" -->
+                <regexp pattern="// @version(.*)"/>
+                <substitution expression="// \@version    ${module.version}"/>
+                <fileset dir="@{module.dir}" >
+                    <include name="src/doc/**/*.adoc" />
+                    <include name="src/site/**/*.adoc" />
+                    <include name="src/main/images/**/*.adoc" />
+                    <include name="Processes.adoc" />
+                </fileset>
+            </replaceregexp>
+
+            <replaceregexp byline="false" encoding="UTF-8">
+                <!-- sed "s/^ \* @version.*$/ \* @version    ${version}/" -->
                 <regexp pattern=" \* @version(.*)"/>
                 <substitution expression=" \* \@version    ${module.version}"/>
                 <fileset dir="@{module.dir}" >
@@ -43,14 +55,18 @@
                 <regexp pattern="## @version(.*)"/>
                 <substitution expression="## @version    ${module.version}"/>
                 <fileset dir="@{module.dir}" >
+                    <include name="src/package/**/*.sh" />
                     <include name="src/main/bash/**/*.sh" />
                     <include name="src/main/bash/**/*.id" />
                     <include name="src/main/bash/scenarios/**/*.scn" />
                     <include name="src/main/bash/bin/skb-framework" />
                     <include name="src/main/bash/bin/**/_include" />
-<!--
-                    <exclude name="src/main/bash/**/*.sh" />
--->
+
+                    <include name="make-fw.sh" />
+                    <include name="skb-site-scripts.skb" />
+                    <include name="skb-site.id" />
+                    <include name="skb-ts-scripts.skb" />
+                    <include name="skb-ts.id" />
                 </fileset>
             </replaceregexp>
         </sequential>

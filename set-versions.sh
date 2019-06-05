@@ -25,7 +25,7 @@
 ## - runs the SKB-Framework with task make-target-sets
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    v1.0.0
+## @version    0.0.5
 ##
 
 set -o errexit -o pipefail -o noclobber -o nounset
