@@ -214,27 +214,98 @@ ExecuteScenario() {
         return
     fi
 
+    if [[ -z "${RTMAP_SCN_LOADED[$SCENARIO]:-}" ]]; then
+        ConsolePrint error "scenario '$SCENARIO' unknown, not loaded in mode '${CONFIG_MAP["APP_MODE"]}' / flavor '${CONFIG_MAP["APP_MODE_FLAVOR"]}'"
+        printf "\n"
+        return
+    fi
+
     local FILE=${DMAP_SCN_EXEC[$SCENARIO]}
     if [[ ! -f $FILE ]]; then
         ConsolePrint error "did not find file for scenario $SCENARIO"
         return
     fi
 
+    local ERRNO
+    local DO_EXTRAS=true
+    if $(ConsoleIs message); then DO_EXTRAS=true; else DO_EXTRAS=false; fi
+    local TIME=
+    local RUNTIME
+    local TS
+    local TE
+    local ET_INT
+    local BC_CALC
+    if $DO_EXTRAS; then
+        printf "\n "
+        for ((x = 1; x < ${CONSOLE_MAP["DEP_COLUMNS_PADDED"]}; x++)); do
+            printf %s "${CHAR_MAP["TOP_LINE"]}"
+        done
+        printf "\n"
+
+        TIME=$(date +"%T")
+
+        PrintEffect bold "  $SCENARIO"
+        PrintEffect italic " $TIME executing scenario"
+        printf "\n\n"
+    else
+        printf "\n"
+    fi
+
+    ERRNO=0
     local COUNT=1
     local LENGTH
-
+    TS=$(date +%s.%N)
+    set +e
     while IFS='' read -r line || [[ -n "$line" ]]; do
         LENGTH=${#line}
         if [[ "${line:0:1}" != "#" ]] && (( LENGTH > 1 )); then
             ResetCounter errors
-            ExecuteTask "$line"
+            ExecuteTask "$line" in-scenario
+            ERRNO=$((ERRNO + SHELL_ERRORS))
             if $(ConsoleHas errors); then
                 ConsolePrint error "error in line $COUNT of senario $SCENARIO"
-                return
+                break
             fi
         fi
         COUNT=$(( COUNT + 1 ))
     done < "$FILE"
+    set -e
+    TE=$(date +%s.%N)
+
+    if $DO_EXTRAS; then
+        printf "\n"
+        PrintEffect bold "  done"
+        TIME=$(date +"%T")
+
+        ET_INT=$(echo "scale=0;($TE-$TS)/1" | bc -l)
+        if (( ET_INT == 0 )); then
+            BC_CALC=$(echo "scale=4;($TE-$TS)/1" | bc -l)
+            RUNTIME=$(printf "0%s seconds\n" "$BC_CALC")
+        elif (( ET_INT < 60 )); then
+            BC_CALC=$(echo "scale=4;($TE-$TS)/1" | bc -l)
+            RUNTIME=$(printf "%s seconds\n" "$BC_CALC")
+        else
+            local BC_CALC=$(echo "scale=2;($TE-$TS)/60" | bc -l)
+            RUNTIME=$(printf "%s minutes\n" "$BC_CALC")
+        fi
+
+        PrintEffect italic " $TIME, $RUNTIME, status: $ERRNO"
+        printf " - "
+        if [[ $ERRNO == 0 ]]; then
+            PrintColor light-green "success"
+        else
+            PrintColor light-red "error"
+        fi
+
+        printf "\n "
+        for ((x = 1; x < ${CONSOLE_MAP["SCN_COLUMNS_PADDED"]}; x++)); do
+            printf %s "${CHAR_MAP["TOP_LINE"]}"
+        done
+        printf "\n\n"
+    else
+        printf "\n"
+    fi
+
 }
 
 

@@ -360,7 +360,8 @@ DescribeTask() {
 ##
 ## function: ExecuteTask()
 ## - executes a task
-## $1: full command line for the task, first word being the task ID (short or long form)
+## $1: full command line for the task, first word being the task ID (short or long form)]
+## $2: special setting for scenarios: in-scenario (no extras inside scenarios)
 ##
 ExecuteTask() {
     ConsoleCalculate
@@ -386,7 +387,6 @@ ExecuteTask() {
     fi
 
     local ERRNO
-
     local DO_EXTRAS=true
     local DO_HELP=false
     local DO_WAIT=false
@@ -407,9 +407,16 @@ ExecuteTask() {
     case "$TARG" in
         "-h" | "--help" | "-h "* | "--help "* | *" -h" | *" --help")
             DO_EXTRAS=false
-            local DO_HELP=true
+            DO_HELP=true
             ;;
     esac
+
+    ## overwrite any EXTRA/HELP/WAIT setting if $2 is set to "in-scenario"
+    if [[ ! -z ${2:-} && "$2" == "in-scenario" ]]; then
+        DO_EXTRAS=false
+#        DO_HELP=false
+#        DO_WAIT=false
+    fi
 
     local TIME=
     local RUNTIME
