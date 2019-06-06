@@ -38,7 +38,13 @@ fi
 RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
 cp src/main/bash/etc/version.txt tool/src/main/resources/tool-version.txt
 ant -f ant/build.xml -DmoduleVersion=${RELEASE_VERSION} -DmoduleDir=../
-chmod 644 src/main/bash/**/*.id src/main/bash/**/*.scn tool/src/**/*.java
+
+chmod 644 src/main/bash/**/*.id src/main/bash/**/*.scn tool/src/**/*.java src/**/*.adoc src/**/*.xml
+(cd src/package; chmod 644 `find -type f`)
+(cd src/site; chmod 644 `find -type f`)
+(cd src/doc; chmod 644 `find -type f`)
+(cd src/main/images; chmod 644 `find -type f`)
+chmod 644 *.skb *.id *.adoc
 
 printf "\n\n"
 printf "- make sure that src/main/bash/etc/version.txt has only 1 line\n"
