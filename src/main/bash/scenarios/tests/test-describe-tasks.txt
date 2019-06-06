@@ -1,6 +1,2 @@
-        This scenario will build the complete runtime cache for the framework.
-        It can be used in the `dev` application  mode  (`--dev-mode`  or  `-D`
-        start option) or  in  the  `all`  mode  (`--all-mode`  or  `-A`  start
-        option). It also requires the flavor _install_ being used,  using  the
-        start  option  `--install`  or  `-I`.  The  scenario  calls  the  task
-        `build-cache`.                                                        
+        This is a test scenario for _describe_ tasks. It runs all those  tasks
+        with various options.                                                 

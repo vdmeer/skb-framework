@@ -414,8 +414,6 @@ ExecuteTask() {
     ## overwrite any EXTRA/HELP/WAIT setting if $2 is set to "in-scenario"
     if [[ ! -z ${2:-} && "$2" == "in-scenario" ]]; then
         DO_EXTRAS=false
-#        DO_HELP=false
-#        DO_WAIT=false
     fi
 
     local TIME=

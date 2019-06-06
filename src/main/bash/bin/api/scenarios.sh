@@ -226,7 +226,6 @@ ExecuteScenario() {
         return
     fi
 
-    local ERRNO
     local DO_EXTRAS=true
     if $(ConsoleIs message); then DO_EXTRAS=true; else DO_EXTRAS=false; fi
     local TIME=
@@ -251,9 +250,10 @@ ExecuteScenario() {
         printf "\n"
     fi
 
-    ERRNO=0
+    local ES_ERRNO=0
     local COUNT=1
     local LENGTH
+    local ERRORS
     TS=$(date +%s.%N)
     set +e
     while IFS='' read -r line || [[ -n "$line" ]]; do
@@ -261,7 +261,8 @@ ExecuteScenario() {
         if [[ "${line:0:1}" != "#" ]] && (( LENGTH > 1 )); then
             ResetCounter errors
             ExecuteTask "$line" in-scenario
-            ERRNO=$((ERRNO + SHELL_ERRORS))
+            ERRORS=$(GetCounter errors)
+            ES_ERRNO=$((ES_ERRNO + ERRORS))
             if $(ConsoleHas errors); then
                 ConsolePrint error "error in line $COUNT of senario $SCENARIO"
                 break
@@ -289,9 +290,9 @@ ExecuteScenario() {
             RUNTIME=$(printf "%s minutes\n" "$BC_CALC")
         fi
 
-        PrintEffect italic " $TIME, $RUNTIME, status: $ERRNO"
+        PrintEffect italic " $TIME, $RUNTIME, status: $ES_ERRNO"
         printf " - "
-        if [[ $ERRNO == 0 ]]; then
+        if [[ $ES_ERRNO == 0 ]]; then
             PrintColor light-green "success"
         else
             PrintColor light-red "error"

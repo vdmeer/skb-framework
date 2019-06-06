@@ -30,6 +30,42 @@
 
 
 ##
+## function: GetCounter()
+## - returns a counter depending on what part of app we run in (loader, shell, task)
+## $1: counter to return, one of: errors, warnings
+## return: print counter
+##
+GetCounter(){
+    local COUNTER
+    case $1 in
+        errors)
+            case ${CONFIG_MAP["RUNNING_IN"]} in
+                loader) COUNTER=$LOADER_ERRORS ;;
+                shell)  COUNTER=$SHELL_ERRORS;;
+                task)   COUNTER=$TASK_ERRORS;;
+            esac
+            printf $COUNTER
+            return
+            ;;
+        warnings)
+            case ${CONFIG_MAP["RUNNING_IN"]} in
+                loader) COUNTER=$LOADER_WARNINGS;;
+                shell)  COUNTER=$SHELL_WARNINGS;;
+                task)   COUNTER=$TASK_WARNINGS;;
+            esac
+            printf $COUNTER
+            return
+            ;;
+        *)
+            ConsolePrint error "increase-counter: unknown counter $1"
+            ;;
+    esac
+    printf ""
+}
+
+
+
+##
 ## function: GetLevel()
 ## - returns the (console, log, print) level depending on what part of app we run in (loader, shell, task)
 ##

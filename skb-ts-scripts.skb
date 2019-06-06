@@ -160,11 +160,14 @@ TsRunTargets() {
 
             tail -n +14 src/doc/fragments/resources.adoc >> $README_FILE
             printf "\n\n" >> $README_FILE
+
+            chmod 644 $README_FILE
             ;;
 
         dist)
             ExecuteScenario build-fw-distro
             ExitOnTaskErrors
+            chmod 664 `find -type f | grep "\.txt"`
             ./gradlew
             ls -l ./build/distributions
             ;;
