@@ -19,12 +19,13 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Scenario: build-fw-distro - builds all distribution artifacts
+## Scenario ID for: test-list-tasks
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.5
 ##
 
-build-manual --build --src
-build-help
-build-manual --build --requested --adoc --text --manp --html --pdf
+SHORT=tlt
+MODES="dev"
+MODE_FLAVOR="install"
+DESCRIPTION="runs list tasks with various options"
