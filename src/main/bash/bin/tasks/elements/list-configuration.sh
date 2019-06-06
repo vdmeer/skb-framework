@@ -299,7 +299,7 @@ PrintConfiguration() {
             LOADER_LEVEL)
                 PrintSetting loader-level
                 ;;
-            SHELL_LEVE)
+            SHELL_LEVEL)
                 PrintSetting shell-level
                 ;;
             TASK_LEVEL)

@@ -449,10 +449,11 @@ ExecuteTask() {
     set -e
     TE=$(date +%s.%N)
 
+    if [[ $ERRNO != 0 ]]; then
+        ConsolePrint error "error executing: '$ID $TARG'"
+    fi
+
     if $DO_EXTRAS; then
-        if [[ $ERRNO != 0 ]]; then
-            ConsolePrint error "error executing: '$ID $TARG'"
-        fi
         printf "\n"
         PrintEffect bold "  done"
         TIME=$(date +"%T")

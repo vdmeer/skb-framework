@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+##
+## Scenario: test-describe-tasks - runs describe tasks with various options
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.5
+##
+
+describe-application --help
+describe-application
+describe-application --all
+describe-application --app
+describe-application --authors
+describe-application --bugs
+describe-application --copying
+describe-application --resources
+describe-application -- security
+
+
+describe-command --help
+describe-command
+describe-command --all
+describe-command --id s
+describe-command -i statistic
+
+
+describe-dependency --help
+describe-dependency
+describe-dependency --all
+describe-dependency --install
+describe-dependency --origin fw
+describe-dependency --requested
+describe-dependency --tested
+describe-dependency --status w
+describe-dependency --id wget
+describe-dependency --debug --all
+
+
+describe-element --help
+describe-element
+describe-element --all
+describe-element --cmd
+describe-element --dep
+describe-element --es
+describe-element --opt
+describe-element --param
+describe-element -- scn
+describe-element --task
+
+
+describe-exitstatus --help
+describe-exitstatus
+describe-exitstatus --all
+describe-exitstatus --id 010
+
+
+describe-option --help
+describe-option
+describe-option --all
+describe-option --exit
+describe-option --run
+describe-option --id T
+
+
+describe-parameter --help
+describe-parameter
+describe-parameter --all
+describe-parameter --default
+describe-parameter --install
+describe-parameter --origin fw
+describe-parameter --requested
+describe-parameter --status file
+describe-parameter --id xterm
+describe-parameter --debug --all
+
+
+describe-scenario --help
+describe-scenario
+describe-scenario --all
+describe-scenario --install
+describe-scenario --loaded
+describe-scenario --unloaded
+describe-scenario --mode build
+describe-scenario --origin fw
+describe-scenario --status warning
+describe-scenario --id tdt
+describe-scenario --debug --all
+
+
+describe-task --help
+describe-task
+describe-task --all
+describe-task --install
+describe-task --loaded
+describe-task --unloaded
+describe-task --mode install
+describe-task --origin fw
+describe-task --status warning
+describe-task --id vi
+describe-task --debug --all
+

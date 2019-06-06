@@ -1,0 +1,11 @@
+##
+## Scenario ID for: test-describe-tasks
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.5
+##
+
+SHORT=tdt
+MODES="dev"
+MODE_FLAVOR="install"
+DESCRIPTION="runs describe tasks with various options"

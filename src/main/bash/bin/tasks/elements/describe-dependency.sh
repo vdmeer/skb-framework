@@ -185,6 +185,7 @@ else
     if [[ -n "$DEP_ID" ]]; then
         if [[ -z ${DMAP_DEP_ORIGIN[$DEP_ID]:-} ]]; then
             ConsolePrint error "dd: unknown dependency: $DEP_ID"
+            exit 61
         fi
     fi
     if [[ -n "$ORIGIN" ]]; then
@@ -197,7 +198,7 @@ else
                 ;;
             *)
                 ConsolePrint error "dd: unknown origin: $ORIGIN"
-                exit 60
+                exit 62
         esac
     fi
     if [[ -n "$STATUS" ]]; then
@@ -216,7 +217,7 @@ else
                 ;;
             *)
                 ConsolePrint error "dd: unknown status: $STATUS"
-                exit 61
+                exit 63
         esac
     fi
 fi
@@ -225,7 +226,7 @@ case $D_FORMAT in
         ;;
     *)
         ConsolePrint fatal "dd: internal error: unknown describe format '$D_FORMAT'"
-        exit 69
+        exit 64
         ;;
 esac
 

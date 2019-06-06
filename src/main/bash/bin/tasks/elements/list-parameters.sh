@@ -335,7 +335,7 @@ PrintParameters() {
             fi
         fi
         if [[ -n "$DEFAULT" ]]; then
-            if [[ ! -n "${DMAP_PARAM_DEFVAL[$PARAM_ID]:-}" ]]; then
+            if [[ ! -n "${DMAP_PARAM_DEFVAL[$ID]:-}" ]]; then
                 continue
             fi
         fi
