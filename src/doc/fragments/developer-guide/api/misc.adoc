@@ -18,6 +18,8 @@
 Miscellaneous functions.
 
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/getcounter.adoc[leveloffset=+1]
+
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/getlevel.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/getquiet.adoc[leveloffset=+1]
