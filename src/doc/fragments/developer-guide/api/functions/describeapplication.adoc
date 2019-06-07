@@ -14,5 +14,55 @@
 
 
 == DescribeApplication()
+_void DescribeApplication( $1, [$2] ) - prints application descriptions for various topics.
 
+This function prints text for the topic _$1_ using the optional print mode _$2_ or the standard print mode.
+This function is used by the task _describe-application_.
+
+
+*Parameters*
+
+* `$1`, _string_ - the topic to describe:
+    ** authors - names of the authors of the application.
+        The text is taken from the file _CONFIG_MAP["MANUAL_SRC"]}/application/authors_ with the print mode as file extension.
+    ** bugs - comments on bugs, or list of known bugs.
+        The text is taken from the file _CONFIG_MAP["MANUAL_SRC"]}/application/bugs_ with the print mode as file extension.
+    ** copying - comments on licensing.
+        The text is taken from the file _CONFIG_MAP["MANUAL_SRC"]}/application/copying_ with the print mode as file extension.
+    ** description - a general description of the application.
+        The text is taken from the file _CONFIG_MAP["MANUAL_SRC"]}/application/description_ with the print mode as file extension.
+    ** resources - links to external or other resources.
+        The text is taken from the file _CONFIG_MAP["MANUAL_SRC"]}/application/resources_ with the print mode as file extension.
+    ** security - comments on security aspects of the application.
+        The text is taken from the file _CONFIG_MAP["MANUAL_SRC"]}/application/security_ with the print mode as file extension.
+* `$2`, _string_, optional - a print mode, current set print mode used if not present.
+
+
+*Errors*
+
+* For unknown topics (_$1_)
+* For unknown print modes (_$2_)
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
+to print the text effects.
+
+
+*External Dependencies*
+
+* `cat` to print the text.
+
+
+*Examples*
+
+
+[source%nowrap,bash,linenumber]
+----
+DescribeApplication security
+----
+
+The example above will print the the security text for the application.
 

@@ -14,5 +14,57 @@
 
 
 == ExitstatusInTable()
+_string ExitstatusInTable( $1, [$2] )_ - returns main exit status details for table views.
+
+This function prints the exit status name (padded number), the tag line, and a padding in one line.
+No newline will be printed.
+Exit Status numbers will be formatted using the requested print mode (_$2_) or the set print mode of the application.
+The padding is calculated using the setting of _CONSOLE_MAP["ES_PADDING"]_ and the length of the text line.
+The return is realized as print.
+
+
+*Parameters*
+
+* `$1`, _string_ - the exit status identifier (name)
+* `$2`, _string_, optional - an optional print mode, standard setting used if not present.
+
+
+*Return*
+
+* _string_, the line with a leading space, exit status name, tag line, and padding
+
+*Errors*
+
+* For unknown exit status identifier
+* For unknown print mode
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/describeexitstatus-link.adoc[]
+to get the formatted exitstatus details.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+for throwing errors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenumber]
+----
+ExitstatusInTable 031
+----
+
+The example above calls he function for the exit status _031_.
+Possible return values are shown below:
+
+[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+----
+⎵031⎵⎵⎵loader:⎵TMP⎵DIR⎵not⎵writable⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+⎵*031*⎵⎵⎵loader:⎵TMP⎵DIR⎵not⎵writable⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+----
+
+The first line shows plain text, the second line ANSI formatted text.
 
 

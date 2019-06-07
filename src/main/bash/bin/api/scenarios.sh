@@ -385,9 +385,10 @@ ScenarioDescription() {
 ##
 ## ScenarioElementDescription()
 ## - description for scenarios
+## $1: print mode
 ##
 ScenarioElementDescription() {
-    case $TARGET in
+    case $1 in
         adoc)
             printf "\n\n== SCENARIOS\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/scenarios.adoc
@@ -395,7 +396,7 @@ ScenarioElementDescription() {
             ;;
         ansi | text*)
             printf "  "
-            PrintEffect bold "SCENARIOS" $TARGET
+            PrintEffect bold "SCENARIOS" $1
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/scenarios.txt
             printf "\n"
@@ -408,13 +409,13 @@ ScenarioElementDescription() {
 ##
 ## function: ScenarioInTable()
 ## - main scenario details for table views
-## $1: ID, must be long form
+## $1: ID, long or short
 ## optional $2: print mode (adoc, ansi, text)
 ##
 ScenarioInTable() {
-    local ID=$1
+    local ID=$(GetScenarioID $1)
     if [[ -z ${DMAP_SCN_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-scn/table - unknown scenario ID '$ID'"
+        ConsolePrint error "scenario-in-table - unknown scenario ID '$ID'"
         return
     fi
 

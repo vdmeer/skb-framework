@@ -467,16 +467,16 @@ BuildManualCore() {
     DescribeApplication description $TARGET
 
     if [[ "$NO_OPTIONS" == false ]]; then
-        OptionElementDescription
+        OptionElementDescription option $TARGET
 
-        RuntimeOptionElementDescription
+        OptionElementDescription runtime $TARGET
         if [[ "$NO_OPTION_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-option"]} --run --print-mode $TARGET
             set -e
         fi
 
-        ExitOptionElementDescription
+        OptionElementDescription exit $TARGET
         if [[ "$NO_OPTION_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-option"]} --exit --print-mode $TARGET
@@ -485,7 +485,7 @@ BuildManualCore() {
     fi
 
     if [[ "$NO_PARAMS" == false ]]; then
-        ParameterElementDescription
+        ParameterElementDescription $TARGET
         if [[ "$NO_PARAM_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-parameter"]} $REQUESTED $INSTALL --print-mode $TARGET
@@ -494,7 +494,7 @@ BuildManualCore() {
     fi
 
     if [[ "$NO_TASKS" == false ]]; then
-        TaskElementDescription
+        TaskElementDescription $TARGET
         if [[ "$NO_TASK_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-task"]} $LOADED $INSTALL --print-mode $TARGET
@@ -503,7 +503,7 @@ BuildManualCore() {
     fi
 
     if [[ "$NO_DEPS" == false ]]; then
-        DependencyElemendDescription
+        DependencyElementDescription $TARGET
         if [[ "$NO_DEP_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-dependency"]} $REQUESTED $INSTALL --print-mode $TARGET
@@ -512,7 +512,7 @@ BuildManualCore() {
     fi
 
     if [[ "$NO_COMMANDS" == false ]]; then
-        CommandElementDescription
+        CommandElementDescription $TARGET
         if [[ "$NO_COMMAND_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-command"]} --all --print-mode $TARGET
@@ -521,7 +521,7 @@ BuildManualCore() {
     fi
 
     if [[ "$NO_EXITSTATUS" == false ]]; then
-        ExitStatusElementDescription
+        ExitStatusElementDescription $TARGET
         if [[ "$NO_EXITSTATUS_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode $TARGET
@@ -530,7 +530,7 @@ BuildManualCore() {
     fi
 
     if [[ "$NO_SCENARIOS" == false ]]; then
-        ScenarioElementDescription
+        ScenarioElementDescription $TARGET
         if [[ "$NO_SCENARIO_LIST" == false ]]; then
             set +e
             ${DMAP_TASK_EXEC["describe-scenario"]} $LOADED $INSTALL --print-mode $TARGET

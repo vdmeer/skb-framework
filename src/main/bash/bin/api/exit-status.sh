@@ -159,9 +159,10 @@ ExitstatusDescription() {
 ##
 ## DescribeElementExitStatus()
 ## - description for exit status
+## $1: print mode
 ##
 ExitStatusElementDescription() {
-    case $TARGET in
+    case $1 in
         adoc)
             printf "\n\n== EXIT STATUS\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/exit-status.adoc
@@ -169,7 +170,7 @@ ExitStatusElementDescription() {
             ;;
         ansi | text*)
             printf "  "
-            PrintEffect bold "EXIT STATUS" $TARGET
+            PrintEffect bold "EXIT STATUS" $1
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/exit-status.txt
             printf "\n"
@@ -187,9 +188,8 @@ ExitStatusElementDescription() {
 ##
 ExitstatusInTable() {
     local ID=$1
-
     if [[ -z ${DMAP_ES[$ID]:-} ]]; then
-        ConsolePrint error "describe-exitstatus/table - unknown exitstatus '$ID'"
+        ConsolePrint error "exitstatus-in-table - unknown exitstatus '$ID'"
         return
     fi
 

@@ -67,9 +67,10 @@ CommandDescription() {
 ##
 ## CommandElementDescription()
 ## - description for commands
+## $1: print mode
 ##
 CommandElementDescription() {
-    case $TARGET in
+    case $1 in
         adoc)
             printf "\n\n== SHELL COMMANDS\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/commands.adoc
@@ -77,7 +78,7 @@ CommandElementDescription() {
             ;;
         ansi | text*)
             printf "  "
-            PrintEffect bold "SHELL COMMANDS" $TARGET
+            PrintEffect bold "SHELL COMMANDS" $1
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/commands.txt
             printf "\n"
@@ -90,13 +91,13 @@ CommandElementDescription() {
 ##
 ## function: CommandInTable()
 ## - main command details for table views
-## $1: ID, mustbe long form
+## $1: ID, long or short
 ## optional $2: print mode (adoc, ansi, text)
 ##
 CommandInTable() {
-    local ID=$1
+    local ID=$(GetCommandID $1)
     if [[ -z ${DMAP_CMD[$ID]:-} ]]; then
-        ConsolePrint error "describe-cmd/table - unknown command '$ID'"
+        ConsolePrint error "command-in-table - unknown command '$ID'"
         return
     fi
 

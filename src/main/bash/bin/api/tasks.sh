@@ -611,10 +611,11 @@ TaskDescription() {
 
 ##
 ## TaskElementDescription()
-## - description for tasks
+## - prints general description for tasks
+## $1: print mode
 ##
 TaskElementDescription() {
-    case $TARGET in
+    case $1 in
         adoc)
             printf "\n\n== TASKS\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/tasks.adoc
@@ -622,7 +623,7 @@ TaskElementDescription() {
             ;;
         ansi | text*)
             printf "  "
-            PrintEffect bold "TASKS" $TARGET
+            PrintEffect bold "TASKS" $1
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/tasks.txt
             printf "\n"
@@ -635,13 +636,13 @@ TaskElementDescription() {
 ##
 ## function: TaskInTable()
 ## - main task details for table views
-## $1: ID, must be long form
+## $1: ID, long or short
 ## optional $2: print mode (adoc, ansi, text)
 ##
 TaskInTable() {
-    local ID=$1
-    if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-task/table - unknown task ID '$ID'"
+    local ID=$(GetTaskID $1)
+    if [[ -z ${ID:-} ]]; then
+        ConsolePrint error "task-in-table - unknown task ID '$ID'"
         return
     fi
 

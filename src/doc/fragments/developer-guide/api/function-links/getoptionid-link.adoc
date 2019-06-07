@@ -11,7 +11,14 @@
 // @author     Sven van der Meer (vdmeer.sven@mykolab.com)
 // @version    0.0.5
 //
-
-
-== RuntimeOptionElementDescription()
-
+//tag:cmd
+//
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_getoptionid>>
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_getoptionid>>
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:options.html#getoptionid[GetOptionID()]
+endif::[]

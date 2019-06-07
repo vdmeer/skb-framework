@@ -150,24 +150,26 @@ DescribeOption() {
 
 
 ##
-## ExitOptionElementDescription()
-## - description for exit options
+## function: GetOptionID()
+## - returns a option ID for a given ID or SHORT, empty string if not declared
+## $1: ID to process
 ##
-ExitOptionElementDescription() {
-    case $TARGET in
-        adoc)
-            printf "\n\n=== Exit OPTIONS\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/exit-options.adoc
-            printf "\n\n"
-            ;;
-        ansi | text*)
-            printf "    "
-            PrintEffect bold "Exit OPTIONS" $TARGET
-            printf "\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/exit-options.txt
-            printf "\n"
-            ;;
-    esac
+GetOptionID() {
+    local ID=$1
+
+    if [[ ! -z ${ID:-} ]]; then
+        if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
+            if [[ ! -z ${DMAP_OPT_SHORT[$ID]:-} ]]; then
+                printf ${DMAP_OPT_SHORT[$ID]}
+            else
+                printf ""
+            fi
+        else
+            printf $ID
+        fi
+    else
+        printf ""
+    fi
 }
 
 
@@ -210,20 +212,61 @@ OptionDescription() {
 ##
 ## OptionElementDescription()
 ## - description for options
+## $1: type, one of: option, exit, runtime
+## $2: print mode
 ##
 OptionElementDescription() {
-    case $TARGET in
-        adoc)
-            printf "\n\n== OPTIONS\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/options.adoc
-            printf "\n\n"
+    case $1 in
+        option)
+            case $2 in
+                adoc)
+                    printf "\n\n== OPTIONS\n"
+                    cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/options.adoc
+                    printf "\n\n"
+                    ;;
+                ansi | text*)
+                    printf "  "
+                    PrintEffect bold "OPTIONS" $2
+                    printf "\n"
+                    cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/options.txt
+                    printf "\n"
+                    ;;
+            esac
             ;;
-        ansi | text*)
-            printf "  "
-            PrintEffect bold "OPTIONS" $TARGET
-            printf "\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/options.txt
-            printf "\n"
+        exit)
+            case $2 in
+                adoc)
+                    printf "\n\n=== Exit OPTIONS\n"
+                    cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/exit-options.adoc
+                    printf "\n\n"
+                    ;;
+                ansi | text*)
+                    printf "    "
+                    PrintEffect bold "Exit OPTIONS" $2
+                    printf "\n"
+                    cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/exit-options.txt
+                    printf "\n"
+                    ;;
+            esac
+            ;;
+        runtime)
+            case $2 in
+                adoc)
+                    printf "\n\n=== Runtime OPTIONS\n"
+                    cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/run-options.adoc
+                    printf "\n\n"
+                    ;;
+                ansi | text*)
+                    printf "    "
+                    PrintEffect bold "Runtime OPTIONS" $2
+                    printf "\n"
+                    cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/run-options.txt
+                    printf "\n"
+                    ;;
+            esac
+            ;;
+        *)
+            ConsolePrint error "optione-element-descr: unknown action $1"
             ;;
     esac
 }
@@ -233,13 +276,13 @@ OptionElementDescription() {
 ##
 ## function: OptionInTable()
 ## - main option details for table views
-## $1: ID, mustbe long form
+## $1: ID, long or short
 ## optional $2: print mode (adoc, ansi, text)
 ##
 OptionInTable() {
-    local ID=$1
+    local ID=$(GetOptionID $1)
     if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-opt/table - unknown option '$ID'"
+        ConsolePrint error "option-in-table - unknown option '$ID'"
         return
     fi
 
@@ -277,28 +320,5 @@ OptionStatus() {
         exit)   PrintColor green $ORIGIN ;;
         run)    PrintColor light-blue $ORIGIN ;;
         *)      ConsolePrint error "describe-opt/status - unknown origin '$ORIGIN'"
-    esac
-}
-
-
-
-##
-## RuntimeOptionElementDescription()
-## - description for exit options
-##
-RuntimeOptionElementDescription() {
-    case $TARGET in
-        adoc)
-            printf "\n\n=== Runtime OPTIONS\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/run-options.adoc
-            printf "\n\n"
-            ;;
-        ansi | text*)
-            printf "    "
-            PrintEffect bold "Runtime OPTIONS" $TARGET
-            printf "\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/run-options.txt
-            printf "\n"
-            ;;
     esac
 }

@@ -18,7 +18,7 @@ Collection of functions for options.
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/describeoption.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/exitoptionelementdescription.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/getoptionid.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/optiondescription.adoc[leveloffset=+1]
 
@@ -27,5 +27,3 @@ include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/optione
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/optionintable.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/optionstatus.adoc[leveloffset=+1]
-
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/runtimeoptionelementdescription.adoc[leveloffset=+1]

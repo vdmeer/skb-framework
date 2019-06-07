@@ -266,9 +266,10 @@ ParameterDescription() {
 ##
 ## ParameterElementDescription()
 ## - description for parameters
+## $1: print mode
 ##
 ParameterElementDescription() {
-    case $TARGET in
+    case $1 in
         adoc)
             printf "\n\n== PARAMETERS\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/parameters.adoc
@@ -276,7 +277,7 @@ ParameterElementDescription() {
             ;;
         ansi | text*)
             printf "  "
-            PrintEffect bold "PARAMETERS" $TARGET
+            PrintEffect bold "PARAMETERS" $1
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/parameters.txt
             printf "\n"
@@ -289,13 +290,13 @@ ParameterElementDescription() {
 ##
 ## function: ParameterInTable()
 ## - main parameter details for table views
-## $1: ID
+## $1: ID, any spelling
 ## optional $2: print mode (adoc, ansi, text)
 ##
 ParameterInTable() {
-    local ID=$1
+    local ID=$(GetParameterID $1)
     if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-parameter/table - unknown '$ID'"
+        ConsolePrint error "parameter-in-table - unknown '$ID'"
         return
     fi
 

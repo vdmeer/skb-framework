@@ -14,5 +14,57 @@
 
 
 == CommandInTable()
+_string CommandInTable( $1, [$2] )_ - returns main command details for table views.
+
+This function prints the command long- and short name, an argument if declared, and a padding in one line.
+No newline will be printed.
+Command names will be formatted using the requested print mode (_$2_) or the set print mode of the application.
+The padding is calculated using the setting of _CONSOLE_MAP["CMD_PADDING"]_ and the length of the text line.
+The return is realized as print.
+
+
+*Parameters*
+
+* `$1`, _string_ - the command identifier (name), long- or short form
+* `$2`, _string_, optional - an optional print mode, standard setting used if not present.
+
+
+*Return*
+
+* _string_, the line with a leading space, command with long- and short name, an argument if declared, and padding
+
+*Errors*
+
+* For unknown command identifier
+* For unknown print mode
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/describecommand-link.adoc[]
+to get the formatted command details.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+for throwing errors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenumber]
+----
+ComandInTable history
+----
+
+The example above calls he function for the command _history_.
+Possible return values are shown below:
+
+[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+----
+⎵!,⎵history⎵NUMBER⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+⎵*!*,⎵*history*⎵<span style="color: #0000FF">NUMBER</span>⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+----
+
+The first line shows plain text, the second line ANSI formatted text.
 
 

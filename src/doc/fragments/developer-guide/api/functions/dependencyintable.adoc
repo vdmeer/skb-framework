@@ -14,5 +14,57 @@
 
 
 == DependencyInTable()
+_string DependencyInTable( $1, [$2] )_ - returns main dependency details for table views.
+
+This function prints the dependency name and a padding in one line.
+No newline will be printed.
+Dependency names will be formatted using the requested print mode (_$2_) or the set print mode of the application.
+The padding is calculated using the setting of _CONSOLE_MAP["DEP_PADDING"]_ and the length of the text line.
+The return is realized as print.
+
+
+*Parameters*
+
+* `$1`, _string_ - the dependency identifier (name), long- or short form
+* `$2`, _string_, optional - an optional print mode, standard setting used if not present.
+
+
+*Return*
+
+* _string_, the line with a leading space, dependency name and padding
+
+*Errors*
+
+* For unknown dependency identifier
+* For unknown print mode
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/describedependency-link.adoc[]
+to get the formatted dependency details.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+for throwing errors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenumber]
+----
+DependencyInTable asciidoctor
+----
+
+The example above calls he function for the dependency _asciidoctor_.
+Possible return values are shown below:
+
+[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+----
+⎵asciidoctor⎵⎵⎵⎵⎵⎵⎵⎵⎵
+⎵asciidoctor⎵⎵⎵⎵⎵⎵⎵⎵⎵
+----
+
+The first line shows plain text, the second line ANSI formatted text.
 
 

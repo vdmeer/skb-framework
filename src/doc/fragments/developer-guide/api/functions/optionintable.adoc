@@ -14,5 +14,60 @@
 
 
 == OptionInTable()
+_string OptionInTable( $1, [$2] )_ - returns main option details for table views.
+
+This function prints the option short name if declared, the option long name, an argument if declared, and a padding in one line.
+No newline will be printed.
+Option names will be formatted using the requested print mode (_$2_) or the set print mode of the application.
+The padding is calculated using the setting of _CONSOLE_MAP["OPT_PADDING"]_ and the length of the text line.
+The return is realized as print.
+
+
+*Parameters*
+
+* `$1`, _string_ - the option identifier (name), long- or short form
+* `$2`, _string_, optional - an optional print mode, standard setting used if not present.
+
+
+*Return*
+
+* _string_, the line with a leading space, short name if declared, long name, argument if declared, and padding
+
+*Errors*
+
+* For unknown option identifier
+* For unknown print mode
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getoptionid-link.adoc[]
+to get the option identifier.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/describeoption-link.adoc[]
+to get the formatted option details.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+for throwing errors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenumber]
+----
+OptionInTable task-level
+----
+
+The example above calls he function for the option _task-level_.
+Possible return values are shown below:
+
+[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+----
+⎵-T,⎵--task-level⎵LEVEL⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+⎵*-T*,⎵*--task-level*⎵<span style="color: #0000FF">LEVEL</span>⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+----
+
+The first line shows plain text, the second line ANSI formatted text.
 
 

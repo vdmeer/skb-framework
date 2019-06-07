@@ -14,4 +14,38 @@
 
 
 == CommandElementDescription()
+_void CommandElementDescription( $1 )_ - prints general description for commands.
+
+This function prints text describing commands in general.
+The text is formatting for the print mode _$1_.
+The actual text is taken from _CONFIG_MAP["MANUAL_SRC"]}/elements/commands_, with _$1_ as file extension
+This function is used by the task _describe-element_.
+
+
+*Parameters*
+
+* `$1`, _string_ - the print mode for text formatting.
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+for throwing errors.
+
+
+*External Dependencies*
+
+* `cat` to print the contents of the documentation file.
+
+
+*Examples*
+
+[source%nowrap,bash,linenumber]
+----
+CommandElementDescription ansi
+----
+
+The example above will print the text with ANSI formatting.
+
 

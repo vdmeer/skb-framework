@@ -170,7 +170,6 @@ done
 if [[ ! -n "$PRINT_MODE" ]]; then
     PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
 fi
-TARGET=$PRINT_MODE
 
 if [[ "$ALL" == "yes" || $CLI_SET == false ]]; then
     COMMANDS=yes
@@ -192,33 +191,33 @@ fi
 ConsolePrint info "de: starting task"
 
 if [[ "$OPTIONS" == "yes" ]]; then
-    OptionElementDescription
-    RuntimeOptionElementDescription
-    ExitOptionElementDescription
+    OptionElementDescription option $PRINT_MODE
+    OptionElementDescription runtime $PRINT_MODE
+    OptionElementDescription exit $PRINT_MODE
 fi
 
 if [[ "$PARAMETERS" == "yes" ]]; then 
-    ParameterElementDescription
+    ParameterElementDescription $PRINT_MODE
 fi
 
 if [[ "$TASKS" == "yes" ]]; then
-    TaskElementDescription
+    TaskElementDescription $PRINT_MODE
 fi
 
 if [[ "$DEPENDENCIES" == "yes" ]]; then
-    DependencyElemendDescription
+    DependencyElementDescription $PRINT_MODE
 fi
 
 if [[ "$COMMANDS" == "yes" ]]; then
-    CommandElementDescription
+    CommandElementDescription $PRINT_MODE
 fi
 
 if [[ "$EXITSTATUS" == "yes" ]]; then
-    ExitStatusElementDescription
+    ExitStatusElementDescription $PRINT_MODE
 fi
 
 if [[ "$SCENARIOS" == "yes" ]]; then
-    ScenarioElementDescription
+    ScenarioElementDescription $PRINT_MODE
 fi
 
 ConsolePrint info "de: done"

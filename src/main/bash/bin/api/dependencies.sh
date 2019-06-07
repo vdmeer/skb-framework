@@ -108,11 +108,12 @@ DependencyDescription() {
 
 
 ##
-## DependencyElemendDescription()
+## DependencyElementDescription()
 ## - description for dependencies
+## $1: print mode
 ##
-DependencyElemendDescription() {
-    case $TARGET in
+DependencyElementDescription() {
+    case $1 in
         adoc)
             printf "\n\n== DEPENDENCIES\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/dependencies.adoc
@@ -120,7 +121,7 @@ DependencyElemendDescription() {
             ;;
         ansi | text*)
             printf "  "
-            PrintEffect bold "DEPENDENCIES" $TARGET
+            PrintEffect bold "DEPENDENCIES" $1
             printf "\n"
             cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/dependencies.txt
             printf "\n"
@@ -139,7 +140,7 @@ DependencyElemendDescription() {
 DependencyInTable() {
     local ID=$1
     if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-dep/table - unknown dependency '$ID'"
+        ConsolePrint error "dependency-in-table - unknown dependency '$ID'"
         return
     fi
 
