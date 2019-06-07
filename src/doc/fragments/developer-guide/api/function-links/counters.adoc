@@ -12,11 +12,11 @@
 // @version    0.0.5
 //
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_resetcounter>>
+<<_counters>>
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_resetcounter>>
+<<_counters>>
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:misc.html#resetcounter[ResetCounter()]
+link:misc.html#counters[Counters()]
 endif::[]

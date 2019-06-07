@@ -14,25 +14,37 @@
 
 
 == GetScenarioID()
-Returns the identifier (name) of a scenario for a given input string.
-
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-
-| Arguments
-| Return (print)
-
-| $1: the input string to test for a scenario identifier
-| Success: long form of the scenario
-
-Error: empty string
+_String GetScenarioID( $1 )_ - returns a scenario identifier (name) for a given short or long name.
 
 
-|===
+*Parameters*:
+
+* `$1`, _string_ - name to process, which can be the scenario's short or long name.
 
 
-[example]
-====
-id=$(GetScenarioID "string")
-====
+*Return*:
+
+* _string_ - the scenario name, empty if not found, i.e. no scenario is declared for the given identifier.
+    The return is realized as a print of the found name or an empty string.
+
+
+*Examples*
+
+[source%nowrap,bash,linenumber]
+----
+SCENARIO_ID=$(GetScenarioID "my-name")
+if [[ -z ${SCENARIO_ID:-} ]]; then
+    # some error
+else
+    # some success
+fi
+----
+
+The example above calls this function to return the scenarios identifier for the string _my-name_ in line 1.
+If the scenario was found, _SCENARIO_ID_ will contain the name.
+Otherwise, _SCENARIO_ID_ will be empty.
+The lines 2-6 test the return value.
+In line 3 we can add some code for the error case.
+In line 5 we can add some code for the success case.
+
 

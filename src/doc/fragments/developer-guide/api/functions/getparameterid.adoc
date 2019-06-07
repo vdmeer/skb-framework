@@ -14,17 +14,17 @@
 
 
 == GetParameterID()
-_String GetParameterID( $1 )_ - returns a parameter identifier (name) for name.
+_String GetParameterID( $1 )_ - returns a parameter identifier (name) for a given name.
 
 
 *Parameters*:
 
-* `$1` - String with the identifier to process, can be in upper or lower case or mixed spelling.
+* `$1`, _string_ - name to process, can be in upper or lower case or mixed spelling.
 
 
 *Return*:
 
-* _String_ - the parameter name, empty if not found, i.e. no parameter is declared for the given identifier.
+* _string_ - the parameter name, empty if not found, i.e. no parameter is declared for the given identifier.
     The return is realized as a print of the found name or an empty string.
 
 
@@ -33,7 +33,7 @@ _String GetParameterID( $1 )_ - returns a parameter identifier (name) for name.
 [source%nowrap,bash,linenumber]
 ----
 PARAM_ID=$(GetParamaterID "my-name")
- if [[ -z ${PARAM_ID:-} ]]; then
+if [[ -z ${PARAM_ID:-} ]]; then
     # some error
 else
     # some success
@@ -46,5 +46,4 @@ Otherwise, _PARAM_ID_ will be empty.
 The lines 2-6 test the return value.
 In line 3 we can add some code for the error case.
 In line 5 we can add some code for the success case.
-
 
