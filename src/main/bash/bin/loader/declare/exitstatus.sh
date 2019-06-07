@@ -40,13 +40,13 @@ declare -A DMAP_ES_DESCR                # map [id]="descr-tag-line"
 ## - declares exit-status
 ##
 DeclareExitStatus() {
+    Counters reset errors
+
     if [[ ! -d $FW_HOME/${FW_PATH_MAP["EXITSTATUS"]} ]]; then
         ConsolePrint error "declare-exitstatus - did not find option directory, tried \$FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}"
         ConsolePrint info "done"
     else
         ConsolePrint debug "building new declaration map from directory: \$FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}"
-        ResetCounter errors
-
         local file
         local ID
         local PROBLEM

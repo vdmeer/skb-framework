@@ -132,7 +132,7 @@ DeclareParametersOrigin() {
 ##
 DeclareParameters() {
     ConsolePrint info "declare parameters"
-    ResetCounter errors
+    Counters reset errors
 
     DeclareParametersOrigin FW_HOME
     if [[ "${CONFIG_MAP["FW_HOME"]}" != "${CONFIG_MAP["APP_HOME"]}" ]]; then

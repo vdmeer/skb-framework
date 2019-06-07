@@ -47,11 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ResetCounter errors
-ResetCounter warnings
 
 
 ##
@@ -354,7 +351,7 @@ BuildTargetSet(){
 ##
 ############################################################################################
 ConsolePrint info "mts: starting task"
-ResetCounter errors
+Counters reset errors
 LEVEL=${CONFIG_MAP["TASK_LEVEL"]}   ## get task level for local prints
 
 

@@ -142,7 +142,7 @@ DeclareDependenciesOrigin() {
 ##
 DeclareDependencies() {
     ConsolePrint info "declare dependencies"
-    ResetCounter errors
+    Counters reset errors
 
     DeclareDependenciesOrigin FW_HOME
     if [[ "${CONFIG_MAP["FW_HOME"]}" != "${CONFIG_MAP["APP_HOME"]}" ]]; then

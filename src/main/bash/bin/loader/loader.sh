@@ -137,9 +137,6 @@ CONFIG_MAP["SHELL_SNP"]="off"                       # shell shows prompt, change
 ##
 #tag::core-includes[]
 source $FW_HOME/bin/api/_include
-ResetCounter errors
-ResetCounter warnings
-
 source $FW_HOME/bin/loader/init/parse-cli.sh
 #end::core-includes[]
 

@@ -576,7 +576,7 @@ ProcessTaskReqFile() {
 ## - process all tasks
 ##
 ProcessTasks() {
-    ResetCounter errors
+    Counters reset errors
     ConsolePrint info "process tasks"
 
     local ID

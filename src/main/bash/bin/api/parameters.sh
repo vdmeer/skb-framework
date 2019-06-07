@@ -233,7 +233,7 @@ ParameterDefvalueDescription() {
 ## - describes the parameter description
 ## $1: parameter ID
 ## $2: indentation adjustment, 0 or empty for none
-## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
+## $3: set to anything to have no trailing padding (the $2 to a number, e.g. 0)
 ##
 ParameterDescription() {
     local ID=$1

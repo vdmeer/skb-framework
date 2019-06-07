@@ -50,11 +50,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ResetCounter errors
-ResetCounter warnings
 
 
 ##
@@ -367,7 +364,7 @@ ConsolePrint info "bdm: starting task"
 ValidateSrc(){
     STRICT=${CONFIG_MAP["STRICT"]}
     CONFIG_MAP["STRICT"]=on
-    ResetCounter errors
+    Counters reset errors
 
     set +e
     ${DMAP_TASK_EXEC["validate-installation"]} --strict --msrc

@@ -222,7 +222,7 @@ DeclareScenarios() {
     local COUNT=1
 
     ConsolePrint info "declare scenarios"
-    ResetCounter errors
+    Counters reset errors
 
     DeclareScenarioOrigin ${CONFIG_MAP["FW_HOME"]} FW_HOME
     if [[ "${CONFIG_MAP["FW_HOME"]}" != ${CONFIG_MAP["APP_HOME"]} ]]; then

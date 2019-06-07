@@ -42,15 +42,13 @@ declare -A DMAP_CMD_DESCR               # map [id]="descr-tag-line"
 ##
 DeclareCommands() {
     ConsolePrint info "declare commands"
-    ResetCounter errors
+    Counters reset errors
 
     if [[ ! -d $FW_HOME/${FW_PATH_MAP["COMMANDS"]} ]]; then
         ConsolePrint error "declare-cmd - did not find command directory, tried \$FW_HOME/${FW_PATH_MAP["COMMANDS"]}"
         ConsolePrint info "done"
     else
         ConsolePrint debug "building new declaration map from directory: \$FW_HOME/${FW_PATH_MAP["COMMANDS"]}"
-        ResetCounter errors
-
         local file
         local ID
         local COMMAND

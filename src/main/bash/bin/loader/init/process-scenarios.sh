@@ -104,7 +104,7 @@ ProcessScenarioReqTask() {
 ## - process all scenarios
 ##
 ProcessScenarios() {
-    ResetCounter errors
+    Counters reset errors
     ConsolePrint info "process scenarios"
 
     local ID

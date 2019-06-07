@@ -67,8 +67,6 @@ CONFIG_MAP["RUNNING_IN"]="shell"
 source $FW_HOME/bin/api/_include
 source $FW_HOME/bin/shell/history.sh
 
-ResetCounter errors
-ResetCounter warnings
 ConsolePrint message "\n"
 #end::include[]
 

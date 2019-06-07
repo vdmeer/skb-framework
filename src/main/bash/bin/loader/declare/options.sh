@@ -42,15 +42,13 @@ declare -A DMAP_OPT_DESCR               # map [id]="descr-tag-line"
 ##
 DeclareOptions() {
     ConsolePrint info "declare options"
-    ResetCounter errors
+    Counters reset errors
 
     if [[ ! -d $FW_HOME/${FW_PATH_MAP["OPTIONS"]} ]]; then
         ConsolePrint error "declare-opt - did not find option directory, tried \$FW_HOME/${FW_PATH_MAP["OPTIONS"]}"
         ConsolePrint info "done"
     else
         ConsolePrint debug "building new declaration map from directory: \$FW_HOME/${FW_PATH_MAP["OPTIONS"]}"
-        ResetCounter errors
-
         local file
         local ID
         local SHORT

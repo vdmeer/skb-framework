@@ -51,11 +51,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ResetCounter errors
-ResetCounter warnings
 
 
 ##
@@ -158,7 +155,7 @@ esac
 ##
 ############################################################################################
 ConsolePrint info "dfwt: starting task"
-ResetCounter errors
+Counters reset errors
 
 FW_TOOL_FILE="${CONFIG_MAP[SKB_FW_TOOL]}"
 ConsolePrint debug "FW Tool file: $FW_TOOL_FILE"

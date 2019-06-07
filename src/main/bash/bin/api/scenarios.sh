@@ -259,9 +259,9 @@ ExecuteScenario() {
     while IFS='' read -r line || [[ -n "$line" ]]; do
         LENGTH=${#line}
         if [[ "${line:0:1}" != "#" ]] && (( LENGTH > 1 )); then
-            ResetCounter errors
+            Counters reset errors
             ExecuteTask "$line" in-scenario
-            ERRORS=$(GetCounter errors)
+            ERRORS=$(Counters get errors)
             ES_ERRNO=$((ES_ERRNO + ERRORS))
             if $(ConsoleHas errors); then
                 ConsolePrint error "error in line $COUNT of senario $SCENARIO"

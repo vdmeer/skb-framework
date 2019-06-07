@@ -47,11 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ResetCounter errors
-ResetCounter warnings
 
 
 ##
@@ -112,7 +109,7 @@ done
 ##
 ############################################################################################
 ConsolePrint info "bdh: starting task"
-ResetCounter errors
+Counters reset errors
 
 
 if [[ $DO_CLEAN == true ]]; then

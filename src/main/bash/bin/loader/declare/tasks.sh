@@ -262,7 +262,7 @@ DeclareTasksOrigin() {
 ##
 DeclareTasks() {
     ConsolePrint info "declare tasks"
-    ResetCounter errors
+    Counters reset errors
 
     DeclareTasksOrigin FW_HOME
     if [[ "${CONFIG_MAP["FW_HOME"]}" != ${CONFIG_MAP["APP_HOME"]} ]]; then

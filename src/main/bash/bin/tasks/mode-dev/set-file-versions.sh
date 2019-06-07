@@ -51,11 +51,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ResetCounter errors
-ResetCounter warnings
 
 
 ##
@@ -177,7 +174,7 @@ fi
 ##
 ############################################################################################
 ConsolePrint info "sfv: starting task"
-ResetCounter errors
+Counters reset errors
 
 echo $BUILD_FILE
 echo $DIRECTORY

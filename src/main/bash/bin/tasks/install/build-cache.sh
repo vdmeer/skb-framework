@@ -51,11 +51,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ResetCounter errors
-ResetCounter warnings
 
 
 ##
@@ -256,7 +253,7 @@ fi
 ##
 ############################################################################################
 ConsolePrint info "bdc: starting task"
-ResetCounter errors
+Counters reset errors
 
 
 PRINT_MODES="ansi text"

@@ -30,38 +30,87 @@
 
 
 ##
-## function: GetCounter()
-## - returns a counter depending on what part of app we run in (loader, shell, task)
-## $1: counter to return, one of: errors, warnings
-## return: print counter
+## function: Counters()
+## - manages counters
+## $1: action: get, reset, increase
+## $2: counter: errors, warnings
+## return: print on get
 ##
-GetCounter(){
-    local COUNTER
+Counters(){
     case $1 in
-        errors)
-            case ${CONFIG_MAP["RUNNING_IN"]} in
-                loader) COUNTER=$LOADER_ERRORS ;;
-                shell)  COUNTER=$SHELL_ERRORS;;
-                task)   COUNTER=$TASK_ERRORS;;
+        get)
+            local COUNTER
+            case $2 in
+                errors)
+                    case ${CONFIG_MAP["RUNNING_IN"]} in
+                        loader) COUNTER=$LOADER_ERRORS ;;
+                        shell)  COUNTER=$SHELL_ERRORS;;
+                        task)   COUNTER=$TASK_ERRORS;;
+                    esac
+                    printf $COUNTER
+                    return
+                    ;;
+                warnings)
+                    case ${CONFIG_MAP["RUNNING_IN"]} in
+                        loader) COUNTER=$LOADER_WARNINGS;;
+                        shell)  COUNTER=$SHELL_WARNINGS;;
+                        task)   COUNTER=$TASK_WARNINGS;;
+                    esac
+                    printf $COUNTER
+                    return
+                    ;;
+                *)
+                    ConsolePrint error "counters/get: unknown counter $2"
+                    printf ""
+                    ;;
             esac
-            printf $COUNTER
-            return
             ;;
-        warnings)
-            case ${CONFIG_MAP["RUNNING_IN"]} in
-                loader) COUNTER=$LOADER_WARNINGS;;
-                shell)  COUNTER=$SHELL_WARNINGS;;
-                task)   COUNTER=$TASK_WARNINGS;;
+        increase)
+            case $2 in
+                errors)
+                    case ${CONFIG_MAP["RUNNING_IN"]} in
+                        loader) LOADER_ERRORS=$(($LOADER_ERRORS + 1));;
+                        shell)  SHELL_ERRORS=$(($SHELL_ERRORS + 1));;
+                        task)   TASK_ERRORS=$(($TASK_ERRORS + 1));;
+                    esac
+                    ;;
+                warnings)
+                    case ${CONFIG_MAP["RUNNING_IN"]} in
+                        loader) LOADER_WARNINGS=$(($LOADER_WARNINGS + 1));;
+                        shell)  SHELL_WARNINGS=$(($SHELL_WARNINGS + 1));;
+                        task)   TASK_WARNINGS=$(($TASK_WARNINGS + 1));;
+                    esac
+                    ;;
+                *)
+                    ConsolePrint error "counters/increase: unknown counter $2"
+                    ;;
             esac
-            printf $COUNTER
-            return
             ;;
-        *)
-            ConsolePrint error "increase-counter: unknown counter $1"
+        reset)
+            case $2 in
+                errors)
+                    case ${CONFIG_MAP["RUNNING_IN"]} in
+                        loader) LOADER_ERRORS=0 ;;
+                        shell)  SHELL_ERRORS=0 ;;
+                        task)   TASK_ERRORS=0 ;;
+                    esac
+                    ;;
+                warnings)
+                    case ${CONFIG_MAP["RUNNING_IN"]} in
+                        loader) LOADER_WARNINGS=0 ;;
+                        shell)  SHELL_WARNINGS=0 ;;
+                        task)   TASK_WARNINGS=0 ;;
+                    esac
+                    ;;
+                *)
+                    ConsolePrint error "counters/reset: unknown counter $2"
+                    ;;
+            esac
             ;;
     esac
-    printf ""
 }
+Counters reset errors
+Counters reset warnings
 
 
 
@@ -94,35 +143,6 @@ GetQuiet(){
 
 
 ##
-## function: IncreaseCounter()
-## - increases a counter depending on what part of app we run in (loader, shell, task)
-## $1: counter to increase, one of: errors, warnings
-##
-IncreaseCounter(){
-    case $1 in
-        errors)
-            case ${CONFIG_MAP["RUNNING_IN"]} in
-                loader) LOADER_ERRORS=$(($LOADER_ERRORS + 1));;
-                shell)  SHELL_ERRORS=$(($SHELL_ERRORS + 1));;
-                task)   TASK_ERRORS=$(($TASK_ERRORS + 1));;
-            esac
-            ;;
-        warnings)
-            case ${CONFIG_MAP["RUNNING_IN"]} in
-                loader) LOADER_WARNINGS=$(($LOADER_WARNINGS + 1));;
-                shell)  SHELL_WARNINGS=$(($SHELL_WARNINGS + 1));;
-                task)   TASK_WARNINGS=$(($TASK_WARNINGS + 1));;
-            esac
-            ;;
-        *)
-            ConsolePrint error "increase-counter: unknown counter $1"
-            ;;
-    esac
-}
-
-
-
-##
 ## function: PathToSystemPath()
 ## - converts a path to Cygwin
 ## $1: path to convert
@@ -135,35 +155,6 @@ PathToSystemPath() {
     else
         echo $1
     fi
-}
-
-
-
-##
-## function: ResetCounter()
-## - resets a counter depending on what part of app we run in (loader, shell, task)
-## $1: counter to reset, one of: errors, warnings
-##
-ResetCounter(){
-    case $1 in
-        errors)
-            case ${CONFIG_MAP["RUNNING_IN"]} in
-                loader) LOADER_ERRORS=0 ;;
-                shell)  SHELL_ERRORS=0 ;;
-                task)   TASK_ERRORS=0 ;;
-            esac
-            ;;
-        warnings)
-            case ${CONFIG_MAP["RUNNING_IN"]} in
-                loader) LOADER_WARNINGS=0 ;;
-                shell)  SHELL_WARNINGS=0 ;;
-                task)   TASK_WARNINGS=0 ;;
-            esac
-            ;;
-        *)
-            ConsolePrint error "console-reset: unknown counter $1"
-            ;;
-    esac
 }
 
 

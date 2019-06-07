@@ -196,7 +196,7 @@ ConsolePrint() {
 
     case $1 in
         fatal)
-            IncreaseCounter errors
+            Counters increase errors
             case $(GetLevel) in
                 all | fatal | error | warn-strict | warn | info | debug | trace)
                     SPRINT=$(printf "  -> [")
@@ -210,7 +210,7 @@ ConsolePrint() {
             esac
             ;;
         error)
-            IncreaseCounter errors
+            Counters increase errors
             case $(GetLevel) in
                 all | error | warn-strict | warn | info | debug | trace)
                     SPRINT=$(printf "  -> [")
@@ -226,7 +226,7 @@ ConsolePrint() {
         warn-strict)
             if [[ ${CONFIG_MAP["STRICT"]} == "on" ]]; then
                 ## all warnings are errors
-                IncreaseCounter errors
+                Counters increase errors
                 case $(GetLevel) in
                     all | error | warn-strict | warn | info | debug | trace)
                         SPRINT=$(printf "  -> [")
@@ -242,7 +242,7 @@ ConsolePrint() {
                 esac
             else
                 ## warnings are just warnings
-                IncreaseCounter warnings
+                Counters increase warnings
                 case $(GetLevel) in
                     all | warn-strict | warn | info | debug | trace)
                         SPRINT=$(printf "  -> [")
@@ -259,7 +259,7 @@ ConsolePrint() {
             fi
             ;;
         warn)
-            IncreaseCounter warnings
+            Counters increase warnings
             case $(GetLevel) in
                 all | warn | info | debug | trace)
                     SPRINT=$(printf " -> [")

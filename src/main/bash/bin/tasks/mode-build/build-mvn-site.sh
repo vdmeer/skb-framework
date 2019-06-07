@@ -47,11 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ResetCounter errors
-ResetCounter warnings
 
 
 ##
@@ -318,7 +315,7 @@ TestSite(){
 ##
 ############################################################################################
 ConsolePrint info "bdms: starting task"
-ResetCounter errors
+Counters reset errors
 
 declare -A MVN_SITE_LIST
 declare -A MVN_SITE_PATH

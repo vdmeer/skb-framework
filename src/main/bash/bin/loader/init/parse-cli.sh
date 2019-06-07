@@ -37,7 +37,7 @@
 ##
 ParseCli() {
     ConsolePrint info "parse-cli"
-    ResetCounter errors
+    Counters reset errors
 
     local CLI_OPTIONS=ABCcDd:e:hIL:mo:p:P:r:sS:T:vV
 
