@@ -17,19 +17,20 @@
 This task will show the application manual.
 If no filters are used, i.e. no argument is provided, the text manual for the current print mode will be shown.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -h | --help        print help screen and exit
+   options
+   *-h* | *--help*              print help screen and exit
 
    filters
-   -A | --all               all manual versions
-        --adoc              ADOC manual
-        --ansi              text manual with ansi colors andeffects
-        --html              HTML manual
-        --manp              manual page skb-framework(1)
-        --pdf               PDF manual
-        --text              plain text manual
-        --text-anon         annotated text manual
+   *-A* | *--all*               all manual versions
+        *--adoc*              ADOC manual
+        *--ansi*              text manual with ansi colors andeffects
+        *--html*              HTML manual
+        *--manp*              manual page skb-framework(1)
+        *--pdf*               PDF manual
+        *--text*              plain text manual
+        *--text-anon*         annotated text manual
 ----
 
 The filters shown above can be used to show different versions of the manual.

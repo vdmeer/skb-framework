@@ -35,13 +35,14 @@ The general options, shown below, allow to direct the behavior of the task.
 * _test_ - once a site is successfully build, it can be tested.
     Testing here means to start a web browser with the site's `index.html` file.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -b | --build            builds site(s), requires a target and site ID or all
-   -c | --clean            cleans all site(s)
-   -h | --help             print help screen and exit
-   -l | --list             list sites
-   -T | --test             test sites, open in browser
+   options
+   *-b* | *--build*            builds site(s), requires a target and site ID or all
+   *-c* | *--clean*            cleans all site(s)
+   *-h* | *--help*             print help screen and exit
+   *-l* | *--list*             list sites
+   *-T* | *--test*             test sites, open in browser
 ----
 
 === Target Options
@@ -53,12 +54,13 @@ The task can build a Maven site for several targets:
 * _site_ - calls Maven to build the site, but not stage it
 * _stage_ - calls Maven to stage a site that has been prior built successfully
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -t | --targets          mvn: all targets
-        --ad               mvn: site:attach-descriptor
-        --site             mvn: site
-        --stage            mvn: site:stage
+   targets
+   *-t* | *--targets*          mvn: all targets
+        *--ad*               mvn: site:attach-descriptor
+        *--site*             mvn: site
+        *--stage*            mvn: site:stage
 ----
 
 There is no default target.
@@ -71,10 +73,11 @@ Filters allow to specify which of the loaded (and available) sites should be bui
 * _all_ - will build all sites, in the oder they are listed (alphabetically)
 * _id_ - can be used to build a specific site
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -A | --all              all sites
-   -i | --id ID            site identifier for building
+   filters
+   *-A* | *--all*              all sites
+   *-i* | *--id* <span style="color: #5C5CFF">ID</span>            site identifier for building
 ----
 
 There is no default filter.
@@ -86,21 +89,22 @@ Further options exist to configure the runtime behavior of Maven:
 
 * _profile_ - call Maven with a specific profile setting, e.g. when the site definitions in the POM file are within a profile
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-        --profile PROFILE  mvn: use profile PROFILE
+   Maven options
+        *--profile* <span style="color: #5C5CFF">PROFILE</span>  mvn: use profile PROFILE
 ----
 
 
 
 === Examples
 The framework's own site can be build using this task.
-When correctly configured, the site can be listed
+When correctly configured, the site can be listed.
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 build-mvn-site --list
-====
+----
 
 This will show (with a real path instead of _SOME_PATH_)
 ----
@@ -110,10 +114,10 @@ This will show (with a real path instead of _SOME_PATH_)
 
 The site can then be build using
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 build-mvn-site --build --id fw
-====
+----
 
 The task and Maven output will be similar to:
 ----
@@ -164,9 +168,9 @@ If it does not exist, the task will build the site purely using Maven.
 If it does exist, the task will source the file and call two functions the file must provide.
 This means that the file can
 
-* Use anything a normal _bash_ script can do at any place in the file
-* Use anything a normal _bash_ script can do inside the two required functions
-* Use the full framework settings and API at any place in the file
+* use anything a normal _bash_ script can do at any place in the file,
+* use anything a normal _bash_ script can do inside the two required functions, and
+* use the full framework settings and API at any place in the file.
 
 The following code block shows the standard contents of the script file with the two required functions:
 

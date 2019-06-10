@@ -86,7 +86,7 @@ while true; do
                 BuildTaskHelpLine c clean   "<none>"        "cleans target set(s) (all or given ID)"    $PRINT_PADDING
                 BuildTaskHelpLine h help    "<none>"        "print help screen and exit"                $PRINT_PADDING
                 BuildTaskHelpLine l list    "<none>"        "list target sets"                          $PRINT_PADDING
-                BuildTaskHelpLine t targets "<targets>"     "list of targets, separated by comma"       $PRINT_PADDING
+                BuildTaskHelpLine t targets "targets"       "list of targets, separated by comma"       $PRINT_PADDING
 
                 printf "\n   filters\n"
                 BuildTaskHelpLine A all     "<none>"    "all target sets"                               $PRINT_PADDING

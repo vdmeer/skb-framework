@@ -23,12 +23,12 @@ The type if the message can be one of
 * _fatal_ for fatal errors, i.e. errors that prevent the framework from running any further.
     The error counter is automatically increased using _IncreaseCounter()_.
     Fatal error messages are prefixed with the string `  -> [Fatal]` (_Fatal_ in dark-red for print mode _ansi).
-    _GetLevel()_ is used to determine the level.
+    _GetSetting()_ is used to determine the level.
     Fatal error messages are then printed in the levels `all`, `fatal`, `error`, `warn-strict`, `warn`, `info`, `debug`, and `trace`.
 * _error_ for all other errors.
     The error counter is automatically increased using _IncreaseCounter()_.
     Error messages are prefixed with the string `⎵⎵->⎵[Error]` (_Error_ in light-red for print mode _ansi).
-    _GetLevel()_ is used to determine the level.
+    _GetSetting()_ is used to determine the level.
     Fatal error messages are then printed in the levels `all`, `error`, `warn-strict`, `warn`, `info`, `debug`, and `trace`.
 * _warn-strict_ for issues that a treated as errors in _strict_ mode but only as warnings if _stric_ mode is not set.
     In _strict_ mode, an error will be printed and the error counter is automatically increased using _IncreaseCounter()_.
@@ -36,34 +36,34 @@ The type if the message can be one of
     The message is prefixed with
         `⎵⎵->⎵[Error/strict]` (_Error_ in red and _strict_ in yellow for print mode _ansi) or
         `⎵⎵->⎵[Warning/strict]` (_Warning_ in yellow and _strict_ in red for print mode _ansi).
-    _GetLevel()_ is used to determine the level.
+    _GetSetting()_ is used to determine the level.
     Messages are then printed in the levels `all`, `warn-strict`, `warn`, `info`, `debug`, and `trace`.
     In _strict_ mode, they are also printed in the level `error`.
 * _warn_ - for warnings of any kind (other than strict warnings as describe above).
     The warning counter is automatically increased using _IncreaseCounter()_.
     Warning messages are prefixed with the string `⎵⎵->⎵[Warning]` (_Warning_ in yellow for print mode _ansi).
-    _GetLevel()_ is used to determine the level.
+    _GetSetting()_ is used to determine the level.
     Warning messages are then printed in the levels `all`, `warn`, `info`, `debug`, and `trace`.
 * _info_ - for tagged information (for information without a tag see _message_).
     These messages should provide more information on the current process.
     Information messages are prefixed with the string `⎵⎵->⎵[Info]` (_Info_ in light-blue for print mode _ansi).
-    _GetLevel()_ is used to determine the level.
+    _GetSetting()_ is used to determine the level.
     Messages are then printed in the levels `all`, `info`, `debug`, and `trace`.
     If the message is `done` (no extra characters or whitespaces), an extra newline will be printed automatically after the message.
 * _debug_ - for debug messages.
     These messages should provide more detail on the current process than _info_ messages.
     Debug messages are prefixed with the string `⎵⎵⎵⎵>⎵` (_>_ in bold for print mode _ansi).
-    _GetLevel()_ is used to determine the level.
+    _GetSetting()_ is used to determine the level.
     Debug messages are then printed in the levels `all`, `debug`, and `trace`.
 * _trace_ - for trace messages.
     These messages should provide more detail on the current process than _debug_ messages.
     This is the most-detailed type.
     Trace messages are prefixed with the string `⎵⎵⎵⎵>⎵` (_>_ in italic for print mode _ansi).
-    _GetLevel()_ is used to determine the level.
+    _GetSetting()_ is used to determine the level.
     Trace messages are then printed in the levels `all` and `trace`.
 * _message_ - any kind of message that should be printed.
     The message in `$2` will simply be printed.
-    _GetQuietl()_ is used to determine if messages should be printed (`on`) or not (`off`).
+    _GetSetting()_ is used to determine if messages should be printed (`on`) or not (`off`).
 
 
 *Parameter*
@@ -85,11 +85,8 @@ The type if the message can be one of
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
 for printing error messages.
 * {blank}
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getlevel-link.adoc[]
-to get the right level.
-* {blank}
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getquiet-link.adoc[]
-to get the right quiet setting.
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getsetting-link.adoc[]
+to get the right level and quiet settings.
 
 
 *Examples*

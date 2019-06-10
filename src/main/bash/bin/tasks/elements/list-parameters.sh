@@ -402,7 +402,7 @@ PrintParameters() {
                 else
                     printf "${PARAM_TABLE[$ID]}"
                 fi
-                ParameterDescription $ID 3 none
+                ParameterTagline $ID 3 none
                 ;;
             table)
                 if [[ -z "${PARAM_TABLE[$ID]:-}" ]]; then
@@ -410,7 +410,7 @@ PrintParameters() {
                 else
                     printf "${PARAM_TABLE[$ID]}"
                 fi
-                ParameterDescription $ID
+                ParameterTagline $ID
                 ParameterStatus $ID $PRINT_MODE
                 ;;
             default-table)
@@ -419,7 +419,7 @@ PrintParameters() {
                 else
                     printf "${PARAM_TABLE[$ID]}"
                 fi
-                printf "%s" "$(ParameterDefvalueDescription $ID)"
+                printf "%s" "$(ParameterDefvalueDescription $ID $PRINT_MODE)"
                 ;;
         esac
         printf "\n"

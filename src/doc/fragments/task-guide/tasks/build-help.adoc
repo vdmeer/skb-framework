@@ -26,10 +26,10 @@ For example, the DEB and RPM distributions should create those files during the 
 The option _clean_ is added by convention.
 It does not actually remove the help files, since this would break the installation of an application.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -c | --clean       added by convention, does nothing
-   -h | --help        print help screen and exit
+   *-c* | *--clean*       added by convention, does nothing
+   *-h* | *--help*        print help screen and exit
 ----
 
 

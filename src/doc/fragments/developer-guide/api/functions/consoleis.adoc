@@ -22,13 +22,13 @@ This function tests the status requested in `$1` and returns
 Several status tests are supported:
 
 * _debug_ - to test if the debug level is set.
-    The actual level tested is taken from _GetLevel()_.
+    The actual level tested is taken from _GetSetting()_.
 * _message_ - to test if setting for quiet.
-    The actual level tested is taken from _GetQuiet()_.
+    The actual level tested is taken from _GetSetting()_.
 * _prompt_ - to test if the shell is permitted to print a prompt.
     The setting tested here is _CONFIG_MAP["SHELL_SNP"]_.
 * _trace_ - to test if the debug level is set.
-    The actual level tested is taken from _GetLevel()_.
+    The actual level tested is taken from _GetSetting()_.
 
 
 *Parameter*
@@ -58,17 +58,14 @@ Several status tests are supported:
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
 for printing error messages.
 * {blank}
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getlevel-link.adoc[]
-to get the right level.
-* {blank}
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getquiet-link.adoc[]
-to get the right quiet setting.
-* {blank}
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
 for printing ANSI colors.
 * {blank}
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
 for printing ANSI text effects.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getsetting-link.adoc[]
+to get the right level and quiet setting.
 
 
 *Examples*

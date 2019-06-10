@@ -101,15 +101,15 @@ When _build_ is used, other general options and filters can be used to direct th
 * _primary_ - build all primary targets, i.e. _src_ and _adoc_
 * _secondary_ - build all secondary targets, i.e. _text_ (plain, ANSI, annotated), _manp_, _html_, and _pdf_
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
--A | --all         set all targets, overwrites other options
--b | --build       builds a manual (manpage), requires a target
--c | --clean       removes all target artifacts
--h | --help        print help screen and exit
--p | --primary     set all primary targets
--s | --secondary   set all secondary targets
--t | --test        test a manual (show results), requires a target
+   *-A* | *--all*         set all targets, overwrites other options
+   *-b* | *--build*       builds a manual (manpage), requires a target
+   *-c* | *--clean*       removes all target artifacts
+   *-h* | *--help*        print help screen and exit
+   *-p* | *--primary*     set all primary targets
+   *-s* | *--secondary*   set all secondary targets
+   *-t* | *--test*        test a manual (show results), requires a target
 ----
 
 
@@ -121,14 +121,14 @@ The target options can be used in any sequence in the command line, the task wil
 For the secondary targets that require _adoc_ to be build, the task will also automatically generate _adoc_ if the file does not exist.
 Text sources (target _src_) are not created automatically, only on request.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
---adoc        secondary target: text versions: ansi, text
---html        secondary target: HTML file
---manp        secondary target: man page file
---pdf         secondary target: PDF file)
---text        secondary target: text versions: ansi, text
---src         primary target: text source files from ADOC
+        *--adoc*        primary target: aggregated ADOC file
+        *--html*        secondary target: HTML file
+        *--manp*        secondary target: man page file
+        *--pdf*         secondary target: PDF file)
+        *--text*        secondary target: text versions: ansi, text, text-anon
+        *--src*         primary target: text source files from ADOC
 ----
 
 
@@ -152,11 +152,11 @@ For selected element types, the element list filters can be used to direct what 
         If this option is used, only the requested dependencies and parameters are listed.
         Requested here means any dependency or parameter requested by a loaded task.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
--I | --install     do list 'install' app mode flavor tasks and scenarios
--l | --loaded      list only loaded tasks and scenarios
--r | --requested   list only requested dependencies and parameters
+   *-i* | *--install*     only list 'install' app mode flavor tasks and scenarios
+   *-l* | *--loaded*      list only loaded tasks and scenarios
+   *-r* | *--requested*   list only requested dependencies and parameters
 ----
 
 
@@ -167,13 +167,13 @@ These filters are negative filters to exclude general (application related) part
 The option name corresponds to the heading in the general manual structure described above.
 The default behavior is to include all general parts.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
---no-authors           do not include authors
---no-bugs              do not include bugs
---no-copying           do not include copying
---no-resources         do not include resources
---no-security          do not include security
+        *--no-authors*           do not include authors
+        *--no-bugs*              do not include bugs
+        *--no-copying*           do not include copying
+        *--no-resources*         do not include resources
+        *--no-security*          do not include security
 ----
 
 
@@ -189,22 +189,22 @@ To give an example: to show all information about tasks do not use any of these 
 To show the general text, but no task list, use _--no-task-list_.
 To no show any information about tasks, use _--no-tasks_.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
---no-commands          do not include commands
---no-command-list      include command text, but no list
---no-deps              include dependency text, but no list
---no-dep-list          do not include dependencies
---no-exitstatus        do not include exit status
---no-exitstatus-list   include exit status text, but no list
---no-options           do not include options
---no-option-list       include option test, but no list
---no-params            do not include parameters
---no-param-list        include parameter text, but no list
---no-scenarios         do not include scenarios
---no-scenario-list     include scenario text, but no list
---no-tasks             do not include tasks
---no-task-list         include task text, but no list
+        *--no-commands*          do not include commands
+        *--no-command-list*      include command text, but no list
+        *--no-deps*              include dependency text, but no list
+        *--no-dep-list*          do not include dependencies
+        *--no-exitstatus*        do not include exit status
+        *--no-exitstatus-list*   include exit status text, but no list
+        *--no-options*           do not include options
+        *--no-option-list*       include option test, but no list
+        *--no-params*            do not include parameters
+        *--no-param-list*        include parameter text, but no list
+        *--no-scenarios*         do not include scenarios
+        *--no-scenario-list*     include scenario text, but no list
+        *--no-tasks*             do not include tasks
+        *--no-task-list*         include task text, but no list
 ----
 
 
@@ -213,19 +213,19 @@ To no show any information about tasks, use _--no-tasks_.
 
 The following example will use the framework tool to convert _adoc_ sources into well-formatted plain text.
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 build-manual --build --src
-====
+----
 
 The following examples builds the targets _adoc_, _text_, _manp_, _html_, and _pdf_.
 All tasks and scenarios will be listed.
 Only requested dependencies and parameters will be listed.
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 build-manual --build --requested --adoc --text --manp --html --pdf
-====
+----
 
 
 

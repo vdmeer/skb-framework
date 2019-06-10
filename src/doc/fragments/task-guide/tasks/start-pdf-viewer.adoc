@@ -17,10 +17,10 @@
 This task starts a PDF viewer with a file to show in it.
 The file can be set with _file_.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -h | --help        print help screen and exit
-   -f | --file FILE   PDF file to open in reader
+   *-h* | *--help*        print help screen and exit
+   *-f* | *--file* <span style="color: #5C5CFF">FILE</span>   PDF file to open in viewer
 ----
 
 The task will test if the file is readable, and throw an error if not.

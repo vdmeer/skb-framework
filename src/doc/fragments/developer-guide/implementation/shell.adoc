@@ -44,8 +44,8 @@ include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=test-parent]
 
 
 === Include
-Next, the shell includes the framework's API functions (lines 1-2) and the functions to maintain its command history (line 3).
-Then the error and warning counters are reset (set to _0_), and a simple new line is printed (if messages are allowed).
+Next, the shell includes the framework's API functions (lines 1) and the functions to maintain its command history (line 2).
+Then, a simple new line is printed (if messages are allowed).
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -154,7 +154,7 @@ include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fwi-tasks-applica
 ----
 
 ==== Comments
-Do nothing if the input starts with the comment character `#` in any variation.
+Do nothing for an empty input line, or if the input starts with the comment character `#` in any variation.
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -232,9 +232,9 @@ include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fws-other]
 The final lines run the actual shell.
 First, input is redirected to `#3` while the shell is running (line 1).
 This allows to read lines from the standard input into the shell.
-Next, the first prompt is displayed (line 2).
-Then the outer loop is called (line 3).
-When the outer loop is finished, the redirection is reverted (line 4).
+Next, the first prompt is displayed (line 2-4).
+Then the outer loop is called (line 5).
+When the outer loop is finished, the redirection is reverted (line 6).
 Now the shell is finished and the process returns to the loader.
 
 [source%nowrap,bash,linenums,subs="attributes+"]

@@ -115,28 +115,32 @@ Counters reset warnings
 
 
 ##
-## function: GetLevel()
-## - returns the (console, log, print) level depending on what part of app we run in (loader, shell, task)
+## function: GetSetting()
+## - returns the a requested setting.
+## $1: the setting, one of: level, quiet
+## return
+## - for "level": the (console, log, print) level depending on what part of app we run in (loader, shell, task)
+## - for "quiet": the (console, log, print) level depending on what part of app we run in (loader, shell, task)
 ##
-GetLevel(){
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader) printf "${CONFIG_MAP["LOADER_LEVEL"]}";;
-        shell)  printf "${CONFIG_MAP["SHELL_LEVEL"]}";;
-        task)   printf "${CONFIG_MAP["TASK_LEVEL"]}";;
-    esac
-}
-
-
-
-##
-## function: GetQuiet()
-## - returns the quiet setting depending on what part of app we run in (loader, shell, task)
-##
-GetQuiet(){
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader) printf "${CONFIG_MAP["LOADER_QUIET"]}";;
-        shell)  printf "${CONFIG_MAP["SHELL_QUIET"]}";;
-        task)   printf "${CONFIG_MAP["TASK_QUIET"]}";;
+GetSetting(){
+    case $1 in
+        level)
+            case ${CONFIG_MAP["RUNNING_IN"]} in
+                loader) printf "${CONFIG_MAP["LOADER_LEVEL"]}";;
+                shell)  printf "${CONFIG_MAP["SHELL_LEVEL"]}";;
+                task)   printf "${CONFIG_MAP["TASK_LEVEL"]}";;
+            esac
+            ;;
+        quiet)
+            case ${CONFIG_MAP["RUNNING_IN"]} in
+                loader) printf "${CONFIG_MAP["LOADER_QUIET"]}";;
+                shell)  printf "${CONFIG_MAP["SHELL_QUIET"]}";;
+                task)   printf "${CONFIG_MAP["TASK_QUIET"]}";;
+            esac
+            ;;
+        *)
+            ConsolePrint error "get-setting: unknown setting $1"
+            ;;
     esac
 }
 

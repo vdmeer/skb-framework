@@ -36,9 +36,9 @@
 ##
 DebugScenario() {
     local ID=${1:-}
-    SCN_ID=$(GetScenarioID $ID)
+    local SCN_ID=$(GetScenarioID $ID)
     if [[ -z ${SCN_ID:-} ]]; then
-        ConsolePrint error "debug-scn - unknown scenario ID '$ID'"
+        ConsolePrint error "debug-scenario - unknown scenario ID '$ID'"
         return
     fi
     ID=$SCN_ID
@@ -104,21 +104,28 @@ DebugScenario() {
 
 ##
 ## DescribeScenario()
-## - describes a scenario using print options and print features
-## $1: scenario id, must be long form
+## - describes a scenario with various options.
+## $1: scenario id, long- or short form
 ## $2: print option: standard, full
 ## $3: print features: none, line-indent, enter, post-line, (adoc, ansi, text*)
 ## optional $4: print mode (adoc, ansi, text)
 ##
 DescribeScenario() {
     local ID=${1:-}
-    if [[ -z ${DMAP_SCN_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-scn - unknown scenario ID '$ID'"
+    local SCN_ID=$(GetScenarioID $ID)
+    if [[ -z ${SCN_ID:-} ]]; then
+        ConsolePrint error "describe-scenario - unknown scenario ID '$ID'"
         return
     fi
+    ID=$SCN_ID
 
     local PRINT_OPTION="${2:-}"
     local PRINT_FEATURE="${3:-}"
+    local PRINT_MODE="${4:-}"
+    if [[ "${PRINT_MODE}" == "" ]]; then
+        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
+    fi
+
     local SPRINT=""
 
     local SHORT
@@ -138,10 +145,8 @@ DescribeScenario() {
             line-indent)
                 LINE_INDENT="      "
                 ## exception for adoc, no line indent even if requested
-                if [[ -n "${4:-}" ]]; then
-                    if [[ "$4" == "adoc" ]]; then
+                if [[ "${PRINT_MODE}" == "adoc" ]]; then
                         LINE_INDENT=
-                    fi
                 fi
             ;;
             post-line)      POST_LINE="::" ;;
@@ -165,18 +170,14 @@ DescribeScenario() {
     if [[ "$PRINT_OPTION" == "full" ]]; then
         TEMPLATE+=" - %DESCRIPTION%"
     fi
-    if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
+    if [[ "${PRINT_MODE}" == "adoc" ]]; then
         TEMPLATE+=":: "
     fi
 
     case "$PRINT_OPTION" in
         standard | full)
-            local TMP_MODE=${4:-}
-            if [[ "$TMP_MODE" == "" ]]; then
-                TMP_MODE=${CONFIG_MAP["PRINT_MODE"]}
-            fi
-            TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID" $TMP_MODE)}
-            TEMPLATE=${TEMPLATE//%SHORT%/$(PrintEffect bold "$SHORT" $TMP_MODE)}
+            TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID" $PRINT_MODE)}
+            TEMPLATE=${TEMPLATE//%SHORT%/$(PrintEffect bold "$SHORT" $PRINT_MODE)}
             TEMPLATE=${TEMPLATE//%DESCRIPTION%/"$DESCRIPTION"}
             SPRINT+=$TEMPLATE
             ;;
@@ -195,7 +196,7 @@ DescribeScenario() {
         printf "\n"
     fi
 
-    if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
+    if [[ "${PRINT_MODE}" == "adoc" ]]; then
         printf "\n\n"
     fi
 }
@@ -208,11 +209,13 @@ DescribeScenario() {
 ## $1: scenario ID, short or long form
 ##
 ExecuteScenario() {
-    local SCENARIO=$(GetScenarioID $1)
-    if [[ -z ${SCENARIO} || -z ${DMAP_SCN_ORIGIN[$SCENARIO]:-} ]]; then
-        ConsolePrint error "execute scenario - unknown scenario '$1'"
+    local SCENARIO=${1:-}
+    local SCN_ID=$(GetScenarioID $SCENARIO)
+    if [[ -z ${SCN_ID:-} ]]; then
+        ConsolePrint error "execute-scenario - unknown scenario ID '$SCENARIO'"
         return
     fi
+    SCENARIO=$SCN_ID
 
     if [[ -z "${RTMAP_SCN_LOADED[$SCENARIO]:-}" ]]; then
         ConsolePrint error "scenario '$SCENARIO' unknown, not loaded in mode '${CONFIG_MAP["APP_MODE"]}' / flavor '${CONFIG_MAP["APP_MODE_FLAVOR"]}'"
@@ -348,41 +351,6 @@ GetScenarioID() {
 
 
 ##
-## function: ScenarioDescription()
-## - describes the scenario description
-## $1: scenario ID, must be long form
-## $2: indentation adjustment, 0 or empty for none
-## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
-##
-ScenarioDescription() {
-    local ID=$1
-    if [[ -z ${DMAP_SCN_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-scn/descr - unknown scenario ID '$ID'"
-        return
-    fi
-
-    local ADJUST=${2:-0}
-    local DESCRIPTION
-    local DESCR_EFFECTIVE
-    local PADDING
-
-    local DESCRIPTION=${DMAP_SCN_DESCR[$ID]}
-    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["SCN_DESCRIPTION_LENGTH"]}" ]]; then
-        printf "%s" "$DESCRIPTION"
-        if [[ -z ${3:-} ]]; then
-            DESCR_EFFECTIVE=${#DESCRIPTION}
-            PADDING=$((${CONSOLE_MAP["SCN_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
-            printf '%*s' "$PADDING"
-        fi
-    else
-        DESCR_EFFECTIVE=$((${CONSOLE_MAP["SCN_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
-        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
-    fi
-}
-
-
-
-##
 ## ScenarioElementDescription()
 ## - description for scenarios
 ## $1: print mode
@@ -413,11 +381,13 @@ ScenarioElementDescription() {
 ## optional $2: print mode (adoc, ansi, text)
 ##
 ScenarioInTable() {
-    local ID=$(GetScenarioID $1)
-    if [[ -z ${DMAP_SCN_ORIGIN[$ID]:-} ]]; then
+    local ID=${1:-}
+    local SCN_ID=$(GetScenarioID $ID)
+    if [[ -z ${SCN_ID:-} ]]; then
         ConsolePrint error "scenario-in-table - unknown scenario ID '$ID'"
         return
     fi
+    ID=$SCN_ID
 
     local PRINT_MODE=${2:-}
     local PADDING
@@ -438,16 +408,17 @@ ScenarioInTable() {
 
 ##
 ## function: ScenarioStatus()
-## - describes the scenario status for the scenario screen
-## $1: scenario ID, must be long form
-## optional $2: print mode (adoc, ansi, text)
+## - prints formatted task status information.
+## $1: scenario ID, long or short form
 ##
 ScenarioStatus() {
-    local ID=$1
-    if [[ -z ${DMAP_SCN_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-scn/descr - unknown scenario ID '$ID'"
+    local ID=${1:-}
+    local SCN_ID=$(GetScenarioID $ID)
+    if [[ -z ${SCN_ID:-} ]]; then
+        ConsolePrint error "scenario-status - unknown scenario ID '$ID'"
         return
     fi
+    ID=$SCN_ID
 
     local MODE
     local STATUS
@@ -502,3 +473,39 @@ ScenarioStatus() {
     esac
 }
 
+
+
+##
+## function: ScenarioTagline()
+## - prints the scenario tagline with formatting (padding).
+## $1: scenario ID, short or long form
+## $2: indentation adjustment, 0 or empty for none
+## $3: set to anything to have no trailing padding (the $2 to a number, e.g. 0)
+##
+ScenarioTagline() {
+    local ID=${1:-}
+    local SCN_ID=$(GetScenarioID $ID)
+    if [[ -z ${SCN_ID:-} ]]; then
+        ConsolePrint error "scenario-tagline - unknown scenario ID '$ID'"
+        return
+    fi
+    ID=$SCN_ID
+
+    local ADJUST=${2:-0}
+    local DESCRIPTION
+    local DESCR_EFFECTIVE
+    local PADDING
+
+    local DESCRIPTION=${DMAP_SCN_DESCR[$ID]}
+    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["SCN_DESCRIPTION_LENGTH"]}" ]]; then
+        printf "%s" "$DESCRIPTION"
+        if [[ -z ${3:-} ]]; then
+            DESCR_EFFECTIVE=${#DESCRIPTION}
+            PADDING=$((${CONSOLE_MAP["SCN_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
+            printf '%*s' "$PADDING"
+        fi
+    else
+        DESCR_EFFECTIVE=$((${CONSOLE_MAP["SCN_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
+        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+    fi
+}

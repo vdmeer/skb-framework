@@ -19,12 +19,12 @@ Collection of functions for dependencies.
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/debugdependency.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/dependencydescription.adoc[leveloffset=+1]
-
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/dependencyelementdescription.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/dependencyintable.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/dependencystatus.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/dependencytagline.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/describedependency.adoc[leveloffset=+1]

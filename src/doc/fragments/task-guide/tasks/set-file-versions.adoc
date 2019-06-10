@@ -19,14 +19,15 @@ It runs Apache ANT using a simple build script, which in turn calls a macro that
 The default build and macro files change java files and all relevant framework files.
 These files can be used as template for writing other substitutions, if required.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -b | --build-file FILE   ANT build file
-   -d | --directory DIR     start directory with source files
-   -h | --help              print help screen and exit
-   -m | --macro-file FILE   ANT macro file
-   -v | --version VERSION   new version string
+   *-b* | *--build-file* <span style="color: #5C5CFF">FILE</span>   ANT build file
+   *-d* | *--directory* <span style="color: #5C5CFF">DIR</span>     start directory with source files
+   *-h* | *--help*              print help screen and exit
+   *-m* | *--macro-file* <span style="color: #5C5CFF">FILE</span>   ANT macro file
+   *-v* | *--version* <span style="color: #5C5CFF">VERSION</span>   new version string
 ----
+
 
 
 === Examples
@@ -34,10 +35,10 @@ These files can be used as template for writing other substitutions, if required
 The following example will change the version in all files in the directory _src_ to _0.1.0_.
 It will use the default build and macro file.
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 set-file-versions --version 0.1.0 --directory ./src
-====
+----
 
 
 

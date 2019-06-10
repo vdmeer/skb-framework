@@ -25,10 +25,10 @@ include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/getpara
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/parameterdefvaluedescription.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/parameterdescription.adoc[leveloffset=+1]
-
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/parameterelementdescription.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/parameterintable.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/parameterstatus.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/parametertagline.adoc[leveloffset=+1]

@@ -28,9 +28,9 @@ More details on `cloc` can be found at the Github source repository on link:http
 
 The task does not have any special options.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -h | --help        print help screen and exit
+   *-h* | *--help*        print help screen and exit
 ----
 
 

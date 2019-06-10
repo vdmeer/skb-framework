@@ -481,7 +481,7 @@ PrintTasks() {
                 else
                     printf "${TASK_TABLE[$ID]}"
                 fi
-                TaskDescription $ID 3 none
+                TaskTagline $ID 3 none
                 ;;
             table)
                 if [[ -z "${TASK_TABLE[$ID]:-}" ]]; then
@@ -489,7 +489,7 @@ PrintTasks() {
                 else
                     printf "${TASK_TABLE[$ID]}"
                 fi
-                TaskDescription $ID
+                TaskTagline $ID
                 TaskStatus $ID $PRINT_MODE
                 ;;
         esac

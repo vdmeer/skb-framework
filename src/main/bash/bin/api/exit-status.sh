@@ -31,7 +31,7 @@
 
 ##
 ## DescribeExitstatus()
-## - describes an exitstatus using print options and print features
+## - describes an exit status with various options.
 ## $1: exitstatus id
 ## $2: print option: standard, full
 ## $3: print features: none, line-indent, enter, post-line, (adoc, ansi, text*)
@@ -46,6 +46,10 @@ DescribeExitstatus() {
 
     local PRINT_OPTION=${2:-}
     local PRINT_FEATURE=${3:-}
+    local PRINT_MODE="${4:-}"
+    if [[ "${PRINT_MODE}" == "" ]]; then
+        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
+    fi
 
     local SPRINT=""
     local FEATURE
@@ -58,10 +62,8 @@ DescribeExitstatus() {
             line-indent)
                 LINE_INDENT="      "
                 ## exception for adoc, no line indent even if requested
-                if [[ -n "${4:-}" ]]; then
-                    if [[ "$4" == "adoc" ]]; then
+                if [[ "${PRINT_MODE}" == "adoc" ]]; then
                         LINE_INDENT=
-                    fi
                 fi
             ;;
             post-line)      POST_LINE="::" ;;
@@ -85,17 +87,13 @@ DescribeExitstatus() {
     if [[ "$PRINT_OPTION" == "full" ]]; then
         TEMPLATE+=" - %DESCRIPTION%"
     fi
-    if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
+    if [[ "${PRINT_MODE}" == "adoc" ]]; then
         TEMPLATE+=":: "
     fi
 
     case "$PRINT_OPTION" in
         standard | full)
-            local TMP_MODE=${4:-}
-            if [[ "$TMP_MODE" == "" ]]; then
-                TMP_MODE=${CONFIG_MAP["PRINT_MODE"]}
-            fi
-            TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID" $TMP_MODE)}
+            TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID" $PRINT_MODE)}
             TEMPLATE=${TEMPLATE//%DESCRIPTION%/"$DESCRIPTION"}
             SPRINT+=$TEMPLATE
             ;;
@@ -114,43 +112,8 @@ DescribeExitstatus() {
         printf "\n"
     fi
 
-    if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
+    if [[ "${PRINT_MODE}" == "adoc" ]]; then
         printf "\n\n"
-    fi
-}
-
-
-
-##
-## function: ExitstatusDescription()
-## - describes the exitstatus description
-## $1: exitstatus ID
-## $2: indentation adjustment, 0 or empty for none
-## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
-##
-ExitstatusDescription() {
-    local ID=$1
-    if [[ -z ${DMAP_ES[$ID]:-} ]]; then
-        ConsolePrint error "describe-exitstatus/descr - unknown exitstatus '$ID'"
-        return
-    fi
-
-    local ADJUST=${2:-0}
-    local DESCRIPTION
-    local DESCR_EFFECTIVE
-    local PADDING
-
-    local DESCRIPTION=${DMAP_ES_DESCR[$ID]}
-    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["ES_DESCRIPTION_LENGTH"]}" ]]; then
-        printf "%s" "$DESCRIPTION"
-        if [[ -z ${3:-} ]]; then
-            DESCR_EFFECTIVE=${#DESCRIPTION}
-            PADDING=$((${CONSOLE_MAP["ES_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
-            printf '%*s' "$PADDING"
-        fi
-    else
-        DESCR_EFFECTIVE=$((${CONSOLE_MAP["ES_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
-        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
     fi
 }
 
@@ -213,13 +176,13 @@ ExitstatusInTable() {
 
 ##
 ## function: ExitstatusStatus()
-## - describes the exitstatus status
+## - prints formatted exit status code status information.
 ## $1: exitstatus ID
 ##
 ExitstatusStatus() {
     local ID=$1
     if [[ -z ${DMAP_ES[$ID]:-} ]]; then
-        ConsolePrint error "describe-exitstatus/status - unknown exitstatus '$ID'"
+        ConsolePrint error "exitstatus-status - unknown exitstatus '$ID'"
         return
     fi
 
@@ -243,4 +206,39 @@ ExitstatusStatus() {
         internal)   PrintColor light-blue $PROBLEM ;;
         *)          ConsolePrint error "describe-exit/status - unknown problem '$PROBLEM'"
     esac
+}
+
+
+
+##
+## function: ExitstatusTagline()
+## - prints the exit status tagline with formatting (padding).
+## $1: exitstatus ID
+## $2: indentation adjustment, 0 or empty for none
+## $3: set to anything to have no trailing padding (the $2 to a number, e.g. 0)
+##
+ExitstatusTagline() {
+    local ID=$1
+    if [[ -z ${DMAP_ES[$ID]:-} ]]; then
+        ConsolePrint error "exitstatus-tagline - unknown exitstatus '$ID'"
+        return
+    fi
+
+    local ADJUST=${2:-0}
+    local DESCRIPTION
+    local DESCR_EFFECTIVE
+    local PADDING
+
+    local DESCRIPTION=${DMAP_ES_DESCR[$ID]}
+    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["ES_DESCRIPTION_LENGTH"]}" ]]; then
+        printf "%s" "$DESCRIPTION"
+        if [[ -z ${3:-} ]]; then
+            DESCR_EFFECTIVE=${#DESCRIPTION}
+            PADDING=$((${CONSOLE_MAP["ES_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
+            printf '%*s' "$PADDING"
+        fi
+    else
+        DESCR_EFFECTIVE=$((${CONSOLE_MAP["ES_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
+        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+    fi
 }

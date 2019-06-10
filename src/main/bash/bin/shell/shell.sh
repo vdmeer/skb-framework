@@ -235,7 +235,9 @@ FWShell() {
 ##
 #tag::run[]
 exec 3</dev/tty || exec 3<&0
-if $(ConsoleIs prompt); then ConsolePrint message "${CONFIG_MAP["SHELL_PROMPT"]}"; fi
+if $(ConsoleIs prompt); then
+    ConsolePrint message "${CONFIG_MAP["SHELL_PROMPT"]}"
+fi
 FWShell
 exec 3<&-
 #end::run[]

@@ -29,8 +29,6 @@ include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/exitont
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/gettaskid.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/taskdescription.adoc[leveloffset=+1]
-
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/taskelementdescription.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/taskgetcachedhelp.adoc[leveloffset=+1]
@@ -38,3 +36,5 @@ include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/taskget
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/taskintable.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/taskstatus.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/tasktagline.adoc[leveloffset=+1]

@@ -18,10 +18,10 @@ This task starts an X terminal, or short XTerm (or xterm), with a set title and 
 The title can be set with _title_.
 For blanks in the title use quotes, for instance `--title "My XTERM"`.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -h | --help           print help screen and exit
-   -t | --title TITLE    title for the XTerm, default: command name
+   *-h* | *--help*           print help screen and exit
+   *-t* | *--title* <span style="color: #5C5CFF">TITLE</span>    title for the XTerm, default: command name
 ----
 
 The command to run in the started XTerm should be provided to the task after `--`.
@@ -36,10 +36,11 @@ Use the _hold_ option of your preferred XTerm in _XTERM_ to realize this feature
 === Examples
 
 Start an XTerm, use the default title, and run `ls | more` as command.
-[example]
-====
+
+[source%nowrap,bash,indent=0]
+----
 start-xterm -- ls | more
-====
+----
 
 
 

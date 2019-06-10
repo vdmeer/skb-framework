@@ -37,7 +37,7 @@
 DebugDependency() {
     local ID=${1:-}
     if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "debug-dep - unknown dependency '$ID'"
+        ConsolePrint error "debug-dependency - unknown dependency '$ID'"
         return
     fi
 
@@ -68,41 +68,6 @@ DebugDependency() {
     fi
 
     printf "$SPRINT\n"
-}
-
-
-
-##
-## function: DependencyDescription()
-## - describes the dependency description
-## $1: dependency ID
-## $2: indentation adjustment, 0 or empty for none
-## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
-##
-DependencyDescription() {
-    local ID=$1
-    if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-dep/descr - unknown dependency '$ID'"
-        return
-    fi
-
-    local ADJUST=${2:-0}
-    local DESCRIPTION
-    local DESCR_EFFECTIVE
-    local PADDING
-
-    local DESCRIPTION=${DMAP_DEP_DESCR[$ID]}
-    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["DEP_DESCRIPTION_LENGTH"]}" ]]; then
-        printf "%s" "$DESCRIPTION"
-        if [[ -z ${3:-} ]]; then
-            DESCR_EFFECTIVE=${#DESCRIPTION}
-            PADDING=$((${CONSOLE_MAP["DEP_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
-            printf '%*s' "$PADDING"
-        fi
-    else
-        DESCR_EFFECTIVE=$((${CONSOLE_MAP["DEP_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
-        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
-    fi
 }
 
 
@@ -164,13 +129,13 @@ DependencyInTable() {
 
 ##
 ## function: DependencyStatus()
-## - describes the dependency status for the dependency screen
+## - prints formatted dependency status information.
 ## $1: dependency ID
 ##
 DependencyStatus() {
     local ID=$1
     if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-dep/status - unknown dependency '$ID'"
+        ConsolePrint error "dependency-status - unknown dependency '$ID'"
         return
     fi
 
@@ -186,21 +151,62 @@ DependencyStatus() {
 
 
 ##
+## function: DependencyTagline()
+## - prints the dependency tagline with formatting (padding).
+## $1: dependency ID
+## $2: indentation adjustment, 0 or empty for none
+## $3: set to anything to have no trailing padding (the $2 to a number, e.g. 0)
+##
+DependencyTagline() {
+    local ID=$1
+    if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
+        ConsolePrint error "dependency-tagline - unknown dependency '$ID'"
+        return
+    fi
+
+    local ADJUST=${2:-0}
+    local DESCRIPTION
+    local DESCR_EFFECTIVE
+    local PADDING
+
+    local DESCRIPTION=${DMAP_DEP_DESCR[$ID]}
+    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["DEP_DESCRIPTION_LENGTH"]}" ]]; then
+        printf "%s" "$DESCRIPTION"
+        if [[ -z ${3:-} ]]; then
+            DESCR_EFFECTIVE=${#DESCRIPTION}
+            PADDING=$((${CONSOLE_MAP["DEP_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
+            printf '%*s' "$PADDING"
+        fi
+    else
+        DESCR_EFFECTIVE=$((${CONSOLE_MAP["DEP_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
+        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+    fi
+}
+
+
+
+##
 ## DescribeDependency()
-## - describes a dependency using print options and print features
+## - describes a dependency with various options.
 ## $1: dependency id
 ## $2: print option: standard, full
 ## $3: print features: none, line-indent, enter, post-line, (adoc, ansi, text*)
+## optional $4: print mode (adoc, ansi, text)
 ##
 DescribeDependency() {
     local ID=${1:-}
     if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-dep - unknown dependency '$ID'"
+        ConsolePrint error "describe-dependency - unknown dependency '$ID'"
         return
     fi
 
     local PRINT_OPTION=${2:-}
     local PRINT_FEATURE=${3:-}
+    local PRINT_MODE="${4:-}"
+    if [[ "${PRINT_MODE}" == "" ]]; then
+        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
+    fi
+
     local SPRINT=""
     local FEATURE
     local SOURCE=""
@@ -212,10 +218,8 @@ DescribeDependency() {
             line-indent)
                 LINE_INDENT="      "
                 ## exception for adoc, no line indent even if requested
-                if [[ -n "${4:-}" ]]; then
-                    if [[ "$4" == "adoc" ]]; then
-                        LINE_INDENT=
-                    fi
+                if [[ "${PRINT_MODE}" == "adoc" ]]; then
+                    LINE_INDENT=
                 fi
             ;;
             post-line)      POST_LINE="::" ;;
@@ -239,17 +243,13 @@ DescribeDependency() {
     if [[ "$PRINT_OPTION" == "full" ]]; then
         TEMPLATE+=" - %DESCRIPTION%"
     fi
-    if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
+    if [[ "${PRINT_MODE}" == "adoc" ]]; then
         TEMPLATE+=":: "
     fi
 
     case "$PRINT_OPTION" in
         standard | full)
-            local TMP_MODE=${4:-}
-            if [[ "$TMP_MODE" == "" ]]; then
-                TMP_MODE=${CONFIG_MAP["PRINT_MODE"]}
-            fi
-            TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID" $TMP_MODE)}
+            TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID" $PRINT_MODE)}
             TEMPLATE=${TEMPLATE//%DESCRIPTION%/"$DESCRIPTION"}
             SPRINT+=$TEMPLATE
             ;;
@@ -268,7 +268,7 @@ DescribeDependency() {
         printf "\n"
     fi
 
-    if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
+    if [[ "${PRINT_MODE}" == "adoc" ]]; then
         printf "\n\n"
     fi
 }

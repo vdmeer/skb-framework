@@ -14,11 +14,11 @@
 //tag:tsk
 //
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_taskdescription>>
+<<_tasktagline>>
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_taskdescription>>
+<<_tasktagline>>
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:tasks.html#taskdescription[TaskDescription()]
+link:tasks.html#tasktagline[TaskTagline()]
 endif::[]

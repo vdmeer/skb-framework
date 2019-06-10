@@ -272,7 +272,7 @@ PrintExitstatus() {
                 else
                     printf "${ES_TABLE[$ID]}"
                 fi
-                ExitstatusDescription $ID 3 none
+                ExitstatusTagline $ID 3 none
                 ;;
             table)
                 if [[ -z "${ES_TABLE[$ID]:-}" ]]; then
@@ -280,7 +280,7 @@ PrintExitstatus() {
                 else
                     printf "${ES_TABLE[$ID]}"
                 fi
-                ExitstatusDescription $ID
+                ExitstatusTagline $ID
                 ExitstatusStatus $ID
                 ;;
         esac

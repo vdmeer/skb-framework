@@ -18,10 +18,10 @@ Collection of functions for exit status (error codes).
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/describeexitstatus.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/exitstatusdescription.adoc[leveloffset=+1]
-
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/exitstatuselementdescription.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/exitstatusintable.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/exitstatusstatus.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/exitstatustagline.adoc[leveloffset=+1]

@@ -11,8 +11,14 @@
 // @author     Sven van der Meer (vdmeer.sven@mykolab.com)
 // @version    0.0.5
 //
-
-
-== OptionDescription()
-
-
+//tag:scn
+//
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_scenariotagline>>
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_scenariotagline>>
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:scenarios.html#scenariotagline[ScenarioTagline()]
+endif::[]

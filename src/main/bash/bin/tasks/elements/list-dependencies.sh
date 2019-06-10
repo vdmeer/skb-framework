@@ -356,7 +356,7 @@ PrintDependencies() {
                 else
                     printf "${DEP_TABLE[$ID]}"
                 fi
-                DependencyDescription $ID 3 none
+                DependencyTagline $ID 3 none
                 ;;
             table)
                 if [[ -z "${DEP_TABLE[$ID]:-}" ]]; then
@@ -364,7 +364,7 @@ PrintDependencies() {
                 else
                     printf "${DEP_TABLE[$ID]}"
                 fi
-                DependencyDescription $ID
+                DependencyTagline $ID
                 DependencyStatus $ID $PRINT_MODE
                 ;;
         esac

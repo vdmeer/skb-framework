@@ -32,9 +32,14 @@ This function prints all internal information about a scenario, including detail
 *Internal Dependencies*
 
 * {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getscenarioid-link.adoc[]
+to retrieve the scenario identifier.
+* {blank}
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
 to print debug information.
-
 * {blank}
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
 to print debug information.

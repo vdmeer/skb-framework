@@ -11,14 +11,14 @@
 // @author     Sven van der Meer (vdmeer.sven@mykolab.com)
 // @version    0.0.5
 //
-//tag:scn
+//tag:cmd
 //
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_scenariodescription>>
+<<_commandtagline>>
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_scenariodescription>>
+<<_commandtagline>>
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:scenarios.html#scenariodescription[ScenarioDescription()]
+link:commands.html#commandtagline[CommandTagline()]
 endif::[]

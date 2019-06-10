@@ -229,7 +229,7 @@ PrintOptions() {
                 else
                     printf "${OPTION_TABLE[$ID]}"
                 fi
-                OptionDescription $ID 3 none
+                OptionTagline $ID 3 none
                 ;;
             table)
                 if [[ -z "${OPTION_TABLE[$ID]:-}" ]]; then
@@ -237,7 +237,7 @@ PrintOptions() {
                 else
                     printf "${OPTION_TABLE[$ID]}"
                 fi
-                OptionDescription $ID
+                OptionTagline $ID
                 OptionStatus $ID $PRINT_MODE
                 ;;
         esac

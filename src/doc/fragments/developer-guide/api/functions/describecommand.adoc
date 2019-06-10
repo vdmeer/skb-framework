@@ -14,5 +14,83 @@
 
 
 == DescribeCommand()
+_void DescribeCommand( $1, $2, $3, [$4])_ - describes a command with various options.
+
+This function describes the command _$1_ using the print option _$2_, the print feature(s) _$3_, and an optional print mode _$4_.
 
 
+*Parameters*
+
+* `$1`, _string_ - the command identifier to process, long- or short form
+* `$2`, _string_ - the print option, one of:
+    ** _standard_ - prints one line for the command: short form (if declared), long form, an argument if declared, and the tag line.
+    ** _full* - prints _standard_ plus the command description.
+* `$3`, _string_ - the print features.
+    One or more of the features can be used.
+    If no special feature should be used, use `none`.
+    Separate multiple features using a blank ` `.
+    The following features are supported:
+    ** `none` - does activate no feature.
+        Can be used when no feature should be used but a specific print mode (_$4_) is required.
+        Note: has no effect if used with other features.
+    ** `line-indent` - prints an indentation of 6 blanks before the line, except when in print mode _adoc_.
+    ** `enter`  - prints a new line at the end of the description.
+    ** `post-line` - prints a double colon after the line as `::`.
+    ** `adoc` - prints a description in _adoc_ taken from the command declaration.
+    ** `ansi` -  prints a description with plain text formatting taken from command declaration.
+    ** `text` - actually any string starting with `text` - prints a description with plain text formatting taken from command declaration.
+* `$4`, _string_, optional - the requested print mode.
+    If present, the requested print mode will be used.
+    If not present, the default (currently set) print mode will be used.
+    Note: this parameter is independent of _$3_!
+
+
+*Errors*
+
+* For an unknown command identifier (name)
+* For unknown print features
+* For an unknown print option
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getcommandid-link.adoc[]
+to retrieve the command identifier.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
+to print the effects.
+
+
+*External Dependencies*
+
+* `cat` - to print the description text, if requested
+
+
+*Examples*
+
+[source%nowrap,bash,linenumber]
+----
+DescribeCommand history full "ansi line-indent" ansi
+----
+
+The example above calls the function to get a full description of the command _history_,
+    with the line indentation,
+    description using ANSI formatting, and
+    the forced print mode _ansi_.
+
+[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+----
+      *!*, *history* <span style="color: #0000FF">NUMBER</span> - show history or run history command
+        Shows the history of shell commands. Each command, once  executed,  is
+        automatically added to the history, if the previous  command  was  not
+        exactly the same. The history accepts an optional parameter  _NUMBER_.
+        When a number (an integer) is given, the command with that  number  in
+        the history will be executed. If the number  does  not  exist  in  the
+        history, an error is printed.
+----
+
+The screen above shows the result of the function call.

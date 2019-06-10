@@ -36,19 +36,19 @@ Changeable settings are:
 * Quiet mode for shell (_--sq_) and tasks (_--tq_)
     ** alter the quiet mode between _on_ and _off_
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
    options
-   -h | --help              print help screen and exit
+   *-h* | *--help*              print help screen and exit
 
    options for changing settings
-   -p | --pm MODE           print mode to: ansi, text, text-anon
-   -S | --shell-level LEVEL change shell level to LEVEL
-        --snp               toggle shell prompt mode
-        --sq                toggle shell quiet mode
-   -s | --strict            toggle strict mode
-   -T | --task-level LEVEL  change task level to LEVEL
-        --tq                toggle task quiet mode
+   *-p* | *--pm* <span style="color: #5C5CFF">MODE</span>           print mode to: ansi, text, text-anon
+   *-S* | *--shell-level* <span style="color: #5C5CFF">LEVEL</span> change shell level to LEVEL
+        *--snp*               toggle shell prompt mode
+        *--sq*                toggle shell quiet mode
+   *-s* | *--strict*            toggle strict mode
+   *-T* | *--task-level* <span style="color: #5C5CFF">LEVEL</span>  change task level to LEVEL
+        *--tq*                toggle task quiet mode
 ----
 
 Changes made by the task take immediate effect.

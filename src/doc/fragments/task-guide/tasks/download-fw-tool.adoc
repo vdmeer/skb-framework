@@ -34,15 +34,16 @@ In this mode, the task will only print what it would do.
 The option _force_ can be used to force a download even if the JAR file already exists.
 _simulate_ will overwrite _force_.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -f | --force       force mode, not questions asked
-   -h | --help        print help screen and exit
-   -s | --simulate    print only, downloads nothing, overwrites force
+   options
+   *-f* | *--force*       force download
+   *-h* | *--help*        print help screen and exit
+   *-s* | *--simulate*    print only, downloades nothing, overwrites force
 
    tools
-   -c | --curl        use 'curl' for download, default tool
-   -w | --wget        use 'wget' for download
+   *-c* | *--curl*        use 'curl' for download, default tool
+   *-w* | *--wget*        use 'wget' for download
 ----
 
 The options for tools allow to select a download tool.

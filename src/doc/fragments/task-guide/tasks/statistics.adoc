@@ -18,11 +18,11 @@ This task prints statistics about the all elements.
 The default, without using filters, is to print a few overview tables.
 The print mode can be changed using _print-mode_.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
    options
-   -h | --help              print help screen and exit
-   -P | --print-mode MODE   print mode: ansi, text, adoc
+   *-h* | *--help*              print help screen and exit
+   *-P* | *--print-mode* <span style="color: #5C5CFF">MODE</span>   print mode: ansi, text, adoc
 ----
 
 === Filters
@@ -38,18 +38,18 @@ Any number of filters can be used in any sequence, the tasks will print the outp
 * Tasks (if filter is set)
 * Scenarios (if filter is set)
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
    filters
-   -A | --all               activate all filters
-   -c | --cmd               for commands
-   -d | --dep               for dependencies
-   -e | --es                for exit status
-   -o | --opt               for options
-        --ov                overview
-   -p | --param             for parameters
-   -s | --scn               for scenarios
-   -t | --task              for tasks
+   *-A* | *--all*               activate all filters
+   *-c* | *--cmd*               for commands
+   *-d* | *--dep*               for dependencies
+   *-e* | *--es*                for exit status
+   *-o* | *--opt*               for options
+        *--ov*                overview
+   *-p* | *--param*             for parameters
+   *-s* | *--scn*               for scenarios
+   *-t* | *--task*              for tasks
 ----
 
 
@@ -58,10 +58,10 @@ Any number of filters can be used in any sequence, the tasks will print the outp
 
 The following example requests statistics for the target overview _--ov_ and tasks _--task_.
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 stats --ov --task
-====
+----
 
 The actual output depends of course on the declared and processed tasks.
 An earlier version of the framework shows the following statistics.

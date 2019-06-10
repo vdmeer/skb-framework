@@ -11,6 +11,14 @@
 // @author     Sven van der Meer (vdmeer.sven@mykolab.com)
 // @version    0.0.5
 //
-
-
-==  GetQuiet()
+//tag:par
+//
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_parametertagline>>
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_parametertagline>>
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:parameters.html#parametertagline[ParameterTagline()]
+endif::[]

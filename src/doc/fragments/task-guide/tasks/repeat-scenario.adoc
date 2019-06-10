@@ -30,20 +30,21 @@ Only positive integers are allowed for both options.
 The default value for both options is 1.
 So when only provided with a scenario, the task will run it once.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -h | --help                print help screen and exit
-   -s | --scenario SCENARIO   the scenario to repeat
-   -t | --times INT           repeat INT times
-   -w | --wait SEC            wait SEC seconds between repeats
+   *-h* | *--help*                print help screen and exit
+   *-s* | *--scenario* <span style="color: #5C5CFF">SCENARIO</span>   the scenario to repeat
+   *-t* | *--times* <span style="color: #5C5CFF">INT</span>           repeat INT times
+   *-w* | *--wait* <span style="color: #5C5CFF">SEC</span>            wait SEC seconds between repeats
 ----
+
 
 
 === Examples
 
 The example below will repeat the scenario _S1_ four times, waiting for 2 seconds between repetitions.
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 repeat-scenario --scenario S1 --times 4 --wait 2
-====
+----

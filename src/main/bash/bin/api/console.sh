@@ -151,13 +151,13 @@ ConsoleHas() {
 ConsoleIs(){
     case $1 in
         debug)
-            case $(GetLevel) in
+            case $(GetSetting level) in
                 all | debug | trace)    return 0;;
                 *)                      return 1;;
             esac
             ;;
         message)
-            case $(GetQuiet) in
+            case $(GetSetting quiet) in
                 on)     return 1;;
                 off)    return 0;;
             esac
@@ -169,7 +169,7 @@ ConsoleIs(){
             esac
             ;;
         trace)
-            case $(GetLevel) in
+            case $(GetSetting level) in
                 all | trace)    return 0;;
                 *)              return 1;;
             esac
@@ -197,7 +197,7 @@ ConsolePrint() {
     case $1 in
         fatal)
             Counters increase errors
-            case $(GetLevel) in
+            case $(GetSetting level) in
                 all | fatal | error | warn-strict | warn | info | debug | trace)
                     SPRINT=$(printf "  -> [")
                     SPRINT+=$(PrintColor red "Fatal")
@@ -211,7 +211,7 @@ ConsolePrint() {
             ;;
         error)
             Counters increase errors
-            case $(GetLevel) in
+            case $(GetSetting level) in
                 all | error | warn-strict | warn | info | debug | trace)
                     SPRINT=$(printf "  -> [")
                     SPRINT+=$(PrintColor light-red "Error")
@@ -227,7 +227,7 @@ ConsolePrint() {
             if [[ ${CONFIG_MAP["STRICT"]} == "on" ]]; then
                 ## all warnings are errors
                 Counters increase errors
-                case $(GetLevel) in
+                case $(GetSetting level) in
                     all | error | warn-strict | warn | info | debug | trace)
                         SPRINT=$(printf "  -> [")
                         SPRINT+=$(PrintColor light-red "Error")
@@ -243,7 +243,7 @@ ConsolePrint() {
             else
                 ## warnings are just warnings
                 Counters increase warnings
-                case $(GetLevel) in
+                case $(GetSetting level) in
                     all | warn-strict | warn | info | debug | trace)
                         SPRINT=$(printf "  -> [")
                         SPRINT+=$(PrintColor yellow "Warning")
@@ -260,7 +260,7 @@ ConsolePrint() {
             ;;
         warn)
             Counters increase warnings
-            case $(GetLevel) in
+            case $(GetSetting level) in
                 all | warn | info | debug | trace)
                     SPRINT=$(printf " -> [")
                     SPRINT+=$(PrintColor yellow "Warning")
@@ -273,7 +273,7 @@ ConsolePrint() {
             esac
             ;;
         info)
-            case $(GetLevel) in
+            case $(GetSetting level) in
                 all | info | debug | trace)
                     SPRINT=$(printf "  --> [")
                     SPRINT+=$(PrintColor light-blue "Info")
@@ -289,7 +289,7 @@ ConsolePrint() {
             esac
             ;;
         debug)
-            case $(GetLevel) in
+            case $(GetSetting level) in
                 all | debug | trace)
                     SPRINT=$(PrintEffect bold "    >")
                     SPRINT+=$(printf " %s" "$2")
@@ -301,7 +301,7 @@ ConsolePrint() {
             esac
             ;;
         trace)
-            case $(GetLevel) in
+            case $(GetSetting level) in
                 all | trace)
                     SPRINT=$(PrintEffect italic "    >")
                     SPRINT+=$(printf " %s" "$2")
@@ -313,7 +313,7 @@ ConsolePrint() {
             esac
             ;;
         message)
-            case $(GetQuiet) in
+            case $(GetSetting quiet) in
                 off)    printf %b "$2" 1>&2;;
                 on)     ;;
             esac

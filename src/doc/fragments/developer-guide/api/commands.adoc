@@ -19,11 +19,11 @@ _Commands_ are the commands a user can call in the interactive shell.
 Functions here help to manage commands.
 
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/commanddescription.adoc[leveloffset=+1]
-
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/commandelementdescription.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/commandintable.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/commandtagline.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/describecommand.adoc[leveloffset=+1]
 

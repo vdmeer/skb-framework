@@ -32,10 +32,10 @@ The actual wait time will be printed when the task finishes.
 
 Since _bash_ does not support floating point or double integer values, only positive integers can be used.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -h | --help          print help screen and exit
-   -s | --seconds SEC   wait SEC seconds, default is 1
+   *-h* | *--help*          print help screen and exit
+   *-s* | *--seconds* <span style="color: #5C5CFF">SEC</span>   wait SEC seconds, default is 1
 ----
 
 
@@ -44,7 +44,7 @@ Since _bash_ does not support floating point or double integer values, only posi
 
 The example below will wait for 3 seconds, plus the time it takes to execute the _wait_ task itself.
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 wait --seconds 3
-====
+----

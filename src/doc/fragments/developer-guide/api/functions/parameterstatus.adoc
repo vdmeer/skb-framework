@@ -14,5 +14,67 @@
 
 
 == ParameterStatus()
+_void ParameterStatus( $1 )_ - prints formatted parameter status information.
+
+This function prints formatted information about the parameter status for parameter _$1_.
+This function is mainly used in table views.
+There are three different information printed as one character each, separated by a blank.
+The status information are:
+
+* The parameter origin: where was the parameter declared, for instance _F_ for framework or _A_ for application.
+    The character is printed without special formatting.
+* The parameter's default value: is there a default value defined or not?
+    The character is printed in green using _CHAR_MAP["AVAILABLE"]_ for a default value being declared, and red using _CHAR_MAP["NOT_AVAILABLE"]_ if not.
+* Information about the load process: what happened when with the parameter when loaded?
+    This information is printed using the character _CHAR_MAP["DIAMOND"]_ with the following color coding:
+    ** light-blue if set in the command line using an option,
+    ** green if set from the environment,
+    ** brown if set from a file,
+    ** yellow if set using the default value, and
+    ** no color if not set all.
 
 
+*Parameter*
+
+* `$1`, _string_ - the parameter identifier to process, any spelling (lower case, upper case, mixed)
+
+
+*Errors*
+
+* For unknown parameter identifiers (names)
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getparameterid-link.adoc[]
+to retrieve the parameter identifier.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
+to print the colors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenumber]
+----
+ParameterStatus BROWSER
+ParameterStatus CACHE_DIR
+ParameterStatus SHELL_PROMPT
+ParameterStatus TARGET
+----
+
+The examples above will print the status of a few parameters.
+Assuming that the framework is started in mode _all_ and flavor _install_, and some warnings are present,
+the examples will print the following lines:
+
+[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+----
+F <span style="color: #FF0000">✘</span> ◆
+F <span style="color: #00FF00">✔</span> <span style="color: #FFFF00">◆</span>
+F <span style="color: #00FF00">✔</span> <span style="color: #FFFF00">◆</span>
+F <span style="color: #FF0000">✘</span> ◆
+----

@@ -159,7 +159,7 @@ BuildTaskHelpLine() {
 ##
 DebugTask() {
     local ID=${1:-}
-    TASK_ID=$(GetTaskID $ID)
+    local TASK_ID=$(GetTaskID $ID)
     if [[ -z "${TASK_ID:-}" ]]; then
          ConsolePrint error "debug-task - unknown task ID '$ID'"
         return
@@ -259,21 +259,28 @@ DebugTask() {
 
 ##
 ## DescribeTask()
-## - describes a task using print options and print features
-## $1: task id, must be long form
+## - describes a task with various options.
+## $1: task id, long or short form
 ## $2: print option: standard, full
 ## $3: print features: none, line-indent, enter, post-line, (adoc, ansi, text*)
 ## optional $4: print mode (adoc, ansi, text)
 ##
 DescribeTask() {
     local ID=${1:-}
-    if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-task - unknown task ID '$ID'"
+    local TASK_ID=$(GetTaskID $ID)
+    if [[ -z "${TASK_ID:-}" ]]; then
+         ConsolePrint error "describe-task - unknown task ID '$ID'"
         return
     fi
+    ID=$TASK_ID
 
     local PRINT_OPTION="${2:-}"
     local PRINT_FEATURE="${3:-}"
+    local PRINT_MODE="${4:-}"
+    if [[ "${PRINT_MODE}" == "" ]]; then
+        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
+    fi
+
     local SPRINT=""
 
     local SHORT
@@ -293,10 +300,8 @@ DescribeTask() {
             line-indent)
                 LINE_INDENT="      "
                 ## exception for adoc, no line indent even if requested
-                if [[ -n "${4:-}" ]]; then
-                    if [[ "$4" == "adoc" ]]; then
+                if [[ "${PRINT_MODE}" == "adoc" ]]; then
                         LINE_INDENT=
-                    fi
                 fi
             ;;
             post-line)      POST_LINE="::" ;;
@@ -320,18 +325,14 @@ DescribeTask() {
     if [[ "$PRINT_OPTION" == "full" ]]; then
         TEMPLATE+=" - %DESCRIPTION%"
     fi
-    if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
+    if [[ "${PRINT_MODE}" == "adoc" ]]; then
         TEMPLATE+=":: "
     fi
 
     case "$PRINT_OPTION" in
         standard | full)
-            local TMP_MODE=${4:-}
-            if [[ "$TMP_MODE" == "" ]]; then
-                TMP_MODE=${CONFIG_MAP["PRINT_MODE"]}
-            fi
-            TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID" $TMP_MODE)}
-            TEMPLATE=${TEMPLATE//%SHORT%/$(PrintEffect bold "$SHORT" $TMP_MODE)}
+            TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID" $PRINT_MODE)}
+            TEMPLATE=${TEMPLATE//%SHORT%/$(PrintEffect bold "$SHORT" $PRINT_MODE)}
             TEMPLATE=${TEMPLATE//%DESCRIPTION%/"$DESCRIPTION"}
             SPRINT+=$TEMPLATE
             ;;
@@ -350,7 +351,7 @@ DescribeTask() {
         printf "\n"
     fi
 
-    if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
+    if [[ "${PRINT_MODE}" == "adoc" ]]; then
         printf "\n\n"
     fi
 }
@@ -554,7 +555,7 @@ GetTaskID() {
 TaskGetCachedHelp() {
     local ID=${1:-}
     if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "help-cache - unknown task ID '$ID'"
+        ConsolePrint error "task-get-cached-help - unknown task ID '$ID'"
         return
     fi
 
@@ -569,41 +570,6 @@ TaskGetCachedHelp() {
         printf $FILE
     else
         printf ""
-    fi
-}
-
-
-
-##
-## function: TaskDescription()
-## - describes the task description
-## $1: task ID, must be long form
-## $2: indentation adjustment, 0 or empty for none
-## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
-##
-TaskDescription() {
-    local ID=$1
-    if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-task/descr - unknown task ID '$ID'"
-        return
-    fi
-
-    local ADJUST=${2:-0}
-    local DESCRIPTION
-    local DESCR_EFFECTIVE
-    local PADDING
-
-    local DESCRIPTION=${DMAP_TASK_DESCR[$ID]}
-    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["TASK_DESCRIPTION_LENGTH"]}" ]]; then
-        printf "%s" "$DESCRIPTION"
-        if [[ -z ${3:-} ]]; then
-            DESCR_EFFECTIVE=${#DESCRIPTION}
-            PADDING=$((${CONSOLE_MAP["TASK_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
-            printf '%*s' "$PADDING"
-        fi
-    else
-        DESCR_EFFECTIVE=$((${CONSOLE_MAP["TASK_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
-        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
     fi
 }
 
@@ -640,13 +606,16 @@ TaskElementDescription() {
 ## optional $2: print mode (adoc, ansi, text)
 ##
 TaskInTable() {
-    local ID=$(GetTaskID $1)
-    if [[ -z ${ID:-} ]]; then
-        ConsolePrint error "task-in-table - unknown task ID '$ID'"
+    local ID=${1:-}
+    local TASK_ID=$(GetTaskID $ID)
+    if [[ -z "${TASK_ID:-}" ]]; then
+         ConsolePrint error "task-in-table - unknown task ID '$ID'"
         return
     fi
+    ID=$TASK_ID
 
     local PRINT_MODE=${2:-}
+
     local PADDING
     local PAD_STR
     local PAD_STR_LEN
@@ -665,16 +634,17 @@ TaskInTable() {
 
 ##
 ## function: TaskStatus()
-## - describes the task status for the task screen
-## $1: task ID, must be long form
-## optional $2: print mode (adoc, ansi, text)
+## - prints formatted task status information.
+## $1: task ID, long- or short form
 ##
 TaskStatus() {
-    local ID=$1
-    if [[ -z ${DMAP_TASK_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-task/descr - unknown task ID '$ID'"
+    local ID=${1:-}
+    local TASK_ID=$(GetTaskID $ID)
+    if [[ -z "${TASK_ID:-}" ]]; then
+         ConsolePrint error "task-status - unknown task ID '$ID'"
         return
     fi
+    ID=$TASK_ID
 
     local FLAVOR
     local MODE
@@ -728,4 +698,41 @@ TaskStatus() {
         "E")        PrintColor light-red ${CHAR_MAP["DIAMOND"]} ;;
         "W")        PrintColor yellow ${CHAR_MAP["DIAMOND"]} ;;
     esac
+}
+
+
+
+##
+## function: TaskTagline()
+## - prints the task tagline with formatting (padding).
+## $1: ID, long or short
+## $2: indentation adjustment, 0 or empty for none
+## $3: set to anything to have no trailing padding (the $2 to a number, e.g. 0)
+##
+TaskTagline() {
+    local ID=${1:-}
+    local TASK_ID=$(GetTaskID $ID)
+    if [[ -z "${TASK_ID:-}" ]]; then
+         ConsolePrint error "task-tagline - unknown task ID '$ID'"
+        return
+    fi
+    ID=$TASK_ID
+
+    local ADJUST=${2:-0}
+    local DESCRIPTION
+    local DESCR_EFFECTIVE
+    local PADDING
+
+    local DESCRIPTION=${DMAP_TASK_DESCR[$ID]}
+    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["TASK_DESCRIPTION_LENGTH"]}" ]]; then
+        printf "%s" "$DESCRIPTION"
+        if [[ -z ${3:-} ]]; then
+            DESCR_EFFECTIVE=${#DESCRIPTION}
+            PADDING=$((${CONSOLE_MAP["TASK_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
+            printf '%*s' "$PADDING"
+        fi
+    else
+        DESCR_EFFECTIVE=$((${CONSOLE_MAP["TASK_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
+        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+    fi
 }

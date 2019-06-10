@@ -11,14 +11,14 @@
 // @author     Sven van der Meer (vdmeer.sven@mykolab.com)
 // @version    0.0.5
 //
-//tag:es
+//tag:dep
 //
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_exitstatusdescription>>
+<<_dependencytagline>>
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_exitstatusdescription>>
+<<_dependencytagline>>
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:exit-status.html#exitstatusdescription[ExitstatusDescription()]
+link:dependencies.html#dependencytagline[DependencyTagline()]
 endif::[]

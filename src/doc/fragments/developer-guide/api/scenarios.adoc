@@ -25,10 +25,10 @@ include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/execute
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/getscenarioid.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/scenariodescription.adoc[leveloffset=+1]
-
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/scenarioelementdescription.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/scenariointable.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/scenariostatus.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/scenariotagline.adoc[leveloffset=+1]

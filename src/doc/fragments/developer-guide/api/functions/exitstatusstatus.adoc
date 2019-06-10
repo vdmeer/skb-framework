@@ -14,5 +14,58 @@
 
 
 == ExitstatusStatus()
+_void ExiststatusStatus( $1 )_ - prints formatted exit status code status information.
+
+This function prints formatted status information about the exit status _$1_.
+This function is mainly used in table views.
+There two status information printed:
+
+* The exit status origin: for which part of the framework is the exit status declared?
+    For status _all_ and _app_, a green string _all_ or _app_ will be printed.
+    For status _fw_, _loader_ and _task_, a blue string_fw_, _loader_ or _task_ will be printed.
+* The exist status problem: what problem does this exit status point to?
+    For _internal_ problems, a blue string _internal_ will be printed.
+    For _external_ problems, a green string _external_ will be printed.
 
 
+*Parameter*
+
+* `$1`, _string_ - the exit status identifier to process
+
+
+*Errors*
+
+* For unknown option identifiers (names)
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
+to print the colors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenumber]
+----
+ExitstatusStatus 000
+ExitstatusStatus 003
+ExitstatusStatus 010
+ExitstatusStatus 012
+ExitstatusStatus 050
+----
+
+The examples above will print the status of a few options as follows:
+
+[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+----
+<span style="color: #00FF00">all</span>     <span style="color: #0000FF">internal</span>
+<span style="color: #00FF00">app</span>     <span style="color: #00FF00">external</span>
+<span style="color: #0000FF">fw</span>      <span style="color: #00FF00">external</span>
+<span style="color: #0000FF">loader</span>  <span style="color: #00FF00">external</span>
+<span style="color: #0000FF">task</span>    <span style="color: #00FF00">external</span>
+----

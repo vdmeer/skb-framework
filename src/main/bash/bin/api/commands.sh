@@ -30,41 +30,6 @@
 
 
 ##
-## function: CommandDescription()
-## - describes the command description
-## $1: command ID, mustbe long form
-## $2: indentation adjustment, 0 or empty for none
-## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
-##
-CommandDescription() {
-    local ID=$1
-    if [[ -z ${DMAP_CMD[$ID]:-} ]]; then
-        ConsolePrint error "describe-cmd/descr - unknown command '$ID'"
-        return
-    fi
-
-    local ADJUST=${2:-0}
-    local DESCRIPTION
-    local DESCR_EFFECTIVE
-    local PADDING
-
-    local DESCRIPTION=${DMAP_CMD_DESCR[$ID]}
-    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["CMD_DESCRIPTION_LENGTH"]}" ]]; then
-        printf "%s" "$DESCRIPTION"
-        if [[ -z ${3:-} ]]; then
-            DESCR_EFFECTIVE=${#DESCRIPTION}
-            PADDING=$((${CONSOLE_MAP["CMD_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
-            printf '%*s' "$PADDING"
-        fi
-    else
-        DESCR_EFFECTIVE=$((${CONSOLE_MAP["CMD_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
-        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
-    fi
-}
-
-
-
-##
 ## CommandElementDescription()
 ## - description for commands
 ## $1: print mode
@@ -95,11 +60,13 @@ CommandElementDescription() {
 ## optional $2: print mode (adoc, ansi, text)
 ##
 CommandInTable() {
-    local ID=$(GetCommandID $1)
-    if [[ -z ${DMAP_CMD[$ID]:-} ]]; then
-        ConsolePrint error "command-in-table - unknown command '$ID'"
+    local ID=${1:-}
+    local CMD_ID=$(GetCommandID $ID)
+    if [[ -z ${CMD_ID:-} ]]; then
+        ConsolePrint error "command-in-table - unknown command ID '$ID'"
         return
     fi
+    ID=$CMD_ID
 
     local PRINT_MODE=${2:-}
 
@@ -119,22 +86,65 @@ CommandInTable() {
 
 
 ##
+## function: CommandTagline()
+## - prints the command tagline with formatting (padding).
+## $1: command ID, long or short
+## $2: indentation adjustment, 0 or empty for none
+## $3: set to anything to have no trailing padding (the $2 to a number, e.g. 0)
+##
+CommandTagline() {
+    local ID=${1:-}
+    local CMD_ID=$(GetCommandID $ID)
+    if [[ -z ${CMD_ID:-} ]]; then
+        ConsolePrint error "command-tagline - unknown command ID '$ID'"
+        return
+    fi
+    ID=$CMD_ID
+
+    local ADJUST=${2:-0}
+    local DESCRIPTION
+    local DESCR_EFFECTIVE
+    local PADDING
+
+    local DESCRIPTION=${DMAP_CMD_DESCR[$ID]}
+    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["CMD_DESCRIPTION_LENGTH"]}" ]]; then
+        printf "%s" "$DESCRIPTION"
+        if [[ -z ${3:-} ]]; then
+            DESCR_EFFECTIVE=${#DESCRIPTION}
+            PADDING=$((${CONSOLE_MAP["CMD_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
+            printf '%*s' "$PADDING"
+        fi
+    else
+        DESCR_EFFECTIVE=$((${CONSOLE_MAP["CMD_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
+        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+    fi
+}
+
+
+
+##
 ## DescribeCommand()
-## - describes a command using print options and print features
-## $1: command id, mustbe long form
+## - describes a command with various options.
+## $1: command id, long or short
 ## $2: print option: standard, full
 ## $3: print features: none, line-indent, enter, post-line, (adoc, ansi, text*)
 ## optional $4: print mode (adoc, ansi, text)
 ##
 DescribeCommand() {
     local ID=${1:-}
-    if [[ -z ${DMAP_CMD[$ID]:-} ]]; then
-        ConsolePrint error "describe-cmd - unknown command '$ID'"
+    local CMD_ID=$(GetCommandID $ID)
+    if [[ -z ${CMD_ID:-} ]]; then
+        ConsolePrint error "describe-command - unknown command ID '$ID'"
         return
     fi
+    ID=$CMD_ID
 
     local PRINT_OPTION=${2:-}
     local PRINT_FEATURE=${3:-}
+    local PRINT_MODE="${4:-}"
+    if [[ "${PRINT_MODE}" == "" ]]; then
+        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
+    fi
 
     local SPRINT=""
     local SHORT
@@ -148,10 +158,8 @@ DescribeCommand() {
             line-indent)
                 LINE_INDENT="      "
                 ## exception for adoc, no line indent even if requested
-                if [[ -n "${4:-}" ]]; then
-                    if [[ "$4" == "adoc" ]]; then
-                        LINE_INDENT=
-                    fi
+                if [[ "${PRINT_MODE}" == "adoc" ]]; then
+                    LINE_INDENT=
                 fi
             ;;
             post-line)      POST_LINE="::" ;;
@@ -188,19 +196,15 @@ DescribeCommand() {
     if [[ "$PRINT_OPTION" == "full" ]]; then
         TEMPLATE+=" - %DESCRIPTION%"
     fi
-    if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
+    if [[ "${PRINT_MODE}" == "adoc" ]]; then
         TEMPLATE+=":: "
     fi
 
     case "$PRINT_OPTION" in
         standard | full)
-            local TMP_MODE=${4:-}
-            if [[ "$TMP_MODE" == "" ]]; then
-                TMP_MODE=${CONFIG_MAP["PRINT_MODE"]}
-            fi
-            TEMPLATE=${TEMPLATE//%SHORT%/$(PrintEffect bold "$SHORT" $TMP_MODE)}
-            TEMPLATE=${TEMPLATE//%LONG%/$(PrintEffect bold "$LONG" $TMP_MODE)}
-            TEMPLATE=${TEMPLATE//%ARGUMENT%/$(PrintColor light-blue "$ARGUMENT" $TMP_MODE)}
+            TEMPLATE=${TEMPLATE//%SHORT%/$(PrintEffect bold "$SHORT" $PRINT_MODE)}
+            TEMPLATE=${TEMPLATE//%LONG%/$(PrintEffect bold "$LONG" $PRINT_MODE)}
+            TEMPLATE=${TEMPLATE//%ARGUMENT%/$(PrintColor light-blue "$ARGUMENT" $PRINT_MODE)}
             TEMPLATE=${TEMPLATE//%DESCRIPTION%/"$DESCRIPTION"}
             SPRINT+=$TEMPLATE
             ;;
@@ -219,7 +223,7 @@ DescribeCommand() {
         printf "\n"
     fi
 
-    if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
+    if [[ "${PRINT_MODE}" == "adoc" ]]; then
         printf "\n\n"
     fi
 }

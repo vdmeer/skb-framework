@@ -323,7 +323,7 @@ TsRunTargets() {
             ;;
 
         *)
-            ConsolePrint warn-strict "nunknown target '$TARGET'\nThis is a programming error in the script"
+            ConsolePrint warn-strict "unknown target '$TARGET'\nThis is a programming error in the script"
             ;;
     esac
 }

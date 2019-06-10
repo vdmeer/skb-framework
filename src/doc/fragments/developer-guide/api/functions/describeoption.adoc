@@ -14,5 +14,84 @@
 
 
 == DescribeOption()
+_void DescribeOption( $1, $2, $3, [$4])_ - describes an option with various options.
+
+This function describes the option _$1_ using the print option _$2_, the print feature(s) _$3_, and an optional print mode _$4_.
 
 
+*Parameter*
+
+* `$1`, _string_ - the option identifier to process, long- or short form
+* `$2`, _string_ - the print option, one of:
+    ** _standard_ - prints one line for the option: short form (if declared), long form, an argument if declared, and the tag line.
+    ** _full* - prints _standard_ plus the option description.
+* `$3`, _string_ - the print features.
+    One or more of the features can be used.
+    If no special feature should be used, use `none`.
+    Separate multiple features using a blank ` `.
+    The following features are supported:
+    ** `none` - does activate no feature.
+        Can be used when no feature should be used but a specific print mode (_$4_) is required.
+        Note: has no effect if used with other features.
+    ** `line-indent` - prints an indentation of 6 blanks before the line, except when in print mode _adoc_.
+    ** `enter`  - prints a new line at the end of the description.
+    ** `sl-indent` - prints an indentation of four blanks if no short form is declared for the option.
+    ** `post-line` - prints a double colon after the line as `::`.
+    ** `adoc` - prints a description in _adoc_ taken from the option declaration.
+    ** `ansi` -  prints a description with plain text formatting taken from option declaration.
+    ** `text` - actually any string starting with `text` - prints a description with plain text formatting taken from option declaration.
+* `$4`, _string_, optional - the requested print mode.
+    If present, the requested print mode will be used.
+    If not present, the default (currently set) print mode will be used.
+    Note: this parameter is independent of _$3_!
+
+
+*Errors*
+
+* For an unknown option identifier (name)
+* For unknown print features
+* For an unknown print option
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getoptionid-link.adoc[]
+to retrieve the option identifier.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
+to print the effects.
+
+
+*External Dependencies*
+
+* `cat` - to print the description text, if requested
+
+
+*Examples*
+
+[source%nowrap,bash,linenumber]
+----
+DescribeOption print-mode full "ansi line-indent" ansi
+----
+
+The example above calls the function to get a full description of the option _statistics_,
+    with the line indentation,
+    description using ANSI formatting, and
+    the forced print mode _ansi_.
+
+[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+----
+      *-P*, *--print-mode* <span style="color: #0000FF">MODE</span> - sets the print mode: ansi, text, text-anon
+        Sets the print mode for the application (loader,  shell,  tasks).  The
+        print  mode  directs  how  messages,  errors,  warnings,   and   other
+        information are printed to the console.  It  can  be  set  to:  `ansi`
+        (color and effects are printed using ANSI escape codes), `text` (plain
+        text output), or  `adoc`  (Asciidoctor  style  annotated  text).  This
+        setting can be changed at runtime using the task `setting`.
+----
+
+The screen above shows the result of the function call.

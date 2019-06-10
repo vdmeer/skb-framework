@@ -36,7 +36,7 @@
 ##
 DebugParameter() {
     local ID=${1:-}
-    PARAM_ID=$(GetParameterID $ID)
+    local PARAM_ID=$(GetParameterID $ID)
     if [[ -z "${PARAM_ID:-}" ]]; then
          ConsolePrint error "debug-parameter - unknown parameter ID '$ID'"
         return
@@ -53,7 +53,7 @@ DebugParameter() {
     SPRINT+=$TEMPLATE"\n"
 
     SPRINT+="    - origin:        "${DMAP_PARAM_ORIGIN[$ID]}"\n"
-    SPRINT+="    - default value: "$(ParameterDefvalueDescription $ID)"\n"
+    SPRINT+="    - default value: "$(ParameterDefvalueDescription $ID text)"\n"
     if [[ -n "${DMAP_PARAM_IS[$ID]:-}" ]]; then
         SPRINT+="    - param is:      "${DMAP_PARAM_IS[$ID]}"\n"
     fi
@@ -74,21 +74,27 @@ DebugParameter() {
 
 ##
 ## DescribeParameter()
-## - describes a parameter using print options and print features
-## $1: parameter id
+## - describes a parameter with various options.
+## $1: parameter id, any spelling
 ## $2: print option: standard, full, default-value
 ## $3: print features: none, line-indent, enter, post-line, (adoc, ansi, text*)
 ## optional $4: print mode (adoc, ansi, text)
 ##
 DescribeParameter() {
     local ID=${1:-}
-    if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-param - unknown parameter '$ID'"
+    local PARAM_ID=$(GetParameterID $ID)
+    if [[ -z "${PARAM_ID:-}" ]]; then
+         ConsolePrint error "describe-parameter - unknown parameter ID '$ID'"
         return
     fi
+    ID=$PARAM_ID
 
     local PRINT_OPTION="${2:-}"
     local PRINT_FEATURE="${3:-}"
+    local PRINT_MODE="${4:-}"
+    if [[ "${PRINT_MODE}" == "" ]]; then
+        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
+    fi
 
     local SPRINT=""
     local FEATURE
@@ -103,10 +109,8 @@ DescribeParameter() {
             line-indent)
                 LINE_INDENT="      "
                 ## exception for adoc, no line indent even if requested
-                if [[ -n "${4:-}" ]]; then
-                    if [[ "$4" == "adoc" ]]; then
+                if [[ "${PRINT_MODE}" == "adoc" ]]; then
                         LINE_INDENT=
-                    fi
                 fi
             ;;
             post-line)      POST_LINE="::" ;;
@@ -140,18 +144,14 @@ DescribeParameter() {
     if [[ "$PRINT_OPTION" == "default-value" ]]; then
         TEMPLATE="%DEFAULT_VALUE%"
     fi
-    if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
+    if [[ "${PRINT_MODE}" == "adoc" ]]; then
         TEMPLATE+=":: "
     fi
 
     case "$PRINT_OPTION" in
         standard | full | default-value)
-            local TMP_MODE=${4:-}
-            if [[ "$TMP_MODE" == "" ]]; then
-                TMP_MODE=${CONFIG_MAP["PRINT_MODE"]}
-            fi
-            TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID" $TMP_MODE)}
-            TEMPLATE=${TEMPLATE//%DEFAULT_VALUE%/$(PrintEffect italic "$DEFAULT_VALUE" $TMP_MODE)}
+            TEMPLATE=${TEMPLATE//%ID%/$(PrintEffect bold "$ID" $PRINT_MODE)}
+            TEMPLATE=${TEMPLATE//%DEFAULT_VALUE%/$(PrintEffect italic "$DEFAULT_VALUE" $PRINT_MODE)}
             TEMPLATE=${TEMPLATE//%DESCRIPTION%/"$DESCRIPTION"}
             SPRINT+=$TEMPLATE
             ;;
@@ -201,14 +201,22 @@ GetParameterID() {
 
 ##
 ## function: ParameterDefvalueDescription()
-## - prints the parameter default value with path shortening and formatting
-## $1: param ID
+## - prints the parameter default value with path shortening and formatting.
+## $1: param ID, any spelling
+## $2: special formatting for given print mode
 ##
 ParameterDefvalueDescription() {
-    local ID=$1
-    if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-parameter/defval - unknown '$ID'"
+    local ID=${1:-}
+    local PARAM_ID=$(GetParameterID $ID)
+    if [[ -z "${PARAM_ID:-}" ]]; then
+         ConsolePrint error "parameter-defval-description - unknown parameter ID '$ID'"
         return
+    fi
+    ID=$PARAM_ID
+
+    local PRINT_MODE="${2:-}"
+    if [[ "${PRINT_MODE}" == "" ]]; then
+        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
     fi
 
     local DEFAULT_VALUE=${DMAP_PARAM_DEFVAL[$ID]}
@@ -217,48 +225,13 @@ ParameterDefvalueDescription() {
     else
         DEFAULT_VALUE=${DEFAULT_VALUE/${CONFIG_MAP["FW_HOME"]}/\$FW_HOME}
         DEFAULT_VALUE=${DEFAULT_VALUE/${CONFIG_MAP["APP_HOME"]}/\$APP_HOME}
-        if [[ "${2:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
+        if [[ "${PRINT_MODE}" == "adoc" ]]; then
             DEFAULT_VALUE="\`"$DEFAULT_VALUE"\`"
         else
             DEFAULT_VALUE='"'$DEFAULT_VALUE'"'
         fi
     fi
     printf "%s" "$DEFAULT_VALUE"
-}
-
-
-
-##
-## function: ParameterDescription()
-## - describes the parameter description
-## $1: parameter ID
-## $2: indentation adjustment, 0 or empty for none
-## $3: set to anything to have no trailing padding (the $2 to a number, e.g. 0)
-##
-ParameterDescription() {
-    local ID=$1
-    if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-parameter/descr - unknown '$ID'"
-        return
-    fi
-
-    local ADJUST=${2:-0}
-    local DESCRIPTION
-    local DESCR_EFFECTIVE
-    local PADDING
-
-    local DESCRIPTION=${DMAP_PARAM_DESCR[$ID]}
-    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["PARAM_DESCRIPTION_LENGTH"]}" ]]; then
-        printf "%s" "$DESCRIPTION"
-        if [[ -z ${3:-} ]]; then
-            DESCR_EFFECTIVE=${#DESCRIPTION}
-            PADDING=$((${CONSOLE_MAP["PARAM_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
-            printf '%*s' "$PADDING"
-        fi
-    else
-        DESCR_EFFECTIVE=$((${CONSOLE_MAP["PARAM_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
-        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
-    fi
 }
 
 
@@ -290,15 +263,17 @@ ParameterElementDescription() {
 ##
 ## function: ParameterInTable()
 ## - main parameter details for table views
-## $1: ID, any spelling
+## $1: ID, any spelling (lower case, upper case, mixed)
 ## optional $2: print mode (adoc, ansi, text)
 ##
 ParameterInTable() {
-    local ID=$(GetParameterID $1)
-    if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "parameter-in-table - unknown '$ID'"
+    local ID=${1:-}
+    local PARAM_ID=$(GetParameterID $ID)
+    if [[ -z "${PARAM_ID:-}" ]]; then
+         ConsolePrint error "parameter-in-table - unknown parameter ID '$ID'"
         return
     fi
+    ID=$PARAM_ID
 
     local PRINT_MODE=${2:-}
 
@@ -320,16 +295,17 @@ ParameterInTable() {
 
 ##
 ## function: ParameterStatus()
-## - describes the parameter status for the parameter screen
-## $1: param ID
-## optional $2: print mode (adoc, ansi, text)
+## - prints formatted parameter status information.
+## $1: param ID, any spelling (lower case, upper case, mixed)
 ##
 ParameterStatus() {
-    local ID=$1
-    if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-parameter/status - unknown '$ID'"
+    local ID=${1:-}
+    local PARAM_ID=$(GetParameterID $ID)
+    if [[ -z "${PARAM_ID:-}" ]]; then
+         ConsolePrint error "parameter-status - unknown parameter ID '$ID'"
         return
     fi
+    ID=$PARAM_ID
 
     printf "%s " "${DMAP_PARAM_ORIGIN[$ID]:0:1}"
 
@@ -346,4 +322,41 @@ ParameterStatus() {
         "D")        PrintColor yellow ${CHAR_MAP["DIAMOND"]} ;;
         *)          printf "${CHAR_MAP["DIAMOND"]}"
     esac
+}
+
+
+
+##
+## function: ParameterTagline()
+## - prints the parameter tagline with formatting (padding).
+## $1: parameter ID, any spelling
+## $2: indentation adjustment, 0 or empty for none
+## $3: set to anything to have no trailing padding (the $2 to a number, e.g. 0)
+##
+ParameterTagline() {
+    local ID=${1:-}
+    local PARAM_ID=$(GetParameterID $ID)
+    if [[ -z "${PARAM_ID:-}" ]]; then
+         ConsolePrint error "parameter-tagline - unknown parameter ID '$ID'"
+        return
+    fi
+    ID=$PARAM_ID
+
+    local ADJUST=${2:-0}
+    local DESCRIPTION
+    local DESCR_EFFECTIVE
+    local PADDING
+
+    local DESCRIPTION=${DMAP_PARAM_DESCR[$ID]}
+    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["PARAM_DESCRIPTION_LENGTH"]}" ]]; then
+        printf "%s" "$DESCRIPTION"
+        if [[ -z ${3:-} ]]; then
+            DESCR_EFFECTIVE=${#DESCRIPTION}
+            PADDING=$((${CONSOLE_MAP["PARAM_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
+            printf '%*s' "$PADDING"
+        fi
+    else
+        DESCR_EFFECTIVE=$((${CONSOLE_MAP["PARAM_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
+        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+    fi
 }

@@ -32,9 +32,14 @@ This function prints all internal information about a task, including details of
 *Internal Dependencies*
 
 * {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/gettaskid-link.adoc[]
+to retrieve the task identifier.
+* {blank}
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
 to print debug information.
-
 * {blank}
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
 to print debug information.

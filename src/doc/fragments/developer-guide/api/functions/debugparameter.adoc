@@ -14,5 +14,55 @@
 
 
 == DebugParameter()
+_void DebugParameter( $1 )_ - prints debug information for a parameter.
+
+This function prints all internal information about a parameter, including details of the declaration and load status.
 
 
+*Parameters*
+
+* `$1` - parameter identifier (or name), any spelling
+
+
+*Errors*
+
+* If the parameter identifier is unknown.
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getparameterid-link.adoc[]
+to retrieve the parameter identifier.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/parameterdefvaluedescription-link.adoc[]
+to print the parameter default value..
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
+to print debug information.
+
+
+*Examples*
+
+[source%nowrap,bash,linenumber]
+----
+DebugParameter CACHE_DIR
+----
+
+The example above calls the function with the name `CACHE_DIR` printing:
+
+[source%nowrap,bash,subs="attributes,quotes"]
+----
+
+  *CACHE_DIR* - _directory for caching settings_
+    - origin:        FW_HOME
+    - default value: "/var/cache/skb-framework"
+    - param is:      dir
+    - declaration:   $FW_HOME/etc/declarations/parameters/all/CACHE_DIR
+    - requested by:  list-commands list-exitstatus list-tasks list-dependencies list-options list-parameters list-scenarios
+
+
+----

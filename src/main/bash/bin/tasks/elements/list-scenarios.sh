@@ -484,7 +484,7 @@ PrintScenarios() {
                 else
                     printf "${SCN_TABLE[$ID]}"
                 fi
-                ScenarioDescription $ID 3 none
+                ScenarioTagline $ID 3 none
                 ;;
             table)
                 if [[ -z "${SCN_TABLE[$ID]:-}" ]]; then
@@ -492,7 +492,7 @@ PrintScenarios() {
                 else
                     printf "${SCN_TABLE[$ID]}"
                 fi
-                ScenarioDescription $ID
+                ScenarioTagline $ID
                 ScenarioStatus $ID $PRINT_MODE
                 ;;
         esac

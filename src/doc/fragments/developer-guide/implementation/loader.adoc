@@ -78,9 +78,8 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=core-settings]
 
 === Core Includes
 Next, some core files from the framework's API are loaded.
-To makes things simple, the provided `_include` files are used to load all API functions.
-Error and warning counters are reset, i.e. set to _0_.
-Finally, the loaders own function for parsing the command line is loaded (line 6).
+To makes things simple, the provided `_include` file is used to load all API functions.
+Then, the loaders own function for parsing the command line is loaded.
 This only loads the function, it does not actually parse the command line.
 
 [source%nowrap,bash,linenums,subs="attributes+"]
@@ -94,7 +93,7 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=core-includes]
 The next step is to set the flavor and application name/script.
 The flavor is any prefix used by the application to identify parameters.
 It must be provided by the application (which starts the loader) as the setting `__FW_LOADER_FLAVOR`.
-Once flavor and application settings are realized, the application map and version are loaded (lines 44-51).
+Once flavor and application settings are realized, the application map and version are loaded.
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----

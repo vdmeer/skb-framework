@@ -11,14 +11,14 @@
 // @author     Sven van der Meer (vdmeer.sven@mykolab.com)
 // @version    0.0.5
 //
-//tag:par
+//tag:opt
 //
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_parameterdescription>>
+<<_optiontagline>>
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_parameterdescription>>
+<<_optiontagline>>
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:parameters.html#parameterdescription[ParameterDescription()]
+link:options.html#optiontagline[OptionTagline()]
 endif::[]

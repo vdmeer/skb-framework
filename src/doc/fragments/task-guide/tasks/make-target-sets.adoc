@@ -14,51 +14,39 @@
 
 
 == make-target-sets
-This task can be used to build Maven sites.
-Beside calling Apache Maven, it also provides functionality to run scripts before building and before staging a site.
-Those scripts can take full advantage of the framework and its API.
-This allows to build even very complex sites in an automated way, with features realized outside the Maven build process but fully integrated into the overall site building.
+This task executes one or more targets out of a defined set of targets.
+Targets will be build in the order they are declared, regardless of the order they are requested in the command line.
+Since all targets are executed within the framework (or application), all API functions and framework functionality can be used, beside any other `bash` or external command.
 
-The task is not specific to one site, but can build one or more sites, even within one execution.
-The parameter _MVN_SITES_ is used to identify the sites that can be build.
-It should contain a set of paths to the site directories.
-Each of these directories should contain a _pom_ file (`pom.xml`) with the Maven specifications for the site.
-It also should contain a framework-specific metadata file (`skb-site.id`).
-It might contain a file `skb-site-scripts.skb` with scripts to be run before the site build and before the site staging.
+The task is not specific to one target set, but can build one or more sets.
+It can even build targets from multiple target sets in the same execution, as long as the actual targets are supported by all target set.
+
+
+The parameter _MAKE_TARGET_SETS_ is used to identify the target sets that can be used.
+It should contain a set of paths to directories with a target set declaration file (`skb-ts.id`) and a target set script file (`skb-ts-scripts.skb`).
+There can only be one target set in any of the directories of _MAKE_TARGET_SETS_.
 
 The general options, shown below, allow to direct the behavior of the task.
 
-* _build_ - request one or more sites to be built
-* _clean_ - requests to clean one or more sites.
-    Clean will call `mvn clean` to do the job
-* _list_ - will list all defined and loaded sites, which then can be build or cleaned.
-* _test_ - once a site is successfully build, it can be tested.
-    Testing here means to start a web browser with the site's `index.html` file.
+* _build_ - request one or more target sets to be built.
+* _clean_ - requests to clean one or more target sets.
+* _list_ - will list all defined and loaded target sets, which then can be build or cleaned.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -b | --build            builds site(s), requires a target and site ID or all
-   -c | --clean            cleans all site(s)
-   -h | --help             print help screen and exit
-   -l | --list             list sites
-   -T | --test             test sites, open in browser
+   options
+   *-c* | *--clean*            cleans target set(s) (all or given ID)
+   *-h* | *--help*             print help screen and exit
+   *-l* | *--list*             list target sets
 ----
 
 === Target Options
-The task can build a Maven site for several targets:
+The task can builds any target requested.
+Targets are declared in the file `skb-ts.id` per target set.
 
-* _targets_ - builds all targets
-* _ad_ - calls Maven with the argument `site:attach-descriptor`.
-    This argument is important for multi-module sites with inherited descriptors
-* _site_ - calls Maven to build the site, but not stage it
-* _stage_ - calls Maven to stage a site that has been prior built successfully
-
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -t | --targets          mvn: all targets
-        --ad               mvn: site:attach-descriptor
-        --site             mvn: site
-        --stage            mvn: site:stage
+   *-t* | *--targets* <span style="color: #5C5CFF">TARGETS</span>  list of targets, separated by comma
 ----
 
 There is no default target.
@@ -66,135 +54,172 @@ There is no default target.
 
 
 === Filter Options
-Filters allow to specify which of the loaded (and available) sites should be built:
+Filters allow to specify which of the loaded (and available) target sets should be built:
 
-* _all_ - will build all sites, in the oder they are listed (alphabetically)
-* _id_ - can be used to build a specific site
+* _all_ - will build all target sets, in the oder they are listed (alphabetically)
+* _id_ - can be used to build a specific target set
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   -A | --all              all sites
-   -i | --id ID            site identifier for building
+   filters
+   *-A* | *--all*              all target sets
+   *-i* | *--id* <span style="color: #5C5CFF">ID</span>            target set identifier for building
 ----
 
 There is no default filter.
 
 
 
-=== Maven Options
-Further options exist to configure the runtime behavior of Maven:
-
-* _profile_ - call Maven with a specific profile setting, e.g. when the site definitions in the POM file are within a profile
+=== Examples
+The framework's distribution artifacts are build using a target set.
+When correctly configured, the site can be listed.
+The following example assumes that we are in the root directory of the framework sources (e.g. cloned from Github):
 
 [source%nowrap,bash,indent=0]
 ----
-        --profile PROFILE  mvn: use profile PROFILE
+export SF_MAKE_TARGET_SETS=$PWD
+./src/main/bash/bin/skb-framework -B
+make-target-sets --list
 ----
-
-
-
-=== Examples
-The framework's own site can be build using this task.
-When correctly configured, the site can be listed
-
-[example]
-====
-build-mvn-site --list
-====
 
 This will show (with a real path instead of _SOME_PATH_)
+[source%nowrap,bash,indent=0]
 ----
-  Sites
-   fw - SKB Framework site - SOME_PATH/dev/skb/bash/framework
-----
-
-The site can then be build using
-
-[example]
-====
-build-mvn-site --build --id fw
-====
-
-The task and Maven output will be similar to:
-----
-[INFO] Scanning for projects...
-[WARNING] The project de.vandermeer:skb-framework:pom:0.0.1 uses prerequisites which is only intended for maven-plugin projects but not for non maven-plugin projects. For such purposes you should use the maven-enforcer-plugin. See https://maven.apache.org/enforcer/enforcer-rules/requireMavenVersion.html
-[INFO]
-[INFO] --------------------< de.vandermeer:skb-framework >---------------------
-[INFO] Building skb-framework 0.0.1
-[INFO] --------------------------------[ pom ]---------------------------------
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 0.079 s
-[INFO] Finished at: 2018-11-15T21:08:19Z
-[INFO] ------------------------------------------------------------------------
-      -> building user guide (html, pdf)
-      -> building task guide (html, pdf)
-      -> building developer guide (html, pdf)
-      -> building implementation doc (html, pdf)
+  Target Sets
+    - skb-fw - targets to build the SKB-Framework distribution/site artifacts - SOME_PATH
+      --> with target(s): help clean tool mkdirs readme dist adocindex documents site
 ----
 
-Setting the task level to _info_ will provide more information on the task's progress.
+The target _help_ can be executed using:
+
+[source%nowrap,bash,indent=0]
+----
+make-target-sets --id skb-fw --targets help
+----
+
+The output will be:
+----
+    available targets
+       all           - runs all targets, except help
+       clean         - removes all created artifacts (gradle, mvn)
+       help          - prints this help
+
+       tool          - builds the framework tool (Java app to convert ADOC to TXT), gradle
+       mkdirs        - creates required directories
+       readme        - creates the file README.adoc for the source repository
+       dist          - builds distribution archives (not the PPA!) using gradle
+       adocindex     - creates the ADOC index files for site and documents
+       documents     - build the stand-alone documents (HTML and PDF)
+       site          - creates the framework site (mvn)
+
+    Notes:
+       - separate all required targets using a comma.
+       - sequence of given targets is not critical, they are always build in the right order.
+       - the site will not rebuild element lists if they do exist already
+         -- use target clean or run 'mvn clean' to build a fresh site
+
+    Requirements:
+       - gradle           - to build the Java tool and the distributions
+       - JDK8             - to build the tool
+       - Apache Ant       - to set file versions
+       - Apache Maven     - to build the site
+       - asciidoctor      - to build some targets for the manual, manual, and documents
+       - asciidoctor-pdf  - to build the PDF manual and documents
+       - coderay          - for syntax highlighting in ADOC files
+----
+
+All other targets can be executed in the same way.
+The target _all_ is always supported, and will build all targets in the declared sequence.
 
 
 
-=== Site Files
-As mentioned above, a site suitable for this task should provide a file with its metadata and might provide a file with scripts to be used in the build.
-Both files must be located in the same directory as the POM file.
+=== Target Set Files
+As mentioned above, a target set suitable for this task should provide a file with its metadata and might provide a file with scripts to be used in the build.
+Both files must be located in the same directory and the directory must be named in _MAKE_TARGET_SETS_.
 
-The metadata file must be named `skb-site.id`.
+The metadata file must be named `skb-ts.id`.
 It must contain the following information:
 
 * An identifier.
     This identifier can be any string that does not contain whitespaces or _bash_ special characters (such as `&` or `*`).
-    The identifier must be unique for all site in _MVN_SITES_.
+    The identifier must be unique for all target sets in _MAKE_TARGET_SETS_.
 * A description.
-    The description should be short, like a tag line, to fit into the listing of sites.
+    The description should be short, like a tag line, to fit into the listing of target sets.
+* A set of targets in the order (sequence) they should be built in.
+    This set _must_ declare the standard targets _help_ (for printing help information about the target set) and _clean_ (to remove built artifacts).
+    Ideally, _help_ is the first and _clean_ the second target in the declaration.
+    It makes no sense to declare any other target before _clean_.
+
 
 The source block below shows the file for the frameworks' site.
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
-include::{skb-site-main-dir}/../skb-site.id[tags=site-id]
+include::{skb-ts.id}/../skb-site.id[tags=ts-id]
 ----
 
-The file `skb-site-scripts.skb` could be provided.
-If it does not exist, the task will build the site purely using Maven.
-If it does exist, the task will source the file and call two functions the file must provide.
-This means that the file can
+The file script file must be named `skb-ts-scripts.skb`.
+The task will fail if it does not exist.
+It must define a function _TsRunTargets()_ which takes the targets as argument _$1_.
 
-* Use anything a normal _bash_ script can do at any place in the file
-* Use anything a normal _bash_ script can do inside the two required functions
-* Use the full framework settings and API at any place in the file
+The task will source the file and call the function with one target at a time.
+Inside _TsRunTargets()_, we can
 
-The following code block shows the standard contents of the script file with the two required functions:
+* use anything a normal _bash_ script can do at any place in the file,
+* use anything a normal _bash_ script can do inside the two required functions, and
+* use the full framework settings and API at any place in the file.
 
-[source%nowrap,bash]
+The following code block shows the recommended contents of the script file with the two required targets (_help_ and _clean_) and a few extra targets from the framework's target set (not all of them).
+It also sets a few local variables, which are important for building the framework distribution.
+
+[source%nowrap,bash,linenums]
 ----
-MvnSitePreScript() {
-    # any code run before Maven is called to build the site
+TsRunTargets() {
+  local RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
+  local TOOL_VERSION="${RELEASE_VERSION}"
+  shopt -s globstar
+
+  case $1 in
+    help)
+      ## print help here
+      ;;
+
+    clean)
+      ## put all commands to remove built artifacts here
+      ;;
+
+    tool)
+      ## build the framework tool (gradle)
+      ;;
+
+    dist)
+      ## build the DEB/RPM/TGZ distribution files
+      ;;
+
+    site)
+      ${DMAP_TASK_EXEC["build-mvn-site"]} --build --targets --id fw
+      ExitOnTaskErrors
+      ;;
+
+    *)
+      ConsolePrint warn-strict "unknown target '$TARGET'"
+      ;;
+  esac
 }
-
-MvnSitePostScript() {
-    # any code run `mvn site` but before `mvn site:stage`
-}
 ----
 
-To see an example have a look at the framework's script file.
-The current file can be found in the Github repository: link:https://raw.githubusercontent.com/vdmeer/skb-framework/master/skb-site-scripts.skb[skb-site-scripts.skb].
-Here, the function `MvnSitePreScript` executes framework tasks to create files for the site.
-The function `MvnSitePostScript` calls tools from the AsciiDoctor tool chain to create documents.
-It also uses the framework's API function `MvnSiteFixAdoc`, which helps to fix some AsciiDoctor problem in generated HTML files in the site.
+We only show a comment with the description of what the target should do.
+For the target _site_ we show the actual line.
+These lines use the framework API to execute a scenario (line 24) and exit the task in case of errors while executing the scenario (line 25).
+Furthermore, line 28-30 show that the function also detects errors and uses the API function _ConsolePrint()_ to print an error message and increase the error counter.
+The full script file can be found in the Github repository: link:https://raw.githubusercontent.com/vdmeer/skb-framework/master/skb-ts-scripts.skb[skb-ts-scripts.skb].
 
 
 
 === Requirements
-The task takes the sites it should load and build from the parameter _MVN_SITES_.
-If no sites are provided, or no sites could be loaded (due to a missing side identifier file), the task will throw an error.
+The task takes the sites it should load and build from the parameter _MAKE_TARGET_SETS_.
+If no target set is provided, or none could be loaded (due to a missing side identifier file), the task will throw an error.
 
-Building a Maven site of course requires Maven (dependency _maven_), which in turn requires a JDK to be installed on the host as well.
-
-Testing a site is done by starting a web browser with the site's `index.html` file.
-This requires the task `start-browser` to be loaded and well-configured.
-Without this task be available, sites cannot be tested.
+All other requirements depend on the actual commands used in the script file.
+Any task or scenario executed here must be loaded successfully.
+Any external dependency must be available at execution time.

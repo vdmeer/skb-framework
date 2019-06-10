@@ -27,6 +27,8 @@
 ## @version    0.0.5
 ##
 
+#tag::ts-id[]
 ID=skb-fw
 DESCRIPTION="targets to build the SKB-Framework distribution/site artifacts"
 TARGETS="help clean tool mkdirs readme dist adocindex documents site"
+#end::ts-id[]

@@ -31,21 +31,28 @@
 
 ##
 ## DescribeOption()
-## - describes a option using print options and print features
-## $1: option id, mustbe long form
+## - describes an option with various options.
+## $1: option id, long or short
 ## $2: print option: standard, full
 ## $3: print features: none, line-indent, sl-indent, enter, post-line, (adoc, ansi, text*)
 ## optional $4: print mode (adoc, ansi, text)
 ##
 DescribeOption() {
     local ID=${1:-}
-    if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-opt - unknown option '$ID'"
+    local OPT_ID=$(GetOptionID $ID)
+    if [[ -z ${OPT_ID:-} ]]; then
+        ConsolePrint error "describe-option - unknown option ID '$ID'"
         return
     fi
+    ID=$OPT_ID
 
     local PRINT_OPTION=${2:-}
     local PRINT_FEATURE=${3:-}
+    local PRINT_MODE="${4:-}"
+    if [[ "${PRINT_MODE}" == "" ]]; then
+        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
+    fi
+
     local SPRINT=""
     local FEATURE
     local SOURCE=""
@@ -58,10 +65,8 @@ DescribeOption() {
             line-indent)
                 LINE_INDENT="      "
                 ## exception for adoc, no line indent even if requested
-                if [[ -n "${4:-}" ]]; then
-                    if [[ "$4" == "adoc" ]]; then
+                if [[ "${PRINT_MODE}" == "adoc" ]]; then
                         LINE_INDENT=
-                    fi
                 fi
             ;;
             sl-indent)      SL_INDENT="    " ;;
@@ -104,19 +109,15 @@ DescribeOption() {
     if [[ "$PRINT_OPTION" == "full" ]]; then
         TEMPLATE+=" - %DESCRIPTION%"
     fi
-    if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
+    if [[ "${PRINT_MODE}" == "adoc" ]]; then
         TEMPLATE+=":: "
     fi
 
     case "$PRINT_OPTION" in
         standard | full)
-            local TMP_MODE=${4:-}
-            if [[ "$TMP_MODE" == "" ]]; then
-                TMP_MODE=${CONFIG_MAP["PRINT_MODE"]}
-            fi
-            TEMPLATE=${TEMPLATE//%SHORT%/$(PrintEffect bold "$SHORT" $TMP_MODE)}
-            TEMPLATE=${TEMPLATE//%LONG%/$(PrintEffect bold "$LONG" $TMP_MODE)}
-            TEMPLATE=${TEMPLATE//%ARGUMENT%/$(PrintColor light-blue "$ARGUMENT" $TMP_MODE)}
+            TEMPLATE=${TEMPLATE//%SHORT%/$(PrintEffect bold "$SHORT" $PRINT_MODE)}
+            TEMPLATE=${TEMPLATE//%LONG%/$(PrintEffect bold "$LONG" $PRINT_MODE)}
+            TEMPLATE=${TEMPLATE//%ARGUMENT%/$(PrintColor light-blue "$ARGUMENT" $PRINT_MODE)}
             TEMPLATE=${TEMPLATE//%DESCRIPTION%/"$DESCRIPTION"}
             SPRINT+=$TEMPLATE
             ;;
@@ -142,7 +143,7 @@ DescribeOption() {
         printf "\n"
     fi
 
-    if [[ "${4:-}" == "adoc" || "${CONFIG_MAP["PRINT_MODE"]}" == "adoc" ]]; then
+    if [[ "${PRINT_MODE}" == "adoc" ]]; then
         printf "\n\n"
     fi
 }
@@ -169,41 +170,6 @@ GetOptionID() {
         fi
     else
         printf ""
-    fi
-}
-
-
-
-##
-## function: OptionDescription()
-## - describes the option description
-## $1: option ID, mustbe long form
-## $2: indentation adjustment, 0 or empty for none
-## $3: set to anything to hav no trailing padding (the $2 to a number, e.g. 0)
-##
-OptionDescription() {
-    local ID=$1
-    if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-opt/descr - unknown option '$ID'"
-        return
-    fi
-
-    local ADJUST=${2:-0}
-    local DESCRIPTION
-    local DESCR_EFFECTIVE
-    local PADDING
-
-    local DESCRIPTION=${DMAP_OPT_DESCR[$ID]}
-    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["OPT_DESCRIPTION_LENGTH"]}" ]]; then
-        printf "%s" "$DESCRIPTION"
-        if [[ -z ${3:-} ]]; then
-            DESCR_EFFECTIVE=${#DESCRIPTION}
-            PADDING=$((${CONSOLE_MAP["OPT_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
-            printf '%*s' "$PADDING"
-        fi
-    else
-        DESCR_EFFECTIVE=$((${CONSOLE_MAP["OPT_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
-        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
     fi
 }
 
@@ -280,11 +246,13 @@ OptionElementDescription() {
 ## optional $2: print mode (adoc, ansi, text)
 ##
 OptionInTable() {
-    local ID=$(GetOptionID $1)
-    if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "option-in-table - unknown option '$ID'"
+    local ID=${1:-}
+    local OPT_ID=$(GetOptionID $ID)
+    if [[ -z ${OPT_ID:-} ]]; then
+        ConsolePrint error "option-in-table - unknown option ID '$ID'"
         return
     fi
+    ID=$OPT_ID
 
     local PRINT_MODE=${2:-}
     local PADDING
@@ -305,15 +273,17 @@ OptionInTable() {
 
 ##
 ## function: OptionStatus()
-## - describes the option status
-## $1: option ID, mustbe long form
+## - prints formatted option status information.
+## $1: option ID, long or short
 ##
 OptionStatus() {
-    local ID=$1
-    if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
-        ConsolePrint error "describe-opt/status - unknown option '$ID'"
+    local ID=${1:-}
+    local OPT_ID=$(GetOptionID $ID)
+    if [[ -z ${OPT_ID:-} ]]; then
+        ConsolePrint error "option-status - unknown option ID '$ID'"
         return
     fi
+    ID=$OPT_ID
 
     local ORIGIN=${DMAP_OPT_ORIGIN[$ID]}
     case $ORIGIN in
@@ -321,4 +291,41 @@ OptionStatus() {
         run)    PrintColor light-blue $ORIGIN ;;
         *)      ConsolePrint error "describe-opt/status - unknown origin '$ORIGIN'"
     esac
+}
+
+
+
+##
+## function: OptionTagline()
+## - prints the option tagline with formatting (padding).
+## $1: option ID, long or short
+## $2: indentation adjustment, 0 or empty for none
+## $3: set to anything to have no trailing padding (the $2 to a number, e.g. 0)
+##
+OptionTagline() {
+    local ID=${1:-}
+    local OPT_ID=$(GetOptionID $ID)
+    if [[ -z ${OPT_ID:-} ]]; then
+        ConsolePrint error "option-tagline - unknown option ID '$ID'"
+        return
+    fi
+    ID=$OPT_ID
+
+    local ADJUST=${2:-0}
+    local DESCRIPTION
+    local DESCR_EFFECTIVE
+    local PADDING
+
+    local DESCRIPTION=${DMAP_OPT_DESCR[$ID]}
+    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["OPT_DESCRIPTION_LENGTH"]}" ]]; then
+        printf "%s" "$DESCRIPTION"
+        if [[ -z ${3:-} ]]; then
+            DESCR_EFFECTIVE=${#DESCRIPTION}
+            PADDING=$((${CONSOLE_MAP["OPT_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
+            printf '%*s' "$PADDING"
+        fi
+    else
+        DESCR_EFFECTIVE=$((${CONSOLE_MAP["OPT_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
+        printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
+    fi
 }

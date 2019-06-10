@@ -14,7 +14,7 @@
 
 
 == DescribeApplication()
-_void DescribeApplication( $1, [$2] ) - prints application descriptions for various topics.
+_void DescribeApplication( $1, [$2] )_ - prints application descriptions for various topics.
 
 This function prints text for the topic _$1_ using the optional print mode _$2_ or the standard print mode.
 This function is used by the task _describe-application_.

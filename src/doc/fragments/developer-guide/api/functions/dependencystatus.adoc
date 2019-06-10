@@ -14,5 +14,58 @@
 
 
 == DependencyStatus()
+_void DependencyStatus( $1 ) - prints formatted dependency status information.
+
+This function prints formatted information about the dependency status for dependency _$1_.
+This function is mainly used in table views.
+There are two different information printed as one character each, separated by a blank.
+The status information are:
+
+* The dependency origin: where was the dependency declared, for instance _F_ for framework or _A_ for application.
+    The character is printed without special formatting.
+* Information about the load process: what happened when with the dependency when loaded?
+    This information is printed using the character _CHAR_MAP["DIAMOND"]_ with the following color coding:
+    ** green for successfully tested,
+    ** light-blue for not attempted, e.g. the dependency was not requested by any task, and
+    ** light-red for errors during the load process (the dependency test failed).
 
 
+*Parameter*
+
+* `$1`, _string_ - the dependency identifier to process, long- or short form
+
+
+*Errors*
+
+* For unknown dependency identifiers (names)
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
+to print the colors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenumber]
+----
+DependencyStatus asciidoctor
+DependencyStatus biber
+DependencyStatus wget
+----
+
+The examples above will print the status of a few dependencies.
+Assuming that the framework is started in mode _all_ and flavor _install_, and some further errors are present,
+the examples will print the following lines:
+
+[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+----
+F <span style="color: #00FF00">◆</span>
+F <span style="color: #0000FF">◆</span>
+F <span style="color: #FF0000">◆</span>
+----
