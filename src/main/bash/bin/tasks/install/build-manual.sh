@@ -123,7 +123,9 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "build-manual")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
                 BuildTaskHelpLine A all         "<none>"    "set all targets, overwrites other options"             $PRINT_PADDING
                 BuildTaskHelpLine b build       "<none>"    "builds a manual (manpage), requires a target"          $PRINT_PADDING
                 BuildTaskHelpLine c clean       "<none>"    "removes all target artifacts"                          $PRINT_PADDING
@@ -131,28 +133,40 @@ while true; do
                 BuildTaskHelpLine p primary     "<none>"    "set all primary targets"                               $PRINT_PADDING
                 BuildTaskHelpLine s secondary   "<none>"    "set all secondary targets"                             $PRINT_PADDING
                 BuildTaskHelpLine t test        "<none>"    "test a manual (show results), requires a target"       $PRINT_PADDING
+                BuildTaskHelpTag end options
 
-                printf "\n   targets\n"
+                printf "\n"
+                BuildTaskHelpTag start targets
+                printf "   targets\n"
                 BuildTaskHelpLine "<none>" adoc  "<none>" "primary target: aggregated ADOC file"                    $PRINT_PADDING
                 BuildTaskHelpLine "<none>" html  "<none>" "secondary target: HTML file"                             $PRINT_PADDING
                 BuildTaskHelpLine "<none>" manp  "<none>" "secondary target: man page file"                         $PRINT_PADDING
                 BuildTaskHelpLine "<none>" pdf   "<none>" "secondary target: PDF file)"                             $PRINT_PADDING
                 BuildTaskHelpLine "<none>" text  "<none>" "secondary target: text versions: ansi, text, text-anon"  $PRINT_PADDING
                 BuildTaskHelpLine "<none>" src   "<none>" "primary target: text source files from ADOC"             $PRINT_PADDING
+                BuildTaskHelpTag end targets
 
-                printf "\n   element list filters\n"
+                printf "\n"
+                BuildTaskHelpTag start element-list-filters
+                printf "   element list filters\n"
                 BuildTaskHelpLine i install     "<none>"    "only list 'install' app mode flavor tasks and scenarios"   $PRINT_PADDING
                 BuildTaskHelpLine l loaded      "<none>"    "list only loaded tasks and scenarios"                      $PRINT_PADDING
                 BuildTaskHelpLine r requested   "<none>"    "list only requested dependencies and parameters"           $PRINT_PADDING
+                BuildTaskHelpTag end element-list-filters
 
-                printf "\n   application filters\n"
+                printf "\n"
+                BuildTaskHelpTag start application-filters
+                printf "   application filters\n"
                 BuildTaskHelpLine "<none>" no-authors       "<none>" "do not include authors"                       $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-bugs          "<none>" "do not include bugs"                          $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-copying       "<none>" "do not include copying"                       $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-resources     "<none>" "do not include resources"                     $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-security      "<none>" "do not include security"                      $PRINT_PADDING_FILTERS
+                BuildTaskHelpTag end application-filters
 
-                printf "\n   element filters\n"
+                printf "\n"
+                BuildTaskHelpTag start element-filters
+                printf "   element filters\n"
                 BuildTaskHelpLine "<none>" no-commands          "<none>" "do not include commands"                  $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-command-list      "<none>" "include command text, but no list"        $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-deps              "<none>" "include dependency text, but no list"     $PRINT_PADDING_FILTERS
@@ -167,6 +181,7 @@ while true; do
                 BuildTaskHelpLine "<none>" no-scenario-list     "<none>" "include scenario text, but no list"       $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-tasks             "<none>" "do not include tasks"                     $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-task-list         "<none>" "include task text, but no list"           $PRINT_PADDING_FILTERS
+                BuildTaskHelpTag end element-filters
             else
                 cat $CACHED_HELP
             fi

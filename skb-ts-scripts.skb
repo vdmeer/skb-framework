@@ -30,6 +30,46 @@
 TsRunTargets() {
     local RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
     local TOOL_VERSION="${RELEASE_VERSION}"
+    local TASK_LEVEL=$(GetSetting level)
+    local TASKS=(
+        build-cache
+        build-help
+        build-manual
+        build-mvn-site
+        clean
+        cloc-installation
+        describe-application
+        describe-command
+        describe-dependency
+        describe-element
+        describe-exitstatus
+        describe-option
+        describe-parameter
+        describe-scenario
+        describe-task
+        download-fw-tool
+        execute-program
+        list-commands
+        list-configuration
+        list-dependencies
+        list-exitstatus
+        list-options
+        list-parameters
+        list-scenarios
+        list-tasks
+        make-target-sets
+        manual
+        repeat-scenario
+        repeat-task
+        set-file-versions
+        setting
+        start-browser
+        start-pdf-viewer
+        start-xterm
+        statistics
+        validate-installation
+        wait
+    )
 
     ## required in JAVA > 9 to avoid juice reflector problems
     ## see: https://github.com/google/guice/issues/1133 (cplerch commented on Oct 31, 2018)
@@ -48,7 +88,8 @@ TsRunTargets() {
             printf "\n       mkdirs        - creates required directories"
             printf "\n       readme        - creates the file README.adoc for the source repository"
             printf "\n       dist          - builds distribution archives (not the PPA!) using gradle"
-            printf "\n       adocindex     - creates the ADOC index files for site and documents"
+            printf "\n       adocindex     - creates ADOC index files for the documentation"
+            printf "\n       adocscreens   - creates ADOC screen files for the documentation"
             printf "\n       documents     - build the stand-alone documents (HTML and PDF)"
             printf "\n       site          - creates the framework site (mvn)"
             printf "\n\n    Notes: "
@@ -102,6 +143,8 @@ TsRunTargets() {
                 rmdir src/main/bash/man/man1
                 rmdir src/main/bash/man
             fi
+
+            ${DMAP_TASK_EXEC["build-cache"]} --clean
             ;;
 
         tool)
@@ -267,14 +310,100 @@ TsRunTargets() {
                     fi
                 done
             done
-
             IFS=$FIELD_SEAPARATOR
             ;;
 
+        adocscreens)
+            ConsolePrint debug "starting adoc-screens"
+            if [[ -d target/adoc-screens ]]; then
+                rm -f target/adoc-screens/*
+            fi
+            mkdir -p target/adoc-screens
+
+            ConsolePrint debug "running cloc"
+            cloc $(PathToSystemPath ${CONFIG_MAP["FW_HOME"]}) --force-lang="Bourne Again Shell",sh --progress-rate=0 > target/adoc-screens/cloci.tmp
+            touch target/adoc-screens/cloci.txt
+            while IFS='' read -r line || [[ -n "$line" ]]; do
+                case $line in
+                    "classified"*)
+                        ## do not remove the "newline" below, it is a carriage return (^M) to delimit the pre-fix we want to remove
+                        echo ${line#*files} >> target/adoc-screens/cloci.txt
+                        # >> target/adoc-screens/cloci.txt
+                        ;;
+                    *)
+                        echo $line >> target/adoc-screens/cloci.txt
+                        ;;
+                esac
+            done < target/adoc-screens/cloci.tmp
+            rm target/adoc-screens/cloci.tmp
+
+            ConsolePrint debug "running stats"
+            CONFIG_MAP["TASK_LEVEL"]=error
+            WriteRuntimeConfig
+            ${DMAP_TASK_EXEC["statistics"]} --ov --task --print-mode text > target/adoc-screens/stats.txt
+            CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
+            WriteRuntimeConfig
+
+            ConsolePrint debug "running api ListFunctions"
+            CONFIG_MAP["TASK_LEVEL"]=error
+            WriteRuntimeConfig
+            shopt -s extglob
+            local FLIST=$(ExecuteApiFunction ListFunctions | paste -s -d ' ')
+            printf "%s\n" "${FLIST##+([[:space:]])}" > target/adoc-screens/api-function-list.txt
+            shopt -u extglob
+            #ExecuteApiFunction ListFunctions | paste -s -d ' ' - > target/adoc-screens/api-function-list.txt
+            #echo >> target/adoc-screens/api-function-list.txt
+            CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
+            WriteRuntimeConfig
+
+            ConsolePrint debug "running ts help"
+            CONFIG_MAP["TASK_QUIET"]=on
+            CONFIG_MAP["TASK_LEVEL"]=error
+            WriteRuntimeConfig
+            CONFIG_MAP["TASK_LEVEL"]=error
+            ${DMAP_TASK_EXEC["make-target-sets"]} --id skb-fw --targets help > target/adoc-screens/ts-fw-help.txt
+            CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
+            CONFIG_MAP["TASK_QUIET"]=off
+            WriteRuntimeConfig
+
+            ConsolePrint debug "building task--help files"
+            for TASK in ${TASKS[@]}; do
+                ConsolePrint debug "  --> $TASK"
+                CONFIG_MAP["TASK_QUIET"]=on
+                CONFIG_MAP["TASK_LEVEL"]=error
+                WriteRuntimeConfig
+                ${DMAP_TASK_EXEC["setting"]} --print-mode man-adoc
+                ${DMAP_TASK_EXEC[$TASK]} --help > target/adoc-screens/$TASK--help--adoc.adoc
+                ${DMAP_TASK_EXEC["setting"]} --print-mode man-pdf
+                ${DMAP_TASK_EXEC[$TASK]} --help > target/adoc-screens/$TASK--help--pdf.adoc
+                CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
+                CONFIG_MAP["TASK_QUIET"]=off
+                WriteRuntimeConfig
+            done
+            CONFIG_MAP["TASK_QUIET"]=on
+            CONFIG_MAP["TASK_LEVEL"]=error
+            WriteRuntimeConfig
+            ${DMAP_TASK_EXEC["setting"]} --print-mode ansi
+            CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
+            CONFIG_MAP["TASK_QUIET"]=off
+            WriteRuntimeConfig
+            ;;
+
         documents)
-            TestFS src/doc/documents/developer-guide.adoc file exists,read ts-fw
-            TestFS src/doc/documents/task-guide.adoc file exists,read ts-fw
-            TestFS src/doc/documents/user-guide.adoc file exists,read ts-fw
+            ConsolePrint debug "testing document source files"
+            TestFS src/doc/documents/developer-guide.adoc           file exists,read ts-fw
+            TestFS src/doc/documents/task-guide.adoc                file exists,read ts-fw
+            TestFS src/doc/documents/user-guide.adoc                file exists,read ts-fw
+            ExitOnTaskErrors
+
+            ConsolePrint debug "testing document: generated ADOC resources"
+            TestFS target/adoc-screens/cloci.txt                    file exists,read ts-fw
+            TestFS target/adoc-screens/stats.txt                    file exists,read ts-fw
+            TestFS target/adoc-screens/api-function-list.txt        file exists,read ts-fw
+            for TASK in ${TASKS[@]}; do
+                TestFS target/adoc-screens/$TASK--help--adoc.adoc   file exists,read ts-fw
+                TestFS target/adoc-screens/$TASK--help--pdf.adoc    file exists,read ts-fw
+            done
             ExitOnTaskErrors
 
             if [[ -d target/documents ]]; then

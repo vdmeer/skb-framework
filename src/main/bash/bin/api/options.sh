@@ -38,20 +38,15 @@
 ## optional $4: print mode (adoc, ansi, text)
 ##
 DescribeOption() {
-    local ID=${1:-}
-    local OPT_ID=$(GetOptionID $ID)
-    if [[ -z ${OPT_ID:-} ]]; then
-        ConsolePrint error "describe-option - unknown option ID '$ID'"
+    local ID=$(GetOptionID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "describe-option - unknown option ID '${1-""}'"
         return
     fi
-    ID=$OPT_ID
 
     local PRINT_OPTION=${2:-}
     local PRINT_FEATURE=${3:-}
-    local PRINT_MODE="${4:-}"
-    if [[ "${PRINT_MODE}" == "" ]]; then
-        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
-    fi
+    local PRINT_MODE="${4:-${CONFIG_MAP["PRINT_MODE"]}}"
 
     local SPRINT=""
     local FEATURE
@@ -246,13 +241,11 @@ OptionElementDescription() {
 ## optional $2: print mode (adoc, ansi, text)
 ##
 OptionInTable() {
-    local ID=${1:-}
-    local OPT_ID=$(GetOptionID $ID)
-    if [[ -z ${OPT_ID:-} ]]; then
-        ConsolePrint error "option-in-table - unknown option ID '$ID'"
+    local ID=$(GetOptionID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "option-in-table - unknown option ID '${1-""}'"
         return
     fi
-    ID=$OPT_ID
 
     local PRINT_MODE=${2:-}
     local PADDING
@@ -277,13 +270,11 @@ OptionInTable() {
 ## $1: option ID, long or short
 ##
 OptionStatus() {
-    local ID=${1:-}
-    local OPT_ID=$(GetOptionID $ID)
-    if [[ -z ${OPT_ID:-} ]]; then
-        ConsolePrint error "option-status - unknown option ID '$ID'"
+    local ID=$(GetOptionID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "option-status - unknown option ID '${1-""}'"
         return
     fi
-    ID=$OPT_ID
 
     local ORIGIN=${DMAP_OPT_ORIGIN[$ID]}
     case $ORIGIN in
@@ -303,13 +294,11 @@ OptionStatus() {
 ## $3: set to anything to have no trailing padding (the $2 to a number, e.g. 0)
 ##
 OptionTagline() {
-    local ID=${1:-}
-    local OPT_ID=$(GetOptionID $ID)
-    if [[ -z ${OPT_ID:-} ]]; then
-        ConsolePrint error "option-tagline - unknown option ID '$ID'"
+    local ID=$(GetOptionID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "option-tagline - unknown option ID '${1-""}'"
         return
     fi
-    ID=$OPT_ID
 
     local ADJUST=${2:-0}
     local DESCRIPTION

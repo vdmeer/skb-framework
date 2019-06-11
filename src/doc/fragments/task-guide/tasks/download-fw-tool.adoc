@@ -27,6 +27,8 @@ The task uses the setting of the parameter `SKB_FRAMEWORK_TOOL` to determine whi
 The output directory will be created if it does not exist.
 If the JAR file already exists, no download will be started (use the force option to force a download).
 
+
+
 === Options
 
 The option _simulate_ can be used to simulate all task actions.
@@ -34,20 +36,34 @@ In this mode, the task will only print what it would do.
 The option _force_ can be used to force a download even if the JAR file already exists.
 _simulate_ will overwrite _force_.
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/download-fw-tool--help--pdf.adoc[tags=options]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   options
-   *-f* | *--force*       force download
-   *-h* | *--help*        print help screen and exit
-   *-s* | *--simulate*    print only, downloades nothing, overwrites force
-
-   tools
-   *-c* | *--curl*        use 'curl' for download, default tool
-   *-w* | *--wget*        use 'wget' for download
+include::{skb-site-target-dir}/adoc-screens/download-fw-tool--help--adoc.adoc[tags=options]
 ----
+endif::[]
 
 The options for tools allow to select a download tool.
 The default is _curl_.
 The other option is to use _wget_.
 All tools are marked as optional dependencies for the task.
 The selected tool must be a successfully loaded dependency, otherwise an error message will be printed and no download is performed.
+
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/download-fw-tool--help--pdf.adoc[tags=tools]
+----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
+----
+include::{skb-site-target-dir}/adoc-screens/download-fw-tool--help--adoc.adoc[tags=tools]
+----
+endif::[]

@@ -15,7 +15,7 @@
 == BuildTaskHelpLine()
 _String BuildTaskHelpLine( $1, $2, $3, $4, [$5] )_ - builds a help line for a task's CLI option.
 
-The help line is a single line for the task help screen.
+The help line is a single line for the task help screen using the print mode from _CONFIG_MAP["PRINT_MODE"]_.
 The line is printed when all arguments have been validated and processed.
 Otherwise error messages is printed.
 
@@ -85,7 +85,7 @@ The generated help lines for _print mode_ _ansi_ are shown below.
 
 [source%nowrap,bash,linenumber,subs="attributes,quotes"]
 ----
-   *-h* | *--help*              print help screen and exit
+   *-h* | *--help*                   print help screen and exit
    *-f* | *--file* <span style="color: #0000FF">FILE</span>              file to open in viewer
 ----
 
@@ -106,9 +106,15 @@ include::{skb-site-main-dir}/main/bash/bin/tasks/mode-build/clean.sh[tags=helpli
 
 with the resulting output lines
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+ifdef::backend-pdf[]
+[source%nowrap,bash,subs="attributes"]
 ----
-   *-f* | *--force*       force mode, not questions asked
-   *-h* | *--help*        print help screen and exit
-   *-s* | *--simulate*    print only, removes nothing, overwrites force
+include::{skb-site-target-dir}/adoc-screens/clean--help--pdf.adoc[tags=helpline]
 ----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,bash,subs="attributes,quotes"]
+----
+include::{skb-site-target-dir}/adoc-screens/clean--help--adoc.adoc[tags=helpline]
+----
+endif::[]

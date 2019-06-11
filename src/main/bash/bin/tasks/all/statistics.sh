@@ -88,11 +88,16 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "statistics")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
+                BuildTaskHelpTag end options
 
-                printf "\n   filters\n"
+                printf "\n"
+                BuildTaskHelpTag start filters
+                printf "   filters\n"
                 BuildTaskHelpLine A all             "<none>"   "activate all filters"       $PRINT_PADDING
                 BuildTaskHelpLine c cmd             "<none>"   "for commands"               $PRINT_PADDING
                 BuildTaskHelpLine d dep             "<none>"   "for dependencies"           $PRINT_PADDING
@@ -102,6 +107,7 @@ while true; do
                 BuildTaskHelpLine p param           "<none>"   "for parameters"             $PRINT_PADDING
                 BuildTaskHelpLine s scn             "<none>"   "for scenarios"              $PRINT_PADDING
                 BuildTaskHelpLine t task            "<none>"   "for tasks"                  $PRINT_PADDING
+                BuildTaskHelpTag end filters
             else
                 cat $CACHED_HELP
             fi
@@ -177,7 +183,6 @@ done
 if [[ ! -n "$PRINT_MODE" ]]; then
     PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
 fi
-TARGET=$PRINT_MODE
 
 if [[ "$ALL" == "yes" ]]; then
     COMMANDS=yes
@@ -213,7 +218,7 @@ StatsOverview(){
     done
 
     printf "\n  "
-    PrintEffect bold Statistics
+    PrintEffect bold Statistics $PRINT_MODE
     printf "\n"
     printf "  ───────────────────────────────      ───────────────────────────────\n"
     printf "   Tasks declared:           % 3s        Scenarios declared:       % 3s\n" "${#DMAP_TASK_DECL[@]}"         "${#DMAP_SCN_DECL[@]}"
@@ -243,7 +248,7 @@ StatsCommands(){
     done
 
     printf "\n  "
-    PrintEffect bold "Commands"
+    PrintEffect bold Commands $PRINT_MODE
     printf "\n"
     printf "  ────────────────────────────────────────────────────────────────────\n"
     printf "   Declared:                 % 3s        - with short:             % 3s\n" "${#DMAP_CMD[@]}"   "${#DMAP_CMD_SHORT[@]}"
@@ -300,7 +305,7 @@ StatsDependencies(){
     done
 
     printf "\n  "
-    PrintEffect bold "Dependencies"
+    PrintEffect bold Dependencies $PRINT_MODE
     printf "\n"
     printf "  ────────────────────────────────────────────────────────────────────\n"
     printf "   Declared:                 % 3s        Not tested:               % 3s\n" "${#DMAP_DEP_ORIGIN[@]}"         "$DEP_NOT_TESTED"
@@ -347,7 +352,7 @@ StatsExitStatus(){
     done
 
     printf "\n  "
-    PrintEffect bold "Exit Status"
+    PrintEffect bold "Exit Status" $PRINT_MODE
     printf "\n"
     printf "  ────────────────────────────────────────────────────────────────────\n"
     printf "   Declared:                 % 3s\n" "${#DMAP_ES[@]}"
@@ -386,7 +391,7 @@ StatsOptions(){
     done
 
     printf "\n  "
-    PrintEffect bold "Options"
+    PrintEffect bold Options $PRINT_MODE
     printf "\n"
     printf "  ────────────────────────────────────────────────────────────────────\n"
     printf "   Declared:                 % 3s\n" "${#DMAP_OPT_ORIGIN[@]}"
@@ -452,7 +457,7 @@ StatsParameters(){
     done
 
     printf "\n  "
-    PrintEffect bold "Parameters"
+    PrintEffect bold Parameters $PRINT_MODE
     printf "\n"
     printf "  ────────────────────────────────────────────────────────────────────\n"
     printf "   Declared:                 % 3s\n" "${#DMAP_PARAM_ORIGIN[@]}"
@@ -507,7 +512,7 @@ StatsTasks(){
     done
 
     printf "\n  "
-    PrintEffect bold "Tasks"
+    PrintEffect bold Tasks $PRINT_MODE
     printf "\n"
     printf "  ────────────────────────────────────────────────────────────────────\n"
     printf "   Declared:                 % 3s        Not loaded:               % 3s\n" "${#DMAP_TASK_ORIGIN[@]}"        "$COUNT_TASK_LOAD_N"
@@ -527,7 +532,7 @@ StatsTasks(){
 ############################################################################################
 StatsScenarios(){
     printf "\n  "
-    PrintEffect bold "Scenarios"
+    PrintEffect bold Scenarios $PRINT_MODE
     printf "\n"
     printf "  ────────────────────────────────────────────────────────────────────\n"
     printf "   Declared:                 % 3s\n" "${#DMAP_SCN_ORIGIN[@]}"

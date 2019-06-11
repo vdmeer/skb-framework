@@ -60,13 +60,11 @@ CommandElementDescription() {
 ## optional $2: print mode (adoc, ansi, text)
 ##
 CommandInTable() {
-    local ID=${1:-}
-    local CMD_ID=$(GetCommandID $ID)
-    if [[ -z ${CMD_ID:-} ]]; then
-        ConsolePrint error "command-in-table - unknown command ID '$ID'"
+    local ID=$(GetCommandID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "command-in-table - unknown command ID '${1-""}'"
         return
     fi
-    ID=$CMD_ID
 
     local PRINT_MODE=${2:-}
 
@@ -93,13 +91,11 @@ CommandInTable() {
 ## $3: set to anything to have no trailing padding (the $2 to a number, e.g. 0)
 ##
 CommandTagline() {
-    local ID=${1:-}
-    local CMD_ID=$(GetCommandID $ID)
-    if [[ -z ${CMD_ID:-} ]]; then
-        ConsolePrint error "command-tagline - unknown command ID '$ID'"
+    local ID=$(GetCommandID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "command-tagline - unknown command ID '${1-""}'"
         return
     fi
-    ID=$CMD_ID
 
     local ADJUST=${2:-0}
     local DESCRIPTION
@@ -131,20 +127,15 @@ CommandTagline() {
 ## optional $4: print mode (adoc, ansi, text)
 ##
 DescribeCommand() {
-    local ID=${1:-}
-    local CMD_ID=$(GetCommandID $ID)
-    if [[ -z ${CMD_ID:-} ]]; then
-        ConsolePrint error "describe-command - unknown command ID '$ID'"
+    local ID=$(GetCommandID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "describe-command - unknown command ID '${1-""}'"
         return
     fi
-    ID=$CMD_ID
 
     local PRINT_OPTION=${2:-}
     local PRINT_FEATURE=${3:-}
-    local PRINT_MODE="${4:-}"
-    if [[ "${PRINT_MODE}" == "" ]]; then
-        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
-    fi
+    local PRINT_MODE="${4:-${CONFIG_MAP["PRINT_MODE"]}}"
 
     local SPRINT=""
     local SHORT

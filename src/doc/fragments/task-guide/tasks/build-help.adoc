@@ -26,12 +26,18 @@ For example, the DEB and RPM distributions should create those files during the 
 The option _clean_ is added by convention.
 It does not actually remove the help files, since this would break the installation of an application.
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/build-help--help--pdf.adoc[tags=options]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   *-c* | *--clean*       added by convention, does nothing
-   *-h* | *--help*        print help screen and exit
+include::{skb-site-target-dir}/adoc-screens/build-help--help--adoc.adoc[tags=options]
 ----
-
+endif::[]
 
 
 === Requirements

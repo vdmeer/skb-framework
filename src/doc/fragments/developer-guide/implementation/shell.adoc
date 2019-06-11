@@ -87,8 +87,21 @@ Inside this function, the inner loop, the shell tests first for all input that i
 If none of these tests is satisfied, it assumes that the input is actually a task to be executed with parameters.
 
 
+==== Execute an API Function
+The first command tested is to execute an API function.
+This command starts with either `api-function` or `api`.
+No argument means error.
+Some argument means the name of an API function plus its arguments (optional).
+In this case, execute the API function and put the command into the history.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/shell/shell.sh[tags=fwi-api]
+----
+
+
 ==== Execute a Scenario
-The first command tested is to execute a scenario.
+The next command tested is to execute a scenario.
 This command starts with either `execute-scenario` or `es`.
 No argument means error.
 Some argument means the name of a scenario.

@@ -83,12 +83,17 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "clean")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
+                BuildTaskHelpTag start helpline
 #tag::helpline[]
                 BuildTaskHelpLine f force       "<none>"    "force mode, not questions asked"                   $PRINT_PADDING
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
                 BuildTaskHelpLine s simulate    "<none>"    "print only, removes nothing, overwrites force"     $PRINT_PADDING
 #end::helpline[]
+                BuildTaskHelpTag end helpline
+                BuildTaskHelpTag end options
             else
                 cat $CACHED_HELP
             fi

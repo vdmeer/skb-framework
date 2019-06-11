@@ -18,11 +18,18 @@ This task starts web browser with a URL to show.
 The URL can be set with _url_.
 The URL will not be processed by the task.
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/start-browser--help--pdf.adoc[tags=options]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   *-h* | *--help*        print help screen and exit
-   *-u* | *--url* <span style="color: #5C5CFF">URL</span>     optional URL to load in browser
+include::{skb-site-target-dir}/adoc-screens/start-browser--help--adoc.adoc[tags=options]
 ----
+endif::[]
 
 
 

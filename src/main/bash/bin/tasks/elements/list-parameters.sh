@@ -96,18 +96,35 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "list-parameters")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine D def-table   "<none>"    "print default value table"                         $PRINT_PADDING
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
-                BuildTaskHelpLine T table       "<none>"    "help screen format with additional information"    $PRINT_PADDING
-                printf "\n   filters\n"
-                BuildTaskHelpLine A all         "<none>"    "all options, disables all other filters"               $PRINT_PADDING
-                BuildTaskHelpLine d default     "<none>"    "only parameters with a defined default value"          $PRINT_PADDING
-                BuildTaskHelpLine I install     "<none>"    "only parameters required only by install tasks"        $PRINT_PADDING
-                BuildTaskHelpLine o origin      "ORIGIN"    "only parameters from origin: f(w), a(pp)"              $PRINT_PADDING
-                BuildTaskHelpLine r requested   "<none>"    "only requested parameters"                             $PRINT_PADDING
-                BuildTaskHelpLine s status      "STATUS"    "only parameter for status: o, f, e, d"                 $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard list options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                  $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "table format with additional information"      $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
+
+                printf "\n"
+                BuildTaskHelpTag start task-options
+                printf "   task options\n"
+                BuildTaskHelpLine D def-table   "<none>"    "print default value table"                     $PRINT_PADDING
+                BuildTaskHelpTag end task-options
+
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard list filters\n"
+                BuildTaskHelpLine A all         "<none>"    "all entries, disables all other filters"       $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine d default     "<none>"    "with a declared default value"                     $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "required only by install tasks"                    $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "from origin: f(w), a(pp)"                          $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "requested"                                         $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "for status: (o)ption, (f)ile, (e)nv, (d)efault"    $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
             else
                 cat $CACHED_HELP
             fi

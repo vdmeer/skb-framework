@@ -115,6 +115,37 @@ Counters reset warnings
 
 
 ##
+## function: ExecuteApiFunction()
+## - executes an API function with optional arguments.
+## $1: full command line for the API function, first word being the function name
+##
+ExecuteApiFunction(){
+    local FUNCTION=$(echo $1 | cut -d' ' -f1)
+
+    local FARG="$(echo $1 | cut -d' ' -f2-)"
+    if [[ "$FARG" == "$FUNCTION" ]]; then
+        FARG=
+    fi
+
+    if [[ $(type -t ${FUNCTION}) == "function" ]]; then
+        if [[ -n "${FARG}" ]]; then
+            ConsolePrint debug "api: execute API function $FUNCTION with arguments '$FARG'"
+            $FUNCTION $FARG
+        else
+            ConsolePrint debug "api: execute API function $FUNCTION without arguments"
+            $FUNCTION
+        fi
+        printf "\n"
+    else
+        ConsolePrint error "unknown API function '$FUNCTION'"
+        printf "\n"
+        return
+    fi
+}
+
+
+
+##
 ## function: GetSetting()
 ## - returns the a requested setting.
 ## $1: the setting, one of: level, quiet
@@ -142,6 +173,24 @@ GetSetting(){
             ConsolePrint error "get-setting: unknown setting $1"
             ;;
     esac
+}
+
+
+
+##
+## function: ListFunctions()
+## - lists all defined API functions.
+## $1: set to anything to print one function per line
+##
+ListFunctions(){
+    local FUNCTIONS=$(declare -F -p | cut -d " " -f 3)
+
+    printf "\n"
+    if [[ ! -n ${1:-} ]]; then
+        echo ${FUNCTIONS}
+    else
+        printf "%s" "$FUNCTIONS"
+     fi
 }
 
 
@@ -185,6 +234,7 @@ TestFS() {
         ConsolePrint error "TestFS: no properties given"
         return
     fi
+    local MSG_ADDON=${4:-TestFS:}
 
     local ARTIFACT=$1
     local TYPE
@@ -196,11 +246,6 @@ TestFS() {
     esac
     local PROPERTIES=$3
 
-    local MSG_ADDON="TestFS:"
-    if [[ -n ${4:-} ]]; then
-        MSG_ADDON="$4: "
-    fi
-
     FIELD_SEAPARATOR=$IFS
     IFS=,
     for PROP in $PROPERTIES; do
@@ -209,16 +254,16 @@ TestFS() {
                 case $TYPE in
                     file)
                         if [[ ! -f "$ARTIFACT" ]]; then
-                            ConsolePrint error "$MSG_ADDON file does not exist: $ARTIFACT"
+                            ConsolePrint error "$MSG_ADDON: file does not exist: $ARTIFACT"
                         fi
                         ;;
                     dir)
                         if [[ ! -d "$ARTIFACT" ]]; then
-                            ConsolePrint error "$MSG_ADDON directory does not exist: $ARTIFACT"
+                            ConsolePrint error "$MSG_ADDON: directory does not exist: $ARTIFACT"
                         fi
                         ;;
                     *)
-                        ConsolePrint error "$MSG_ADDON unknown type $TYPE"
+                        ConsolePrint error "$MSG_ADDON: unknown type $TYPE"
                         ;;
                 esac
                 ;;
@@ -226,16 +271,16 @@ TestFS() {
                 case $TYPE in
                     file)
                         if [[ ! -r "$ARTIFACT" ]]; then
-                            ConsolePrint error "$MSG_ADDON file not readable: $ARTIFACT"
+                            ConsolePrint error "$MSG_ADDON: file not readable: $ARTIFACT"
                         fi
                         ;;
                     dir)
                         if [[ ! -r "$ARTIFACT" ]]; then
-                            ConsolePrint error "$MSG_ADDON directory not readable: $ARTIFACT"
+                            ConsolePrint error "$MSG_ADDON: directory not readable: $ARTIFACT"
                         fi
                         ;;
                     *)
-                        ConsolePrint error "$MSG_ADDON unknown type $TYPE"
+                        ConsolePrint error "$MSG_ADDON: unknown type $TYPE"
                         ;;
                 esac
                 ;;
@@ -243,21 +288,21 @@ TestFS() {
                 case $TYPE in
                     file)
                         if [[ ! -r "$ARTIFACT" ]]; then
-                            ConsolePrint error "$MSG_ADDON file not writable: $ARTIFACT"
+                            ConsolePrint error "$MSG_ADDON: file not writable: $ARTIFACT"
                         fi
                         ;;
                     dir)
                         if [[ ! -r "$ARTIFACT" ]]; then
-                            ConsolePrint error "$MSG_ADDON directory not writable: $ARTIFACT"
+                            ConsolePrint error "$MSG_ADDON: directory not writable: $ARTIFACT"
                         fi
                         ;;
                     *)
-                        ConsolePrint error "$MSG_ADDON unknown type $TYPE"
+                        ConsolePrint error "$MSG_ADDON: unknown type $TYPE"
                         ;;
                 esac
                 ;;
             *)
-                ConsolePrint error "$MSG_ADDON unknown property $PROP"
+                ConsolePrint error "$MSG_ADDON: unknown property $PROP"
                 ;;
         esac
     done

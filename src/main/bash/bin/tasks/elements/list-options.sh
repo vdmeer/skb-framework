@@ -88,14 +88,32 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "list-options")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
-                BuildTaskHelpLine T table       "<none>"    "help screen format with additional information"    $PRINT_PADDING
-                printf "\n   filters\n"
-                BuildTaskHelpLine A all         "<none>"    "all options, disables all other filters"       $PRINT_PADDING
-                BuildTaskHelpLine e exit        "<none>"    "only exit options"                             $PRINT_PADDING
-                BuildTaskHelpLine r run         "<none>"    "only runtime options"                          $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard list options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"              $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "table format with additional information"  $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
+
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard list filters\n"
+                BuildTaskHelpLine A all         "<none>"    "all entries, disables all other filters"   $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine e exit        "<none>"    "exit options"          $PRINT_PADDING
+                BuildTaskHelpLine r run         "<none>"    "run(time) options"     $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
+
+                printf "\n"
+                BuildTaskHelpTag start notes
+                printf "   Notes\n"
+                printf "   - the standard filter '-A | --all' is the default\n"
+                BuildTaskHelpTag end notes
             else
                 cat $CACHED_HELP
             fi

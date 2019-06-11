@@ -20,9 +20,13 @@ Miscellaneous functions.
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/counters.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/pathtosystempath.adoc[leveloffset=+1]
-
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/getsetting.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/executeapifunction.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/listfunctions.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/pathtosystempath.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/testfs.adoc[leveloffset=+1]
 

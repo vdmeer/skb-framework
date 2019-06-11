@@ -78,10 +78,13 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "list-commands")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard list options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
                 BuildTaskHelpLine T table       "<none>"    "help screen format with additional information"    $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
             else
                 cat $CACHED_HELP
             fi

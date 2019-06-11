@@ -84,12 +84,15 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "set-file-versions")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
                 BuildTaskHelpLine b build-file      "FILE"      "ANT build file"                            $PRINT_PADDING
                 BuildTaskHelpLine d directory       "DIR"       "start directory with source files"         $PRINT_PADDING
                 BuildTaskHelpLine h help            "<none>"    "print help screen and exit"                $PRINT_PADDING
                 BuildTaskHelpLine m macro-file      "FILE"      "ANT macro file"                            $PRINT_PADDING
                 BuildTaskHelpLine v version         "VERSION"   "new version string"                        $PRINT_PADDING
+                BuildTaskHelpTag end options
             else
                 cat $CACHED_HELP
             fi

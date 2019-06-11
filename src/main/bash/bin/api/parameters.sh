@@ -35,13 +35,11 @@
 ## $1: parameter id
 ##
 DebugParameter() {
-    local ID=${1:-}
-    local PARAM_ID=$(GetParameterID $ID)
-    if [[ -z "${PARAM_ID:-}" ]]; then
-         ConsolePrint error "debug-parameter - unknown parameter ID '$ID'"
+    local ID=$(GetParameterID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "debug-parameter - unknown parameter ID '${1-""}'"
         return
     fi
-    ID=$PARAM_ID
 
     local SPRINT=""
     local TMP_VAL
@@ -81,20 +79,15 @@ DebugParameter() {
 ## optional $4: print mode (adoc, ansi, text)
 ##
 DescribeParameter() {
-    local ID=${1:-}
-    local PARAM_ID=$(GetParameterID $ID)
-    if [[ -z "${PARAM_ID:-}" ]]; then
-         ConsolePrint error "describe-parameter - unknown parameter ID '$ID'"
+    local ID=$(GetParameterID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "describe-parameter - unknown parameter ID '${1-""}'"
         return
     fi
-    ID=$PARAM_ID
 
     local PRINT_OPTION="${2:-}"
     local PRINT_FEATURE="${3:-}"
-    local PRINT_MODE="${4:-}"
-    if [[ "${PRINT_MODE}" == "" ]]; then
-        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
-    fi
+    local PRINT_MODE="${4:-${CONFIG_MAP["PRINT_MODE"]}}"
 
     local SPRINT=""
     local FEATURE
@@ -206,18 +199,13 @@ GetParameterID() {
 ## $2: special formatting for given print mode
 ##
 ParameterDefvalueDescription() {
-    local ID=${1:-}
-    local PARAM_ID=$(GetParameterID $ID)
-    if [[ -z "${PARAM_ID:-}" ]]; then
-         ConsolePrint error "parameter-defval-description - unknown parameter ID '$ID'"
+    local ID=$(GetParameterID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "parameter-defval-description - unknown parameter ID '${1-""}'"
         return
     fi
-    ID=$PARAM_ID
 
-    local PRINT_MODE="${2:-}"
-    if [[ "${PRINT_MODE}" == "" ]]; then
-        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
-    fi
+    local PRINT_MODE="${2:-${CONFIG_MAP["PRINT_MODE"]}}"
 
     local DEFAULT_VALUE=${DMAP_PARAM_DEFVAL[$ID]}
     if [[ "$DEFAULT_VALUE" == "" ]]; then
@@ -267,13 +255,11 @@ ParameterElementDescription() {
 ## optional $2: print mode (adoc, ansi, text)
 ##
 ParameterInTable() {
-    local ID=${1:-}
-    local PARAM_ID=$(GetParameterID $ID)
-    if [[ -z "${PARAM_ID:-}" ]]; then
-         ConsolePrint error "parameter-in-table - unknown parameter ID '$ID'"
+    local ID=$(GetParameterID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "parameter-in-table - unknown parameter ID '${1-""}'"
         return
     fi
-    ID=$PARAM_ID
 
     local PRINT_MODE=${2:-}
 
@@ -299,13 +285,11 @@ ParameterInTable() {
 ## $1: param ID, any spelling (lower case, upper case, mixed)
 ##
 ParameterStatus() {
-    local ID=${1:-}
-    local PARAM_ID=$(GetParameterID $ID)
-    if [[ -z "${PARAM_ID:-}" ]]; then
-         ConsolePrint error "parameter-status - unknown parameter ID '$ID'"
+    local ID=$(GetParameterID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "parameter-status - unknown parameter ID '${1-""}'"
         return
     fi
-    ID=$PARAM_ID
 
     printf "%s " "${DMAP_PARAM_ORIGIN[$ID]:0:1}"
 

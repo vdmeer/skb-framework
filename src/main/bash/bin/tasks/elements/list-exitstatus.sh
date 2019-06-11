@@ -91,17 +91,29 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "list-exitstatus")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                            $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                          $PRINT_PADDING
-                BuildTaskHelpLine T table       "<none>"    "help screen format with additional information"        $PRINT_PADDING
-                printf "\n   filters\n"
-                BuildTaskHelpLine A         all         "<none>"    "all, disables all other filters, default"      $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  app         "<none>"    "only application status"                       $PRINT_PADDING
-                BuildTaskHelpLine f         fw          "<none>"    "only framework status"                         $PRINT_PADDING
-                BuildTaskHelpLine l         loader      "<none>"    "only loader status"                            $PRINT_PADDING
-                BuildTaskHelpLine s         shell       "<none>"    "only shell status"                             $PRINT_PADDING
-                BuildTaskHelpLine t         task        "<none>"    "only task status"                              $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard list options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                  $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "table format with additional information"      $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
+
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard list filters\n"
+                BuildTaskHelpLine A         all         "<none>"    "all entries, disables all other filters"   $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine "<none>"  app         "<none>"    "application status"    $PRINT_PADDING
+                BuildTaskHelpLine f         fw          "<none>"    "framework status"      $PRINT_PADDING
+                BuildTaskHelpLine l         loader      "<none>"    "loader status"         $PRINT_PADDING
+                BuildTaskHelpLine s         shell       "<none>"    "shell status"          $PRINT_PADDING
+                BuildTaskHelpLine t         task        "<none>"    "task status"           $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
             else
                 cat $CACHED_HELP
             fi

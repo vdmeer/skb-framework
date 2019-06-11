@@ -17,7 +17,7 @@
 This task alters selected settings.
 Changeable settings are:
 
-* Print mode (_--pm_)
+* Print mode (_--print-mode_)
     ** _ansi_ for ANSI formatted text
     ** _text_ for plain text
     ** _text-anon_ for annotated text
@@ -36,19 +36,30 @@ Changeable settings are:
 * Quiet mode for shell (_--sq_) and tasks (_--tq_)
     ** alter the quiet mode between _on_ and _off_
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/setting--help--pdf.adoc[tags=options]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   options
-   *-h* | *--help*              print help screen and exit
-
-   options for changing settings
-   *-p* | *--pm* <span style="color: #5C5CFF">MODE</span>           print mode to: ansi, text, text-anon
-   *-S* | *--shell-level* <span style="color: #5C5CFF">LEVEL</span> change shell level to LEVEL
-        *--snp*               toggle shell prompt mode
-        *--sq*                toggle shell quiet mode
-   *-s* | *--strict*            toggle strict mode
-   *-T* | *--task-level* <span style="color: #5C5CFF">LEVEL</span>  change task level to LEVEL
-        *--tq*                toggle task quiet mode
+include::{skb-site-target-dir}/adoc-screens/setting--help--adoc.adoc[tags=options]
 ----
+endif::[]
+
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/setting--help--pdf.adoc[tags=change-options]
+----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
+----
+include::{skb-site-target-dir}/adoc-screens/setting--help--adoc.adoc[tags=change-options]
+----
+endif::[]
 
 Changes made by the task take immediate effect.

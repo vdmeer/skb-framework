@@ -1,0 +1,73 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+== ExecuteApiFunction()
+_void ExecuteApiFunction( $1 )_ - executes an API function with optional arguments.
+
+Simply executes an API function.
+The first word in _$1_ must be an existing API function.
+
+This command does not support strings as arguments.
+If strings are required, they need to be separated by a non-whitespace character.
+For instance, instead of calling `PrintColor red "1 2"`,
+    use `PrintColor red 1-2` or `PrintColor red 1#2`.
+
+
+*Parameters*:
+
+* `$1`, _string_ - the complete command in one line.
+    The first word must be an existing API function.
+    The rest of the line will be treated as the parameters for the function.
+
+
+*Errors* (as _Console Error_)
+
+* For an unknown API function.
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+for information and error messages.
+
+
+*External Dependencies*
+
+* `cut` - to separate functiona name from parameters.
+
+
+*Examples*
+
+[source%nowrap,bash,linenumber]
+----
+ExecuteApiFunction PrintColor light-blue I#am#a#test
+----
+
+The example above calls the function to executes the API function _PrintColor_ with the parameters _light-blue_ and _I#am#a#test_.
+
+[source%nowrap,bash,linenumber]
+----
+I#am#a#test
+----
+
+The screen above shows the result for print mode _ansi_.
+
+To get a list of all defined function simply call:
+
+[source%nowrap,bash,linenumber]
+----
+ExecuteApiFunction ListFunctions
+----
+

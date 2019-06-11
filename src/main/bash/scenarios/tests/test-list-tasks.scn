@@ -25,12 +25,10 @@
 ## @version    0.0.5
 ##
 
-list-commands --help
 list-commands
 list-commands --table
 
 
-list-configuration --help
 list-configuration
 list-configuration --all
 list-configuration --cli
@@ -47,7 +45,6 @@ list-configuration --table --file
 list-configuration --table --internal
 
 
-list-dependencies --help
 list-dependencies
 list-dependencies --all
 list-dependencies --install
@@ -64,7 +61,6 @@ list-dependencies --table --origin fw
 list-dependencies --table --status warning
 
 
-list-exitstatus --help
 list-exitstatus
 list-exitstatus --all
 list-exitstatus --app
@@ -81,7 +77,6 @@ list-exitstatus --table --shell
 list-exitstatus --table --task
 
 
-list-options --help
 list-options
 list-options --all
 list-options --exit
@@ -92,7 +87,6 @@ list-options --table --exit
 list-options --table --run
 
 
-list-parameters --help
 list-parameters
 list-parameters --all
 list-parameters --default
@@ -109,7 +103,6 @@ list-parameters --table --origin fw
 list-parameters --table --status option
 
 
-list-scenarios --help
 list-scenarios
 list-scenarios --all
 list-scenarios --install
@@ -142,7 +135,6 @@ list-scenarios --table --status warning
 list-scenarios --table --unloaded
 
 
-list-tasks --help
 list-tasks
 list-tasks --all
 list-tasks --install

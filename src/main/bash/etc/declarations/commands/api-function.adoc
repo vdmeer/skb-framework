@@ -1,0 +1,7 @@
+Executes an API function.
+The whole command line is taken as the argument.
+The first word in the argument must be an existing API function.
+This command does not support strings as arguments.
+If strings are required, they need to be separated by a non-whitespace character.
+For instance, instead of calling `PrintColor red "1 2"`,
+    use `PrintColor red 1-2` or `PrintColor red 1#2`.

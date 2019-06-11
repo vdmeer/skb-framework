@@ -25,6 +25,8 @@ By convention, these are tasks whose name starts with _build-_ or _compile-_.
 So _clean_ will lookup the loaded task map, find all tasks that start with _build-_ or _compile-_ and execute them with the `--clean` option.
 If any of these tasks fails (for instance due to missing parameters), _clean_ will also fail.
 
+
+
 === Options
 
 The option _simulate_ can be used to simulate a clean.
@@ -36,10 +38,15 @@ This is an additional safety feature to prevent accidental removal of the direct
 The option _force_ can be used to remove the directory forced, i.e. using `rm -fr` instead.
 _simulate_ will overwrite _force_.
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/clean--help--pdf.adoc[tags=options]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   options
-   *-f* | *--force*       force mode, not questions asked
-   *-h* | *--help*        print help screen and exit
-   *-s* | *--simulate*    print only, removes nothing, overwrites force
+include::{skb-site-target-dir}/adoc-screens/clean--help--adoc.adoc[tags=options]
 ----
+endif::[]

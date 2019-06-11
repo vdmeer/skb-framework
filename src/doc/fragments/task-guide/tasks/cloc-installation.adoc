@@ -24,39 +24,34 @@ This ensures that the installation's include and application files (without the 
 More details on `cloc` can be found at the Github source repository on link:https://github.com/AlDanial/cloc[Github].
 
 
+
 === Options
 
 The task does not have any special options.
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/cloc-installation--help--pdf.adoc[tags=options]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   *-h* | *--help*        print help screen and exit
+include::{skb-site-target-dir}/adoc-screens/cloc-installation--help--adoc.adoc[tags=options]
 ----
+endif::[]
+
 
 
 === Examples
 
 Simply running the task will count the lines of code of an installation.
-The following is the output of running this task on the SKB-Framework in an earlier version.
+The following is the output of running this task on the SKB-Framework version {release-version}.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes"]
 ----
-     545 text files.
-     539 unique files.
-     222 files ignored.
-
-github.com/AlDanial/cloc v 1.80  T=1.00 s (376.0 files/s, 23126.0 lines/s)
---------------------------------------------------------------------------------
-Language                      files          blank        comment           code
---------------------------------------------------------------------------------
-Bourne Again Shell              226           2618           5211          12077
-HTML                              1              0              1           1635
-AsciiDoc                        147            308              0           1202
-XML                               1              7             21             28
-Ant                               1              4              1             13
---------------------------------------------------------------------------------
-SUM:                            376           2937           5234          14955
---------------------------------------------------------------------------------
+include::{skb-site-target-dir}/adoc-screens/cloci.txt[]
 ----
 
 The count shows the two ANT files (build file and macro file) as ANT and XML language files.

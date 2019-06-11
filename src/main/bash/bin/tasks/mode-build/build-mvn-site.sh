@@ -97,25 +97,37 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "build-mvn-site")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
                 BuildTaskHelpLine b build   "<none>"    "builds site(s), requires a target and site ID or all"      $PRINT_PADDING
                 BuildTaskHelpLine c clean   "<none>"    "cleans all site(s)"                                        $PRINT_PADDING
                 BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                                $PRINT_PADDING
                 BuildTaskHelpLine l list    "<none>"    "list sites"                                                $PRINT_PADDING
                 BuildTaskHelpLine T test    "<none>"    "test sites, open in browser"                               $PRINT_PADDING
+                BuildTaskHelpTag end options
 
-                printf "\n   targets\n"
+                printf "\n"
+                BuildTaskHelpTag start targets
+                printf "   targets\n"
                 BuildTaskHelpLine t        targets  "<none>"    "mvn: all targets"                  $PRINT_PADDING
                 BuildTaskHelpLine "<none>" ad       "<none>"    "mvn: site:attach-descriptor"       $PRINT_PADDING
                 BuildTaskHelpLine "<none>" site     "<none>"    "mvn: site"                         $PRINT_PADDING
                 BuildTaskHelpLine "<none>" stage    "<none>"    "mvn: site:stage"                   $PRINT_PADDING
+                BuildTaskHelpTag end targets
 
-                printf "\n   filters\n"
+                printf "\n"
+                BuildTaskHelpTag start filters
+                printf "   filters\n"
                 BuildTaskHelpLine A all     "<none>"    "all sites"                                                 $PRINT_PADDING
                 BuildTaskHelpLine i id      "ID"        "site identifier for building"                              $PRINT_PADDING
+                BuildTaskHelpTag end filters
 
-                printf "\n   Maven options\n"
+                printf "\n"
+                BuildTaskHelpTag start maven-options
+                printf "   Maven options\n"
                 BuildTaskHelpLine "<none>" profile  PROFILE     "mvn: use profile PROFILE"          $PRINT_PADDING
+                BuildTaskHelpTag end maven-options
             else
                 cat $CACHED_HELP
             fi

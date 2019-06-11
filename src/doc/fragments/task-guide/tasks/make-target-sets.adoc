@@ -32,39 +32,59 @@ The general options, shown below, allow to direct the behavior of the task.
 * _clean_ - requests to clean one or more target sets.
 * _list_ - will list all defined and loaded target sets, which then can be build or cleaned.
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/make-target-sets--help--pdf.adoc[tags=options]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   options
-   *-c* | *--clean*            cleans target set(s) (all or given ID)
-   *-h* | *--help*             print help screen and exit
-   *-l* | *--list*             list target sets
+include::{skb-site-target-dir}/adoc-screens/make-target-sets--help--adoc.adoc[tags=options]
 ----
+endif::[]
 
-=== Target Options
+=== Target Option
 The task can builds any target requested.
 Targets are declared in the file `skb-ts.id` per target set.
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/make-target-sets--help--pdf.adoc[tags=target-option]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   *-t* | *--targets* <span style="color: #5C5CFF">TARGETS</span>  list of targets, separated by comma
+include::{skb-site-target-dir}/adoc-screens/make-target-sets--help--adoc.adoc[tags=target-option]
 ----
+endif::[]
 
 There is no default target.
+However, the standard taget _all_ will build all targets in the declared sequence.
 
 
 
-=== Filter Options
+=== Filters
 Filters allow to specify which of the loaded (and available) target sets should be built:
 
 * _all_ - will build all target sets, in the oder they are listed (alphabetically)
 * _id_ - can be used to build a specific target set
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/make-target-sets--help--pdf.adoc[tags=filters]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   filters
-   *-A* | *--all*              all target sets
-   *-i* | *--id* <span style="color: #5C5CFF">ID</span>            target set identifier for building
+include::{skb-site-target-dir}/adoc-screens/make-target-sets--help--adoc.adoc[tags=filters]
 ----
+endif::[]
 
 There is no default filter.
 
@@ -98,34 +118,10 @@ make-target-sets --id skb-fw --targets help
 ----
 
 The output will be:
+
+[source%nowrap,indent=0,subs="attributes"]
 ----
-    available targets
-       all           - runs all targets, except help
-       clean         - removes all created artifacts (gradle, mvn)
-       help          - prints this help
-
-       tool          - builds the framework tool (Java app to convert ADOC to TXT), gradle
-       mkdirs        - creates required directories
-       readme        - creates the file README.adoc for the source repository
-       dist          - builds distribution archives (not the PPA!) using gradle
-       adocindex     - creates the ADOC index files for site and documents
-       documents     - build the stand-alone documents (HTML and PDF)
-       site          - creates the framework site (mvn)
-
-    Notes:
-       - separate all required targets using a comma.
-       - sequence of given targets is not critical, they are always build in the right order.
-       - the site will not rebuild element lists if they do exist already
-         -- use target clean or run 'mvn clean' to build a fresh site
-
-    Requirements:
-       - gradle           - to build the Java tool and the distributions
-       - JDK8             - to build the tool
-       - Apache Ant       - to set file versions
-       - Apache Maven     - to build the site
-       - asciidoctor      - to build some targets for the manual, manual, and documents
-       - asciidoctor-pdf  - to build the PDF manual and documents
-       - coderay          - for syntax highlighting in ADOC files
+include::{skb-site-target-dir}/adoc-screens/ts-fw-help.txt[]
 ----
 
 All other targets can be executed in the same way.
@@ -155,7 +151,7 @@ The source block below shows the file for the frameworks' site.
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
-include::{skb-ts.id}/../skb-site.id[tags=ts-id]
+include::{skb-site-main-dir}/../skb-site.id[tags=site-id]
 ----
 
 The file script file must be named `skb-ts-scripts.skb`.

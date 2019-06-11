@@ -29,13 +29,18 @@ The program can be started in different ways:
     Since the task then terminates, there is no further job control on the XTerm.
     All output will of course happen in the new XTerm.
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/execute-program--help--pdf.adoc[tags=options]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   *-b* | *--background*  run program in background
-   *-h* | *--help*        print help screen and exit
-   *-t* | *--title* <span style="color: #5C5CFF">TITLE</span> title for the XTerm, default: program name
-   *-x* | *--xterm*       start a new XTerm and execute program
+include::{skb-site-target-dir}/adoc-screens/execute-program--help--adoc.adoc[tags=options]
 ----
+endif::[]
 
 The actual program and its arguments should be provided after `--` in the command line.
 All characters here will be simply used to execute the program.

@@ -85,9 +85,15 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "manual")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                            $PRINT_PADDING
-                printf "\n   filters\n"
+                BuildTaskHelpTag end options
+
+                printf "\n"
+                BuildTaskHelpTag start filters
+                printf "   filters\n"
                 BuildTaskHelpLine A        all       "<none>"    "all manual versions"                              $PRINT_PADDING
                 BuildTaskHelpLine "<none>" adoc      "<none>"    "ADOC manual"                                      $PRINT_PADDING
                 BuildTaskHelpLine "<none>" ansi      "<none>"    "text manual with ansi colors andeffects"          $PRINT_PADDING
@@ -96,6 +102,7 @@ while true; do
                 BuildTaskHelpLine "<none>" pdf       "<none>"    "PDF manual"                                       $PRINT_PADDING
                 BuildTaskHelpLine "<none>" text      "<none>"    "plain text manual"                                $PRINT_PADDING
                 BuildTaskHelpLine "<none>" text-anon "<none>"    "annotated text manual"                            $PRINT_PADDING
+                BuildTaskHelpTag end filters
             else
                 cat $CACHED_HELP
             fi

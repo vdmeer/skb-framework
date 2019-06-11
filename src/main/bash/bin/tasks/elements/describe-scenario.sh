@@ -98,19 +98,36 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "describe-scenario")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine D debug       "<none>"    "print debug information instead of description"    $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard describe options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
-                printf "\n   filters\n"
-                BuildTaskHelpLine A all         "<none>"    "all scenarios, disables all other filters"                                     $PRINT_PADDING
-                BuildTaskHelpLine i id          "ID"        "scenario identifier"                                                           $PRINT_PADDING
-                BuildTaskHelpLine I install     "<none>"    "only scenarios declared for application mode flavor 'install'"                 $PRINT_PADDING
-                BuildTaskHelpLine l loaded      "<none>"    "only loaded scenarios"                                                         $PRINT_PADDING
-                BuildTaskHelpLine m mode        "MODE"      "only scenarios for application mode: all, dev, build, use"                     $PRINT_PADDING
-                BuildTaskHelpLine o origin      "ORIGIN"    "only scenarios from origin: f(w), a(pp)"                                       $PRINT_PADDING
-                BuildTaskHelpLine s status      "STATUS"    "only scenarios for status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"     $PRINT_PADDING
-                BuildTaskHelpLine u unloaded    "<none>"    "only unloaded scenarios"                                                       $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
+
+                printf "\n"
+                BuildTaskHelpTag start task-options
+                printf "   task options\n"
+                BuildTaskHelpLine D debug       "<none>"    "print debug information instead of description"    $PRINT_PADDING
+                BuildTaskHelpTag end task-options
+
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard describe filters\n"
+                BuildTaskHelpLine A all         "<none>"    "all entries, disables all other filters"           $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine i id          "ID"        "scenario identifier, long or short form"                       $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "for flavor 'install'"                                          $PRINT_PADDING
+                BuildTaskHelpLine l loaded      "<none>"    "loaded"                                                        $PRINT_PADDING
+                BuildTaskHelpLine m mode        "MODE"      "for application mode: all, dev, build, use"                    $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "from origin: f(w), a(pp)"                                      $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"   $PRINT_PADDING
+                BuildTaskHelpLine u unloaded    "<none>"    "unloaded"                                                      $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
             else
                 cat $CACHED_HELP
             fi

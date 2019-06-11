@@ -18,11 +18,18 @@ This task starts an X terminal, or short XTerm (or xterm), with a set title and 
 The title can be set with _title_.
 For blanks in the title use quotes, for instance `--title "My XTERM"`.
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/start-xterm--help--pdf.adoc[tags=options]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   *-h* | *--help*           print help screen and exit
-   *-t* | *--title* <span style="color: #5C5CFF">TITLE</span>    title for the XTerm, default: command name
+include::{skb-site-target-dir}/adoc-screens/start-xterm--help--adoc.adoc[tags=options]
 ----
+endif::[]
 
 The command to run in the started XTerm should be provided to the task after `--`.
 The task assumes that the first word there is the command name (which then is used as the default title).

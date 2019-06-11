@@ -32,11 +32,18 @@ The actual wait time will be printed when the task finishes.
 
 Since _bash_ does not support floating point or double integer values, only positive integers can be used.
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/wait--help--pdf.adoc[tags=options]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   *-h* | *--help*          print help screen and exit
-   *-s* | *--seconds* <span style="color: #5C5CFF">SEC</span>   wait SEC seconds, default is 1
+include::{skb-site-target-dir}/adoc-screens/wait--help--adoc.adoc[tags=options]
 ----
+endif::[]
 
 
 

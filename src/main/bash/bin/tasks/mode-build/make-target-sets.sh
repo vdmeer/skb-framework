@@ -82,18 +82,29 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "make-target-sets")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
                 BuildTaskHelpLine c clean   "<none>"        "cleans target set(s) (all or given ID)"    $PRINT_PADDING
                 BuildTaskHelpLine h help    "<none>"        "print help screen and exit"                $PRINT_PADDING
                 BuildTaskHelpLine l list    "<none>"        "list target sets"                          $PRINT_PADDING
+                BuildTaskHelpTag end options
+                BuildTaskHelpTag start target-option
                 BuildTaskHelpLine t targets "targets"       "list of targets, separated by comma"       $PRINT_PADDING
+                BuildTaskHelpTag end target-option
 
-                printf "\n   filters\n"
+                printf "\n"
+                BuildTaskHelpTag start filters
+                printf "   filters\n"
                 BuildTaskHelpLine A all     "<none>"    "all target sets"                               $PRINT_PADDING
                 BuildTaskHelpLine i id      "ID"        "target set identifier for building"            $PRINT_PADDING
-                printf "\n   Notes\n"
-                printf "For all available targets use target 'all'\n"
+                BuildTaskHelpTag end filters
 
+                printf "\n"
+                BuildTaskHelpTag start notes
+                printf "   Notes\n"
+                printf "   - for all available targets use target 'all'\n"
+                BuildTaskHelpTag end notes
             else
                 cat $CACHED_HELP
             fi

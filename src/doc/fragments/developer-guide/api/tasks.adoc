@@ -19,6 +19,8 @@ Collection of functions for tasks.
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/buildtaskhelpline.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/buildtaskhelptag.adoc[leveloffset=+1]
+
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/debugtask.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/describetask.adoc[leveloffset=+1]

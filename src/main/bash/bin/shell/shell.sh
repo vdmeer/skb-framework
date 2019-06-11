@@ -95,9 +95,26 @@ FWInterpreter() {
     case "$SCMD" in
         # ...
 #end::fwi-start[]
+
+#tag::fwi-api[]
+        api-function | api)
+            printf "\n    api-function/api requires an API function as argument\n\n"
+            ;;
+        "api-function "*)
+            SARG=(${SCMD#*api-function })
+            ExecuteApiFunction "$SARG"
+            ShellAddCmdHistory
+            ;;
+        "api "*)
+            SARG=${SCMD#*api }
+            ExecuteApiFunction "$SARG"
+            ShellAddCmdHistory
+            ;;
+#end::fwi-api[]
+
 #tag::fwi-es[]
         execute-scenario | es)
-            printf "\n    execute-scenario/rs requires a scenario as argument\n\n"
+            printf "\n    execute-scenario/es requires a scenario as argument\n\n"
             ;;
         "execute-scenario "*)
             SARG=${SCMD#*execute-scenario }

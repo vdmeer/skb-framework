@@ -39,10 +39,7 @@
 ## - does not print a line feed
 ##
 PrintColor() {
-    local PRINT_MODE=${3:-}
-    if [[ "$PRINT_MODE" == "" ]]; then
-        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
-    fi
+    local PRINT_MODE=${3:-${CONFIG_MAP["PRINT_MODE"]}}
 
     case $PRINT_MODE in
         ansi)
@@ -62,12 +59,33 @@ PrintColor() {
                 light-blue)                 printf "${COLORS["LIGHT_BLUE"]}" ;;
                 light-purple)               printf "${COLORS["LIGHT_PURPLE"]}" ;;
                 light-cyan)                 printf "${COLORS["LIGHT_CYAN"]}" ;;
-                *)                          ConsolePrint error "print-color: unknown color: $1"
+                *)                          ConsolePrint error "print-color: unknown color: $1" ;;
             esac
             printf "%s${COLORS["WHITE"]}${COLORS["NORMAL"]}" "$2"
             ;;
-        text | text-anon | adoc)
+        text | text-anon | adoc | man-pdf)
             printf "%s" "$2" ;;
+        man-adoc)
+            case "$1" in
+                black)                      printf "<span style=\"color: #000000\">" ;;
+                red)                        printf "<span style=\"color: #FF0000\">" ;;
+                green)                      printf "<span style=\"color: #00FF00\">" ;;
+                brown)                      printf "<span style=\"color: #A52A2A\">" ;;
+                blue)                       printf "<span style=\"color: #0000FF\">" ;;
+                purple)                     printf "<span style=\"color: #800080\">" ;;
+                cyan)                       printf "<span style=\"color: #00FFFF\">" ;;
+                light-gray | light-grey)    printf "<span style=\"color: #D3D3D3\">" ;;
+                dark-gray | dark-grey)      printf "<span style=\"color: #A9A9A9\">" ;;
+                light-red)                  printf "<span style=\"color: #FF6600\">" ;;
+                light-green)                printf "<span style=\"color: #90EE90\">" ;;
+                yellow)                     printf "<span style=\"color: #FFFF00\">" ;;
+                light-blue)                 printf "<span style=\"color: #5C5CFF\">" ;;
+                light-purple)               printf "<span style=\"color: #B695C0\">" ;;
+                light-cyan)                 printf "<span style=\"color: #E0FFFF\">" ;;
+                *)                          ConsolePrint error "print-color: unknown color: $1" ;;
+            esac
+            printf "%s</span>" "$2"
+            ;;
         *)
             ConsolePrint error "print-color: unknown print mode: $PRINT_MODE";;
     esac
@@ -84,10 +102,7 @@ PrintColor() {
 ## - does not print a line feed
 ##
 PrintEffect() {
-    local PRINT_MODE=${3:-}
-    if [[ "$PRINT_MODE" == "" ]]; then
-        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
-    fi
+    local PRINT_MODE=${3:-${CONFIG_MAP["PRINT_MODE"]}}
 
     case $PRINT_MODE in
         ansi)
@@ -98,8 +113,8 @@ PrintEffect() {
                 *)              ConsolePrint error "print-effect: unknown effect: $1"
             esac
             ;;
-        text)                   printf "%s" "$2" ;;
-        adoc | text-anon)
+        man-pdf | text)         printf "%s" "$2" ;;
+        adoc | man-adoc | text-anon)
             case "$1" in
                 bold)           printf "*%s*" "$2" ;;
                 italic)         printf "_%s_" "$2" ;;

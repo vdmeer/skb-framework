@@ -36,18 +36,16 @@
 ## $2: optional print-mode, default setting from CONFIG_MAP used otherwise
 ##
 DescribeApplication() {
-    local PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
-    if [[ ! -z ${2:-} ]]; then
-        case $2 in
-            ansi | text* | adoc)
-                PRINT_MODE=$2
-                ;;
-            *)
-                ConsolePrint error "describe-application: unknown print mode $2"
-                return
-                ;;
-        esac
-    fi
+    local PRINT_MODE="${2:-${CONFIG_MAP["PRINT_MODE"]}}"
+    case $PRINT_MODE in
+        ansi | text* | adoc)
+            PRINT_MODE=$2
+            ;;
+        *)
+            ConsolePrint error "describe-application: unknown print mode $2"
+            return
+            ;;
+    esac
 
     case $1 in
         authors)

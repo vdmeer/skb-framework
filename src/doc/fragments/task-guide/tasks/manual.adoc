@@ -17,21 +17,18 @@
 This task will show the application manual.
 If no filters are used, i.e. no argument is provided, the text manual for the current print mode will be shown.
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/manual--help--pdf.adoc[tags=options]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   options
-   *-h* | *--help*              print help screen and exit
-
-   filters
-   *-A* | *--all*               all manual versions
-        *--adoc*              ADOC manual
-        *--ansi*              text manual with ansi colors andeffects
-        *--html*              HTML manual
-        *--manp*              manual page skb-framework(1)
-        *--pdf*               PDF manual
-        *--text*              plain text manual
-        *--text-anon*         annotated text manual
+include::{skb-site-target-dir}/adoc-screens/manual--help--adoc.adoc[tags=options]
 ----
+endif::[]
 
 The filters shown above can be used to show different versions of the manual.
 The filter _all_ will show all manual versions (it overwrites all other filters).
@@ -45,6 +42,19 @@ The task will always show the manual in the following order:
 * _manp_ - the manual page, filter _manp_
 * _html_ - the HTML version in a web browser, filter _html_
 * _pdf_ - the PDF version in a PDF viewer, filter _pdf_
+
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/manual--help--pdf.adoc[tags=filters]
+----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,bash,indent=0,subs="attributes,quotes"]
+----
+include::{skb-site-target-dir}/adoc-screens/manual--help--adoc.adoc[tags=filters]
+----
+endif::[]
 
 The text versions (_adoc_, _anon_, _ansi_, and _text_) are shown using the command `less` with the options `-r -C -f -M -d`.
 `tput` is used to safe (`smcup`) and restore (`rmcup`) the terminal context.

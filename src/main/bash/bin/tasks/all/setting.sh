@@ -61,9 +61,9 @@ CHANGE_SET=false
 ##
 ## set CLI options and parse CLI
 ##
-CLI_OPTIONS=hp:sS:T:
+CLI_OPTIONS=hP:sS:T:
 CLI_LONG_OPTIONS=help
-CLI_LONG_OPTIONS+=,pm:,shell-level:,snp,sq,strict,task-level:,tq
+CLI_LONG_OPTIONS+=,print-mode:,shell-level:,snp,sq,strict,task-level:,tq
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name setting -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -78,26 +78,32 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "setting")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                $PRINT_PADDING
+                BuildTaskHelpTag end options
 
-                printf "\n   options for changing settings\n"
-                BuildTaskHelpLine p         pm              "MODE"      "print mode to: ansi, text, text-anon"          $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start change-options
+                printf "   options for changing settings\n"
+                BuildTaskHelpLine P         print-mode      "MODE"      "print mode: ansi, text, adoc"                  $PRINT_PADDING
                 BuildTaskHelpLine S         shell-level     "LEVEL"     "change shell level to LEVEL"                   $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  snp             "<none>"    "toggle shell prompt mode"          $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  sq              "<none>"    "toggle shell quiet mode"           $PRINT_PADDING
-                BuildTaskHelpLine s         strict          "<none>"    "toggle strict mode"                $PRINT_PADDING
-                BuildTaskHelpLine T         task-level      "LEVEL"     "change task level to LEVEL"        $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  tq              "<none>"    "toggle task quiet mode"            $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  snp             "<none>"    "toggle shell prompt mode"                      $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  sq              "<none>"    "toggle shell quiet mode"                       $PRINT_PADDING
+                BuildTaskHelpLine s         strict          "<none>"    "toggle strict mode"                            $PRINT_PADDING
+                BuildTaskHelpLine T         task-level      "LEVEL"     "change task level to LEVEL"                    $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  tq              "<none>"    "toggle task quiet mode"                        $PRINT_PADDING
+                BuildTaskHelpTag end change-options
             else
                 cat $CACHED_HELP
             fi
             exit 0
             ;;
 
-        -p | --pm)
+        -P | --print-mode)
             case "$2" in
-                ansi | text | text-anon)
+                adoc | ansi | man-adoc | man-pdf | text | text-anon)
                     CONFIG_MAP["PRINT_MODE"]=$2
                     ConsolePrint message "  set print mode to ${CONFIG_MAP["PRINT_MODE"]}\n"
                     CHANGE_SET=true

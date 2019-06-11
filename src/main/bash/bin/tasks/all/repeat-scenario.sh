@@ -79,11 +79,14 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "repeat-scenario")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"        $PRINT_PADDING
                 BuildTaskHelpLine s scenario    SCENARIO    "the scenario to repeat"            $PRINT_PADDING
                 BuildTaskHelpLine t times       INT         "repeat INT times"                  $PRINT_PADDING
                 BuildTaskHelpLine w wait        SEC         "wait SEC seconds between repeats"  $PRINT_PADDING
+                BuildTaskHelpTag end options
             else
                 cat $CACHED_HELP
             fi

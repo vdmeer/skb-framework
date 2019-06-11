@@ -84,15 +84,18 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "validate-installation")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"        $PRINT_PADDING
-                BuildTaskHelpLine s strict  "<none>"    "run in strict mode"                $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
+                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"    $PRINT_PADDING
+                BuildTaskHelpLine s strict  "<none>"    "run in strict mode"            $PRINT_PADDING
+                BuildTaskHelpTag end options
 
-                printf "\n   targets\n"
-                BuildTaskHelpLine A all "<none>" "set all targets" $PRINT_PADDING
-
-                BuildTaskHelpLine "<none>" msrc     "<none>" "target: manual source" $PRINT_PADDING
-
+                printf "\n"
+                BuildTaskHelpTag start targets
+                printf "   targets\n"
+                BuildTaskHelpLine A         all     "<none>" "set all targets"          $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  msrc    "<none>" "target: manual source"    $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  cmd     "<none>" "target: commands"         $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  dep     "<none>" "target: dependencies"     $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  es      "<none>" "target: exit-status"      $PRINT_PADDING
@@ -100,6 +103,7 @@ while true; do
                 BuildTaskHelpLine "<none>"  param   "<none>" "target: parameters"       $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  scn     "<none>" "target: scenarios"        $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  task    "<none>" "target: tasks"            $PRINT_PADDING
+                BuildTaskHelpTag end targets
             else
                 cat $CACHED_HELP
             fi

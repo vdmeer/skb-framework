@@ -86,18 +86,35 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "describe-application")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard describe options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
 
-                printf "\n   filters\n"
-                BuildTaskHelpLine A all               "<none>"   "all application aspects"              $PRINT_PADDING
-                BuildTaskHelpLine "<none>" app        "<none>"   "include application description"      $PRINT_PADDING
-                BuildTaskHelpLine "<none>" authors    "<none>"   "include authors"                      $PRINT_PADDING
-                BuildTaskHelpLine "<none>" bugs       "<none>"   "include bugs"                         $PRINT_PADDING
-                BuildTaskHelpLine "<none>" copying    "<none>"   "include copying"                      $PRINT_PADDING
-                BuildTaskHelpLine "<none>" resources  "<none>"   "include resources"                    $PRINT_PADDING
-                BuildTaskHelpLine "<none>" security   "<none>"   "include security"                     $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard describe filters\n"
+                BuildTaskHelpLine A all               "<none>"   "all entries, disables all other filters"      $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine "<none>" app        "<none>"   "text for application description"     $PRINT_PADDING
+                BuildTaskHelpLine "<none>" authors    "<none>"   "text for authors"                     $PRINT_PADDING
+                BuildTaskHelpLine "<none>" bugs       "<none>"   "text for bugs"                        $PRINT_PADDING
+                BuildTaskHelpLine "<none>" copying    "<none>"   "text for copying"                     $PRINT_PADDING
+                BuildTaskHelpLine "<none>" resources  "<none>"   "text for resources"                   $PRINT_PADDING
+                BuildTaskHelpLine "<none>" security   "<none>"   "text for security"                    $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
+
+                printf "\n"
+                BuildTaskHelpTag start notes
+                printf "   Notes\n"
+                printf "   - the standard filter '-A | --all' is the default\n"
+                BuildTaskHelpTag end notes
             else
                 cat $CACHED_HELP
             fi

@@ -35,17 +35,22 @@ The general options, shown below, allow to direct the behavior of the task.
 * _test_ - once a site is successfully build, it can be tested.
     Testing here means to start a web browser with the site's `index.html` file.
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--pdf.adoc[tags=options]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   options
-   *-b* | *--build*            builds site(s), requires a target and site ID or all
-   *-c* | *--clean*            cleans all site(s)
-   *-h* | *--help*             print help screen and exit
-   *-l* | *--list*             list sites
-   *-T* | *--test*             test sites, open in browser
+include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--adoc.adoc[tags=options]
 ----
+endif::[]
 
-=== Target Options
+
+
+=== Targets
 The task can build a Maven site for several targets:
 
 * _targets_ - builds all targets
@@ -54,31 +59,41 @@ The task can build a Maven site for several targets:
 * _site_ - calls Maven to build the site, but not stage it
 * _stage_ - calls Maven to stage a site that has been prior built successfully
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--pdf.adoc[tags=targets]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   targets
-   *-t* | *--targets*          mvn: all targets
-        *--ad*               mvn: site:attach-descriptor
-        *--site*             mvn: site
-        *--stage*            mvn: site:stage
+include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--adoc.adoc[tags=targets]
 ----
+endif::[]
 
 There is no default target.
 
 
 
-=== Filter Options
+=== Filters
 Filters allow to specify which of the loaded (and available) sites should be built:
 
 * _all_ - will build all sites, in the oder they are listed (alphabetically)
 * _id_ - can be used to build a specific site
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--pdf.adoc[tags=filters]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   filters
-   *-A* | *--all*              all sites
-   *-i* | *--id* <span style="color: #5C5CFF">ID</span>            site identifier for building
+include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--adoc.adoc[tags=filters]
 ----
+endif::[]
 
 There is no default filter.
 
@@ -89,11 +104,18 @@ Further options exist to configure the runtime behavior of Maven:
 
 * _profile_ - call Maven with a specific profile setting, e.g. when the site definitions in the POM file are within a profile
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--pdf.adoc[tags=maven-options]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   Maven options
-        *--profile* <span style="color: #5C5CFF">PROFILE</span>  mvn: use profile PROFILE
+include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--adoc.adoc[tags=maven-options]
 ----
+endif::[]
 
 
 

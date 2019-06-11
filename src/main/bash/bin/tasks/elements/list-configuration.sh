@@ -90,17 +90,29 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "list-configuration")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"              $PRINT_PADDING
-                BuildTaskHelpLine T table       "<none>"    "print as table with more information"      $PRINT_PADDING
-                printf "\n   filters\n"
-                BuildTaskHelpLine A all         "<none>"    "all settings, disables all other filters"              $PRINT_PADDING
-                BuildTaskHelpLine c cli         "<none>"    "only settings from CLI options"                        $PRINT_PADDING
-                BuildTaskHelpLine d default     "<none>"    "only settings from default value"                      $PRINT_PADDING
-                BuildTaskHelpLine e env         "<none>"    "only settings from environment"                        $PRINT_PADDING
-                BuildTaskHelpLine f file        "<none>"    "only settings from configuration file"                 $PRINT_PADDING
-                BuildTaskHelpLine i internal    "<none>"    "only internal settings"                                $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard list options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                  $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "table format with additional information"      $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
+
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard list filters\n"
+                BuildTaskHelpLine A all         "<none>"    "all entries, disables all other filters"       $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine c cli         "<none>"    "set from CLI options"          $PRINT_PADDING
+                BuildTaskHelpLine d default     "<none>"    "set from default value"        $PRINT_PADDING
+                BuildTaskHelpLine e env         "<none>"    "set from environment"          $PRINT_PADDING
+                BuildTaskHelpLine f file        "<none>"    "set from configuration file"   $PRINT_PADDING
+                BuildTaskHelpLine i internal    "<none>"    "set internally"                $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
             else
                 cat $CACHED_HELP
             fi

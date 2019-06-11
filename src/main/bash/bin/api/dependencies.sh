@@ -202,10 +202,7 @@ DescribeDependency() {
 
     local PRINT_OPTION=${2:-}
     local PRINT_FEATURE=${3:-}
-    local PRINT_MODE="${4:-}"
-    if [[ "${PRINT_MODE}" == "" ]]; then
-        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
-    fi
+    local PRINT_MODE="${4:-${CONFIG_MAP["PRINT_MODE"]}}"
 
     local SPRINT=""
     local FEATURE

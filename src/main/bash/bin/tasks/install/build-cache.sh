@@ -102,18 +102,26 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "build-cache")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine b build   "<none>"    "builds cache, requires a target"                   $PRINT_PADDING
-                BuildTaskHelpLine c clean   "<none>"    "removes all cached maps and screens"               $PRINT_PADDING
-                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
+                BuildTaskHelpLine b build   "<none>"    "builds cache, requires a target"                       $PRINT_PADDING
+                BuildTaskHelpLine c clean   "<none>"    "removes all cached maps and screens"                   $PRINT_PADDING
+                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                            $PRINT_PADDING
+                BuildTaskHelpTag end options
 
-                printf "\n   target options\n"
+                printf "\n"
+                BuildTaskHelpTag start options-target
+                printf "   target options\n"
                 BuildTaskHelpLine A all     "<none>"    "set all targets, except tasks"                         $PRINT_PADDING
                 BuildTaskHelpLine d decl    "<none>"    "set all declaration targets"                           $PRINT_PADDING
                 BuildTaskHelpLine f full    "<none>"    "set all targets, including tasks"                      $PRINT_PADDING
                 BuildTaskHelpLine t tab     "<none>"    "set all table targets"                                 $PRINT_PADDING
+                BuildTaskHelpTag end options-target
 
-                printf "\n   targets\n"
+                printf "\n"
+                BuildTaskHelpTag start targets
+                printf "   targets\n"
                 BuildTaskHelpLine "<none>" cmd-decl     "<none>"    "target: command declarations"              $PRINT_PADDING
                 BuildTaskHelpLine "<none>" cmd-tab      "<none>"    "target: command table"                     $PRINT_PADDING
 
@@ -132,6 +140,7 @@ while true; do
                 BuildTaskHelpLine "<none>" task-tab     "<none>"    "target: task table"                        $PRINT_PADDING
 
                 BuildTaskHelpLine "<none>" tasks        "<none>"    "target: help screens for all(!) tasks"     $PRINT_PADDING
+                BuildTaskHelpTag end targets
             else
                 cat $CACHED_HELP
             fi

@@ -19,14 +19,18 @@ It runs Apache ANT using a simple build script, which in turn calls a macro that
 The default build and macro files change java files and all relevant framework files.
 These files can be used as template for writing other substitutions, if required.
 
+ifdef::backend-pdf[]
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-screens/set-file-versions--help--pdf.adoc[tags=options]
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-   *-b* | *--build-file* <span style="color: #5C5CFF">FILE</span>   ANT build file
-   *-d* | *--directory* <span style="color: #5C5CFF">DIR</span>     start directory with source files
-   *-h* | *--help*              print help screen and exit
-   *-m* | *--macro-file* <span style="color: #5C5CFF">FILE</span>   ANT macro file
-   *-v* | *--version* <span style="color: #5C5CFF">VERSION</span>   new version string
+include::{skb-site-target-dir}/adoc-screens/set-file-versions--help--adoc.adoc[tags=options]
 ----
+endif::[]
 
 
 

@@ -44,20 +44,20 @@ BuildTaskHelpLine() {
     local LONG=${2:-}
     local ARGUMENT=${3:-}
     local DESCRIPTION=${4:-}
-    local LENGTH=${5:-}
+    local LENGTH=${5:-24}
 
     if [[ -z $SHORT ]]; then
-        ConsolePrint error "build task help: no short option set"
+        ConsolePrint error "build-task-help-line: no short option set"
         return
     elif [[ "$SHORT" == "<none>" ]]; then
         SHORT=
     fi
     if [[ -z $LONG ]]; then
-        ConsolePrint error "build task help: no long option set"
+        ConsolePrint error "build-task-help-line: no long option set"
         return
     fi
     if [[ -z $ARGUMENT ]]; then
-        ConsolePrint error "build task help: no argument set"
+        ConsolePrint error "build-task-help-line: no argument set"
         return
     elif [[ "$ARGUMENT" == "<none>" ]]; then
         ARGUMENT=
@@ -65,89 +65,74 @@ BuildTaskHelpLine() {
         ARGUMENT=${ARGUMENT^^}
     fi
     if [[ -z "$DESCRIPTION" ]]; then
-        ConsolePrint error "build task help: no description set"
-        return
-    fi
-    if [[ -z $LENGTH ]]; then
-        LENGTH=24
+        ConsolePrint error "build-task-help-line: no description set"
         return
     fi
 
-    local TYPE=
-    if [[ -n "$ARGUMENT" ]]; then
-        # options with an argument
-        if [[ ! -n "$SHORT" ]]; then
-            # long-argument
-            TYPE="la"
-        elif [[ ! -n "$LONG" ]]; then
-            # short-argument
-            TYPE="sa"
-        else
-            # short-long-argument
-            TYPE="sla"
-        fi
+    local TEMPLATE=""
+    if [[ ! -n "$SHORT" ]]; then
+        TEMPLATE+="     --%LONG%"
+    elif [[ ! -n "$LONG" ]]; then
+        TEMPLATE+="-%SHORT%"
     else
-        # options w/o an argument
-        if [[ ! -n "$SHORT" ]]; then
-            # long
-            TYPE="l"
-        elif [[ ! -n "$LONG" ]]; then
-            # short
-            TYPE="s"
-        else
-            # short-long
-            TYPE="sl"
-        fi
+        TEMPLATE+="-%SHORT% | --%LONG%"
     fi
-
-    local SPRINT="   "
-    case "${CONFIG_MAP["PRINT_MODE"]}" in
-        ansi)
-            case $TYPE in
-                la)     SPRINT+="     "$(PrintEffect bold --$LONG)" "$(PrintColor light-blue $ARGUMENT) ;;
-                sa)     SPRINT+=$(PrintEffect bold -$SHORT)" "$(PrintColor light-blue $ARGUMENT) ;;
-                sla)    SPRINT+=$(PrintEffect bold -$SHORT)" | "$(PrintEffect bold --$LONG)" "$(PrintColor light-blue $ARGUMENT) ;;
-                l)      SPRINT+="     "$(PrintEffect bold --$LONG) ;;
-                s)      SPRINT+=$(PrintEffect bold -$SHORT) ;;
-                sl)     SPRINT+=$(PrintEffect bold -$SHORT)" | "$(PrintEffect bold --$LONG) ;;
-            esac
-            ;;
-        text-anon)
-            case $TYPE in
-                la)     SPRINT+="     *--"$LONG"* _"$ARGUMENT"_" ;;
-                sa)     SPRINT+="*-"$SHORT"* _"$ARGUMENT"_" ;;
-                sla)    SPRINT+="*-"$SHORT"* | *--"$LONG"* _"$ARGUMENT"_" ;;
-                l)      SPRINT+="     *--"$LONG"*" ;;
-                s)      SPRINT+="*-"$SHORT"*" ;;
-                sl)     SPRINT+="*-"$SHORT"* | *--"$LONG"*" ;;
-            esac
-            ;;
-        text)
-            case $TYPE in
-                la)     SPRINT+="     --"$LONG" "$ARGUMENT ;;
-                sa)     SPRINT+="-"$SHORT" "$ARGUMENT ;;
-                sla)    SPRINT+="-"$SHORT" | --"$LONG" "$ARGUMENT ;;
-                l)      SPRINT+="     --"$LONG ;;
-                s)      SPRINT+="-"$SHORT ;;
-                sl)     SPRINT+="-"$SHORT" | --"$LONG ;;
-            esac
-            ;;
-
-        *)
-            ConsolePrint error "describe-task - unknown print option '$PRINT_OPTION'"
-            return
-            ;;
-    esac
-
+    if [[ -n "$ARGUMENT" ]]; then
+        TEMPLATE+=" %ARGUMENT%"
+    fi
     local LINE="       "$LONG" "$ARGUMENT
     local LINE_LENGTH=${#LINE}
     padding=$(( $LENGTH - $LINE_LENGTH ))
     if [[ ! -n "$ARGUMENT" ]]; then
         padding=$(( $padding +1 ))
     fi
-    SPRINT+=$(printf '%*s' "$padding")$DESCRIPTION
+    TEMPLATE+=$(printf '%*s' "$padding")$DESCRIPTION
+    TEMPLATE=${TEMPLATE//%SHORT%/$(PrintEffect bold "$SHORT")}
+    TEMPLATE=${TEMPLATE//%LONG%/$(PrintEffect bold "$LONG")}
 
-    printf "$SPRINT\n"
+    case "${CONFIG_MAP["PRINT_MODE"]}" in
+        ansi | man-adoc | man-pdf)
+            TEMPLATE=${TEMPLATE//%ARGUMENT%/$(PrintColor light-blue "$ARGUMENT")} ;;
+        adoc | text-anon)
+            TEMPLATE=${TEMPLATE//%ARGUMENT%/"_"$ARGUMENT"_"} ;;
+        text)
+            TEMPLATE=${TEMPLATE//%ARGUMENT%/$ARGUMENT} ;;
+        *)
+            ConsolePrint error "build-task-help-line: unknown print mode '${CONFIG_MAP["PRINT_MODE"]}'"
+            return
+            ;;
+    esac
+
+    printf "   %s\n" "$TEMPLATE"
+
+}
+
+
+
+##
+## function: BuildTaskHelpTag()
+## - prints an ADOC tag for man-* print modes.
+## $1: tag type, one of: start, end
+## $2: tag name
+##
+BuildTaskHelpTag() {
+    case "${CONFIG_MAP["PRINT_MODE"]}" in
+        man-adoc | man-pdf)
+            case $1 in
+                start)
+                    printf "#tag::%s[]\n" "$2"
+                    ;;
+                end)
+                    printf "#end::%s[]\n" "$2"
+                    ;;
+                *)
+                    ConsolePrint error "build-task-help-tag: unknown tag type '$1'"
+                    ;;
+            esac
+            ;;
+        *)
+            ;;
+    esac
 }
 
 
@@ -158,13 +143,11 @@ BuildTaskHelpLine() {
 ## $1: task id, short or long form
 ##
 DebugTask() {
-    local ID=${1:-}
-    local TASK_ID=$(GetTaskID $ID)
-    if [[ -z "${TASK_ID:-}" ]]; then
-         ConsolePrint error "debug-task - unknown task ID '$ID'"
+    local ID=$(GetTaskID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "debug-task - unknown task ID '${1-""}'"
         return
     fi
-    ID=$TASK_ID
 
     local SHORT
     for SHORT in ${!DMAP_TASK_SHORT[@]}; do
@@ -266,20 +249,15 @@ DebugTask() {
 ## optional $4: print mode (adoc, ansi, text)
 ##
 DescribeTask() {
-    local ID=${1:-}
-    local TASK_ID=$(GetTaskID $ID)
-    if [[ -z "${TASK_ID:-}" ]]; then
-         ConsolePrint error "describe-task - unknown task ID '$ID'"
+    local ID=$(GetTaskID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "describe-task - unknown task ID '${1-""}'"
         return
     fi
-    ID=$TASK_ID
 
     local PRINT_OPTION="${2:-}"
     local PRINT_FEATURE="${3:-}"
-    local PRINT_MODE="${4:-}"
-    if [[ "${PRINT_MODE}" == "" ]]; then
-        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
-    fi
+    local PRINT_MODE="${4:-${CONFIG_MAP["PRINT_MODE"]}}"
 
     local SPRINT=""
 
@@ -306,8 +284,8 @@ DescribeTask() {
             ;;
             post-line)      POST_LINE="::" ;;
             enter)          ENTER="\n" ;;
-            adoc)           SOURCE=${DMAP_TASK_DECL[$ID]}.adoc ;;
-            ansi | text*)   SOURCE=${DMAP_TASK_DECL[$ID]}.txt ;;
+            adoc | man-adoc)           SOURCE=${DMAP_TASK_DECL[$ID]}.adoc ;;
+            ansi | man-pdf | text*)   SOURCE=${DMAP_TASK_DECL[$ID]}.txt ;;
             none | "")      ;;
             *)
                 ConsolePrint error "describe-task - unknown print feature '$PRINT_FEATURE'"
@@ -361,7 +339,7 @@ DescribeTask() {
 ##
 ## function: ExecuteTask()
 ## - executes a task
-## $1: full command line for the task, first word being the task ID (short or long form)]
+## $1: full command line for the task, first word being the task ID (short or long form)
 ## $2: special setting for scenarios: in-scenario (no extras inside scenarios)
 ##
 ExecuteTask() {
@@ -606,13 +584,11 @@ TaskElementDescription() {
 ## optional $2: print mode (adoc, ansi, text)
 ##
 TaskInTable() {
-    local ID=${1:-}
-    local TASK_ID=$(GetTaskID $ID)
-    if [[ -z "${TASK_ID:-}" ]]; then
-         ConsolePrint error "task-in-table - unknown task ID '$ID'"
+    local ID=$(GetTaskID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "task-in-table - unknown task ID '${1-""}'"
         return
     fi
-    ID=$TASK_ID
 
     local PRINT_MODE=${2:-}
 
@@ -638,13 +614,11 @@ TaskInTable() {
 ## $1: task ID, long- or short form
 ##
 TaskStatus() {
-    local ID=${1:-}
-    local TASK_ID=$(GetTaskID $ID)
-    if [[ -z "${TASK_ID:-}" ]]; then
-         ConsolePrint error "task-status - unknown task ID '$ID'"
+    local ID=$(GetTaskID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "task-status - unknown task ID '${1-""}'"
         return
     fi
-    ID=$TASK_ID
 
     local FLAVOR
     local MODE
@@ -710,13 +684,11 @@ TaskStatus() {
 ## $3: set to anything to have no trailing padding (the $2 to a number, e.g. 0)
 ##
 TaskTagline() {
-    local ID=${1:-}
-    local TASK_ID=$(GetTaskID $ID)
-    if [[ -z "${TASK_ID:-}" ]]; then
-         ConsolePrint error "task-tagline - unknown task ID '$ID'"
+    local ID=$(GetTaskID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "task-tagline - unknown task ID '${1-""}'"
         return
     fi
-    ID=$TASK_ID
 
     local ADJUST=${2:-0}
     local DESCRIPTION

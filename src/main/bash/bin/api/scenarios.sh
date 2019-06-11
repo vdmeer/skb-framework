@@ -35,13 +35,11 @@
 ## $1: scenario id, short or long form
 ##
 DebugScenario() {
-    local ID=${1:-}
-    local SCN_ID=$(GetScenarioID $ID)
-    if [[ -z ${SCN_ID:-} ]]; then
-        ConsolePrint error "debug-scenario - unknown scenario ID '$ID'"
+    local ID=$(GetScenarioID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "debug-scenario - unknown scenario ID '${1-""}'"
         return
     fi
-    ID=$SCN_ID
 
     local SHORT
     for SHORT in ${!DMAP_SCN_SHORT[@]}; do
@@ -111,20 +109,15 @@ DebugScenario() {
 ## optional $4: print mode (adoc, ansi, text)
 ##
 DescribeScenario() {
-    local ID=${1:-}
-    local SCN_ID=$(GetScenarioID $ID)
-    if [[ -z ${SCN_ID:-} ]]; then
-        ConsolePrint error "describe-scenario - unknown scenario ID '$ID'"
+    local ID=$(GetScenarioID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "describe-scenario - unknown scenario ID '${1-""}'"
         return
     fi
-    ID=$SCN_ID
 
     local PRINT_OPTION="${2:-}"
     local PRINT_FEATURE="${3:-}"
-    local PRINT_MODE="${4:-}"
-    if [[ "${PRINT_MODE}" == "" ]]; then
-        PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
-    fi
+    local PRINT_MODE="${4:-${CONFIG_MAP["PRINT_MODE"]}}"
 
     local SPRINT=""
 
@@ -209,13 +202,11 @@ DescribeScenario() {
 ## $1: scenario ID, short or long form
 ##
 ExecuteScenario() {
-    local SCENARIO=${1:-}
-    local SCN_ID=$(GetScenarioID $SCENARIO)
-    if [[ -z ${SCN_ID:-} ]]; then
-        ConsolePrint error "execute-scenario - unknown scenario ID '$SCENARIO'"
+    local SCENARIO=$(GetScenarioID ${1:-""})
+    if [[ -z "${SCENARIO:-}" ]]; then
+         ConsolePrint error "execute-scenario - unknown scenario ID '${1-""}'"
         return
     fi
-    SCENARIO=$SCN_ID
 
     if [[ -z "${RTMAP_SCN_LOADED[$SCENARIO]:-}" ]]; then
         ConsolePrint error "scenario '$SCENARIO' unknown, not loaded in mode '${CONFIG_MAP["APP_MODE"]}' / flavor '${CONFIG_MAP["APP_MODE_FLAVOR"]}'"
@@ -381,13 +372,11 @@ ScenarioElementDescription() {
 ## optional $2: print mode (adoc, ansi, text)
 ##
 ScenarioInTable() {
-    local ID=${1:-}
-    local SCN_ID=$(GetScenarioID $ID)
-    if [[ -z ${SCN_ID:-} ]]; then
-        ConsolePrint error "scenario-in-table - unknown scenario ID '$ID'"
+    local ID=$(GetScenarioID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "scenario-in-table - unknown scenario ID '${1-""}'"
         return
     fi
-    ID=$SCN_ID
 
     local PRINT_MODE=${2:-}
     local PADDING
@@ -412,13 +401,11 @@ ScenarioInTable() {
 ## $1: scenario ID, long or short form
 ##
 ScenarioStatus() {
-    local ID=${1:-}
-    local SCN_ID=$(GetScenarioID $ID)
-    if [[ -z ${SCN_ID:-} ]]; then
-        ConsolePrint error "scenario-status - unknown scenario ID '$ID'"
+    local ID=$(GetScenarioID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "scenario-status - unknown scenario ID '${1-""}'"
         return
     fi
-    ID=$SCN_ID
 
     local MODE
     local STATUS
@@ -483,13 +470,11 @@ ScenarioStatus() {
 ## $3: set to anything to have no trailing padding (the $2 to a number, e.g. 0)
 ##
 ScenarioTagline() {
-    local ID=${1:-}
-    local SCN_ID=$(GetScenarioID $ID)
-    if [[ -z ${SCN_ID:-} ]]; then
-        ConsolePrint error "scenario-tagline - unknown scenario ID '$ID'"
+    local ID=$(GetScenarioID ${1:-""})
+    if [[ -z "${ID:-}" ]]; then
+         ConsolePrint error "scenario-tagline - unknown scenario ID '${1-""}'"
         return
     fi
-    ID=$SCN_ID
 
     local ADJUST=${2:-0}
     local DESCRIPTION
