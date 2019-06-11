@@ -335,7 +335,7 @@ TestDependency() {
 
         ConsolePrint debug "process-task/dep - testing dependency '$DEP'"
         local COMMAND=${DMAP_DEP_CMD[$DEP]}
-        if [[ "${COMMAND:0:1}" == "/" ]];then
+        if [[ "${COMMAND:0:1}" == "/" ]]; then
             if [[ -n "$($COMMAND)" ]]; then
                 SetArtifactStatus dep $DEP S
             else

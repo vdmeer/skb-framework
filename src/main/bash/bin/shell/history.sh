@@ -84,7 +84,7 @@ ShellCmdHistory() {
                 keys=(${keys[@]:-} $padding)
             fi
         done
-        keys=($(printf '%s\n' "${keys[@]:-}"|sort))
+        keys=($(printf '%s\n' "${keys[@]:-}" | sort))
         for i in ${!keys[@]}; do
             NUMBER=${keys[$i]}
             NUMBER=$((10#$NUMBER))

@@ -20,7 +20,21 @@ It realizes two things in one.
 First, it is an application itself.
 Second, it is a start script that can be used by other applications to start the framework.
 
-At the start, it checks the setting `__FW_LOADER_FLAVOR` (line 1 in the source block below).
+At the very start, it checks the availability of a few external dependencies.
+These are commands it might want to use later to for core settings.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/skb-framework[tags=dependencies]
+----
+
+The tested dependencies are:
+
+* `readlink`, which can help to resolve symbolic links or canonical file names.
+* `dirname`, which simply strips the last component of a file name, leaving a path.
+
+
+Next, it checks the setting `__FW_LOADER_FLAVOR` (line 1 in the source block below).
 If this variable is set, then another application wants to start the framework.
 Otherwise, the `skb-framework` is the application.
 In the later case, the script sets required variables for the loader (lines 3-5 below):
@@ -31,7 +45,7 @@ In the later case, the script sets required variables for the loader (lines 3-5 
 
 The next step is to find the framework installation.
 The script tries the variable `SF_HOME` first, `readlink` first (lines 8-13), if that fails `dirname` (lines 15-19).
-If all attempts fail, the script terminates with an error (lines 20-24).
+If all attempts fail, the script terminates with an error (lines 20-31).
 Otherwise it set `FW_HOME`. 
 
 [source%nowrap,bash,linenums,subs="attributes+"]
@@ -50,7 +64,7 @@ include::{skb-site-main-dir}/main/bash/bin/skb-framework[tags=app-flavor]
 ----
 
 
-One the framework installation has been found, the script tests if the loader exists.
+Once the framework installation has been found, the script tests if the loader exists.
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----

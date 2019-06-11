@@ -115,6 +115,6 @@ endif::[]
 ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
-include::{skb-site-targadoc-task-helpask-help/clean--help--adoc.adoc[tags=helpline]
+include::{skb-site-target-dir}/adoc-task-help/clean--help--adoc.adoc[tags=helpline]
 ----
 endif::[]

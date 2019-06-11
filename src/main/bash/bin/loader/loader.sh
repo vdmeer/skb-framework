@@ -35,65 +35,100 @@
 
 ##
 ## basic options / settings
-## l1 - changes bugs into errors, safer
-## l2 - we want files recursivey
-## l3 - take start time
-## l4 - get rid of this option and avoid the annoying "Picked Up..." message in Java
+## - safe bash execution
+## - globstar for finding files recursivey
+## - check date and gt timestamp
+## - get rid of this option and avoid the annoying "Picked Up..." message in Java
 #tag::init[]
 set -o errexit -o pipefail -o noclobber -o nounset
 shopt -s globstar
+
+if [[ ! $(command -v date) ]]; then
+    printf " ==> did not find 'date', required by loader, see error code 300\n\n"
+    exit 300
+fi
 _ts=$(date +%s.%N)
+
 unset JAVA_TOOL_OPTIONS
 #end::init[]
 
 
 ##
 ## test for core requirements
-## - test for BASH 4, if not found we cannot continue (we are using associative arrays); exit 12 on error
-## - test for getopt, we use it for command line argument parsing; exit 13 on error
-## - test for bc, for time calculations; exit 14 on error
-## - test for mktemp, required to create temporary files and directories; exit 15 on error
-## - test for sed, required in some API functions; exit 16 on error
-## - test for cat, required by the loader; exit 17 on error
-## - test for less, required by the manual command and option; exit 18 on error
-## - test for tput, required by the manual command and option; exit 19 on error
-##
-## - exit with code 12-19 if we did not find a core requirements
+## - exit with codes 300-399 if we did not find a core requirements
 ##
 #tag::core-dep[]
 if [[ "${BASH_VERSION:0:1}" -lt 4 ]]; then
-    printf " ==> no bash version >4, required for associative arrays\n\n"
-    exit 12
+    printf " ==> no bash version >4, required for associative arrays, see error code 301\n\n"
+    exit 301
 fi
 ! getopt --test > /dev/null 
 if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
-    printf " ==> getopt failed, required for command line parsing\n\n"
-    exit 13
+    printf " ==> getopt failed, required for command line parsing, see error code 302\n\n"
+    exit 302
 fi
-if [[ ! $(command -v bc) ]]; then
-    printf " ==> did not find bc, required for calculations\n\n"
-    exit 14
+if [[ ! $(command -v dirname) ]]; then
+    printf " ==> did not find 'dirname', required by loader, see error code 303\n\n"
+    exit 303
 fi
-if [[ ! $(command -v mktemp) ]]; then
-    printf " ==> did not find mktemp, required to create temporary files and directories\n\n"
-    exit 15
+if [[ ! $(command -v pwd) ]]; then
+    printf " ==> did not find 'pwd', required by loader, see error code 304\n\n"
+    exit 304
 fi
-if [[ ! $(command -v sed) ]]; then
-    printf " ==> did not find sed, required by some API functions\n\n"
-    exit 16
+if [[ ! $(command -v uname) ]]; then
+    printf " ==> did not find 'uname', required by loader, see error code 305\n\n"
+    exit 305
+fi
+if [[ ! $(command -v cut) ]]; then
+    printf " ==> did not find 'cut', required by loader, see error code 306\n\n"
+    exit 306
 fi
 if [[ ! $(command -v cat) ]]; then
-    printf " ==> did not find cat, required by the loader\n\n"
-    exit 17
+    printf " ==> did not find 'cat', required by loader, see error code 307\n\n"
+    exit 307
 fi
-if [[ ! $(command -v less) ]]; then
-    printf " ==> did not find less, required by the manual command and option\n\n"
-    exit 18
+if [[ ! $(command -v mkdir) ]]; then
+    printf " ==> did not find 'mkdir', required by loader, see error code 308\n\n"
+    exit 308
+fi
+if [[ ! $(command -v bc) ]]; then
+    printf " ==> did not find 'bc', required by loader, see error code 309\n\n"
+    exit 309
+fi
+if [[ ! $(command -v mktemp) ]]; then
+    printf " ==> did not find 'mktemp', required by loader, see error code 310n\n"
+    exit 310
+fi
+if [[ ! $(command -v ls) ]]; then
+    printf " ==> did not find 'ls', required by loader, see error code 311\n\n"
+    exit 311
+fi
+if [[ ! $(command -v wc) ]]; then
+    printf " ==> did not find 'wc', required by loader, see error code 312\n\n"
+    exit 312
 fi
 if [[ ! $(command -v tput) ]]; then
-    printf " ==> did not find tput, required by the manual command and option\n\n"
-    exit 19
+    printf " ==> did not find 'tput', required by loader, see error code 313\n\n"
+    exit 313
 fi
+if [[ ! $(command -v less) ]]; then
+    printf " ==> did not find 'less', required by loader, see error code 314\n\n"
+    exit 314
+fi
+if [[ ! $(command -v rm) ]]; then
+    printf " ==> did not find 'rm', required by loader, see error code 315\n\n"
+    exit 315
+fi
+if [[ ! $(command -v sort) ]]; then
+    printf " ==> did not find 'sort', required by shell, see error code 316\n\n"
+    exit 316
+fi
+
+#sed - mvn-site
+
+
+
+
 #end::core-dep[]
 
 
@@ -107,27 +142,29 @@ if [[ -z ${FW_HOME:-} ]]; then
     FW_HOME=$(cd $FW_HOME/../.. && pwd)
 fi
 
-source $FW_HOME/bin/loader/declare/_include
-CONFIG_MAP["FW_HOME"]=$FW_HOME                      # home of the framework
+declare -A CONFIG_MAP               # map for main configuration, keys are less FLAVOR
+declare -A CONFIG_SRC               # map for configuration source, [E]nv, [F]ile (.skb), [D]efault, CLI [O]ption
+
+CONFIG_MAP["FW_HOME"]=$FW_HOME                  # home of the framework
 export FW_HOME
-CONFIG_MAP["RUNNING_IN"]="loader"                   # we are in the loader, shell/tasks will change this to "shell" or "task"
-CONFIG_MAP["SYSTEM"]=$(uname -s | cut -c1-6)        # set system, e.g. for Cygwin path conversions
-CONFIG_MAP["CONFIG_FILE"]="$HOME/.skb"              # config file, in user's home directory
-CONFIG_MAP["STRICT"]=off                            # not strict, yet (change with --strict)
-CONFIG_MAP["APP_MODE"]=use                          # default application mode is use, change with --all-mode, --build-mode, --dev-mode
-CONFIG_MAP["APP_MODE_FLAVOR"]=std                   # default application mode flavor is std, change with --install
-CONFIG_MAP["PRINT_MODE"]=ansi                       # default print mode is ansi, change with --print-mode
+CONFIG_MAP["RUNNING_IN"]="loader"               # we are in the loader, shell/tasks will change this to "shell" or "task"
+CONFIG_MAP["SYSTEM"]=$(uname -s | cut -c1-6)    # set system, some low-level functions need it
+CONFIG_MAP["CONFIG_FILE"]="$HOME/.skb"          # config file, in user's home directory
+CONFIG_MAP["STRICT"]=off                        # not strict, yet (change with --strict)
+CONFIG_MAP["APP_MODE"]=use                      # default application mode is use, change with --all-mode, --build-mode, --dev-mode
+CONFIG_MAP["APP_MODE_FLAVOR"]=std               # default application mode flavor is std, change with --install
+CONFIG_MAP["PRINT_MODE"]=ansi                   # default print mode is ansi, change with --print-mode
 
-CONFIG_MAP["LOADER_LEVEL"]="error"                  # output level for loader, change with --loader-level, set to "debug" for early code debugging
-CONFIG_MAP["SHELL_LEVEL"]="error"                   # output level for shell, change with --shell-level
-CONFIG_MAP["TASK_LEVEL"]="error"                    # output level for tasks, change with --task-level
+CONFIG_MAP["LOADER_LEVEL"]="error"              # output level for loader, change with --loader-level, set to "debug" for early code debugging
+CONFIG_MAP["SHELL_LEVEL"]="error"               # output level for shell, change with --shell-level
+CONFIG_MAP["TASK_LEVEL"]="error"                # output level for tasks, change with --task-level
 
-CONFIG_MAP["LOADER_QUIET"]="off"                    # message level for loader, change with --lq
-CONFIG_MAP["SHELL_QUIET"]="off"                     # message level for shell, change with --sq
-CONFIG_MAP["TASK_QUIET"]="off"                      # message level for tasks, change with --tq
+CONFIG_MAP["LOADER_QUIET"]="off"                # message level for loader, change with --lq
+CONFIG_MAP["SHELL_QUIET"]="off"                 # message level for shell, change with --sq
+CONFIG_MAP["TASK_QUIET"]="off"                  # message level for tasks, change with --tq
 
-CONFIG_MAP["SCENARIO_PATH"]=""                      # empty scenario path, set from ENV or file (parameter)
-CONFIG_MAP["SHELL_SNP"]="off"                       # shell shows prompt, change with --snp
+CONFIG_MAP["SCENARIO_PATH"]=""                  # empty scenario path, set from ENV or file (parameter)
+CONFIG_MAP["SHELL_SNP"]="off"                   # shell shows prompt, change with --snp
 #end::core-settings[]
 
 
@@ -136,6 +173,7 @@ CONFIG_MAP["SHELL_SNP"]="off"                       # shell shows prompt, change
 ## core includes
 ##
 #tag::core-includes[]
+source $FW_HOME/bin/loader/declare/_include
 source $FW_HOME/bin/api/_include
 source $FW_HOME/bin/loader/init/parse-cli.sh
 #end::core-includes[]
@@ -211,7 +249,6 @@ else
     printf "\n"
     exit 26
 fi
-source $FW_HOME/bin/loader/declare/app-maps.sh
 #end::flavor-app[]
 
 
