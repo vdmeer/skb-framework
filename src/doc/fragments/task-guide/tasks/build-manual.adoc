@@ -104,13 +104,13 @@ When _build_ is used, other general options and filters can be used to direct th
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/build-manual--help--pdf.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-task-help/build-manual--help--pdf.adoc[tags=options]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/build-manual--help--adoc.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-task-help/build-manual--help--adoc.adoc[tags=options]
 ----
 endif::[]
 
@@ -126,13 +126,13 @@ Text sources (target _src_) are not created automatically, only on request.
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/build-manual--help--pdf.adoc[tags=targets]
+include::{skb-site-target-dir}/adoc-task-help/build-manual--help--pdf.adoc[tags=targets]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/build-manual--help--adoc.adoc[tags=targets]
+include::{skb-site-target-dir}/adoc-task-help/build-manual--help--adoc.adoc[tags=targets]
 ----
 endif::[]
 
@@ -161,13 +161,13 @@ For selected element types, the element list filters can be used to direct what 
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/build-manual--help--pdf.adoc[tags=element-list-filters]
+include::{skb-site-target-dir}/adoc-task-help/build-manual--help--pdf.adoc[tags=element-list-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/build-manual--help--adoc.adoc[tags=element-list-filters]
+include::{skb-site-target-dir}/adoc-task-help/build-manual--help--adoc.adoc[tags=element-list-filters]
 ----
 endif::[]
 
@@ -183,13 +183,13 @@ The default behavior is to include all general parts.
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/build-manual--help--pdf.adoc[tags=application-filters]
+include::{skb-site-target-dir}/adoc-task-help/build-manual--help--pdf.adoc[tags=application-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/build-manual--help--adoc.adoc[tags=application-filters]
+include::{skb-site-target-dir}/adoc-task-help/build-manual--help--adoc.adoc[tags=application-filters]
 ----
 endif::[]
 
@@ -209,13 +209,13 @@ To no show any information about tasks, use _--no-tasks_.
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/build-manual--help--pdf.adoc[tags=element-filters]
+include::{skb-site-target-dir}/adoc-task-help/build-manual--help--pdf.adoc[tags=element-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/build-manual--help--adoc.adoc[tags=element-filters]
+include::{skb-site-target-dir}/adoc-task-help/build-manual--help--adoc.adoc[tags=element-filters]
 ----
 endif::[]
 

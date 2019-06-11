@@ -59,6 +59,7 @@ DO_LIST=false
 DO_TARGETS=
 ALL=
 TARGET_SET_ID=
+FIELD_SEAPARATOR=$IFS
 
 
 
@@ -299,7 +300,6 @@ TestTargets(){
         return
     fi
 
-    FIELD_SEAPARATOR=$IFS
     IFS=,
     for TGT_USER in $DO_TARGETS; do
         IFS=$FIELD_SEAPARATOR
@@ -312,9 +312,7 @@ TestTargets(){
         if [[ $FOUND == false ]]; then
             ConsolePrint error "rts: requested target '$TGT_USER' not in target set '$ID'"
         fi
-        IFS=,
     done
-    IFS=$FIELD_SEAPARATOR
     ExitOnTaskErrors
 }
 
@@ -333,12 +331,13 @@ BuildTargetSet(){
             PrintTargetStart $ID $TGT
             (cd ${TARGET_SET_PATH[$ID]}; TsRunTargets $TGT)
             PrintTargetEnd $ID $TGT
+            ExitOnTaskErrors
         done
     else
-        FIELD_SEAPARATOR=$IFS
         for TGT in ${TARGET_SET_TARGETS[$ID]}; do
             IFS=,
             for TGT_USER in $DO_TARGETS; do
+                IFS=$FIELD_SEAPARATOR
                 if [[ "$TGT" == "$TGT_USER" ]]; then
                     PrintTargetStart $ID $TGT
                     (cd ${TARGET_SET_PATH[$ID]}; TsRunTargets $TGT)
@@ -346,10 +345,8 @@ BuildTargetSet(){
                     ExitOnTaskErrors
                 fi
             done
-            IFS=$FIELD_SEAPARATOR
         done
         PrintTargetsetEnd $ID $DO_TARGETS
-        IFS=$FIELD_SEAPARATOR
     fi
     ExitOnTaskErrors
 }

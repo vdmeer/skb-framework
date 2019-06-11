@@ -44,13 +44,13 @@ _print-mode_ can be set to any mode that is supported by the API, namely:
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-parameter--help--pdf.adoc[tags=standard-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--pdf.adoc[tags=standard-options]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-parameter--help--adoc.adoc[tags=standard-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--adoc.adoc[tags=standard-options]
 ----
 endif::[]
 
@@ -63,13 +63,13 @@ Any number of filters can be used in any combination.
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-parameter--help--pdf.adoc[tags=standard-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--pdf.adoc[tags=standard-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-parameter--help--adoc.adoc[tags=standard-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--adoc.adoc[tags=standard-filters]
 ----
 endif::[]
 
@@ -93,13 +93,13 @@ If no filters are used, all aspects are shown.
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-application--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-application--help--pdf.adoc[tags=task-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-application--help--adoc.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-application--help--adoc.adoc[tags=task-filters]
 ----
 endif::[]
 
@@ -116,13 +116,13 @@ For the _id_, the long or the short form of the command can be used.
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-command--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-command--help--pdf.adoc[tags=task-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-command--help--adoc.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-command--help--adoc.adoc[tags=task-filters]
 ----
 endif::[]
 
@@ -148,13 +148,13 @@ Provided filters are:
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-dependency--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-dependency--help--pdf.adoc[tags=task-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-dependency--help--adoc.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-dependency--help--adoc.adoc[tags=task-filters]
 ----
 endif::[]
 
@@ -164,13 +164,13 @@ Using the debug option will print all information about one or more dependencies
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-dependency--help--pdf.adoc[tags=task-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-dependency--help--pdf.adoc[tags=task-options]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-dependency--help--adoc.adoc[tags=task-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-dependency--help--adoc.adoc[tags=task-options]
 ----
 endif::[]
 
@@ -186,13 +186,13 @@ If no filters are used, all types are shown.
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-element--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-element--help--pdf.adoc[tags=task-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-element--help--adoc.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-element--help--adoc.adoc[tags=task-filters]
 ----
 endif::[]
 
@@ -208,13 +208,13 @@ The _id_ filter can be used to show only a specific error code.
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-errorcode--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-errorcode--help--pdf.adoc[tags=task-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-errorcode--help--adoc.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-errorcode--help--adoc.adoc[tags=task-filters]
 ----
 endif::[]
 
@@ -229,13 +229,13 @@ The other filters focus on the option type, being either _exit_ options or _runt
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-option--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-option--help--pdf.adoc[tags=task-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-option--help--adoc.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-option--help--adoc.adoc[tags=task-filters]
 ----
 endif::[]
 
@@ -262,13 +262,13 @@ The following filters are provided:
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-parameter--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--pdf.adoc[tags=task-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-parameter--help--adoc.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--adoc.adoc[tags=task-filters]
 ----
 endif::[]
 
@@ -278,13 +278,13 @@ Using the debug option will print all information about one or more parameters (
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-parameter--help--pdf.adoc[tags=task-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--pdf.adoc[tags=task-options]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-parameter--help--adoc.adoc[tags=task-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--adoc.adoc[tags=task-options]
 ----
 endif::[]
 
@@ -315,13 +315,13 @@ Provided filters are:
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-scenario--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-scenario--help--pdf.adoc[tags=task-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-scenario--help--adoc.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-scenario--help--adoc.adoc[tags=task-filters]
 ----
 endif::[]
 
@@ -331,13 +331,13 @@ Using the debug option will print all information about one or more dependencies
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-scenario--help--pdf.adoc[tags=task-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-scenario--help--pdf.adoc[tags=task-options]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-scenario--help--adoc.adoc[tags=task-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-scenario--help--adoc.adoc[tags=task-options]
 ----
 endif::[]
 
@@ -368,13 +368,13 @@ Provided filters are:
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-task--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-task--help--pdf.adoc[tags=task-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-task--help--adoc.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-task--help--adoc.adoc[tags=task-filters]
 ----
 endif::[]
 
@@ -384,12 +384,12 @@ Using the debug option will print all information about one or more tasks (depen
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-task--help--pdf.adoc[tags=task-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-task--help--pdf.adoc[tags=task-options]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/task-help/describe-task--help--adoc.adoc[tags=task-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-task--help--adoc.adoc[tags=task-options]
 ----
 endif::[]

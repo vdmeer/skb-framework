@@ -42,7 +42,7 @@ The examples above call the function to print all API functions in s a single li
 
 [source,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/text/api-function-list.txt[]
+include::{skb-site-target-dir}/adoc-text/api-function-list.txt[]
 ----
 
 The output for line is shown in the screen above.
