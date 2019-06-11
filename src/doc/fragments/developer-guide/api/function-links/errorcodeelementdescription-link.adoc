@@ -14,11 +14,11 @@
 //tag:es
 //
 ifeval::["{adoc-build-target}" == "pdf"]
-<<_exitstatusintable>>
+<<_errorcodeelementdescription>>
 endif::[]
 ifeval::["{adoc-build-target}" == "html"]
-<<_exitstatusintable>>
+<<_errorcodeelementdescription>>
 endif::[]
 ifeval::["{adoc-build-target}" == "site"]
-link:exit-status.html#exitstatusintable[ExitstatusInTable()]
+link:errorcodes.html#errorcodeelementdescription[ErrorcodeElementDescription()]
 endif::[]

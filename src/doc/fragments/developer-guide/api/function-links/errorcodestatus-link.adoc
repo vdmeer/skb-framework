@@ -11,7 +11,14 @@
 // @author     Sven van der Meer (vdmeer.sven@mykolab.com)
 // @version    0.0.5
 //
- 
-:sectlinks:
-
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/exit-status.adoc[]
+//tag:es
+//
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_errorcodestatus>>
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_errorcodestatus>>
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:errorcodes.html#errorcodestatus[ErrorcodeStatus()]
+endif::[]

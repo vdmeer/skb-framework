@@ -75,7 +75,7 @@ CLI_OPTIONS=Abcdfht
 CLI_LONG_OPTIONS=all,build,clean,decl,full,help,tab
 CLI_LONG_OPTIONS+=,cmd-decl,cmd-tab
 CLI_LONG_OPTIONS+=,dep-decl,dep-tab
-CLI_LONG_OPTIONS+=,es-decl,es-tab
+CLI_LONG_OPTIONS+=,ec-decl,ec-tab
 CLI_LONG_OPTIONS+=,opt-decl,opt-tab
 CLI_LONG_OPTIONS+=,param-tab
 CLI_LONG_OPTIONS+=,task-decl,task-tab
@@ -125,8 +125,8 @@ while true; do
                 BuildTaskHelpLine "<none>" cmd-decl     "<none>"    "target: command declarations"              $PRINT_PADDING
                 BuildTaskHelpLine "<none>" cmd-tab      "<none>"    "target: command table"                     $PRINT_PADDING
 
-                BuildTaskHelpLine "<none>" es-decl      "<none>"    "target: exit-status declarations"          $PRINT_PADDING
-                BuildTaskHelpLine "<none>" es-tab       "<none>"    "target: exit-status table"                 $PRINT_PADDING
+                BuildTaskHelpLine "<none>" ec-decl      "<none>"    "target: error code declarations"           $PRINT_PADDING
+                BuildTaskHelpLine "<none>" ec-tab       "<none>"    "target: error code table"                  $PRINT_PADDING
 
                 BuildTaskHelpLine "<none>" opt-decl     "<none>"    "target: option declarations"               $PRINT_PADDING
                 BuildTaskHelpLine "<none>" opt-tab      "<none>"    "target: option table"                      $PRINT_PADDING
@@ -173,13 +173,13 @@ while true; do
             TARGET=$TARGET" cmd-tab"
             ;;
 
-        --es-decl)
+        --ec-decl)
             shift
-            TARGET=$TARGET" es-decl"
+            TARGET=$TARGET" ec-decl"
             ;;
-        --es-tab)
+        --ec-tab)
             shift
-            TARGET=$TARGET" es-tab"
+            TARGET=$TARGET" ec-tab"
             ;;
 
         --opt-decl)
@@ -236,16 +236,16 @@ done
 ## test CLI and settings
 ############################################################################################
 if [[ $DO_DECL == true ]]; then
-    TARGET="cmd-decl dep-decl es-decl opt-decl task-decl"
+    TARGET="cmd-decl dep-decl ec-decl opt-decl task-decl"
 fi
 if [[ $DO_TAB == true ]]; then
-    TARGET="cmd-tab dep-tab es-tab opt-tab param-tab task-tab"
+    TARGET="cmd-tab dep-tab ec-tab opt-tab param-tab task-tab"
 fi
 if [[ $DO_ALL == true ]]; then
-    TARGET="cmd-decl cmd-tab dep-decl dep-tab es-decl es-tab opt-decl opt-tab param-tab task-decl task-tab"
+    TARGET="cmd-decl cmd-tab dep-decl dep-tab ec-decl ec-tab opt-decl opt-tab param-tab task-decl task-tab"
 fi
 if [[ $DO_FULL == true ]]; then
-    TARGET="cmd-decl cmd-tab dep-decl dep-tab es-decl es-tab opt-decl opt-tab param-tab task-decl task-tab tasks"
+    TARGET="cmd-decl cmd-tab dep-decl dep-tab ec-decl ec-tab opt-decl opt-tab param-tab task-decl task-tab tasks"
 fi
 if [[ $DO_BUILD == true ]]; then
     if [[ ! -n "$TARGET" ]]; then
@@ -316,26 +316,26 @@ if [[ $DO_BUILD == true ]]; then
                     done
                     ;;
 
-                es-decl)
-                    FILE=${CONFIG_MAP["CACHE_DIR"]}/es-decl.map
+                ec-decl)
+                    FILE=${CONFIG_MAP["CACHE_DIR"]}/ec-decl.map
                     if [[ -f $FILE ]]; then
                         rm $FILE
                     fi
-                    declare -p DMAP_ES > $FILE
-                    declare -p DMAP_ES_PROBLEM >> $FILE
-                    declare -p DMAP_ES_DESCR >> $FILE
+                    declare -p DMAP_EC > $FILE
+                    declare -p DMAP_EC_PROBLEM >> $FILE
+                    declare -p DMAP_EC_DESCR >> $FILE
                     ;;
-                es-tab)
+                ec-tab)
                     for MODE in $PRINT_MODES; do
-                        FILE=${CONFIG_MAP["CACHE_DIR"]}/es-tab.$MODE
+                        FILE=${CONFIG_MAP["CACHE_DIR"]}/ec-tab.$MODE
                         if [[ -f $FILE ]]; then
                             rm $FILE
                         fi
-                        declare -A ES_TABLE
-                        for ID in ${!DMAP_ES[@]}; do
-                            ES_TABLE[$ID]=$(ExitstatusInTable $ID $MODE)
+                        declare -A EC_TABLE
+                        for ID in ${!DMAP_EC[@]}; do
+                            EC_TABLE[$ID]=$(ErrorcodeInTable $ID $MODE)
                         done
-                        declare -p ES_TABLE > $FILE
+                        declare -p EC_TABLE > $FILE
                     done
                     ;;
 

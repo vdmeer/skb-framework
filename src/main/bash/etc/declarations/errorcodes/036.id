@@ -19,16 +19,12 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Identity for task list-exitstatus
+## Identity for error code 036
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.5
 ##
 
-SHORT=les
-MODES="dev build use"
-MODE_FLAVOR="std"
-DESCRIPTION="lists exit status, error codes"
-EXEC_PATH=bin/tasks/elements
-
-TaskRequire $ID param CACHE_DIR
+ORIGIN=loader
+PROBLEM=external
+DESCRIPTION="loader: errors in error code declarations"

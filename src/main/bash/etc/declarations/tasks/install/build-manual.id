@@ -45,7 +45,7 @@ TaskRequire $ID task describe-parameter
 TaskRequire $ID task describe-task
 TaskRequire $ID task describe-dependency
 TaskRequire $ID task describe-scenario
-TaskRequire $ID task describe-exitstatus
+TaskRequire $ID task describe-errorcode
 TaskRequire $ID task describe-command
 
 TaskRequire $ID task validate-installation

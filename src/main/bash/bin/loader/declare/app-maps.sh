@@ -34,7 +34,7 @@
 ##
 declare -A FW_PATH_MAP                              # map/export for standard paths in FW_HOME
     FW_PATH_MAP["OPTIONS"]="etc/declarations/options"                   # path for application options
-    FW_PATH_MAP["EXITSTATUS"]="etc/declarations/exitstatus"             # path for application exist status files
+    FW_PATH_MAP["ERRORCODES"]="etc/declarations/errorcodes"             # path for application error code files
     FW_PATH_MAP["COMMANDS"]="etc/declarations/commands"                 # path for application shell command files
 
 

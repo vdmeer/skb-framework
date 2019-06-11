@@ -191,13 +191,13 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=exit-options]
 
 
 
-=== Declarations for Commands and Exit Status Codes
-Now the declarations of shell commands (lines 1-7) and exit codes (lines 8-14) can be loaded, either from cache or source.
-Errors here indicate a framework bug or runtime problem, since commands and exit codes are core features and rather static.
+=== Declarations for Commands and Error Codes
+Now the declarations of shell commands (lines 1-7) and error codes (lines 8-14) can be loaded, either from cache or source.
+Errors here indicate a framework bug or runtime problem, since commands and error codes are core features and rather static.
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
-include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=cmdes-decl]
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=cmdec-decl]
 ----
 
 

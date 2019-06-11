@@ -68,11 +68,11 @@ MvnSitePreScript() {
         fi
         ${DMAP_TASK_EXEC["describe-task"]} --all --print-mode adoc > target/element-lists/task-list.adoc
 
-        ## create exit status list
-        if [[ -f target/element-lists/exit-status-list.adoc ]]; then
-            rm target/element-lists/exit-status-list.adoc
+        ## create error code list
+        if [[ -f target/element-lists/errorcode-list.adoc ]]; then
+            rm target/element-lists/errorcode-list.adoc
         fi
-        ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode adoc > target/element-lists/exit-status-list.adoc
+        ${DMAP_TASK_EXEC["describe-errorcode"]} --all --print-mode adoc > target/element-lists/errorcode-list.adoc
 
         ## create scenario list
         if [[ -f target/element-lists/scenario-list.adoc ]]; then
@@ -122,7 +122,7 @@ MVN_SITE_FIX_ADOC_ARRAY["target/site/manual"]="Manual"
     MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/parameters"]="Manual: Parameters"
     MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/scenarios"]="Manual: Scenarios"
     MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/tasks"]="Manual: Tasks"
-    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/exit-status"]="Manual: Exit Status"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/errorcodes"]="Manual: Exit Status (Error Codes)"
 #end::task-guide[]
 
 MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide"]="User Guide"
@@ -185,7 +185,7 @@ MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide"]="Developer Guide"
         MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/commands"]="Developer Guide, API: Commands"
         MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/console"]="Developer Guide, API: Console"
         MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/dependencies"]="Developer Guide, API: Dependencies"
-        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/exit-status"]="Developer Guide, API: Exit Status"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/errorcodes"]="Developer Guide, API: Error Codes"
         MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/misc"]="Developer Guide, API: Miscellaneous"
         MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/options"]="Developer Guide, API: Options"
         MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/parameters"]="Developer Guide, API: Parameters"

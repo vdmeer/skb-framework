@@ -62,7 +62,7 @@ The example above calls the function with the name `CACHE_DIR` printing:
     - default value: "/var/cache/skb-framework"
     - param is:      dir
     - declaration:   $FW_HOME/etc/declarations/parameters/all/CACHE_DIR
-    - requested by:  list-commands list-exitstatus list-tasks list-dependencies list-options list-parameters list-scenarios
+    - requested by:  list-commands list-errorcodes list-tasks list-dependencies list-options list-parameters list-scenarios
 
 
 ----

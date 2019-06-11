@@ -57,7 +57,7 @@ source $FW_HOME/bin/api/_include
 PRINT_MODE=
 COMMANDS=
 DEPENDENCIES=
-EXITSTATUS=
+ERRORCODES=
 OPTIONS=
 OVERVIEW=
 PARAMETERS=
@@ -73,7 +73,7 @@ CLI_SET=false
 ##
 CLI_OPTIONS=AhP:cdeopst
 CLI_LONG_OPTIONS=all,help,print-mode:
-CLI_LONG_OPTIONS+=,all,ov,cmd,dep,es,opt,param,scn,task
+CLI_LONG_OPTIONS+=,all,ov,cmd,dep,ec,opt,param,scn,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name statistics -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -101,7 +101,7 @@ while true; do
                 BuildTaskHelpLine A all             "<none>"   "activate all filters"       $PRINT_PADDING
                 BuildTaskHelpLine c cmd             "<none>"   "for commands"               $PRINT_PADDING
                 BuildTaskHelpLine d dep             "<none>"   "for dependencies"           $PRINT_PADDING
-                BuildTaskHelpLine e es              "<none>"   "for exit status"            $PRINT_PADDING
+                BuildTaskHelpLine e ec              "<none>"   "for error codes"            $PRINT_PADDING
                 BuildTaskHelpLine o opt             "<none>"   "for options"                $PRINT_PADDING
                 BuildTaskHelpLine "<none>" ov       "<none>"   "overview"                   $PRINT_PADDING
                 BuildTaskHelpLine p param           "<none>"   "for parameters"             $PRINT_PADDING
@@ -134,8 +134,8 @@ while true; do
             CLI_SET=true
             shift
             ;;
-        -e | --es)
-            EXITSTATUS=yes
+        -e | --ec)
+            ERRORCODES=yes
             CLI_SET=true
             shift
             ;;
@@ -187,7 +187,7 @@ fi
 if [[ "$ALL" == "yes" ]]; then
     COMMANDS=yes
     DEPENDENCIES=yes
-    EXITSTATUS=yes
+    ERRORCODES=yes
     OPTIONS=yes
     OVERVIEW=yes
     PARAMETERS=yes
@@ -228,7 +228,7 @@ StatsOverview(){
     printf "   Dependencies requested:   % 3s        Parameters requested:     % 3s\n" "${#RTMAP_REQUESTED_DEP[@]}"    "${#RTMAP_REQUESTED_PARAM[@]}"
     printf "   Dependencies tested:      % 3s        Parameters w/default val: % 3s\n" "$DEP_TESTED"                   "$COUNT_PARAM_DEFVAL"
     printf "  ───────────────────────────────      ───────────────────────────────\n"
-    printf "   Configuration settings:   % 3s        Exit Status:              % 3s\n" "${#CONFIG_MAP[@]}"             "${#DMAP_ES[@]}"
+    printf "   Configuration settings:   % 3s        Error Codes:              % 3s\n" "${#CONFIG_MAP[@]}"             "${#DMAP_EC[@]}"
     printf "   Options:                  % 3s        Commands:                 % 3s\n" "${#DMAP_OPT_ORIGIN[@]}"        "${#DMAP_CMD[@]}"
     printf "  ───────────────────────────────      ───────────────────────────────\n"
     printf "\n"
@@ -320,48 +320,48 @@ StatsDependencies(){
 
 
 ############################################################################################
-## statistics EXITSTATUS
+## statistics ERRORCODES
 ############################################################################################
-StatsExitStatus(){
-    local COUNT_ES_ALL=0
-    local COUNT_ES_APP=0
-    local COUNT_ES_FW=0
-    local COUNT_ES_LOADER=0
-    local COUNT_ES_SHELL=0
-    local COUNT_ES_TASK=0
-    for ES in ${!DMAP_ES[@]}; do
-        case ${DMAP_ES[$ES]} in
-            all)        COUNT_ES_ALL=$((COUNT_ES_ALL + 1)) ;;
-            app)        COUNT_ES_APP=$((COUNT_ES_APP + 1)) ;;
-            fw)         COUNT_ES_FW=$((COUNT_ES_FW + 1)) ;;
-            loader)     COUNT_ES_LOADER=$((COUNT_ES_LOADER + 1)) ;;
-            shell)      COUNT_ES_SHELL=$((COUNT_ES_SHELL + 1)) ;;
-            task)       COUNT_ES_TASK=$((COUNT_ES_TASK + 1)) ;;
-            *)          ConsolePrint error "stats/exit-status - unknown origin '${DMAP_ES[$ES]}'"
+StatsErrorcodes(){
+    local COUNT_EC_ALL=0
+    local COUNT_EC_APP=0
+    local COUNT_EC_FW=0
+    local COUNT_EC_LOADER=0
+    local COUNT_EC_SHELL=0
+    local COUNT_EC_TASK=0
+    for ES in ${!DMAP_EC[@]}; do
+        case ${DMAP_EC[$ES]} in
+            all)        COUNT_EC_ALL=$((COUNT_EC_ALL + 1)) ;;
+            app)        COUNT_EC_APP=$((COUNT_EC_APP + 1)) ;;
+            fw)         COUNT_EC_FW=$((COUNT_EC_FW + 1)) ;;
+            loader)     COUNT_EC_LOADER=$((COUNT_EC_LOADER + 1)) ;;
+            shell)      COUNT_EC_SHELL=$((COUNT_EC_SHELL + 1)) ;;
+            task)       COUNT_EC_TASK=$((COUNT_EC_TASK + 1)) ;;
+            *)          ConsolePrint error "stats/errorcodes - unknown origin '${DMAP_EC[$ES]}'"
         esac
     done
 
-    local COUNT_ES_INT=0
-    local COUNT_ES_EXT=0
-    for ES in ${!DMAP_ES_PROBLEM[@]}; do
-        case ${DMAP_ES_PROBLEM[$ES]} in
-            external)   COUNT_ES_INT=$((COUNT_ES_INT + 1)) ;;
-            internal)   COUNT_ES_EXT=$((COUNT_ES_EXT + 1)) ;;
-            *)          ConsolePrint error "stats/exit-status - unknown '${DMAP_ES_PROBLEM[$ES]}'"
+    local COUNT_EC_INT=0
+    local COUNT_EC_EXT=0
+    for ES in ${!DMAP_EC_PROBLEM[@]}; do
+        case ${DMAP_EC_PROBLEM[$ES]} in
+            external)   COUNT_EC_INT=$((COUNT_EC_INT + 1)) ;;
+            internal)   COUNT_EC_EXT=$((COUNT_EC_EXT + 1)) ;;
+            *)          ConsolePrint error "stats/errorcodes - unknown '${DMAP_EC_PROBLEM[$ES]}'"
         esac
     done
 
     printf "\n  "
-    PrintEffect bold "Exit Status" $PRINT_MODE
+    PrintEffect bold "Error Codes" $PRINT_MODE
     printf "\n"
     printf "  ────────────────────────────────────────────────────────────────────\n"
-    printf "   Declared:                 % 3s\n" "${#DMAP_ES[@]}"
-    printf "   - origin: all:            % 3s        - internal problem:       % 3s\n" "$COUNT_ES_ALL"     "$COUNT_ES_INT"
-    printf "   - origin: app:            % 3s        - external problem:       % 3s\n" "$COUNT_ES_APP"     "$COUNT_ES_EXT"
-    printf "   - origin: framework:      % 3s\n"                                       "$COUNT_ES_FW"
-    printf "   - origin: loader:         % 3s\n"                                       "$COUNT_ES_LOADER"
-    printf "   - origin: shell:          % 3s\n"                                       "$COUNT_ES_SHELL"
-    printf "   - origin: task:           % 3s\n"                                       "$COUNT_ES_TASK"
+    printf "   Declared:                 % 3s\n" "${#DMAP_EC[@]}"
+    printf "   - origin: all:            % 3s        - internal problem:       % 3s\n" "$COUNT_EC_ALL"     "$COUNT_EC_INT"
+    printf "   - origin: app:            % 3s        - external problem:       % 3s\n" "$COUNT_EC_APP"     "$COUNT_EC_EXT"
+    printf "   - origin: framework:      % 3s\n"                                       "$COUNT_EC_FW"
+    printf "   - origin: loader:         % 3s\n"                                       "$COUNT_EC_LOADER"
+    printf "   - origin: shell:          % 3s\n"                                       "$COUNT_EC_SHELL"
+    printf "   - origin: task:           % 3s\n"                                       "$COUNT_EC_TASK"
     printf "  ────────────────────────────────────────────────────────────────────\n"
     printf "\n"
 }
@@ -561,8 +561,8 @@ if [[ "$DEPENDENCIES" == "yes" ]]; then
     StatsDependencies
 fi
 
-if [[ "$EXITSTATUS" == "yes" ]]; then
-    StatsExitStatus
+if [[ "$ERRORCODES" == "yes" ]]; then
+    StatsErrorcodes
 fi
 
 if [[ "$OPTIONS" == "yes" ]]; then

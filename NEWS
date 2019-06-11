@@ -15,12 +15,14 @@ Version 0.0.5 2019-##-##
         ** added command `api-function` to execute API functions from the shell
         ** new install scenario 'build-fw-cache'
         ** new test scenarios `test-describe-tasks`, `test-list-tasks`, and `test-simple-scenario`, `test-task-help`
+        ** added src/tests/bash with target sets for some tests
     * Changed exit codes (declarations, loader, shell, some tasks)
         ** new structure leaving a larger gap in the 10-30 numbers for future additional codes
         ** added codes for missing commands: sed, cat, less, and tput (all tested in the loader now)
     * Changes
         ** moved api/mvn-site into task build-mvn-site (MvnSiteAdocFix now automated from MVN_SITE_FIX_ADOC_ARRAY)
         ** moved API scripts to top-level directory
+        ** renamed 'exit status' to 'error code'
     * Documentation updates
         ** changed tag line to: a flexible and extensible automation framework
         ** User-Guide: added information on installation, performance

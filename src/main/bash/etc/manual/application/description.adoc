@@ -23,9 +23,9 @@ An application can also run in two different flavors:
 Almost all tasks are visible in the `std` flavor.
 Only specific tasks, required when installing an application, are limited to the `install` flavor.
 
-The framework provides definitions for seven different elements: tasks, their dependencies, their (configuration) parameters, application CLI options, shell commands, application exit status codes, and scenarios.
+The framework provides definitions for seven different elements: tasks, their dependencies, their (configuration) parameters, application CLI options, shell commands, application error codes, and scenarios.
 The framework loader will load all those definitions and validate them based on the provided metadata.
-CLI options, commands, and exit status codes are handled by the framework itself.
+CLI options, commands, and error codes are handled by the framework itself.
 Tasks, dependencies, parameters, and scenarios can be defined by an application.
 This framework provides a basic set of tasks, dependencies, and parameters.
 It also defines some scenarios to build its own deployment artifacts.

@@ -13,14 +13,14 @@
 //
 
 
-== ExitstatusTagline()
-_void ExitstatusTagline( $1, $2, [$3] )_ - prints the exit status tagline with formatting (padding).
+== ErrorcodeTagline()
+_void ErrorcodeTagline( $1, $2, [$3] )_ - prints the error code tagline with formatting (padding).
 
-This function prints the exit status tag line (the one line or short description) with padding after the text.
-The overall length is taken from _CONSOLE_MAP["ES_DESCRIPTION_LENGTH"]_.
+This function prints the error code tag line (the one line or short description) with padding after the text.
+The overall length is taken from _CONSOLE_MAP["EC_DESCRIPTION_LENGTH"]_.
 The line is printed as follows:
 
-** If the tag line for the exist status is smaller (less characters) than the overall length, then
+** If the tag line for the error code is smaller (less characters) than the overall length, then
     the description is taken as is.
     If _$3_ is set to any value, then extra padding will be appended to the line.
     Otherwise, no padding will be appended.
@@ -32,14 +32,14 @@ If used, the overall length will be reduced by the number given, including a req
 
 *Parameter*
 
-* `$1`, _string_ - the exit status identifier.
+* `$1`, _string_ - the error code identifier.
 * `$2`, _integer_ - an adjustment for indentation, _0_ if none required.
 * `$3`, _mixed_ - any value to avoid trailing padding (_$2_ to a number, e.g. 0).
 
 
 *Errors*
 
-* For unknown exit status identifiers (names)
+* For unknown error code identifiers (names)
 
 
 *Internal Dependencies*
@@ -53,11 +53,11 @@ to print errors.
 
 [source%nowrap,bash,linenumber]
 ----
-ExitstatusTagline 012 3 none
-ExitstatusTagline 012
+ErrorcodeTagline 012 3 none
+ErrorcodeTagline 012
 ----
 
-The examples above call the function for the exit status _012_.
+The examples above call the function for the error code _012_.
 Line 1 requires an adjustment of three characters but no trailing padding.
 Line 2 does not require an adjustment but a trailing padding.
 

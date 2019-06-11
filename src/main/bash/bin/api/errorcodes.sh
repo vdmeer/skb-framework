@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Functions for exit status (error codes)
+## Functions for error codes
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.5
@@ -30,17 +30,17 @@
 
 
 ##
-## DescribeExitstatus()
-## - describes an exit status with various options.
-## $1: exitstatus id
+## DescribeErrorcode()
+## - describes an error code with various options.
+## $1: error code id
 ## $2: print option: standard, full
 ## $3: print features: none, line-indent, enter, post-line, (adoc, ansi, text*)
 ## optional $4: print mode (adoc, ansi, text)
 ##
-DescribeExitstatus() {
+DescribeErrorcode() {
     local ID=${1:-}
-    if [[ ! -n "${DMAP_ES[$ID]:-}" ]]; then
-        ConsolePrint error "describe-exitstatus - unknown exitstatus ID '$ID'"
+    if [[ ! -n "${DMAP_EC[$ID]:-}" ]]; then
+        ConsolePrint error "describe-errorcode - unknown error code ID '$ID'"
         return
     fi
 
@@ -65,11 +65,11 @@ DescribeExitstatus() {
             ;;
             post-line)      POST_LINE="::" ;;
             enter)          ENTER="\n" ;;
-            adoc)           SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["EXITSTATUS"]}/$ID.adoc ;;
-            ansi | text*)   SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["EXITSTATUS"]}/$ID.txt ;;
+            adoc)           SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["ERRORCODES"]}/$ID.adoc ;;
+            ansi | text*)   SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["ERRORCODES"]}/$ID.txt ;;
             none | "")      ;;
             *)
-                ConsolePrint error "describe-exitstatus - unknown print feature '$PRINT_FEATURE'"
+                ConsolePrint error "describe-errorcode - unknown print feature '$PRINT_FEATURE'"
                 return
                 ;;
         esac
@@ -78,7 +78,7 @@ DescribeExitstatus() {
     SPRINT=$ENTER
     SPRINT+=$LINE_INDENT
 
-    local DESCRIPTION="${DMAP_ES_DESCR[$ID]:-}"
+    local DESCRIPTION="${DMAP_EC_DESCR[$ID]:-}"
 
     local TEMPLATE+="%ID%"
     if [[ "$PRINT_OPTION" == "full" ]]; then
@@ -95,7 +95,7 @@ DescribeExitstatus() {
             SPRINT+=$TEMPLATE
             ;;
         *)
-            ConsolePrint error "describe-exitstatus - unknown print option '$PRINT_OPTION'"
+            ConsolePrint error "describe-errorcode - unknown print option '$PRINT_OPTION'"
             return
             ;;
     esac
@@ -117,22 +117,22 @@ DescribeExitstatus() {
 
 
 ##
-## DescribeElementExitStatus()
-## - description for exit status
+## ErrorcodeElementDescription()
+## - general description for error code.
 ## $1: print mode
 ##
-ExitStatusElementDescription() {
+ErrorcodeElementDescription() {
     case $1 in
         adoc)
-            printf "\n\n== EXIT STATUS\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/exit-status.adoc
+            printf "\n\n== EXIT STATUS (Error Codes)\n"
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/errorcodes.adoc
             printf "\n\n"
             ;;
         ansi | text*)
             printf "  "
-            PrintEffect bold "EXIT STATUS" $1
+            PrintEffect bold "EXIT STATUS (Error Codes)" $1
             printf "\n"
-            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/exit-status.txt
+            cat ${CONFIG_MAP["MANUAL_SRC"]}/elements/errorcodes.txt
             printf "\n"
             ;;
     esac
@@ -141,15 +141,15 @@ ExitStatusElementDescription() {
 
 
 ##
-## function: ExitstatusInTable()
-## - main exitstatus details for table views
+## function: ErrorcodeInTable()
+## - returns main error code details for table views.
 ## $1: ID
 ## optional $2: print mode (adoc, ansi, text)
 ##
-ExitstatusInTable() {
+ErrorcodeInTable() {
     local ID=$1
-    if [[ -z ${DMAP_ES[$ID]:-} ]]; then
-        ConsolePrint error "exitstatus-in-table - unknown exitstatus '$ID'"
+    if [[ -z ${DMAP_EC[$ID]:-} ]]; then
+        ConsolePrint error "errorcode-in-table - unknown error code '$ID'"
         return
     fi
 
@@ -159,11 +159,11 @@ ExitstatusInTable() {
     local PAD_STR_LEN
     local SPRINT
 
-    SPRINT=" "$(DescribeExitstatus $ID standard "none" $PRINT_MODE)
+    SPRINT=" "$(DescribeErrorcode $ID standard "none" $PRINT_MODE)
 
-    PAD_STR=$(DescribeExitstatus $ID standard "none" text)
+    PAD_STR=$(DescribeErrorcode $ID standard "none" text)
     PAD_STR_LEN=${#PAD_STR}
-    PADDING=$((${CONSOLE_MAP["ES_PADDING"]} - $PAD_STR_LEN))
+    PADDING=$((${CONSOLE_MAP["EC_PADDING"]} - $PAD_STR_LEN))
     SPRINT=$SPRINT$(printf '%*s' "$PADDING")
 
     printf "$SPRINT"
@@ -172,19 +172,19 @@ ExitstatusInTable() {
 
 
 ##
-## function: ExitstatusStatus()
-## - prints formatted exit status code status information.
-## $1: exitstatus ID
+## function: ErrorcodeStatus()
+## - prints formatted error code status information.
+## $1: error code ID
 ##
-ExitstatusStatus() {
+ErrorcodeStatus() {
     local ID=$1
-    if [[ -z ${DMAP_ES[$ID]:-} ]]; then
-        ConsolePrint error "exitstatus-status - unknown exitstatus '$ID'"
+    if [[ -z ${DMAP_EC[$ID]:-} ]]; then
+        ConsolePrint error "errorcode-status - unknown error code '$ID'"
         return
     fi
 
     local PROBLEM
-    local ORIGIN=${DMAP_ES[$ID]}
+    local ORIGIN=${DMAP_EC[$ID]}
     case $ORIGIN in
         all)        PrintColor green $ORIGIN; printf "   " ;;
         app)        PrintColor green $ORIGIN; printf "   " ;;
@@ -192,32 +192,32 @@ ExitstatusStatus() {
         loader)     PrintColor light-blue $ORIGIN ;;
         shell)      PrintColor light-blue $ORIGIN; printf " " ;;
         task)       PrintColor light-blue $ORIGIN; printf "  " ;;
-        *)          ConsolePrint error "describe-exit/status - unknown origin '$ORIGIN'"
+        *)          ConsolePrint error "errorcode-status - unknown origin '$ORIGIN'"
     esac
 
     printf "  "
 
-    PROBLEM=${DMAP_ES_PROBLEM[$ID]}
+    PROBLEM=${DMAP_EC_PROBLEM[$ID]}
     case $PROBLEM in
         external)   PrintColor green $PROBLEM ;;
         internal)   PrintColor light-blue $PROBLEM ;;
-        *)          ConsolePrint error "describe-exit/status - unknown problem '$PROBLEM'"
+        *)          ConsolePrint error "errorcode-status - unknown problem '$PROBLEM'"
     esac
 }
 
 
 
 ##
-## function: ExitstatusTagline()
-## - prints the exit status tagline with formatting (padding).
-## $1: exitstatus ID
+## function: ErrorcodeTagline()
+## - prints the error code tagline with formatting (padding).
+## $1: error code ID
 ## $2: indentation adjustment, 0 or empty for none
 ## $3: set to anything to have no trailing padding (the $2 to a number, e.g. 0)
 ##
-ExitstatusTagline() {
+ErrorcodeTagline() {
     local ID=$1
-    if [[ -z ${DMAP_ES[$ID]:-} ]]; then
-        ConsolePrint error "exitstatus-tagline - unknown exitstatus '$ID'"
+    if [[ -z ${DMAP_EC[$ID]:-} ]]; then
+        ConsolePrint error "errorcode-tagline - unknown error code '$ID'"
         return
     fi
 
@@ -226,16 +226,16 @@ ExitstatusTagline() {
     local DESCR_EFFECTIVE
     local PADDING
 
-    local DESCRIPTION=${DMAP_ES_DESCR[$ID]}
-    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["ES_DESCRIPTION_LENGTH"]}" ]]; then
+    local DESCRIPTION=${DMAP_EC_DESCR[$ID]}
+    if [[ "${#DESCRIPTION}" -le "${CONSOLE_MAP["EC_DESCRIPTION_LENGTH"]}" ]]; then
         printf "%s" "$DESCRIPTION"
         if [[ -z ${3:-} ]]; then
             DESCR_EFFECTIVE=${#DESCRIPTION}
-            PADDING=$((${CONSOLE_MAP["ES_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
+            PADDING=$((${CONSOLE_MAP["EC_DESCRIPTION_LENGTH"]} - DESCR_EFFECTIVE - ADJUST))
             printf '%*s' "$PADDING"
         fi
     else
-        DESCR_EFFECTIVE=$((${CONSOLE_MAP["ES_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
+        DESCR_EFFECTIVE=$((${CONSOLE_MAP["EC_DESCRIPTION_LENGTH"]} - 4 - ADJUST))
         printf "%s... " "${DESCRIPTION:0:$DESCR_EFFECTIVE}"
     fi
 }

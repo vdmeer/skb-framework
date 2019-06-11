@@ -57,7 +57,7 @@ source $FW_HOME/bin/api/_include
 PRINT_MODE=
 COMMANDS=
 DEPENDENCIES=
-EXITSTATUS=
+ERRORCODES=
 OPTIONS=
 PARAMETERS=
 SCENARIOS=
@@ -72,7 +72,7 @@ CLI_SET=false
 ##
 CLI_OPTIONS=AhP:
 CLI_LONG_OPTIONS=all,help,print-mode:
-CLI_LONG_OPTIONS+=,cmd,dep,es,opt,param,scn,task
+CLI_LONG_OPTIONS+=,cmd,dep,ec,opt,param,scn,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-element -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -105,7 +105,7 @@ while true; do
                 printf "   task filters\n"
                 BuildTaskHelpLine "<none>" cmd      "<none>"   "text for commands"          $PRINT_PADDING
                 BuildTaskHelpLine "<none>" dep      "<none>"   "text for dependencies"      $PRINT_PADDING
-                BuildTaskHelpLine "<none>" es       "<none>"   "text for exit status"       $PRINT_PADDING
+                BuildTaskHelpLine "<none>" ec       "<none>"   "text for error codes"       $PRINT_PADDING
                 BuildTaskHelpLine "<none>" opt      "<none>"   "text for options"           $PRINT_PADDING
                 BuildTaskHelpLine "<none>" param    "<none>"   "text for parameters"        $PRINT_PADDING
                 BuildTaskHelpLine "<none>" scn      "<none>"   "text for scenarios"         $PRINT_PADDING
@@ -143,8 +143,8 @@ while true; do
             CLI_SET=true
             shift
             ;;
-        --es)
-            EXITSTATUS=yes
+        --ec)
+            ERRORCODES=yes
             CLI_SET=true
             shift
             ;;
@@ -191,7 +191,7 @@ fi
 if [[ "$ALL" == "yes" || $CLI_SET == false ]]; then
     COMMANDS=yes
     DEPENDENCIES=yes
-    EXITSTATUS=yes
+    ERRORCODES=yes
     OPTIONS=yes
     PARAMETERS=yes
     SCENARIOS=yes
@@ -229,8 +229,8 @@ if [[ "$COMMANDS" == "yes" ]]; then
     CommandElementDescription $PRINT_MODE
 fi
 
-if [[ "$EXITSTATUS" == "yes" ]]; then
-    ExitStatusElementDescription $PRINT_MODE
+if [[ "$ERRORCODES" == "yes" ]]; then
+    ErrorcodeElementDescription $PRINT_MODE
 fi
 
 if [[ "$SCENARIOS" == "yes" ]]; then

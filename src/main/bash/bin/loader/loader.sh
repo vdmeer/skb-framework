@@ -341,11 +341,11 @@ fi
 
 
 ##
-## declare elements: commands, exit status
+## declare elements: commands, error codes
 ## - exit with code 35 if command declaration failed
-## - exit with code 36 if exit-status declaration failed
+## - exit with code 36 if error code declaration failed
 ##
-#tag::cmdes-decl[]
+#tag::cmdec-decl[]
 if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/cmd-decl.map ]]; then
     ConsolePrint info "declaring commands from cache"
     source ${CONFIG_MAP["CACHE_DIR"]}/cmd-decl.map
@@ -353,14 +353,14 @@ else
     DeclareCommands
     if $(ConsoleHas errors); then printf "\n"; exit 35; fi
 fi
-if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/es-decl.map ]]; then
-    ConsolePrint info "declaring exit-status from cache"
-    source ${CONFIG_MAP["CACHE_DIR"]}/es-decl.map
+if [[ -f ${CONFIG_MAP["CACHE_DIR"]}/ec-decl.map ]]; then
+    ConsolePrint info "declaring error code from cache"
+    source ${CONFIG_MAP["CACHE_DIR"]}/ec-decl.map
 else
-    DeclareExitStatus
+    DeclareErrorCode
     if $(ConsoleHas errors); then printf "\n"; exit 36; fi
 fi
-#end::cmdes-decl[]
+#end::cmdec-decl[]
 
 
 

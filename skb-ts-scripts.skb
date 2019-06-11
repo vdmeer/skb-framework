@@ -42,7 +42,7 @@ TsRunTargets() {
         describe-command
         describe-dependency
         describe-element
-        describe-exitstatus
+        describe-errorcode
         describe-option
         describe-parameter
         describe-scenario
@@ -52,7 +52,7 @@ TsRunTargets() {
         list-commands
         list-configuration
         list-dependencies
-        list-exitstatus
+        list-errorcodes
         list-options
         list-parameters
         list-scenarios

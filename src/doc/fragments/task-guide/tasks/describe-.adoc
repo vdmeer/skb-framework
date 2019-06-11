@@ -22,7 +22,7 @@ Each of these tasks provides a description of one or more framework and applicat
 * _describe-command_ - describes one or more shell commands
 * _describe-dependency_ - describes one or more dependencies
 * _describe-element_ - describes one or more element types of an application
-* _describe-exitstatus_ - describes one or more exit status (error codes)
+* _describe-errorcode_ - describes one or more error codes
 * _describe-option_ - describes one or more CLI options
 * _describe-parameter_ - describes one or more parameters
 * _describe-scenario_ - describes one or more scenarios
@@ -201,20 +201,20 @@ This _MANUAL_SRC_ must point to valid manual sources.
 
 
 
-=== describe-exitstatus
-Describes one or more exit status codes.
-The _id_ filter can be used to show only a specific status code.
+=== describe-errorcode
+Describes one or more error codes.
+The _id_ filter can be used to show only a specific error code.
 
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/describe-exitstatus--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-screens/describe-errorcode--help--pdf.adoc[tags=task-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/describe-exitstatus--help--adoc.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-screens/describe-errorcode--help--adoc.adoc[tags=task-filters]
 ----
 endif::[]
 

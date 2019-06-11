@@ -77,11 +77,11 @@ The following conditions are validated:
     ** For each declared dependency, test the ADOC and text documentation files exist
     ** Test that no extra files are in the dependency declaration directory
     ** Note: dependency declaration directories are tested in the framework and an application
-* _es_ - Exit Status
-    ** Test that the exit-status declaration directory exists
-    ** For each declared exit-status, test the ADOC and text documentation files exist
-    ** Test that no extra files are in the exit-status declaration directory
-    ** Note: exit-status are only declared in the framework, not in an application
+* _ec_ - Error Codes
+    ** Test that the error code declaration directory exists
+    ** For each declared error code, test the ADOC and text documentation files exist
+    ** Test that no extra files are in the error code declaration directory
+    ** Note: error codes are only declared in the framework, not in an application
 * _opt_ - Options
     ** Test that the option declaration directory exists
     ** For each declared option, test the ADOC and text documentation files exist

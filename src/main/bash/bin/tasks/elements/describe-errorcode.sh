@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## describe-exitstatus - describes an exit-status or multiple of them
+## describe-errorcode - describes one or more erro codes
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.5
@@ -55,7 +55,7 @@ source $FW_HOME/bin/api/_include
 ## set local variables
 ##
 PRINT_MODE=
-ES_ID=
+EC_ID=
 ALL=
 CLI_SET=false
 
@@ -67,9 +67,9 @@ CLI_SET=false
 CLI_OPTIONS=Ahi:P:
 CLI_LONG_OPTIONS=all,help,id:,print-mode:
 
-! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-exitstatus -- "$@")
+! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-errorcode -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsolePrint error "describe-exitstatus: unknown CLI options"
+    ConsolePrint error "describe-errorcode: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -83,7 +83,7 @@ while true; do
             shift
             ;;
         -h | --help)
-            CACHED_HELP=$(TaskGetCachedHelp "describe-exitstatus")
+            CACHED_HELP=$(TaskGetCachedHelp "describe-errorcode")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n"
                 BuildTaskHelpTag start standard-options
@@ -101,7 +101,7 @@ while true; do
                 printf "\n"
                 BuildTaskHelpTag start task-filters
                 printf "   task filters\n"
-                BuildTaskHelpLine i id          "ID"        "exit-status identifier"                        $PRINT_PADDING
+                BuildTaskHelpLine i id          "ID"        "error code identifier"                        $PRINT_PADDING
                 BuildTaskHelpTag end task-filters
             else
                 cat $CACHED_HELP
@@ -109,7 +109,7 @@ while true; do
             exit 0
             ;;
         -i | --id)
-            ES_ID="$2"
+            EC_ID="$2"
             CLI_SET=true
             shift 2
             ;;
@@ -123,7 +123,7 @@ while true; do
             break
             ;;
         *)
-            ConsolePrint fatal "describe-exitstatus: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-errorcode: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -138,11 +138,11 @@ if [[ ! -n "$PRINT_MODE" ]]; then
 fi
 
 if [[ "$ALL" == "yes" ]]; then
-    ES_ID=
+    EC_ID=
 else
-    if [[ -n "$ES_ID" ]]; then
-        if [[ ! -n "${DMAP_ES[$ES_ID]:-}" ]]; then
-            ConsolePrint error "des: unknown exit status ID '$ES_ID'"
+    if [[ -n "$EC_ID" ]]; then
+        if [[ ! -n "${DMAP_EC[$EC_ID]:-}" ]]; then
+            ConsolePrint error "dec: unknown error code ID '$EC_ID'"
             exit 60
         fi
     fi
@@ -154,11 +154,11 @@ fi
 ## ready to go
 ##
 ############################################################################################
-ConsolePrint info "des: starting task"
+ConsolePrint info "dec: starting task"
 
-for ID in ${!DMAP_ES[@]}; do
-    if [[ -n "$ES_ID" ]]; then
-        if [[ ! "$ES_ID" == "$ID" ]]; then
+for ID in ${!DMAP_EC[@]}; do
+    if [[ -n "$EC_ID" ]]; then
+        if [[ ! "$EC_ID" == "$ID" ]]; then
             continue
         fi
     fi
@@ -168,8 +168,8 @@ keys=($(printf '%s\n' "${keys[@]:-}"|sort))
 
 for i in ${!keys[@]}; do
     ID=${keys[$i]}
-    DescribeExitstatus $ID full "$PRINT_MODE line-indent" $PRINT_MODE
+    DescribeErrorcode $ID full "$PRINT_MODE line-indent" $PRINT_MODE
 done
 
-ConsolePrint info "des: done"
+ConsolePrint info "dec: done"
 exit $TASK_ERRORS

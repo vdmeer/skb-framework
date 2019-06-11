@@ -37,7 +37,7 @@ describe-application --help
 describe-command --help
 describe-dependency --help
 describe-element --help
-describe-exitstatus --help
+describe-errorcode --help
 describe-option --help
 describe-parameter --help
 describe-scenario --help
@@ -50,7 +50,7 @@ execute-program --help
 list-commands --help
 list-configuration --help
 list-dependencies --help
-list-exitstatus --help
+list-errorcodes --help
 list-options --help
 list-parameters --help
 list-scenarios --help

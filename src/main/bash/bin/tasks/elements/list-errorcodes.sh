@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## list-exitstatus - list exitstatus
+## list-errorcodes - list error codes
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.5
@@ -73,9 +73,9 @@ CLI_SET=false
 CLI_OPTIONS=AfhlP:sTt
 CLI_LONG_OPTIONS=help,print-mode:,table,all,app,fw,loader,shell,task
 
-! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-exitstatus -- "$@")
+! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-errorcodes -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsolePrint error "list-exitstatus: unknown CLI options"
+    ConsolePrint error "list-errorcodes: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -89,7 +89,7 @@ while true; do
             shift
             ;;
         -h | --help)
-            CACHED_HELP=$(TaskGetCachedHelp "list-exitstatus")
+            CACHED_HELP=$(TaskGetCachedHelp "list-errorcodes")
             if [[ -z ${CACHED_HELP:-} ]]; then
                 printf "\n"
                 BuildTaskHelpTag start standard-options
@@ -159,7 +159,7 @@ while true; do
             break
             ;;
         *)
-            ConsolePrint fatal "list-exitstatus: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "list-errorcodes: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -180,16 +180,16 @@ case $LS_FORMAT in
     list | table)
         ;;
     *)
-        ConsolePrint fatal "les: internal error: unknown list format '$LS_FORMAT'"
+        ConsolePrint fatal "lec: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac
 
 
-declare -A ES_TABLE
-FILE=${CONFIG_MAP["CACHE_DIR"]}/es-tab.${CONFIG_MAP["PRINT_MODE"]}
+declare -A EC_TABLE
+FILE=${CONFIG_MAP["CACHE_DIR"]}/ec-tab.${CONFIG_MAP["PRINT_MODE"]}
 if [[ -n "$PRINT_MODE" ]]; then
-    FILE=${CONFIG_MAP["CACHE_DIR"]}/es-tab.$PRINT_MODE
+    FILE=${CONFIG_MAP["CACHE_DIR"]}/ec-tab.$PRINT_MODE
 fi
 if [[ -f $FILE ]]; then
     source $FILE
@@ -201,33 +201,33 @@ fi
 ############################################################################################
 function TableTop() {
     printf "\n "
-    for ((x = 1; x < ${CONSOLE_MAP["ES_COLUMNS_PADDED"]}; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["EC_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
     done
     printf "\n ${EFFECTS["REVERSE_ON"]}#"
-    printf "%*s" "$((${CONSOLE_MAP["ES_PADDING"]} - 1))" ''
+    printf "%*s" "$((${CONSOLE_MAP["EC_PADDING"]} - 1))" ''
     printf "Description"
-    printf '%*s' "$((${CONSOLE_MAP["ES_DESCRIPTION_LENGTH"]} - 11))" ''
+    printf '%*s' "$((${CONSOLE_MAP["EC_DESCRIPTION_LENGTH"]} - 11))" ''
     printf "Origin  Problem "
     printf "${EFFECTS["REVERSE_OFF"]}\n\n"
 }
 
 function TableBottom() {
     printf " "
-    for ((x = 1; x < ${CONSOLE_MAP["ES_COLUMNS_PADDED"]}; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["EC_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
     printf "\n\n"
 
     printf " "
-    for ((x = 1; x < ${CONSOLE_MAP["ES_COLUMNS_PADDED"]}; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["EC_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
     done
     printf "\n\n"
 }
 
 function ListTop() {
-    printf "\n  Exit Status (Error Codes)\n\n"
+    printf "\n  Error Codes\n\n"
 }
 
 function ListBottom() {
@@ -237,36 +237,36 @@ function ListBottom() {
 
 
 ############################################################################################
-## exitstatus print function
+## error code print function
 ############################################################################################
-PrintExitstatus() {
+PrintErrorcode() {
     local ID
     local i
     local keys
 
-    for ID in ${!DMAP_ES[@]}; do
+    for ID in ${!DMAP_EC[@]}; do
         if [[ "$APP" == "no" ]]; then
-            if [[ "${DMAP_ES[$ID]}" == "app" ]]; then
+            if [[ "${DMAP_EC[$ID]}" == "app" ]]; then
                 continue
             fi
         fi
         if [[ "$FW" == "no" ]]; then
-            if [[ "${DMAP_ES[$ID]}" == "fw" ]]; then
+            if [[ "${DMAP_EC[$ID]}" == "fw" ]]; then
                 continue
             fi
         fi
         if [[ "$LOADER" == "no" ]]; then
-            if [[ "${DMAP_ES[$ID]}" == "loader" ]]; then
+            if [[ "${DMAP_EC[$ID]}" == "loader" ]]; then
                 continue
             fi
         fi
         if [[ "$SHELL" == "no" ]]; then
-            if [[ "${DMAP_ES[$ID]}" == "shell" ]]; then
+            if [[ "${DMAP_EC[$ID]}" == "shell" ]]; then
                 continue
             fi
         fi
         if [[ "$TASK" == "no" ]]; then
-            if [[ "${DMAP_ES[$ID]}" == "task" ]]; then
+            if [[ "${DMAP_EC[$ID]}" == "task" ]]; then
                 continue
             fi
         fi
@@ -279,21 +279,21 @@ PrintExitstatus() {
         case $LS_FORMAT in
             list)
                 printf "   "
-                if [[ -z "${ES_TABLE[$ID]:-}" ]]; then
-                    ExitstatusInTable $ID $PRINT_MODE
+                if [[ -z "${EC_TABLE[$ID]:-}" ]]; then
+                    ErrorcodeInTable $ID $PRINT_MODE
                 else
-                    printf "${ES_TABLE[$ID]}"
+                    printf "${EC_TABLE[$ID]}"
                 fi
-                ExitstatusTagline $ID 3 none
+                ErrorcodeTagline $ID 3 none
                 ;;
             table)
-                if [[ -z "${ES_TABLE[$ID]:-}" ]]; then
-                    ExitstatusInTable $ID $PRINT_MODE
+                if [[ -z "${EC_TABLE[$ID]:-}" ]]; then
+                    ErrorcodeInTable $ID $PRINT_MODE
                 else
-                    printf "${ES_TABLE[$ID]}"
+                    printf "${EC_TABLE[$ID]}"
                 fi
-                ExitstatusTagline $ID
-                ExitstatusStatus $ID
+                ErrorcodeTagline $ID
+                ErrorcodeStatus $ID
                 ;;
         esac
         printf "\n"
@@ -307,20 +307,20 @@ PrintExitstatus() {
 ## ready to go
 ##
 ############################################################################################
-ConsolePrint info "les: starting task"
+ConsolePrint info "lec: starting task"
 
 case $LS_FORMAT in
     list)
         ListTop
-        PrintExitstatus
+        PrintErrorcode
         ListBottom
         ;;
     table)
         TableTop
-        PrintExitstatus
+        PrintErrorcode
         TableBottom
         ;;
 esac
 
-ConsolePrint info "les: done"
+ConsolePrint info "lec: done"
 exit $TASK_ERRORS

@@ -335,8 +335,8 @@ WriteRuntimeConfig() {
     declare -p DMAP_OPT_ARG >> $file
 
 
-    declare -p DMAP_ES >> $file
-    declare -p DMAP_ES_PROBLEM >> $file
+    declare -p DMAP_EC >> $file
+    declare -p DMAP_EC_PROBLEM >> $file
 
 
     declare -p DMAP_CMD >> $file
@@ -402,7 +402,7 @@ WriteRuntimeConfig() {
 
     declare -p DMAP_CMD_DESCR >> $file
     declare -p DMAP_DEP_DESCR >> $file
-    declare -p DMAP_ES_DESCR >> $file
+    declare -p DMAP_EC_DESCR >> $file
     declare -p DMAP_OPT_DESCR >> $file
     declare -p DMAP_PARAM_DESCR >> $file
     declare -p DMAP_TASK_DESCR >> $file

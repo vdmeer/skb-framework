@@ -21,7 +21,7 @@ The runtime API of the framework is a set of functions grouped into a few main c
 * Commands - function for framework commands.
 * Console - console function, to write formated text to the console.
 * Dependencies - functions to manage dependencies.
-* Exit Status - functions to manage error codes and exit status.
+*Error Codes - functions to manage error codes.
 * Misc - miscellaneous functions.
 * Options - functions to manage options.
 * Parameters - functions to manage parameters.

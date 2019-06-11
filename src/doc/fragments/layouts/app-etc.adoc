@@ -42,7 +42,7 @@ $HOME/etc
     │    │    ├─── latex
     │    │    ├─── python3
     │    │    └─── unix
-    │    ├─── exitstatus            <5>
+    │    ├─── errorcodes            <5>
     │    ├─── options               <6>
     │    │    ├─── exit
     │    │    └─── run
@@ -82,7 +82,7 @@ $HOME/etc
         * `python3` for dependencies on Python and Pyhton modules (version 3),
         * `unix` for dependencies to external UNIX commands.
 
-<5> Contains metadata for exit status (error codes and messages of the application).
+<5> Contains metadata for error codes and messages of the application.
 <6> Contains all options of an application. Options are grouped into _exit_ options and _runtime_ options.
 <7> Contains all parameter declarations.
         The grouping here focuses on where/when parameters are required, for instance

@@ -11,11 +11,14 @@
 // @author     Sven van der Meer (vdmeer.sven@mykolab.com)
 // @version    0.0.5
 //
-
-:sectlinks:
-
-== Exit Status Codes
-
-include::{skb-site-main-dir}/main/bash/etc/manual/elements/exit-status.adoc[]
-
-include::{skb-site-target-dir}/element-lists/exit-status-list.adoc[]
+//tag:es
+//
+ifeval::["{adoc-build-target}" == "pdf"]
+<<_describeerrorcode>>
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+<<_describeerrorcode>>
+endif::[]
+ifeval::["{adoc-build-target}" == "site"]
+link:errorcodes.html#describeerrorcode[DescribeErrorcode()]
+endif::[]

@@ -19,14 +19,14 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Identity for task describe-exitstatus
+## Identity for task describe-errorcode
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.5
 ##
 
-SHORT=des
+SHORT=dec
 MODES="dev build use"
 MODE_FLAVOR="std"
-DESCRIPTION="describes exit status (error codes)"
+DESCRIPTION="describes error codes"
 EXEC_PATH=bin/tasks/elements

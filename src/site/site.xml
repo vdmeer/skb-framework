@@ -51,7 +51,7 @@
                 <item href="manual/dependencies.html" name="Dependencies" />
                 <item href="manual/commands.html" name="Commands" />
                 <item href="manual/scenarios.html" name="Scenarios" />
-                <item href="manual/exit-status.html" name="Exit Status" />
+                <item href="manual/errorcodes.html" name="Exit Status (Error Codes)" />
             </item>
 
             <item href="task-guide.html" name="Task Guide" collapse="true">
@@ -106,7 +106,7 @@
                     <item href="developer-guide/api/commands.html" name="Commands" />
                     <item href="developer-guide/api/console.html" name="Console" />
                     <item href="developer-guide/api/dependencies.html" name="Dependencies" />
-                    <item href="developer-guide/api/exit-status.html" name="Exit Status" />
+                    <item href="developer-guide/api/errorcodes.html" name="Error Codes" />
                     <item href="developer-guide/api/misc.html" name="Miscellaneous" />
                     <item href="developer-guide/api/options.html" name="Options" />
                     <item href="developer-guide/api/parameters.html" name="Parameters" />

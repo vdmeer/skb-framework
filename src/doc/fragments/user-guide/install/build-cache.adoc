@@ -68,7 +68,7 @@ $ sudo -u skbuser skb-framework --all-mode --install --run-scenario build-fw-cac
   build-cache 18:21:43 executing task with option(s): --clean --build --full
 
   --> [Info] bdc: starting task
-  --> [Info] build for target(s): cmd-decl cmd-tab dep-decl dep-tab es-decl es-tab opt-decl opt-tab param-tab task-decl task-tab tasks
+  --> [Info] build for target(s): cmd-decl cmd-tab dep-decl dep-tab ec-decl ec-tab opt-decl opt-tab param-tab task-decl task-tab tasks
   --> [Info] done build
   --> [Info] bdc: done.
 

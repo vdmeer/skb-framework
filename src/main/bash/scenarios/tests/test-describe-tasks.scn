@@ -56,16 +56,16 @@ describe-element
 describe-element --all
 describe-element --cmd
 describe-element --dep
-describe-element --es
+describe-element --ec
 describe-element --opt
 describe-element --param
 describe-element -- scn
 describe-element --task
 
 
-describe-exitstatus
-describe-exitstatus --all
-describe-exitstatus --id 010
+describe-errorcode
+describe-errorcode --all
+describe-errorcode --id 010
 
 
 describe-option

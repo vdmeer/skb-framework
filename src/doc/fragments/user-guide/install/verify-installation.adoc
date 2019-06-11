@@ -65,7 +65,7 @@ $ sudo -u skbuser skb-framework --all-mode --install --task-level info --validat
   --> [Info] validating dependency
   --> [Info] done
 
-  --> [Info] validating exit-status
+  --> [Info] validating errorcodes
   --> [Info] done
 
   --> [Info] validating option

@@ -40,8 +40,8 @@ source $FW_HOME/bin/api/commands.sh
 ConsolePrint trace "including api/dependencies"
 source $FW_HOME/bin/api/dependencies.sh
 
-ConsolePrint trace "including api/exit-status"
-source $FW_HOME/bin/api/exit-status.sh
+ConsolePrint trace "including api/errorcodes"
+source $FW_HOME/bin/api/errorcodes.sh
 
 ConsolePrint trace "including api/options"
 source $FW_HOME/bin/api/options.sh

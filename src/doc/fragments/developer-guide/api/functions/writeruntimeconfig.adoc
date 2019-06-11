@@ -34,9 +34,9 @@ The written maps are:
     ** `DMAP_OPT_ORIGIN` - options and their declaration origin
     ** `DMAP_OPT_SHORT` - short option names
     ** `DMAP_OPT_ARG` - option arguments
-* Exit Status
-    ** `DMAP_ES` - map of exit status declarations
-    ** `DMAP_ES_PROBLEM` - exit status problem identifiers (internal, external)
+* Error Codes
+    ** `DMAP_EC` - map of error code declarations
+    ** `DMAP_EC_PROBLEM` - error code problem identifiers (internal, external)
 * Commands
     ** `DMAP_CMD` - command declarations
     ** `DMAP_CMD_SHORT` - command short names
@@ -92,7 +92,7 @@ The written maps are:
 * Description Maps
     ** `DMAP_CMD_DESCR` - commands
     ** `DMAP_DEP_DESCR` - dependencies
-    ** `DMAP_ES_DESCR` - exit status codes
+    ** `DMAP_EC_DESCR` - error codes
     ** `DMAP_OPT_DESCR` - options
     ** `DMAP_PARAM_DESCR` - parameters
     ** `DMAP_TASK_DESCR` - tasks

@@ -30,7 +30,7 @@ $MANUAL_SRC
     │    ├─── commands.adoc             <9>
     │    ├─── dependencies.adoc         <10>
     │    ├─── exit-options.adoc         <11>
-    │    ├─── exit-status.adoc          <12>
+    │    ├─── errorcodes.adoc           <12>
     │    ├─── options.adoc              <13>
     │    ├─── parameters.adoc           <14>
     │    ├─── run-options.adoc          <15>
@@ -56,7 +56,7 @@ $MANUAL_SRC
 <9> Introduction to shell commands.
 <10> Introduction and text for dependencies.
 <11> Text for _exit_ command line options.
-<12> Text for exit status codes and error messages.
+<12> Text for error codes and error messages.
 <13> Introduction and text for command line options.
 <14> Introduction and text for parameters.
 <15> Text for _runtime_ command line options.

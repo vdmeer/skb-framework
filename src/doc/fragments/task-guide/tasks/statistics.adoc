@@ -38,7 +38,7 @@ Any number of filters can be used in any sequence, the tasks will print the outp
 * Overview table (default, or if filter is set)
 * Commands (if filter is set)
 * Dependencies (if filter is set)
-* Exit status (if filter is set)
+* Error Codes (if filter is set)
 * Options (if filter is set)
 * Parameters (if filter is set)
 * Tasks (if filter is set)

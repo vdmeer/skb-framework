@@ -61,20 +61,20 @@ list-dependencies --table --origin fw
 list-dependencies --table --status warning
 
 
-list-exitstatus
-list-exitstatus --all
-list-exitstatus --app
-list-exitstatus --fw
-list-exitstatus --loader
-list-exitstatus --shell
-list-exitstatus --task
-list-exitstatus --table
-list-exitstatus --table --all
-list-exitstatus --table --app
-list-exitstatus --table --fw
-list-exitstatus --table --loader
-list-exitstatus --table --shell
-list-exitstatus --table --task
+list-errorcodes
+list-errorcodes --all
+list-errorcodes --app
+list-errorcodes --fw
+list-errorcodes --loader
+list-errorcodes --shell
+list-errorcodes --task
+list-errorcodes --table
+list-errorcodes --table --all
+list-errorcodes --table --app
+list-errorcodes --table --fw
+list-errorcodes --table --loader
+list-errorcodes --table --shell
+list-errorcodes --table --task
 
 
 list-options

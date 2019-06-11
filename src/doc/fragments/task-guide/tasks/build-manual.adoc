@@ -42,7 +42,7 @@ The structure is similar to other manual pages:
 * _Tasks_: a description and list of tasks provided by the application
 * _Dependencies_: a description and list of dependencies (that tasks might require)
 * _Shell Commands_: a description and list of commands the interactive shell provides
-* _Exit Status_: a description and list of the different exit status codes and messages.
+* _Error Codes_: a description and list of the different error codes and messages.
 * _Scenarios_: a description and list of scenarios provided by the application
 * _Security Concerns_: remarks on potential or actual security concerns when running the application
 * _Bugs_: notes on known bugs 
@@ -271,7 +271,7 @@ A few standard framework tasks are also required (all of them are mandatory and 
 * _describe-parameter_ - this task is used to generate the parameter list.
 * _describe-task_ - this task is used to generate the task list it is a mandatory.
 * _describe-dependency_ - this task is used to generate the dependency list.
-* _describe-existatus_ - this task is used to generate the exit status list.
+* _describe-errorcode_ - this task is used to generate the error code list.
 * _describe-command_ - this task is used to generate the command list.
 * _describe-scenario_ - this task is used to generate the scenario list.
 * _validate-installation_ - this task is used to validate all input required for the manual, i.e. _adoc_ and _txt_ files

@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Declare: exit status
+## Declare: error codes
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.5
@@ -29,24 +29,24 @@
 
 
 
-declare -A DMAP_ES                      # map [id]="origin"
-declare -A DMAP_ES_PROBLEM              # map [id]="problem"
-declare -A DMAP_ES_DESCR                # map [id]="descr-tag-line"
+declare -A DMAP_EC                      # map [id]="origin"
+declare -A DMAP_EC_PROBLEM              # map [id]="problem"
+declare -A DMAP_EC_DESCR                # map [id]="descr-tag-line"
 
 
 
 ##
-## function: DeclareExitStatus
-## - declares exit-status
+## function: DeclareErrorCode
+## - declares error code
 ##
-DeclareExitStatus() {
+DeclareErrorCode() {
     Counters reset errors
 
-    if [[ ! -d $FW_HOME/${FW_PATH_MAP["EXITSTATUS"]} ]]; then
-        ConsolePrint error "declare-exitstatus - did not find option directory, tried \$FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}"
+    if [[ ! -d $FW_HOME/${FW_PATH_MAP["ERRORCODES"]} ]]; then
+        ConsolePrint error "declare-errorcode - did not find option directory, tried \$FW_HOME/${FW_PATH_MAP["ERRORCODES"]}"
         ConsolePrint info "done"
     else
-        ConsolePrint debug "building new declaration map from directory: \$FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}"
+        ConsolePrint debug "building new declaration map from directory: \$FW_HOME/${FW_PATH_MAP["ERRORCODES"]}"
         local file
         local ID
         local PROBLEM
@@ -54,12 +54,12 @@ DeclareExitStatus() {
         local DESCRIPTION
         local NO_ERRORS=true
 
-        for file in $FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}/**/*.id; do
+        for file in $FW_HOME/${FW_PATH_MAP["ERRORCODES"]}/**/*.id; do
             ID=${file##*/}
             ID=${ID%.*}
 
-            if [[ ! -z ${DMAP_ES[$ID]:-} ]]; then
-                ConsolePrint error "internal error: DMAP_ES for id '$ID' already set"
+            if [[ ! -z ${DMAP_EC[$ID]:-} ]]; then
+                ConsolePrint error "internal error: DMAP_EC for id '$ID' already set"
             else
                 local HAVE_ERRORS=false
 
@@ -67,26 +67,26 @@ DeclareExitStatus() {
                 source "$file"
 
                 if [[ -z "${DESCRIPTION:-}" ]]; then
-                    ConsolePrint error "declare exit-status - '$ID' has no description"
+                    ConsolePrint error "declare errorcode - '$ID' has no description"
                     HAVE_ERRORS=true
                 fi
                 if [[ -z "${PROBLEM:-}" ]]; then
-                    ConsolePrint error "declare exit-status - '$ID' has no problem defined"
+                    ConsolePrint error "declare errorcode - '$ID' has no problem defined"
                     HAVE_ERRORS=true
                 fi
                 if [[ -z "${ORIGIN:-}" ]]; then
-                    ConsolePrint error "declare exit-status - '$ID' has no origin defined"
+                    ConsolePrint error "declare errorcode - '$ID' has no origin defined"
                     HAVE_ERRORS=true
                 fi
 
                 if [[ $HAVE_ERRORS == true ]]; then
-                    ConsolePrint error "declare exit-status - could not declare exit-status"
+                    ConsolePrint error "declare errorcode - could not declare error code"
                     NO_ERRORS=false
                 else
-                    DMAP_ES[$ID]=$ORIGIN
-                    DMAP_ES_PROBLEM[$ID]=$PROBLEM
-                    DMAP_ES_DESCR[$ID]=$DESCRIPTION
-                    ConsolePrint debug "declared exit-status $ID"
+                    DMAP_EC[$ID]=$ORIGIN
+                    DMAP_EC_PROBLEM[$ID]=$PROBLEM
+                    DMAP_EC_DESCR[$ID]=$DESCRIPTION
+                    ConsolePrint debug "declared error code $ID"
                 fi
             fi
         done

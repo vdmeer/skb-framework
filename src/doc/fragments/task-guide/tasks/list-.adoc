@@ -21,7 +21,7 @@ Each of these tasks provides a list of framework and application features, namel
 * _list-commands_ - lists shell commands
 * _list-configuration_ - list current configuration keys and values
 * _list-dependencies_ - lists dependencies
-* _list-exitstatus_ - lists exit status, error codes
+* _list-errorcodes_ - lists  error codes
 * _list-options_ - lists CLI options
 * _list-parameters_ - lists parameters
 * _list-scenarios_ - lists scenarios
@@ -160,8 +160,8 @@ If _CACHE_DIR_ is set to a directory that contains cached dependency information
 
 
 
-=== list-exitstatus
-Lists exit status codes with their number and description.
+=== list-errorcodes
+Lists error codes with their number and description.
 Table mode shows two more aspects:
     the origin (of an error: all, application, framework, loader, shell, tasks) and
     an indicator of the problem (internal for a bug, external for a configuration problem).
@@ -170,18 +170,18 @@ Provided filters focus on the _origin_ of the problem.
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/list-exitstatus--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-screens/list-errorcodes--help--pdf.adoc[tags=task-filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/list-exitstatus--help--adoc.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-screens/list-errorcodes--help--adoc.adoc[tags=task-filters]
 ----
 endif::[]
 
 This task can take the list of items from the framework or application cache.
-If _CACHE_DIR_ is set to a directory that contains cached exit status information (map), this information is used.
+If _CACHE_DIR_ is set to a directory that contains cached error code information (map), this information is used.
 
 
 

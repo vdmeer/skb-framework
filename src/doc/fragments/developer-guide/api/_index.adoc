@@ -39,7 +39,7 @@ include::{skb-site-target-dir}/adoc-index/alphabetical.adoc[]
 | Dependency
 | include::{skb-site-target-dir}/adoc-index/dep.adoc[]
 
-| Exist Status
+| Error Code
 | include::{skb-site-target-dir}/adoc-index/es.adoc[]
 
 | Option

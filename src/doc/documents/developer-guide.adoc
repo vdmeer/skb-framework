@@ -65,7 +65,7 @@ include::{skb-site-main-dir}/doc/fragments/developer-guide/api/console.adoc[leve
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/dependencies.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/exit-status.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/errorcodes.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/misc.adoc[leveloffset=+1]
 

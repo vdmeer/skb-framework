@@ -78,8 +78,8 @@ NO_COMMANDS=false
 NO_COMMAND_LIST=false
 NO_DEPS=false
 NO_DEP_LIST=false
-NO_EXITSTATUS=false
-NO_EXITSTATUS_LIST=false
+NO_ERRORCODES=false
+NO_ERRORCODE_LIST=false
 NO_OPTIONS=false
 NO_OPTION_LIST=false
 NO_PARAMS=false
@@ -97,8 +97,8 @@ NO_TASK_LIST=false
 CLI_OPTIONS=Abchilnprst
 CLI_LONG_OPTIONS=build,clean,help,test,all,adoc,html,manp,pdf,text,src,requested
 CLI_LONG_OPTIONS+=,no-authors,no-bugs,no-copying,no-resources,no-security
-CLI_LONG_OPTIONS+=,no-commands,no-deps,no,exitstatus,no-options,no-params,no-scenarios,no-tasks
-CLI_LONG_OPTIONS+=,no-command-list,no-dep-list,no,exitstatus-list,no-option-list,no-param-list,no-scenario-list,no-task-list
+CLI_LONG_OPTIONS+=,no-commands,no-deps,no-errorcodes,no-options,no-params,no-scenarios,no-tasks
+CLI_LONG_OPTIONS+=,no-command-list,no-dep-list,no-errorcode-list,no-option-list,no-param-list,no-scenario-list,no-task-list
 CLI_LONG_OPTIONS+=,loaded,install
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-manual -- "$@")
@@ -171,8 +171,8 @@ while true; do
                 BuildTaskHelpLine "<none>" no-command-list      "<none>" "include command text, but no list"        $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-deps              "<none>" "include dependency text, but no list"     $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-dep-list          "<none>" "do not include dependencies"              $PRINT_PADDING_FILTERS
-                BuildTaskHelpLine "<none>" no-exitstatus        "<none>" "do not include exit status"               $PRINT_PADDING_FILTERS
-                BuildTaskHelpLine "<none>" no-exitstatus-list   "<none>" "include exit status text, but no list"    $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-errorcodes        "<none>" "do not include error codes"               $PRINT_PADDING_FILTERS
+                BuildTaskHelpLine "<none>" no-errorcode-list    "<none>" "include error code text, but no list"     $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-options           "<none>" "do not include options"                   $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-option-list       "<none>" "include option test, but no list"         $PRINT_PADDING_FILTERS
                 BuildTaskHelpLine "<none>" no-params            "<none>" "do not include parameters"                $PRINT_PADDING_FILTERS
@@ -279,13 +279,13 @@ while true; do
             shift
             NO_DEP_LIST=true
             ;;
-        --no-exitstatus)
+        --no-errorcodes)
             shift
-            NO_EXITSTATUS=true
+            NO_ERRORCODES=true
             ;;
-        --no-exitstatus-list)
+        --no-errorcode-list)
             shift
-            NO_EXITSTATUS_LIST=true
+            NO_ERRORCODE_LIST=true
             ;;
         --no-options)
             shift
@@ -535,11 +535,11 @@ BuildManualCore() {
         fi
     fi
 
-    if [[ "$NO_EXITSTATUS" == false ]]; then
-        ExitStatusElementDescription $TARGET
-        if [[ "$NO_EXITSTATUS_LIST" == false ]]; then
+    if [[ "$NO_ERRORCODES" == false ]]; then
+        ErrorcodeElementDescription $TARGET
+        if [[ "$NO_ERRORCODE_LIST" == false ]]; then
             set +e
-            ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode $TARGET
+            ${DMAP_TASK_EXEC["describe-errorcode"]} --all --print-mode $TARGET
             set -e
         fi
     fi
@@ -613,8 +613,8 @@ BuildSrc() {
 
         ConsolePrint debug "bdm/src - commands"
         BuildSrcPath ${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["COMMANDS"]} l2
-        ConsolePrint debug "bdm/src - error status"
-        BuildSrcPath ${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["EXITSTATUS"]} l2
+        ConsolePrint debug "bdm/src - error codes"
+        BuildSrcPath ${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["ERRORCODES"]} l2
         ConsolePrint debug "bdm/src - options"
         BuildSrcPath ${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["OPTIONS"]} l2
 

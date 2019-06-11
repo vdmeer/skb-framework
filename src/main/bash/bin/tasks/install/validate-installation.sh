@@ -69,7 +69,7 @@ CLI_SET=false
 ## set CLI options and parse CLI
 ##
 CLI_OPTIONS=Ahs
-CLI_LONG_OPTIONS=all,help,strict,msrc,cmd,dep,es,opt,param,scn,task
+CLI_LONG_OPTIONS=all,help,strict,msrc,cmd,dep,ec,opt,param,scn,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name validate-installation -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
@@ -98,7 +98,7 @@ while true; do
                 BuildTaskHelpLine "<none>"  msrc    "<none>" "target: manual source"    $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  cmd     "<none>" "target: commands"         $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  dep     "<none>" "target: dependencies"     $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  es      "<none>" "target: exit-status"      $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  ec      "<none>" "target: error codes"      $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  opt     "<none>" "target: options"          $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  param   "<none>" "target: parameters"       $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  scn     "<none>" "target: scenarios"        $PRINT_PADDING
@@ -136,9 +136,9 @@ while true; do
             TARGET=$TARGET" dep"
             CLI_SET=true
             ;;
-        --es)
+        --ec)
             shift
-            TARGET=$TARGET" es"
+            TARGET=$TARGET" ec"
             CLI_SET=true
             ;;
         --opt)
@@ -178,7 +178,7 @@ done
 ## test CLI
 ############################################################################################
 if [[ $DO_ALL == true || $CLI_SET == false ]]; then
-    TARGET="msrc cmd dep es opt param scn task"
+    TARGET="msrc cmd dep ec opt param scn task"
 fi
 
 
@@ -230,7 +230,7 @@ ValidateManualSource() {
     if [[ ! -d $DIR/elements ]]; then
         ConsolePrint error "did not find elements directory"
     else
-        EXPECTED="elements/commands elements/dependencies elements/exit-options elements/exit-status elements/options elements/parameters elements/run-options elements/tasks elements/scenarios"
+        EXPECTED="elements/commands elements/dependencies elements/exit-options elements/errorcodes elements/options elements/parameters elements/run-options elements/tasks elements/scenarios"
         for FILE in $EXPECTED; do
             if [[ ! -f $DIR/$FILE.adoc ]]; then
                 ConsolePrint warn-strict "vi: missing manual file $FILE.adoc"
@@ -431,33 +431,33 @@ ValidateDependency() {
 
 ############################################################################################
 ##
-## function: Validate EXIT STATUS
+## function: Validate ERRORCODES
 ##
 ############################################################################################
-ValidateExitstatusDocs() {
-    ConsolePrint debug "validating exit-status docs"
+ValidateErrorCodeDocs() {
+    ConsolePrint debug "validating error code docs"
 
     local ID
     local SOURCE
-    for ID in ${!DMAP_ES[@]}; do
-        SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["EXITSTATUS"]}/$ID
+    for ID in ${!DMAP_EC[@]}; do
+        SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["ERRORCODES"]}/$ID
         if [[ ! -f $SOURCE.adoc ]]; then
-            ConsolePrint warn-strict "vi: exit-status '$ID' without ADOC file"
+            ConsolePrint warn-strict "vi: error code '$ID' without ADOC file"
         elif [[ ! -r $SOURCE.adoc ]]; then
-            ConsolePrint warn-strict "vi: exit-status '$ID' ADOC file not readable"
+            ConsolePrint warn-strict "vi: error code '$ID' ADOC file not readable"
         fi
         if [[ ! -f $SOURCE.txt ]]; then
-            ConsolePrint warn-strict "vi: exit-status '$ID' without TXT file"
+            ConsolePrint warn-strict "vi: error code '$ID' without TXT file"
         elif [[ ! -r $SOURCE.txt ]]; then
-            ConsolePrint warn-strict "vi: exit-status '$ID' TXT file not readable"
+            ConsolePrint warn-strict "vi: error code '$ID' TXT file not readable"
         fi
     done
 
     ConsolePrint debug "done"
 }
 
-ValidateExitstatus() {
-    ConsolePrint debug "validating exit-status"
+ValidateErrorCode() {
+    ConsolePrint debug "validating error code"
 
     ValidateCommandDocs
 
@@ -465,16 +465,16 @@ ValidateExitstatus() {
     local ORIGIN_PATH=${CONFIG_MAP["FW_HOME"]}
     local FILE
 
-    ## check that files in the exit-status folder have a corresponding exit-status declaration
-    if [[ -d $ORIGIN_PATH/${FW_PATH_MAP["EXITSTATUS"]} ]]; then
-        for FILE in $ORIGIN_PATH/${FW_PATH_MAP["EXITSTATUS"]}/**; do
+    ## check that files in the error code folder have a corresponding error code declaration
+    if [[ -d $ORIGIN_PATH/${FW_PATH_MAP["ERRORCODES"]} ]]; then
+        for FILE in $ORIGIN_PATH/${FW_PATH_MAP["ERRORCODES"]}/**; do
             if [[ -d "$FILE" ]]; then
                 continue
             fi
             ID=${FILE##*/}
             ID=${ID%.*}
-            if [[ -z ${DMAP_ES[$ID]:-} ]]; then
-                ConsolePrint error "vi: validate/es - found extra file FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}, exit-status '$ID' not declared"
+            if [[ -z ${DMAP_EC[$ID]:-} ]]; then
+                ConsolePrint error "vi: validate/ec - found extra file FW_HOME/${FW_PATH_MAP["ERRORCODES"]}, error code '$ID' not declared"
             fi
         done
     fi
@@ -801,7 +801,7 @@ for TODO in $TARGET; do
             ConsolePrint info "validating manual source"
             ValidateManualSource
             ValidateCommandDocs
-            ValidateExitstatusDocs
+            ValidateErrorCodeDocs
             ValidateOptionDocs
             ValidateDependencyDocs
             ValidateParameterDocs
@@ -818,9 +818,9 @@ for TODO in $TARGET; do
             ValidateDependency
             ConsolePrint info "done"
             ;;
-        es)
-            ConsolePrint info "validating exit-status"
-            ValidateExitstatus
+        ec)
+            ConsolePrint info "validating error code"
+            ValidateErrorCode
             ConsolePrint info "done"
             ;;
         opt)
