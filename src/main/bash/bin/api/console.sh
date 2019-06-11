@@ -262,7 +262,7 @@ ConsolePrint() {
             Counters increase warnings
             case $(GetSetting level) in
                 all | warn | info | debug | trace)
-                    SPRINT=$(printf " -> [")
+                    SPRINT=$(printf "  -> [")
                     SPRINT+=$(PrintColor yellow "Warning")
                     SPRINT+=$(printf "] %s" "$2")
                     printf %b "$SPRINT" 1>&2
@@ -303,7 +303,7 @@ ConsolePrint() {
         trace)
             case $(GetSetting level) in
                 all | trace)
-                    SPRINT=$(PrintEffect italic "    >")
+                    SPRINT=$(PrintEffect italic "      >")
                     SPRINT+=$(printf " %s" "$2")
                     printf %b "$SPRINT" 1>&2
                     printf "\n" 1>&2
