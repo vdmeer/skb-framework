@@ -32,13 +32,13 @@ The _strict_ mode is useful to validate an installation before packaging an appl
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/validate-installation--help--pdf.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-screens/task-help/validate-installation--help--pdf.adoc[tags=options]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/validate-installation--help--adoc.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-screens/task-help/validate-installation--help--adoc.adoc[tags=options]
 ----
 endif::[]
 
@@ -51,13 +51,13 @@ If one or more targets are requested, only those targets will be validated.
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/validate-installation--help--pdf.adoc[tags=targets]
+include::{skb-site-target-dir}/adoc-screens/task-help/validate-installation--help--pdf.adoc[tags=targets]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/validate-installation--help--adoc.adoc[tags=targets]
+include::{skb-site-target-dir}/adoc-screens/task-help/validate-installation--help--adoc.adoc[tags=targets]
 ----
 endif::[]
 

@@ -14,4 +14,4 @@
 
 :sectlinks:
 
-include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/make-target-sets.adoc[]
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/run-target-set.adoc[]

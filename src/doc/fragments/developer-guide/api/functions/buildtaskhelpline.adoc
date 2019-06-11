@@ -83,7 +83,7 @@ Line 2 calls it with a short option _f_, a long option _file_, an argument _FILE
 In this case, the argument will be changed to _FILE_.
 The generated help lines for _print mode_ _ansi_ are shown below.
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+[source%nowrap,subs="attributes,quotes"]
 ----
    *-h* | *--help*                   print help screen and exit
    *-f* | *--file* <span style="color: #0000FF">FILE</span>              file to open in viewer
@@ -107,14 +107,14 @@ include::{skb-site-main-dir}/main/bash/bin/tasks/mode-build/clean.sh[tags=helpli
 with the resulting output lines
 
 ifdef::backend-pdf[]
-[source%nowrap,bash,subs="attributes"]
+[source%nowrap,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/clean--help--pdf.adoc[tags=helpline]
+include::{skb-site-target-dir}/adoc-screens/task-help/clean--help--pdf.adoc[tags=helpline]
 ----
 endif::[]
 ifdef::backend-html5[]
-[source%nowrap,bash,subs="attributes,quotes"]
+[source%nowrap,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/clean--help--adoc.adoc[tags=helpline]
+include::{skb-site-target-dir}/adoc-screens/task-help/clean--help--adoc.adoc[tags=helpline]
 ----
 endif::[]

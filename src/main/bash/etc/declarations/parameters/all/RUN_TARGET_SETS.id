@@ -19,7 +19,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Identity for parameter MAKE_TARGET_SETS
+## Identity for parameter RUN_TARGET_SETS
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.5

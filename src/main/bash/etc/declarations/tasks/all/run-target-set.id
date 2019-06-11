@@ -19,16 +19,16 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Identity for task make-target-sets
+## Identity for task run-target-set
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.5
 ##
 
-SHORT=mts
-MODES="dev build"
+SHORT=rts
+MODES="dev build use"
 MODE_FLAVOR="std"
-DESCRIPTION="runs build on one or more targets"
-EXEC_PATH=bin/tasks/mode-build
+DESCRIPTION="runs one or more targets from a target set"
+EXEC_PATH=bin/tasks/all
 
-TaskRequire $ID param MAKE_TARGET_SETS opt
+TaskRequire $ID param RUN_TARGET_SETS opt

@@ -58,7 +58,7 @@ The type if the message can be one of
 * _trace_ - for trace messages.
     These messages should provide more detail on the current process than _debug_ messages.
     This is the most-detailed type.
-    Trace messages are prefixed with the string `⎵⎵⎵⎵>⎵` (_>_ in italic for print mode _ansi).
+    Trace messages are prefixed with the string `⎵⎵⎵⎵⎵>⎵` (_>_ in italic for print mode _ansi).
     _GetSetting()_ is used to determine the level.
     Trace messages are then printed in the levels `all` and `trace`.
 * _message_ - any kind of message that should be printed.
@@ -93,30 +93,30 @@ to get the right level and quiet settings.
 
 The following examples are taken from the _loader_ and _shell_, showing one example for each of the eight supported message types.
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenumber,indent=0]
 ----
-ConsolePrint fatal "internal error: no flavor set"
-ConsolePrint error "declare command - could not declare command"
-ConsolePrint warn-strict "process-task/param - $ID with unset parameter '$PARAM'"
-ConsolePrint warn "overwriting $KEY"
-ConsolePrint info "cleaning cache and exit"
-ConsolePrint debug "declared command $ID"
-ConsolePrint trace "   $ID - task opt $TASK"
-ConsolePrint message "\n"
+                ConsolePrint fatal "internal error: no flavor set"
+                ConsolePrint error "declare command - could not declare command"
+                ConsolePrint warn-strict "process-task/param - start-browser  with unset parameter 'BROWSER'"
+                ConsolePrint warn "overwriting list-tasks"
+                ConsolePrint info "cleaning cache and exit"
+                ConsolePrint debug "declared command cls"
+                ConsolePrint trace "   manual - task opt start-pdf-viewer"
+                ConsolePrint message "done"
 ----
 
 The output for these messages will be as follows:
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+[source%nowrap,subs="attributes,quotes"]
 ----
-
   -> [<span style="color: #FF0000">Fatal</span>] internal error: no flavor set
   -> [<span style="color: #FF6600">Error</span>] declare command - could not declare command
-  -> [<span style="color: #FFFF00">Warning</span>/<span style="color: #FF6600">strict</span>] process-task/param - start-browser with unset parameter 'BROWSER'
-  --> [<span style="color: #0000FF">Info</span>] cleaning cache and exit
+  -> [<span style="color: #FFFF00">Warning</span>/<span style="color: #FF6600">strict</span>] process-task/param - start-browser  with unset parameter 'BROWSER'
+  -> [<span style="color: #FFFF00">Warning</span>] overwriting list-tasks
+  --> [<span style="color: #5C5CFF">Info</span>] cleaning cache and exit
     *>* declared command cls
-    _>_    manual - task opt start-pdf-viewer
-
+      _>_    manual - task opt start-pdf-viewer
+done
 ----
 
 Note: most of these examples depend on actual situations (such as errors, warnings) being detected and runtime settings for _level_.

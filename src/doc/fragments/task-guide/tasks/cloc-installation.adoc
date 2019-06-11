@@ -32,13 +32,13 @@ The task does not have any special options.
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/cloc-installation--help--pdf.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-screens/task-help/cloc-installation--help--pdf.adoc[tags=options]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/cloc-installation--help--adoc.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-screens/task-help/cloc-installation--help--adoc.adoc[tags=options]
 ----
 endif::[]
 
@@ -49,9 +49,9 @@ endif::[]
 Simply running the task will count the lines of code of an installation.
 The following is the output of running this task on the SKB-Framework version {release-version}.
 
-[source%nowrap,indent=0,subs="attributes"]
+[source%nowrap,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/cloci.txt[]
+include::{skb-site-target-dir}/adoc-screens/text/cloci.txt[]
 ----
 
 The count shows the two ANT files (build file and macro file) as ANT and XML language files.

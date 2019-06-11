@@ -64,7 +64,7 @@ The examples above call the function for the command _history_.
 Line 1 requires an adjustment of three characters but no trailing padding.
 Line 2 does not require an adjustment but a trailing padding.
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+[source%nowrap,subs="attributes,quotes"]
 ----
 show history or run history command
 show history or run history command⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵

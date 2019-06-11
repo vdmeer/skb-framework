@@ -22,7 +22,7 @@
 
 ##
 ## make script for the SKB-Framework
-## - runs the SKB-Framework with task make-target-sets
+## - runs ant to set versions in file comments
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.5

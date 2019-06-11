@@ -38,13 +38,13 @@ The general options, shown below, allow to direct the behavior of the task.
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--pdf.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-screens/task-help/build-mvn-site--help--pdf.adoc[tags=options]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--adoc.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-screens/task-help/build-mvn-site--help--adoc.adoc[tags=options]
 ----
 endif::[]
 
@@ -62,13 +62,13 @@ The task can build a Maven site for several targets:
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--pdf.adoc[tags=targets]
+include::{skb-site-target-dir}/adoc-screens/task-help/build-mvn-site--help--pdf.adoc[tags=targets]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--adoc.adoc[tags=targets]
+include::{skb-site-target-dir}/adoc-screens/task-help/build-mvn-site--help--adoc.adoc[tags=targets]
 ----
 endif::[]
 
@@ -85,13 +85,13 @@ Filters allow to specify which of the loaded (and available) sites should be bui
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--pdf.adoc[tags=filters]
+include::{skb-site-target-dir}/adoc-screens/task-help/build-mvn-site--help--pdf.adoc[tags=filters]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--adoc.adoc[tags=filters]
+include::{skb-site-target-dir}/adoc-screens/task-help/build-mvn-site--help--adoc.adoc[tags=filters]
 ----
 endif::[]
 
@@ -107,13 +107,13 @@ Further options exist to configure the runtime behavior of Maven:
 ifdef::backend-pdf[]
 [source%nowrap,bash,indent=0,subs="attributes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--pdf.adoc[tags=maven-options]
+include::{skb-site-target-dir}/adoc-screens/task-help/build-mvn-site--help--pdf.adoc[tags=maven-options]
 ----
 endif::[]
 ifdef::backend-html5[]
 [source%nowrap,bash,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-screens/build-mvn-site--help--adoc.adoc[tags=maven-options]
+include::{skb-site-target-dir}/adoc-screens/task-help/build-mvn-site--help--adoc.adoc[tags=maven-options]
 ----
 endif::[]
 

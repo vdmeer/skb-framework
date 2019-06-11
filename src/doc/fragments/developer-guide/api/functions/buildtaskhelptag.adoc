@@ -52,7 +52,7 @@ BuildTaskHelpTag end options
 
 The example above calls the function for a _start_ and an _end_ tag with the same identifier _options_.
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,linenumber]
 ----
 #tag::options[]
 #end::options[]

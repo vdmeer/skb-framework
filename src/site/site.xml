@@ -62,6 +62,7 @@
                     <item href="task-guide/tasks/manual.html" name="manual" />
                     <item href="task-guide/tasks/repeat-scenario.html" name="repeat-scenario" />
                     <item href="task-guide/tasks/repeat-task.html" name="repeat-task" />
+                    <item href="task-guide/tasks/run-target-set.html" name="run-target-set" />
                     <item href="task-guide/tasks/setting.html" name="setting" />
                     <item href="task-guide/tasks/start-browser.html" name="start-browser" />
                     <item href="task-guide/tasks/start-pdf-viewer.html" name="start-pdf-viewer" />
@@ -74,7 +75,6 @@
                     <item href="task-guide/tasks/build-manual.html" name="build-manual" />
                     <item href="task-guide/tasks/build-mvn-site.html" name="build-mvn-site" />
                     <item href="task-guide/tasks/clean.html" name="clean" />
-                    <item href="task-guide/tasks/make-target-sets.html" name="make-target-sets" />
                 </item>
                 <item href="task-guide/dev-tasks.html" name="Development Tasks" collapse="true">
                     <item href="task-guide/tasks/build-cache.html" name="build-cache" />

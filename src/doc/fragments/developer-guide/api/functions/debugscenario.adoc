@@ -54,10 +54,9 @@ DebugScenario bfd
 
 The example above calls the function with the short name `bfd`, which will result in debug information for the scenario _build-fw-distro_ as follows (assuming print mode _ansi_):
 
-[source%nowrap,bash,subs="attributes,quotes"]
+[source%nowrap,subs="attributes,quotes"]
 ----
-
-  *build-fw-distro*, *bfd* - builds all distribution artifacts
+ *build-fw-distro*, *bfd* - _builds all distribution artifacts_
     - origin:      FW_HOME
     - modes:       dev
     - mode flavor: install
@@ -68,10 +67,7 @@ The example above calls the function with the short name `bfd`, which will resul
       none
 
     _Load and status_
-      - load status:   S
-      - load comments: mode
-
-
+      - load status:   N
 ----
 
 Note: The scenario in the example above is only loaded in application mode _dev_ and flavor _install_.

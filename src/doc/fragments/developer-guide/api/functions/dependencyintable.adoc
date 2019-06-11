@@ -59,10 +59,9 @@ DependencyInTable asciidoctor
 The example above calls he function for the dependency _asciidoctor_.
 Possible return values are shown below:
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+[source%nowrap,subs="attributes,quotes"]
 ----
-⎵asciidoctor⎵⎵⎵⎵⎵⎵⎵⎵⎵
-⎵asciidoctor⎵⎵⎵⎵⎵⎵⎵⎵⎵
+⎵*asciidoctor*⎵⎵⎵⎵⎵⎵⎵⎵⎵
 ----
 
 The first line shows plain text, the second line ANSI formatted text.

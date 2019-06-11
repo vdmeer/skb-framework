@@ -23,6 +23,7 @@ Version 0.0.5 2019-##-##
         ** moved api/mvn-site into task build-mvn-site (MvnSiteAdocFix now automated from MVN_SITE_FIX_ADOC_ARRAY)
         ** moved API scripts to top-level directory
         ** renamed 'exit status' to 'error code'
+        ** renamed task 'make-target-sets' to 'run-target-set', and moved it from build to all
     * Documentation updates
         ** changed tag line to: a flexible and extensible automation framework
         ** User-Guide: added information on installation, performance
@@ -56,7 +57,7 @@ Version 0.0.4 2019-05-27
     * added download-fw-tool task for SKB Tool jar
     * added curl dependency
     * added command 'ta' as shortuct for 'list-tasks -o a'
-    * added task 'make-target-sets'
+    * added task 'run-target-sets'
 
 
 Version 0.0.3 2018-11-22

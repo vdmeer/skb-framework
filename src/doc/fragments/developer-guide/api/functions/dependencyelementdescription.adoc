@@ -47,5 +47,3 @@ DependencyElementDescription ansi
 ----
 
 The example above will print the text with ANSI formatting.
-
-

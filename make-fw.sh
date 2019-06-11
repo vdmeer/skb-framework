@@ -22,7 +22,7 @@
 
 ##
 ## make script for the SKB-Framework
-## - runs the SKB-Framework with task make-target-sets
+## - runs the SKB-Framework with task run-target-set
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.5
@@ -43,7 +43,7 @@ SKB_FRAMEWORK=src/main/bash/bin/skb-framework
 ## SKB-Framework settings (SF)
 ##
 export SF_MVN_SITES=$PWD
-export SF_MAKE_TARGET_SETS=$PWD
+export SF_RUN_TARGET_SETS=$PWD
 
 
 
@@ -66,9 +66,9 @@ fi
 
 
 ##
-## Everything looks ok, run SF and call 'make-target-sets' for our target set 'skb-fw'
+## Everything looks ok, run SF and call 'run-target-set' for our target set 'skb-fw'
 ##
 mkdir -p src/main/bash/man/man1 2> /dev/null
 mkdir -p src/main/bash/doc/manual 2> /dev/null
 
-$SKB_FRAMEWORK --all-mode --install --execute-task make-target-sets --snp --task-level debug -- --id skb-fw --targets $1
+$SKB_FRAMEWORK --all-mode --install --execute-task run-target-set --snp --task-level debug -- --id skb-fw --targets $1

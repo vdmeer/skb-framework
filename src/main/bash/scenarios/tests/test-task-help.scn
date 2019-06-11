@@ -56,11 +56,11 @@ list-parameters --help
 list-scenarios --help
 list-tasks --help
 
-make-target-sets --help
 manual --help
 
 repeat-scenario --help
 repeat-task --help
+run-target-set --help
 
 set-file-versions --help
 setting --help

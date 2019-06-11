@@ -57,10 +57,10 @@ TsRunTargets() {
         list-parameters
         list-scenarios
         list-tasks
-        make-target-sets
         manual
         repeat-scenario
         repeat-task
+        run-target-set
         set-file-versions
         setting
         start-browser
@@ -325,28 +325,30 @@ TsRunTargets() {
                 rm -f target/adoc-screens/*
             fi
             mkdir -p target/adoc-screens
+            mkdir -p target/adoc-screens/text
+            mkdir -p target/adoc-screens/task-help
 
             ConsolePrint debug "running cloc"
-            cloc $(PathToSystemPath ${CONFIG_MAP["FW_HOME"]}) --force-lang="Bourne Again Shell",sh --progress-rate=0 > target/adoc-screens/cloci.tmp
-            touch target/adoc-screens/cloci.txt
+            cloc $(PathToSystemPath ${CONFIG_MAP["FW_HOME"]}) --force-lang="Bourne Again Shell",sh --progress-rate=0 > target/adoc-screens/text/cloci.tmp
+            touch target/adoc-screens/text/cloci.txt
             while IFS='' read -r line || [[ -n "$line" ]]; do
                 case $line in
                     "classified"*)
                         ## do not remove the "newline" below, it is a carriage return (^M) to delimit the pre-fix we want to remove
-                        echo ${line#*files} >> target/adoc-screens/cloci.txt
-                        # >> target/adoc-screens/cloci.txt
+                        echo ${line#*files} >> target/adoc-screens/text/cloci.txt
+                        # >> target/adoc-screens/text/cloci.txt
                         ;;
                     *)
-                        echo $line >> target/adoc-screens/cloci.txt
+                        echo $line >> target/adoc-screens/text/cloci.txt
                         ;;
                 esac
-            done < target/adoc-screens/cloci.tmp
-            rm target/adoc-screens/cloci.tmp
+            done < target/adoc-screens/text/cloci.tmp
+            rm target/adoc-screens/text/cloci.tmp
 
             ConsolePrint debug "running stats"
             CONFIG_MAP["TASK_LEVEL"]=error
             WriteRuntimeConfig
-            ${DMAP_TASK_EXEC["statistics"]} --ov --task --print-mode text > target/adoc-screens/stats.txt
+            ${DMAP_TASK_EXEC["statistics"]} --ov --task --print-mode text > target/adoc-screens/text/stats.txt
             CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
             WriteRuntimeConfig
 
@@ -355,10 +357,8 @@ TsRunTargets() {
             WriteRuntimeConfig
             shopt -s extglob
             local FLIST=$(ExecuteApiFunction ListFunctions | paste -s -d ' ')
-            printf "%s\n" "${FLIST##+([[:space:]])}" > target/adoc-screens/api-function-list.txt
+            printf "%s\n" "${FLIST##+([[:space:]])}" > target/adoc-screens/text/api-function-list.txt
             shopt -u extglob
-            #ExecuteApiFunction ListFunctions | paste -s -d ' ' - > target/adoc-screens/api-function-list.txt
-            #echo >> target/adoc-screens/api-function-list.txt
             CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
             WriteRuntimeConfig
 
@@ -367,7 +367,7 @@ TsRunTargets() {
             CONFIG_MAP["TASK_LEVEL"]=error
             WriteRuntimeConfig
             CONFIG_MAP["TASK_LEVEL"]=error
-            ${DMAP_TASK_EXEC["make-target-sets"]} --id skb-fw --targets help > target/adoc-screens/ts-fw-help.txt
+            ${DMAP_TASK_EXEC["run-target-set"]} --id skb-fw --targets help > target/adoc-screens/text/ts-fw-help.txt
             CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
             CONFIG_MAP["TASK_QUIET"]=off
             WriteRuntimeConfig
@@ -379,9 +379,9 @@ TsRunTargets() {
                 CONFIG_MAP["TASK_LEVEL"]=error
                 WriteRuntimeConfig
                 ${DMAP_TASK_EXEC["setting"]} --print-mode man-adoc
-                ${DMAP_TASK_EXEC[$TASK]} --help > target/adoc-screens/$TASK--help--adoc.adoc
+                ${DMAP_TASK_EXEC[$TASK]} --help > target/adoc-screens/task-help/$TASK--help--adoc.adoc
                 ${DMAP_TASK_EXEC["setting"]} --print-mode man-pdf
-                ${DMAP_TASK_EXEC[$TASK]} --help > target/adoc-screens/$TASK--help--pdf.adoc
+                ${DMAP_TASK_EXEC[$TASK]} --help > target/adoc-screens/task-help/$TASK--help--pdf.adoc
                 CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
                 CONFIG_MAP["TASK_QUIET"]=off
                 WriteRuntimeConfig
@@ -403,12 +403,13 @@ TsRunTargets() {
             ExitOnTaskErrors
 
             ConsolePrint debug "testing document: generated ADOC resources"
-            TestFS target/adoc-screens/cloci.txt                    file exists,read ts-fw
-            TestFS target/adoc-screens/stats.txt                    file exists,read ts-fw
-            TestFS target/adoc-screens/api-function-list.txt        file exists,read ts-fw
+            TestFS target/adoc-screens/text/cloci.txt                   file exists,read ts-fw
+            TestFS target/adoc-screens/text/stats.txt                   file exists,read ts-fw
+            TestFS target/adoc-screens/text/api-function-list.txt       file exists,read ts-fw
+            TestFS target/adoc-screens/text/ts-fw-help.txt              file exists,read ts-fw
             for TASK in ${TASKS[@]}; do
-                TestFS target/adoc-screens/$TASK--help--adoc.adoc   file exists,read ts-fw
-                TestFS target/adoc-screens/$TASK--help--pdf.adoc    file exists,read ts-fw
+                TestFS target/adoc-screens/task-help/$TASK--help--adoc.adoc   file exists,read ts-fw
+                TestFS target/adoc-screens/task-help/$TASK--help--pdf.adoc    file exists,read ts-fw
             done
             ExitOnTaskErrors
 

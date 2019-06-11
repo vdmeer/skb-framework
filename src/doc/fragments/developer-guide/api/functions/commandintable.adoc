@@ -53,13 +53,13 @@ for throwing errors.
 
 [source%nowrap,bash,linenumber]
 ----
-ComandInTable history
+CommandInTable history
 ----
 
 The example above calls he function for the command _history_.
 Possible return values are shown below:
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+[source%nowrap,subs="attributes,quotes"]
 ----
 ⎵!,⎵history⎵NUMBER⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
 ⎵*!*,⎵*history*⎵<span style="color: #0000FF">NUMBER</span>⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
