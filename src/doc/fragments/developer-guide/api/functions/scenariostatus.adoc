@@ -77,9 +77,19 @@ The examples above will print the status of a few scenarios.
 Assuming that the framework is started in mode _all_ and flavor _install_, and no further errors or warnings are present,
 the examples will print the following lines:
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+ifdef::backend-pdf[]
+[source%nowrap]
 ----
-F <span style="color: #800080">I</span> <span style="color: #00FF00">✔</span> <span style="color: #FF0000">✘</span> <span style="color: #FF0000">✘</span> <span style="color: #00FF00">◆</span>
-F <span style="color: #800080">I</span> <span style="color: #00FF00">✔</span> <span style="color: #FF0000">✘</span> <span style="color: #FF0000">✘</span> <span style="color: #00FF00">◆</span>
-F <span style="color: #800080">I</span> <span style="color: #00FF00">✔</span> <span style="color: #FF0000">✘</span> <span style="color: #FF0000">✘</span> <span style="color: #00FF00">◆</span>
+F I ✔ ✘ ✘ ◆
+F I ✔ ✘ ✘ ◆
+F I ✔ ✘ ✘ ◆
 ----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,subs="attributes,quotes"]
+----
+F <span style="color: #800080">I</span> <span style="color: #00FF00">✔</span> <span style="color: #FF6600">✘</span> <span style="color: #FF6600">✘</span> <span style="color: #00FF00">◆</span>
+F <span style="color: #800080">I</span> <span style="color: #00FF00">✔</span> <span style="color: #FF6600">✘</span> <span style="color: #FF6600">✘</span> <span style="color: #00FF00">◆</span>
+F <span style="color: #800080">I</span> <span style="color: #00FF00">✔</span> <span style="color: #FF6600">✘</span> <span style="color: #FF6600">✘</span> <span style="color: #00FF00">◆</span>
+----
+endif::[]

@@ -83,9 +83,23 @@ The example above calls the function to get a full description of the option _st
     description using ANSI formatting, and
     the forced print mode _ansi_.
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+ifdef::backend-pdf[]
+[source%nowrap]
 ----
-      *-P*, *--print-mode* <span style="color: #0000FF">MODE</span> - sets the print mode: ansi, text, text-anon
+      -P, --print-mode MODE - sets the print mode: ansi, text, text-anon
+        Sets the print mode for the application (loader,  shell,  tasks).  The
+        print  mode  directs  how  messages,  errors,  warnings,   and   other
+        information are printed to the console.  It  can  be  set  to:  `ansi`
+        (color and effects are printed using ANSI escape codes), `text` (plain
+        text output), or  `adoc`  (Asciidoctor  style  annotated  text).  This
+        setting can be changed at runtime using the task `setting`.
+
+----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,subs="attributes,quotes"]
+----
+      *-P*, *--print-mode* <span style="color: #5C5CFF">MODE</span> - sets the print mode: ansi, text, text-anon
         Sets the print mode for the application (loader,  shell,  tasks).  The
         print  mode  directs  how  messages,  errors,  warnings,   and   other
         information are printed to the console.  It  can  be  set  to:  `ansi`
@@ -93,5 +107,6 @@ The example above calls the function to get a full description of the option _st
         text output), or  `adoc`  (Asciidoctor  style  annotated  text).  This
         setting can be changed at runtime using the task `setting`.
 ----
+endif::[]
 
 The screen above shows the result of the function call.

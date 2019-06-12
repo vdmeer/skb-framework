@@ -79,7 +79,19 @@ The example above calls the function to get a full description of the dependency
     description using ANSI formatting, and
     the forced print mode _ansi_.
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+ifdef::backend-pdf[]
+[source%nowrap]
+----
+      asciidoctor - Asciidoctor processor
+        Asciidoctor is a tool (or rather tool chain) that takes files  written
+        in AsciiDoc (or ADOC)  and  produces  various  output  formats.  These
+        formats are supported by backends. Standard backends are PDF and  HTM.
+        Others are supported by plugins. For details on  Asciidoctor  and  its
+        installation see https://asciidoctor.org/ .
+----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,subs="attributes,quotes"]
 ----
       *asciidoctor* - Asciidoctor processor
         Asciidoctor is a tool (or rather tool chain) that takes files  written
@@ -88,5 +100,6 @@ The example above calls the function to get a full description of the dependency
         Others are supported by plugins. For details on  Asciidoctor  and  its
         installation see https://asciidoctor.org/ .
 ----
+endif::[]
 
 The screen above shows the result of the function call.

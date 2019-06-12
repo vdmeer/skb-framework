@@ -49,17 +49,28 @@ to print debug information.
 
 [source%nowrap,bash,linenumber]
 ----
-DebugParameter CACHE_DIR
+DebugParameter SHELL_PROMPT
 ----
 
-The example above calls the function with the name `CACHE_DIR` printing:
+The example above calls the function with the name _SHELL_PROMPT_ printing:
 
+ifdef::backend-pdf[]
+[source%nowrap]
+----
+  SHELL_PROMPT - sets the shell prompt
+    - origin:        FW_HOME
+    - default value: "sf: "
+    - declaration:   $FW_HOME/etc/declarations/parameters/all/SHELL_PROMPT
+    - requested by: loader
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
-  *CACHE_DIR* - _directory for caching settings_
+  *SHELL_PROMPT* - _sets the shell prompt_
     - origin:        FW_HOME
-    - default value: "/var/cache/skb-framework"
-    - param is:      dir
-    - declaration:   $FW_HOME/etc/declarations/parameters/all/CACHE_DIR
-    - requested by:  list-commands list-tasks list-errorcodes list-dependencies list-options list-parameters list-scenarios
+    - default value: "sf: "
+    - declaration:   $FW_HOME/etc/declarations/parameters/all/SHELL_PROMPT
+    - requested by: loader
 ----
+endif::[]

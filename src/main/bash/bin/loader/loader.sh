@@ -165,7 +165,7 @@ fi
 ##
 #tag::config-map[]
 declare -A CONFIG_MAP
-declare -A CONFIG_SRC               # map for configuration source, [E]nv, [F]ile (.skb), [D]efault, CLI [O]ption
+declare -A CONFIG_SRC
 
 CONFIG_MAP["FW_HOME"]=$FW_HOME
 export FW_HOME
@@ -177,16 +177,16 @@ CONFIG_MAP["APP_MODE"]=use
 CONFIG_MAP["APP_MODE_FLAVOR"]=std
 CONFIG_MAP["PRINT_MODE"]=ansi
 
-CONFIG_MAP["LOADER_LEVEL"]="error"              # output level for loader, change with --loader-level, set to "debug" for early code debugging
-CONFIG_MAP["SHELL_LEVEL"]="error"               # output level for shell, change with --shell-level
-CONFIG_MAP["TASK_LEVEL"]="error"                # output level for tasks, change with --task-level
+CONFIG_MAP["LOADER_LEVEL"]="error"
+CONFIG_MAP["SHELL_LEVEL"]="error"
+CONFIG_MAP["TASK_LEVEL"]="error"
 
-CONFIG_MAP["LOADER_QUIET"]="off"                # message level for loader, change with --lq
-CONFIG_MAP["SHELL_QUIET"]="off"                 # message level for shell, change with --sq
-CONFIG_MAP["TASK_QUIET"]="off"                  # message level for tasks, change with --tq
+CONFIG_MAP["LOADER_QUIET"]="off"
+CONFIG_MAP["SHELL_QUIET"]="off"
+CONFIG_MAP["TASK_QUIET"]="off"
 
 CONFIG_MAP["SCENARIO_PATH"]=""
-CONFIG_MAP["SHELL_SNP"]="off"                   # shell shows prompt, change with --snp
+CONFIG_MAP["SHELL_SNP"]="off"
 #end::config-map[]
 
 
@@ -205,8 +205,8 @@ source $FW_HOME/bin/loader/init/parse-cli.sh
 ##
 ## set flavor and application settings from calling script
 ## - exit with code 20: if no flavor set, not setting found (internal error)
-## - exit with code 21: if no FLAOVOR_HOME set
-## - exit with code 22: if FLAOVOR_HOME not a directoy
+## - exit with code 21: if no FLAVOR_HOME set
+## - exit with code 22: if FLAVOR_HOME not a directoy
 ## - exit with code 23: if application script name is missing
 ## - exit with code 24: if application name is missing
 ## - exit with code 25: if framework version file is missing
@@ -365,7 +365,7 @@ done
 ParseCli $@
 if $(ConsoleHas errors); then printf "\n"; exit 34; fi
 case "${CONFIG_MAP["PRINT_MODE"]:-}" in
-    ansi | text | adoc)
+    adoc | ansi | man-adoc | man-pdf | text | text-anon)
         ConsolePrint info "found print mode '${CONFIG_MAP["PRINT_MODE"]}'"
         ;;
     *)

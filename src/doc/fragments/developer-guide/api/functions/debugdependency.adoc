@@ -48,11 +48,25 @@ DebugDependency asciidoctor
 
 The example above calls the function with the name `asciidoctor`:
 
+ifdef::backend-pdf[]
+[source%nowrap]
+----
+  asciidoctor - Asciidoctor processor
+    - origin:       FW_HOME
+    - declaration:  $FW_HOME/etc/declarations/dependencies/asciidoctor
+    - command:      asciidoctor
+    - load status:  S
+    - requested by: build-manual
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
   *asciidoctor* - _Asciidoctor processor_
     - origin:       FW_HOME
     - declaration:  $FW_HOME/etc/declarations/dependencies/asciidoctor
     - command:      asciidoctor
-    - load status:  N
+    - load status:  S
+    - requested by: build-manual
 ----
+endif::[]

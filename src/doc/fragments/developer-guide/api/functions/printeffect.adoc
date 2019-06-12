@@ -57,11 +57,21 @@ PrintEffect reverse "Name    Description" ansi
 The example above calls the function with three different and messages and the forced mode _ansi_.
 The print out will be:
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+ifdef::backend-pdf[]
+[source%nowrap]
+----
+I am bold.
+This is italic.
+Name    Description
+----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,subs="attributes,quotes"]
 ----
 *I am bold.*
 _This is italic._
 <span style="background: #000000; color: #ffffff;">Name    Description</span>
 ----
+endif::[]
 
 Note: the actual print of _reverse_ depends on the terminal settings for foreground and background text color.

@@ -18,19 +18,21 @@ _void ConsolePrint( $1, $2, [$3] )_ - prints a message for given type and option
 
 This function prints the message from `$2` if the type `$1` is active (permitted to print) with an optional level for indentation given by `$3`.
 For certain types, counters will be increased automatically.
-The type if the message can be one of
+The type if the message can be a fatal error, an error, a strict warning, a warning, some information, debug information, trace information, or a plain message.
 
-* _fatal_ for fatal errors, i.e. errors that prevent the framework from running any further.
+Type *fatal* for fatal errors, i.e. errors that prevent the framework from running any further.
     The error counter is automatically increased using _IncreaseCounter()_.
     Fatal error messages are prefixed with the string `  -> [Fatal]` (_Fatal_ in dark-red for print mode _ansi).
     _GetSetting()_ is used to determine the level.
     Fatal error messages are then printed in the levels `all`, `fatal`, `error`, `warn-strict`, `warn`, `info`, `debug`, and `trace`.
-* _error_ for all other errors.
+
+Type *_error* for all other errors.
     The error counter is automatically increased using _IncreaseCounter()_.
     Error messages are prefixed with the string `⎵⎵->⎵[Error]` (_Error_ in light-red for print mode _ansi).
     _GetSetting()_ is used to determine the level.
     Fatal error messages are then printed in the levels `all`, `error`, `warn-strict`, `warn`, `info`, `debug`, and `trace`.
-* _warn-strict_ for issues that a treated as errors in _strict_ mode but only as warnings if _stric_ mode is not set.
+
+Type *warn-strict* for issues that a treated as errors in _strict_ mode but only as warnings if _stric_ mode is not set.
     In _strict_ mode, an error will be printed and the error counter is automatically increased using _IncreaseCounter()_.
     If not in _strict_ mode, a warning will be printed and the warning counter is automatically increased using _IncreaseCounter()_.
     The message is prefixed with
@@ -39,29 +41,34 @@ The type if the message can be one of
     _GetSetting()_ is used to determine the level.
     Messages are then printed in the levels `all`, `warn-strict`, `warn`, `info`, `debug`, and `trace`.
     In _strict_ mode, they are also printed in the level `error`.
-* _warn_ - for warnings of any kind (other than strict warnings as describe above).
+
+Type *warn* for warnings of any kind (other than strict warnings as describe above).
     The warning counter is automatically increased using _IncreaseCounter()_.
     Warning messages are prefixed with the string `⎵⎵->⎵[Warning]` (_Warning_ in yellow for print mode _ansi).
     _GetSetting()_ is used to determine the level.
     Warning messages are then printed in the levels `all`, `warn`, `info`, `debug`, and `trace`.
-* _info_ - for tagged information (for information without a tag see _message_).
+
+Type *info* for tagged information (for information without a tag see _message_).
     These messages should provide more information on the current process.
     Information messages are prefixed with the string `⎵⎵->⎵[Info]` (_Info_ in light-blue for print mode _ansi).
     _GetSetting()_ is used to determine the level.
     Messages are then printed in the levels `all`, `info`, `debug`, and `trace`.
     If the message is `done` (no extra characters or whitespaces), an extra newline will be printed automatically after the message.
-* _debug_ - for debug messages.
+
+Type *debug* for debug messages.
     These messages should provide more detail on the current process than _info_ messages.
     Debug messages are prefixed with the string `⎵⎵⎵⎵>⎵` (_>_ in bold for print mode _ansi).
     _GetSetting()_ is used to determine the level.
     Debug messages are then printed in the levels `all`, `debug`, and `trace`.
-* _trace_ - for trace messages.
+
+Type *trace* for trace messages.
     These messages should provide more detail on the current process than _debug_ messages.
     This is the most-detailed type.
     Trace messages are prefixed with the string `⎵⎵⎵⎵⎵>⎵` (_>_ in italic for print mode _ansi).
     _GetSetting()_ is used to determine the level.
     Trace messages are then printed in the levels `all` and `trace`.
-* _message_ - any kind of message that should be printed.
+
+Type *message* for any kind of message that should be printed.
     The message in `$2` will simply be printed.
     _GetSetting()_ is used to determine if messages should be printed (`on`) or not (`off`).
 
@@ -107,6 +114,20 @@ The following examples are taken from the _loader_ and _shell_, showing one exam
 
 The output for these messages will be as follows:
 
+ifdef::backend-pdf[]
+[source%nowrap]
+----
+  -> [Fatal] internal error: no flavor set
+  -> [Error] declare command - could not declare command
+  -> [Warning/strict] process-task/param - start-browser  with unset parameter 'BROWSER'
+  -> [Warning] overwriting list-tasks
+  --> [Info] cleaning cache and exit
+    > declared command cls
+      >    manual - task opt start-pdf-viewer
+done
+----
+endif::[]
+ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
   -> [<span style="color: #FF0000">Fatal</span>] internal error: no flavor set
@@ -118,6 +139,7 @@ The output for these messages will be as follows:
       _>_    manual - task opt start-pdf-viewer
 done
 ----
+endif::[]
 
 Note: most of these examples depend on actual situations (such as errors, warnings) being detected and runtime settings for _level_.
 They are unlikely to occur all at the same run of the framework.

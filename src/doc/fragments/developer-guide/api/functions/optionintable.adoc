@@ -62,12 +62,19 @@ OptionInTable task-level
 The example above calls he function for the option _task-level_.
 Possible return values are shown below:
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+ifdef::backend-pdf[]
+[source%nowrap]
 ----
 ⎵-T,⎵--task-level⎵LEVEL⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
-⎵*-T*,⎵*--task-level*⎵<span style="color: #0000FF">LEVEL</span>⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+⎵-T,⎵--task-level⎵LEVEL⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
 ----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,subs="attributes,quotes"]
+----
+⎵-T,⎵--task-level⎵LEVEL⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+⎵*-T*,⎵*--task-level*⎵<span style="color: #5C5CFF">LEVEL</span>
+----
+endif::[]
 
 The first line shows plain text, the second line ANSI formatted text.
-
-

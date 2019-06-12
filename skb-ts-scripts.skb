@@ -30,7 +30,12 @@
 TsRunTargets() {
     local RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
     local TOOL_VERSION="${RELEASE_VERSION}"
-    local TASK_LEVEL=$(GetSetting level)
+
+    ## only when we are actually in the framework
+    if [[ ! -z ${FW_HOME:-} ]]; then
+        local TASK_LEVEL=$(GetSetting level)
+    fi
+
     local TASKS=(
         build-cache
         build-help

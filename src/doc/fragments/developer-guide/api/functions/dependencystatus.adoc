@@ -63,9 +63,19 @@ The examples above will print the status of a few dependencies.
 Assuming that the framework is started in mode _all_ and flavor _install_, and some further errors are present,
 the examples will print the following lines:
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+ifdef::backend-pdf[]
+[source%nowrap]
+----
+F ◆
+F ◆
+F ◆
+----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,subs="attributes,quotes"]
 ----
 F <span style="color: #00FF00">◆</span>
-F <span style="color: #0000FF">◆</span>
-F <span style="color: #FF0000">◆</span>
+F <span style="color: #5C5CFF">◆</span>
+F <span style="color: #FF6600">◆</span>
 ----
+endif::[]

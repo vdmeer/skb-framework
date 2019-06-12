@@ -79,7 +79,18 @@ The example above calls the function to get a full description of the error code
     description using ANSI formatting, and
     the forced print mode _ansi_.
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+ifdef::backend-pdf[]
+[source%nowrap]
+----
+      010 - fw: unable to set home $SF_HOME
+        The framework is not able to set the home directory, here  `$SF_HOME`.
+        It tried the environment, `readlink`, and `dirname`. This  problem  is
+        an internal problem, probably am incorrect installation or  a  bug  in
+        starting the application.
+----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,subs="attributes,quotes"]
 ----
       *010* - fw: unable to set home $SF_HOME
         The framework is not able to set the home directory, here  `$SF_HOME`.
@@ -87,5 +98,6 @@ The example above calls the function to get a full description of the error code
         an internal problem, probably am incorrect installation or  a  bug  in
         starting the application.
 ----
+endif::[]
 
 The screen above shows the result of the function call.

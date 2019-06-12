@@ -59,12 +59,19 @@ ScenarioInTable build-fw-cache
 The example above calls he function for the scenario _build-fw-cache_.
 Possible return values are shown below:
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+ifdef::backend-pdf[]
+[source%nowrap]
+----
+⎵build-fw-cache, bfc⎵⎵⎵⎵⎵⎵⎵⎵
+⎵build-fw-cache, bfc⎵⎵⎵⎵⎵⎵⎵⎵
+----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,subs="attributes,quotes"]
 ----
 ⎵build-fw-cache, bfc⎵⎵⎵⎵⎵⎵⎵⎵
 ⎵*build-fw-cache*, *bfc*⎵⎵⎵⎵⎵⎵⎵⎵
 ----
+endif::[]
 
 The first line shows plain text, the second line ANSI formatted text.
-
-

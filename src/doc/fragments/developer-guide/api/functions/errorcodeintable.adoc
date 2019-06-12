@@ -16,7 +16,7 @@
 == ErrorcodeInTable()
 _string ErrorcodeInTable( $1, [$2] )_ - returns main error code details for table views.
 
-This function prints the error code name (padded number), the tag line, and a padding in one line.
+This function prints the error code name (padded number) and a padding in one line.
 No newline will be printed.
 Error code numbers will be formatted using the requested print mode (_$2_) or the set print mode of the application.
 The padding is calculated using the setting of _CONSOLE_MAP["EC_PADDING"]_ and the length of the text line.
@@ -31,7 +31,7 @@ The return is realized as print.
 
 *Return*
 
-* _string_, the line with a leading space, error code name, tag line, and padding
+* _string_, the line with a leading space, error code name, and padding
 
 *Errors*
 
@@ -53,18 +53,25 @@ for throwing errors.
 
 [source%nowrap,bash,linenumber]
 ----
-ErrorCodeInTable 031
+ErrorcodeInTable 031
 ----
 
 The example above calls he function for the error code _031_.
 Possible return values are shown below:
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+ifdef::backend-pdf[]
+[source%nowrap]
 ----
-⎵031⎵⎵⎵loader:⎵TMP⎵DIR⎵not⎵writable⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
-⎵*031*⎵⎵⎵loader:⎵TMP⎵DIR⎵not⎵writable⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+⎵031⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+⎵031⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
 ----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,subs="attributes,quotes"]
+----
+⎵031⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+⎵*031*⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+----
+endif::[]
 
 The first line shows plain text, the second line ANSI formatted text.
-
-

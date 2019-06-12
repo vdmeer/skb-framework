@@ -76,12 +76,14 @@ ConsolePrint message "\n"
 ## initialize variables
 ##
 #tag::settings[]
-SCMD=                           # a shell-command from input
-SARG=                           # argument(s), if any, for a shell command
-STIME=                          # time a command was entered
-RELOAD_CFG=false                # flag to reload configuration, e.g. after a change of settings
-declare -A HISTORY              # the shell's history of executed commands
-HISTORY[-1]="help"              # dummy first entry, size calculation doesn't seem to work otherwise
+SCMD=
+SARG=
+STIME=
+RELOAD_CFG=false
+declare -A HISTORY
+
+# dummy first entry, size calculation doesn't seem to work otherwise
+HISTORY[-1]="help"
 #end::settings[]
 
 

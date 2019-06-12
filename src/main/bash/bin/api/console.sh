@@ -291,7 +291,8 @@ ConsolePrint() {
         debug)
             case $(GetSetting level) in
                 all | debug | trace)
-                    SPRINT=$(PrintEffect bold "    >")
+                    SPRINT=$(printf "    ")
+                    SPRINT+=$(PrintEffect bold ">")
                     SPRINT+=$(printf " %s" "$2")
                     printf %b "$SPRINT" 1>&2
                     printf "\n" 1>&2
@@ -303,7 +304,8 @@ ConsolePrint() {
         trace)
             case $(GetSetting level) in
                 all | trace)
-                    SPRINT=$(PrintEffect italic "      >")
+                    SPRINT=$(printf "      ")
+                    SPRINT+=$(PrintEffect italic ">")
                     SPRINT+=$(printf " %s" "$2")
                     printf %b "$SPRINT" 1>&2
                     printf "\n" 1>&2

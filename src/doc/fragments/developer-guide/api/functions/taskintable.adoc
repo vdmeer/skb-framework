@@ -62,10 +62,19 @@ TaskInTable describe-task
 The example above calls he function for the task _describe-task_.
 Possible return values are shown below:
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+ifdef::backend-pdf[]
+[source%nowrap]
+----
+⎵describe-task,⎵dt⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+⎵describe-task,⎵dt⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,subs="attributes,quotes"]
 ----
 ⎵describe-task,⎵dt⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
 ⎵*describe-task*,⎵*dt*⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
 ----
+endif::[]
 
 The first line shows plain text, the second line ANSI formatted text.

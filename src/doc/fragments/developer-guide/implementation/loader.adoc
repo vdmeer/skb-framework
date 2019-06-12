@@ -89,7 +89,16 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=core-settings]
 
 === CONFIG_MAP
 Now comes the declaration of the _CONFIG_MAP_, the core of all runtime settings of the framework.
-This map is first declared, and then some important settings are added to itL
+This map is first declared, and then some important settings are added to it.
+The map _CONFIG_SRC_ contains information about the source of configuration settings.
+The source can be one of: 
+
+* _O_, set by a (command line) option,
+* _F_, set from a configuration file,
+* _E_, set from the environment, or
+* _D_, set from a declared default value.
+
+The following configurations are set at this stage:
 
 * _FW_HOME_ - the home directory of the framework
 * _RUNNING_IN_ - tells everyone where we are currently running in.
@@ -104,12 +113,16 @@ This map is first declared, and then some important settings are added to itL
 * _APP_MODE_FLAVOR_ - set the default flavor of the application mode to _std_ (standard).
     This setting can be changed with the command line option _--install_.
 * _PRINT_MODE_ - set the default print mode to _ansi_ (for ANSI formatted text with colors and effects).
-    This setting can be changed with the command line option _--print-mode_.
+    This setting can be changed with the command line option _--print-mode_ or with the task _setting_.
 * Levels - set the levels for loader, shell, and tasks initially to `error`.
+    These settings can be changed with the command line options _--loader-level_, _--shell-level_, and _--task-level_; or with the task _setting_.
+    IF early debugging on the loader is required, change the loader level here to _debug_ temporarily.
 * Quiet - set quiet mode for loader, shell, and tasks to `off`, i.e. they are _not_ quiet.
+    These settings can be changed with the command line options _--lq_, _--sq_, and _--tq_; or with the task _setting_.
 * _SCENARIO_PATH_ - create an empty path for scenarios.
     This setting is changed later from environment or file.
 * _SHELL_SNP_ - activate shell prompt.
+    This setting can be changed with the command line option _--snp_ or with the task _setting_.
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -119,7 +132,7 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=config-map]
 
 
 === Core Includes
-Next, some core files from the loader and the framework's API are loaded.
+Next, some core files from the framework's API are loaded and the loader itself are loaded.
 To makes things simple, the provided `_include` files are used.
 Then, the loaders own function for parsing the command line is loaded.
 This only loads the function, it does not actually parse the command line.
@@ -128,6 +141,9 @@ This only loads the function, it does not actually parse the command line.
 ----
 include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=core-includes]
 ----
+
+Once the API functions are loaded, the loader can make use of the _Console_ functions for printing error and warnings,
+    and track errors and warnings in the counters _LOADER_ERRORS_ and _LOADER_WARNINGS_.
 
 
 

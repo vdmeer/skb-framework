@@ -61,11 +61,23 @@ ErrorcodeStatus 050
 
 The examples above will print the status of a few options as follows:
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+ifdef::backend-pdf[]
+[source%nowrap]
 ----
-<span style="color: #00FF00">all</span>     <span style="color: #0000FF">internal</span>
+all     internal
+app     external
+fw      external
+loader  external
+task    external
+----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,subs="attributes,quotes"]
+----
+<span style="color: #00FF00">all</span>     <span style="color: #5C5CFF">internal</span>
 <span style="color: #00FF00">app</span>     <span style="color: #00FF00">external</span>
-<span style="color: #0000FF">fw</span>      <span style="color: #00FF00">external</span>
-<span style="color: #0000FF">loader</span>  <span style="color: #00FF00">external</span>
-<span style="color: #0000FF">task</span>    <span style="color: #00FF00">external</span>
+<span style="color: #5C5CFF">fw</span>      <span style="color: #00FF00">external</span>
+<span style="color: #5C5CFF">loader</span>  <span style="color: #00FF00">external</span>
+<span style="color: #5C5CFF">task</span>    <span style="color: #00FF00">external</span>
 ----
+endif::[]

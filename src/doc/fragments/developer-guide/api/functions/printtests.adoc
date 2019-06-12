@@ -14,25 +14,21 @@
 
 
 ==  PrintTests()
-_void PrintTests( $1 )_ - prints the requested tests.
+_void PrintTests( $1 )_ - prints the requested terminal (print) tests
 
-This function prints one or more tests as requested in and in the order given in `$1`.
+This function prints one or more tests as requested in _$1_ and in the order given in `$1`.
 The tests can be used to show the terminal's capability to print ANSI colors, ANSI effects, and UTF-8 characters.
+The current setting for _print mode_ is used for all tests.
 Tests will be printed as follows:
 
 * _all_ - prints all test.
     This is equivalent to using `color,effects,utf8` as requested test.
     This test is used by the command line option `--test-terminal`.
 * _colors_ - prints all supported colors.
-    The test will show how the colors are printed in the different _print modes_ in two sets:
-        the first set for print mode _ansi (should be shown in full color), and
-        the second set for the print modes _text_, _adoc_, and _text-anon_ (should only show the names of the colors).
+    The test will show how the colors are printed.
     This test is used by the command line option `--test-ansi-colors`.
 * _effects_ - prints all supported text effects.
-    The test will show how the effects are printed in the different _print modes_ in three sets:
-        the first set for print mode _ansi_ (should show the effects for bold, italic, and reverse text),
-        the second set for print mode _text_ (should just show the text), and
-        the third set for the print modes _adoc_ and _text-anon_ (should show the text with annotations).
+    The test will show how the effects are printed.
     This test is used by the command line option `--test-ansi-effects`.
 * _utf8_ - prints a line with all UTF-8 characters used in the framework or application, taken from _CHAR_MAP_.
     This test is used by the command line option `--test-utf-8`.
@@ -67,56 +63,76 @@ to print the text effects.
 *Examples*
 
 The following example will test ANSI colors:
+
 [source%nowrap,bash,linenumber]
 ----
 PrintTests colors
 ----
-The result will be the following print out.
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
-----
-  Tests for ANSI colors and alternative representations
-  - print mode: ansi:
-    - <span style="color: #000000">black</span>, <span style="color: #FF0000">red</span>, <span style="color: #00FF0">green</span>, <span style="color: #A52A2A">brown</span>, <span style="color: #0000FF">blue</span>, <span style="color: #800080">purple</span>, <span style="color: #00FFFF">cyan</span>, <span style="color: #A9A9A9">dark-gray</span>
-    - <span style="color: #D3D3D3">light-gray</span>, <span style="color: #FF6600">light-red</span>, <span style="color: #90EE90">light-green</span>, <span style="color: #FFFF00">yellow</span>, <span style="color: #5C5CFF">light-blue</span>, <span style="color: #B695C0">light-purple</span>, <span style="color: #E0FFFF">light-cyan</span>
 
-  - print modes: text, text-anon, adoc:
+The result will be the following print out.
+
+ifdef::backend-pdf[]
+[source%nowrap]
+----
+  ANSI colors, print mode: ansi
     - black, red, green, brown, blue, purple, cyan, dark-gray
     - light-gray, light-red, light-green, yellow, light-blue, light-purple, light-cyan
+
 ----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,subs="attributes,quotes"]
+----
+  ANSI colors, print mode: ansi
+    - <span style="color: #000000">black</span>, <span style="color: #FF0000">red</span>, <span style="color: #00FF00">green</span>, <span style="color: #A52A2A">brown</span>, <span style="color: #0000FF">blue</span>, <span style="color: #800080">purple</span>, <span style="color: #00FFFF">cyan</span>, <span style="color: #A9A9A9">dark-gray</span>
+    - <span style="color: #D3D3D3">light-gray</span>, <span style="color: #FF6600">light-red</span>, <span style="color: #90EE90">light-green</span>, <span style="color: #FFFF00">yellow</span>, <span style="color: #5C5CFF">light-blue</span>, <span style="color: #B695C0">light-purple</span>, <span style="color: #E0FFFF">light-cyan</span>
+----
+endif::[]
 
 
 The following example will test ANSI effects:
+
 [source%nowrap,bash,linenumber]
 ----
 PrintTests effects
+
 ----
+
 The result will be the following print out.
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
-----
-  Tests for ANSI effects and alternative representations
-  - print mode: ansi:
-    - *bold*, _italic_, <span style="background: #000000; color: #ffffff;">reverse</span>
 
-  - print mode: text:
+ifdef::backend-pdf[]
+[source%nowrap]
+----
+  ANSI effects, print mode: man-pdf
     - bold, italic, reverse
-
-  - print modes: adoc, text-anon:
-    - \*bold*, \_italic_, reverse
 ----
+endif::[]
+ifdef::backend-html5[]
+[source%nowrap,subs="attributes,quotes"]
+----
+  ANSI effects, print mode: man-adoc
+    - *bold*, _italic_, <span style="background: #000000; color: #ffffff;">reverse</span>
+----
+endif::[]
+
 
 
 The following example will test UTF-8 characters:
+
 [source%nowrap,bash,linenumber]
 ----
 PrintTests utf8
 ----
+
 The result will be the following print out.
+
 [source%nowrap,bash]
 ----
   Used UTF-8 characters: ═  ■  ─  ✔  ═  ✘  ◆
 ----
 
 Using the test _all_ will print the text from the three examples above.
+
 [source%nowrap,bash,linenumber]
 ----
 PrintTests all
