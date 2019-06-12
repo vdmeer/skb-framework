@@ -14,33 +14,61 @@
 
 
 == The Loader
-
 The loader is the script `$FW_HOME/bin/loader/loader.sh`.
 It is responsible for all initial configuration, loading elements, testing settings and dependencies, processing command line arguments (options), and execute task, scenarios, or the shell.
-The load process has multiple steps, starting with some initial settings and finished with a cleanup.
+The load process has multiple steps, starting with some initial settings
+It finishes with a cleanup.
 
-The initial settings are shown in the source block below.
-Line 1 restricts _bash_, providing a safer execution environment.
-Line 2 allows for extended globbing (finding files recursively with wildecards such as `**/*.adoc`).
-Line 3 takes the current time.
-This information is later used to calculate how long the load process did take.
-Line 4 removes an environment setting that prints rather annoying messages when running Java.
+First, fundamental dependencies are tested:
+
+* _BASH_ version 4 - needed to use associative arrays (or maps).
+* GNU _Getopt_ - extensively used in the loader and tasks to parse command lines.
+* _date_ - to generate time stamps as basis for calculations and logs.
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
-include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=init]
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=fundamental]
+----
+
+The next step puts _bash_ into a safe execution environment.
+it also activates extended globbing to find files recursively with wildecards such as `**/*.adoc`.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=safe-bash]
+----
+
+The loader does not some early settings.
+Here, a time stamp is taken for later use.
+It also removes an environment setting that prints rather annoying messages when running Java.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=set-early]
 ----
 
 
 === Dependencies
-
 The first real action in the load process is the test for core dependencies.
-The source block below shows how the loader tests for:
+Most of the tested dependencies are UNIX tools and programs, available on any given server or client installation.
+The reason to test them here, up front, is that the framework (or an application) can also be deployed in the cloud or inside a container.
+There is no guarantee that the operating system in these environments actually provide the programs (external dependencies) required by the framework.
+So the loader tests all external dependencies.
 
-* _BASH_ version 4 - needed to use associative arrays (or maps)
-* GNU _Getopt_ - extensively used in the loader and tasks to parse command lines
-* _bc_ - a calculator used for calculating execution time of tasks and scenarios
-* _mktemp_ - used to create names for temporary directories, required to store runtime configuration information
+* _dirname_, used early to set `$FW_HOME` if not yet in the environment
+* _pwd_, also for setting `$FW_HOME`
+* _uname_, to determine the underlying operating system
+* _cut_, to process strings when internal _bash_ commands are getting too complicated
+* _cat_, to concatenate files or cat them into a pipe
+* _mkdir_, to create directories, e.g. the temporary directory or in the cache
+* _bc_, to calculate execution time using floating point numbers
+* _mktemp_, to create names for temporary files
+* _ls_, to list directories, mostly used to check for files being present
+* _wc_, to count number of files in a directory (piped from _ls_)
+*_tput_, to get the terminal width and to store/restore the terminal context when showing files, e.g. the manual
+* _less_, to show the manual in various formats
+* _rm_, to remove files
+* _sort_, to sort array members and other information alphabetically
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -48,26 +76,9 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=core-dep]
 ----
 
 
-=== Core and default Settings
-
-Once all dependencies are satisfied, the loader realizes core settings:
-
-* If not set, then set `$FW_HOME` (lines 1-4)
-* Source the loaders declaration files (line 6).
-    This will create the main configuration map called `CONFIG_MAP` along with the map `CONFIG_SRC`.
-* Set core variables in the configuration map (lines 7-25):
-    ** _FW_HOME_ - the home directory of the framework
-    ** _RUNNING_IN_ - set to loader, this will later be changed the `shell` or `task` by the shell and tasks
-    ** _SYSTEM_ - to know in which system the framework is running
-    ** _CONFIG_FILE_ - the SKB configuration file
-    ** _STRICT_ - set strict mode to `off`, at least initially
-    ** _APP_MODE_ - set the default application mode to `use`
-    ** _APP_MODE_FLAVOR_ - set the default flavor of the application mode to `std` (standard)
-    ** _PRINT_MODE_ - set the default print mode to `ansi` (for ANSI formatted text with colors and effects)
-    ** Levels - set the levels for loader, shell, and tasks initially to `error`
-    ** Quiet - set quiet mode for loader, shell, and tasks to `off`, i.e. they are _not_ quiet
-    ** _SCENARIO_PATH_ - create an empty path for scenarios
-    ** _SHELL_SNP_ - activate shell prompt
+=== Core Settings
+Once all dependencies are satisfied, the loader realizes a few core settings.
+The main part here is to set the framework home directory in `FW_HOME`
 
 [source%nowrap,bash,linenums,subs="attributes+"]
 ----
@@ -76,9 +87,40 @@ include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=core-settings]
 
 
 
+=== CONFIG_MAP
+Now comes the declaration of the _CONFIG_MAP_, the core of all runtime settings of the framework.
+This map is first declared, and then some important settings are added to itL
+
+* _FW_HOME_ - the home directory of the framework
+* _RUNNING_IN_ - tells everyone where we are currently running in.
+    Since we are in the loader now, it is set to loader.
+    This will later be changed to `shell` or `task` by the shell and tasks
+* _SYSTEM_ - to know in which system the framework is running, e.g. to generate system-specific paths
+* _CONFIG_FILE_ - the SKB configuration file, set to the file _.skb_ in the user's _HOME_ directory
+* _STRICT_ - set strict mode to `off` initially.
+    This setting can be changed with the command line option _--strict_.
+* _APP_MODE_ - set the default application mode to `use`.
+    This can be changed using the command line options _--all-mode_, _--build-mode_, or _--dev-mode_.
+* _APP_MODE_FLAVOR_ - set the default flavor of the application mode to _std_ (standard).
+    This setting can be changed with the command line option _--install_.
+* _PRINT_MODE_ - set the default print mode to _ansi_ (for ANSI formatted text with colors and effects).
+    This setting can be changed with the command line option _--print-mode_.
+* Levels - set the levels for loader, shell, and tasks initially to `error`.
+* Quiet - set quiet mode for loader, shell, and tasks to `off`, i.e. they are _not_ quiet.
+* _SCENARIO_PATH_ - create an empty path for scenarios.
+    This setting is changed later from environment or file.
+* _SHELL_SNP_ - activate shell prompt.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=config-map]
+----
+
+
+
 === Core Includes
-Next, some core files from the framework's API are loaded.
-To makes things simple, the provided `_include` file is used to load all API functions.
+Next, some core files from the loader and the framework's API are loaded.
+To makes things simple, the provided `_include` files are used.
 Then, the loaders own function for parsing the command line is loaded.
 This only loads the function, it does not actually parse the command line.
 

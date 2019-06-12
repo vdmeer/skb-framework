@@ -229,7 +229,7 @@ TsRunTargets() {
             ExitOnTaskErrors
 
             if [[ -d target/adoc-index ]]; then
-                rm -f target/adoc-index
+                rm -fr target/adoc-index
             fi
             mkdir -p target/adoc-index
 
