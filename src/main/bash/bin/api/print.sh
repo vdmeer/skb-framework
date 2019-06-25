@@ -63,7 +63,7 @@ PrintColor() {
             esac
             printf "%s${COLORS["WHITE"]}${COLORS["NORMAL"]}" "$2"
             ;;
-        text | text-anon | adoc | man-pdf)
+        text | text-anon | adoc)
             printf "%s" "$2" ;;
         man-adoc)
             case "$1" in
@@ -113,7 +113,7 @@ PrintEffect() {
                 *)              ConsolePrint error "print-effect: unknown effect: $1"
             esac
             ;;
-        man-pdf | text)         printf "%s" "$2" ;;
+        text)                   printf "%s" "$2" ;;
         adoc | man-adoc | text-anon)
             case "$1" in
                 bold)           printf "*%s*" "$2" ;;

@@ -103,7 +103,7 @@ while true; do
 
         -P | --print-mode)
             case "$2" in
-                adoc | ansi | man-adoc | man-pdf | text | text-anon)
+                adoc | ansi | man-adoc | text | text-anon)
                     CONFIG_MAP["PRINT_MODE"]=$2
                     ConsolePrint message "  set print mode to ${CONFIG_MAP["PRINT_MODE"]}\n"
                     CHANGE_SET=true

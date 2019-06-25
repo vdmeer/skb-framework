@@ -106,7 +106,7 @@ done
 ConsolePrint info "cloci: starting task"
 
 if [[ "${RTMAP_DEP_STATUS["cloc"]:-}" == "S" ]]; then
-    cloc $(PathToSystemPath ${CONFIG_MAP["FW_HOME"]}) --force-lang="Bourne Again Shell",sh
+    cloc $(PathToSystemPath ${CONFIG_MAP["FW_HOME"]}) --force-lang="Bourne Again Shell",sh --quiet
 else
     ConsolePrint error "cloci: dependency 'cloc' not loaded, cannot count"
 fi

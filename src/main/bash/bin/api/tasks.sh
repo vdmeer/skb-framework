@@ -91,7 +91,7 @@ BuildTaskHelpLine() {
     TEMPLATE=${TEMPLATE//%LONG%/$(PrintEffect bold "$LONG")}
 
     case "${CONFIG_MAP["PRINT_MODE"]}" in
-        ansi | man-adoc | man-pdf)
+        ansi | man-adoc)
             TEMPLATE=${TEMPLATE//%ARGUMENT%/$(PrintColor light-blue "$ARGUMENT")} ;;
         adoc | text-anon)
             TEMPLATE=${TEMPLATE//%ARGUMENT%/"_"$ARGUMENT"_"} ;;
@@ -117,7 +117,7 @@ BuildTaskHelpLine() {
 ##
 BuildTaskHelpTag() {
     case "${CONFIG_MAP["PRINT_MODE"]}" in
-        man-adoc | man-pdf)
+        man-adoc)
             case $1 in
                 start)
                     printf "#tag::%s[]\n" "$2"
@@ -282,10 +282,10 @@ DescribeTask() {
                         LINE_INDENT=
                 fi
             ;;
-            post-line)      POST_LINE="::" ;;
-            enter)          ENTER="\n" ;;
-            adoc | man-adoc)           SOURCE=${DMAP_TASK_DECL[$ID]}.adoc ;;
-            ansi | man-pdf | text*)   SOURCE=${DMAP_TASK_DECL[$ID]}.txt ;;
+            post-line)          POST_LINE="::" ;;
+            enter)              ENTER="\n" ;;
+            adoc | man-adoc)    SOURCE=${DMAP_TASK_DECL[$ID]}.adoc ;;
+            ansi | text*)       SOURCE=${DMAP_TASK_DECL[$ID]}.txt ;;
             none | "")      ;;
             *)
                 ConsolePrint error "describe-task - unknown print feature '$PRINT_FEATURE'"

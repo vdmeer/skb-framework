@@ -365,7 +365,7 @@ done
 ParseCli $@
 if $(ConsoleHas errors); then printf "\n"; exit 34; fi
 case "${CONFIG_MAP["PRINT_MODE"]:-}" in
-    adoc | ansi | man-adoc | man-pdf | text | text-anon)
+    adoc | ansi | man-adoc | text | text-anon)
         ConsolePrint info "found print mode '${CONFIG_MAP["PRINT_MODE"]}'"
         ;;
     *)

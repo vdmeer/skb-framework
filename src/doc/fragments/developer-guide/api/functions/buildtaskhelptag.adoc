@@ -15,7 +15,7 @@
 == BuildTaskHelpTag()
 _String BuildTaskHelpTag( $1, $2)_ - prints an ADOC tag for man-* print modes.
 
-This task prints an Asciidoctor tag for the type _$1_ and the identifier _$2_ in the print modes _man-*_ (currently _man-adoc_ and _man-pdf_).
+This task prints an Asciidoctor tag for the type _$1_ and the identifier _$2_ in the print modes _man-*_ (currently _man-adoc_).
 
 
 *Parameters*:

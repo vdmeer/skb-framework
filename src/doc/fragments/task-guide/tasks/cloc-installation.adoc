@@ -21,7 +21,7 @@ It is available in all application modes.
 The task forces files that `cloc` identifies as _sh_ files to be treated as _bash_ files, using the `cloc` option `--force-lang="Bourne Again Shell",sh`.
 This ensures that the installation's include and application files (without the `.sh` extension) are counted as _bash_ files.
 
-More details on `cloc` can be found at the Github source repository on link:https://github.com/AlDanial/cloc[Github].
+More details on `cloc` can be found on its Github source link:https://github.com/AlDanial/cloc[repository].
 
 
 
