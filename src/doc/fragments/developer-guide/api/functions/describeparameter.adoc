@@ -88,20 +88,6 @@ The example above calls the function to get a full description of the parameter 
     description using ANSI formatting, and
     the forced print mode _ansi_.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-      TARGET - target folder
-        This parameter sets the target directory, where  artifacts  should  be
-        created in, similar to the target directory  in  Maven  or  the  build
-        directory in Gradle. If set, the directory will be tested  for  create
-        and delete.  Some  tasks,  such  as  `clean`  will  remove  the  given
-        directory and everything in it.
-
-        default value: none defined
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
       *TARGET* - target folder
@@ -113,6 +99,5 @@ ifdef::backend-html5[]
 
         default value: none defined
 ----
-endif::[]
 
 The screen above shows the result of the function call.

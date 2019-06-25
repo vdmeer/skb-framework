@@ -71,23 +71,12 @@ PrintTests colors
 
 The result will be the following print out.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-  ANSI colors, print mode: ansi
-    - black, red, green, brown, blue, purple, cyan, dark-gray
-    - light-gray, light-red, light-green, yellow, light-blue, light-purple, light-cyan
-
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
   ANSI colors, print mode: ansi
     - <span style="color: #000000">black</span>, <span style="color: #FF0000">red</span>, <span style="color: #00FF00">green</span>, <span style="color: #A52A2A">brown</span>, <span style="color: #0000FF">blue</span>, <span style="color: #800080">purple</span>, <span style="color: #00FFFF">cyan</span>, <span style="color: #A9A9A9">dark-gray</span>
     - <span style="color: #D3D3D3">light-gray</span>, <span style="color: #FF6600">light-red</span>, <span style="color: #90EE90">light-green</span>, <span style="color: #FFFF00">yellow</span>, <span style="color: #5C5CFF">light-blue</span>, <span style="color: #B695C0">light-purple</span>, <span style="color: #E0FFFF">light-cyan</span>
 ----
-endif::[]
 
 
 The following example will test ANSI effects:
@@ -100,20 +89,11 @@ PrintTests effects
 
 The result will be the following print out.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-  ANSI effects, print mode: man-pdf
-    - bold, italic, reverse
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
   ANSI effects, print mode: man-adoc
     - *bold*, _italic_, <span style="background: #000000; color: #ffffff;">reverse</span>
 ----
-endif::[]
 
 
 

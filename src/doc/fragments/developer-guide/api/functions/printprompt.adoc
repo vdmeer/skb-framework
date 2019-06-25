@@ -67,15 +67,7 @@ Assuming that the application flavor is _std_,
     that _print mode_ is set to _ansi_,
     this call will result in the following prompt.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-std(all):
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 std(<span style="color: #FF0000">all</span>):
 ----
-endif::[]

@@ -57,19 +57,10 @@ ExecuteApiFunction "PrintColor light-blue I#am#a#test"
 
 The example above calls the function to executes the API function _PrintColor_ with the parameters _light-blue_ and _I#am#a#test_.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-I#am#a#test
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 <span style="color: #5C5CFF">I#am#a#test</span>
 ----
-endif::[]
-
 
 The screen above shows the result for print mode _ansi_.
 
@@ -79,4 +70,3 @@ To get a list of all defined function simply call:
 ----
 ExecuteApiFunction ListFunctions
 ----
-

@@ -108,18 +108,10 @@ PrintSetting app-mode-flavor
 
 If the setting is _install_, the result will be:
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-install
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 <span style="color: #800080">install</span>
 ----
-endif::[]
 
 
 
@@ -132,18 +124,10 @@ PrintSetting app-mode
 
 If the setting is _build_, the result will be:
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-build
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 <span style="color: #0000FF">build</span>
 ----
-endif::[]
 
 
 
@@ -156,18 +140,10 @@ PrintSetting task-level
 
 If the setting is _error_, the result will be:
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-error
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 <span style="color: #FF6600">error</span>
 ----
-endif::[]
 
 
 
@@ -179,20 +155,12 @@ PrintSetting shell-quiet
 ----
 The two possible results are shown below.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-on
-off
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 <span style="color: #FF0000">on</span>
 <span style="color: #00FF00">off</span>
 ----
-endif::[]
+
 
 
 The next example prints the setting for _shell-snp_:
@@ -204,20 +172,12 @@ PrintSetting shell-snp
 
 The two possible results are shown below.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-on
-off
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 <span style="color: #FF0000">on</span>
 <span style="color: #00FF00">off</span>
 ----
-endif::[]
+
 
 
 
@@ -230,18 +190,8 @@ PrintSetting strict
 
 The two possible results are shown below.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-on
-off
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 <span style="color: #FF0000">on</span>
 <span style="color: #00FF00">off</span>
 ----
-endif::[]
-

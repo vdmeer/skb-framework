@@ -83,20 +83,10 @@ Line 2 calls it with a short option _f_, a long option _file_, an argument _FILE
 In this case, the argument will be changed to _FILE_.
 The generated help lines for _print mode_ _ansi_ are shown below.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-   -h | --help              print help screen and exit
-   -f | --file FILE              file to open in viewer
-----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,subs="attributes,quotes"]
 ----
    -*h* | --*help*              print help screen and exit
    -*f* | --*file* <span style="color: #5C5CFF">FILE</span>              file to open in viewer
 ----
-endif::[]
 
 All task in the framework are using this function to build help lines.
 The task _clean_ for instance sets a variable for the length of _19_
@@ -115,15 +105,7 @@ include::{skb-site-main-dir}/main/bash/bin/tasks/mode-build/clean.sh[tags=helpli
 
 with the resulting output lines
 
-ifdef::backend-pdf[]
-[source%nowrap,subs="attributes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/clean--help--pdf.adoc[tags=helpline]
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/clean--help--adoc.adoc[tags=helpline]
+include::{skb-site-target-dir}/adoc-task-help/clean.adoc[tags=helpline]
 ----
-endif::[]

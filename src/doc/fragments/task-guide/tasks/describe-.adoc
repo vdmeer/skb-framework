@@ -41,18 +41,10 @@ _print-mode_ can be set to any mode that is supported by the API, namely:
 * _text_ - print as plain text, no special formatting will be used
 * _text-anon_ - print as text with some annotations, similar to _adoc_
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--pdf.adoc[tags=standard-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter.adoc[tags=standard-options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--adoc.adoc[tags=standard-options]
-----
-endif::[]
 
 All describe tasks provide filters to include or exclude entries.
 The tasks have a standard filter for describing all items, shown below.
@@ -60,18 +52,10 @@ All other filters are task specific.
 If filters are used, only items that satisfy the filter will be described.
 Any number of filters can be used in any combination.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--pdf.adoc[tags=standard-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter.adoc[tags=standard-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--adoc.adoc[tags=standard-filters]
-----
-endif::[]
 
 For all task-specific filters: if not stated otherwise, these filters exclude any entry that does not fit the filter.
 For instance, if a filter for _origin_ with setting _framework_ is activated, entries with origins other than _framework_ will not be described.
@@ -90,18 +74,10 @@ The provided filters focus on the different aspects.
 If filters are used, only aspects specified will be shown.
 If no filters are used, all aspects are shown.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-application--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-application.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-application--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 The text is taken from the manual.
 This _MANUAL_SRC_ must point to valid manual sources.
@@ -113,18 +89,10 @@ Describes one or more commands.
 The _id_ filter can be used to show only a specific command.
 For the _id_, the long or the short form of the command can be used.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-command--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-command.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-command--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 
 
@@ -145,34 +113,18 @@ Provided filters are:
     ** not attempted (as: `N`, `n`, or `not-attempted`)
 * _tested_ - filter dependencies that have been tested, ignoring untested dependencies
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-dependency--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-dependency.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-dependency--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 This task can also be used to show debug information, rather than descriptions.
 Using the debug option will print all information about one or more dependencies (depending on the used filters).
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-dependency--help--pdf.adoc[tags=task-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-dependency.adoc[tags=task-options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-dependency--help--adoc.adoc[tags=task-options]
-----
-endif::[]
 
 
 
@@ -183,18 +135,10 @@ The provided filters focus on the different element types.
 If filters are used, only types specified will be shown.
 If no filters are used, all types are shown.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-element--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-element.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-element--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 The text is taken from the manual.
 This _MANUAL_SRC_ must point to valid manual sources.
@@ -205,18 +149,10 @@ This _MANUAL_SRC_ must point to valid manual sources.
 Describes one or more error codes.
 The _id_ filter can be used to show only a specific error code.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-errorcode--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-errorcode.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-errorcode--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 
 
@@ -226,18 +162,10 @@ The _id_ filter can be used to show only a specific option.
 For the _id_, the long or the short form of the option can be used.
 The other filters focus on the option type, being either _exit_ options or _runtime_ options.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-option--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-option.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-option--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 
 
@@ -259,34 +187,18 @@ The following filters are provided:
     ** set from configuration file (as `F`, `f`, `file`)
     ** set from default value (as `D`, `d`, `default`)
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 This task can also be used to show debug information, rather than descriptions.
 Using the debug option will print all information about one or more parameters (depending on the used filters).
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--pdf.adoc[tags=task-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter.adoc[tags=task-options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-parameter--help--adoc.adoc[tags=task-options]
-----
-endif::[]
 
 
 
@@ -312,34 +224,18 @@ Provided filters are:
     ** not attempted (as: `N`, `n`, or `not-attempted`)
 * _unloaded_ - filter for scenarios that have been unloaded
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-scenario--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-scenario.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-scenario--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 This task can also be used to show debug information, rather than descriptions.
 Using the debug option will print all information about one or more dependencies (depending on the used filters).
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-scenario--help--pdf.adoc[tags=task-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-scenario.adoc[tags=task-options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-scenario--help--adoc.adoc[tags=task-options]
-----
-endif::[]
 
 
 
@@ -365,31 +261,15 @@ Provided filters are:
     ** not attempted (as: `N`, `n`, or `not-attempted`)
 * _unloaded_ - filter for tasks that have been unloaded
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-task--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/describe-task.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-task--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 This task can also be used to show debug information, rather than descriptions.
 Using the debug option will print all information about one or more tasks (depending on the used filters).
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/describe-task--help--pdf.adoc[tags=task-options]
+include::{skb-site-target-dir}/adoc-task-help/describe-task.adoc[tags=task-options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/describe-task--help--adoc.adoc[tags=task-options]
-----
-endif::[]

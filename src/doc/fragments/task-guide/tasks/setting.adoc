@@ -36,30 +36,14 @@ Changeable settings are:
 * Quiet mode for shell (_--sq_) and tasks (_--tq_)
     ** alter the quiet mode between _on_ and _off_
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/setting--help--pdf.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-task-help/setting.adoc[tags=options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/setting--help--adoc.adoc[tags=options]
-----
-endif::[]
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/setting--help--pdf.adoc[tags=change-options]
+include::{skb-site-target-dir}/adoc-task-help/setting.adoc[tags=change-options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/setting--help--adoc.adoc[tags=change-options]
-----
-endif::[]
 
 Changes made by the task take immediate effect.

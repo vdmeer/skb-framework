@@ -60,16 +60,6 @@ OptionStatus configuration
 
 The examples above will print the status of a few options as follows:
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-run
-run
-exit
-exit
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 <span style="color: #5C5CFF">run</span>
@@ -77,4 +67,3 @@ ifdef::backend-html5[]
 <span style="color: #00FF00">exit</span>
 <span style="color: #00FF00">exit</span>
 ----
-endif::[]

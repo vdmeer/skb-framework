@@ -82,21 +82,11 @@ The example above calls the function to get a full description of the scenario _
     description using ANSI formatting, and
     the forced print mode _ansi_.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-      test-list-tasks, tlt - runs list tasks with various options
-        This is a test scenario for _list_ tasks. It runs all those tasks with
-        various options.
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
       *test-list-tasks*, *tlt* - runs list tasks with various options
         This is a test scenario for _list_ tasks. It runs all those tasks with
         various options.
 ----
-endif::[]
 
 The screen above shows the result of the function call.

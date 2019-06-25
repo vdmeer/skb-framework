@@ -18,18 +18,12 @@ This task prints statistics about the all elements.
 The default, without using filters, is to print a few overview tables.
 The print mode can be changed using _print-mode_.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/statistics--help--pdf.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-task-help/statistics.adoc[tags=options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/statistics--help--adoc.adoc[tags=options]
-----
-endif::[]
+
+
 
 === Filters
 Using filters will provide more detailed information.
@@ -44,18 +38,10 @@ Any number of filters can be used in any sequence, the tasks will print the outp
 * Tasks (if filter is set)
 * Scenarios (if filter is set)
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/statistics--help--pdf.adoc[tags=filters]
+include::{skb-site-target-dir}/adoc-task-help/statistics.adoc[tags=filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/statistics--help--adoc.adoc[tags=filters]
-----
-endif::[]
 
 
 

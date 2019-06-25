@@ -101,18 +101,10 @@ When _build_ is used, other general options and filters can be used to direct th
 * _primary_ - build all primary targets, i.e. _src_ and _adoc_
 * _secondary_ - build all secondary targets, i.e. _text_ (plain, ANSI, annotated), _manp_, _html_, and _pdf_
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/build-manual--help--pdf.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-task-help/build-manual.adoc[tags=options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/build-manual--help--adoc.adoc[tags=options]
-----
-endif::[]
 
 
 
@@ -123,18 +115,10 @@ The target options can be used in any sequence in the command line, the task wil
 For the secondary targets that require _adoc_ to be build, the task will also automatically generate _adoc_ if the file does not exist.
 Text sources (target _src_) are not created automatically, only on request.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/build-manual--help--pdf.adoc[tags=targets]
+include::{skb-site-target-dir}/adoc-task-help/build-manual.adoc[tags=targets]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/build-manual--help--adoc.adoc[tags=targets]
-----
-endif::[]
 
 
 
@@ -158,18 +142,10 @@ For selected element types, the element list filters can be used to direct what 
         If this option is used, only the requested dependencies and parameters are listed.
         Requested here means any dependency or parameter requested by a loaded task.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/build-manual--help--pdf.adoc[tags=element-list-filters]
+include::{skb-site-target-dir}/adoc-task-help/build-manual.adoc[tags=element-list-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/build-manual--help--adoc.adoc[tags=element-list-filters]
-----
-endif::[]
 
 
 
@@ -180,18 +156,10 @@ These filters are negative filters to exclude general (application related) part
 The option name corresponds to the heading in the general manual structure described above.
 The default behavior is to include all general parts.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/build-manual--help--pdf.adoc[tags=application-filters]
+include::{skb-site-target-dir}/adoc-task-help/build-manual.adoc[tags=application-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/build-manual--help--adoc.adoc[tags=application-filters]
-----
-endif::[]
 
 
 
@@ -206,18 +174,10 @@ To give an example: to show all information about tasks do not use any of these 
 To show the general text, but no task list, use _--no-task-list_.
 To no show any information about tasks, use _--no-tasks_.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/build-manual--help--pdf.adoc[tags=element-filters]
+include::{skb-site-target-dir}/adoc-task-help/build-manual.adoc[tags=element-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/build-manual--help--adoc.adoc[tags=element-filters]
-----
-endif::[]
 
 
 

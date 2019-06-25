@@ -66,15 +66,7 @@ printf ".\n"
 The example above calls the function with two different colors and messages and the forced mode _ansi_.
 The print out will be:
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-I have some information.
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 I <span style="color: #A52A2A">have</span> some <span style="color: #0000FF">information</span>.
 ----
-endif::[]

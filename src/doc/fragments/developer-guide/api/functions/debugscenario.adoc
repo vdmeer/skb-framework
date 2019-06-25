@@ -54,26 +54,6 @@ DebugScenario bfd
 
 The example above calls the function with the short name `bfd`, which will result in debug information for the scenario _build-fw-distro_ as follows (assuming print mode _ansi_):
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-  build-fw-distro, bfd - builds all distribution artifacts
-    - origin:      FW_HOME
-    - modes:       dev
-    - mode flavor: install
-    - declaration: $FW_HOME/scenarios/dev/build-fw-distro
-    - executable:  $FW_HOME/scenarios/dev/build-fw-distro.scn
-
-    Requirements and dependencies
-      none
-
-    Load and status
-      - load status:   S
-      - load comments: mode
-
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
   *build-fw-distro*, *bfd* - _builds all distribution artifacts_
@@ -91,6 +71,5 @@ ifdef::backend-html5[]
       - load comments: mode
 
 ----
-endif::[]
 
 Note: The scenario in the example above is only loaded in application mode _dev_ and flavor _install_.

@@ -70,18 +70,10 @@ The callee _site-fw_ should be used for error messages.
 The example above tests if a directory `./target/site` exists and is readable.
 If the file does not exist, the following error message will be printed (and the error counter for _tasks_ will be increased by 1).
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-  -> [Error]: site-fw: file does not exist: src/main/bash/doc/manual/skb-framework.html
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
   -> <span style="color: #FF0000">[Error]</span>: site-fw: file does not exist: src/main/bash/doc/manual/skb-framework.html
 ----
-endif::[]
 
 
 
@@ -94,15 +86,7 @@ TestFS "src/main/bash/etc/manual" dir exists
 
 In this case, the following error will be printed.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-  -> [Error]: TestFS: no properties given
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
   -> <span style="color: #FF0000">[Error]</span>: TestFS: no properties given
 ----
-endif::[]

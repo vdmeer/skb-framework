@@ -63,19 +63,10 @@ ParameterInTable XTERM
 The example above calls he function for the parameter _XTERM_.
 Possible return values are shown below:
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-⎵XTERM⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
-⎵XTERM⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 ⎵XTERM⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
 ⎵*XTERM*⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
 ----
-endif::[]
 
 The first line shows plain text, the second line ANSI formatted text.

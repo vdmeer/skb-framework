@@ -64,19 +64,10 @@ The examples above call the function for the task _manual_.
 Line 1 requires an adjustment of three characters but no trailing padding.
 Line 2 does not require an adjustment but a trailing padding.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-shows the manual in various versions
-shows the manual in various versions⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 shows the manual in various versions
 shows the manual in various versions⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
 ----
-endif::[]
 
 The two lines above show the printed taglines for the examples.

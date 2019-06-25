@@ -25,18 +25,10 @@ On less powerful hosts (for instance a Raspberry PI) or on systems with slower o
 Without any arguments, the standard cache (for all declarations) is being build.
 _clean_ will clean all cached information.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/build-cache--help--pdf.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-task-help/build-cache.adoc[tags=options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/build-cache--help--adoc.adoc[tags=options]
-----
-endif::[]
 
 
 
@@ -52,18 +44,10 @@ Target options can be used to set specific cache targets.
 * _tab_ - cache table representations of all elements.
     This cache is used by the `list-*` tasks at  runtime.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/build-cache--help--pdf.adoc[tags=options-target]
+include::{skb-site-target-dir}/adoc-task-help/build-cache.adoc[tags=options-target]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/build-cache--help--adoc.adoc[tags=options-target]
-----
-endif::[]
 
 
 
@@ -71,18 +55,10 @@ endif::[]
 Beside target options, the task can also be run with very specific targets, shown below.
 Here, declaration and table caches can be requested for each element type.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/build-cache--help--pdf.adoc[tags=targets]
+include::{skb-site-target-dir}/adoc-task-help/build-cache.adoc[tags=targets]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/build-cache--help--adoc.adoc[tags=targets]
-----
-endif::[]
 
 
 

@@ -54,17 +54,6 @@ DebugParameter SHELL_PROMPT
 
 The example above calls the function with the name _SHELL_PROMPT_ printing:
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-  SHELL_PROMPT - sets the shell prompt
-    - origin:        FW_HOME
-    - default value: "sf: "
-    - declaration:   $FW_HOME/etc/declarations/parameters/all/SHELL_PROMPT
-    - requested by: loader
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
   *SHELL_PROMPT* - _sets the shell prompt_
@@ -73,4 +62,3 @@ ifdef::backend-html5[]
     - declaration:   $FW_HOME/etc/declarations/parameters/all/SHELL_PROMPT
     - requested by: loader
 ----
-endif::[]

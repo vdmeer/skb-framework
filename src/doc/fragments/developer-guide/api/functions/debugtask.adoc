@@ -54,25 +54,6 @@ DebugTask dt
 
 The example above calls the function with the short name `dt`, which will result in debug information for the task _describe-task_ as follows (assuming print mode _ansi_):
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-  describe-task, dt - describes a task
-    - origin:      FW_HOME
-    - modes:       dev build use
-    - mode flavor: std
-    - declaration: $FW_HOME/etc/declarations/tasks/elements/describe-task
-    - executable:  $FW_HOME/bin/tasks/elements/describe-task.sh
-
-    Requirements and dependencies
-      none
-
-    Load and status
-      - load status:   S
-      - load comments: mode
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
   *describe-task*, *dt* - _describes a task_
@@ -89,4 +70,3 @@ ifdef::backend-html5[]
       - load status:   S
       - load comments: mode
 ----
-endif::[]

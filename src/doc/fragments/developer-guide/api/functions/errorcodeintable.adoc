@@ -59,19 +59,10 @@ ErrorcodeInTable 031
 The example above calls he function for the error code _031_.
 Possible return values are shown below:
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-⎵031⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
-⎵031⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 ⎵031⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
 ⎵*031*⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
 ----
-endif::[]
 
 The first line shows plain text, the second line ANSI formatted text.

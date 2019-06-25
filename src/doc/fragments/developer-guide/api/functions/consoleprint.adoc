@@ -114,20 +114,6 @@ The following examples are taken from the _loader_ and _shell_, showing one exam
 
 The output for these messages will be as follows:
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-  -> [Fatal] internal error: no flavor set
-  -> [Error] declare command - could not declare command
-  -> [Warning/strict] process-task/param - start-browser  with unset parameter 'BROWSER'
-  -> [Warning] overwriting list-tasks
-  --> [Info] cleaning cache and exit
-    > declared command cls
-      >    manual - task opt start-pdf-viewer
-done
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
   -> [<span style="color: #FF0000">Fatal</span>] internal error: no flavor set
@@ -139,7 +125,6 @@ ifdef::backend-html5[]
       _>_    manual - task opt start-pdf-viewer
 done
 ----
-endif::[]
 
 Note: most of these examples depend on actual situations (such as errors, warnings) being detected and runtime settings for _level_.
 They are unlikely to occur all at the same run of the framework.

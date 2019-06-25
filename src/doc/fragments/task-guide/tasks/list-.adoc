@@ -43,18 +43,10 @@ _print-mode_ can be set to any mode that is supported by the API, namely:
 * _text_ - print as plain text, no special formatting will be used
 * _text-anon_ - print as text with some annotations, similar to _adoc_
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/list-parameters--help--pdf.adoc[tags=standard-options]
+include::{skb-site-target-dir}/adoc-task-help/list-parameters.adoc[tags=standard-options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/list-parameters--help--adoc.adoc[tags=standard-options]
-----
-endif::[]
 
 Most list tasks provide filters to include or exclude entries.
 All list tasks with filters provide a standard filter for listing all items, shown below.
@@ -62,18 +54,10 @@ All other filters are task specific.
 If filters are used, only items that satisfy the filter will be listed.
 Any number of filters can be used in any combination.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/list-parameters--help--pdf.adoc[tags=standard-filters]
+include::{skb-site-target-dir}/adoc-task-help/list-parameters.adoc[tags=standard-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/list-parameters--help--adoc.adoc[tags=standard-filters]
-----
-endif::[]
 
 For all task-specific filters: if not stated otherwise, these filters exclude any entry that does not fit the filter.
 For instance, if a filter for _origin_ with setting _framework_ is activated, entries with origins other than _framework_ will not be listed.
@@ -104,18 +88,10 @@ In table mode, a color coded status indicates from where a setting was taken.
 The task offers a number of filters.
 They all relate to the original source from which a configuration value was set: command line, environment, configuration file, default value, or internally.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/list-configuration--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/list-configuration.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/list-configuration--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 This task can take the list of items from the framework or application cache.
 If _CACHE_DIR_ is set to a directory that contains cached command information (map), this information is used.
@@ -142,18 +118,10 @@ Provided filters:
     ** not attempted (as: `N`, `n`, or `not-attempted`)
 * _tested_ - filter dependencies that have been tested, ignoring untested dependencies
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/list-dependencies--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/list-dependencies.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/list-dependencies--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 This task can take the list of items from the framework or application cache.
 If _CACHE_DIR_ is set to a directory that contains cached dependency information (map), this information is used.
@@ -167,18 +135,10 @@ Table mode shows two more aspects:
     an indicator of the problem (internal for a bug, external for a configuration problem).
 Provided filters focus on the _origin_ of the problem.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/list-errorcodes--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/list-errorcodes.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/list-errorcodes--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 This task can take the list of items from the framework or application cache.
 If _CACHE_DIR_ is set to a directory that contains cached error code information (map), this information is used.
@@ -190,18 +150,10 @@ Lists command line options with name, short name, if required a parameter, and a
 Table mode also shows the type of option, being either an _exit_ option or a _runtime_ option.
 Provided filters focus on the option type.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/list-options--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/list-options.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/list-options--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 This task can take the list of items from the framework or application cache.
 If _CACHE_DIR_ is set to a directory that contains cached option information (map), this information is used.
@@ -218,18 +170,10 @@ Table mode shows three more aspects of parameters:
 The task also provides a second table.
 This table shows the parameter names with their declared default value.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/list-parameters--help--pdf.adoc[tags=task-options]
+include::{skb-site-target-dir}/adoc-task-help/list-parameters.adoc[tags=task-options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/list-parameters--help--adoc.adoc[tags=task-options]
-----
-endif::[]
 
 Provided filters are:
 
@@ -246,18 +190,10 @@ Provided filters are:
     ** set from configuration file (as `F`, `f`, `file`)
     ** set from default value (as `D`, `d`, `default`)
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/list-parameters--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/list-parameters.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/list-parameters--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 This task can take the list of items from the framework or application cache.
 If _CACHE_DIR_ is set to a directory that contains cached parameter information (map), this information is used.
@@ -302,18 +238,10 @@ Provided filters are:
     ** not attempted (as: `N`, `n`, or `not-attempted`)
 * _unloaded_ - filter for scenarios that have been unloaded
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/list-scenarios--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/list-scenarios.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/list-scenarios--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 This task can take the list of items from the framework or application cache.
 If _CACHE_DIR_ is set to a directory that contains cached scenario information (map), this information is used.
@@ -358,18 +286,10 @@ Provided filters are:
     ** not attempted (as: `N`, `n`, or `not-attempted`)
 * _unloaded_ - filter for tasks that have been unloaded
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/list-tasks--help--pdf.adoc[tags=task-filters]
+include::{skb-site-target-dir}/adoc-task-help/list-tasks.adoc[tags=task-filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/list-tasks--help--adoc.adoc[tags=task-filters]
-----
-endif::[]
 
 This task can take the list of items from the framework or application cache.
 If _CACHE_DIR_ is set to a directory that contains cached task information (map), this information is used.

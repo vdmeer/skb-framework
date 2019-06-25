@@ -17,18 +17,10 @@
 This task starts a PDF viewer with a file to show in it.
 The file can be set with _file_.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/start-pdf-viewer--help--pdf.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-task-help/start-pdf-viewer.adoc[tags=options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/start-pdf-viewer--help--adoc.adoc[tags=options]
-----
-endif::[]
 
 The task will test if the file is readable, and throw an error if not.
 It will also use a system specific path if required (for instance on Cygwin).

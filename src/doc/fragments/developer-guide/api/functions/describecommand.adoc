@@ -82,20 +82,6 @@ The example above calls the function to get a full description of the command _h
     description using ANSI formatting, and
     the forced print mode _ansi_.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-      !, history NUMBER - show history or run history command
-        Shows the history of shell commands. Each command, once  executed,  is
-        automatically added to the history, if the previous  command  was  not
-        exactly the same. The history accepts an optional parameter  _NUMBER_.
-        When a number (an integer) is given, the command with that  number  in
-        the history will be executed. If the number  does  not  exist  in  the
-        history, an error is printed.
-
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
       *!*, *history* <span style="color: #5C5CFF">NUMBER</span> - show history or run history command
@@ -106,6 +92,5 @@ ifdef::backend-html5[]
         the history will be executed. If the number  does  not  exist  in  the
         history, an error is printed.
 ----
-endif::[]
 
 The screen above shows the result of the function call.

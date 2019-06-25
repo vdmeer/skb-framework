@@ -58,20 +58,11 @@ CommandInTable history
 
 The example above calls he function for the command _history_.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-⎵!,⎵history⎵NUMBER⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
-⎵!,⎵history⎵NUMBER⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 ⎵!,⎵history⎵NUMBER⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
 ⎵*!*,⎵*history*⎵<span style="color: #5C5CFF">NUMBER</span>⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
 ----
-endif::[]
 
 The return string depends on the settings for _print mode_.
 The screen above shows two possible results line one for plain text and line 2 with ANSI formatting.

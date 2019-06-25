@@ -61,19 +61,10 @@ The examples above call the function for the dependency _asciidoctor_.
 Line 1 requires an adjustment of three characters but no trailing padding.
 Line 2 does not require an adjustment but a trailing padding.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-Asciidoctor processor
-Asciidoctor processor⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 Asciidoctor processor
 Asciidoctor processor⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
 ----
-endif::[]
 
 The two lines above show the printed taglines for the examples.

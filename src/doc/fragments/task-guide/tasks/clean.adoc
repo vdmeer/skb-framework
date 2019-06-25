@@ -38,15 +38,7 @@ This is an additional safety feature to prevent accidental removal of the direct
 The option _force_ can be used to remove the directory forced, i.e. using `rm -fr` instead.
 _simulate_ will overwrite _force_.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/clean--help--pdf.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-task-help/clean.adoc[tags=options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/clean--help--adoc.adoc[tags=options]
-----
-endif::[]

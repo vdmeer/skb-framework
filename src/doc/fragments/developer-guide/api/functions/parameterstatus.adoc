@@ -71,16 +71,6 @@ The examples above will print the status of a few parameters.
 Assuming that the framework is started in mode _all_ and flavor _install_, and some warnings are present,
 the examples will print the following lines:
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-F ✘ ◆
-F ✔ ◆
-F ✔ ◆
-F ✘ ◆
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
 F <span style="color: #FF6600">✘</span> ◆
@@ -88,4 +78,3 @@ F <span style="color: #00FF00">✔</span> <span style="color: #FFFF00">◆</span
 F <span style="color: #00FF00">✔</span> <span style="color: #FFFF00">◆</span>
 F <span style="color: #FF6600">✘</span> ◆
 ----
-endif::[]

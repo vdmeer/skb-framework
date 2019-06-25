@@ -31,35 +31,19 @@ The general options, shown below, allow to direct the behavior of the task.
 * _clean_ - requests to clean one or more target sets.
 * _list_ - will list all defined and loaded target sets, which then can be build or cleaned.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/run-target-set--help--pdf.adoc[tags=options]
+include::{skb-site-target-dir}/adoc-task-help/run-target-set.adoc[tags=options]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/run-target-set--help--adoc.adoc[tags=options]
-----
-endif::[]
 
 === Target Option
 The task can run any target requested.
 Targets are declared in the file `skb-ts.id` per target set.
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/run-target-set--help--pdf.adoc[tags=target-option]
+include::{skb-site-target-dir}/adoc-task-help/run-target-set.adoc[tags=target-option]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/run-target-set--help--adoc.adoc[tags=target-option]
-----
-endif::[]
 
 There is no default target.
 However, the standard target _all_ will build all targets in the declared sequence.
@@ -72,18 +56,10 @@ Filters allow to specify which of the loaded (and available) target sets should 
 * _all_ - will run all target sets, in the oder they are listed (alphabetically)
 * _id_ - can be used to run a specific target set
 
-ifdef::backend-pdf[]
-[source%nowrap,bash,indent=0,subs="attributes"]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-include::{skb-site-target-dir}/adoc-task-help/run-target-set--help--pdf.adoc[tags=filters]
+include::{skb-site-target-dir}/adoc-task-help/run-target-set.adoc[tags=filters]
 ----
-endif::[]
-ifdef::backend-html5[]
-[source%nowrap,bash,indent=0,subs="attributes,quotes"]
-----
-include::{skb-site-target-dir}/adoc-task-help/run-target-set--help--adoc.adoc[tags=filters]
-----
-endif::[]
 
 There is no default filter.
 

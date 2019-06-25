@@ -82,16 +82,6 @@ The example above calls the function to get a full description of the task _stat
     description using ANSI formatting, and
     the forced print mode _ansi_.
 
-ifdef::backend-pdf[]
-[source%nowrap]
-----
-      statistics, stats - prints statistics
-        This task shows statistics of the applications and loaded or processed
-        elements. The statistics  can  be  filtered  per  element  class,  for
-        instance tasks or parameters.
-----
-endif::[]
-ifdef::backend-html5[]
 [source%nowrap,subs="attributes,quotes"]
 ----
       *statistics*, *stats* - prints statistics
@@ -99,6 +89,5 @@ ifdef::backend-html5[]
         elements. The statistics  can  be  filtered  per  element  class,  for
         instance tasks or parameters.
 ----
-endif::[]
 
 The screen above shows the result of the function call.
