@@ -112,6 +112,8 @@ TsRunTargets() {
             printf "\n       - asciidoctor      - to build some targets for the manual, manual, and documents"
             printf "\n       - asciidoctor-pdf  - to build the PDF manual and documents"
             printf "\n       - coderay          - for syntax highlighting in ADOC files"
+            printf "\n\n    Known Problems:"
+            printf "\n       - cloc    - does not run properly on Cygwin, due to SED/line ending problem"
             printf "\n"
             ;;
 
@@ -334,7 +336,7 @@ TsRunTargets() {
             mkdir -p target/adoc-text
 
             ConsolePrint debug "running cloc"
-            cloc $(PathToSystemPath ${CONFIG_MAP["FW_HOME"]}) --force-lang="Bourne Again Shell",sh --progress-rate=0 --unix \
+            cloc $(PathToSystemPath ${CONFIG_MAP["FW_HOME"]}) --force-lang="Bourne Again Shell",sh --progress-rate=0 \
             | sed 's/^[^\r]*\r/\r/' \
             | tr -d '\r' > target/adoc-text/cloci.txt
 
@@ -379,9 +381,7 @@ TsRunTargets() {
                 CONFIG_MAP["TASK_LEVEL"]=error
                 WriteRuntimeConfig
                 ${DMAP_TASK_EXEC["setting"]} --print-mode man-adoc
-                ${DMAP_TASK_EXEC[$TASK]} --help > target/adoc-task-help/$TASK--help--adoc.adoc
-                ${DMAP_TASK_EXEC["setting"]} --print-mode man-pdf
-                ${DMAP_TASK_EXEC[$TASK]} --help > target/adoc-task-help/$TASK--help--pdf.adoc
+                ${DMAP_TASK_EXEC[$TASK]} --help > target/adoc-task-help/$TASK.adoc
                 CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
                 CONFIG_MAP["TASK_QUIET"]=off
                 WriteRuntimeConfig
@@ -408,8 +408,7 @@ TsRunTargets() {
             TestFS target/adoc-text/api-function-list.txt               file exists,read ts-fw
             TestFS target/adoc-text/ts-fw-help.txt                      file exists,read ts-fw
             for TASK in ${TASKS[@]}; do
-                TestFS target/adoc-task-help/$TASK--help--adoc.adoc     file exists,read ts-fw
-                TestFS target/adoc-task-help/$TASK--help--pdf.adoc      file exists,read ts-fw
+                TestFS target/adoc-task-help/$TASK.adoc                 file exists,read ts-fw
             done
             ExitOnTaskErrors
 
