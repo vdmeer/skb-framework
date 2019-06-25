@@ -1,0 +1,628 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Scripts for target set set test-api-manual
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.5
+##
+
+TsRunTargets() {
+    shopt -s globstar
+
+    case $1 in
+        help)
+            printf "\n    available targets"
+            printf "\n       all           - runs all targets, except help"
+            printf "\n       clean         - removes all created artifacts (gradle, mvn)"
+            printf "\n       help          - prints this help"
+            printf "\n"
+            printf "\n       cmds          - tests for command API functions"
+            printf "\n       console       - tests for console API functions"
+            printf "\n       deps          - tests for dependency API functions"
+            printf "\n       ecs           - tests for error code API functions"
+            printf "\n       exec          - tests for execute code API functions"
+            printf "\n       opts          - tests for option code API functions"
+            printf "\n       params        - tests for parameter code API functions"
+            printf "\n       print         - tests for print code API functions"
+            printf "\n       scns          - tests for scenario code API functions"
+            printf "\n       tasks         - tests for task API functions"
+            printf "\n\n    Notes: "
+            printf "\n       - separate all required targets using a comma."
+            printf "\n       - sequence of given targets is not critical, they are always build in the right order."
+            printf "\n"
+            ;;
+        clean)
+            ;;
+
+
+        cmds)
+            printf "\n\n"
+            printf "CommandInTable - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                CommandInTable history
+            printf "\nCommandInTable - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                CommandInTable history
+
+            printf "\n\n"
+            printf "CommandTagline - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                CommandTagline history 3 none
+                printf "\n"
+                CommandTagline history
+                printf "\n"
+            printf "\nCommandTagline - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                CommandTagline history 3 none
+                printf "\n"
+                CommandTagline history
+                printf "\n"
+
+            printf "\n\n"
+            printf "DescribeCommand - ansi\n"
+                DescribeCommand history full "ansi line-indent" ansi
+            printf "\nDescribeCommand - adoc\n"
+                DescribeCommand history full "ansi line-indent" man-adoc
+
+            CONFIG_MAP["PRINT_MODE"]=ansi
+            printf "\n\n"
+            ;;
+
+
+        console)
+            printf "\n\n"
+            printf "ConsolePrint - ansi\n"
+                CONFIG_MAP["TASK_LEVEL"]=trace
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                ConsolePrint fatal "internal error: no flavor set"
+                ConsolePrint error "declare command - could not declare command"
+                ConsolePrint warn-strict "process-task/param - start-browser  with unset parameter 'BROWSER'"
+                ConsolePrint warn "overwriting list-tasks"
+                ConsolePrint info "cleaning cache and exit"
+                ConsolePrint debug "declared command cls"
+                ConsolePrint trace "   manual - task opt start-pdf-viewer"
+                ConsolePrint message "done"
+                printf "\n"
+            printf "\nConsolePrint - adoc\n"
+                CONFIG_MAP["TASK_LEVEL"]=trace
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                ConsolePrint fatal "internal error: no flavor set"
+                ConsolePrint error "declare command - could not declare command"
+                ConsolePrint warn-strict "process-task/param - start-browser  with unset parameter 'BROWSER'"
+                ConsolePrint warn "overwriting list-tasks"
+                ConsolePrint info "cleaning cache and exit"
+                ConsolePrint debug "declared command cls"
+                ConsolePrint trace "   manual - task opt start-pdf-viewer"
+                ConsolePrint message "done"
+                printf "\n"
+            CONFIG_MAP["TASK_LEVEL"]=error
+
+            CONFIG_MAP["PRINT_MODE"]=ansi
+            printf "\n\n"
+            ;;
+
+
+        deps)
+            printf "\n\n"
+            printf "DebugDependency - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                DebugDependency asciidoctor
+            printf "\nDebugDependency - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                DebugDependency asciidoctor
+
+            printf "\n\n"
+            printf "DependencyInTable - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                DependencyInTable asciidoctor
+            printf "\nDependencyInTable - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                DependencyInTable asciidoctor
+
+            printf "\n\n"
+            printf "DependencyStatus - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                DependencyStatus asciidoctor
+                printf "\n"
+                DependencyStatus biber
+                printf "\n"
+                DependencyStatus wget
+                printf "\n"
+            printf "\nDependencyStatus - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                DependencyStatus asciidoctor
+                printf "\n"
+                DependencyStatus biber
+                printf "\n"
+                DependencyStatus wget
+                printf "\n"
+
+            printf "\n\n"
+            printf "DependencyTagline - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                DependencyTagline asciidoctor 3 none
+                printf "\n"
+                DependencyTagline asciidoctor
+                printf "\n"
+            printf "\nDependencyTagline - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                printf "\n"
+                DependencyTagline asciidoctor 3 none
+                printf "\n"
+                DependencyTagline asciidoctor
+
+            printf "\n\n"
+            printf "DescribeDependency - ansi\n"
+                DescribeDependency asciidoctor full "ansi line-indent" ansi
+            printf "\nDescribeDependency - adoc\n"
+                DescribeDependency asciidoctor full "ansi line-indent" man-adoc
+
+            CONFIG_MAP["PRINT_MODE"]=ansi
+            printf "\n\n"
+            ;;
+
+
+        ecs)
+            printf "\n\n"
+            printf "DescribeErrorcode - ansi\n"
+                DescribeErrorcode 010 full "ansi line-indent" ansi
+            printf "\nDescribeErrorcode - adoc\n"
+                DescribeErrorcode 010 full "ansi line-indent" man-adoc
+
+            printf "\n\n"
+            printf "ErrorcodeInTable - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                ErrorcodeInTable 031
+            printf "\nErrorcodeInTable - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                ErrorcodeInTable 031
+
+            printf "\n\n"
+            printf "ErrorcodeStatus - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                ErrorcodeStatus 000
+                printf "\n"
+                ErrorcodeStatus 003
+                printf "\n"
+                ErrorcodeStatus 010
+                printf "\n"
+                ErrorcodeStatus 012
+                printf "\n"
+                ErrorcodeStatus 050
+                printf "\n"
+            printf "\nErrorcodeStatus - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                ErrorcodeStatus 000
+                printf "\n"
+                ErrorcodeStatus 003
+                printf "\n"
+                ErrorcodeStatus 010
+                printf "\n"
+                ErrorcodeStatus 012
+                printf "\n"
+                ErrorcodeStatus 050
+                printf "\n"
+
+            printf "\n\n"
+            printf "ErrorcodeTagline - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                ErrorcodeTagline 012 3 none
+                printf "\n"
+                ErrorcodeTagline 012
+                printf "\n"
+            printf "\nErrorcodeTagline - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                ErrorcodeTagline 012 3 none
+                printf "\n"
+                ErrorcodeTagline 012
+                printf "\n"
+
+            CONFIG_MAP["PRINT_MODE"]=ansi
+            printf "\n\n"
+            ;;
+
+
+        exec)
+            printf "\n\n"
+            printf "ExecuteApiFunction - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                ExecuteApiFunction "PrintColor light-blue I#am#a#test"
+                printf "\n"
+            printf "\nExecuteApiFunction - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                ExecuteApiFunction "PrintColor light-blue I#am#a#test"
+                printf "\n"
+
+            CONFIG_MAP["PRINT_MODE"]=ansi
+            printf "\n\n"
+            ;;
+
+
+        opts)
+            printf "\n\n"
+            printf "DescribeOption - ansi\n"
+                DescribeOption print-mode full "ansi line-indent" ansi
+            printf "\nDescribeOption - adoc\n"
+                DescribeOption print-mode full "ansi line-indent" man-adoc
+
+            printf "\n\n"
+            printf "OptionInTable - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                OptionInTable task-level
+            printf "\nOptionInTable - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                OptionInTable task-level
+
+            printf "\n\n"
+            printf "OptionStatus - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                OptionStatus all-mode
+                printf "\n"
+                OptionStatus build-mode
+                printf "\n"
+                OptionStatus clean-cache
+                printf "\n"
+                OptionStatus configuration
+                printf "\n"
+            printf "\nOptionStatus - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                OptionStatus all-mode
+                printf "\n"
+                OptionStatus build-mode
+                printf "\n"
+                OptionStatus clean-cache
+                printf "\n"
+                OptionStatus configuration
+                printf "\n"
+
+            printf "\n\n"
+            printf "OptionTagline - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                OptionTagline install 3 none
+                printf "\n"
+                OptionTagline install
+                printf "\n"
+            printf "\nOptionTagline - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                OptionTagline install 3 none
+                printf "\n"
+                OptionTagline install
+                printf "\n"
+
+            CONFIG_MAP["PRINT_MODE"]=ansi
+            printf "\n\n"
+            ;;
+
+
+        params)
+            printf "\n\n"
+            printf "DebugParameter - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                DebugParameter SHELL_PROMPT
+            printf "\nDebugParameter - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                DebugParameter SHELL_PROMPT
+
+            printf "\n\n"
+            printf "DescribeParameter - ansi\n"
+                DescribeParameter TARGET full "ansi line-indent" ansi
+            printf "\nDescribeParameter - adoc\n"
+                DescribeParameter TARGET full "ansi line-indent" man-adoc
+
+            printf "\n\n"
+            printf "ParameterInTable - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                ParameterInTable XTERM
+            printf "\nParameterInTable - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                ParameterInTable XTERM
+
+            printf "\n\n"
+            printf "ParameterStatus - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                ParameterStatus BROWSER
+                printf "\n"
+                ParameterStatus CACHE_DIR
+                printf "\n"
+                ParameterStatus SHELL_PROMPT
+                printf "\n"
+                ParameterStatus TARGET
+                printf "\n"
+            printf "\nParameterStatus - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                ParameterStatus BROWSER
+                printf "\n"
+                ParameterStatus CACHE_DIR
+                printf "\n"
+                ParameterStatus SHELL_PROMPT
+                printf "\n"
+                ParameterStatus TARGET
+                printf "\n"
+
+            printf "\n\n"
+            printf "ParameterTagline - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                ParameterTagline BROWSER 3 none
+                printf "\n"
+                ParameterTagline BROWSER
+                printf "\n"
+            printf "\nParameterTagline - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                ParameterTagline BROWSER 3 none
+                printf "\n"
+                ParameterTagline BROWSER
+                printf "\n"
+
+            CONFIG_MAP["PRINT_MODE"]=ansi
+            printf "\n\n"
+            ;;
+
+
+        print)
+            printf "\n\n"
+            printf "PrintColor - ansi\n"
+                printf "I "
+                PrintColor brown "have" ansi
+                printf " some "
+                PrintColor blue "information" ansi
+                printf ".\n"
+            printf "\nPrintColor - adoc\n"
+                printf "I "
+                PrintColor brown "have" man-adoc
+                printf " some "
+                PrintColor blue "information" man-adoc
+                printf ".\n"
+
+            printf "\n\n"
+            printf "PrintEffect - ansi\n"
+                PrintEffect bold "I am bold." ansi
+                printf "\n"
+                PrintEffect italic "This is italic." ansi
+                printf "\n"
+                PrintEffect reverse "Name    Description" ansi
+                printf "\n"
+            printf "\nPrintEffect - adoc\n"
+                PrintEffect bold "I am bold." man-adoc
+                printf "\n"
+                PrintEffect italic "This is italic." man-adoc
+                printf "\n"
+                PrintEffect reverse "Name    Description" man-adoc
+                printf "\n"
+
+            printf "\n\n"
+            printf "PrintPrompt - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                PrintPrompt flavor-mode
+                printf "\n"
+            printf "\nPrintPrompt - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                PrintPrompt flavor-mode
+                printf "\n"
+
+            printf "\n\n"
+            printf "PrintSetting - ansi\n"
+            CONFIG_MAP["PRINT_MODE"]=ansi
+                PrintSetting app-mode-flavor
+                printf " "
+                PrintSetting app-mode
+                printf " "
+                PrintSetting task-level
+                printf " "
+                PrintSetting shell-quiet
+                printf " "
+                PrintSetting shell-snp
+                printf " "
+                PrintSetting strict
+                printf "\n"
+            printf "\nPrintSetting - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                PrintSetting app-mode-flavor
+                printf " "
+                PrintSetting app-mode
+                printf " "
+                PrintSetting task-level
+                printf " "
+                PrintSetting shell-quiet
+                printf " "
+                PrintSetting shell-snp
+                printf " "
+                PrintSetting strict
+                printf "\n"
+
+            printf "\n\n"
+            printf "PrintTests colors - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                PrintTests colors
+                printf "\n"
+            printf "\nPrintTests colors - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                PrintTests colors
+                printf "\n"
+
+            printf "\n\n"
+            printf "PrintTests effects - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                PrintTests effects
+                printf "\n"
+            printf "\nPrintTests effects - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                PrintTests effects
+                printf "\n"
+
+            printf "\n\n"
+            printf "PrintTests utf8\n"
+                PrintTests utf8
+                printf "\n"
+
+            CONFIG_MAP["PRINT_MODE"]=ansi
+            printf "\n\n"
+            ;;
+
+
+        scns)
+            printf "\n\n"
+            printf "DebugScenario - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                DebugScenario bfd
+            printf "\nDebugScenario - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                DebugScenario bfd
+
+            printf "\n\n"
+            printf "DescribeScenario - ansi\n"
+                DescribeScenario  test-list-tasks full "ansi line-indent" ansi
+            printf "\nDescribeScenario - adoc\n"
+                DescribeScenario  test-list-tasks full "ansi line-indent" man-adoc
+
+            printf "\n\n"
+            printf "ScenarioInTable - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                ScenarioInTable build-fw-cache
+            printf "\nScenarioInTable - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                ScenarioInTable build-fw-cache
+
+            printf "\n\n"
+            printf "ScenarioStatus - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                ScenarioStatus build-fw-cache
+                printf "\n"
+                ScenarioStatus build-fw-distro
+                printf "\n"
+                ScenarioStatus test-list-tasks
+                printf "\n"
+            printf "\nScenarioStatus - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                ScenarioStatus build-fw-cache
+                printf "\n"
+                ScenarioStatus build-fw-distro
+                printf "\n"
+                ScenarioStatus test-list-tasks
+                printf "\n"
+
+            printf "\n\n"
+            printf "ScenarioTagline - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                ScenarioTagline test-list-tasks 3 none
+                printf "\n"
+                ScenarioTagline test-list-tasks
+                printf "\n"
+            printf "\nScenarioTagline - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                ScenarioTagline test-list-tasks 3 none
+                printf "\n"
+                ScenarioTagline test-list-tasks
+                printf "\n"
+
+            CONFIG_MAP["PRINT_MODE"]=ansi
+            printf "\n\n"
+            ;;
+
+
+        tasks)
+            printf "\n\n"
+            printf "BuildTaskHelpLine - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                BuildTaskHelpLine h help "<none>" "print help screen and exit" 25
+                BuildTaskHelpLine f file file "file to open in viewer" 30
+            printf "\nBuildTaskHelpLine - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                BuildTaskHelpLine h help "<none>" "print help screen and exit" 25
+                BuildTaskHelpLine f file file "file to open in viewer" 30
+
+            printf "\n\n"
+            printf "DebugTask - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                DebugTask dt
+            printf "\nDebugTask - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                DebugTask dt
+
+            printf "\n\n"
+            printf "DescribeTask - ansi\n"
+                DescribeTask statistics full "ansi line-indent" ansi
+            printf "\nDescribeTask - adoc\n"
+                DescribeTask statistics full "ansi line-indent" man-adoc
+
+            printf "\n\n"
+            printf "TaskInTable - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                TaskInTable describe-task
+            printf "\nTaskInTable - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                TaskInTable describe-task
+
+            printf "\n\n"
+            printf "TaskStatus - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                TaskStatus build-cache
+                printf "\n"
+                TaskStatus build-manual
+                printf "\n"
+                TaskStatus clean
+                printf "\n"
+                TaskStatus set-file-versions
+                printf "\n"
+                TaskStatus start-browser
+                printf "\n"
+                TaskStatus statistics
+                printf "\n"
+            printf "\nTaskStatus - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                TaskStatus build-cache
+                printf "\n"
+                TaskStatus build-manual
+                printf "\n"
+                TaskStatus clean
+                printf "\n"
+                TaskStatus set-file-versions
+                printf "\n"
+                TaskStatus start-browser
+                printf "\n"
+                TaskStatus statistics
+                printf "\n"
+
+            printf "\n\n"
+            printf "TaskTagline - ansi\n"
+                CONFIG_MAP["PRINT_MODE"]=ansi
+                TaskTagline manual 3 none
+                printf "\n"
+                TaskTagline manual
+                printf "\n"
+            printf "\nTaskTagline - adoc\n"
+                CONFIG_MAP["PRINT_MODE"]=man-adoc
+                TaskTagline manual 3 none
+                printf "\n"
+                TaskTagline manual
+                printf "\n"
+
+            CONFIG_MAP["PRINT_MODE"]=ansi
+            printf "\n\n"
+            ;;
+
+        *)
+            ConsolePrint warn-strict "unknown target '$TARGET'\nThis is a programming error in the script"
+            ;;
+    esac
+}
