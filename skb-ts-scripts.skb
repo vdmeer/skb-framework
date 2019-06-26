@@ -427,7 +427,7 @@ TsRunTargets() {
             local PDF_IMAGES_DIR=$PWD/src/site/resources/images/skb
 
             local HTML_STYLESHEET="compass/rocket-panda.css"
-            local PDF_STYLE=skb-pdf
+            local PDF_STYLE=skb-pdf.yml
 
             mkdir -p ${DOC_TARGET_DIR}
 
@@ -441,11 +441,11 @@ TsRunTargets() {
 
             ConsolePrint debug "building pdf documents"
             ConsolePrint debug "  -> user guide"
-                asciidoctor-pdf ./src/doc/documents/user-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
+                asciidoctor-pdf ./src/doc/documents/user-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a pdf-fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a pdf-stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a pdf-style=${PDF_STYLE} -a toc=left
             ConsolePrint debug "  -> task guide"
-                asciidoctor-pdf ./src/doc/documents/task-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
+                asciidoctor-pdf ./src/doc/documents/task-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a pdf-fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a pdf-stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a pdf-style=${PDF_STYLE} -a toc=left
             ConsolePrint debug "  -> developer guide"
-                asciidoctor-pdf ./src/doc/documents/developer-guide.adoc    -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
+                asciidoctor-pdf ./src/doc/documents/developer-guide.adoc    -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a pdf-fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a pdf-stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a pdf-style=${PDF_STYLE} -a toc=left
             ;;
 
         site)

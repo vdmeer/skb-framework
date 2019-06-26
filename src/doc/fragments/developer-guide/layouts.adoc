@@ -18,17 +18,17 @@
 include::{skb-site-main-dir}/doc/fragments/layouts/app.adoc[]
 
 
-=== Directory `bin`
+=== Directory bin
 
 include::{skb-site-main-dir}/doc/fragments/layouts/app-bin.adoc[]
 
 
-=== Directory `doc`
+=== Directory doc
 
 include::{skb-site-main-dir}/doc/fragments/layouts/app-doc.adoc[]
 
 
-=== Directory `etc`
+=== Directory etc
 
 include::{skb-site-main-dir}/doc/fragments/layouts/app-etc.adoc[]
 
@@ -37,17 +37,17 @@ include::{skb-site-main-dir}/doc/fragments/layouts/app-etc.adoc[]
 include::{skb-site-main-dir}/doc/fragments/layouts/man-source.adoc[]
 
 
-=== Directory `lib`
+=== Directory lib
 
 include::{skb-site-main-dir}/doc/fragments/layouts/app-lib.adoc[]
 
 
-=== Directory `man`
+=== Directory man
 
 include::{skb-site-main-dir}/doc/fragments/layouts/app-man.adoc[]
 
 
-=== Directory `scenarios`
+=== Directory scenarios
 
 include::{skb-site-main-dir}/doc/fragments/layouts/app-scenarios.adoc[]
 

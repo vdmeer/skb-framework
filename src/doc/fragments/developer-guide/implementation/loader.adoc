@@ -150,7 +150,7 @@ Once the API functions are loaded, the loader can make use of the _Console_ func
 === Application Flavor and Name
 The next step is to set the flavor and application name/script.
 The flavor is any prefix used by the application to identify parameters.
-It must be provided by the application (which starts the loader) as the setting `__FW_LOADER_FLAVOR`.
+It must be provided by the application (which starts the loader) as the setting `_FW_LOADER_FLAVOR`.
 Once flavor and application settings are realized, the application map and version are loaded.
 
 [source%nowrap,bash,linenums,subs="attributes+"]

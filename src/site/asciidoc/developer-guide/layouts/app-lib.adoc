@@ -14,6 +14,6 @@
 
 :sectlinks:
 
-== Directory `lib`
+== Directory lib
 
 include::{skb-site-main-dir}/doc/fragments/layouts/app-lib.adoc[]

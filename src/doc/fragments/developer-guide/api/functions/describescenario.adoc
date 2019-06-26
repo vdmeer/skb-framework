@@ -77,7 +77,7 @@ to print the effects.
 DescribeScenario  test-list-tasks full "ansi line-indent" ansi
 ----
 
-The example above calls the function to get a full description of the scenario _ test-list-tasks_,
+The example above calls the function to get a full description of the scenario _test-list-tasks_,
     with the line indentation,
     description using ANSI formatting, and
     the forced print mode _ansi_.
