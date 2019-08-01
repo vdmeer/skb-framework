@@ -69,7 +69,7 @@ to print the effects.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 DescribeErrorcode 010 full "ansi line-indent" ansi
 ----

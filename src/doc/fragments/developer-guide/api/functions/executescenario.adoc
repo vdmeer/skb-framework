@@ -33,7 +33,7 @@ The scenario must be loaded and available for execution.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 ExecuteScenario build-site
 ----

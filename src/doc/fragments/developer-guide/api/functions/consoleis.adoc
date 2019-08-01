@@ -70,7 +70,7 @@ to get the right level and quiet setting.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 if $(ConsoleIs message); then ...; ...; fi
 if $(ConsoleIs message); then ...; else ...; fi

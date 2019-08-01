@@ -47,7 +47,7 @@ In the modes _adoc_ and _text-anon_, the text will be printed using some annotat
 *Examples*
 
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 PrintEffect bold "I am bold." ansi
 PrintEffect italic "This is italic." ansi

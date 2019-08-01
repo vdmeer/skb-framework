@@ -48,7 +48,7 @@ The exception here are:
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 ExecuteTask "$SARG"
 ExecuteTask "list-tasks -AT"

@@ -50,7 +50,7 @@ to retrieve the parameter identifier.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 printf "%s\n" "$(ParameterDefvalueDescription XTERM)"
 printf "%s\n" "$(ParameterDefvalueDescription CACHE_DIR)"
@@ -59,7 +59,7 @@ printf "%s\n" "$(ParameterDefvalueDescription MANUAL_SRC)"
 
 The examples above call the function for three different parameters.
 
-[source%nowrap,bash,linenumber,subs="attributes,quotes"]
+[source%nowrap,bash,linenums,subs="attributes,quotes"]
 ----
 none defined
 "/var/cache/skb-framework"

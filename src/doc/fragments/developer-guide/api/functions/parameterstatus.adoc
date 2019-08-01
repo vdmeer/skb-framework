@@ -59,7 +59,7 @@ to print the colors.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 ParameterStatus BROWSER
 ParameterStatus CACHE_DIR

@@ -47,7 +47,7 @@ to print debug information.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 DebugParameter SHELL_PROMPT
 ----

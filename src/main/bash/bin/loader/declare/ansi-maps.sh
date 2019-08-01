@@ -36,6 +36,7 @@
 ## - see https://stackoverflow.com/questions/4332478/read-the-current-text-color-in-a-xterm/4332530#4332530
 ## - see https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux#5947802
 ## - see https://stackoverflow.com/questions/4414297/unix-bash-script-to-embolden-underline-italicize-specific-text
+## - see https://raw.githubusercontent.com/demure/dotfiles/master/subbash/prompt
 ##
 
 declare -A COLORS

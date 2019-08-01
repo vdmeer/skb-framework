@@ -32,7 +32,7 @@ If _$1_ is set to anything, each function will be printed in a separate line.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 ListFunctions
 ListFunctions true

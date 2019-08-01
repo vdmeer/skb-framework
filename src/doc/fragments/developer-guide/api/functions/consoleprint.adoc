@@ -100,7 +100,7 @@ to get the right level and quiet settings.
 
 The following examples are taken from the _loader_ and _shell_, showing one example for each of the eight supported message types.
 
-[source%nowrap,bash,linenumber,indent=0]
+[source%nowrap,bash,linenums,indent=0]
 ----
                 ConsolePrint fatal "internal error: no flavor set"
                 ConsolePrint error "declare command - could not declare command"

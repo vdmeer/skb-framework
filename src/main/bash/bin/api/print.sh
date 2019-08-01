@@ -289,3 +289,16 @@ PrintTests() {
         esac
     done
 }
+
+## declare -A FW_COLORS
+
+
+## bold
+## italic
+## underline
+## cross
+## blink
+
+## normal / intentse
+
+## background / foreground

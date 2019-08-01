@@ -73,7 +73,7 @@ to print the effects.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 DescribeOption print-mode full "ansi line-indent" ansi
 ----

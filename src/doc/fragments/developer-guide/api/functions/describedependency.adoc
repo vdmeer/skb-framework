@@ -69,7 +69,7 @@ to print the effects.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 DescribeDependency asciidoctor full "ansi line-indent" ansi
 ----

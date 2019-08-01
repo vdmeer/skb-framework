@@ -30,7 +30,7 @@ _String GetCommandID( $1 )_ - returns a command identifier (name) for a given sh
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 COMMAND_ID=$(GetCommandID "my-name")
 if [[ -z ${COMMAND_ID:-} ]]; then

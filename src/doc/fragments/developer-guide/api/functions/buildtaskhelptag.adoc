@@ -44,7 +44,7 @@ for throwing errors.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 BuildTaskHelpTag start options
 BuildTaskHelpTag end options
@@ -52,7 +52,7 @@ BuildTaskHelpTag end options
 
 The example above calls the function for a _start_ and an _end_ tag with the same identifier _options_.
 
-[source%nowrap,linenumber]
+[source%nowrap,linenums]
 ----
 #tag::options[]
 #end::options[]

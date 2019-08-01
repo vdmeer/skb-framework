@@ -45,7 +45,7 @@ Supported conversions are:
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 VARIABLE=$(PathToSystemPath /cygdrive/c/dev/framework/target/site/index.html)
 ----

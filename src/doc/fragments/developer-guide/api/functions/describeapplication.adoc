@@ -59,7 +59,7 @@ to print the text effects.
 *Examples*
 
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 DescribeApplication security
 ----

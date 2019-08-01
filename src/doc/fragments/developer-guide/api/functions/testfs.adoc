@@ -55,7 +55,7 @@ for throwing errors.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 TestFS "src/main/bash/doc/manual/skb-framework.html" file exists,read "site-fw"
 ----
@@ -79,7 +79,7 @@ If the file does not exist, the following error message will be printed (and the
 
 The following example the function, but does not provide the third argument `$3`.
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 TestFS "src/main/bash/etc/manual" dir exists
 ----

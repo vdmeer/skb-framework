@@ -101,7 +101,7 @@ The written maps are:
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 WriteRuntimeConfig
 ----

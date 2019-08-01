@@ -30,7 +30,7 @@ _String GetTaskID( $1 )_ - returns a task identifier (name) for a given short or
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 TASK_ID=$(GetTaskID "my-name")
 if [[ -z ${TASK_ID:-} ]]; then

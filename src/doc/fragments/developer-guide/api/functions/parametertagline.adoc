@@ -54,7 +54,7 @@ to retrieve the parameter identifier.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 ParameterTagline BROWSER 3 none
 ParameterTagline BROWSER

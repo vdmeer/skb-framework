@@ -78,7 +78,7 @@ to print the effects.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 DescribeParameter TARGET full "ansi line-indent" ansi
 ----

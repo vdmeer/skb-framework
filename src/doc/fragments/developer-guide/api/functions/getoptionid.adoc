@@ -30,7 +30,7 @@ _String GetOptionID( $1 )_ - returns a option identifier (name) for a given shor
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 OPTION_ID=$(GetOptionID "task-level")
 if [[ -z ${OPTION_ID:-} ]]; then

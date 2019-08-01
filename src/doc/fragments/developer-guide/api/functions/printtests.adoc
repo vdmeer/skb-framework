@@ -64,7 +64,7 @@ to print the text effects.
 
 The following example will test ANSI colors:
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 PrintTests colors
 ----
@@ -81,7 +81,7 @@ The result will be the following print out.
 
 The following example will test ANSI effects:
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 PrintTests effects
 
@@ -99,7 +99,7 @@ The result will be the following print out.
 
 The following example will test UTF-8 characters:
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 PrintTests utf8
 ----
@@ -113,7 +113,7 @@ The result will be the following print out.
 
 Using the test _all_ will print the text from the three examples above.
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 PrintTests all
 ----

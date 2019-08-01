@@ -57,7 +57,7 @@ to print settings.
 
 The following example prints the prompt _flavor-mode_.
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 PrintPrompt flavor-mode
 ----

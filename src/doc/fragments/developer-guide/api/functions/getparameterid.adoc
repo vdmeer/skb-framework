@@ -30,7 +30,7 @@ _String GetParameterID( $1 )_ - returns a parameter identifier (name) for a give
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 PARAM_ID=$(GetParamaterID "my-name")
 if [[ -z ${PARAM_ID:-} ]]; then

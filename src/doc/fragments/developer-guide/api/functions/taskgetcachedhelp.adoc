@@ -43,7 +43,7 @@ If the configuration is set to _/var/cache/skb-framework_,
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 CACHED_HELP=$(TaskGetCachedHelp "my-task")
 ----
@@ -53,7 +53,7 @@ The example above sets a variable _CACHED_HELP_ with the result of this function
 All tasks in the framework use this function to locate a help screen in the cache, before they attempt to print help information.
 The standard code used in the tasks is shown below (taken from the task _clean_):
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 CACHED_HELP=$(TaskGetCachedHelp "clean")
 if [[ -z ${CACHED_HELP:-} ]]; then

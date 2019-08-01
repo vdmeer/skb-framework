@@ -30,7 +30,7 @@ _String GetScenarioID( $1 )_ - returns a scenario identifier (name) for a given 
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 SCENARIO_ID=$(GetScenarioID "my-name")
 if [[ -z ${SCENARIO_ID:-} ]]; then

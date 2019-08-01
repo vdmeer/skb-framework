@@ -54,7 +54,7 @@ to retrieve the task identifier.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 TaskTagline manual 3 none
 TaskTagline manual

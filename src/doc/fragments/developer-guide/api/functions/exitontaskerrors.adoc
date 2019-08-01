@@ -26,7 +26,7 @@ The exit uses the number of recorded task errors as exit code.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 ConsolePrint error "unknown CLI option"
 ExitOnTaskErrors

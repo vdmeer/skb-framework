@@ -54,7 +54,7 @@ In all other modes, the message will be printed as plain text.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 printf "I "
 PrintColor brown "have" ansi

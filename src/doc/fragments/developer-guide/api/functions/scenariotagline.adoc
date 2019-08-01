@@ -54,7 +54,7 @@ to retrieve the scenario identifier.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 ScenarioTagline test-list-tasks 3 none
 ScenarioTagline test-list-tasks

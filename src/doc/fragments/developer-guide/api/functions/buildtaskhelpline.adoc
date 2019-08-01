@@ -71,7 +71,7 @@ for printing colors.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 BuildTaskHelpLine h help "<none>" "print help screen and exit" 25
 BuildTaskHelpLine f file file "file to open in viewer" 30
@@ -91,14 +91,14 @@ The generated help lines for _print mode_ _ansi_ are shown below.
 All task in the framework are using this function to build help lines.
 The task _clean_ for instance sets a variable for the length of _19_
 
-[source%nowrap,bash,linenumber,indent=0,subs="attributes"]
+[source%nowrap,bash,linenums,indent=0,subs="attributes"]
 ----
 include::{skb-site-main-dir}/main/bash/bin/tasks/mode-build/clean.sh[tags=helpline-padding]
 ----
 
 and then uses the following code to build its three command line options:
 
-[source%nowrap,bash,linenumber,indent=0,subs="attributes"]
+[source%nowrap,bash,linenums,indent=0,subs="attributes"]
 ----
 include::{skb-site-main-dir}/main/bash/bin/tasks/mode-build/clean.sh[tags=helpline]
 ----

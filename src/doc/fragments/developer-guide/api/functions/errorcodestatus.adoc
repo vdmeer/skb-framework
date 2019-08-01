@@ -50,7 +50,7 @@ to print the colors.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 ErrorcodeStatus 000
 ErrorcodeStatus 003

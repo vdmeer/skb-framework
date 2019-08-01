@@ -54,7 +54,7 @@ to retrieve the option identifier.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 OptionTagline install 3 none
 OptionTagline install

@@ -72,7 +72,7 @@ to print the effects.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 DescribeCommand history full "ansi line-indent" ansi
 ----

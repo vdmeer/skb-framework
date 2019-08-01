@@ -26,19 +26,21 @@ font:
       italic: lora/Lora-Italic.ttf
       bold_italic: lora/Lora-BoldItalic.ttf
 
+    ## fallback for blank
     FreeMono Fallback:
       normal: gnu-free-font/FreeMono.ttf
       bold: gnu-free-font/FreeMono.ttf
       italic: gnu-free-font/FreeMono.ttf
       bold_italic: gnu-free-font/FreeMono.ttf
 
+    ## main code font
     DejaVu Sans Mono:
       normal: dejavu-sans-mono/DejaVuSansMono.ttf
       bold: dejavu-sans-mono/DejaVuSansMono-Bold.ttf
       italic: dejavu-sans-mono/DejaVuSansMono-Oblique.ttf
       bold_italic: dejavu-sans-mono/DejaVuSansMono-BoldOblique.ttf
 
-   ## for enclosed alphanumerics in conums
+    ## for enclosed alphanumerics in conums
     M+ Conum:
       normal: mplus/mplus1mn-regular-ascii-conums.ttf
       bold: mplus/mplus1mn-regular-ascii-conums.ttf

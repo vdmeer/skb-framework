@@ -51,7 +51,7 @@ for throwing errors.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 CommandInTable history
 ----

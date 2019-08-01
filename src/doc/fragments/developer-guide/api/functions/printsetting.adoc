@@ -101,7 +101,7 @@ to print the setting.
 
 The first example prints the application mode flavor.
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 PrintSetting app-mode-flavor
 ----
@@ -117,7 +117,7 @@ If the setting is _install_, the result will be:
 
 The next example prints the application mode.
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 PrintSetting app-mode
 ----
@@ -133,7 +133,7 @@ If the setting is _build_, the result will be:
 
 The next example prints the task level setting.
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 PrintSetting task-level
 ----
@@ -149,7 +149,7 @@ If the setting is _error_, the result will be:
 
 The next example prints the shell quiet setting:
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 PrintSetting shell-quiet
 ----
@@ -165,7 +165,7 @@ The two possible results are shown below.
 
 The next example prints the setting for _shell-snp_:
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 PrintSetting shell-snp
 ----
@@ -183,7 +183,7 @@ The two possible results are shown below.
 
 The next example prints the setting for _strict_:
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 PrintSetting strict
 ----

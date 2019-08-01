@@ -56,7 +56,7 @@ for printing error messages.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 if $(ConsoleHas errors); then ...; ...; fi
 if $(ConsoleHas errors); then ...; else ...; fi

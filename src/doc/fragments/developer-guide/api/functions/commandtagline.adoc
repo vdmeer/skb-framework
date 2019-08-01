@@ -54,7 +54,7 @@ to retrieve the command identifier.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 CommandTagline history 3 none
 CommandTagline history

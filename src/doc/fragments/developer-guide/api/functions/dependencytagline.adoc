@@ -51,7 +51,7 @@ to print errors.
 
 *Examples*
 
-[source%nowrap,bash,linenumber]
+[source%nowrap,bash,linenums]
 ----
 DependencyTagline asciidoctor 3 none
 DependencyTagline asciidoctor
