@@ -1,0 +1,67 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+==  PrintEffect()
+_void PrintEffect( $1, $2, [$3] )_ - print text using text effects.
+
+The function prints the text or message in the requested effect using the default or the requested _print mode_.
+Effects will only be printed in the mode _ansi_.
+In mode _text_ the text will be printed as plain text.
+In the modes _adoc_ and _text-anon_, the text will be printed using some annotations as
+    \*bold* and \_italic_.
+    There is no annotation for reverse text.
+
+
+*Parameters*
+
+* `$1` - String with the effect for printing.
+            Supported effects are:
+                _bold_,
+                _italic_, and 
+                _reverse_.
+            An error will be printed for an unknown effect.
+* `$2` - String with the message to print.
+* `$3` - Optional, a forced _print mode_.
+            If not present, the setting in _CONFIG_MAP["PRINT_MODE"]_ is used.
+            If unknown, an error will be printed.
+
+
+*Errors*
+
+* For an unknown effect.
+* For an unknown print mode.
+
+
+*Examples*
+
+
+[source%nowrap,bash,linenums]
+----
+PrintEffect bold "I am bold." ansi
+PrintEffect italic "This is italic." ansi
+PrintEffect reverse "Name    Description" ansi
+----
+
+The example above calls the function with three different and messages and the forced mode _ansi_.
+The print out will be:
+
+[source%nowrap,subs="attributes,quotes"]
+----
+*I am bold.*
+_This is italic._
+<span style="background: #000000; color: #ffffff;">Name    Description</span>
+----
+
+Note: the actual print of _reverse_ depends on the terminal settings for foreground and background text color.

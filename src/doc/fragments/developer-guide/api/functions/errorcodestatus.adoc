@@ -1,0 +1,71 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== ErrorcodeStatus()
+_void ErrorcodeStatus( $1 )_ - prints formatted error code status information.
+
+This function prints formatted status information about the error code _$1_.
+This function is mainly used in table views.
+There are two status information printed:
+
+* The error code origin: for which part of the framework is the error code declared?
+    For status _all_ and _app_, a green string _all_ or _app_ will be printed.
+    For status _fw_, _loader_ and _task_, a blue string_fw_, _loader_ or _task_ will be printed.
+* The error code problem: what problem does this error code point to?
+    For _internal_ problems, a blue string _internal_ will be printed.
+    For _external_ problems, a green string _external_ will be printed.
+
+
+*Parameter*
+
+* `$1`, _string_ - the error code identifier to process
+
+
+*Errors*
+
+* For unknown option identifiers (names)
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
+to print the colors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+ErrorcodeStatus 000
+ErrorcodeStatus 003
+ErrorcodeStatus 010
+ErrorcodeStatus 012
+ErrorcodeStatus 050
+----
+
+The examples above will print the status of a few options as follows:
+
+[source%nowrap,subs="attributes,quotes"]
+----
+<span style="color: #00FF00">all</span>     <span style="color: #5C5CFF">internal</span>
+<span style="color: #00FF00">app</span>     <span style="color: #00FF00">external</span>
+<span style="color: #5C5CFF">fw</span>      <span style="color: #00FF00">external</span>
+<span style="color: #5C5CFF">loader</span>  <span style="color: #00FF00">external</span>
+<span style="color: #5C5CFF">task</span>    <span style="color: #00FF00">external</span>
+----

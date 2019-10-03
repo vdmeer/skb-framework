@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.vandermeer</groupId>
     <artifactId>skb-framework</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
@@ -35,8 +35,11 @@
         <skb.site.prefix>https://vdmeer.github.io/skb-framework/</skb.site.prefix>
 
         <!-- ADOC PROPERTIES -->
+        <release-version>${project.version}</release-version>
         <skb-site-main-dir>${project.basedir}/src</skb-site-main-dir>
         <skb-site-target-dir>${project.basedir}/target</skb-site-target-dir>
+        <adoc-build-target>site</adoc-build-target>
+        <adoc-build-link-post> -- </adoc-build-link-post>
     </properties>
 
     <distributionManagement>
@@ -60,7 +63,7 @@
                         <attributes>
                             <source-highlighter>coderay</source-highlighter>
                             <coderay-css>style</coderay-css>
-                            <imagesdir>images</imagesdir>
+                            <imagesdir>./</imagesdir>
                         </attributes>
                     </asciidoc>
                     <moduleExcludes>

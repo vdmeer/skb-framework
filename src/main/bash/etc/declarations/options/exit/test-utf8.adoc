@@ -1,0 +1,2 @@
+Prints lines with used UTF-8 characters.
+This can be used to test UTF-8 capabilities of used consoles and terminals.

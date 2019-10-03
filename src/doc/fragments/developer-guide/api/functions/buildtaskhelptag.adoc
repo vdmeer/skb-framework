@@ -1,0 +1,61 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+== BuildTaskHelpTag()
+_String BuildTaskHelpTag( $1, $2)_ - prints an ADOC tag for man-* print modes.
+
+This task prints an Asciidoctor tag for the type _$1_ and the identifier _$2_ in the print modes _man-*_ (currently _man-adoc_).
+
+
+*Parameters*:
+
+* `$1`, _string_ - the tag type, _start_ for a start tag or _end_ for an end tag.
+* `$2`, _string_ - the tag identifier (or name), should be unique for all tags used in the same single task.
+
+
+*Return*:
+
+* _String_ - the tag line in print modes _man-*_, nothing otherwise.
+    The return is realized as a print.
+
+
+*Errors* (as _Console Error_)
+
+* For an unknown tag type.
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+for throwing errors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+BuildTaskHelpTag start options
+BuildTaskHelpTag end options
+----
+
+The example above calls the function for a _start_ and an _end_ tag with the same identifier _options_.
+
+[source%nowrap,linenums]
+----
+#tag::options[]
+#end::options[]
+----
+
+The example calls result in the two lines shown in the screen above.

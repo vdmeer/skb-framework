@@ -24,13 +24,10 @@
 ## list-parameters - list parameters
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -50,12 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/parameter.sh
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -83,7 +76,7 @@ CLI_LONG_OPTIONS=all,default,def-table,help,install,origin:,print-mode:,requeste
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-parameters -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "list-parameters: unknown CLI options"
+    ConsolePrint error "list-parameters: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -103,18 +96,35 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "list-parameters")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine D def-table   "<none>"    "print default value table"                         $PRINT_PADDING
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
-                BuildTaskHelpLine T table       "<none>"    "help screen format with additional information"    $PRINT_PADDING
-                printf "\n   filters\n"
-                BuildTaskHelpLine A all         "<none>"    "all options, disables all other filters"               $PRINT_PADDING
-                BuildTaskHelpLine d default     "<none>"    "only parameters with a defined default value"          $PRINT_PADDING
-                BuildTaskHelpLine I install     "<none>"    "only parameters required only by install tasks"        $PRINT_PADDING
-                BuildTaskHelpLine o origin      "ORIGIN"    "only parameters from origin: f(w), a(pp)"              $PRINT_PADDING
-                BuildTaskHelpLine r requested   "<none>"    "only requested parameters"                             $PRINT_PADDING
-                BuildTaskHelpLine s status      "STATUS"    "only parameter for status: o, f, e, d"                 $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard list options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                  $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "table format with additional information"      $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
+
+                printf "\n"
+                BuildTaskHelpTag start task-options
+                printf "   task options\n"
+                BuildTaskHelpLine D def-table   "<none>"    "print default value table"                     $PRINT_PADDING
+                BuildTaskHelpTag end task-options
+
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard list filters\n"
+                BuildTaskHelpLine A all         "<none>"    "all entries, disables all other filters"       $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine d default     "<none>"    "with a declared default value"                     $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "required only by install tasks"                    $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "from origin: f(w), a(pp)"                          $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "requested"                                         $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "for status: (o)ption, (f)ile, (e)nv, (d)efault"    $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
             else
                 cat $CACHED_HELP
             fi
@@ -161,7 +171,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "list-parameters: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "list-parameters: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -189,7 +199,7 @@ else
                 ORIGIN=APP_HOME
                 ;;
             *)
-                ConsoleError " ->" "dp: unknown origin: $ORIGIN"
+                ConsolePrint error "dp: unknown origin: $ORIGIN"
                 exit 61
         esac
     fi
@@ -211,7 +221,7 @@ else
                 STATUS=D
                 ;;
             *)
-                ConsoleError "  ->" "dp: unknown status: $STATUS"
+                ConsolePrint error "dp: unknown status: $STATUS"
                 exit 62
         esac
     fi
@@ -220,7 +230,7 @@ case $LS_FORMAT in
     list | table | default-table)
         ;;
     *)
-        ConsoleFatal "  ->" "lp: internal error: unknown list format '$LS_FORMAT'"
+        ConsolePrint fatal "lp: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac
@@ -236,8 +246,8 @@ if [[ -f $FILE ]]; then
 fi
 
 
-if (( $PARAM_LINE_MIN_LENGTH > $COLUMNS )); then
-    ConsoleError "  ->" "lp: not enough columns for table, need $PARAM_LINE_MIN_LENGTH found $COLUMNS"
+if (( ${CONSOLE_MAP["PARAM_LINE_MIN_LENGTH"]} > ${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]} )); then
+    ConsolePrint error "lp: not enough columns for table, need ${CONSOLE_MAP["PARAM_LINE_MIN_LENGTH"]} found ${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]}"
     exit 60
 fi
 
@@ -248,19 +258,19 @@ fi
 ############################################################################################
 function TableTop() {
     printf "\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
     done
     printf "\n ${EFFECTS["REVERSE_ON"]}Parameter"
-    printf "%*s" "$((PARAM_PADDING - 9))" ''
+    printf "%*s" "$((${CONSOLE_MAP["PARAM_PADDING"]} - 9))" ''
     printf "Description"
-    printf '%*s' "$((DESCRIPTION_LENGTH - 11))" ''
+    printf '%*s' "$((${CONSOLE_MAP["PARAM_DESCRIPTION_LENGTH"]} - 11))" ''
     printf "O D S${EFFECTS["REVERSE_OFF"]}\n\n"
 }
 
 function TableBottom() {
     printf " "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
 
@@ -285,7 +295,7 @@ function TableBottom() {
 
     printf "\n\n "
 
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
     done
     printf "\n\n"
@@ -293,19 +303,19 @@ function TableBottom() {
 
 function DefaultTableTop() {
     printf "\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
     done
     printf "\n ${EFFECTS["REVERSE_ON"]}Parameter"
-    printf "%*s" "$((PARAM_PADDING - 9))" ''
+    printf "%*s" "$((${CONSOLE_MAP["PARAM_PADDING"]} - 9))" ''
     printf "Default Value"
-    printf '%*s' "$((DESCRIPTION_LENGTH - 8))" ''
+    printf '%*s' "$((${CONSOLE_MAP["PARAM_DESCRIPTION_LENGTH"]} - 8))" ''
     printf "${EFFECTS["REVERSE_OFF"]}\n\n"
 }
 
 function DefaultTableBottom() {
     printf "\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
     done
     printf "\n\n"
@@ -339,7 +349,7 @@ PrintParameters() {
             fi
         fi
         if [[ -n "$DEFAULT" ]]; then
-            if [[ ! -n "${DMAP_PARAM_DEFVAL[$PARAM_ID]:-}" ]]; then
+            if [[ ! -n "${DMAP_PARAM_DEFVAL[$ID]:-}" ]]; then
                 continue
             fi
         fi
@@ -409,7 +419,7 @@ PrintParameters() {
                 else
                     printf "${PARAM_TABLE[$ID]}"
                 fi
-                DescribeParameterDescription $ID 3 none
+                ParameterTagline $ID 3 none
                 ;;
             table)
                 if [[ -z "${PARAM_TABLE[$ID]:-}" ]]; then
@@ -417,8 +427,8 @@ PrintParameters() {
                 else
                     printf "${PARAM_TABLE[$ID]}"
                 fi
-                DescribeParameterDescription $ID
-                DescribeParameterStatus $ID $PRINT_MODE
+                ParameterTagline $ID
+                ParameterStatus $ID $PRINT_MODE
                 ;;
             default-table)
                 if [[ -z "${PARAM_TABLE[$ID]:-}" ]]; then
@@ -426,7 +436,7 @@ PrintParameters() {
                 else
                     printf "${PARAM_TABLE[$ID]}"
                 fi
-                printf "%s" "$(DescribeParameterDefValue $ID)"
+                printf "%s" "$(ParameterDefvalueDescription $ID $PRINT_MODE)"
                 ;;
         esac
         printf "\n"
@@ -440,7 +450,7 @@ PrintParameters() {
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "lp: starting task"
+ConsolePrint info "lp: starting task"
 
 case $LS_FORMAT in
     list)
@@ -460,5 +470,5 @@ case $LS_FORMAT in
         ;;
 esac
 
-ConsoleInfo "  -->" "lp: done"
+ConsolePrint info "lp: done"
 exit $TASK_ERRORS

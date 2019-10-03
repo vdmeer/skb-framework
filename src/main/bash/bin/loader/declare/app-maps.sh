@@ -24,13 +24,9 @@
 ## Declare: maps for application data, e.g. standard files and paths
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
-
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 
 ##
@@ -38,7 +34,7 @@
 ##
 declare -A FW_PATH_MAP                              # map/export for standard paths in FW_HOME
     FW_PATH_MAP["OPTIONS"]="etc/declarations/options"                   # path for application options
-    FW_PATH_MAP["EXITSTATUS"]="etc/declarations/exitstatus"             # path for application exist status files
+    FW_PATH_MAP["ERRORCODES"]="etc/declarations/errorcodes"             # path for application error code files
     FW_PATH_MAP["COMMANDS"]="etc/declarations/commands"                 # path for application shell command files
 
 

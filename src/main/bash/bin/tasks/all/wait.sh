@@ -24,13 +24,10 @@
 ## wait - sleep for specified time
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -50,11 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -72,7 +66,7 @@ CLI_LONG_OPTIONS=help,seconds:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name wait -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "wait: unknown CLI options"
+    ConsolePrint error "wait: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -83,9 +77,12 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "wait")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
                 BuildTaskHelpLine h help    "<none>"    "print help screen and exit"        $PRINT_PADDING
                 BuildTaskHelpLine s seconds "SEC"       "wait SEC seconds, default is 1"    $PRINT_PADDING
+                BuildTaskHelpTag end options
             else
                 cat $CACHED_HELP
             fi
@@ -101,7 +98,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "wait: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "wait: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -114,18 +111,18 @@ done
 ##
 ############################################################################################
 ERRNO=0
-ConsoleInfo "  -->" "wait: starting task"
+ConsolePrint info "wait: starting task"
 
 case $SECONDS in
     '' | *[!0-9.]* | '.' | *.*.*)
-        ConsoleError " ->" "wait: requires a number, got '$SECONDS'"
+        ConsolePrint error "wait: requires a number, got '$SECONDS'"
         exit 60
         ;;
 esac
 
-ConsoleDebug "waiting for $SECONDS seconds"
+ConsolePrint debug "waiting for $SECONDS seconds"
 sleep $SECONDS
 # $(echo "$SECONDS-.9" | bc -l)
 
-ConsoleInfo "  -->" "wait: done"
+ConsolePrint info "wait: done"
 exit $ERRNO

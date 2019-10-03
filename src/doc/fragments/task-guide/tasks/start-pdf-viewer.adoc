@@ -8,17 +8,18 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
+
 
 == start-pdf-viewer
 This task starts a PDF viewer with a file to show in it.
 The file can be set with _file_.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -h | --help        print help screen and exit
-   -f | --file FILE   PDF file to open in reader
+include::{skb-site-target-dir}/adoc-task-help/start-pdf-viewer.adoc[tags=options]
 ----
 
 The task will test if the file is readable, and throw an error if not.

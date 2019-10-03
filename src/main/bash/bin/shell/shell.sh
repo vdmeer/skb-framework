@@ -24,12 +24,11 @@
 ## Framework Interactive Shell
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
+
 ##
 ## NOTE: do not remove lines that start with "#tag::" or "#end::"
 ## - the lines mark import regions for AsciiDoctor includes
@@ -66,12 +65,9 @@ CONFIG_MAP["RUNNING_IN"]="shell"
 ##
 #tag::include[]
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/task.sh
 source $FW_HOME/bin/shell/history.sh
 
-ConsoleResetErrors
-ConsoleResetWarnings
-ConsoleMessage "\n"
+ConsolePrint message "\n"
 #end::include[]
 
 
@@ -80,12 +76,14 @@ ConsoleMessage "\n"
 ## initialize variables
 ##
 #tag::settings[]
-SCMD=                           # a shell-command from input
-SARG=                           # argument(s), if any, for a shell command
-STIME=                          # time a command was entered
-RELOAD_CFG=false                # flag to reload configuration, e.g. after a change of settings
-declare -A HISTORY              # the shell's history of executed commands
-HISTORY[-1]="help"              # dummy first entry, size calculation doesn't seem to work otherwise
+SCMD=
+SARG=
+STIME=
+RELOAD_CFG=false
+declare -A HISTORY
+
+# dummy first entry, size calculation doesn't seem to work otherwise
+HISTORY[-1]="help"
 #end::settings[]
 
 
@@ -99,9 +97,26 @@ FWInterpreter() {
     case "$SCMD" in
         # ...
 #end::fwi-start[]
+
+#tag::fwi-api[]
+        api-function | api)
+            printf "\n    api-function/api requires an API function as argument\n\n"
+            ;;
+        "api-function "*)
+            SARG=(${SCMD#*api-function })
+            ExecuteApiFunction "$SARG"
+            ShellAddCmdHistory
+            ;;
+        "api "*)
+            SARG=${SCMD#*api }
+            ExecuteApiFunction "$SARG"
+            ShellAddCmdHistory
+            ;;
+#end::fwi-api[]
+
 #tag::fwi-es[]
         execute-scenario | es)
-            printf "\n    execute-scenario/rs requires a scenario as argument\n\n"
+            printf "\n    execute-scenario/es requires a scenario as argument\n\n"
             ;;
         "execute-scenario "*)
             SARG=${SCMD#*execute-scenario }
@@ -226,7 +241,7 @@ FWShell() {
             CONFIG_MAP["RUNNING_IN"]="shell"
             RELOAD_CFG=false
         fi
-        if ConsoleIsPrompt; then ConsoleMessage "${CONFIG_MAP["SHELL_PROMPT"]}"; fi
+        if $(ConsoleIs prompt); then ConsolePrint message "${CONFIG_MAP["SHELL_PROMPT"]}"; fi
     done
 }
 #end::fws-end[]
@@ -239,7 +254,9 @@ FWShell() {
 ##
 #tag::run[]
 exec 3</dev/tty || exec 3<&0
-if ConsoleIsPrompt; then ConsoleMessage "${CONFIG_MAP["SHELL_PROMPT"]}"; fi
+if $(ConsoleIs prompt); then
+    ConsolePrint message "${CONFIG_MAP["SHELL_PROMPT"]}"
+fi
 FWShell
 exec 3<&-
 #end::run[]

@@ -8,8 +8,10 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
+
 
 == wait
 
@@ -30,10 +32,9 @@ The actual wait time will be printed when the task finishes.
 
 Since _bash_ does not support floating point or double integer values, only positive integers can be used.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -h | --help          print help screen and exit
-   -s | --seconds SEC   wait SEC seconds, default is 1
+include::{skb-site-target-dir}/adoc-task-help/wait.adoc[tags=options]
 ----
 
 
@@ -42,7 +43,7 @@ Since _bash_ does not support floating point or double integer values, only posi
 
 The example below will wait for 3 seconds, plus the time it takes to execute the _wait_ task itself.
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 wait --seconds 3
-====
+----

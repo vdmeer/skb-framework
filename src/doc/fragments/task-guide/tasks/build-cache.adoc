@@ -8,8 +8,10 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
+
 
 == build-cache
 This task creates cached information about the application (or framework).
@@ -23,16 +25,14 @@ On less powerful hosts (for instance a Raspberry PI) or on systems with slower o
 Without any arguments, the standard cache (for all declarations) is being build.
 _clean_ will clean all cached information.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -b | --build       builds cache, requires a target
-   -c | --clean       removes all cached maps and screens
-   -h | --help        print help screen and exit
+include::{skb-site-target-dir}/adoc-task-help/build-cache.adoc[tags=options]
 ----
 
 
 
-=== General Target Options
+=== Target Options
 Target options can be used to set specific cache targets.
 
 * _all_ - for all targets, except individual tasks
@@ -44,36 +44,20 @@ Target options can be used to set specific cache targets.
 * _tab_ - cache table representations of all elements.
     This cache is used by the `list-*` tasks at  runtime.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   target options
-   -A | --all         set all targets, except tasks
-   -d | --decl        set all declaration targets
-   -f | --full        set all targets, including tasks
-   -t | --tab         set all table targets
+include::{skb-site-target-dir}/adoc-task-help/build-cache.adoc[tags=options-target]
 ----
 
 
 
 === Targets
-Beside the general targets, the task can also be run with very specific targets, shown below.
+Beside target options, the task can also be run with very specific targets, shown below.
 Here, declaration and table caches can be requested for each element type.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   targets
-        --cmd-decl    target: command declarations
-        --cmd-tab     target: command table
-        --es-decl     target: exit-status declarations
-        --es-tab      target: exit-status table
-        --opt-decl    target: option declarations
-        --opt-tab     target: option table
-        --dep-decl    target: dependency declarations
-        --dep-tab     target: dependency table
-        --param-tab   target: parameter table
-        --task-decl   target: task declarations
-        --task-tab    target: task table
-        --tasks       target: help screens for all(!) tasks
+include::{skb-site-target-dir}/adoc-task-help/build-cache.adoc[tags=targets]
 ----
 
 

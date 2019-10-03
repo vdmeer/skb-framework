@@ -1,3 +1,0 @@
-This task lists application exit status in simple list or table form.
-The table form provides additional information for each exit status.
-Filters can be applied to the list.

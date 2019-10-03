@@ -8,30 +8,23 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
+
 
 == Commands
 
-=== GetCommandID
-Returns the identifier (name) of a command for a given input string.
-
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-
-| Arguments
-| Return (print)
-
-| $1: the input string to test for a command identifier
-| Success: long form of the command
-
-Error: empty string
+_Commands_ are the commands a user can call in the interactive shell.
+Functions here help to manage commands.
 
 
-|===
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/commandelementdescription.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/commandintable.adoc[leveloffset=+1]
 
-[example]
-====
-id=$(GetCommandID "string")
-====
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/commandtagline.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/describecommand.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/getcommandid.adoc[leveloffset=+1]

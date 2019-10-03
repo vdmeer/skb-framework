@@ -1,0 +1,64 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== DebugParameter()
+_void DebugParameter( $1 )_ - prints debug information for a parameter.
+
+This function prints all internal information about a parameter, including details of the declaration and load status.
+
+
+*Parameters*
+
+* `$1` - parameter identifier (or name), any spelling
+
+
+*Errors*
+
+* If the parameter identifier is unknown.
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getparameterid-link.adoc[]
+to retrieve the parameter identifier.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/parameterdefvaluedescription-link.adoc[]
+to print the parameter default value..
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
+to print debug information.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+DebugParameter SHELL_PROMPT
+----
+
+The example above calls the function with the name _SHELL_PROMPT_ printing:
+
+[source%nowrap,subs="attributes,quotes"]
+----
+  *SHELL_PROMPT* - _sets the shell prompt_
+    - origin:        FW_HOME
+    - default value: "sf: "
+    - declaration:   $FW_HOME/etc/declarations/parameters/all/SHELL_PROMPT
+    - requested by: loader
+----

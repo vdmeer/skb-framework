@@ -8,99 +8,35 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
 
-== Prompt
+
+== Tasks
 Collection of functions for tasks.
 
 
-=== GetTaskID
-Returns the identifier (name) of a task for a given input string.
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/buildtaskhelpline.adoc[leveloffset=+1]
 
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/buildtaskhelptag.adoc[leveloffset=+1]
 
-| Arguments
-| Return (print)
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/debugtask.adoc[leveloffset=+1]
 
-| $1: the input string to test for a task identifier
-| Success: long form of the task
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/describetask.adoc[leveloffset=+1]
 
-Error: empty string
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/executetask.adoc[leveloffset=+1]
 
-|===
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/exitontaskerrors.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/gettaskid.adoc[leveloffset=+1]
 
-[example]
-====
-id=$(GetTaskID "string")
-====
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/taskelementdescription.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/taskgetcachedhelp.adoc[leveloffset=+1]
 
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/taskintable.adoc[leveloffset=+1]
 
-=== BuildTaskHelpLine
-Prints a single line for the task help screen with one argument and its settings.
-An argument is described by:
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/taskstatus.adoc[leveloffset=+1]
 
-    * a short form, use `<none>` if not applicable
-    * a long form, use `<none>` if not applicable
-    * an argument, use `<none>` if not applicable, if used the string will be converted to upper case spelling
-    * a description in form of a short tag line
-
-Additionally, a length value an be given.
-The length is used to calculate the padding between short/long/argument and description.
-The padding default value is _24_.
-
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-
-| Arguments
-| Return
-
-| $1: short options
-
-$2: long option
-
-$3: argument
-
-$4: description
-
-$5: length
-
-| none
-
-
-|===
-
-[example]
-====
-BuildTaskHelpLine h help "<none>" "print help screen and exit" 25
-
-
-BuildTaskHelpLine f file "FILE" "file to open in viewer" 25
-====
-
-
-
-=== TaskGetCachedHelp
-Returns a file name with cached help screen for current print-mode, none if none found.
-
-[frame=topbot, grid=rows, cols="d,d", options="header"]
-|===
-
-| Arguments
-| Return (print)
-
-| $1: task ID, long form
-| Success: file name
-
-Error: empty string
-
-|===
-
-[example]
-====
-CACHED_HELP=$(TaskGetCachedHelp "my-task")
-====
-
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/functions/tasktagline.adoc[leveloffset=+1]

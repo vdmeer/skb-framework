@@ -24,13 +24,9 @@
 ## Declare: maps with ANSI codes for colors and effects for screen printing
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
-
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 
 ##
@@ -40,6 +36,7 @@
 ## - see https://stackoverflow.com/questions/4332478/read-the-current-text-color-in-a-xterm/4332530#4332530
 ## - see https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux#5947802
 ## - see https://stackoverflow.com/questions/4414297/unix-bash-script-to-embolden-underline-italicize-specific-text
+## - see https://raw.githubusercontent.com/demure/dotfiles/master/subbash/prompt
 ##
 
 declare -A COLORS

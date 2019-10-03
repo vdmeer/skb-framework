@@ -1,4 +1,5 @@
 Clears the application cache and exists.
 The application cache can be build using the task `build-cache`.
 It contains information about all application elements, including tasks.
-Clearing the cache can be necessary in some scenarios, for instance when new elements (e.g. tasks) have been added to an application.
+Clearing the cache can be necessary in some scenarios,
+    for instance when new elements (e.g. tasks) have been added to an application.

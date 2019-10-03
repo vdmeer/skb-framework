@@ -8,8 +8,10 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
+
 
 == describe-*
 
@@ -20,7 +22,7 @@ Each of these tasks provides a description of one or more framework and applicat
 * _describe-command_ - describes one or more shell commands
 * _describe-dependency_ - describes one or more dependencies
 * _describe-element_ - describes one or more element types of an application
-* _describe-exitstatus_ - describes one or more exit status (error codes)
+* _describe-errorcode_ - describes one or more error codes
 * _describe-option_ - describes one or more CLI options
 * _describe-parameter_ - describes one or more parameters
 * _describe-scenario_ - describes one or more scenarios
@@ -34,28 +36,36 @@ The description will be empty if no items where found, e.g. in _describe-scenari
 The standard options are shown below.
 _print-mode_ can be set to any mode that is supported by the API, namely:
 
-* _adoc_ - print in AscciDoc format
+* _adoc_ - print in Asciidoc format
 * _ansi_ - print with ANSI formatting for colors and effects
 * _text_ - print as plain text, no special formatting will be used
 * _text-anon_ - print as text with some annotations, similar to _adoc_
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -h | --help              print help screen and exit
-   -P | --print-mode MODE   print mode: ansi, text, adoc
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter.adoc[tags=standard-options]
 ----
 
-All describe tasks with filters provide a standard filter for describing all found items, shown below.
-Tasks that describe elements (e.g. task, parameter, dependency) also provide a filter to only describe a single element by name (identifier).
+All describe tasks provide filters to include or exclude entries.
+The tasks have a standard filter for describing all items, shown below.
 All other filters are task specific.
 If filters are used, only items that satisfy the filter will be described.
 Any number of filters can be used in any combination.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-   -A | --all               all settings, disables all other filters
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter.adoc[tags=standard-filters]
 ----
+
+For all task-specific filters: if not stated otherwise, these filters exclude any entry that does not fit the filter.
+For instance, if a filter for _origin_ with setting _framework_ is activated, entries with origins other than _framework_ will not be described.
+
+All filters are applied in combination.
+This means that when two or more filters are active, only elements matching all filters will be described.
+For instance, if filters for a specific _origin_ and a specific _status_ are activated, then all elements matching the origin _and_ the status will be described (and no element not matching both filters).
+
+Tasks that describe elements (e.g. task, parameter, dependency) also provide a filter to only describe a single element by name (identifier).
+
 
 
 === describe-application
@@ -64,30 +74,27 @@ The provided filters focus on the different aspects.
 If filters are used, only aspects specified will be shown.
 If no filters are used, all aspects are shown.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-        --app               include application description
-        --authors           include authors
-        --bugs              include bugs
-        --copying           include copying
-        --resources         include resources
-        --security          include security
+include::{skb-site-target-dir}/adoc-task-help/describe-application.adoc[tags=task-filters]
 ----
 
 The text is taken from the manual.
 This _MANUAL_SRC_ must point to valid manual sources.
+
+
 
 === describe-command
 Describes one or more commands.
 The _id_ filter can be used to show only a specific command.
 For the _id_, the long or the short form of the command can be used.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-   -i | --id ID             long command identifier
+include::{skb-site-target-dir}/adoc-task-help/describe-command.adoc[tags=task-filters]
 ----
+
+
 
 === describe-dependency
 Describes one or more dependencies.
@@ -106,16 +113,19 @@ Provided filters are:
     ** not attempted (as: `N`, `n`, or `not-attempted`)
 * _tested_ - filter dependencies that have been tested, ignoring untested dependencies
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-   -i | --id ID             dependency identifier
-   -I | --install           only dependencies required only by install tasks
-   -o | --origin ORIGIN     only dependencies from origin: f(w), a(pp)
-   -r | --requested         only requested dependencies
-   -s | --status STATUS     only dependencies with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
-   -t | --tested            only tested dependencies
+include::{skb-site-target-dir}/adoc-task-help/describe-dependency.adoc[tags=task-filters]
 ----
+
+This task can also be used to show debug information, rather than descriptions.
+Using the debug option will print all information about one or more dependencies (depending on the used filters).
+
+[source%nowrap,indent=0,subs="attributes,quotes"]
+----
+include::{skb-site-target-dir}/adoc-task-help/describe-dependency.adoc[tags=task-options]
+----
+
 
 
 === describe-element
@@ -125,31 +135,25 @@ The provided filters focus on the different element types.
 If filters are used, only types specified will be shown.
 If no filters are used, all types are shown.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-        --cmd               include commands
-        --dep               include dependencies
-        --es                include exit status
-        --opt               include options
-        --param             include parameters
-        --scn               include scenarios
-        --task              include tasks
+include::{skb-site-target-dir}/adoc-task-help/describe-element.adoc[tags=task-filters]
 ----
 
 The text is taken from the manual.
 This _MANUAL_SRC_ must point to valid manual sources.
 
 
-=== describe-exitstatus
-Describes one or more exit status codes.
-The _id_ filter can be used to show only a specific status code.
 
-[source%nowrap,bash,indent=0]
+=== describe-errorcode
+Describes one or more error codes.
+The _id_ filter can be used to show only a specific error code.
+
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-   -i | --id ID             exit-status identifier
+include::{skb-site-target-dir}/adoc-task-help/describe-errorcode.adoc[tags=task-filters]
 ----
+
 
 
 === describe-option
@@ -158,12 +162,12 @@ The _id_ filter can be used to show only a specific option.
 For the _id_, the long or the short form of the option can be used.
 The other filters focus on the option type, being either _exit_ options or _runtime_ options.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -e | --exit              only exit options
-   -i | --id ID             long option identifier
-   -r | --run               only runtime options
+include::{skb-site-target-dir}/adoc-task-help/describe-option.adoc[tags=task-filters]
 ----
+
+
 
 === describe-parameter
 Describes one or more parameters.
@@ -183,23 +187,19 @@ The following filters are provided:
     ** set from configuration file (as `F`, `f`, `file`)
     ** set from default value (as `D`, `d`, `default`)
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -d | --default           only parameters with a defined default value
-   -i | --id ID             parameter identifier
-   -I | --install           only parameters required only by install tasks
-   -o | --origin ORIGIN     only parameters from origin: f(w), a(pp)
-   -r | --requested         only requested dependencies
-   -s | --status STATUS     only parameter for status: o, f, e, d
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter.adoc[tags=task-filters]
 ----
 
 This task can also be used to show debug information, rather than descriptions.
 Using the debug option will print all information about one or more parameters (depending on the used filters).
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -D | --debug             print debug information instead of description
+include::{skb-site-target-dir}/adoc-task-help/describe-parameter.adoc[tags=task-options]
 ----
+
 
 
 === describe-scenario
@@ -224,25 +224,20 @@ Provided filters are:
     ** not attempted (as: `N`, `n`, or `not-attempted`)
 * _unloaded_ - filter for scenarios that have been unloaded
 
-
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -i | --id ID             scenario identifier
-   -I | --install           only scenarios declared for application mode flavor 'install'
-   -l | --loaded            only loaded scenarios
-   -m | --mode MODE         only scenarios for application mode: dev, build, use
-   -o | --origin ORIGIN     only scenarios from origin: f(w), a(pp)
-   -s | --status STATUS     only scenarios for status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
-   -u | --unloaded          only unloaded scenarios
+include::{skb-site-target-dir}/adoc-task-help/describe-scenario.adoc[tags=task-filters]
 ----
 
 This task can also be used to show debug information, rather than descriptions.
 Using the debug option will print all information about one or more dependencies (depending on the used filters).
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -D | --debug             print debug information instead of description
+include::{skb-site-target-dir}/adoc-task-help/describe-scenario.adoc[tags=task-options]
 ----
+
+
 
 === describe-task
 Describes one or more tasks.
@@ -266,22 +261,15 @@ Provided filters are:
     ** not attempted (as: `N`, `n`, or `not-attempted`)
 * _unloaded_ - filter for tasks that have been unloaded
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -i | --id ID             task identifier
-   -I | --install           only tasks declared for application mode flavor 'install'
-   -l | --loaded            only loaded tasks
-   -m | --mode MODE         only tasks for application mode: dev, build, use
-   -o | --origin ORIGIN     only tasks from origin: f(w), a(pp)
-   -s | --status STATUS     only tasks for status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
-   -u | --unloaded          only unloaded tasks
+include::{skb-site-target-dir}/adoc-task-help/describe-task.adoc[tags=task-filters]
 ----
 
 This task can also be used to show debug information, rather than descriptions.
 Using the debug option will print all information about one or more tasks (depending on the used filters).
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -D | --debug             print debug information instead of description
+include::{skb-site-target-dir}/adoc-task-help/describe-task.adoc[tags=task-options]
 ----
-

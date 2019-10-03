@@ -1,4 +1,46 @@
-Version 0.0.4 2019-##-##
+Version 0.0.5 2019-10-03
+
+    * Issues, fixed
+        ** https://github.com/vdmeer/skb-framework/issues/1
+    * Major API refactoring
+        ** joint a few functions into uber-functions with new arguments
+        ** removed a few API files, moved functions into other files better suited
+        ** added functions: PrintTests, ExitOnTaskErrors, TestFS, ExecuteApiFunction, ListFunctions, BuildTaskTagline
+    * Added CLI options
+        ** '--test-terminal' to test terminal capabilities for UTF-8, ANSI colors, and ANSI effects (exit option)
+        ** '--test-ansi-colors' to test terminal ANSI color capabilities (used colors, exit option)
+        ** '--test-ansi-effects' to test terminal ANSI color capabilities (used effects, exit option)
+        ** '--test-utf8' to test terminal UTF-8 capabilities (used UTF-8 characters, exit option)
+    * Misc additions
+        ** added command `api-function` to execute API functions from the shell
+        ** new install scenario 'build-fw-cache'
+        ** new test scenarios `test-describe-tasks`, `test-list-tasks`, and `test-simple-scenario`, `test-task-help`
+        ** added src/tests/bash with target sets for some tests
+    * Changed exit codes (declarations, loader, shell, some tasks)
+        ** new structure leaving a larger gap in the 10-30 numbers for future additional codes
+        ** added codes for missing commands: sed, cat, less, and tput (all tested in the loader now)
+    * Changes
+        ** moved api/mvn-site into task build-mvn-site (MvnSiteAdocFix now automated from MVN_SITE_FIX_ADOC_ARRAY)
+        ** moved API scripts to top-level directory
+        ** renamed 'exit status' to 'error code'
+        ** renamed task 'make-target-sets' to 'run-target-set', and moved it from build to all
+    * Documentation updates
+        ** changed tag line to: a flexible and extensible automation framework
+        ** User-Guide: added information on installation, performance
+        ** Task-Guide: edited tasks, added missing documentation
+        ** Dev-Guide: moved Implementation into here
+        ** Dev-Guide: added layouts, sequence charts, and function index to Developer Guide
+        ** Dev-Guide: added to API, changed API description template and content for all functions
+        ** Manual: added links to bugs and resources
+        ** Automated most input, including separation of HTML and PDF content depending on used backend
+    * Updated gradlew and tool/gradlew to version 5.4.1
+    * SKB Tool changes
+        ** remove '-all' suffix from tool, due to new build by gradle
+        ** removed tool from source and distributions
+        ** added directory with permissions (dfwt can be used to download tool after installation)
+
+
+Version 0.0.4 2019-05-27
 
     * added application mode flavor, supported is "install" and "std"
         ** new maps for tasks and scenarios for app mode flavor
@@ -15,7 +57,7 @@ Version 0.0.4 2019-##-##
     * added download-fw-tool task for SKB Tool jar
     * added curl dependency
     * added command 'ta' as shortuct for 'list-tasks -o a'
-    * added task 'make-target-sets'
+    * added task 'run-target-sets'
 
 
 Version 0.0.3 2018-11-22

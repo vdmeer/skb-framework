@@ -1,0 +1,72 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== ParameterInTable()
+_string ParameterInTable( $1, [$2] )_ - returns main parameter details for table views.
+
+This function prints the parameter and a padding in one line.
+No newline will be printed.
+Parameter names will be formatted using the requested print mode (_$2_) or the set print mode of the application.
+The padding is calculated using the setting of _CONSOLE_MAP["PAR_PADDING"]_ and the length of the text line.
+The return is realized as print.
+
+
+*Parameters*
+
+* `$1`, _string_ - the parameter identifier, lower or upper case or mixed spelling
+* `$2`, _string_, optional - an optional print mode, standard setting used if not present.
+
+
+*Return*
+
+* _string_, the line with a leading space, parameter name, and padding
+
+*Errors*
+
+* For unknown parameter identifier
+* For unknown print mode
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getparameterid-link.adoc[]
+to get the parameter identifier.
+* {blank}
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/describeparameter-link.adoc[]
+to get the formatted parameter details.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+for throwing errors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+ParameterInTable XTERM
+----
+
+The example above calls he function for the parameter _XTERM_.
+Possible return values are shown below:
+
+[source%nowrap,subs="attributes,quotes"]
+----
+⎵XTERM⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+⎵*XTERM*⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+----
+
+The first line shows plain text, the second line ANSI formatted text.

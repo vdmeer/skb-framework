@@ -1,0 +1,51 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+==  GetSetting()
+_string GetSetting( $1 )_ - returns the a requested setting.
+
+This function returns the current set value for the setting _$1_.
+This function will select the setting to return from _CONFIG_MAP["RUNNING_IN"]_.
+
+
+*Parameters*
+* `$1`, _string_ - the required setting, one of:
+    ** _level_ - the current value for the (console) level of the loader, the shell, or tasks.
+    ** _quiet_ - the current value for the (console) quiet setting of the loader, the shell, or tasks.
+
+
+*Errors*
+
+* For an unknown setting in _$1_.
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+local LEVEL=$(GetSetting level)
+local QUIET=$(GetSetting quiet)
+----
+
+The examples above call the function for the supported settings.
+Line 1 requests _level_, line 2 requests _quiet_.
+Assuming that these calls are made inside an executed tasks, the returned values will be _CONFIG_MAP["TASK_LEVEL"]_ and _CONFIG_MAP["TASK_QUIET"]_.

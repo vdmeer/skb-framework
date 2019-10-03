@@ -1,3 +1,0 @@
-        The application is not able to set the application home directory.  It
-        has tried all implemented options  (environment,  readlink,  dirname).
-        Fix this problem by setting the application home in the environment.  

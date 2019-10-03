@@ -1,7 +1,8 @@
-        This task downloads the SKB Framework Tool. This tool is an executable
-        Java JAR file. It provides  mechanisms  to  convert  plain  text  into
-        formatted  text.  The  tool  is  for  instance  used   by   the   task
-        `build-manual` to convert ADOC sources into formatted plain text.     
+        This task downloads the SKB Framework Tool  using  `curl`  or  `wget`.
+        This tool is an executable Java JAR file. It  provides  mechanisms  to
+        convert plain text into formatted text. The tool is for instance  used
+        by the task `build-manual` to  convert  ADOC  sources  into  formatted
+        plain text.                                                           
 
         The task takes the value of the parameter `SKB_FRAMEWORK_TOOL` as file
         name. The JAR file is published on Bintray in  a  generic  repository.

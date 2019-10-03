@@ -1,0 +1,72 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== PrintColor()
+_void PrintColor( $1, $2, [$3] )_ - print text in color.
+
+The function prints the text or message in the requested color using the default or the requested _print mode_.
+Colors will only be printed in the mode _ansi_.
+In all other modes, the message will be printed as plain text.
+
+*Parameters*
+
+* `$1` - String with the color for printing.
+            Supported colors are:
+                _black_,
+                _red_,
+                _green_,
+                _brown_,
+                _blue_,
+                _purple_,
+                _cyan_,
+                _light-gray_ (or _light-grey_),
+                _dark-gray_ (or _dark-grey_),
+                _light-red_,
+                _light-green_,
+                _yellow_,
+                _light-blue_,
+                _light-purple_, and
+                _light-cyan_.
+            An error will be printed for an unknown color.
+* `$2` - String with the message to print.
+* `$3` - Optional, a forced _print mode_.
+            If not present, the setting in _CONFIG_MAP["PRINT_MODE"]_ is used.
+            If unknown, an error will be printed.
+
+
+*Errors*
+
+* For an unknown color.
+* For an unknown print mode.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+printf "I "
+PrintColor brown "have" ansi
+printf " some "
+PrintColor blue "information" ansi
+printf ".\n"
+----
+
+The example above calls the function with two different colors and messages and the forced mode _ansi_.
+The print out will be:
+
+[source%nowrap,subs="attributes,quotes"]
+----
+I <span style="color: #A52A2A">have</span> some <span style="color: #0000FF">information</span>.
+----

@@ -1,0 +1,107 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+The `etc` directory contains all metadata for the application.
+Some sub-directories (e.g. `help`) and some files (e.g. most `.txt` files) are generated when building a distribution.
+It has four main groups: 
+
+* `ant`- scripts and XML files for Apache `ant` processes (mainly to set file versions, see task _set-versions_).
+* `declarations` - metadata for all application elements in terms of
+    specification (in the `.id` files),
+    normative documentation (in the `.adoc` files), and
+    generated plain text documentation (in the `.txt` files).
+* `help` - generated fragments (parts) of the online help, for instance for command and options.
+    The files here are text files in different format, for instance `.ansi` for ANSI formatted text and `.text` for plain text.
+* `manual` - Directory with text fragments for the manual (parts are also used in the online help).
+    The normative text is in the `.adoc` files.
+    Generated (formatted) text is in the `.txt` files.
+
+This directory must have the following layout and contents:
+
+[source%nowrap]
+----
+$HOME/etc
+    ├─── ant                        <1>
+    ├─── declarations               <2>
+    │    ├─── commands              <3>
+    │    ├─── dependencies          <4>
+    │    │    ├─── apache
+    │    │    ├─── java
+    │    │    ├─── latex
+    │    │    ├─── python3
+    │    │    └─── unix
+    │    ├─── errorcodes            <5>
+    │    ├─── options               <6>
+    │    │    ├─── exit
+    │    │    └─── run
+    │    ├─── parameters            <7>
+    │    │    ├─── all
+    │    │    ├─── apps
+    │    │    └─── dev
+    │    └─── tasks                 <8>
+    │         ├─── all
+    │         ├─── elements
+    │         ├─── install
+    │         ├─── mode-build
+    │         ├─── mode-dev
+    │         └─── start
+    ├─── help                       <9>
+    ├─── manual                     <10>
+    │    ├─── application
+    │    ├─── elements
+    │    └─── tags
+    └─── templates                  <11>
+----
+
+<1> Ant script, provided as example (framework) or actual scripts (application).
+    The current content is a macro file `macro.xml` and an Ant project file `build.xml` for the task _set-versions_.
+<2> Metadata for all seven element types of an application.
+    Specifications are in the `.id` files, which are essentially `bash` files.
+    Any standard `bash` command or framework API function can be called here.
+    Normative documentation is in the `.adoc`.
+    They will be used for the online help, the manual, the site, as well as source for generating formatted text.
+    This formatted text is then written to the `.txt` files.
+<3> Contains all _command_ declarations.
+<4> Contains all _dependency_ declarations, which are further grouped into directories:
+
+        * `apache` for everything related to Apache applications,
+        * `java` for everything related to Java applications,
+        * `latex` for everything related to LaTeX and TeX applications (including BibTeX and biber),
+        * `python3` for dependencies on Python and Pyhton modules (version 3),
+        * `unix` for dependencies to external UNIX commands.
+
+<5> Contains metadata for error codes and messages of the application.
+<6> Contains all options of an application. Options are grouped into _exit_ options and _runtime_ options.
+<7> Contains all parameter declarations.
+        The grouping here focuses on where/when parameters are required, for instance
+
+        * `all` is for always available tasks,
+        * `app` is for general applications, and
+        * `dev` is for development tasks.
+<8> Contains the declarations of all tasks, which are further grouped into directories:
+
+        * `all` for always available tasks,
+        * `elements` for tasks that process or manage elements, 
+        * `install` for tasks visible in the _install_ flavor,
+        * `mode-build` for tasks visible in the application mode `build`,
+        * `dev-build` for tasks visible in the application mode `dev`, and
+        * `start` for tasks that start external applications.
+
+<9> Contains _generated_ fragments for the runtime help in several text versions.
+        The content of this folder is generated when building a distribution.
+        The current content are help fragments for _commands_ and _options_ as ANSI and plain text.
+<10> Contains the text fragments (normative and generated) for the online help, also used in the manual and other places.
+<11> Contains ready-to-use templates for the `id` files for declarations for commands, dependencies, options, parameters, and tasks.
+

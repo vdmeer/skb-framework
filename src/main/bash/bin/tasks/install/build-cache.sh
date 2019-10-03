@@ -24,13 +24,10 @@
 ## build-cache - builds cache for maps and screens
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -54,12 +51,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/_include
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -82,7 +75,7 @@ CLI_OPTIONS=Abcdfht
 CLI_LONG_OPTIONS=all,build,clean,decl,full,help,tab
 CLI_LONG_OPTIONS+=,cmd-decl,cmd-tab
 CLI_LONG_OPTIONS+=,dep-decl,dep-tab
-CLI_LONG_OPTIONS+=,es-decl,es-tab
+CLI_LONG_OPTIONS+=,ec-decl,ec-tab
 CLI_LONG_OPTIONS+=,opt-decl,opt-tab
 CLI_LONG_OPTIONS+=,param-tab
 CLI_LONG_OPTIONS+=,task-decl,task-tab
@@ -90,7 +83,7 @@ CLI_LONG_OPTIONS+=,tasks
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name build-cache -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "build-cache: unknown CLI options"
+    ConsolePrint error "build-cache: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -109,23 +102,31 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "build-cache")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine b build   "<none>"    "builds cache, requires a target"                   $PRINT_PADDING
-                BuildTaskHelpLine c clean   "<none>"    "removes all cached maps and screens"               $PRINT_PADDING
-                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
+                BuildTaskHelpLine b build   "<none>"    "builds cache, requires a target"                       $PRINT_PADDING
+                BuildTaskHelpLine c clean   "<none>"    "removes all cached maps and screens"                   $PRINT_PADDING
+                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                            $PRINT_PADDING
+                BuildTaskHelpTag end options
 
-                printf "\n   target options\n"
+                printf "\n"
+                BuildTaskHelpTag start options-target
+                printf "   target options\n"
                 BuildTaskHelpLine A all     "<none>"    "set all targets, except tasks"                         $PRINT_PADDING
                 BuildTaskHelpLine d decl    "<none>"    "set all declaration targets"                           $PRINT_PADDING
                 BuildTaskHelpLine f full    "<none>"    "set all targets, including tasks"                      $PRINT_PADDING
                 BuildTaskHelpLine t tab     "<none>"    "set all table targets"                                 $PRINT_PADDING
+                BuildTaskHelpTag end options-target
 
-                printf "\n   targets\n"
+                printf "\n"
+                BuildTaskHelpTag start targets
+                printf "   targets\n"
                 BuildTaskHelpLine "<none>" cmd-decl     "<none>"    "target: command declarations"              $PRINT_PADDING
                 BuildTaskHelpLine "<none>" cmd-tab      "<none>"    "target: command table"                     $PRINT_PADDING
 
-                BuildTaskHelpLine "<none>" es-decl      "<none>"    "target: exit-status declarations"          $PRINT_PADDING
-                BuildTaskHelpLine "<none>" es-tab       "<none>"    "target: exit-status table"                 $PRINT_PADDING
+                BuildTaskHelpLine "<none>" ec-decl      "<none>"    "target: error code declarations"           $PRINT_PADDING
+                BuildTaskHelpLine "<none>" ec-tab       "<none>"    "target: error code table"                  $PRINT_PADDING
 
                 BuildTaskHelpLine "<none>" opt-decl     "<none>"    "target: option declarations"               $PRINT_PADDING
                 BuildTaskHelpLine "<none>" opt-tab      "<none>"    "target: option table"                      $PRINT_PADDING
@@ -139,6 +140,7 @@ while true; do
                 BuildTaskHelpLine "<none>" task-tab     "<none>"    "target: task table"                        $PRINT_PADDING
 
                 BuildTaskHelpLine "<none>" tasks        "<none>"    "target: help screens for all(!) tasks"     $PRINT_PADDING
+                BuildTaskHelpTag end targets
             else
                 cat $CACHED_HELP
             fi
@@ -171,13 +173,13 @@ while true; do
             TARGET=$TARGET" cmd-tab"
             ;;
 
-        --es-decl)
+        --ec-decl)
             shift
-            TARGET=$TARGET" es-decl"
+            TARGET=$TARGET" ec-decl"
             ;;
-        --es-tab)
+        --ec-tab)
             shift
-            TARGET=$TARGET" es-tab"
+            TARGET=$TARGET" ec-tab"
             ;;
 
         --opt-decl)
@@ -223,7 +225,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "build-cache: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "build-cache: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -233,22 +235,21 @@ done
 ############################################################################################
 ## test CLI and settings
 ############################################################################################
-
 if [[ $DO_DECL == true ]]; then
-    TARGET="cmd-decl dep-decl es-decl opt-decl task-decl"
+    TARGET="cmd-decl dep-decl ec-decl opt-decl task-decl"
 fi
 if [[ $DO_TAB == true ]]; then
-    TARGET="cmd-tab dep-tab es-tab opt-tab param-tab task-tab"
+    TARGET="cmd-tab dep-tab ec-tab opt-tab param-tab task-tab"
 fi
 if [[ $DO_ALL == true ]]; then
-    TARGET="cmd-decl cmd-tab dep-decl dep-tab es-decl es-tab opt-decl opt-tab param-tab task-decl task-tab"
+    TARGET="cmd-decl cmd-tab dep-decl dep-tab ec-decl ec-tab opt-decl opt-tab param-tab task-decl task-tab"
 fi
 if [[ $DO_FULL == true ]]; then
-    TARGET="cmd-decl cmd-tab dep-decl dep-tab es-decl es-tab opt-decl opt-tab param-tab task-decl task-tab tasks"
+    TARGET="cmd-decl cmd-tab dep-decl dep-tab ec-decl ec-tab opt-decl opt-tab param-tab task-decl task-tab tasks"
 fi
 if [[ $DO_BUILD == true ]]; then
     if [[ ! -n "$TARGET" ]]; then
-        ConsoleError " ->" "build required, but no target set"
+        ConsolePrint error "build required, but no target set"
         exit 60
     fi
 fi
@@ -260,8 +261,8 @@ fi
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "bdc: starting task"
-ConsoleResetErrors
+ConsolePrint info "bdc: starting task"
+Counters reset errors
 
 
 PRINT_MODES="ansi text"
@@ -280,16 +281,16 @@ if [[ $DO_CLEAN == true ]]; then
 fi
 
 if [[ $DO_BUILD == true ]]; then
-    ConsoleInfo "  -->" "build for target(s): $TARGET"
+    ConsolePrint info "build for target(s): $TARGET"
 
     if [[ ! -d "${CONFIG_MAP["CACHE_DIR"]}" ]]; then
         mkdir -p ${CONFIG_MAP["CACHE_DIR"]}
     fi
     if [[ ! -d "${CONFIG_MAP["CACHE_DIR"]}" ]]; then
-        ConsoleError " ->" "bdc: cache directory ${CONFIG_MAP["CACHE_DIR"]} does not exist"
+        ConsolePrint error "bdc: cache directory ${CONFIG_MAP["CACHE_DIR"]} does not exist"
     else
         for TODO in $TARGET; do
-            ConsoleDebug "target: $TODO"
+            ConsolePrint debug "target: $TODO"
             case $TODO in
                 cmd-decl)
                     FILE=${CONFIG_MAP["CACHE_DIR"]}/cmd-decl.map
@@ -315,26 +316,26 @@ if [[ $DO_BUILD == true ]]; then
                     done
                     ;;
 
-                es-decl)
-                    FILE=${CONFIG_MAP["CACHE_DIR"]}/es-decl.map
+                ec-decl)
+                    FILE=${CONFIG_MAP["CACHE_DIR"]}/ec-decl.map
                     if [[ -f $FILE ]]; then
                         rm $FILE
                     fi
-                    declare -p DMAP_ES > $FILE
-                    declare -p DMAP_ES_PROBLEM >> $FILE
-                    declare -p DMAP_ES_DESCR >> $FILE
+                    declare -p DMAP_EC > $FILE
+                    declare -p DMAP_EC_PROBLEM >> $FILE
+                    declare -p DMAP_EC_DESCR >> $FILE
                     ;;
-                es-tab)
+                ec-tab)
                     for MODE in $PRINT_MODES; do
-                        FILE=${CONFIG_MAP["CACHE_DIR"]}/es-tab.$MODE
+                        FILE=${CONFIG_MAP["CACHE_DIR"]}/ec-tab.$MODE
                         if [[ -f $FILE ]]; then
                             rm $FILE
                         fi
-                        declare -A ES_TABLE
-                        for ID in ${!DMAP_ES[@]}; do
-                            ES_TABLE[$ID]=$(ExitstatusInTable $ID $MODE)
+                        declare -A EC_TABLE
+                        for ID in ${!DMAP_EC[@]}; do
+                            EC_TABLE[$ID]=$(ErrorcodeInTable $ID $MODE)
                         done
-                        declare -p ES_TABLE > $FILE
+                        declare -p EC_TABLE > $FILE
                     done
                     ;;
 
@@ -456,7 +457,7 @@ if [[ $DO_BUILD == true ]]; then
                         for MODE in $PRINT_MODES; do
                             CONFIG_MAP["PRINT_MODE"]=$MODE
                             FILE=${CONFIG_MAP["CACHE_DIR"]}/tasks/$TPATH/$ID.$MODE
-                            ConsoleDebug "caching task $ID to $FILE"
+                            ConsolePrint debug "caching task $ID to $FILE"
                             if [[ -f $FILE ]]; then
                                 rm $FILE
                             fi
@@ -469,13 +470,13 @@ if [[ $DO_BUILD == true ]]; then
                     ;;
 
                 *)
-                    ConsoleError " ->" "bdc: unknown target $TODO"
+                    ConsolePrint error "bdc: unknown target $TODO"
             esac
-            ConsoleDebug "done target - $TODO"
+            ConsolePrint debug "done target - $TODO"
         done
     fi
-    ConsoleInfo "  -->" "done build"
+    ConsolePrint info "done build"
 fi
 
-ConsoleInfo "  -->" "bdc: done"
+ConsolePrint info "bdc: done"
 exit $TASK_ERRORS

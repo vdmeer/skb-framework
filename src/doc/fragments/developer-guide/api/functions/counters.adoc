@@ -1,0 +1,80 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+==  Counters()
+_mixed Counters( $1, $2 )_ - actions on/with counters.
+
+This function runs the requested action (_$1_) on a counter (_$2_).
+Depending on the action, the function might return an integer.
+Supported actions are:
+
+* _get_ - This will return the current value of the counter, an integer.
+* _increase_ - This will increase the counter by _1_.
+    Nothing is returned.
+* _reset_ - This will reset the counter to _0_.
+    Nothing is returned.
+
+The framework maintains counters for each part of the process: loader, shell, and tasks.
+This function will use _CONFIG_MAP["RUNNING_IN"]_ to determine in which part it is called and select the appropriate counter.
+For each part, the following counters are supported:
+
+* _errors_ - the number of detected errors.
+* _warnings_ - the number of detected warnings.
+
+
+*Parameters*
+
+* `$1` - _String_ - action to run, one of: get, increase, rest.
+* `$2` - _String_ - the counter for the action, one of: errors, warnings.
+
+
+*Return*
+
+* _void_ for the actions increase and reset.
+*_integer_ with the current setting of the requested counter for the action get.
+    This return is realized as print.
+
+
+*Errors*
+
+* For an unknown action
+* For an unknown counter
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+for throwing errors.
+
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+Counters reset errors
+Counters reset warnings
+
+Counters increase errors
+Counters increase warnings
+
+ERRNO=$(Counters get errors)
+----
+
+The examples above cover all supported actions and counters.
+Line 1 and 2 reset the counters.
+Line 4 and 5 increase each of the counters.
+Line 7 shows how the current setting for a counter can be retrieved.

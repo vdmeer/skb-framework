@@ -1,0 +1,2 @@
+Tests the terminal's UTF-8 and ANSI capabilities.
+Prints lines with used UTF-8 characters, ANSI colors, and ANSI text effects.

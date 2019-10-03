@@ -21,25 +21,20 @@
 #-------------------------------------------------------------------------------
 
 ##
-## include file, source all files in this directory
+## include file, source  all files in this directory
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
-
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 
 source $FW_HOME/bin/loader/declare/ansi-maps.sh
-#source $FW_HOME/bin/loader/declare/app-maps.sh     # we load this after basic CONFIG_MAP seetings are done
+source $FW_HOME/bin/loader/declare/app-maps.sh
 source $FW_HOME/bin/loader/declare/char-maps.sh
 source $FW_HOME/bin/loader/declare/commands.sh
-source $FW_HOME/bin/loader/declare/config-maps.sh
 source $FW_HOME/bin/loader/declare/dependencies.sh
-source $FW_HOME/bin/loader/declare/exitstatus.sh
+source $FW_HOME/bin/loader/declare/errorcodes.sh
 source $FW_HOME/bin/loader/declare/options.sh
 source $FW_HOME/bin/loader/declare/parameters.sh
 source $FW_HOME/bin/loader/declare/scenarios.sh

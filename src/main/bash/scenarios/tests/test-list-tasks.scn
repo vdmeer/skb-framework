@@ -1,0 +1,167 @@
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Scenario: test-list-tasks - runs list tasks with various options
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.5
+##
+
+list-commands
+list-commands --table
+
+
+list-configuration
+list-configuration --all
+list-configuration --cli
+list-configuration --default
+list-configuration --env
+list-configuration --file
+list-configuration --internal
+list-configuration --table
+list-configuration --table --all
+list-configuration --table --cli
+list-configuration --table --default
+list-configuration --table --env
+list-configuration --table --file
+list-configuration --table --internal
+
+
+list-dependencies
+list-dependencies --all
+list-dependencies --install
+list-dependencies --requested
+list-dependencies --tested
+list-dependencies --origin fw
+list-dependencies --status warning
+list-dependencies --table
+list-dependencies --table --all
+list-dependencies --table --install
+list-dependencies --table --requested
+list-dependencies --table --tested
+list-dependencies --table --origin fw
+list-dependencies --table --status warning
+
+
+list-errorcodes
+list-errorcodes --all
+list-errorcodes --app
+list-errorcodes --fw
+list-errorcodes --loader
+list-errorcodes --shell
+list-errorcodes --task
+list-errorcodes --table
+list-errorcodes --table --all
+list-errorcodes --table --app
+list-errorcodes --table --fw
+list-errorcodes --table --loader
+list-errorcodes --table --shell
+list-errorcodes --table --task
+
+
+list-options
+list-options --all
+list-options --exit
+list-options --run
+list-options --table
+list-options --table --all
+list-options --table --exit
+list-options --table --run
+
+
+list-parameters
+list-parameters --all
+list-parameters --default
+list-parameters --install
+list-parameters --requested
+list-parameters --origin fw
+list-parameters --status option
+list-parameters --table
+list-parameters --table --all
+list-parameters --table --default
+list-parameters --table --install
+list-parameters --table --requested
+list-parameters --table --origin fw
+list-parameters --table --status option
+
+
+list-scenarios
+list-scenarios --all
+list-scenarios --install
+list-scenarios --loaded
+list-scenarios --mode dev
+list-scenarios --no-a
+list-scenarios --no-b
+list-scenarios --no-d
+list-scenarios --no-dl
+list-scenarios --no-l
+list-scenarios --no-s
+list-scenarios --origin fw
+list-scenarios --odl
+list-scenarios --status warning
+list-scenarios --unloaded
+list-scenarios --table
+list-scenarios --table --all
+list-scenarios --table --install
+list-scenarios --table --loaded
+list-scenarios --table --mode dev
+list-scenarios --table --no-a
+list-scenarios --table --no-b
+list-scenarios --table --no-d
+list-scenarios --table --no-dl
+list-scenarios --table --no-l
+list-scenarios --table --no-s
+list-scenarios --table --origin fw
+list-scenarios --table --odl
+list-scenarios --table --status warning
+list-scenarios --table --unloaded
+
+
+list-tasks
+list-tasks --all
+list-tasks --install
+list-tasks --loaded
+list-tasks --mode dev
+list-tasks --no-a
+list-tasks --no-b
+list-tasks --no-d
+list-tasks --no-dl
+list-tasks --no-l
+list-tasks --no-s
+list-tasks --origin fw
+list-tasks --odl
+list-tasks --status warning
+list-tasks --unloaded
+list-tasks --table
+list-tasks --table --all
+list-tasks --table --install
+list-tasks --table --loaded
+list-tasks --table --mode dev
+list-tasks --table --no-a
+list-tasks --table --no-b
+list-tasks --table --no-d
+list-tasks --table --no-dl
+list-tasks --table --no-l
+list-tasks --table --no-s
+list-tasks --table --origin fw
+list-tasks --table --odl
+list-tasks --table --status warning
+list-tasks --table --unloaded

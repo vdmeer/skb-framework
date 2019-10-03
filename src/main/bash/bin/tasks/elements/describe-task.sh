@@ -24,13 +24,10 @@
 ## describe-task - describes a task or tasks
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -50,12 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/task.sh
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -84,7 +77,7 @@ CLI_LONG_OPTIONS=all,debug,mode:,help,id:,install,loaded,origin:,print-mode:,sta
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-task -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "describe-task: unknown CLI options"
+    ConsolePrint error "describe-task: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -105,20 +98,36 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "describe-task")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine D debug       "<none>"    "print debug information instead of description"    $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard describe options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
                 BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
 
-                printf "\n   filters\n"
-                BuildTaskHelpLine A all         "<none>"    "all tasks, disables all other filters"                                     $PRINT_PADDING
-                BuildTaskHelpLine i id          "ID"        "task identifier"                                                           $PRINT_PADDING
-                BuildTaskHelpLine I install     "<none>"    "only tasks declared for application mode flavor 'install'"                 $PRINT_PADDING
-                BuildTaskHelpLine l loaded      "<none>"    "only loaded tasks"                                                         $PRINT_PADDING
-                BuildTaskHelpLine m mode        "MODE"      "only tasks for application mode: all, dev, build, use"                     $PRINT_PADDING
-                BuildTaskHelpLine o origin      "ORIGIN"    "only tasks from origin: f(w), a(pp)"                                       $PRINT_PADDING
-                BuildTaskHelpLine s status      "STATUS"    "only tasks for status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"     $PRINT_PADDING
-                BuildTaskHelpLine u unloaded    "<none>"    "only unloaded tasks"                                                       $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start task-options
+                printf "   task options\n"
+                BuildTaskHelpLine D debug       "<none>"    "print debug information instead of description"    $PRINT_PADDING
+                BuildTaskHelpTag end task-options
+
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard describe filters\n"
+                BuildTaskHelpLine A all         "<none>"    "all entries, disables all other filters"           $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine i id          "ID"        "task identifier, long or short form"                           $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "for flavor 'install'"                                          $PRINT_PADDING
+                BuildTaskHelpLine l loaded      "<none>"    "loaded"                                                        $PRINT_PADDING
+                BuildTaskHelpLine m mode        "MODE"      "for application mode: all, dev, build, use"                    $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "from origin: f(w), a(pp)"                                      $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"   $PRINT_PADDING
+                BuildTaskHelpLine u unloaded    "<none>"    "unloaded"                                                      $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
             else
                 cat $CACHED_HELP
             fi
@@ -169,7 +178,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "describe-task: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-task: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -199,11 +208,11 @@ else
         ORIG_TASK=$TASK_ID
         TASK_ID=$(GetTaskID $TASK_ID)
         if [[ -z ${TASK_ID:-} ]]; then
-            ConsoleError " ->" "dt: unknown task: $ORIG_TASK"
+            ConsolePrint error "dt: unknown task: $ORIG_TASK"
             exit 60
         else
             if [[ -z ${DMAP_TASK_ORIGIN[$TASK_ID]:-} ]]; then
-                ConsoleError " ->" "dt: unknown task: $ORIG_TASK"
+                ConsolePrint error "dt: unknown task: $ORIG_TASK"
                 exit 61
             fi
         fi
@@ -217,7 +226,7 @@ else
                 ORIGIN=APP_HOME
                 ;;
             *)
-                ConsoleError " ->" "dt: unknown origin: $ORIGIN"
+                ConsolePrint error "dt: unknown origin: $ORIGIN"
                 exit 62
         esac
     fi
@@ -236,7 +245,7 @@ else
                 APP_MODE=use
                 ;;
             *)
-                ConsoleError "  ->" "dt: unknown application mode: $APP_MODE"
+                ConsolePrint error "dt: unknown application mode: $APP_MODE"
                 exit 64
         esac
     fi
@@ -255,7 +264,7 @@ else
                 STATUS=N
                 ;;
             *)
-                ConsoleError "  ->" "dt: unknown status: $STATUS"
+                ConsolePrint error "dt: unknown status: $STATUS"
                 exit 65
         esac
     fi
@@ -264,7 +273,7 @@ case $D_FORMAT in
     descr | debug)
         ;;
     *)
-        ConsoleFatal "  ->" "dt: internal error: unknown describe format '$D_FORMAT'"
+        ConsolePrint fatal "dt: internal error: unknown describe format '$D_FORMAT'"
         exit 69
         ;;
 esac
@@ -275,7 +284,7 @@ esac
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "dt: starting task"
+ConsolePrint info "dt: starting task"
 
 for ID in ${!DMAP_TASK_ORIGIN[@]}; do
     if [[ -n "$TASK_ID" ]]; then
@@ -338,5 +347,5 @@ for i in ${!keys[@]}; do
     esac
 done
 
-ConsoleInfo "  -->" "dt: done"
+ConsolePrint info "dt: done"
 exit $TASK_ERRORS

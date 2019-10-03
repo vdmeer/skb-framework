@@ -1,0 +1,78 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== Install using the DEB File
+The DEB file can be used with quite a few package managers or installation applications.
+One of the prominent examples is `dpkg`, used in the example below.
+Other managers might (or will) have different command line options.
+Some might require a manual download of the DEB file first.
+
+
+=== Download DEB File
+If required, download the DEB file from either the _Bintray_ or _Github_ releases.
+You can do that manual (open a browser and download the file) or using a tools like `curl` or `wget`.
+
+The examples below show the download commands for `curl` and `wget` downloading from _Bintray_:
+
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+curl -L "https://dl.bintray.com/vdmeer/deb/skb-framework-{release-version}.deb" --output skb-framework-{release-version}.deb
+wget https://dl.bintray.com/vdmeer/deb/skb-framework-{release-version}.deb
+----
+
+
+The examples below show the download commands for `curl` and `wget` downloading from _Github_:
+
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+curl -L "https://github.com/vdmeer/skb-framework/releases/download/v{release-version}/skb-framework-{release-version}.deb" --output skb-framework-{release-version}.deb
+wget https://github.com/vdmeer/skb-framework/releases/download/v{release-version}/skb-framework-{release-version}.deb
+----
+
+
+=== Install DEB File
+The following example shows how to install the DEB file using `dpkg`:
+
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+sudo dpkg --install skb-framework-{release-version}.deb
+----
+
+
+=== After the Installation
+The installation will have created the following artifacts:
+
+* Installed SKB Framework in `/opt/skb/skb-framework`
+* Created user `skbuser`, and all files of the installation changed to this user
+* Created group `skbuser`, and all files of the installation changed to this group
+* Created a directory `/var/cache/skb-framework` owned by `skbuser`
+* A link `/usr/local/bin/skb-framework` pointing to `/opt/skb/skb-framework/bin/skb-framework`
+* A link `/usr/local/share/man/man1/skb-framework.1` pointing to `/opt/skb/skb-framework/man/man1/skb-framework.1`
+
+
+=== Uninstall / Remove DEB
+Use the same package manager for uninstall, for example:
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+sudo dpkg --remove skb-framework
+----
+
+Some package managers also allow to purge an installation after removing it.
+This will remove all configuration files and artifacts, completely.
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+sudo dpkg --purge skb-framework
+----
+

@@ -26,375 +26,117 @@
 ## - they behave similar to Java logging frameworks
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
-
 
 ##
-## function: ConsoleMessage
-## - prints a message to console
-## $1: the message
+## A map with console calculations for printing well-formed lines
+## - used by all element-related tasks for length and padding and the like
 ##
-ConsoleMessage() {
-    local QUIET=
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader)
-            QUIET=${CONFIG_MAP["LOADER_QUIET"]}
-            ;;
-        shell)
-            QUIET=${CONFIG_MAP["SHELL_QUIET"]}
-            ;;
-        task)
-            QUIET=${CONFIG_MAP["TASK_QUIET"]}
-            ;;
-    esac
+declare -A CONSOLE_MAP
 
-    case $QUIET in
-        off)
-            printf %b "$1" 1>&2
-            ;;
-        on)
-            ;;
-    esac
+
+
+##
+## function ConsoleCalculate()
+## - calculates values for printing to console (e.g. padding)
+## - function is called when file is included, call repeatedly in longer running process (e.g. the shell)
+##
+ConsoleCalculate(){
+    CONSOLE_MAP["COLUMNS"]=$(tput cols)
+
+    CONSOLE_MAP["CMD_PADDING"]=32
+    CONSOLE_MAP["CMD_STATUS_LENGHT"]=0
+    CONSOLE_MAP["CMD_LINE_MIN_LENGTH"]=49
+    CONSOLE_MAP["CMD_COLUMNS_PADDED"]=$((${CONSOLE_MAP["COLUMNS"]} - 2))
+    CONSOLE_MAP["CMD_DESCRIPTION_LENGTH"]=$((${CONSOLE_MAP["CMD_COLUMNS_PADDED"]} - ${CONSOLE_MAP["CMD_PADDING"]} - ${CONSOLE_MAP["CMD_STATUS_LENGHT"]} - 1))
+
+    CONSOLE_MAP["DEP_PADDING"]=20
+    CONSOLE_MAP["DEP_STATUS_LENGHT"]=3
+    CONSOLE_MAP["DEP_LINE_MIN_LENGTH"]=43
+    CONSOLE_MAP["DEP_COLUMNS_PADDED"]=$((${CONSOLE_MAP["COLUMNS"]} - 2))
+    CONSOLE_MAP["DEP_DESCRIPTION_LENGTH"]=$((${CONSOLE_MAP["DEP_COLUMNS_PADDED"]} - ${CONSOLE_MAP["DEP_PADDING"]} - ${CONSOLE_MAP["DEP_STATUS_LENGHT"]} - 1))
+
+    CONSOLE_MAP["EC_PADDING"]=6
+    CONSOLE_MAP["EC_STATUS_LENGHT"]=16
+    CONSOLE_MAP["EC_LINE_MIN_LENGTH"]=49
+    CONSOLE_MAP["EC_COLUMNS_PADDED"]=$((${CONSOLE_MAP["COLUMNS"]} - 2))
+    CONSOLE_MAP["EC_DESCRIPTION_LENGTH"]=$((${CONSOLE_MAP["EC_COLUMNS_PADDED"]} - ${CONSOLE_MAP["EC_PADDING"]} - ${CONSOLE_MAP["EC_STATUS_LENGHT"]} - 1))
+
+    CONSOLE_MAP["OPT_PADDING"]=27
+    CONSOLE_MAP["OPT_STATUS_LENGHT"]=4
+    CONSOLE_MAP["OPT_LINE_MIN_LENGTH"]=49
+    CONSOLE_MAP["OPT_COLUMNS_PADDED"]=$((${CONSOLE_MAP["COLUMNS"]} - 2))
+    CONSOLE_MAP["OPT_DESCRIPTION_LENGTH"]=$((${CONSOLE_MAP["OPT_COLUMNS_PADDED"]} - ${CONSOLE_MAP["OPT_PADDING"]} - ${CONSOLE_MAP["OPT_STATUS_LENGHT"]} - 1))
+
+    CONSOLE_MAP["PARAM_PADDING"]=22
+    CONSOLE_MAP["PARAM_STATUS_LENGHT"]=5
+    CONSOLE_MAP["PARAM_LINE_MIN_LENGTH"]=49
+    CONSOLE_MAP["PARAM_COLUMNS_PADDED"]=$((${CONSOLE_MAP["COLUMNS"]} - 2))
+    CONSOLE_MAP["PARAM_DESCRIPTION_LENGTH"]=$((${CONSOLE_MAP["PARAM_COLUMNS_PADDED"]} - ${CONSOLE_MAP["PARAM_PADDING"]} - ${CONSOLE_MAP["PARAM_STATUS_LENGHT"]} - 1))
+
+    CONSOLE_MAP["SCN_PADDING"]=27
+    CONSOLE_MAP["SCN_STATUS_LENGHT"]=11
+    CONSOLE_MAP["SCN_LINE_MIN_LENGTH"]=49
+    CONSOLE_MAP["SCN_COLUMNS_PADDED"]=$((${CONSOLE_MAP["COLUMNS"]} - 2))
+    CONSOLE_MAP["SCN_COLUMNS_PADDED5"]=$((${CONSOLE_MAP["COLUMNS"]} - 5))
+    CONSOLE_MAP["SCN_DESCRIPTION_LENGTH"]=$((${CONSOLE_MAP["SCN_COLUMNS_PADDED"]} - ${CONSOLE_MAP["SCN_PADDING"]} - ${CONSOLE_MAP["SCN_STATUS_LENGHT"]} - 1))
+
+    CONSOLE_MAP["TASK_PADDING"]=27
+    CONSOLE_MAP["TASK_STATUS_LENGHT"]=11
+    CONSOLE_MAP["TASK_LINE_MIN_LENGTH"]=49
+    CONSOLE_MAP["TASK_COLUMNS_PADDED"]=$((${CONSOLE_MAP["COLUMNS"]} - 2))
+    CONSOLE_MAP["TASK_COLUMNS_PADDED5"]=$((${CONSOLE_MAP["COLUMNS"]} - 5))
+    CONSOLE_MAP["TASK_DESCRIPTION_LENGTH"]=$((${CONSOLE_MAP["TASK_COLUMNS_PADDED"]} - ${CONSOLE_MAP["TASK_PADDING"]} - ${CONSOLE_MAP["TASK_STATUS_LENGHT"]} - 1))
+
+    CONSOLE_MAP["CONFIG_PADDING"]=22
+    CONSOLE_MAP["CONFIG_STATUS_LENGHT"]=1
+    CONSOLE_MAP["CONFIG_LINE_MIN_LENGTH"]=35
+    CONSOLE_MAP["CONFIG_COLUMNS_PADDED"]=$((${CONSOLE_MAP["COLUMNS"]} - 2))
+    CONSOLE_MAP["CONFIG_COLUMNS_PADDED5"]=$((${CONSOLE_MAP["COLUMNS"]} - 5))
+    CONSOLE_MAP["VALUE_LENGTH"]=$((${CONSOLE_MAP["CONFIG_COLUMNS_PADDED"]} - ${CONSOLE_MAP["CONFIG_PADDING"]} - ${CONSOLE_MAP["CONFIG_STATUS_LENGHT"]} - 1))
 }
+ConsoleCalculate
 
 
 
 ##
-## function: ConsoleIsMessage
-## - returns message status: true if on, false if off
+## function ConsoleHas()
+## - tests the requested counter for > 0
+##   - returns true if requested counter is larger than 0, false otherwise
+## $1: requested counter
 ##
-ConsoleIsMessage(){
-    local QUIET=
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader)
-            QUIET=${CONFIG_MAP["LOADER_QUIET"]}
-            ;;
-        shell)
-            QUIET=${CONFIG_MAP["SHELL_QUIET"]}
-            ;;
-        task)
-            QUIET=${CONFIG_MAP["TASK_QUIET"]}
-            ;;
-    esac
-
-    case $QUIET in
-        on)     return 1;;
-        off)    return 0;;
-    esac
-}
-
-
-
-##
-## function: ConsoleIsPrompt
-## - returns shell-prompt status: true if on, false if off
-##
-ConsoleIsPrompt(){
-    case ${CONFIG_MAP["SHELL_SNP"]} in
-        on)     return 1;;
-        off)    return 0;;
-    esac
-}
-
-
-
-##
-## function: ConsoleFatal
-## - prints a fatal error message with [Fatal] tag, increases *_ERRORS
-## - $1: error prefix, e.g. script name with colon
-## - $2: the error message
-##
-ConsoleFatal() {
-    local LEVEL=
-    local SPRINT
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader)
-            LOADER_ERRORS=$(($LOADER_ERRORS + 1))
-            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
-            ;;
-        shell)
-            SHELL_ERRORS=$(($SHELL_ERRORS + 1))
-            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
-            ;;
-        task)
-            TASK_ERRORS=$(($TASK_ERRORS + 1))
-            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
-            ;;
-    esac
-
-    case $LEVEL in
-        all | fatal | error | warn-strict | warn | info | debug | trace)
-            SPRINT=$(printf "%s [" "$1")
-            SPRINT+=$(PrintColor red "Fatal")
-            SPRINT+=$(printf "] %s" "$2")
-            printf %b "$SPRINT" 1>&2
-            printf "\n" 1>&2
-            ;;
-        off)
-            ;;
-    esac
-}
-
-
-
-##
-## function: ConsoleError
-## - prints an error message with [Error] tag, increases *_ERRORS
-## - $1: error prefix, e.g. script name with colon
-## - $2: the error message
-##
-ConsoleError() {
-    local LEVEL=
-    local SPRINT
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader)
-            LOADER_ERRORS=$(($LOADER_ERRORS + 1))
-            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
-            ;;
-        shell)
-            SHELL_ERRORS=$(($SHELL_ERRORS + 1))
-            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
-            ;;
-        task)
-            TASK_ERRORS=$(($TASK_ERRORS + 1))
-            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
-            ;;
-    esac
-
-    case $LEVEL in
-        all | error | warn-strict | warn | info | debug | trace)
-            SPRINT=$(printf "%s [" "$1")
-            SPRINT+=$(PrintColor light-red "Error")
-            SPRINT+=$(printf "] %s" "$2")
-            printf %b "$SPRINT" 1>&2
-            printf "\n" 1>&2
-            ;;
-        *)
-            ;;
-    esac
-}
-
-
-
-##
-## function ConsoleResetErrors
-## - resets the error counter *_ERRORS
-##
-ConsoleResetErrors() {
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader) LOADER_ERRORS=0 ;;
-        shell)  SHELL_ERRORS=0 ;;
-        task)   TASK_ERRORS=0 ;;
-    esac
-}
-
-
-
-##
-## function ConsoleHasErrors
-## - returns true if counter *_ERRORS is larger than 0, i.e. there are errors
-##
-ConsoleHasErrors() {
+ConsoleHas() {
     local COUNTER
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader) COUNTER=$LOADER_ERRORS ;;
-        shell)  COUNTER=$SHELL_ERRORS ;;
-        task)   COUNTER=$TASK_ERRORS ;;
-    esac
-    if (( $COUNTER > 0 )); then
-        return 0
-    else
-        return 1
-    fi
-}
-
-
-
-##
-## function: ConsoleWarnStrict
-## - in non-strict mode: prints a warning message with [Warn/Strict] tag, increases *_WARNINGS
-## - in strict mode: prints a error message with [Error/Strict] tag, increases *_ERRORS
-## - $1: warning/error prefix, e.g. script name with colon
-## - $2: the warning/error message
-##
-ConsoleWarnStrict() {
-    local LEVEL=
-    local SPRINT
-
-    if [[ ${CONFIG_MAP["STRICT"]} == "on" ]]; then
-        ## all warnings are errors
-        case ${CONFIG_MAP["RUNNING_IN"]} in
-            loader)
-                LOADER_ERRORS=$(($LOADER_ERRORS + 1))
-                LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
-                ;;
-            shell)
-                SHELL_ERRORS=$(($SHELL_ERRORS + 1))
-                LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
-                ;;
-            task)
-                TASK_ERRORS=$(($TASK_ERRORS + 1))
-                LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
-                ;;
-        esac
-        case $LEVEL in
-            all | error | warn-strict | warn | info | debug | trace)
-                SPRINT=$(printf "%s [" "$1")
-                SPRINT+=$(PrintColor light-red "Error")
-                SPRINT+=$(printf "/")
-                SPRINT+=$(PrintColor yellow "strict")
-                SPRINT+=$(printf "] %s" "$2")
-                printf %b "$SPRINT" 1>&2
-                printf "\n" 1>&2
-                ;;
-            *)
-                ;;
-        esac
-    else
-        ## warnings are just warnings
-        case ${CONFIG_MAP["RUNNING_IN"]} in
-            loader)
-                LOADER_WARNINGS=$(($LOADER_WARNINGS + 1))
-                LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
-                ;;
-            shell)
-                SHELL_WARNINGS=$(($SHELL_WARNINGS + 1))
-                LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
-                ;;
-            task)
-                TASK_WARNINGS=$(($TASK_WARNINGS + 1))
-                LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
-                ;;
-        esac
-        case $LEVEL in
-            all | warn-strict | warn | info | debug | trace)
-                SPRINT=$(printf "%s [" "$1")
-                SPRINT+=$(PrintColor yellow "Warning")
-                SPRINT+=$(printf "/")
-                SPRINT+=$(PrintColor light-red "strict")
-                SPRINT+=$(printf "] %s" "$2")
-                printf %b "$SPRINT" 1>&2
-                printf "\n" 1>&2
-                ;;
-            *)
-                ;;
-        esac
-    fi
-}
-
-
-
-##
-## function: ConsoleWarn
-## - prints a warning message with [Warn] tag, increases *_WARNINGS
-## - $1: warning prefix, e.g. script name with colon
-## - $2: the warning message
-##
-ConsoleWarn() {
-    local LEVEL=
-    local SPRINT
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader)
-            LOADER_WARNINGS=$(($LOADER_WARNINGS + 1))
-            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
+    case $1 in
+        errors)
+            case ${CONFIG_MAP["RUNNING_IN"]} in
+                loader) COUNTER=$LOADER_ERRORS ;;
+                shell)  COUNTER=$SHELL_ERRORS ;;
+                task)   COUNTER=$TASK_ERRORS ;;
+            esac
+            if (( $COUNTER > 0 )); then
+                return 0
+            else
+                return 1
+            fi
             ;;
-        shell)
-            SHELL_WARNINGS=$(($SHELL_WARNINGS + 1))
-            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
-            ;;
-        task)
-            TASK_WARNINGS=$(($TASK_WARNINGS + 1))
-            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
-            ;;
-    esac
-    case $LEVEL in
-        all | warn | info | debug | trace)
-            SPRINT=$(printf "%s [" "$1")
-            SPRINT+=$(PrintColor yellow "Warning")
-            SPRINT+=$(printf "] %s" "$2")
-            printf %b "$SPRINT" 1>&2
-            printf "\n" 1>&2
-            ;;
-        *)
-            ;;
-    esac
-}
-
-
-
-##
-## function ConsoleResetWarnings
-## - resets the error counter *_WARNINGS
-##
-ConsoleResetWarnings() {
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader) LOADER_WARNINGS=0 ;;
-        shell)  SHELL_WARNINGS=0 ;;
-        task)   TASK_WARNINGS=0 ;;
-    esac
-}
-
-
-
-##
-## function ConsoleHasWarnings
-## - returns true if counter *_WARNINGS is larger than 0, i.e. there are warnings
-##
-ConsoleHasWarnings() {
-    local COUNTER
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader) COUNTER=$LOADER_WARNINGS ;;
-        shell)  COUNTER=$SHELL_WARNINGS ;;
-        task)   COUNTER=$TASK_WARNINGS ;;
-    esac
-    if (( $COUNTER > 0 )); then
-        return 0
-    else
-        return 1
-    fi
-}
-
-
-
-##
-## function: ConsoleInfo
-## - prints an info message with [Info] tag
-## - adds extra line for message "done"
-## - $1: info prefix, e.g. script name with colon
-## - $2: the info message
-##
-ConsoleInfo() {
-    local LEVEL=
-    local SPRINT
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader)
-            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
-            ;;
-        shell)
-            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
-            ;;
-        task)
-            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
-            ;;
-    esac
-    case $LEVEL in
-        all | info | debug | trace)
-            SPRINT=$(printf "%s [" "$1")
-            SPRINT+=$(PrintColor light-blue "Info")
-            SPRINT+=$(printf "] %s" "$2")
-            printf %b "$SPRINT" 1>&2
-            printf "\n" 1>&2
-            if [[ "$2" == "done" ]]; then
-                printf "\n" 1>&2
+        warnings)
+            case ${CONFIG_MAP["RUNNING_IN"]} in
+                loader) COUNTER=$LOADER_WARNINGS ;;
+                shell)  COUNTER=$SHELL_WARNINGS ;;
+                task)   COUNTER=$TASK_WARNINGS ;;
+            esac
+            if (( $COUNTER > 0 )); then
+                return 0
+            else
+                return 1
             fi
             ;;
         *)
+            ConsolePrint error "console-has: unknown counter $1"
             ;;
     esac
 }
@@ -402,118 +144,184 @@ ConsoleInfo() {
 
 
 ##
-## function: ConsoleDebug
-## - prints a debug message
-## - $1: the debug message
+## function: ConsoleIs()
+## - returns requested console status.
+## $1: requested status, one of: message
 ##
-ConsoleDebug() {
-    local LEVEL=
+ConsoleIs(){
+    case $1 in
+        debug)
+            case $(GetSetting level) in
+                all | debug | trace)    return 0;;
+                *)                      return 1;;
+            esac
+            ;;
+        message)
+            case $(GetSetting quiet) in
+                on)     return 1;;
+                off)    return 0;;
+            esac
+            ;;
+        prompt)
+            case ${CONFIG_MAP["SHELL_SNP"]} in
+                on)     return 1;;
+                off)    return 0;;
+            esac
+            ;;
+        trace)
+            case $(GetSetting level) in
+                all | trace)    return 0;;
+                *)              return 1;;
+            esac
+            ;;
+        *)
+            ConsolePrint error "console-is: unknown status $1"
+            ;;
+    esac
+}
+
+
+
+##
+## function ConsolePrint()
+## - prints a message for given type and optional level
+## $1: message type, one of: fatal, error, warn-strict, warn, info, debug, trace, message
+## $2: message
+## $3: optional level, default is 1, new level should be higher
+##
+## counters will be increased for type fatal, error, warn-strict, and warn
+##
+ConsolePrint() {
     local SPRINT
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader)
-            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
+
+    case $1 in
+        fatal)
+            Counters increase errors
+            case $(GetSetting level) in
+                all | fatal | error | warn-strict | warn | info | debug | trace)
+                    SPRINT=$(printf "  -> [")
+                    SPRINT+=$(PrintColor red "Fatal")
+                    SPRINT+=$(printf "] %s" "$2")
+                    printf %b "$SPRINT" 1>&2
+                    printf "\n" 1>&2
+                    ;;
+                off)
+                    ;;
+            esac
             ;;
-        shell)
-            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
+        error)
+            Counters increase errors
+            case $(GetSetting level) in
+                all | error | warn-strict | warn | info | debug | trace)
+                    SPRINT=$(printf "  -> [")
+                    SPRINT+=$(PrintColor light-red "Error")
+                    SPRINT+=$(printf "] %s" "$2")
+                    printf %b "$SPRINT" 1>&2
+                    printf "\n" 1>&2
+                    ;;
+                *)
+                    ;;
+            esac
             ;;
-        task)
-            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
+        warn-strict)
+            if [[ ${CONFIG_MAP["STRICT"]} == "on" ]]; then
+                ## all warnings are errors
+                Counters increase errors
+                case $(GetSetting level) in
+                    all | error | warn-strict | warn | info | debug | trace)
+                        SPRINT=$(printf "  -> [")
+                        SPRINT+=$(PrintColor light-red "Error")
+                        SPRINT+=$(printf "/")
+                        SPRINT+=$(PrintColor yellow "strict")
+                        SPRINT+=$(printf "] %s" "$2")
+                        printf %b "$SPRINT" 1>&2
+                        printf "\n" 1>&2
+                        ;;
+                    *)
+                        ;;
+                esac
+            else
+                ## warnings are just warnings
+                Counters increase warnings
+                case $(GetSetting level) in
+                    all | warn-strict | warn | info | debug | trace)
+                        SPRINT=$(printf "  -> [")
+                        SPRINT+=$(PrintColor yellow "Warning")
+                        SPRINT+=$(printf "/")
+                        SPRINT+=$(PrintColor light-red "strict")
+                        SPRINT+=$(printf "] %s" "$2")
+                        printf %b "$SPRINT" 1>&2
+                        printf "\n" 1>&2
+                        ;;
+                    *)
+                        ;;
+                esac
+            fi
             ;;
-    esac
-    case $LEVEL in
-        all | debug | trace)
-            SPRINT=$(PrintEffect bold "    >")
-            SPRINT+=$(printf " %s" "$1")
-            printf %b "$SPRINT" 1>&2
-            printf "\n" 1>&2
+        warn)
+            Counters increase warnings
+            case $(GetSetting level) in
+                all | warn | info | debug | trace)
+                    SPRINT=$(printf "  -> [")
+                    SPRINT+=$(PrintColor yellow "Warning")
+                    SPRINT+=$(printf "] %s" "$2")
+                    printf %b "$SPRINT" 1>&2
+                    printf "\n" 1>&2
+                    ;;
+                *)
+                    ;;
+            esac
+            ;;
+        info)
+            case $(GetSetting level) in
+                all | info | debug | trace)
+                    SPRINT=$(printf "  --> [")
+                    SPRINT+=$(PrintColor light-blue "Info")
+                    SPRINT+=$(printf "] %s" "$2")
+                    printf %b "$SPRINT" 1>&2
+                    printf "\n" 1>&2
+                    if [[ "$2" == "done" ]]; then
+                        printf "\n" 1>&2
+                    fi
+                    ;;
+                *)
+                    ;;
+            esac
+            ;;
+        debug)
+            case $(GetSetting level) in
+                all | debug | trace)
+                    SPRINT=$(printf "    ")
+                    SPRINT+=$(PrintEffect bold ">")
+                    SPRINT+=$(printf " %s" "$2")
+                    printf %b "$SPRINT" 1>&2
+                    printf "\n" 1>&2
+                    ;;
+                *)
+                    ;;
+            esac
+            ;;
+        trace)
+            case $(GetSetting level) in
+                all | trace)
+                    SPRINT=$(printf "      ")
+                    SPRINT+=$(PrintEffect italic ">")
+                    SPRINT+=$(printf " %s" "$2")
+                    printf %b "$SPRINT" 1>&2
+                    printf "\n" 1>&2
+                    ;;
+                *)
+                    ;;
+            esac
+            ;;
+        message)
+            case $(GetSetting quiet) in
+                off)    printf %b "$2" 1>&2;;
+                on)     ;;
+            esac
             ;;
         *)
-            ;;
-    esac
-}
-
-
-
-##
-## function: ConsoleTrace
-## - prints a trace message
-## - $1: the trace message
-##
-ConsoleTrace() {
-    local LEVEL=
-    local SPRINT
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader)
-            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
-            ;;
-        shell)
-            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
-            ;;
-        task)
-            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
-            ;;
-    esac
-    case $LEVEL in
-        all | trace)
-            SPRINT=$(PrintEffect italic "    >")
-            SPRINT+=$(printf " %s" "$1")
-            printf %b "$SPRINT" 1>&2
-            printf "\n" 1>&2
-            ;;
-        *)
-            ;;
-    esac
-}
-
-
-
-######################
-#
-# Test functions, return 0 on true and 1 on false
-#
-######################
-ConsoleIsDebug() {
-    local LEVEL=
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader)
-            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
-            ;;
-        shell)
-            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
-            ;;
-        task)
-            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
-            ;;
-    esac
-    case $LEVEL in
-        all | debug | trace)
-            return 0
-            ;;
-        *)
-            return 1
-            ;;
-    esac
-}
-
-ConsoleIsTrace() {
-    local LEVEL=
-    case ${CONFIG_MAP["RUNNING_IN"]} in
-        loader)
-            LEVEL=${CONFIG_MAP["LOADER_LEVEL"]}
-            ;;
-        shell)
-            LEVEL=${CONFIG_MAP["SHELL_LEVEL"]}
-            ;;
-        task)
-            LEVEL=${CONFIG_MAP["TASK_LEVEL"]}
-            ;;
-    esac
-    case $LEVEL in
-        all | trace)
-            return 0
-            ;;
-        *)
-            return 1
+            ConsolePrint error "console-print: unknown message type $1"
             ;;
     esac
 }

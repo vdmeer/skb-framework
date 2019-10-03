@@ -1,5 +1,5 @@
 body {
-    font-family: 'Lora', "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Lora', "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size:14px;
     line-height:20px;
     color:#333;
@@ -8,7 +8,7 @@ body {
 
 code,pre {
     padding:0 3px 2px;
-    font-family:Monaco,Menlo,Consolas,"Courier New",monospace;
+    font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
     font-size:14px;
     line-height:14px;
     color:#333;
@@ -57,7 +57,7 @@ pre code {
 }
 
 .well {
-    font-family: 'Roboto Condensed', "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Roboto Condensed', "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color:lightskyblue;
     border:2px solid #5f5f5f;
     -webkit-border-radius:4px;
@@ -223,7 +223,7 @@ pre code {
 
 .breadcrumb {
     background-color:#015b4e;
-    font-family: 'Roboto Condensed', "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Roboto Condensed', "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .breadcrumb>li {
     text-shadow: none;

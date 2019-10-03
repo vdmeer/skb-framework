@@ -1,0 +1,85 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== ScenarioStatus()
+_void ScenarioStatus( $1 )_ - prints formatted scenario status information.
+
+This function prints formatted information about the scenario status for scenario _$1_.
+This function is mainly used in table views.
+There are six different information printed as one character each, separated by a blank.
+The status information are:
+
+* The scenario origin: where was the scenario declared, for instance _F_ for framework or _A_ for application.
+    The character is printed without special formatting.
+* The scenario flavor: for which flavor was the scenario declared, for instance _S_ for standard and _I_ for install.
+    The character _S_ is printed in cyan, and the character _I_ is printed in purple.
+* The load status for mode _dev_: will (or was) the scenario load in _dev_ mode?
+* The load status for mode _build_: will (or was) the scenario load in _build_ mode?
+* The load status for mode _use_: will (or was) the scenario load in _use_ mode?
+* Information about the load process: what happened when with the scenario when loaded?
+    This information is printed using the character _CHAR_MAP["DIAMOND"]_ with the following color coding:
+    ** light-blue for not attempted, e.g. the scenario declaration prevent loading in the current mode or flavor,
+    ** green for successfully loaded,
+    ** light-red for errors during the load process (the scenario is not loaded), and
+    ** yellow for warnings during the load process (the scenario is loaded but might not work properly).
+
+The the load status, each status is evaluated and then printed as:
+
+* Green using the character in_CHAR_MAP["AVAILABLE"]_ if the scenario was loaded successfully.
+* Light-red using the character in _CHAR_MAP["NOT_AVAILABLE"]_ is if the scenario was not loaded, for any reason.
+
+
+*Parameter*
+
+* `$1`, _string_ - the scenario identifier to process, long- or short form
+
+
+*Errors*
+
+* For unknown scenario identifiers (names)
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getscenarioid-link.adoc[]
+to retrieve the scenario identifier.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
+to print the colors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+ScenarioStatus build-fw-cache
+ScenarioStatus build-fw-distro
+ScenarioStatus test-list-tasks
+----
+
+The examples above will print the status of a few scenarios.
+Assuming that the framework is started in mode _all_ and flavor _install_, and no further errors or warnings are present,
+the examples will print the following lines:
+
+[source%nowrap,subs="attributes,quotes"]
+----
+F <span style="color: #800080">I</span> <span style="color: #00FF00">✔</span> <span style="color: #FF6600">✘</span> <span style="color: #FF6600">✘</span> <span style="color: #00FF00">◆</span>
+F <span style="color: #800080">I</span> <span style="color: #00FF00">✔</span> <span style="color: #FF6600">✘</span> <span style="color: #FF6600">✘</span> <span style="color: #00FF00">◆</span>
+F <span style="color: #800080">I</span> <span style="color: #00FF00">✔</span> <span style="color: #FF6600">✘</span> <span style="color: #FF6600">✘</span> <span style="color: #00FF00">◆</span>
+----

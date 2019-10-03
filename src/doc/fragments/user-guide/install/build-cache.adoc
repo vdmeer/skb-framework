@@ -1,0 +1,84 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== Build Runtime Cache
+The runtime behavior of the framework can be improved when a local runtime cache is create.
+The cache contains pre-compiled (created) information about all framework elements in all different possible formats.
+For more information on the cache see the task `build-cache` in the _Task Guide_.
+
+The runtime cache is not created during an installation.
+It must be build manually after an installation.
+This can be done by either running the task `build-cache` inside the framework,
+    or by executing the provided scenario `build-fw-cache`.
+In either case, the framework needs to be started in `dev` mode and `install` flavor.
+
+
+=== Using the Task `build-cache`
+
+To build the cache using the task, first start the framework and then execute the task manually.
+There are several options that determine the content of the cache.
+The following session shows the framework being started and the task being used to create all cache entries
+
+[source%nowrap,bash,indent=0]
+----
+$ sudo -u skbuser skb-framework --all-mode --install --lq
+
+sf: build-cache --clean --build --full
+
+ ════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  build-cache 18:16:38 executing task with option(s): --clean --build --full
+
+
+  done 18:16:43, 4.2893 seconds, status: 0 - success
+ ════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+sf: quit
+
+$ 
+----
+
+No progress output is shown in the session above, since the task level is left with its default setting (_error_).
+
+
+
+=== Using the Scenario `build-fw-cache`
+
+To build the cache using the scenario, you can run the framework with the option `--execute-scenario`.
+This will start the framework, execute the scenario, and then terminate the framework.
+The following session shows the framework being started (without shell prompt, but with _debug_ task level to see progress details), executing the scenario directly.
+
+[source%nowrap,bash,indent=0]
+----
+$ sudo -u skbuser skb-framework --all-mode --install --run-scenario build-fw-cache --snp --task-level info --lq
+
+
+ ════════════════════════════════════════════════════════════════════════════════════════════════════════════
+  build-cache 18:21:43 executing task with option(s): --clean --build --full
+
+  --> [Info] bdc: starting task
+  --> [Info] build for target(s): cmd-decl cmd-tab dep-decl dep-tab ec-decl ec-tab opt-decl opt-tab param-tab task-decl task-tab tasks
+  --> [Info] done build
+  --> [Info] bdc: done.
+
+  done 18:21:47, 3.6509 seconds, status: 0 - success
+ ════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+
+$ 
+----
+
+The session above shows some progress information from the task execution.
+This is due to the task level being set to _info_ when starting the framework.
+Setting it to _debug_ will show more detailed progress information.

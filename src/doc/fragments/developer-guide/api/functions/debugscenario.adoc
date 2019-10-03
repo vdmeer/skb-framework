@@ -1,0 +1,75 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== DebugScenario()
+_void DebugScenario( $1 )_ - prints debug information for a scenario.
+
+This function prints all internal information about a scenario, including details of the declaration and load status.
+
+
+*Parameters*
+
+* `$1` - scenario identifier (or name), short or long form
+
+
+*Errors*
+
+* If the scenario identifier is unknown.
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getscenarioid-link.adoc[]
+to retrieve the scenario identifier.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
+to print debug information.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
+to print debug information.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+DebugScenario bfd
+----
+
+The example above calls the function with the short name `bfd`, which will result in debug information for the scenario _build-fw-distro_ as follows (assuming print mode _ansi_):
+
+[source%nowrap,subs="attributes,quotes"]
+----
+  *build-fw-distro*, *bfd* - _builds all distribution artifacts_
+    - origin:      FW_HOME
+    - modes:       dev
+    - mode flavor: install
+    - declaration: $FW_HOME/scenarios/dev/build-fw-distro
+    - executable:  $FW_HOME/scenarios/dev/build-fw-distro.scn
+
+    _Requirements and dependencies_
+      none
+
+    _Load and status_
+      - load status:   S
+      - load comments: mode
+
+----
+
+Note: The scenario in the example above is only loaded in application mode _dev_ and flavor _install_.

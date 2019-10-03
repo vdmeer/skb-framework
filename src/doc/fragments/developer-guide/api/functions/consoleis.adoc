@@ -1,0 +1,94 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+==  ConsoleIs()
+_boolean ConsoleIs( $1 )_ - returns requested console status.
+
+This function tests the status requested in `$1` and returns
+    _true_ if it is active (set) or
+    _false_ if it is not active (not set).
+Several status tests are supported:
+
+* _debug_ - to test if the debug level is set.
+    The actual level tested is taken from _GetSetting()_.
+* _message_ - to test if setting for quiet.
+    The actual level tested is taken from _GetSetting()_.
+* _prompt_ - to test if the shell is permitted to print a prompt.
+    The setting tested here is _CONFIG_MAP["SHELL_SNP"]_.
+* _trace_ - to test if the debug level is set.
+    The actual level tested is taken from _GetSetting()_.
+
+
+*Parameter*
+
+* `$1` - String with the requested status.
+            The string can be one of
+            _debug_,
+            _message_,
+            _prompt_, or
+            _trace_.
+
+
+*Return*
+
+* _true_ (or _0_) if the status is active (set)
+* _false_ (or _1_) if the status is not active (not set)
+
+
+*Errors*
+
+* For an unknown status in `$1`
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+for printing error messages.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
+for printing ANSI colors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
+for printing ANSI text effects.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getsetting-link.adoc[]
+to get the right level and quiet setting.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+if $(ConsoleIs message); then ...; ...; fi
+if $(ConsoleIs message); then ...; else ...; fi
+if $(ConsoleIs message); then
+    ...
+    return
+fi
+
+if $(ConsoleIs prompt); then ...; ...; fi
+if $(ConsoleIs prompt); then ...; else ...; fi
+if $(ConsoleIs prompt); then
+    ...
+    return
+fi
+----
+
+The examples above show how this function can be used to test message and prompt settings.
+Line 1 and 2 show single line evaluations for messages.
+The lines 3-6 show a multi-line example for messages.
+Line 8 and 9 show single line evaluations for prompt.
+The lines 11-13 show a multi-line example for prompt.

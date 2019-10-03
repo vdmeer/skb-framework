@@ -24,13 +24,10 @@
 ## validate-installation - validates an installation
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -54,11 +51,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -75,11 +69,11 @@ CLI_SET=false
 ## set CLI options and parse CLI
 ##
 CLI_OPTIONS=Ahs
-CLI_LONG_OPTIONS=all,help,strict,msrc,cmd,dep,es,opt,param,scn,task
+CLI_LONG_OPTIONS=all,help,strict,msrc,cmd,dep,ec,opt,param,scn,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name validate-installation -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "validate-installation: unknown CLI options"
+    ConsolePrint error "validate-installation: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -90,22 +84,26 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "validate-installation")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"        $PRINT_PADDING
-                BuildTaskHelpLine s strict  "<none>"    "run in strict mode"                $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
+                BuildTaskHelpLine h help    "<none>"    "print help screen and exit"    $PRINT_PADDING
+                BuildTaskHelpLine s strict  "<none>"    "run in strict mode"            $PRINT_PADDING
+                BuildTaskHelpTag end options
 
-                printf "\n   targets\n"
-                BuildTaskHelpLine A all "<none>" "set all targets" $PRINT_PADDING
-
-                BuildTaskHelpLine "<none>" msrc     "<none>" "target: manual source" $PRINT_PADDING
-
+                printf "\n"
+                BuildTaskHelpTag start targets
+                printf "   targets\n"
+                BuildTaskHelpLine A         all     "<none>" "set all targets"          $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  msrc    "<none>" "target: manual source"    $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  cmd     "<none>" "target: commands"         $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  dep     "<none>" "target: dependencies"     $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  es      "<none>" "target: exit-status"      $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  ec      "<none>" "target: error codes"      $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  opt     "<none>" "target: options"          $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  param   "<none>" "target: parameters"       $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  scn     "<none>" "target: scenarios"        $PRINT_PADDING
                 BuildTaskHelpLine "<none>"  task    "<none>" "target: tasks"            $PRINT_PADDING
+                BuildTaskHelpTag end targets
             else
                 cat $CACHED_HELP
             fi
@@ -138,9 +136,9 @@ while true; do
             TARGET=$TARGET" dep"
             CLI_SET=true
             ;;
-        --es)
+        --ec)
             shift
-            TARGET=$TARGET" es"
+            TARGET=$TARGET" ec"
             CLI_SET=true
             ;;
         --opt)
@@ -169,7 +167,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "validate-installation: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "validate-installation: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -180,7 +178,7 @@ done
 ## test CLI
 ############################################################################################
 if [[ $DO_ALL == true || $CLI_SET == false ]]; then
-    TARGET="msrc cmd dep es opt param scn task"
+    TARGET="msrc cmd dep ec opt param scn task"
 fi
 
 
@@ -191,7 +189,7 @@ fi
 ##
 ############################################################################################
 ValidateManualSource() {
-    ConsoleDebug "validating manual source"
+    ConsolePrint debug "validating manual source"
 
     local found
     local EXPECTED
@@ -201,14 +199,14 @@ ValidateManualSource() {
     local DIR=${CONFIG_MAP["MANUAL_SRC"]}
 
     if [[ ! -d $DIR/tags ]]; then
-        ConsoleError " ->" "vi: did not find tag directory"
+        ConsolePrint error "vi: did not find tag directory"
     else
         EXPECTED="tags/name tags/authors"
         for FILE in $EXPECTED; do
             if [[ ! -f $DIR/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "vi: manual missing file $FILE.txt"
+                ConsolePrint warn-strict "vi: manual missing file $FILE.txt"
             elif [[ ! -r $DIR/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.txt"
+                ConsolePrint warn-strict "vi: cannot read manual file $FILE.txt"
             fi
         done
 
@@ -224,25 +222,25 @@ ValidateManualSource() {
                 fi
             done
             if [[ $found == false ]]; then
-                ConsoleWarnStrict "  ->" "vi: found extra file tags/${FILE##*/}"
+                ConsolePrint warn-strict "vi: found extra file tags/${FILE##*/}"
             fi
         done
     fi
 
     if [[ ! -d $DIR/elements ]]; then
-        ConsoleError " ->" "did not find elements directory"
+        ConsolePrint error "did not find elements directory"
     else
-        EXPECTED="elements/commands elements/dependencies elements/exit-options elements/exit-status elements/options elements/parameters elements/run-options elements/tasks elements/scenarios"
+        EXPECTED="elements/commands elements/dependencies elements/exit-options elements/errorcodes elements/options elements/parameters elements/run-options elements/tasks elements/scenarios"
         for FILE in $EXPECTED; do
             if [[ ! -f $DIR/$FILE.adoc ]]; then
-                ConsoleWarnStrict "  ->" "vi: missing manual file $FILE.adoc"
+                ConsolePrint warn-strict "vi: missing manual file $FILE.adoc"
             elif [[ ! -r $DIR/$FILE.adoc ]]; then
-                ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.adoc"
+                ConsolePrint warn-strict "vi: cannot read manual file $FILE.adoc"
             fi
             if [[ ! -f $DIR/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "vi: missing manual file $FILE.txt"
+                ConsolePrint warn-strict "vi: missing manual file $FILE.txt"
             elif [[ ! -r $DIR/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.txt"
+                ConsolePrint warn-strict "vi: cannot read manual file $FILE.txt"
             fi
         done
 
@@ -262,25 +260,25 @@ ValidateManualSource() {
                 fi
             done
             if [[ $found == false ]]; then
-                ConsoleWarnStrict "  ->" "vi: found extra file elements/${FILE##*/}"
+                ConsolePrint warn-strict "vi: found extra file elements/${FILE##*/}"
             fi
         done
     fi
 
     if [[ ! -d $DIR/application ]]; then
-        ConsoleError " ->" "did not find application directory"
+        ConsolePrint error "did not find application directory"
     else
         EXPECTED="application/description application/authors application/bugs application/copying application/resources application/security"
         for FILE in $EXPECTED; do
             if [[ ! -f $DIR/$FILE.adoc ]]; then
-                ConsoleWarnStrict "  ->" "vi: missing manual file $FILE.adoc"
+                ConsolePrint warn-strict "vi: missing manual file $FILE.adoc"
             elif [[ ! -r $DIR/$FILE.adoc ]]; then
-                ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.adoc"
+                ConsolePrint warn-strict "vi: cannot read manual file $FILE.adoc"
             fi
             if [[ ! -f $DIR/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "vi: missing manual file $FILE.txt"
+                ConsolePrint warn-strict "vi: missing manual file $FILE.txt"
             elif [[ ! -r $DIR/$FILE.txt ]]; then
-                ConsoleWarnStrict "  ->" "vi: cannot read manual file $FILE.txt"
+                ConsolePrint warn-strict "vi: cannot read manual file $FILE.txt"
             fi
         done
 
@@ -300,12 +298,12 @@ ValidateManualSource() {
                 fi
             done
             if [[ $found == false ]]; then
-                ConsoleWarnStrict "  ->" "vi: found extra file application/${FILE##*/}"
+                ConsolePrint warn-strict "vi: found extra file application/${FILE##*/}"
             fi
         done
     fi
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 
@@ -316,29 +314,29 @@ ValidateManualSource() {
 ##
 ############################################################################################
 ValidateCommandDocs() {
-    ConsoleDebug "validating command docs"
+    ConsolePrint debug "validating command docs"
 
     local ID
     local SOURCE
     for ID in ${!DMAP_CMD[@]}; do
         SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["COMMANDS"]}/$ID
         if [[ ! -f $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "vi: commands '$ID' without ADOC file"
+            ConsolePrint warn-strict "vi: commands '$ID' without ADOC file"
         elif [[ ! -r $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "vi: commands '$ID' ADOC file not readable"
+            ConsolePrint warn-strict "vi: commands '$ID' ADOC file not readable"
         fi
         if [[ ! -f $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "vi: commands '$ID' without TXT file"
+            ConsolePrint warn-strict "vi: commands '$ID' without TXT file"
         elif [[ ! -r $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "vi: commands '$ID' TXT file not readable"
+            ConsolePrint warn-strict "vi: commands '$ID' TXT file not readable"
         fi
     done
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 ValidateCommand() {
-    ConsoleDebug "validating command"
+    ConsolePrint debug "validating command"
 
     ValidateCommandDocs
 
@@ -355,12 +353,12 @@ ValidateCommand() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_CMD[$ID]:-} ]]; then
-                ConsoleError " ->" "vi: validate/cmd - found extra file FW_HOME/${FW_PATH_MAP["COMMANDS"]}, command '$ID' not declared"
+                ConsolePrint error "vi: validate/cmd - found extra file FW_HOME/${FW_PATH_MAP["COMMANDS"]}, command '$ID' not declared"
             fi
         done
     fi
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 
@@ -371,30 +369,30 @@ ValidateCommand() {
 ##
 ############################################################################################
 ValidateDependencyDocs() {
-    ConsoleDebug "validating command docs"
+    ConsolePrint debug "validating command docs"
 
     local ID
     local SOURCE
     for ID in ${!DMAP_DEP_DECL[@]}; do
         SOURCE=${DMAP_DEP_DECL[$ID]}
         if [[ ! -f $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "vi: dependency '$ID' without ADOC file"
+            ConsolePrint warn-strict "vi: dependency '$ID' without ADOC file"
         elif [[ ! -r $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "vi: dependency '$ID' ADOC file not readable"
+            ConsolePrint warn-strict "vi: dependency '$ID' ADOC file not readable"
         fi
         if [[ ! -f $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "vi: dependency '$ID' without TXT file"
+            ConsolePrint warn-strict "vi: dependency '$ID' without TXT file"
         elif [[ ! -r $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "vi: dependency '$ID' TXT file not readable"
+            ConsolePrint warn-strict "vi: dependency '$ID' TXT file not readable"
         fi
     done
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 ValidateDependencyOrigin() {
     local ORIGIN=$1
-    ConsoleDebug "validating command docs $ORIGIN"
+    ConsolePrint debug "validating command docs $ORIGIN"
 
     local ID
     local ORIGIN_PATH=${CONFIG_MAP[$ORIGIN]}
@@ -409,16 +407,16 @@ ValidateDependencyOrigin() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
-                ConsoleError " ->" "vi: validate/dep - found extra file $ORIGIN/${APP_PATH_MAP["DEP_DECL"]}, dependency '$ID' not declared"
+                ConsolePrint error "vi: validate/dep - found extra file $ORIGIN/${APP_PATH_MAP["DEP_DECL"]}, dependency '$ID' not declared"
             fi
         done
     fi
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 ValidateDependency() {
-    ConsoleDebug "validating dependency"
+    ConsolePrint debug "validating dependency"
 
     ValidateDependencyDocs
     ValidateDependencyOrigin FW_HOME
@@ -426,40 +424,40 @@ ValidateDependency() {
         ValidateDependencyOrigin APP_HOME
     fi
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 
 
 ############################################################################################
 ##
-## function: Validate EXIT STATUS
+## function: Validate ERRORCODES
 ##
 ############################################################################################
-ValidateExitstatusDocs() {
-    ConsoleDebug "validating exit-status docs"
+ValidateErrorCodeDocs() {
+    ConsolePrint debug "validating error code docs"
 
     local ID
     local SOURCE
-    for ID in ${!DMAP_ES[@]}; do
-        SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["EXITSTATUS"]}/$ID
+    for ID in ${!DMAP_EC[@]}; do
+        SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["ERRORCODES"]}/$ID
         if [[ ! -f $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "vi: exit-status '$ID' without ADOC file"
+            ConsolePrint warn-strict "vi: error code '$ID' without ADOC file"
         elif [[ ! -r $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "vi: exit-status '$ID' ADOC file not readable"
+            ConsolePrint warn-strict "vi: error code '$ID' ADOC file not readable"
         fi
         if [[ ! -f $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "vi: exit-status '$ID' without TXT file"
+            ConsolePrint warn-strict "vi: error code '$ID' without TXT file"
         elif [[ ! -r $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "vi: exit-status '$ID' TXT file not readable"
+            ConsolePrint warn-strict "vi: error code '$ID' TXT file not readable"
         fi
     done
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
-ValidateExitstatus() {
-    ConsoleDebug "validating exit-status"
+ValidateErrorCode() {
+    ConsolePrint debug "validating error code"
 
     ValidateCommandDocs
 
@@ -467,21 +465,21 @@ ValidateExitstatus() {
     local ORIGIN_PATH=${CONFIG_MAP["FW_HOME"]}
     local FILE
 
-    ## check that files in the exit-status folder have a corresponding exit-status declaration
-    if [[ -d $ORIGIN_PATH/${FW_PATH_MAP["EXITSTATUS"]} ]]; then
-        for FILE in $ORIGIN_PATH/${FW_PATH_MAP["EXITSTATUS"]}/**; do
+    ## check that files in the error code folder have a corresponding error code declaration
+    if [[ -d $ORIGIN_PATH/${FW_PATH_MAP["ERRORCODES"]} ]]; then
+        for FILE in $ORIGIN_PATH/${FW_PATH_MAP["ERRORCODES"]}/**; do
             if [[ -d "$FILE" ]]; then
                 continue
             fi
             ID=${FILE##*/}
             ID=${ID%.*}
-            if [[ -z ${DMAP_ES[$ID]:-} ]]; then
-                ConsoleError " ->" "vi: validate/es - found extra file FW_HOME/${FW_PATH_MAP["EXITSTATUS"]}, exit-status '$ID' not declared"
+            if [[ -z ${DMAP_EC[$ID]:-} ]]; then
+                ConsolePrint error "vi: validate/ec - found extra file FW_HOME/${FW_PATH_MAP["ERRORCODES"]}, error code '$ID' not declared"
             fi
         done
     fi
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 
@@ -492,7 +490,7 @@ ValidateExitstatus() {
 ##
 ############################################################################################
 ValidateOptionDocs() {
-    ConsoleDebug "validating option docs"
+    ConsolePrint debug "validating option docs"
 
     local ID
     local SOURCE
@@ -502,23 +500,23 @@ ValidateOptionDocs() {
         if [[ "$OPT_PATH" != "" ]]; then
             SOURCE=${CONFIG_MAP["FW_HOME"]}/${FW_PATH_MAP["OPTIONS"]}/$OPT_PATH/$ID
             if [[ ! -f $SOURCE.adoc ]]; then
-                ConsoleWarnStrict " ->" "vi: option '$ID' without ADOC file"
+                ConsolePrint warn-strict "vi: option '$ID' without ADOC file"
             elif [[ ! -r $SOURCE.adoc ]]; then
-                ConsoleWarnStrict " ->" "vi: option '$ID' ADOC file not readable"
+                ConsolePrint warn-strict "vi: option '$ID' ADOC file not readable"
             fi
             if [[ ! -f $SOURCE.txt ]]; then
-                ConsoleWarnStrict " ->" "vi: option '$ID' without TXT file"
+                ConsolePrint warn-strict "vi: option '$ID' without TXT file"
             elif [[ ! -r $SOURCE.txt ]]; then
-                ConsoleWarnStrict " ->" "vi: option '$ID' TXT file not readable"
+                ConsolePrint warn-strict "vi: option '$ID' TXT file not readable"
             fi
         fi
     done
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 ValidateOption() {
-    ConsoleDebug "validating option"
+    ConsolePrint debug "validating option"
 
     ValidateOptionDocs
 
@@ -535,12 +533,12 @@ ValidateOption() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
-                ConsoleError " ->" "vi: validate/opt - found extra file FW_HOME/${FW_PATH_MAP["OPTIONS"]}, option '$ID' not declared"
+                ConsolePrint error "vi: validate/opt - found extra file FW_HOME/${FW_PATH_MAP["OPTIONS"]}, option '$ID' not declared"
             fi
         done
     fi
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 
@@ -551,30 +549,30 @@ ValidateOption() {
 ##
 ############################################################################################
 ValidateParameterDocs() {
-    ConsoleDebug "validating parameter docs"
+    ConsolePrint debug "validating parameter docs"
 
     local ID
     local SOURCE
     for ID in ${!DMAP_PARAM_DECL[@]}; do
         SOURCE=${DMAP_PARAM_DECL[$ID]}
         if [[ ! -f $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "vi: parameter '$ID' without ADOC file"
+            ConsolePrint warn-strict "vi: parameter '$ID' without ADOC file"
         elif [[ ! -r $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "vi: parameter '$ID' ADOC file not readable"
+            ConsolePrint warn-strict "vi: parameter '$ID' ADOC file not readable"
         fi
         if [[ ! -f $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "vi: parameter '$ID' without TXT file"
+            ConsolePrint warn-strict "vi: parameter '$ID' without TXT file"
         elif [[ ! -r $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "vi: parameter '$ID' TXT file not readable"
+            ConsolePrint warn-strict "vi: parameter '$ID' TXT file not readable"
         fi
     done
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 ValidateParameterOrigin() {
     local ORIGIN=$1
-    ConsoleDebug "validating parameter $ORIGIN"
+    ConsolePrint debug "validating parameter $ORIGIN"
 
     local ID
     local ORIGIN_PATH=${CONFIG_MAP[$ORIGIN]}
@@ -589,16 +587,16 @@ ValidateParameterOrigin() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
-                ConsoleError " ->" "vi: validate/param - found extra file $ORIGIN/${APP_PATH_MAP["PARAM_DECL"]}, parameter '$ID' not declared"
+                ConsolePrint error "vi: validate/param - found extra file $ORIGIN/${APP_PATH_MAP["PARAM_DECL"]}, parameter '$ID' not declared"
             fi
         done
     fi
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 ValidateParameter() {
-    ConsoleDebug "validating parameter"
+    ConsolePrint debug "validating parameter"
 
     ValidateParameterDocs
     ValidateParameterOrigin FW_HOME
@@ -606,7 +604,7 @@ ValidateParameter() {
         ValidateParameterOrigin APP_HOME
     fi
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 
@@ -617,31 +615,31 @@ ValidateParameter() {
 ##
 ############################################################################################
 ValidateScenarioDocs() {
-    ConsoleDebug "validating scenario docs"
+    ConsolePrint debug "validating scenario docs"
 
     local ID
     local SOURCE
     for ID in ${!DMAP_SCN_DECL[@]}; do
         SOURCE=${DMAP_SCN_DECL[$ID]}
         if [[ ! -f $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "vi: scenario '$ID' without ADOC file"
+            ConsolePrint warn-strict "vi: scenario '$ID' without ADOC file"
         elif [[ ! -r $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "vi: scenario '$ID' ADOC file not readable"
+            ConsolePrint warn-strict "vi: scenario '$ID' ADOC file not readable"
         fi
         if [[ ! -f $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "vi: scenario '$ID' without TXT file"
+            ConsolePrint warn-strict "vi: scenario '$ID' without TXT file"
         elif [[ ! -r $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "vi: scenario '$ID' TXT file not readable"
+            ConsolePrint warn-strict "vi: scenario '$ID' TXT file not readable"
         fi
     done
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 ValidateScenarioOrigin() {
     local ORIGIN_PATH=$1
     local ORIGIN=$2
-    ConsoleDebug "validating scenario $ORIGIN"
+    ConsolePrint debug "validating scenario $ORIGIN"
 
     local ID
     local SCN_PATH=$ORIGIN_PATH/${APP_PATH_MAP["SCENARIOS"]}
@@ -656,7 +654,7 @@ ValidateScenarioOrigin() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_SCN_DECL[$ID]:-} ]]; then
-                ConsoleError " ->" "vi: validate/scn - found extra file $ORIGIN/${APP_PATH_MAP["SCENARIOS"]}, scenario '$ID' not declared"
+                ConsolePrint error "vi: validate/scn - found extra file $ORIGIN/${APP_PATH_MAP["SCENARIOS"]}, scenario '$ID' not declared"
             fi
         done
     fi
@@ -670,16 +668,16 @@ ValidateScenarioOrigin() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_SCN_EXEC[$ID]:-} ]]; then
-                ConsoleError " ->" "vi: validate/scn - found extra file $ORIGIN/${APP_PATH_MAP["SCN_SCRIPT"]}, scenario '$ID' not declared"
+                ConsolePrint error "vi: validate/scn - found extra file $ORIGIN/${APP_PATH_MAP["SCN_SCRIPT"]}, scenario '$ID' not declared"
             fi
         done
     fi
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 ValidateScenario() {
-    ConsoleDebug "validating scenario"
+    ConsolePrint debug "validating scenario"
 
     ValidateScenarioDocs
 
@@ -697,7 +695,7 @@ ValidateScenario() {
     fi
 
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 
@@ -708,30 +706,30 @@ ValidateScenario() {
 ##
 ############################################################################################
 ValidateTaskDocs() {
-    ConsoleDebug "validating task docs"
+    ConsolePrint debug "validating task docs"
 
     local ID
     local SOURCE
     for ID in ${!DMAP_TASK_DECL[@]}; do
         SOURCE=${DMAP_TASK_DECL[$ID]}
         if [[ ! -f $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "vi: task '$ID' without ADOC file"
+            ConsolePrint warn-strict "vi: task '$ID' without ADOC file"
         elif [[ ! -r $SOURCE.adoc ]]; then
-            ConsoleWarnStrict " ->" "vi: task '$ID' ADOC file not readable"
+            ConsolePrint warn-strict "vi: task '$ID' ADOC file not readable"
         fi
         if [[ ! -f $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "vi: task '$ID' without TXT file"
+            ConsolePrint warn-strict "vi: task '$ID' without TXT file"
         elif [[ ! -r $SOURCE.txt ]]; then
-            ConsoleWarnStrict " ->" "vi: task '$ID' TXT file not readable"
+            ConsolePrint warn-strict "vi: task '$ID' TXT file not readable"
         fi
     done
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 ValidateTaskOrigin() {
     local ORIGIN=$1
-    ConsoleDebug "validating task $ORIGIN"
+    ConsolePrint debug "validating task $ORIGIN"
 
     local ID
     local ORIGIN_PATH=${CONFIG_MAP[$ORIGIN]}
@@ -746,7 +744,7 @@ ValidateTaskOrigin() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_TASK_DECL[$ID]:-} ]]; then
-                ConsoleError " ->" "vi: validate/task - found extra file $ORIGIN/${APP_PATH_MAP["TASK_DECL"]}, task '$ID' not declared"
+                ConsolePrint error "vi: validate/task - found extra file $ORIGIN/${APP_PATH_MAP["TASK_DECL"]}, task '$ID' not declared"
             fi
         done
     fi
@@ -760,16 +758,16 @@ ValidateTaskOrigin() {
             ID=${FILE##*/}
             ID=${ID%.*}
             if [[ -z ${DMAP_TASK_EXEC[$ID]:-} ]]; then
-                ConsoleError " ->" "vi: validate/task - found extra file $ORIGIN/${APP_PATH_MAP["TASK_SCRIPT"]}, task '$ID' not declared"
+                ConsolePrint error "vi: validate/task - found extra file $ORIGIN/${APP_PATH_MAP["TASK_SCRIPT"]}, task '$ID' not declared"
             fi
         done
     fi
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 ValidateTask() {
-    ConsoleDebug "validating task"
+    ConsolePrint debug "validating task"
 
     ValidateTaskDocs
     ValidateTaskOrigin FW_HOME
@@ -777,7 +775,7 @@ ValidateTask() {
         ValidateTaskOrigin APP_HOME
     fi
 
-    ConsoleDebug "done"
+    ConsolePrint debug "done"
 }
 
 
@@ -787,70 +785,70 @@ ValidateTask() {
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "vi: starting task"
-ConsoleResetErrors
+ConsolePrint info "vi: starting task"
+Counters reset errors
 
-ConsoleInfo "  -->" "validate target(s): $TARGET"
+ConsolePrint info "validate target(s): $TARGET"
 
 OLD_STRICT=${CONFIG_MAP["STRICT"]}
 if [[ "$DO_STRICT" == true ]]; then
     CONFIG_MAP["STRICT"]=on
 fi
 for TODO in $TARGET; do
-    ConsoleDebug "target: $TODO"
+    ConsolePrint debug "target: $TODO"
     case $TODO in
         msrc)
-            ConsoleInfo "  -->" "validating manual source"
+            ConsolePrint info "validating manual source"
             ValidateManualSource
             ValidateCommandDocs
-            ValidateExitstatusDocs
+            ValidateErrorCodeDocs
             ValidateOptionDocs
             ValidateDependencyDocs
             ValidateParameterDocs
             ValidateTaskDocs
-            ConsoleInfo "  -->" "done"
+            ConsolePrint info "done"
             ;;
         cmd)
-            ConsoleInfo "  -->" "validating command"
+            ConsolePrint info "validating command"
             ValidateCommand
-            ConsoleInfo "  -->" "done"
+            ConsolePrint info "done"
             ;;
         dep)
-            ConsoleInfo "  -->" "validating dependency"
+            ConsolePrint info "validating dependency"
             ValidateDependency
-            ConsoleInfo "  -->" "done"
+            ConsolePrint info "done"
             ;;
-        es)
-            ConsoleInfo "  -->" "validating exit-status"
-            ValidateExitstatus
-            ConsoleInfo "  -->" "done"
+        ec)
+            ConsolePrint info "validating error code"
+            ValidateErrorCode
+            ConsolePrint info "done"
             ;;
         opt)
-            ConsoleInfo "  -->" "validating option"
+            ConsolePrint info "validating option"
             ValidateOption
-            ConsoleInfo "  -->" "done"
+            ConsolePrint info "done"
             ;;
         param)
-            ConsoleInfo "  -->" "validating parameter"
+            ConsolePrint info "validating parameter"
             ValidateParameter
-            ConsoleInfo "  -->" "done"
+            ConsolePrint info "done"
             ;;
         scn)
-            ConsoleInfo "  -->" "validating scenario"
+            ConsolePrint info "validating scenario"
             ValidateScenario
-            ConsoleInfo "  -->" "done"
+            ConsolePrint info "done"
             ;;
         task)
-            ConsoleInfo "  -->" "validating task"
+            ConsolePrint info "validating task"
             ValidateTask
-            ConsoleInfo "  -->" "done"
+            ConsolePrint info "done"
             ;;
         *)
-            ConsoleError " ->" "vi: unknown target $TODO"
+            ConsolePrint error "vi: unknown target $TODO"
     esac
-    ConsoleDebug "done target - $TODO"
+    ConsolePrint debug "done target - $TODO"
 done
 CONFIG_MAP["STRICT"]=OLD_STRICT
 
-ConsoleInfo "  -->" "vi: done"
+ConsolePrint info "vi: done"
 exit $TASK_ERRORS

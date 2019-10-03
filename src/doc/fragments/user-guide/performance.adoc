@@ -1,0 +1,76 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== Performance
+
+The runtime performance of the framework depends on a few factors.
+Some of those factors can be mitigated by the framework itself.
+
+
+
+=== Factors
+_Hardware_.
+The underlying hardware plays a role.
+Obviously, the framework will run much faster on a high powered server than on a lower power laptop or embedded hardware like as Raspberry PI.
+
+_Available CPU_.
+The available processing capacity, shared between all running processes, plays a role as well.
+If for instance only 10% capacity is left because other processes take 90%, then the framework will be slower than in other case were more capacity is available.
+
+_Bash execution_.
+The probably most important factor is how the Bash and Bash scripts are executed.
+In cases were Bash is a native program (as in all UNIX and Linux systems), the framework will run very fast.
+In cases were Bash is executed over some mid-layer (e.g. in Cygwin), then the framework's performance will be impeded.
+For example, running the framework and the task `build-cache` in Ubuntu on a VirtualBox might take 3-4 seconds.
+Running the same task, on the same hardware platform (same laptop in that case) in Cygwin can take a much as 3-4 minutes.
+Another example is the time required to start the framework.
+On Ubuntu it might take abount 1 second, while on the same machine using Cygwin it might take as long as 12 seconds.
+
+_Framework Cache_.
+Some command line options and some tasks use information generated at runtime.
+For instance listing available tasks.
+These tasks can be (much) faster if the information is cached, rather than generated at runtime.
+
+_Print Mode_.
+The print mode can be a factor for performance as well.
+Plain text can be (much) faster than ANSI formatted text (with colors and other formatting options).
+This depends on the used terminal or console, as much as on the Bash execution environment and the underlying hardware.
+
+
+
+=== When is Performance required?
+The framework requires performance at two stages of the execution workflow.
+the first is when the framework starts and calls the _loader_ to load all metadata and information.
+The loader will read many files, process their information, and create runtime information and files.
+
+The second one is when task or scenarios are being executed.
+Each task (or task being executed inside a scenario) runs as a separate Bash program.
+Tasks may call external programs, extending the process tree.
+Any task or external program will require CPU resources.
+
+When the interactive shell is started, no CPU resources are required when no task or scenario is executed.
+The shell simply waits for a complete line of commands.
+
+
+
+=== Improving Performance
+Running the framework on better hardware should improve the performance.
+More memory might also be of help.
+
+Using the framework itself, we can create a cache for many metadata.
+The task _build-cache_ or the scenario _build-fw-cache_ can be used to do that.
+Data available in the cache will speed-up the load process as well as tasks that manage elements (for instance list or describe tasks).
+The improvement will be less noticeable on Linux systems than for instance on Cygwin.
+

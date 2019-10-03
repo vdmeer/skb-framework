@@ -1,0 +1,91 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== TaskStatus()
+_void TaskStatus( $1 )_ - prints formatted task status information.
+
+This function prints formatted information about the task status for task _$1_.
+This function is mainly used in table views.
+There are six different information printed as one character each, separated by a blank.
+The status information are:
+
+* The task origin: where was the task declared, for instance _F_ for framework or _A_ for application.
+    The character is printed without special formatting.
+* The task flavor: for which flavor was the task declared, for instance _S_ for standard and _I_ for install.
+    The character _S_ is printed in cyan, and the character _I_ is printed in purple.
+* The load status for mode _dev_: will (or was) the task load in _dev_ mode?
+* The load status for mode _build_: will (or was) the task load in _build_ mode?
+* The load status for mode _use_: will (or was) the task load in _use_ mode?
+* Information about the load process: what happened when with the task when loaded?
+    This information is printed using the character _CHAR_MAP["DIAMOND"]_ with the following color coding:
+    ** light-blue for not attempted, e.g. the task declaration prevent loading in the current mode or flavor,
+    ** green for successfully loaded,
+    ** light-red for errors during the load process (the task is not loaded), and
+    ** yellow for warnings during the load process (the task is loaded but might not work properly).
+
+The the load status, each status is evaluated and then printed as:
+
+* Green using the character in_CHAR_MAP["AVAILABLE"]_ if the task was loaded successfully.
+* Light-red using the character in _CHAR_MAP["NOT_AVAILABLE"]_ is if the task was not loaded, for any reason.
+
+
+*Parameter*
+
+* `$1`, _string_ - the task identifier to process, long- or short form
+
+
+*Errors*
+
+* For unknown task identifiers (names)
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/gettaskid-link.adoc[]
+to retrieve the task identifier.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
+to print the colors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+TaskStatus build-cache
+TaskStatus build-manual
+TaskStatus clean
+TaskStatus set-file-versions
+TaskStatus start-browser
+TaskStatus statistics
+----
+
+The examples above will print the status of a few tasks.
+Assuming that the framework is started in mode _use_ and flavor _standard_, and no further errors or warnings are present,
+the examples will print the following lines:
+
+[source%nowrap,subs="attributes,quotes"]
+----
+F <span style="color: #800080">I</span> <span style="color: #00FF00">✔</span> <span style="color: #FF6600">✘</span> <span style="color: #FF6600">✘</span> <span style="color: #5C5CFF">◆</span>
+F <span style="color: #800080">I</span> <span style="color: #00FF00">✔</span> <span style="color: #00FF00">✔</span> <span style="color: #00FF00">✔</span> <span style="color: #5C5CFF">◆</span>
+F <span style="color: #00FFFF">S</span> <span style="color: #00FF00">✔</span> <span style="color: #00FF00">✔</span> <span style="color: #FF6600">✘</span> <span style="color: #5C5CFF">◆</span>
+F <span style="color: #00FFFF">S</span> <span style="color: #00FF00">✔</span> <span style="color: #FF6600">✘</span> <span style="color: #FF6600">✘</span> <span style="color: #5C5CFF">◆</span>
+F <span style="color: #00FFFF">S</span> <span style="color: #00FF00">✔</span> <span style="color: #00FF00">✔</span> <span style="color: #00FF00">✔</span> <span style="color: #FFFF00">◆</span>
+F <span style="color: #00FFFF">S</span> <span style="color: #00FF00">✔</span> <span style="color: #00FF00">✔</span> <span style="color: #00FF00">✔</span> <span style="color: #00FF00">◆</span>
+----

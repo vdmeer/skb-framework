@@ -25,6 +25,7 @@
 ## - builds PPA distribution
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.5
 ##
 
 set -o errexit -o pipefail -o noclobber -o nounset

@@ -24,13 +24,9 @@
 ## Declare: parameters
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
-
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 
 declare -A DMAP_PARAM_ORIGIN            # map [id]=origin
@@ -49,10 +45,10 @@ declare -A DMAP_PARAM_IS                # map [id]=none, file, dir, dir-cd, file
 DeclareParametersOrigin() {
     local ORIGIN=$1
 
-    ConsoleDebug "scanning $ORIGIN"
+    ConsolePrint debug "scanning $ORIGIN"
     local PARAM_PATH=${CONFIG_MAP[$ORIGIN]}/${APP_PATH_MAP["PARAM_DECL"]}
     if [[ ! -d $PARAM_PATH ]]; then
-        ConsoleWarn " ->" "declare parameter - did not find parameter directory '$PARAM_PATH' at origin '$ORIGIN'"
+        ConsolePrint warn "declare parameter - did not find parameter directory '$PARAM_PATH' at origin '$ORIGIN'"
     else
         local NO_ERRORS=true
         local ID
@@ -85,7 +81,7 @@ DeclareParametersOrigin() {
             source "$file"
 
             if [[ -z "${DESCRIPTION:-}" ]]; then
-                ConsoleError " ->" "declare param - '$ID' has no description"
+                ConsolePrint error "declare param - '$ID' has no description"
                 HAVE_ERRORS=true
             fi
 
@@ -94,11 +90,11 @@ DeclareParametersOrigin() {
             fi
 
             if [[ ! -z ${DMAP_PARAM_ORIGIN[$ID]:-} ]]; then
-                ConsoleError "    >" "overwriting ${DMAP_PARAM_ORIGIN[$ID]}:::$ID with $ORIGIN:::$ID"
+                ConsolePrint error "overwriting ${DMAP_PARAM_ORIGIN[$ID]}:::$ID with $ORIGIN:::$ID"
                 HAVE_ERRORS=true
             fi
             if [[ $HAVE_ERRORS == true ]]; then
-                ConsoleError " ->" "declare parameter - could not declare parameter"
+                ConsolePrint error "declare parameter - could not declare parameter"
                 NO_ERRORS=false
             else
                 DMAP_PARAM_ORIGIN[$ID]=$ORIGIN
@@ -122,7 +118,7 @@ DeclareParametersOrigin() {
                     DMAP_PARAM_IS[$ID]=dir-cd
                 fi
 
-                ConsoleDebug "declared $ORIGIN:::$ID"
+                ConsolePrint debug "declared $ORIGIN:::$ID"
             fi
         done
     fi
@@ -135,12 +131,12 @@ DeclareParametersOrigin() {
 ## - declares parameters from multiple sources
 ##
 DeclareParameters() {
-    ConsoleInfo "-->" "declare parameters"
-    ConsoleResetErrors
+    ConsolePrint info "declare parameters"
+    Counters reset errors
 
     DeclareParametersOrigin FW_HOME
     if [[ "${CONFIG_MAP["FW_HOME"]}" != "${CONFIG_MAP["APP_HOME"]}" ]]; then
         DeclareParametersOrigin APP_HOME
     fi
-    ConsoleInfo "-->" "done"
+    ConsolePrint info "done"
 }

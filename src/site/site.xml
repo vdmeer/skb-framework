@@ -9,7 +9,8 @@
  SPDX-License-Identifier: CC-BY-4.0
  ============LICENSE_END=========================================================
 
- @author Sven van der Meer (vdmeer.sven@mykolab.com)
+ @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+ @version    0.0.5
 
 -->
 
@@ -26,28 +27,42 @@
 
         <menu name="SKB FRAMEWORK">
             <item href="index.html" name="Welcome" />
-            <item href="manual.html" name="Manual" collapse="false">
+
+            <item href="user-guide.html" name="User Guide" collapse="true">
+                <item href="user-guide/install.html" name="Install" collapse="true">
+                    <item href="user-guide/install/releases.html" name="Releases" />
+                    <item href="user-guide/install/requirements.html" name="Requirements" />
+                    <item href="user-guide/install/automated.html" name="Automated" />
+                    <item href="user-guide/install/deb.html" name="DEB" />
+                    <item href="user-guide/install/rpm.html" name="RPM" />
+                    <item href="user-guide/install/tgz.html" name="TGZ" />
+                    <item href="user-guide/install/from-source.html" name="Build and Install from Source" />
+                    <item href="user-guide/install/verify-installation.html" name="Verify Installation" />
+                    <item href="user-guide/install/terminal-configuration.html" name="Configure and Test Terminal" />
+                    <item href="user-guide/install/build-cache.html" name="Build Cache" />
+                </item>
+                <item href="user-guide/performance.html" name="Performance" />
+            </item>
+
+            <item href="manual.html" name="Manual" collapse="true">
                 <item href="manual/options.html" name="Options" />
                 <item href="manual/parameters.html" name="Parameters" />
                 <item href="manual/tasks.html" name="Tasks" />
                 <item href="manual/dependencies.html" name="Dependencies" />
                 <item href="manual/commands.html" name="Commands" />
                 <item href="manual/scenarios.html" name="Scenarios" />
-                <item href="manual/exit-status.html" name="Exit Status" />
+                <item href="manual/errorcodes.html" name="Exit Status (Error Codes)" />
             </item>
 
-            <item href="user-guide.html" name="User Guide" collapse="false">
-            </item>
-
-            <item href="task-guide.html" name="Task Guide" collapse="false">
+            <item href="task-guide.html" name="Task Guide" collapse="true">
                 <item href="task-guide/use-tasks.html" name="Use Tasks" collapse="true">
                     <item href="task-guide/tasks/list-.html" name="list-*" />
                     <item href="task-guide/tasks/describe-.html" name="describe-*" />
                     <item href="task-guide/tasks/cloc-installation.html" name="cloc-installation" />
-                    <item href="task-guide/tasks/execute-program.html" name="execute-program" />
                     <item href="task-guide/tasks/manual.html" name="manual" />
                     <item href="task-guide/tasks/repeat-scenario.html" name="repeat-scenario" />
                     <item href="task-guide/tasks/repeat-task.html" name="repeat-task" />
+                    <item href="task-guide/tasks/run-target-set.html" name="run-target-set" />
                     <item href="task-guide/tasks/setting.html" name="setting" />
                     <item href="task-guide/tasks/start-browser.html" name="start-browser" />
                     <item href="task-guide/tasks/start-pdf-viewer.html" name="start-pdf-viewer" />
@@ -60,7 +75,6 @@
                     <item href="task-guide/tasks/build-manual.html" name="build-manual" />
                     <item href="task-guide/tasks/build-mvn-site.html" name="build-mvn-site" />
                     <item href="task-guide/tasks/clean.html" name="clean" />
-                    <item href="task-guide/tasks/make-target-sets.html" name="make-target-sets" />
                 </item>
                 <item href="task-guide/dev-tasks.html" name="Development Tasks" collapse="true">
                     <item href="task-guide/tasks/build-cache.html" name="build-cache" />
@@ -70,26 +84,37 @@
                 </item>
             </item>
 
-            <item href="developer-guide.html" name="Developer Guide" collapse="false">
+            <item href="developer-guide.html" name="Developer Guide" collapse="true">
+                <item href="developer-guide/layouts.html" name="Layout &amp; Directory Structure" collapse="true">
+                    <item href="developer-guide/layouts/app-bin.html" name="bin" />
+                    <item href="developer-guide/layouts/app-doc.html" name="doc" />
+                    <item href="developer-guide/layouts/app-etc.html" name="etc" />
+                    <item href="developer-guide/layouts/app-lib.html" name="lib" />
+                    <item href="developer-guide/layouts/app-man.html" name="man" />
+                    <item href="developer-guide/layouts/app-scenarios.html" name="scenarios" />
+                </item>
+                <item href="developer-guide/sequences.html" name="Sequences" collapse="true">
+                    <item href="developer-guide/sequences/normal-interactive.html" name="Normal, Interactive" />
+                </item>
+                <item href="developer-guide/implementation.html" name="The Implementation" collapse="true">
+                    <item href="developer-guide/implementation/skb-framework.html" name="skb-framework" />
+                    <item href="developer-guide/implementation/loader.html" name="loader" />
+                    <item href="developer-guide/implementation/shell.html" name="shell" />
+                </item>
                 <item href="developer-guide/api.html" name="API" collapse="true">
+                    <item href="developer-guide/api/applications.html" name="Applications" />
                     <item href="developer-guide/api/commands.html" name="Commands" />
-                    <item href="developer-guide/api/config.html" name="Config" />
                     <item href="developer-guide/api/console.html" name="Console" />
-                    <item href="developer-guide/api/execute.html" name="Execute" />
-                    <item href="developer-guide/api/mvn-site.html" name="MVN Site" />
-                    <item href="developer-guide/api/print-ansi.html" name="Print ANSI" />
+                    <item href="developer-guide/api/dependencies.html" name="Dependencies" />
+                    <item href="developer-guide/api/errorcodes.html" name="Error Codes" />
+                    <item href="developer-guide/api/misc.html" name="Miscellaneous" />
+                    <item href="developer-guide/api/options.html" name="Options" />
+                    <item href="developer-guide/api/parameters.html" name="Parameters" />
                     <item href="developer-guide/api/print.html" name="Print" />
-                    <item href="developer-guide/api/prompt.html" name="Prompt" />
                     <item href="developer-guide/api/scenarios.html" name="Scenarios" />
-                    <item href="developer-guide/api/system.html" name="System" />
                     <item href="developer-guide/api/tasks.html" name="Tasks" />
                 </item>
-            </item>
-
-            <item href="implementation.html" name="The Implementation" collapse="false">
-                <item href="implementation/skb-framework.html" name="skb-framework" />
-                <item href="implementation/loader.html" name="loader" />
-                <item href="implementation/shell.html" name="shell" />
+                <item href="developer-guide/api/function-index.html" name="API Function Index" />
             </item>
         </menu>
 

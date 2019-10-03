@@ -1,0 +1,2 @@
+Prints lines with ANSI text effects.
+This can be used to test the ANSI capabilities of a console or terminal.

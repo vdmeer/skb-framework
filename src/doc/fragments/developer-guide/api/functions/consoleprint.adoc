@@ -1,0 +1,130 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+==  ConsolePrint()
+_void ConsolePrint( $1, $2, [$3] )_ - prints a message for given type and optional level.
+
+This function prints the message from `$2` if the type `$1` is active (permitted to print) with an optional level for indentation given by `$3`.
+For certain types, counters will be increased automatically.
+The type if the message can be a fatal error, an error, a strict warning, a warning, some information, debug information, trace information, or a plain message.
+
+Type *fatal* for fatal errors, i.e. errors that prevent the framework from running any further.
+    The error counter is automatically increased using _IncreaseCounter()_.
+    Fatal error messages are prefixed with the string `  -> [Fatal]` (_Fatal_ in dark-red for print mode _ansi).
+    _GetSetting()_ is used to determine the level.
+    Fatal error messages are then printed in the levels `all`, `fatal`, `error`, `warn-strict`, `warn`, `info`, `debug`, and `trace`.
+
+Type *_error* for all other errors.
+    The error counter is automatically increased using _IncreaseCounter()_.
+    Error messages are prefixed with the string `⎵⎵->⎵[Error]` (_Error_ in light-red for print mode _ansi).
+    _GetSetting()_ is used to determine the level.
+    Fatal error messages are then printed in the levels `all`, `error`, `warn-strict`, `warn`, `info`, `debug`, and `trace`.
+
+Type *warn-strict* for issues that a treated as errors in _strict_ mode but only as warnings if _stric_ mode is not set.
+    In _strict_ mode, an error will be printed and the error counter is automatically increased using _IncreaseCounter()_.
+    If not in _strict_ mode, a warning will be printed and the warning counter is automatically increased using _IncreaseCounter()_.
+    The message is prefixed with
+        `⎵⎵->⎵[Error/strict]` (_Error_ in red and _strict_ in yellow for print mode _ansi) or
+        `⎵⎵->⎵[Warning/strict]` (_Warning_ in yellow and _strict_ in red for print mode _ansi).
+    _GetSetting()_ is used to determine the level.
+    Messages are then printed in the levels `all`, `warn-strict`, `warn`, `info`, `debug`, and `trace`.
+    In _strict_ mode, they are also printed in the level `error`.
+
+Type *warn* for warnings of any kind (other than strict warnings as describe above).
+    The warning counter is automatically increased using _IncreaseCounter()_.
+    Warning messages are prefixed with the string `⎵⎵->⎵[Warning]` (_Warning_ in yellow for print mode _ansi).
+    _GetSetting()_ is used to determine the level.
+    Warning messages are then printed in the levels `all`, `warn`, `info`, `debug`, and `trace`.
+
+Type *info* for tagged information (for information without a tag see _message_).
+    These messages should provide more information on the current process.
+    Information messages are prefixed with the string `⎵⎵->⎵[Info]` (_Info_ in light-blue for print mode _ansi).
+    _GetSetting()_ is used to determine the level.
+    Messages are then printed in the levels `all`, `info`, `debug`, and `trace`.
+    If the message is `done` (no extra characters or whitespaces), an extra newline will be printed automatically after the message.
+
+Type *debug* for debug messages.
+    These messages should provide more detail on the current process than _info_ messages.
+    Debug messages are prefixed with the string `⎵⎵⎵⎵>⎵` (_>_ in bold for print mode _ansi).
+    _GetSetting()_ is used to determine the level.
+    Debug messages are then printed in the levels `all`, `debug`, and `trace`.
+
+Type *trace* for trace messages.
+    These messages should provide more detail on the current process than _debug_ messages.
+    This is the most-detailed type.
+    Trace messages are prefixed with the string `⎵⎵⎵⎵⎵>⎵` (_>_ in italic for print mode _ansi).
+    _GetSetting()_ is used to determine the level.
+    Trace messages are then printed in the levels `all` and `trace`.
+
+Type *message* for any kind of message that should be printed.
+    The message in `$2` will simply be printed.
+    _GetSetting()_ is used to determine if messages should be printed (`on`) or not (`off`).
+
+
+*Parameter*
+
+* `$1` - String with message type, one of
+            _fatal_, _error_, _warn-strict_, _warn_, _info_, _debug_, _trace_, or _message_.
+* `$2` - String with message.
+* `$3`, optional - Integer with level for indentation.
+
+
+*Errors*
+
+* For an unknown message type in `$1`
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+for printing error messages.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getsetting-link.adoc[]
+to get the right level and quiet settings.
+
+
+*Examples*
+
+The following examples are taken from the _loader_ and _shell_, showing one example for each of the eight supported message types.
+
+[source%nowrap,bash,linenums,indent=0]
+----
+                ConsolePrint fatal "internal error: no flavor set"
+                ConsolePrint error "declare command - could not declare command"
+                ConsolePrint warn-strict "process-task/param - start-browser  with unset parameter 'BROWSER'"
+                ConsolePrint warn "overwriting list-tasks"
+                ConsolePrint info "cleaning cache and exit"
+                ConsolePrint debug "declared command cls"
+                ConsolePrint trace "   manual - task opt start-pdf-viewer"
+                ConsolePrint message "done"
+----
+
+The output for these messages will be as follows:
+
+[source%nowrap,subs="attributes,quotes"]
+----
+  -> [<span style="color: #FF0000">Fatal</span>] internal error: no flavor set
+  -> [<span style="color: #FF6600">Error</span>] declare command - could not declare command
+  -> [<span style="color: #FFFF00">Warning</span>/<span style="color: #FF6600">strict</span>] process-task/param - start-browser  with unset parameter 'BROWSER'
+  -> [<span style="color: #FFFF00">Warning</span>] overwriting list-tasks
+  --> [<span style="color: #5C5CFF">Info</span>] cleaning cache and exit
+    *>* declared command cls
+      _>_    manual - task opt start-pdf-viewer
+done
+----
+
+Note: most of these examples depend on actual situations (such as errors, warnings) being detected and runtime settings for _level_.
+They are unlikely to occur all at the same run of the framework.

@@ -24,13 +24,9 @@
 ## Loader: commands to run on CLI --option
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
-
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 
 DescribeOption ${OPT_CLI_MAP["option"]} full "enter ${CONFIG_MAP["PRINT_MODE"]} line-indent"

@@ -24,13 +24,10 @@
 ## describe-element - describes the elements of an application
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -50,12 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/elements.sh
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -64,7 +57,7 @@ ConsoleResetWarnings
 PRINT_MODE=
 COMMANDS=
 DEPENDENCIES=
-EXITSTATUS=
+ERRORCODES=
 OPTIONS=
 PARAMETERS=
 SCENARIOS=
@@ -79,11 +72,11 @@ CLI_SET=false
 ##
 CLI_OPTIONS=AhP:
 CLI_LONG_OPTIONS=all,help,print-mode:
-CLI_LONG_OPTIONS+=,cmd,dep,es,opt,param,scn,task
+CLI_LONG_OPTIONS+=,cmd,dep,ec,opt,param,scn,task
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-element -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "describe-element: unknown CLI options"
+    ConsolePrint error "describe-element: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -94,19 +87,36 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "describe-element")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard describe options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
 
-                printf "\n   filters\n"
-                BuildTaskHelpLine A all             "<none>"   "all elements"               $PRINT_PADDING
-                BuildTaskHelpLine "<none>" cmd      "<none>"   "include commands"           $PRINT_PADDING
-                BuildTaskHelpLine "<none>" dep      "<none>"   "include dependencies"       $PRINT_PADDING
-                BuildTaskHelpLine "<none>" es       "<none>"   "include exit status"        $PRINT_PADDING
-                BuildTaskHelpLine "<none>" opt      "<none>"   "include options"            $PRINT_PADDING
-                BuildTaskHelpLine "<none>" param    "<none>"   "include parameters"         $PRINT_PADDING
-                BuildTaskHelpLine "<none>" scn      "<none>"   "include scenarios"          $PRINT_PADDING
-                BuildTaskHelpLine "<none>" task     "<none>"   "include tasks "             $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard describe filters\n"
+                BuildTaskHelpLine A all             "<none>"   "all entries, disables all other filters"        $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine "<none>" cmd      "<none>"   "text for commands"          $PRINT_PADDING
+                BuildTaskHelpLine "<none>" dep      "<none>"   "text for dependencies"      $PRINT_PADDING
+                BuildTaskHelpLine "<none>" ec       "<none>"   "text for error codes"       $PRINT_PADDING
+                BuildTaskHelpLine "<none>" opt      "<none>"   "text for options"           $PRINT_PADDING
+                BuildTaskHelpLine "<none>" param    "<none>"   "text for parameters"        $PRINT_PADDING
+                BuildTaskHelpLine "<none>" scn      "<none>"   "text for scenarios"         $PRINT_PADDING
+                BuildTaskHelpLine "<none>" task     "<none>"   "text for tasks"             $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
+
+                printf "\n"
+                BuildTaskHelpTag start notes
+                printf "   Notes\n"
+                printf "   - the standard filter '-A | --all' is the default\n"
+                BuildTaskHelpTag end notes
             else
                 cat $CACHED_HELP
             fi
@@ -133,8 +143,8 @@ while true; do
             CLI_SET=true
             shift
             ;;
-        --es)
-            EXITSTATUS=yes
+        --ec)
+            ERRORCODES=yes
             CLI_SET=true
             shift
             ;;
@@ -164,7 +174,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "describe-element: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-element: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -177,12 +187,11 @@ done
 if [[ ! -n "$PRINT_MODE" ]]; then
     PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
 fi
-TARGET=$PRINT_MODE
 
 if [[ "$ALL" == "yes" || $CLI_SET == false ]]; then
     COMMANDS=yes
     DEPENDENCIES=yes
-    EXITSTATUS=yes
+    ERRORCODES=yes
     OPTIONS=yes
     PARAMETERS=yes
     SCENARIOS=yes
@@ -196,37 +205,37 @@ fi
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "de: starting task"
+ConsolePrint info "de: starting task"
 
 if [[ "$OPTIONS" == "yes" ]]; then
-    DescribeElementOptions
-    DescribeElementOptionsRuntime
-    DescribeElementOptionsExit
+    OptionElementDescription option $PRINT_MODE
+    OptionElementDescription runtime $PRINT_MODE
+    OptionElementDescription exit $PRINT_MODE
 fi
 
 if [[ "$PARAMETERS" == "yes" ]]; then 
-    DescribeElementParameters
+    ParameterElementDescription $PRINT_MODE
 fi
 
 if [[ "$TASKS" == "yes" ]]; then
-    DescribeElementTasks
+    TaskElementDescription $PRINT_MODE
 fi
 
 if [[ "$DEPENDENCIES" == "yes" ]]; then
-    DescribeElementDependencies
+    DependencyElementDescription $PRINT_MODE
 fi
 
 if [[ "$COMMANDS" == "yes" ]]; then
-    DescribeElementCommands
+    CommandElementDescription $PRINT_MODE
 fi
 
-if [[ "$EXITSTATUS" == "yes" ]]; then
-    DescribeElementExitStatus
+if [[ "$ERRORCODES" == "yes" ]]; then
+    ErrorcodeElementDescription $PRINT_MODE
 fi
 
 if [[ "$SCENARIOS" == "yes" ]]; then
-    DescribeElementScenarios
+    ScenarioElementDescription $PRINT_MODE
 fi
 
-ConsoleInfo "  -->" "de: done"
+ConsolePrint info "de: done"
 exit $TASK_ERRORS

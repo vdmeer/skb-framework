@@ -1,0 +1,91 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== DescribeErrorcode()
+_void DescribeErrorcode( $1, $2, $3, [$4])_ - describes an error code with various options.
+
+This function describes the error code _$1_ using the print option _$2_, the print feature(s) _$3_, and an optional print mode _$4_.
+
+
+*Parameter*
+
+* `$1`, _string_ - the error code identifier to process, long- or short form
+* `$2`, _string_ - the print option, one of:
+    ** _standard_ - prints one line for the error code: number and tag line.
+    ** _full* - prints _standard_ plus the error code description.
+* `$3`, _string_ - the print features.
+    One or more of the features can be used.
+    If no special feature should be used, use `none`.
+    Separate multiple features using a blank ` `.
+    The following features are supported:
+    ** `none` - does activate no feature.
+        Can be used when no feature should be used but a specific print mode (_$4_) is required.
+        Note: has no effect if used with other features.
+    ** `line-indent` - prints an indentation of 6 blanks before the line, except when in print mode _adoc_.
+    ** `enter`  - prints a new line at the end of the description.
+    ** `post-line` - prints a double colon after the line as `::`.
+    ** `adoc` - prints a description in _adoc_ taken from the error code declaration.
+    ** `ansi` -  prints a description with plain text formatting taken from error code declaration.
+    ** `text` - actually any string starting with `text` - prints a description with plain text formatting taken from error code declaration.
+* `$4`, _string_, optional - the requested print mode.
+    If present, the requested print mode will be used.
+    If not present, the default (currently set) print mode will be used.
+    Note: this parameter is independent of _$3_!
+
+
+*Errors*
+
+* For an unknown error code identifier (name)
+* For unknown print features
+* For an unknown print option
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
+to print the effects.
+
+
+*External Dependencies*
+
+* `cat` - to print the description text, if requested
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+DescribeErrorcode 010 full "ansi line-indent" ansi
+----
+
+The example above calls the function to get a full description of the error code _010_,
+    with the line indentation,
+    description using ANSI formatting, and
+    the forced print mode _ansi_.
+
+[source%nowrap,subs="attributes,quotes"]
+----
+      *010* - fw: unable to set home $SF_HOME
+        The framework is not able to set the home directory, here  `$SF_HOME`.
+        It tried the environment, `readlink`, and `dirname`. This  problem  is
+        an internal problem, probably am incorrect installation or  a  bug  in
+        starting the application.
+----
+
+The screen above shows the result of the function call.

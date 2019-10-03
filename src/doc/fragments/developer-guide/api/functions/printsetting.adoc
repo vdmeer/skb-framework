@@ -1,0 +1,197 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+==  PrintSetting()
+_void PrintSetting( $1 )_ - prints the requested setting with color and effects
+
+Prints the setting requested in `$1`.
+The setting will be printed with preset colors and text effects, depending on the set _print mode_.
+The output will only show the setting without a newline.
+
+
+Setting *app-mode-flavor*.
+        The setting is taken from _CONFIG_MAP["APP_MODE_FLAVOR"]_ and printed in color:
+        _std_ in cyan or
+        _install_ in purple. 
+
+Setting *app-mode*.
+        The setting is taken from _CONFIG_MAP["APP_MODE"]_ and printed in color:
+        _all_ in red,
+        _dev_ in yellow,
+        _build_ in light blue, or
+        _use_ in green.
+
+Settings *level-*.
+        The setting is taken from _CONFIG_MAP["LOADER_LEVEL"]_ (for _loader-level_),
+            _CONFIG_MAP["SHELL_LEVEL"]_ (for _shell-level_), or
+            _CONFIG_MAP["TASK_LEVEL"]_ (for _task-level_).
+        The setting is printed in color:
+        _all` in light cyan,
+        _fatal_ in red,
+        _error_ in light red,
+        _warn-strict_ _warn_ in yellow and _strict_ in red,
+        _warn_ in yellow,
+        _info_ in green,
+        _debug_ and _trace_ in light blue, or
+        _off_ and any other input in light purple.
+
+Settings *quiet-*.
+        The setting is taken from _CONFIG_MAP["LOADER_QUIET"]_ (for _loader-quiet_),
+            _CONFIG_MAP["SHELL_QUIET"]_ (for _shell-quiet_), or
+            _CONFIG_MAP["TASK_QUIET"]_ (for _task-quiet_),
+        Settings are printed in color:
+        _on_ in light red,
+        _off_ in light green, or
+        any other input in light purple
+
+Setting *shell-snp*.
+        The setting is taken from _CONFIG_MAP["SHELL_SNP"]_,
+            which indicates if a prompt should be printed by the shell.
+        It is printed in color:
+        _on_ in light-red (shell does not print prompt) or
+        _off_ in light-green (shell does print prompt).
+
+Setting *strict*.
+        The setting is taken from _CONFIG_MAP["STRICT"]_ and printed in color:
+        _on_ in light-red or
+        _off_ in light-green.
+
+
+*Parameter*
+
+* `$1` - String with the requested setting.
+        The string may contain one of the following settings: 
+            _app-mode-flavor_,
+            _app-mode_,
+            _loader-level_,
+            _loader-quiet_,
+            _shell-level_,
+            _shell-quiet_,
+            _shell-snp_,
+            _strict_,
+            _task-level_, or
+            _task-quiet_.
+
+
+*Errors* (as _Console Error_)
+
+* For an unknown requested setting
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
+to print the setting.
+
+
+*Examples*
+
+The first example prints the application mode flavor.
+
+[source%nowrap,bash,linenums]
+----
+PrintSetting app-mode-flavor
+----
+
+If the setting is _install_, the result will be:
+
+[source%nowrap,subs="attributes,quotes"]
+----
+<span style="color: #800080">install</span>
+----
+
+
+
+The next example prints the application mode.
+
+[source%nowrap,bash,linenums]
+----
+PrintSetting app-mode
+----
+
+If the setting is _build_, the result will be:
+
+[source%nowrap,subs="attributes,quotes"]
+----
+<span style="color: #0000FF">build</span>
+----
+
+
+
+The next example prints the task level setting.
+
+[source%nowrap,bash,linenums]
+----
+PrintSetting task-level
+----
+
+If the setting is _error_, the result will be:
+
+[source%nowrap,subs="attributes,quotes"]
+----
+<span style="color: #FF6600">error</span>
+----
+
+
+
+The next example prints the shell quiet setting:
+
+[source%nowrap,bash,linenums]
+----
+PrintSetting shell-quiet
+----
+The two possible results are shown below.
+
+[source%nowrap,subs="attributes,quotes"]
+----
+<span style="color: #FF0000">on</span>
+<span style="color: #00FF00">off</span>
+----
+
+
+
+The next example prints the setting for _shell-snp_:
+
+[source%nowrap,bash,linenums]
+----
+PrintSetting shell-snp
+----
+
+The two possible results are shown below.
+
+[source%nowrap,subs="attributes,quotes"]
+----
+<span style="color: #FF0000">on</span>
+<span style="color: #00FF00">off</span>
+----
+
+
+
+
+The next example prints the setting for _strict_:
+
+[source%nowrap,bash,linenums]
+----
+PrintSetting strict
+----
+
+The two possible results are shown below.
+
+[source%nowrap,subs="attributes,quotes"]
+----
+<span style="color: #FF0000">on</span>
+<span style="color: #00FF00">off</span>
+----

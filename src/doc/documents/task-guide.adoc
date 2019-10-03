@@ -8,7 +8,8 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
 
 = Task Guide
@@ -25,6 +26,15 @@ Sven van_der_Meer <vdmeer.sven@mykolab.com>
 :toc:
 :toclevels: 4
 :icons: font
+:sectlinks:
+
+ifeval::["{adoc-build-target}" == "pdf"]
+:adoc-build-link-post: -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+:adoc-build-link-post: -- 
+endif::[]
+
 
 == Introduction
 include::{skb-site-main-dir}/doc/fragments/task-guide/introduction.adoc[]
@@ -45,6 +55,8 @@ include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/manual.adoc[leveloff
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/repeat-scenario.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/repeat-task.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/run-target-set.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/setting.adoc[leveloffset=+1]
 
@@ -69,8 +81,6 @@ include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-manual.adoc[le
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-mvn-site.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/clean.adoc[leveloffset=+1]
-
-include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/make-target-sets.adoc[leveloffset=+1]
 
 
 

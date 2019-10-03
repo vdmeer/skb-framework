@@ -8,8 +8,10 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
+
 
 == build-help
 This task builds the help files for command line options and shell commands.
@@ -24,12 +26,10 @@ For example, the DEB and RPM distributions should create those files during the 
 The option _clean_ is added by convention.
 It does not actually remove the help files, since this would break the installation of an application.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -c | --clean       added by convention, does nothing
-   -h | --help        print help screen and exit
+include::{skb-site-target-dir}/adoc-task-help/build-help.adoc[tags=options]
 ----
-
 
 
 === Requirements

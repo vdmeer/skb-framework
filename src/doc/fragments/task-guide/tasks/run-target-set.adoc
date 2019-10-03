@@ -1,0 +1,196 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== run-target-set
+This task executes (runs) one or more targets out of a defined set of targets.
+Targets will be build in the order they are declared, regardless of the order they are requested in the command line.
+Since all targets are executed within the framework (or application), all API functions and framework functionality can be used, beside any other `bash` or external command.
+
+The task is not specific to one target set, but can build one or more sets.
+It can even run targets from multiple target sets in the same execution, as long as the actual targets are supported by all target set.
+
+The parameter _RUN_TARGET_SETS_ is used to identify the target sets that can be used.
+It should contain a set of paths to directories with a target set declaration file (`skb-ts.id`) and a target set script file (`skb-ts-scripts.skb`).
+There can only be one target set in any of the directories of _RUN_TARGET_SETS_.
+
+The general options, shown below, allow to direct the behavior of the task.
+
+* _run_ - request one or more target sets to be run.
+* _clean_ - requests to clean one or more target sets.
+* _list_ - will list all defined and loaded target sets, which then can be build or cleaned.
+
+[source%nowrap,indent=0,subs="attributes,quotes"]
+----
+include::{skb-site-target-dir}/adoc-task-help/run-target-set.adoc[tags=options]
+----
+
+=== Target Option
+The task can run any target requested.
+Targets are declared in the file `skb-ts.id` per target set.
+
+[source%nowrap,indent=0,subs="attributes,quotes"]
+----
+include::{skb-site-target-dir}/adoc-task-help/run-target-set.adoc[tags=target-option]
+----
+
+There is no default target.
+However, the standard target _all_ will build all targets in the declared sequence.
+
+
+
+=== Filters
+Filters allow to specify which of the loaded (and available) target sets should be run:
+
+* _all_ - will run all target sets, in the oder they are listed (alphabetically)
+* _id_ - can be used to run a specific target set
+
+[source%nowrap,indent=0,subs="attributes,quotes"]
+----
+include::{skb-site-target-dir}/adoc-task-help/run-target-set.adoc[tags=filters]
+----
+
+There is no default filter.
+
+
+
+=== Examples
+The framework's distribution artifacts are build using a target set.
+When correctly configured, the target set can be listed.
+The following example assumes that we are in the root directory of the framework sources (e.g. cloned from Github):
+
+[source%nowrap,bash,indent=0]
+----
+export SF_RUN_TARGET_SETS=$PWD
+./src/main/bash/bin/skb-framework -B
+run-target-set --list
+----
+
+This will show (with a real path instead of _SOME_PATH_)
+[source%nowrap,bash,indent=0]
+----
+  Target Sets
+    - skb-fw - targets to build the SKB-Framework distribution/site artifacts - SOME_PATH
+      --> with target(s): help clean tool mkdirs readme dist adocindex adocscreens documents site
+----
+
+The target _help_ can be executed using:
+
+[source%nowrap,bash,indent=0]
+----
+run-target-set --id skb-fw --targets help
+----
+
+The output will be:
+
+[source%nowrap,indent=0,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-text/ts-fw-help.txt[]
+----
+
+All other targets can be executed in the same way.
+The target _all_ is always supported, and will build all targets in the declared sequence.
+
+
+
+=== Target Set Files
+As mentioned above, a target set suitable for this task should provide a file with its metadata and might provide a file with scripts to be used.
+Both files must be located in the same directory and the directory must be named in _RUN_TARGET_SETS_.
+
+The metadata file must be named `skb-ts.id`.
+It must contain the following information:
+
+* An identifier.
+    This identifier can be any string that does not contain whitespaces or _bash_ special characters (such as `&` or `*`).
+    The identifier must be unique for all target sets in _RUN_TARGET_SETS_.
+* A description.
+    The description should be short, like a tag line, to fit into the listing of target sets.
+* A set of targets in the order (sequence) they should be built in.
+    This set _must_ declare the standard targets _help_ (for printing help information about the target set) and _clean_ (to remove built artifacts).
+    Ideally, _help_ is the first and _clean_ the second target in the declaration.
+    It makes no sense to declare any other target before _clean_.
+
+
+The source block below shows the file for the frameworks' site.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/../skb-site.id[tags=site-id]
+----
+
+The file script file must be named `skb-ts-scripts.skb`.
+The task will fail if it does not exist.
+It must define a function _TsRunTargets()_ which takes the targets as argument _$1_.
+
+The task will source the file and call the function with one target at a time.
+Inside _TsRunTargets()_, we can
+
+* use anything a normal _bash_ script can do at any place in the file,
+* use anything a normal _bash_ script can do inside the two required functions, and
+* use the full framework settings and API at any place in the file.
+
+The following code block shows the recommended contents of the script file with the two required targets (_help_ and _clean_) and a few extra targets from the framework's target set (not all of them).
+It also sets a few local variables, which are important for building the framework distribution.
+
+[source%nowrap,bash,linenums]
+----
+TsRunTargets() {
+  local RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
+  local TOOL_VERSION="${RELEASE_VERSION}"
+  shopt -s globstar
+
+  case $1 in
+    help)
+      ## print help here
+      ;;
+
+    clean)
+      ## put all commands to remove built artifacts here
+      ;;
+
+    tool)
+      ## build the framework tool (gradle)
+      ;;
+
+    dist)
+      ## build the DEB/RPM/TGZ distribution files
+      ;;
+
+    site)
+      ${DMAP_TASK_EXEC["build-mvn-site"]} --build --targets --id fw
+      ExitOnTaskErrors
+      ;;
+
+    *)
+      ConsolePrint warn-strict "unknown target '$TARGET'"
+      ;;
+  esac
+}
+----
+
+We only show a comment with the description of what the target should do.
+For the target _site_ we show the actual line.
+These lines use the framework API to execute a scenario (line 24) and exit the task in case of errors while executing the scenario (line 25).
+Furthermore, line 28-30 show that the function also detects errors and uses the API function _ConsolePrint()_ to print an error message and increase the error counter.
+The full script file can be found in the Github repository: link:https://raw.githubusercontent.com/vdmeer/skb-framework/master/skb-ts-scripts.skb[skb-ts-scripts.skb].
+
+
+
+=== Requirements
+The task takes the sites it should load and build from the parameter _RUN_TARGET_SETS_.
+If no target set is provided, or none could be loaded (due to a missing side identifier file), the task will throw an error.
+
+All other requirements depend on the actual commands used in the script file.
+Any task or scenario executed here must be loaded successfully.
+Any external dependency must be available at execution time.

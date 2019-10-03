@@ -1,0 +1,46 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== Automated Installation and Updates
+
+Using `apt`, the automated installation is not different from any other software package.
+Simply add the PPA, update the package list, and then install the framework.
+
+[source%nowrap,bash,indent=0]
+----
+sudo add-apt-repository ppa:vdmeer/skb
+sudo apt-get update
+sudo apt-get install skb-framework
+----
+
+
+=== After the Installation
+The installation will have created the following artifacts:
+
+* Installed SKB Framework in `/opt/skb/skb-framework`
+* Created user `skbuser`, and all files of the installation changed to this user
+* Created group `skbuser`, and all files of the installation changed to this group
+* Created a directory `/var/cache/skb-framework` owned by `skbuser`
+* A link `/usr/bin/skb-framework` pointing to `/opt/skb/skb-framework/bin/skb-framework`
+* The framework's manpage installed as `/usr/share/man/man1/skb-framework.1`
+
+
+=== Uninstall / Remove
+In case you want to remove the framework, and all created artifacts, use the same package manager that you used to install it with its uninstall (often called _remove_) option.
+[source%nowrap,bash,indent=0]
+----
+sudo apt-get remove skb-framework
+----
+

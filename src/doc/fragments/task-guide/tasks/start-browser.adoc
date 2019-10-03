@@ -8,18 +8,19 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
+
 
 == start-browser
 This task starts web browser with a URL to show.
 The URL can be set with _url_.
 The URL will not be processed by the task.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -h | --help        print help screen and exit
-   -u | --url URL     optional URL to load in browser
+include::{skb-site-target-dir}/adoc-task-help/start-browser.adoc[tags=options]
 ----
 
 

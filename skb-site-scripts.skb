@@ -1,162 +1,195 @@
 #!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
 ##
 ## Scripts for site fw (skb-framework)
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    v0.0.0
+## @version    0.0.5
 ##
 
 MvnSitePreScript() {
-    mkdir -p target/element-lists
+    ## only create element-lists of they do not exist, use "clean" or "mvn clean" to remove them
+    if [[ ! -d target/element-lists ]]; then
+        mkdir -p target/element-lists
 
-    ## create exit option list
-    if [[ -f target/element-lists/option-exit-list.adoc ]]; then
-        rm target/element-lists/option-exit-list.adoc
+        ## create exit option list
+        if [[ -f target/element-lists/option-exit-list.adoc ]]; then
+            rm target/element-lists/option-exit-list.adoc
+        fi
+        ${DMAP_TASK_EXEC["describe-option"]} --exit --print-mode adoc > target/element-lists/option-exit-list.adoc
+
+        ## create runtime option list
+        if [[ -f target/element-lists/option-run-list.adoc ]]; then
+            rm target/element-lists/option-run-list.adoc
+        fi
+        ${DMAP_TASK_EXEC["describe-option"]} --run --print-mode adoc > target/element-lists/option-run-list.adoc
+
+        ## create command list
+        if [[ -f target/element-lists/command-list.adoc ]]; then
+            rm target/element-lists/command-list.adoc
+        fi
+        ${DMAP_TASK_EXEC["describe-command"]} --all --print-mode adoc > target/element-lists/command-list.adoc
+
+        ## create parameter list
+        if [[ -f target/element-lists/parameter-list.adoc ]]; then
+            rm target/element-lists/parameter-list.adoc
+        fi
+        ${DMAP_TASK_EXEC["describe-parameter"]} --requested --print-mode adoc > target/element-lists/parameter-list.adoc
+
+        ## create dependency list
+        if [[ -f target/element-lists/dependency-list.adoc ]]; then
+            rm target/element-lists/dependency-list.adoc
+        fi
+        ${DMAP_TASK_EXEC["describe-dependency"]} --requested --print-mode adoc > target/element-lists/dependency-list.adoc
+
+        ## create task list
+        if [[ -f target/element-lists/task-list.adoc ]]; then
+            rm target/element-lists/task-list.adoc
+        fi
+        ${DMAP_TASK_EXEC["describe-task"]} --all --print-mode adoc > target/element-lists/task-list.adoc
+
+        ## create error code list
+        if [[ -f target/element-lists/errorcode-list.adoc ]]; then
+            rm target/element-lists/errorcode-list.adoc
+        fi
+        ${DMAP_TASK_EXEC["describe-errorcode"]} --all --print-mode adoc > target/element-lists/errorcode-list.adoc
+
+        ## create scenario list
+        if [[ -f target/element-lists/scenario-list.adoc ]]; then
+            rm target/element-lists/scenario-list.adoc
+        fi
+        ${DMAP_TASK_EXEC["describe-scenario"]} --all --print-mode adoc > target/element-lists/scenario-list.adoc
     fi
-    ${DMAP_TASK_EXEC["describe-option"]} --exit --print-mode adoc > target/element-lists/option-exit-list.adoc
 
 
-    ## create runtime option list
-    if [[ -f target/element-lists/option-run-list.adoc ]]; then
-        rm target/element-lists/option-run-list.adoc
-    fi
-    ${DMAP_TASK_EXEC["describe-option"]} --run --print-mode adoc > target/element-lists/option-run-list.adoc
+    local SOURCE_DOC_DIR=target/documents
+    local SITE_DOC_DIR=target/site/documents
+    mkdir -p $SITE_DOC_DIR
 
+    ConsolePrint debug "  -> copy manual documents"
+    TestFS "src/main/bash/doc/manual/skb-framework.html" file exists,read site-fw
+    TestFS "src/main/bash/doc/manual/skb-framework.pdf" file exists,read site-fw
+    ExitOnTaskErrors
+    cp src/main/bash/doc/manual/skb-framework.html $SITE_DOC_DIR/manual.html
+    cp src/main/bash/doc/manual/skb-framework.pdf  $SITE_DOC_DIR/manual.pdf
 
-    ## create command list
-    if [[ -f target/element-lists/command-list.adoc ]]; then
-        rm target/element-lists/command-list.adoc
-    fi
-    ${DMAP_TASK_EXEC["describe-command"]} --all --print-mode adoc > target/element-lists/command-list.adoc
-
-
-    ## create parameter list
-    if [[ -f target/element-lists/parameter-list.adoc ]]; then
-        rm target/element-lists/parameter-list.adoc
-    fi
-    ${DMAP_TASK_EXEC["describe-parameter"]} --requested --print-mode adoc > target/element-lists/parameter-list.adoc
-
-
-    ## create dependency list
-    if [[ -f target/element-lists/dependency-list.adoc ]]; then
-        rm target/element-lists/dependency-list.adoc
-    fi
-    ${DMAP_TASK_EXEC["describe-dependency"]} --requested --print-mode adoc > target/element-lists/dependency-list.adoc
-
-
-    ## create task list
-    if [[ -f target/element-lists/task-list.adoc ]]; then
-        rm target/element-lists/task-list.adoc
-    fi
-    ${DMAP_TASK_EXEC["describe-task"]} --all --print-mode adoc > target/element-lists/task-list.adoc
-
-
-    ## create exit status list
-    if [[ -f target/element-lists/exit-status-list.adoc ]]; then
-        rm target/element-lists/exit-status-list.adoc
-    fi
-    ${DMAP_TASK_EXEC["describe-exitstatus"]} --all --print-mode adoc > target/element-lists/exit-status-list.adoc
-
-    ## create scenario list
-    if [[ -f target/element-lists/scenario-list.adoc ]]; then
-        rm target/element-lists/scenario-list.adoc
-    fi
-    ${DMAP_TASK_EXEC["describe-scenario"]} --all --print-mode adoc > target/element-lists/scenario-list.adoc
+    ConsolePrint debug "  -> copy stand-alone documents"
+    TestFS $SOURCE_DOC_DIR/developer-guide.html file exists,read site-fw
+    TestFS $SOURCE_DOC_DIR/developer-guide.pdf file exists,read site-fw
+    TestFS $SOURCE_DOC_DIR/task-guide.html file exists,read site-fw
+    TestFS $SOURCE_DOC_DIR/task-guide.pdf file exists,read site-fw
+    TestFS $SOURCE_DOC_DIR/user-guide.html file exists,read site-fw
+    TestFS $SOURCE_DOC_DIR/user-guide.pdf file exists,read site-fw
+    ExitOnTaskErrors
+    cp $SOURCE_DOC_DIR/*.html $SITE_DOC_DIR
+    cp $SOURCE_DOC_DIR/*.pdf $SITE_DOC_DIR
 }
 
 
 
 MvnSitePostScript() {
-    MvnSiteFixAdoc target/site/manual                       Manual
-    MvnSiteFixAdoc target/site/manual/commands              "Manual: Commands"
-    MvnSiteFixAdoc target/site/manual/dependencies          "Manual: Dependencies"
-    MvnSiteFixAdoc target/site/manual/options               "Manual: Options"
-    MvnSiteFixAdoc target/site/manual/parameters            "Manual: Parameters"
-    MvnSiteFixAdoc target/site/manual/scenarios             "Manual: Scenarios"
-    MvnSiteFixAdoc target/site/manual/tasks                 "Manual: Tasks"
-    MvnSiteFixAdoc target/site/manual/exit-status           "Manual: Exit Status"
-
-    MvnSiteFixAdoc target/site/user-guide                           "User Guide"
-
-    MvnSiteFixAdoc target/site/task-guide                           "Task Guide"
-        MvnSiteFixAdoc target/site/task-guide/use-tasks                 "Use Tasks"
-            MvnSiteFixAdoc target/site/task-guide/tasks/list-                   "Tasks: list-*"
-            MvnSiteFixAdoc target/site/task-guide/tasks/describe-               "Tasks: describe-*"
-            MvnSiteFixAdoc target/site/task-guide/tasks/cloc-installation       "Task: CLOC Installation"
-            MvnSiteFixAdoc target/site/task-guide/tasks/execute-program         "Task: Execute Program"
-            MvnSiteFixAdoc target/site/task-guide/tasks/manual                  "Task: Manual"
-            MvnSiteFixAdoc target/site/task-guide/tasks/repeat-scenario         "Task: Repeat Scenario"
-            MvnSiteFixAdoc target/site/task-guide/tasks/repeat-task             "Task: Repeat Task"
-            MvnSiteFixAdoc target/site/task-guide/tasks/setting                 "Task: Setting"
-            MvnSiteFixAdoc target/site/task-guide/tasks/start-browser           "Task: Start Browser"
-            MvnSiteFixAdoc target/site/task-guide/tasks/start-pdf-viewer        "Task: Start PDF Viewer"
-            MvnSiteFixAdoc target/site/task-guide/tasks/start-xterm             "Task: Start XTerm"
-            MvnSiteFixAdoc target/site/task-guide/tasks/statistics              "Task: Statistics"
-            MvnSiteFixAdoc target/site/task-guide/tasks/validate-installation   "Task: Validate Installation"
-            MvnSiteFixAdoc target/site/task-guide/tasks/wait                    "Task: Wait"
-        MvnSiteFixAdoc target/site/task-guide/build-tasks               "Build Tasks"
-            MvnSiteFixAdoc target/site/task-guide/tasks/build-manual        "Task: Build Manual"
-            MvnSiteFixAdoc target/site/task-guide/tasks/build-mvn-site      "Task: Build MVN Site"
-            MvnSiteFixAdoc target/site/task-guide/tasks/clean               "Task: Clean"
-            MvnSiteFixAdoc target/site/task-guide/tasks/make-target-sets    "Task: Make Target Sets"
-        MvnSiteFixAdoc target/site/task-guide/dev-tasks                 "Development Tasks"
-            MvnSiteFixAdoc target/site/task-guide/tasks/build-cache         "Task: Builde Cache"
-            MvnSiteFixAdoc target/site/task-guide/tasks/build-help          "Task: Build Help"
-            MvnSiteFixAdoc target/site/task-guide/tasks/download-fw-tool    "Task: Download-FW Tool"
-            MvnSiteFixAdoc target/site/task-guide/tasks/set-file-versions   "Task: Set File Versions"
-
-    MvnSiteFixAdoc target/site/developer-guide                      "Developer Guide"
-        MvnSiteFixAdoc target/site/developer-guide/api                  "Dev Guide: API"
-            MvnSiteFixAdoc target/site/developer-guide/api/commands         "API: Commands"
-            MvnSiteFixAdoc target/site/developer-guide/api/config           "API: Config"
-            MvnSiteFixAdoc target/site/developer-guide/api/console          "API: Console"
-            MvnSiteFixAdoc target/site/developer-guide/api/execute          "API: Execute"
-            MvnSiteFixAdoc target/site/developer-guide/api/mvn-site         "API: MVN Site"
-            MvnSiteFixAdoc target/site/developer-guide/api/print-ansi       "API: Print ANSI"
-            MvnSiteFixAdoc target/site/developer-guide/api/print            "API: Print"
-            MvnSiteFixAdoc target/site/developer-guide/api/prompt           "API: Prompt"
-            MvnSiteFixAdoc target/site/developer-guide/api/scenarios        "API: Scenarios"
-            MvnSiteFixAdoc target/site/developer-guide/api/system           "API: System"
-            MvnSiteFixAdoc target/site/developer-guide/api/tasks            "API: Tasks"
-
-    MvnSiteFixAdoc target/site/implementation                       "The Implementation"
-        MvnSiteFixAdoc target/site/implementation/skb-framework         "Implementation: skb-framework"
-        MvnSiteFixAdoc target/site/implementation/loader                "Implementation: loader"
-        MvnSiteFixAdoc target/site/implementation/shell                 "Implementation: shell"
-
-
-    local SKB_SITE_MAIN_DIR=$PWD/src
-    local RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
-    local RELEASE_NOTES="for SKB-Framework v${RELEASE_VERSION}"
-    local RELEASE_DATE="$(date '+%B %d, %Y')"
-    local DOC_TARGET_DIR=target/site/documents
-
-    local SOURCE_HIGHLIGHTER=coderay
-    local SECT_NUMS=4
-    local TOC_LEVELS=4
-
-    local HTML_STYLESHEET="compass/rocket-panda.css"
-    local PDF_STYLE=skb-pdf
-
-    mkdir -p ${DOC_TARGET_DIR}
-    cp src/main/bash/doc/manual/skb-framework.html ${DOC_TARGET_DIR}/manual.html
-    cp src/main/bash/doc/manual/skb-framework.pdf  ${DOC_TARGET_DIR}/manual.pdf
-
-    printf "      -> building user guide (html, pdf)\n"
-    asciidoctor ./src/doc/documents/user-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
-    asciidoctor-pdf ./src/doc/documents/user-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
-
-    printf "      -> building task guide (html, pdf)\n"
-    asciidoctor ./src/doc/documents/task-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
-    asciidoctor-pdf ./src/doc/documents/task-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
-
-    printf "      -> building developer guide (html, pdf)\n"
-    asciidoctor ./src/doc/documents/developer-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
-    asciidoctor-pdf ./src/doc/documents/developer-guide.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
-
-    printf "      -> building implementation doc (html, pdf)\n"
-    asciidoctor ./src/doc/documents/implementation.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
-    asciidoctor-pdf ./src/doc/documents/implementation.adoc -D ${DOC_TARGET_DIR} -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a stylesdir=$PWD/src/doc/resources/adoc-pdf -a fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a style=${PDF_STYLE} -a toc=left
-
+    :
 }
 
+
+#tag::task-guide[]
+MVN_SITE_FIX_ADOC_ARRAY["target/site/index"]="SKB Framework"
+
+MVN_SITE_FIX_ADOC_ARRAY["target/site/manual"]="Manual"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/commands"]="Manual: Commands"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/dependencies"]="Manual: Dependencies"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/options"]="Manual: Options"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/parameters"]="Manual: Parameters"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/scenarios"]="Manual: Scenarios"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/tasks"]="Manual: Tasks"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/manual/errorcodes"]="Manual: Exit Status (Error Codes)"
+#end::task-guide[]
+
+MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide"]="User Guide"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install"]="User Guide: Install"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/releases"]="User Guide, Install: Releases"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/requirements"]="User Guide, Install: Requirements"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/automated"]="User Guide, Install: Automated"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/deb"]="User Guide, Install: DEB"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/rpm"]="User Guide, Install: RPM"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/tgz"]="User Guide, Install: TGZ"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/from-source"]="User Guide, Install: Build and Install from Source"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/verify-installation"]="User Guide, Install: Verify Installation"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/terminal-configuration"]="User Guide, Install: Configure and Test Terminal"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/install/build-cache"]="User Guide, Install: Build Runtime Cache"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/user-guide/performance"]="User Guide: Performance"
+
+MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide"]="Task Guide"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/use-tasks"]="Task Guide: Use Tasks"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/list-"]="Task Guide, Use Tasks: list-*"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/describe-"]="Task Guide, Use Tasks: describe-*"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/cloc-installation"]="Task Guide, Use Tasks: CLOC Installation"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/execute-program"]="Task Guide, Use Tasks: Execute Program"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/manual"]="Task Guide, Use Tasks: Manual"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/repeat-scenario"]="Task Guide, Use Tasks: Repeat Scenario"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/repeat-task"]="Task Guide, Use Tasks: Repeat Task"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/run-target-set"]="Task Guide, USe Tasks: Run Target Set"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/setting"]="Task Guide, Use Tasks: Setting"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/start-browser"]="Task Guide, Use Tasks: Start Browser"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/start-pdf-viewer"]="Task Guide, Use Tasks: Start PDF Viewer"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/start-xterm"]="Task Guide, Use Tasks: Start XTerm"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/statistics"]="Task Guide, Use Tasks: Statistics"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/validate-installation"]="Task Guide, Use Tasks: Validate Installation"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/wait"]="Task Guide, Use Tasks: Wait"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/build-tasks"]="Task Guide: Build Tasks"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/build-manual"]="Task Guide, Build Tasks: Build Manual"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/build-mvn-site"]="Task Guide, Build Tasks: Build MVN Site"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/clean"]="Task Guide, Build Tasks: Clean"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/dev-tasks"]="Task Guide: Development Tasks"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/build-cache"]="Task Guide, Development Tasks: Builde Cache"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/build-help"]="Task Guide, Development Tasks: Build Help"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/download-fw-tool"]="Task Guide, Development Tasks: Download-FW Tool"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/task-guide/tasks/set-file-versions"]="Task Guide, Development Tasks: Set File Versions"
+
+MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide"]="Developer Guide"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts"]="Developer Guide: Layouts and Directory Structure"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-bin"]="Developer Guide, Layouts: bin"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-doc"]="Developer Guide, Layouts: doc"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-etc"]="Developer Guide, Layouts: etc"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-lib"]="Developer Guide, Layouts: lib"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-man"]="Developer Guide, Layouts: man"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/layouts/app-scenarios"]="Developer Guide, Layouts: scenarios"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/sequences"]="Developer Guide: Sequences"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/sequences/normal-interactive"]="Developer Guide, Sequences: Normal and Interactive"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation"]="Developer Guide: The Implementation"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation/skb-framework"]="Developer Guide, Implementation: skb-framework"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation/loader"]="Developer Guide, Implementation: loader"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/implementation/shell"]="Developer Guide, Implementation: shell"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api"]="Developer Guide: API"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/applications"]="Developer Guide, API: Applications"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/commands"]="Developer Guide, API: Commands"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/console"]="Developer Guide, API: Console"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/dependencies"]="Developer Guide, API: Dependencies"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/errorcodes"]="Developer Guide, API: Error Codes"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/misc"]="Developer Guide, API: Miscellaneous"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/options"]="Developer Guide, API: Options"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/parameters"]="Developer Guide, API: Parameters"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/print"]="Developer Guide, API: Print"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/scenarios"]="Developer Guide, API: Scenarios"
+        MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/tasks"]="Developer Guide, API: Tasks"
+    MVN_SITE_FIX_ADOC_ARRAY["target/site/developer-guide/api/function-index"]="Developer Guide: API Function Index"

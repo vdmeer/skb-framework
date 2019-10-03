@@ -24,13 +24,9 @@
 ## Declare: scenarios
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
-
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 
 declare -A DMAP_SCN_ORIGIN              # map [id]=origin
@@ -64,13 +60,13 @@ DMAP_SCN_REQ_TASK_OPT["DUMMY"]=dummy
 ##
 ScenarioRequire() {
     if [[ -z $1 ]]; then
-        ConsoleError " ->" "scn-require - no scenario ID given"
+        ConsolePrint error "scn-require - no scenario ID given"
         return
     elif [[ -z $2 ]]; then
-        ConsoleError " ->" "scn-require - missing requirement type for scenario '$1'"
+        ConsolePrint error "scn-require - missing requirement type for scenario '$1'"
         return
     elif [[ -z $3 ]]; then
-        ConsoleError " ->" "scn-require - missing requirement value for scenario '$1'"
+        ConsolePrint error "scn-require - missing requirement value for scenario '$1'"
         return
     fi
 
@@ -78,17 +74,17 @@ ScenarioRequire() {
     local TYPE=$2
     local VALUE=$3
     local OPTIONAL=${4:-}
-    ConsoleDebug "scenario $ID requires '$TYPE' value '$VALUE' option '$OPTIONAL'"
+    ConsolePrint debug "scenario $ID requires '$TYPE' value '$VALUE' option '$OPTIONAL'"
 
     if [[ -z $OPTIONAL ]]; then
         case "$TYPE" in
             task)   DMAP_SCN_REQ_TASK_MAN[$ID]="${DMAP_SCN_REQ_TASK_MAN[$ID]:-} $VALUE" ;;
-            *)      ConsoleError " ->" "scn-require -scenario $ID requires unknown type '$TYPE'" ;;
+            *)      ConsolePrint error "scn-require -scenario $ID requires unknown type '$TYPE'" ;;
         esac
     else
         case "$TYPE" in
             task)   DMAP_SCN_REQ_TASK_OPT[$ID]="${DMAP_SCN_REQ_TASK_OPT[$ID]:-} $VALUE" ;;
-            *)      ConsoleError " ->" "scn-require -scenario $ID requires unknown type '$TYPE'" ;;
+            *)      ConsolePrint error "scn-require -scenario $ID requires unknown type '$TYPE'" ;;
         esac
     fi
 }
@@ -106,10 +102,10 @@ DeclareScenarioOrigin() {
     local ORIGIN_PATH=$1
     local ORIGIN=$2
 
-    ConsoleDebug "scanning $ORIGIN from $ORIGIN_PATH"
+    ConsolePrint debug "scanning $ORIGIN from $ORIGIN_PATH"
     local SCN_PATH=$ORIGIN_PATH/${APP_PATH_MAP["SCENARIOS"]}
     if [[ ! -d $SCN_PATH ]]; then
-        ConsoleWarn " ->" "declare scenario - did not find scenario directory '$SCN_PATH' at origin '$ORIGIN'"
+        ConsolePrint warn "declare scenario - did not find scenario directory '$SCN_PATH' at origin '$ORIGIN'"
     else
         local ID
         local SHORT
@@ -141,24 +137,24 @@ DeclareScenarioOrigin() {
             source "$file"
 
             if [[ ! -f $EXECUTABLE ]]; then
-                ConsoleError " ->" "declare scenario - '$ID' without script file"
+                ConsolePrint error "declare scenario - '$ID' without script file"
                 HAVE_ERRORS=true
             elif [[ ! -r $EXECUTABLE ]]; then
-                ConsoleError " ->" "declare scenario - '$ID' script not readable"
+                ConsolePrint error "declare scenario - '$ID' script not readable"
                 HAVE_ERRORS=true
             fi
 
             if [[ -z "${MODES:-}" ]]; then
-                ConsoleError " ->" "declare scenario - '$ID' has no modes defined"
+                ConsolePrint error "declare scenario - '$ID' has no modes defined"
                 HAVE_ERRORS=true
             else
                 for mode in $MODES; do
                     case $mode in
                         dev | build | use)
-                            ConsoleDebug "scenario '$ID' found mode '$mode'"
+                            ConsolePrint debug "scenario '$ID' found mode '$mode'"
                             ;;
                         *)
-                            ConsoleError " ->" "declare scenario - '$ID' with unknown mode '$mode'"
+                            ConsolePrint error "declare scenario - '$ID' with unknown mode '$mode'"
                             HAVE_ERRORS=true
                             ;;
                     esac
@@ -166,36 +162,36 @@ DeclareScenarioOrigin() {
             fi
 
             if [[ -z "${MODE_FLAVOR:-}" ]]; then
-                ConsoleError " ->" "declare scenario - '$ID' has no app mode flavor defined"
+                ConsolePrint error "declare scenario - '$ID' has no app mode flavor defined"
                 HAVE_ERRORS=true
             else
                 case $MODE_FLAVOR in
                     std | install)
-                        ConsoleDebug "scenario '$ID' found app mode flavor '$MODE_FLAVOR'"
+                        ConsolePrint debug "scenario '$ID' found app mode flavor '$MODE_FLAVOR'"
                         ;;
                     *)
-                        ConsoleError " ->" "declare scenario - '$ID' with unknown app mode flavor '$MODE_FLAVOR'"
+                        ConsolePrint error "declare scenario - '$ID' with unknown app mode flavor '$MODE_FLAVOR'"
                         HAVE_ERRORS=true
                         ;;
                 esac
             fi
 
             if [[ -z "${DESCRIPTION:-}" ]]; then
-                ConsoleError " ->" "declare scenario - '$ID' has no description"
+                ConsolePrint error "declare scenario - '$ID' has no description"
                 HAVE_ERRORS=true
             fi
 
             if [[ ! -z ${DMAP_SCN_ORIGIN[$ID]:-} ]]; then
-                ConsoleError " ->" "overwriting ${DMAP_SCN_ORIGIN[$ID]}:::$ID with $ORIGIN:::$ID"
+                ConsolePrint error "overwriting ${DMAP_SCN_ORIGIN[$ID]}:::$ID with $ORIGIN:::$ID"
                 HAVE_ERRORS=true
             fi
             if [[ ! -z ${SHORT:-} && ! -z ${DMAP_SCN_SHORT[${SHORT:-}]:-} ]]; then
-                ConsoleError " ->" "overwriting scenario short from ${DMAP_SCN_SHORT[$SHORT]} to $ID"
+                ConsolePrint error "overwriting scenario short from ${DMAP_SCN_SHORT[$SHORT]} to $ID"
                 HAVE_ERRORS=true
             fi
 
             if [[ $HAVE_ERRORS == true ]]; then
-                ConsoleError " ->" "declare scenario - could not declare scenario"
+                ConsolePrint error "declare scenario - could not declare scenario"
                 NO_ERRORS=false
             else
                 DMAP_SCN_ORIGIN[$ID]=$ORIGIN
@@ -206,9 +202,9 @@ DeclareScenarioOrigin() {
                 DMAP_SCN_DESCR[$ID]="$DESCRIPTION"
                 if [[ ! -z ${SHORT:-} ]]; then
                     DMAP_SCN_SHORT[$SHORT]=$ID
-                    ConsoleDebug "declared $ORIGIN:::$ID with short '$SHORT'"
+                    ConsolePrint debug "declared $ORIGIN:::$ID with short '$SHORT'"
                 else
-                    ConsoleDebug "declared $ORIGIN:::$ID without short"
+                    ConsolePrint debug "declared $ORIGIN:::$ID without short"
                 fi
             fi
         done
@@ -225,8 +221,8 @@ DeclareScenarios() {
     local ORIG_PATH
     local COUNT=1
 
-    ConsoleInfo "-->" "declare scenarios"
-    ConsoleResetErrors
+    ConsolePrint info "declare scenarios"
+    Counters reset errors
 
     DeclareScenarioOrigin ${CONFIG_MAP["FW_HOME"]} FW_HOME
     if [[ "${CONFIG_MAP["FW_HOME"]}" != ${CONFIG_MAP["APP_HOME"]} ]]; then
@@ -238,5 +234,5 @@ DeclareScenarios() {
             COUNT=$(($COUNT + 1))
         done
     fi
-    ConsoleInfo "-->" "done"
+    ConsolePrint info "done"
 }

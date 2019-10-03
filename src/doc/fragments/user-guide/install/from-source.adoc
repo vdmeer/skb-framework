@@ -1,0 +1,121 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== Build and Install from Source
+
+The last option is to build and install from the actual source files.
+This options has a few more requirements (build tools), and requires some more manual steps.
+
+
+
+
+=== Additional Requirements
+The build process requires the following software.
+
+[cols="10,80", grid=rows, frame=none, %autowidth.stretch, options="header"]
+|===
+| Dependency | Description
+
+| gradle |
+Gradle is used to build the SKB Tool, which is a Java program that converts `.adoc` files into formatted text in `.txt` files.
+An installation is not required, since the provided script `gradlew` can be used.
+If you want to install gradle, make sure to use version 5 or higher.
+
+| Java SDK |
+The Java SDK is required to build the SKB Tool.
+Oracle or Open JDK can be used, but they should be version 8 or higher.
+
+| Asciidoctor |
+This application is used to create the HTML version of the manual
+
+| Asciidoctor-pdf |
+This application is used to create the PDF version of the manual
+
+| Coderay |
+This is used for syntax highlighting of source blocks in Asciidoctor files.
+
+|===
+
+If you also want to build the SKB Framework website, then you need to have Apache Maven version 3 or higher installed.
+
+
+
+
+=== Download and Extract Source Archive
+Download the sources from _Github_ using `curl` or `wget` as shown in the following example:
+
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+curl -L "https://github.com/vdmeer/skb-framework/archive/v{release-version}.tar.gz" --output v{release-version}.tar.gz
+wget https://github.com/vdmeer/skb-framework/archive/v{release-version}.tar.gz
+----
+
+Then extract the archive using tar:
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+tar xvfz v{release-version}.tar.gz
+----
+
+
+
+=== Build Distribution Files
+Building the distribution files is quite simple.
+The framework uses mainly itself for building them.
+
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+cd skb-framework
+./make-fw.sh clean,tool,mkdirs,dist
+----
+
+The build will take a few minutes, depending on the available processing capacity of your system.
+This will run:
+
+* _clean_ to remove all created artifacts
+* _tool_ to build the SKB Tool
+* _mkdirs_ to create a few required directories
+* _dist_ to create the distribution files
+
+If you also want to build the site, then run the following command:
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+cd skb-framework
+./make-fw.sh site
+----
+
+To run all targets (distribution and site) you can also use the following command:
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+cd skb-framework
+./make-fw.sh all
+----
+
+
+=== The Distribution Files
+After successfully building the distribution, the created files can be found in the folder `build/distributions`.
+The following files should be found here:
+
+* `skb-framework-{release-version}-src.tar.gz` - A complete installation archive.
+    It is called _src_ here, because it also contains a `Makefile` and can be used as the source for creating a PPA distribution set.
+* `skb-framework-{release-version}.changes`- An automatically generated file with information about the DEB file.
+* `skb-framework-{release-version}.deb` - The DEB installation file.
+* `skb-framework-{release-version}.rpm` - The RPM installation file.
+
+
+
+=== Install
+The installation now can be done as described in the section above for DEB, RPM, and TGZ.
+
+

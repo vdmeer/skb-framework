@@ -1,0 +1,114 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== Requirements
+
+The framework is written in `bash`.
+It uses associative arrays, also known as hash maps.
+Thus version 4 or higher of `bash` is required.
+
+There are a few other requirements to start the framework, listed in the table below.
+These requirements are for the framework (start script, loader, interactive shell, and API).
+All of them are tested during the application load, i.e. before the interactive shell is started.
+
+[cols="10,80", grid=rows, frame=none, %autowidth.stretch, options="header"]
+|===
+| Dependency | Description
+
+| `bash` |
+The Bash shell version 4 or higher.
+On most UNIX/Linux system, Bash 4 will be part of a standard installation.
+
+| (GNU) `getopt` |
+The framework requires command line parsing for its own CLI arguments as well for every task.
+It uses the GNU enhanced version of `getopt`.
+The standard version is not supported.
+
+| `date` |
+Program to print formatted date and time information, or to get time stamps.
+It is used to create time stamps.
+
+| `dirname` |
+Program to strip the last component of a file name, leaving a path.
+It is used to set several paths for the framework.
+
+| `pwd` |
+Get the current working directory.
+It is used to generate several paths for the framework.
+
+| `uname` |
+Prints system information.
+It is used to determine the operating system the framework is running in, for some low level functions.
+
+| `cut` |
+Tool to remove sections from each line in a file or a string.
+It is used to parse strings, for instance the result of _uname_.
+
+| `cat` |
+This standard tool concatenates files and prints them to the standard output.
+It is used for instance to read the version files.
+
+| `mkdir` |
+Creates directories, used to create temporary and target directories.
+
+| `bc` |
+This is an arbitrary precision calculator (language and application).
+It is used here to calculate the execution time of tasks and scenarios (since Bash does not offer floating point arithmetic).
+`bc` should be standard in almost all UNIX systems.
+
+See also the link:https://www.gnu.org/software/bc/manual/html_mono/bc.html[GNU manual page].
+
+| (GNU) `mktemp` |
+The framework needs to create a temporary directory with runtime configuration files.
+It uses `mktemp` to create temporary file and directory names.
+This tool should be standard in Linux distributions.
+
+See also the link:https://www.gnu.org/software/autogen/mktemp.html[GNU page].
+
+| `ls` |
+Lists directories and files, used to test the contents of temporary directories.
+
+| `wc` |
+Counts several properties of files or strings, used to test temporary directories.
+
+| `tput` |
+This tool can be used to initialize a terminal or to query the terminal database (_terminfo_).
+The `manual` option and command is using `tput` to store (_smcup_) and restore (_rmcup_) the terminal context when showing the manual.
+
+| `less` |
+As the manual states: "less is the opposite of more".
+It essentially allows to show a file and move backwards and forwards, search the content, and more interactions.
+The `manual` option and command is using `less` to show the manual.
+
+| `rm` |
+Removes files, used to clean temporary and target directories.
+
+| `sort` |
+Sorts lines of text files as well as other input.
+It is used in several places to sort the keys of associative arrays alphabetically.
+
+//| `sed` |
+//The UNIX stream editor, used to manipulate text or files.
+//The application is required by some API functions.
+
+|===
+
+Most of the tested dependencies are standard UNIX tools and programs, available on any given server or client installation.
+The reason to test them before starting the shell is that the framework (or an application) can also be deployed in the cloud or inside a container.
+There is no guarantee that the operating system in these environments actually provide all required the programs (external dependencies).
+So we have to test them all.
+
+Tasks can define any other dependency to external applications and tools.
+Task dependencies are tested separately, when tasks are loaded.

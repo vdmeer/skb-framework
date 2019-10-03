@@ -24,19 +24,15 @@
 ## Declare: character map
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
-
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 
 declare -A CHAR_MAP         # map/export characters
-    CHAR_MAP["AVAILABLE"]="✔"       # char something available
-    CHAR_MAP["NOT_AVAILABLE"]="✘"   # char something not available
-    CHAR_MAP["DIAMOND"]="◆"         # char diamond
+    CHAR_MAP["AVAILABLE"]="✔"        # char something available
+    CHAR_MAP["NOT_AVAILABLE"]="✘"    # char something not available
+    CHAR_MAP["DIAMOND"]="◆"          # char diamond
     CHAR_MAP["LEGEND"]="■"           # char legend
     CHAR_MAP["TOP_LINE"]="═"         # table top line
     CHAR_MAP["MID_LINE"]="─"         # table mid line

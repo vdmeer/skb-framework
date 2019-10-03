@@ -8,7 +8,10 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
+
+:sectlinks:
 
 include::{skb-site-main-dir}/doc/fragments/task-guide/tasks/build-cache.adoc[]

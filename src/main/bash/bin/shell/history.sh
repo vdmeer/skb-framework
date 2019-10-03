@@ -24,13 +24,9 @@
 ## Shell: function for shell command - history
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
-
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 
 ##
@@ -88,7 +84,7 @@ ShellCmdHistory() {
                 keys=(${keys[@]:-} $padding)
             fi
         done
-        keys=($(printf '%s\n' "${keys[@]:-}"|sort))
+        keys=($(printf '%s\n' "${keys[@]:-}" | sort))
         for i in ${!keys[@]}; do
             NUMBER=${keys[$i]}
             NUMBER=$((10#$NUMBER))

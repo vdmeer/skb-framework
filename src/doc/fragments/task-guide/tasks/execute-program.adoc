@@ -8,8 +8,10 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
+
 
 == execute-program
 This task executes an external program.
@@ -27,40 +29,41 @@ The program can be started in different ways:
     Since the task then terminates, there is no further job control on the XTerm.
     All output will of course happen in the new XTerm.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -b | --background  run program in background
-   -h | --help        print help screen and exit
-   -t | --title TITLE title for the XTerm, default: program name
-   -x | --xterm       start a new XTerm and execute program
+include::{skb-site-target-dir}/adoc-task-help/execute-program.adoc[tags=options]
 ----
 
 The actual program and its arguments should be provided after `--` in the command line.
 All characters here will be simply used to execute the program.
 
+
+
 === Examples
 
 The following example executes `ls` in the current directory (where the application was started from).
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 execute-program -- ls
-====
+----
 
 
 The following example executes `ls` in the current directory (where the application was started from).
 It runs `ls` in the background, which causes an error since `ls` takes the added ampersand `&` as an argument.
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 execute-program --background -- ls
-====
+----
 
 The following example starts the editor `vi` with the file `build.sh` in a new XTerm.
-[example]
-====
+
+[source%nowrap,bash,indent=0]
+----
 execute-program --xterm -- vi build.sh
-====
+----
+
 
 
 === Requirements

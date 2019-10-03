@@ -1,0 +1,50 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+==  GetCommandID()
+_String GetCommandID( $1 )_ - returns a command identifier (name) for a given short or long name.
+
+
+*Parameters*:
+
+* `$1`, _string_ - name to process, which can be the command's short or long name.
+
+
+*Return*:
+
+* _string_ - the command name, empty if not found, i.e. no command is declared for the given identifier.
+    The return is realized as a print of the found name or an empty string.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+COMMAND_ID=$(GetCommandID "my-name")
+if [[ -z ${COMMAND_ID:-} ]]; then
+    # some error
+else
+    # some success
+fi
+----
+
+The example above calls this function to return the commands identifier for the string _my-name_ in line 1.
+If the command was found, _COMMAND_ID_ will contain the name.
+Otherwise, _COMMAND_ID_ will be empty.
+The lines 2-6 test the return value.
+In line 3 we can add some code for the error case.
+In line 5 we can add some code for the success case.
+
+

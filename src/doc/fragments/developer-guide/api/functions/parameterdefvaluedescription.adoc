@@ -1,0 +1,72 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== ParameterDefvalueDescription()
+_void ParameterDefvalueDescription( $1, [$2] )_ - prints the parameter default value with path shortening and formatting.
+
+This function simply prints the default value of the parameter _$1_, with some automated formatting for specific (known) values.
+If no filter matches, the default value will be printed as it is declared for the parameter.
+A special filter for print mode can be set in _$2_.
+If a filter matches, the printed text depends on the filter as:
+
+* No default value declared: the line `none defined` is printed.
+* If the default value contains the framework home directory _CONFIG_MAP["FW_HOME"]_, this will be shortened to _$FW_HOME_.
+* If the default value contains the application home directory _CONFIG_MAP["APP_HOME"]_, this will be shortened to _$APP_HOME.
+* If the print mode is _adoc_, the default value is printed as: \`"$DEFAULT_VALUE"\` to get the inline code formatting.
+    For all other print modes, the default value is printed as: "$DEFAULT_VALUE".
+
+
+*Parameter*
+
+* `$1`, _string_ - the parameter identifier, any spelling (upper case, lower case, mixed).
+
+
+*Errors*
+
+* For unknown parameter identifiers (names)
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/getparameterid-link.adoc[]
+to retrieve the parameter identifier.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+printf "%s\n" "$(ParameterDefvalueDescription XTERM)"
+printf "%s\n" "$(ParameterDefvalueDescription CACHE_DIR)"
+printf "%s\n" "$(ParameterDefvalueDescription MANUAL_SRC)"
+----
+
+The examples above call the function for three different parameters.
+
+[source%nowrap,bash,linenums,subs="attributes,quotes"]
+----
+none defined
+"/var/cache/skb-framework"
+"$FW_HOME/etc/manual"
+----
+
+The screen above shows the default values (lines) printed for the examples.
+The parameter _XTERM_ has no default value.
+The parameter _CACHE_DIR_ has a default value that does not match a filter.
+The parameter _MANUAL_SRC_ has a default value that matches the filter for the framework home directory.

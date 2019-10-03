@@ -1,1 +1,4 @@
-    n/a                                                                       
+    There are probably many bugs and issues in the framework. For  known  bugs
+    and            other             issues             please             see
+    https://github.com/vdmeer/skb-framework/issues.  Please  report  bugs  and
+    issues using the issue management on the same page.                       

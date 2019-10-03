@@ -24,13 +24,10 @@
 ## list-tasks - list tasks
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -50,12 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/task.sh
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -92,7 +85,7 @@ CLI_LONG_OPTIONS=all,mode:,help,install,loaded,origin:,print-mode:,status:,unloa
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-tasks -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "list-tasks: unknown CLI options"
+    ConsolePrint error "list-tasks: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -108,25 +101,37 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "list-tasks")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
-                BuildTaskHelpLine T table       "<none>"    "help screen format with additional information"    $PRINT_PADDING
-                printf "\n   filters\n"
-                BuildTaskHelpLine A         all         "<none>"    "all tasks, disables all other filters"                                     $PRINT_PADDING
-                BuildTaskHelpLine I         install     "<none>"    "only tasks for application mode flavor 'install'"                          $PRINT_PADDING
-                BuildTaskHelpLine l         loaded      "<none>"    "only loaded tasks"                                                         $PRINT_PADDING
-                BuildTaskHelpLine m         mode        "MODE"      "only tasks for application mode: all, dev, build, use"                     $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-a        "<none>"    "activate all '--no-' filters"                                              $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-b        "<none>"    "exclude tasks starting with 'build-'"                                      $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-d        "<none>"    "exclude tasks starting with 'describe-'"                                   $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-dl       "<none>"    "exclude tasks starting with 'describe-' or 'list-'"                        $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-l        "<none>"    "exclude tasks starting with 'list-'"                                       $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  no-s        "<none>"    "exclude tasks starting with 'start-'"                                      $PRINT_PADDING
-                BuildTaskHelpLine o         origin      "ORIGIN"    "only tasks from origin: f(w), a(pp)"                                       $PRINT_PADDING
-                BuildTaskHelpLine "<none>"  odl         "<none>"    "show only tasks starting with 'describe-' or 'list-'"                      $PRINT_PADDING
-                BuildTaskHelpLine s         status      "STATUS"    "only tasks with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"    $PRINT_PADDING
-                BuildTaskHelpLine u         unloaded    "<none>"    "only unloaded tasks"                                                       $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard list options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"              $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "table format with additional information"  $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
+
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard list filters\n"
+                BuildTaskHelpLine A         all         "<none>"    "all entries, disables all other filters"   $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine I         install     "<none>"    "for 'install' flavor "                                         $PRINT_PADDING
+                BuildTaskHelpLine l         loaded      "<none>"    "loaded"                                                        $PRINT_PADDING
+                BuildTaskHelpLine m         mode        "MODE"      "for application mode: all, dev, build, use"                    $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-a        "<none>"    "activate all '--no-' filters"                                  $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-b        "<none>"    "exclude names starting with 'build-'"                          $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-d        "<none>"    "exclude names starting with 'describe-'"                       $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-dl       "<none>"    "exclude names starting with 'describe-' or 'list-'"            $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-l        "<none>"    "exclude names starting with 'list-'"                           $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  no-s        "<none>"    "exclude names starting with 'start-'"                          $PRINT_PADDING
+                BuildTaskHelpLine o         origin      "ORIGIN"    "from origin: f(w), a(pp)"                                      $PRINT_PADDING
+                BuildTaskHelpLine "<none>"  odl         "<none>"    "names starting with 'describe-' or 'list-'"                    $PRINT_PADDING
+                BuildTaskHelpLine s         status      "STATUS"    "with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"   $PRINT_PADDING
+                BuildTaskHelpLine u         unloaded    "<none>"    "unloaded"                                                      $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
             else
                 cat $CACHED_HELP
             fi
@@ -214,7 +219,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "list-tasks: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "list-tasks: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -249,7 +254,7 @@ else
                 ORIGIN=APP_HOME
                 ;;
             *)
-                ConsoleError "  ->" "lt: unknown origin: $ORIGIN"
+                ConsolePrint error "lt: unknown origin: $ORIGIN"
                 exit 61
         esac
     fi
@@ -268,7 +273,7 @@ else
                 APP_MODE=use
                 ;;
             *)
-                ConsoleError "  ->" "lt: unknown application mode: $APP_MODE"
+                ConsolePrint error "lt: unknown application mode: $APP_MODE"
                 exit 62
         esac
     fi
@@ -287,7 +292,7 @@ else
                 STATUS=N
                 ;;
             *)
-                ConsoleError "  ->" "lt: unknown status: $STATUS"
+                ConsolePrint error "lt: unknown status: $STATUS"
                 exit 63
         esac
     fi
@@ -303,7 +308,7 @@ case $LS_FORMAT in
     list | table)
         ;;
     *)
-        ConsoleFatal "  ->" "lt: internal error: unknown list format '$LS_FORMAT'"
+        ConsolePrint fatal "lt: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac
@@ -319,8 +324,8 @@ if [[ -f $FILE ]]; then
 fi
 
 
-if (( $TASK_LINE_MIN_LENGTH > $COLUMNS )); then
-    ConsoleError "  ->" "lt: not enough columns for table, need $TASK_LINE_MIN_LENGTH found $COLUMNS"
+if (( ${CONSOLE_MAP["TASK_LINE_MIN_LENGTH"]} > ${CONSOLE_MAP["TASK_COLUMNS_PADDED"]} )); then
+    ConsolePrint error "lt: not enough columns for table, need ${CONSOLE_MAP["TASK_LINE_MIN_LENGTH"]} found ${CONSOLE_MAP["TASK_COLUMNS_PADDED"]}"
     exit 60
 fi
 
@@ -331,19 +336,19 @@ fi
 ############################################################################################
 function TableTop() {
     printf "\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["TASK_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
     done
     printf "\n ${EFFECTS["REVERSE_ON"]}Task"
-    printf "%*s" "$((TASK_PADDING - 4))" ''
+    printf "%*s" "$((${CONSOLE_MAP["TASK_PADDING"]} - 4))" ''
     printf "Description"
-    printf '%*s' "$((DESCRIPTION_LENGTH - 11))" ''
+    printf '%*s' "$((${CONSOLE_MAP["TASK_DESCRIPTION_LENGTH"]} - 11))" ''
     printf "O F D B U S${EFFECTS["REVERSE_OFF"]}\n\n"
 }
 
 function TableBottom() {
     printf " "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["TASK_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
     printf "\n\n"
@@ -369,7 +374,7 @@ function TableBottom() {
     printf " reverted"
 
     printf "\n\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["TASK_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
     done
     printf "\n\n"
@@ -488,7 +493,7 @@ PrintTasks() {
                 else
                     printf "${TASK_TABLE[$ID]}"
                 fi
-                DescribeTaskDescription $ID 3 none
+                TaskTagline $ID 3 none
                 ;;
             table)
                 if [[ -z "${TASK_TABLE[$ID]:-}" ]]; then
@@ -496,8 +501,8 @@ PrintTasks() {
                 else
                     printf "${TASK_TABLE[$ID]}"
                 fi
-                DescribeTaskDescription $ID
-                DescribeTaskStatus $ID $PRINT_MODE
+                TaskTagline $ID
+                TaskStatus $ID $PRINT_MODE
                 ;;
         esac
         printf "\n"
@@ -509,7 +514,7 @@ PrintTasks() {
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "lt: starting task"
+ConsolePrint info "lt: starting task"
 
 case $LS_FORMAT in
     list)
@@ -524,5 +529,5 @@ case $LS_FORMAT in
         ;;
 esac
 
-ConsoleInfo "  -->" "lt: done"
+ConsolePrint info "lt: done"
 exit $TASK_ERRORS

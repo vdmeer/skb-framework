@@ -24,13 +24,10 @@
 ## list-dependencies - list dependencies
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -50,12 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/dependency.sh
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -83,7 +76,7 @@ CLI_LONG_OPTIONS=all,help,install,origin:,print-mode:,requested,status:,tested,t
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name list-dependencies -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "list-dependencies: unknown CLI options"
+    ConsolePrint error "list-dependencies: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -99,17 +92,29 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "list-dependencies")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
-                BuildTaskHelpLine T table       "<none>"    "help screen format with additional information"    $PRINT_PADDING
-                printf "\n   filters\n"
-                BuildTaskHelpLine A all         "<none>"    "all dependencies, disables all other filters"                                      $PRINT_PADDING
-                BuildTaskHelpLine I install     "<none>"    "only dependencies required only by install tasks"                                  $PRINT_PADDING
-                BuildTaskHelpLine o origin      "ORIGIN"    "only dependencies from origin: f(w), a(pp)"                                        $PRINT_PADDING
-                BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                                                       $PRINT_PADDING
-                BuildTaskHelpLine s status      "STATUS"    "only dependencies with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"     $PRINT_PADDING
-                BuildTaskHelpLine t tested      "<none>"    "only tested dependencies"                                                          $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard list options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                  $PRINT_PADDING
+                BuildTaskHelpLine T table       "<none>"    "table format with additional information"      $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
+
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard list filters\n"
+                BuildTaskHelpLine A all         "<none>"    "all entries, disables all other filters"       $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine I install     "<none>"    "required only by install tasks"                                $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "from origin: f(w), a(pp)"                                      $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "requested"                                                     $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"   $PRINT_PADDING
+                BuildTaskHelpLine t tested      "<none>"    "tested"                                                        $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
             else
                 cat $CACHED_HELP
             fi
@@ -156,7 +161,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "list-dependencies: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "list-dependencies: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -184,7 +189,7 @@ else
                 ORIGIN=APP_HOME
                 ;;
             *)
-                ConsoleError "  ->" "ld: unknown origin: $ORIGIN"
+                ConsolePrint error "ld: unknown origin: $ORIGIN"
                 exit 61
         esac
     fi
@@ -203,7 +208,7 @@ else
                 STATUS=N
                 ;;
             *)
-                ConsoleError "  ->" "ld: unknown status: $STATUS"
+                ConsolePrint error "ld: unknown status: $STATUS"
                 exit 62
         esac
     fi
@@ -212,7 +217,7 @@ case $LS_FORMAT in
     list | table)
         ;;
     *)
-        ConsoleFatal "  ->" "ld: internal error: unknown list format '$LS_FORMAT'"
+        ConsolePrint fatal "ld: internal error: unknown list format '$LS_FORMAT'"
         exit 69
         ;;
 esac
@@ -228,8 +233,8 @@ if [[ -f $FILE ]]; then
 fi
 
 
-if (( $DEP_LINE_MIN_LENGTH > $COLUMNS )); then
-    ConsoleError "  ->" "ld: not enough columns for table, need $DEP_LINE_MIN_LENGTH found $COLUMNS"
+if (( ${CONSOLE_MAP["DEP_LINE_MIN_LENGTH"]} > ${CONSOLE_MAP["DEP_COLUMNS_PADDED"]} )); then
+    ConsolePrint error "ld: not enough columns for table, need ${CONSOLE_MAP["DEP_LINE_MIN_LENGTH"]} found ${CONSOLE_MAP["DEP_COLUMNS_PADDED"]}"
     exit 60
 fi
 
@@ -240,19 +245,19 @@ fi
 ############################################################################################
 function TableTop() {
     printf "\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["DEP_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["TOP_LINE"]}"
     done
     printf "\n ${EFFECTS["REVERSE_ON"]}Dependency"
-    printf "%*s" "$((DEP_PADDING - 10))" ''
+    printf "%*s" "$((${CONSOLE_MAP["DEP_PADDING"]} - 10))" ''
     printf "Description"
-    printf '%*s' "$((DESCRIPTION_LENGTH - 11))" ''
+    printf '%*s' "$((${CONSOLE_MAP["DEP_DESCRIPTION_LENGTH"]} - 11))" ''
     printf "O S${EFFECTS["REVERSE_OFF"]}\n\n"
 }
 
 function TableBottom() {
     printf " "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["DEP_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["MID_LINE"]}"
     done
     printf "\n\n"
@@ -268,7 +273,7 @@ function TableBottom() {
     printf " errors"
 
     printf "\n\n "
-    for ((x = 1; x < $COLUMNS; x++)); do
+    for ((x = 1; x < ${CONSOLE_MAP["DEP_COLUMNS_PADDED"]}; x++)); do
         printf %s "${CHAR_MAP["BOTTOM_LINE"]}"
     done
     printf "\n\n"
@@ -363,7 +368,7 @@ PrintDependencies() {
                 else
                     printf "${DEP_TABLE[$ID]}"
                 fi
-                DescribeDependencyDescription $ID 3 none
+                DependencyTagline $ID 3 none
                 ;;
             table)
                 if [[ -z "${DEP_TABLE[$ID]:-}" ]]; then
@@ -371,8 +376,8 @@ PrintDependencies() {
                 else
                     printf "${DEP_TABLE[$ID]}"
                 fi
-                DescribeDependencyDescription $ID
-                DescribeDependencyStatus $ID $PRINT_MODE
+                DependencyTagline $ID
+                DependencyStatus $ID $PRINT_MODE
                 ;;
         esac
         printf "\n"
@@ -386,7 +391,7 @@ PrintDependencies() {
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "ld: starting task"
+ConsolePrint info "ld: starting task"
 
 case $LS_FORMAT in
     list)
@@ -401,5 +406,5 @@ case $LS_FORMAT in
         ;;
 esac
 
-ConsoleInfo "  -->" "ld: done"
+ConsolePrint info "ld: done"
 exit $TASK_ERRORS

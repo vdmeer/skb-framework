@@ -24,13 +24,9 @@
 ## Declare: dependencies
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
-
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 
 declare -A DMAP_DEP_ORIGIN              # map [id]=origin
@@ -49,10 +45,10 @@ declare -A DMAP_DEP_REQ_DEP             # map [id]=(dep-id, ...)
 DeclareDependenciesOrigin() {
     local ORIGIN=$1
 
-    ConsoleDebug "scanning $ORIGIN"
+    ConsolePrint debug "scanning $ORIGIN"
     local DEPENDENCY_PATH=${CONFIG_MAP[$ORIGIN]}/${APP_PATH_MAP["DEP_DECL"]}
     if [[ ! -d $DEPENDENCY_PATH ]]; then
-        ConsoleWarn " ->" "declare dependency - did not find dependency directory '$DEPENDENCY_PATH' at origin '$ORIGIN'"
+        ConsolePrint warn "declare dependency - did not find dependency directory '$DEPENDENCY_PATH' at origin '$ORIGIN'"
     else
         local NO_ERRORS=true
         local ID
@@ -77,12 +73,12 @@ DeclareDependenciesOrigin() {
             source "$file"
 
             if [[ -z "${DESCRIPTION:-}" ]]; then
-                ConsoleError " ->" "declare dependency - '$ID' has no description"
+                ConsolePrint error "declare dependency - '$ID' has no description"
                 HAVE_ERRORS=true
             fi
 
             if [[ -z "${COMMAND:-}" ]]; then
-                ConsoleError " ->" "declare dependency - '$ID' has no command to test"
+                ConsolePrint error "declare dependency - '$ID' has no command to test"
                 HAVE_ERRORS=true
             fi
 
@@ -91,11 +87,11 @@ DeclareDependenciesOrigin() {
             fi
 
             if [[ ! -z ${DMAP_DEP_ORIGIN[$ID]:-} ]]; then
-                ConsoleError "    >" "overwriting ${DMAP_DEP_ORIGIN[$ID]}:::$ID with $ORIGIN:::$ID"
+                ConsolePrint error "overwriting ${DMAP_DEP_ORIGIN[$ID]}:::$ID with $ORIGIN:::$ID"
                 HAVE_ERRORS=true
             fi
             if [[ $HAVE_ERRORS == true ]]; then
-                ConsoleError " ->" "declare dependency - could not declare dependency"
+                ConsolePrint error "declare dependency - could not declare dependency"
                 NO_ERRORS=false
             else
                 DMAP_DEP_ORIGIN[$ID]=$ORIGIN
@@ -103,7 +99,7 @@ DeclareDependenciesOrigin() {
                 DMAP_DEP_REQ_DEP[$ID]=$REQUIRES
                 DMAP_DEP_DESCR[$ID]=$DESCRIPTION
                 DMAP_DEP_CMD[$ID]=$COMMAND
-                ConsoleDebug "declared $ORIGIN:::$ID"
+                ConsolePrint debug "declared $ORIGIN:::$ID"
             fi
         done
     fi
@@ -121,21 +117,21 @@ DeclareDependenciesOrigin() {
      local REQUIRES
      local req
  
-     ConsoleDebug "validate dependency requirements"
+     ConsolePrint debug "validate dependency requirements"
      for ID in "${!DMAP_DEP_ORIGIN[@]}"; do
          ORIGIN=${DMAP_DEP_ORIGIN[$ID]}
          REQUIRES=${DMAP_DEP_REQ_DEP[$ID]#*:::}
          if [[ -n "$REQUIRES" ]]; then
              for req in $REQUIRES; do
                  if [[ ${DMAP_DEP_ORIGIN[$req]+found} ]]; then
-                     ConsoleDebug "$ID requires $req"
+                     ConsolePrint debug "$ID requires $req"
                  else
-                     ConsoleError " ->" "declare dependency - $ORIGIN:::$ID requires unknown dependency $req"
+                     ConsolePrint error "declare dependency - $ORIGIN:::$ID requires unknown dependency $req"
                  fi
              done
          fi
      done
-     ConsoleDebug "done"
+     ConsolePrint debug "done"
  }
 
 
@@ -145,13 +141,13 @@ DeclareDependenciesOrigin() {
 ## - declares dependencies from multiple sources
 ##
 DeclareDependencies() {
-    ConsoleInfo "-->" "declare dependencies"
-    ConsoleResetErrors
+    ConsolePrint info "declare dependencies"
+    Counters reset errors
 
     DeclareDependenciesOrigin FW_HOME
     if [[ "${CONFIG_MAP["FW_HOME"]}" != "${CONFIG_MAP["APP_HOME"]}" ]]; then
         DeclareDependenciesOrigin APP_HOME
     fi
     ValidateDependencyRequirements
-    ConsoleInfo "-->" "done"
+    ConsolePrint info "done"
 }

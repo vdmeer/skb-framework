@@ -24,13 +24,10 @@
 ## describe-dependency - describes a dependency or dependencies
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -50,12 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/dependency.sh
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -84,7 +77,7 @@ CLI_LONG_OPTIONS=all,debug,help,id:,install,origin:,print-mode:,status:,tested,r
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-dependency -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "describe-dependency: unknown CLI options"
+    ConsolePrint error "describe-dependency: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -100,18 +93,35 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "describe-dependency")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard describe options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
+
+                printf "\n"
+                BuildTaskHelpTag start task-options
+                printf "   task options\n"
                 BuildTaskHelpLine D debug       "<none>"    "print debug information instead of description"    $PRINT_PADDING
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
-                printf "\n   filters\n"
-                BuildTaskHelpLine A all         "<none>"    "all dependencies, disables all other filters"                                      $PRINT_PADDING
-                BuildTaskHelpLine i id          "ID"        "dependency identifier"                                                             $PRINT_PADDING
-                BuildTaskHelpLine I install     "<none>"    "only dependencies required only by install tasks"                                  $PRINT_PADDING
-                BuildTaskHelpLine o origin      "ORIGIN"    "only dependencies from origin: f(w), a(pp)"                                        $PRINT_PADDING
-                BuildTaskHelpLine r requested   "<none>"    "only requested dependencies"                                                       $PRINT_PADDING
-                BuildTaskHelpLine s status      "STATUS"    "only dependencies with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"     $PRINT_PADDING
-                BuildTaskHelpLine t tested      "<none>"    "only tested dependencies"                                                          $PRINT_PADDING
+                BuildTaskHelpTag end task-options
+
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard describe filters\n"
+                BuildTaskHelpLine A all         "<none>"    "all entries, disables all other filters"           $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine i id          "ID"        "dependency identifier"                                             $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "required only by install tasks"                                    $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "from origin: f(w), a(pp)"                                          $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "requested"                                                         $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"       $PRINT_PADDING
+                BuildTaskHelpLine t tested      "<none>"    "tested"                                                            $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
             else
                 cat $CACHED_HELP
             fi
@@ -162,7 +172,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "describe-dependency: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-dependency: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -188,7 +198,8 @@ elif [[ $CLI_SET == false ]]; then
 else
     if [[ -n "$DEP_ID" ]]; then
         if [[ -z ${DMAP_DEP_ORIGIN[$DEP_ID]:-} ]]; then
-            ConsoleError " ->" "dd: unknown dependency: $DEP_ID"
+            ConsolePrint error "dd: unknown dependency: $DEP_ID"
+            exit 61
         fi
     fi
     if [[ -n "$ORIGIN" ]]; then
@@ -200,8 +211,8 @@ else
                 ORIGIN=APP_HOME
                 ;;
             *)
-                ConsoleError "  ->" "dd: unknown origin: $ORIGIN"
-                exit 60
+                ConsolePrint error "dd: unknown origin: $ORIGIN"
+                exit 62
         esac
     fi
     if [[ -n "$STATUS" ]]; then
@@ -219,8 +230,8 @@ else
                 STATUS=N
                 ;;
             *)
-                ConsoleError "  ->" "dd: unknown status: $STATUS"
-                exit 61
+                ConsolePrint error "dd: unknown status: $STATUS"
+                exit 63
         esac
     fi
 fi
@@ -228,8 +239,8 @@ case $D_FORMAT in
     descr | debug)
         ;;
     *)
-        ConsoleFatal "  ->" "dd: internal error: unknown describe format '$D_FORMAT'"
-        exit 69
+        ConsolePrint fatal "dd: internal error: unknown describe format '$D_FORMAT'"
+        exit 64
         ;;
 esac
 
@@ -240,7 +251,7 @@ esac
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "dd: starting task"
+ConsolePrint info "dd: starting task"
 
 for ID in ${!DMAP_DEP_ORIGIN[@]}; do
     if [[ -n "$DEP_ID" ]]; then
@@ -318,5 +329,5 @@ for i in ${!keys[@]}; do
     esac
 done
 
-ConsoleInfo "  -->" "dd: done"
+ConsolePrint info "dd: done"
 exit $TASK_ERRORS

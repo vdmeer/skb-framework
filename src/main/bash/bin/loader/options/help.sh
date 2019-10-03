@@ -24,13 +24,10 @@
 ## Loader: commands to run on CLI --help
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
-
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 
 cat ${CONFIG_MAP["FW_HOME"]}/etc/help/options.${CONFIG_MAP["PRINT_MODE"]}
+DO_EXIT=true

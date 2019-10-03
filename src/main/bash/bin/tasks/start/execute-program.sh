@@ -24,13 +24,10 @@
 ## execute-program - executes a program with several options
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -50,11 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -75,7 +69,7 @@ CLI_LONG_OPTIONS=background,help,title:,xterm
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name execute-program -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "execute-program: unknown CLI options"
+    ConsolePrint error "execute-program: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -90,11 +84,14 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "execute-program")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
                 BuildTaskHelpLine b background  "<none>"    "run program in background"                     $PRINT_PADDING
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
                 BuildTaskHelpLine t title       "TITLE"     "title for the XTerm, default: program name"    $PRINT_PADDING
                 BuildTaskHelpLine x xterm       "<none>"    "start a new XTerm and execute program"         $PRINT_PADDING
+                BuildTaskHelpTag end options
             else
                 cat $CACHED_HELP
             fi
@@ -119,7 +116,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "execute-program: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "execute-program: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -132,10 +129,10 @@ done
 ##
 ############################################################################################
 ERRNO=0
-ConsoleInfo "  -->" "ep: starting task"
+ConsolePrint info "ep: starting task"
 
 if [[ -z $PROGRAM ]]; then
-    ConsoleError "  ->" "ep: no program given to execute"
+    ConsolePrint error "ep: no program given to execute"
     exit 60
 fi
 
@@ -149,8 +146,8 @@ if [[ $XTERM == true ]]; then
         ERRNO=$?
         set -e
     else
-        ConsoleError " ->" "ep: cannot start xterm, task 'start-xterm' not loaded"
-        ConsoleInfo "  -->" "ep: done"
+        ConsolePrint error "ep: cannot start xterm, task 'start-xterm' not loaded"
+        ConsolePrint info "ep: done"
         exit 61
     fi
 else
@@ -164,5 +161,5 @@ else
     set -e
 fi
 
-ConsoleInfo "  -->" "ep: done"
+ConsolePrint info "ep: done"
 exit $ERRNO

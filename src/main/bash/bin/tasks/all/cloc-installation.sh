@@ -24,13 +24,10 @@
 ## cloc-installation - counts lines of code of an installation
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -50,11 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -71,7 +65,7 @@ CLI_LONG_OPTIONS=force,help,simulate
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name cloc-installation -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "cloc-installation: unknown CLI options"
+    ConsolePrint error "cloc-installation: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -82,8 +76,11 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "cloc-installation")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpTag end options
             else
                 cat $CACHED_HELP
             fi
@@ -94,7 +91,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "cloc-installation: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "cloc-installation: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -106,13 +103,13 @@ done
 ## ready to go, do clean
 ##
 ############################################################################################
-ConsoleInfo "  -->" "cloci: starting task"
+ConsolePrint info "cloci: starting task"
 
 if [[ "${RTMAP_DEP_STATUS["cloc"]:-}" == "S" ]]; then
-    cloc $(PathToSystemPath ${CONFIG_MAP["FW_HOME"]}) --force-lang="Bourne Again Shell",sh
+    cloc $(PathToSystemPath ${CONFIG_MAP["FW_HOME"]}) --force-lang="Bourne Again Shell",sh --quiet
 else
-    ConsoleError " ->" "cloci: dependency 'cloc' not loaded, cannot count"
+    ConsolePrint error "cloci: dependency 'cloc' not loaded, cannot count"
 fi
 
-ConsoleInfo "  -->" "cloci: done"
+ConsolePrint info "cloci: done"
 exit $TASK_ERRORS

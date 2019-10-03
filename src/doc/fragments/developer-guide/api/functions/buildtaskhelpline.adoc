@@ -1,0 +1,111 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+== BuildTaskHelpLine()
+_String BuildTaskHelpLine( $1, $2, $3, $4, [$5] )_ - builds a help line for a task's CLI option.
+
+The help line is a single line for the task help screen using the print mode from _CONFIG_MAP["PRINT_MODE"]_.
+The line is printed when all arguments have been validated and processed.
+Otherwise error messages is printed.
+
+The generated help line will use effects and colors.
+Short and long option will be printed in _bold_ with an indentation of _3_.
+If no short option is given, the long option will have a further indentation of _5_.
+If short and long options are present, they will be separated by `⎵|⎵`.
+The argument will be printed in _light-blue_.
+The description will be printed as plain text.
+
+
+*Parameters*:
+
+* `$1` - String with the CLI short options, use _<none>_ for no short options.
+* `$2` - String with the CLI long option, must not be empty
+* `$3` - String with an argument, use _<none>_ for no argument.
+    If an argument is given the string will be converted to all upper case letters.
+* `$4` - String with the description of the option.
+    This string should be a short tag line, not a full text description.
+    It should fit on a single line.
+* `$5`, optional -  Integer with the length (number of characters) to be used for short/long/argument.
+    If empty or not provided, the default value _24_ is used.
+    This value is the padding between short/long/argument and the description.
+
+
+*Return*:
+
+* _String_ - the final help line or an error message.
+    The return is realized as a print.
+
+
+*Errors* (as _Console Error_)
+
+* If not short option was given in `$1`
+* If not long option was given in `$2`
+* If not argument was given in `$3`
+* If not description was given in `$4`
+* If _CONFIG_MAP["PRINT_MODE"]_ was set to an unknown value.
+    This case can have multiple cause.
+    It might be that the value was set bypassing the framework to a none-supported value.
+    It might also be that a new _print mode_ was added to the framework, but this function was not updated.
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
+for printing effects, such as bold and italic.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
+for printing colors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+BuildTaskHelpLine h help "<none>" "print help screen and exit" 25
+BuildTaskHelpLine f file file "file to open in viewer" 30
+----
+
+The example above shows two calls to this function.
+Line 1 calls it with a short option _h_, a long option _help_, no argument, the description _print help screen and exit_, and length 25.
+Line 2 calls it with a short option _f_, a long option _file_, an argument _FILE_, the description _file to open in viewer_, and a lenght of 30.
+In this case, the argument will be changed to _FILE_.
+The generated help lines for _print mode_ _ansi_ are shown below.
+
+----
+   -*h* | --*help*              print help screen and exit
+   -*f* | --*file* <span style="color: #5C5CFF">FILE</span>              file to open in viewer
+----
+
+All task in the framework are using this function to build help lines.
+The task _clean_ for instance sets a variable for the length of _19_
+
+[source%nowrap,bash,linenums,indent=0,subs="attributes"]
+----
+include::{skb-site-main-dir}/main/bash/bin/tasks/mode-build/clean.sh[tags=helpline-padding]
+----
+
+and then uses the following code to build its three command line options:
+
+[source%nowrap,bash,linenums,indent=0,subs="attributes"]
+----
+include::{skb-site-main-dir}/main/bash/bin/tasks/mode-build/clean.sh[tags=helpline]
+----
+
+with the resulting output lines
+
+[source%nowrap,subs="attributes,quotes"]
+----
+include::{skb-site-target-dir}/adoc-task-help/clean.adoc[tags=helpline]
+----

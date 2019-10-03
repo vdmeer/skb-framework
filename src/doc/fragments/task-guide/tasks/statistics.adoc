@@ -8,20 +8,22 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
+
 
 == statistics
 This task prints statistics about the all elements.
 The default, without using filters, is to print a few overview tables.
 The print mode can be changed using _print-mode_.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   options
-   -h | --help              print help screen and exit
-   -P | --print-mode MODE   print mode: ansi, text, adoc
+include::{skb-site-target-dir}/adoc-task-help/statistics.adoc[tags=options]
 ----
+
+
 
 === Filters
 Using filters will provide more detailed information.
@@ -30,24 +32,15 @@ Any number of filters can be used in any sequence, the tasks will print the outp
 * Overview table (default, or if filter is set)
 * Commands (if filter is set)
 * Dependencies (if filter is set)
-* Exit status (if filter is set)
+* Error Codes (if filter is set)
 * Options (if filter is set)
 * Parameters (if filter is set)
 * Tasks (if filter is set)
 * Scenarios (if filter is set)
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-   -A | --all               activate all filters
-   -c | --cmd               for commands
-   -d | --dep               for dependencies
-   -e | --es                for exit status
-   -o | --opt               for options
-        --ov                overview
-   -p | --param             for parameters
-   -s | --scn               for scenarios
-   -t | --task              for tasks
+include::{skb-site-target-dir}/adoc-task-help/statistics.adoc[tags=filters]
 ----
 
 
@@ -56,39 +49,15 @@ Any number of filters can be used in any sequence, the tasks will print the outp
 
 The following example requests statistics for the target overview _--ov_ and tasks _--task_.
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 stats --ov --task
-====
-
-The actual output depends of course on the declared and processed tasks.
-An earlier version of the framework shows the following statistics.
-
-[source%nowrap]
 ----
 
-  Statistics
-  ───────────────────────────────      ───────────────────────────────
-   Tasks declared:            35        Scenarios declared:         1
-   Tasks loaded:              30        Scenarios loaded:           0
-  ───────────────────────────────      ───────────────────────────────
-   Dependencies declared:     15        Parameters declared:       12
-   Dependencies requested:     4        Parameters requested:       8
-   Dependencies tested:        4        Parameters w/default val:   6
-  ───────────────────────────────      ───────────────────────────────
-   Configuration settings:    28        Exit Status:               37
-   Options:                   23        Commands:                  11
-  ───────────────────────────────      ───────────────────────────────
+The actual output depends of course on the declared and processed tasks.
+the following screen shows the statistics for the SKB-Framework version {release-version}, started in _all_ mode and _install_ flavor and with all settings required to build the distribution.
 
-
-  Tasks
-  ────────────────────────────────────────────────────────────────────
-   Declared:                  35        Not loaded:                 5
-   - origin: framework:       35        Unloaded:                   0
-   - origin: app:              0        Loaded:                    30
-   - mode: dev:               35        - errors:                   0
-   - mode: build:             32        - warnings:                 2
-   - mode: use:               30        - success:                 28
-  ────────────────────────────────────────────────────────────────────
-
+[source%nowrap,subs="attributes"]
+----
+include::{skb-site-target-dir}/adoc-text/stats.txt[]
 ----

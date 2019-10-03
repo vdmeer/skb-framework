@@ -8,7 +8,40 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
 
+
 == API
+
+The runtime API of the framework is a set of functions grouped into a few main categories:
+
+* Applications - functions to print information about an application, mostly used for the manual and online help.
+* Commands - function for framework commands.
+* Console - console function, to write formated text to the console.
+* Dependencies - functions to manage dependencies.
+*Error Codes - functions to manage error codes.
+* Misc - miscellaneous functions.
+* Options - functions to manage options.
+* Parameters - functions to manage parameters.
+* Print - print functions, including formatting for colors and text effects.
+* Scenarios - functions to manage scenarios.
+* Tasks - functions to manage tasks.
+
+There are two options to load API functions into a task.
+The first one is to source the provided `include` file, which in turn will source all available API files:
+
+[source%nowrap,bash,indent=0]
+----
+source $FW_HOME/bin/api/_include
+----
+
+The second option is to source API files individually, for instance:
+
+[source%nowrap,bash,indent=0]
+----
+source $FW_HOME/bin/api/console.sh
+source $FW_HOME/bin/api/print.sh
+----
+

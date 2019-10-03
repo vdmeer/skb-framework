@@ -1,0 +1,72 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== DebugTask()
+_void DebugTask( $1 )_ - prints debug information for a task.
+
+This function prints all internal information about a task, including details of the declaration and load status.
+
+
+*Parameters*
+
+* `$1` - task identifier (or name), short or long form
+
+
+*Errors*
+
+* If the task identifier is unknown.
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+to print errors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/gettaskid-link.adoc[]
+to retrieve the task identifier.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
+to print debug information.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
+to print debug information.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+DebugTask dt
+----
+
+The example above calls the function with the short name `dt`, which will result in debug information for the task _describe-task_ as follows (assuming print mode _ansi_):
+
+[source%nowrap,subs="attributes,quotes"]
+----
+  *describe-task*, *dt* - _describes a task_
+    - origin:      FW_HOME
+    - modes:       dev build use
+    - mode flavor: std
+    - declaration: $FW_HOME/etc/declarations/tasks/elements/describe-task
+    - executable:  $FW_HOME/bin/tasks/elements/describe-task.sh
+
+    _Requirements and dependencies_
+      none
+
+    _Load and status_
+      - load status:   S
+      - load comments: mode
+----

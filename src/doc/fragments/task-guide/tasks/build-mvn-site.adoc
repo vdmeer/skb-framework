@@ -8,8 +8,10 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
+
 
 == build-mvn-site
 This task can be used to build Maven sites.
@@ -33,16 +35,14 @@ The general options, shown below, allow to direct the behavior of the task.
 * _test_ - once a site is successfully build, it can be tested.
     Testing here means to start a web browser with the site's `index.html` file.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -b | --build            builds site(s), requires a target and site ID or all
-   -c | --clean            cleans all site(s)
-   -h | --help             print help screen and exit
-   -l | --list             list sites
-   -T | --test             test sites, open in browser
+include::{skb-site-target-dir}/adoc-task-help/build-mvn-site.adoc[tags=options]
 ----
 
-=== Target Options
+
+
+=== Targets
 The task can build a Maven site for several targets:
 
 * _targets_ - builds all targets
@@ -51,28 +51,24 @@ The task can build a Maven site for several targets:
 * _site_ - calls Maven to build the site, but not stage it
 * _stage_ - calls Maven to stage a site that has been prior built successfully
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -t | --targets          mvn: all targets
-        --ad               mvn: site:attach-descriptor
-        --site             mvn: site
-        --stage            mvn: site:stage
+include::{skb-site-target-dir}/adoc-task-help/build-mvn-site.adoc[tags=targets]
 ----
 
 There is no default target.
 
 
 
-=== Filter Options
+=== Filters
 Filters allow to specify which of the loaded (and available) sites should be built:
 
 * _all_ - will build all sites, in the oder they are listed (alphabetically)
 * _id_ - can be used to build a specific site
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -A | --all              all sites
-   -i | --id ID            site identifier for building
+include::{skb-site-target-dir}/adoc-task-help/build-mvn-site.adoc[tags=filters]
 ----
 
 There is no default filter.
@@ -84,21 +80,21 @@ Further options exist to configure the runtime behavior of Maven:
 
 * _profile_ - call Maven with a specific profile setting, e.g. when the site definitions in the POM file are within a profile
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-        --profile PROFILE  mvn: use profile PROFILE
+include::{skb-site-target-dir}/adoc-task-help/build-mvn-site.adoc[tags=maven-options]
 ----
 
 
 
 === Examples
 The framework's own site can be build using this task.
-When correctly configured, the site can be listed
+When correctly configured, the site can be listed.
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 build-mvn-site --list
-====
+----
 
 This will show (with a real path instead of _SOME_PATH_)
 ----
@@ -108,10 +104,10 @@ This will show (with a real path instead of _SOME_PATH_)
 
 The site can then be build using
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 build-mvn-site --build --id fw
-====
+----
 
 The task and Maven output will be similar to:
 ----
@@ -162,9 +158,9 @@ If it does not exist, the task will build the site purely using Maven.
 If it does exist, the task will source the file and call two functions the file must provide.
 This means that the file can
 
-* Use anything a normal _bash_ script can do at any place in the file
-* Use anything a normal _bash_ script can do inside the two required functions
-* Use the full framework settings and API at any place in the file
+* use anything a normal _bash_ script can do at any place in the file,
+* use anything a normal _bash_ script can do inside the two required functions, and
+* use the full framework settings and API at any place in the file.
 
 The following code block shows the standard contents of the script file with the two required functions:
 
@@ -181,9 +177,28 @@ MvnSitePostScript() {
 
 To see an example have a look at the framework's script file.
 The current file can be found in the Github repository: link:https://raw.githubusercontent.com/vdmeer/skb-framework/master/skb-site-scripts.skb[skb-site-scripts.skb].
-Here, the function `MvnSitePreScript` executes framework tasks to create files for the site.
-The function `MvnSitePostScript` calls tools from the AsciiDoctor tool chain to create documents.
-It also uses the framework's API function `MvnSiteFixAdoc`, which helps to fix some AsciiDoctor problem in generated HTML files in the site.
+Here, the function `MvnSitePreScript` executes framework tasks to create files for the site, tests if some other artifacts have been build, and copies those artifacts into the site.
+The function `MvnSitePostScript` is empty, there is no required post processing.
+This can be achieved by using a colon ':' in the function:
+
+[source%nowrap,bash]
+----
+MvnSitePostScript() {
+    :
+}
+----
+
+The task also supports an important feature when building sites with the Asciidoctor plugin.
+This plugin creates HTML files that do not have text for the title or the breadcrumbs.
+This information needs to be fixed in the actually generated files.
+To automate this, the task declares an array _MVN_SITE_FIX_ADOC_ARRAY_, which can be filled in the site file (outside the two required functions).
+The task will run `sed` to fix the HTML problems.
+Each entry in the array must provide the file name (without the `.html` extension) as key and the text for the correction as value.
+The example below shows a few lines from the framework's script file:
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/../skb-site-scripts.skb[tags=task-guide]
+----
 
 
 

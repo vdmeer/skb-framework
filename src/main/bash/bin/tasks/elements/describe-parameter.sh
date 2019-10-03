@@ -24,13 +24,10 @@
 ## describe-parameter - describes a parameter or parameters
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -50,12 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/parameter.sh
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -84,7 +77,7 @@ CLI_LONG_OPTIONS=all,debug,default,help,id:,install,origin:,print-mode:,requeste
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-parameter -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "describe-parameter: unknown CLI options"
+    ConsolePrint error "describe-parameter: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -105,19 +98,35 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "describe-parameter")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine D debug       "<none>"    "print debug information instead of description"    $PRINT_PADDING
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard describe options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
 
-                printf "\n   filters\n"
-                BuildTaskHelpLine A all         "<none>"    "all parameters, disables all other filters"            $PRINT_PADDING
-                BuildTaskHelpLine d default     "<none>"    "only parameters with a defined default value"          $PRINT_PADDING
-                BuildTaskHelpLine i id          "ID"        "parameter identifier"                                  $PRINT_PADDING
-                BuildTaskHelpLine I install     "<none>"    "only parameters required only by install tasks"        $PRINT_PADDING
-                BuildTaskHelpLine o origin      "ORIGIN"    "only parameters from origin: f(w), a(pp)"              $PRINT_PADDING
-                BuildTaskHelpLine r requested   "<none>"    "only requested parameters"                             $PRINT_PADDING
-                BuildTaskHelpLine s status      "STATUS"    "only parameter for status: o, f, e, d"                 $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start task-options
+                printf "   task options\n"
+                BuildTaskHelpLine D debug       "<none>"    "print debug information instead of description"    $PRINT_PADDING
+                BuildTaskHelpTag end task-options
+
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard describe filters\n"
+                BuildTaskHelpLine A all         "<none>"    "all entries, disables all other filters"           $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine d default     "<none>"    "with a declared default value"                                 $PRINT_PADDING
+                BuildTaskHelpLine i id          "ID"        "parameter identifier, any upper/lower case spelling"           $PRINT_PADDING
+                BuildTaskHelpLine I install     "<none>"    "required only by install tasks"                                $PRINT_PADDING
+                BuildTaskHelpLine o origin      "ORIGIN"    "from origin: f(w), a(pp)"                                      $PRINT_PADDING
+                BuildTaskHelpLine r requested   "<none>"    "requested"                                                     $PRINT_PADDING
+                BuildTaskHelpLine s status      "STATUS"    "with status: for status: (o)ption, (f)ile, (e)nv, (d)efault"   $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
             else
                 cat $CACHED_HELP
             fi
@@ -162,7 +171,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "describe-parameter: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-parameter: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -185,7 +194,7 @@ if [[ "$ALL" == "yes" || $CLI_SET == false ]]; then
 else
     if [[ -n "$PARAM_ID" ]]; then
         if [[ -z ${DMAP_PARAM_ORIGIN[$PARAM_ID]:-} ]]; then
-            ConsoleError " ->" "dp: unknown parameter: $PARAM_ID"
+            ConsolePrint error "dp: unknown parameter: $PARAM_ID"
             exit 60
         fi
     fi
@@ -198,7 +207,7 @@ else
                 ORIGIN=APP_HOME
                 ;;
             *)
-                ConsoleError " ->" "dp: unknown origin: $ORIGIN"
+                ConsolePrint error "dp: unknown origin: $ORIGIN"
                 exit 61
         esac
     fi
@@ -220,7 +229,7 @@ else
                 STATUS=D
                 ;;
             *)
-                ConsoleError "  ->" "dp: unknown status: $STATUS"
+                ConsolePrint error "dp: unknown status: $STATUS"
                 exit 62
         esac
     fi
@@ -229,7 +238,7 @@ case $D_FORMAT in
     descr | debug)
         ;;
     *)
-        ConsoleFatal "  ->" "dp: internal error: unknown describe format '$D_FORMAT'"
+        ConsolePrint fatal "dp: internal error: unknown describe format '$D_FORMAT'"
         exit 69
         ;;
 esac
@@ -240,7 +249,7 @@ esac
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "dp: starting task"
+ConsolePrint info "dp: starting task"
 
 for ID in ${!DMAP_PARAM_ORIGIN[@]}; do
     if [[ -n "$PARAM_ID" ]]; then
@@ -254,7 +263,7 @@ for ID in ${!DMAP_PARAM_ORIGIN[@]}; do
         fi
     fi
     if [[ -n "$DEFAULT" ]]; then
-        if [[ ! -n "${DMAP_PARAM_DEFVAL[$PARAM_ID]:-}" ]]; then
+        if [[ ! -n "${DMAP_PARAM_DEFVAL[$ID]:-}" ]]; then
             continue
         fi
     fi
@@ -324,5 +333,5 @@ for i in ${!keys[@]}; do
     esac
 done
 
-ConsoleInfo "  -->" "dp: done"
+ConsolePrint info "dp: done"
 exit $TASK_ERRORS

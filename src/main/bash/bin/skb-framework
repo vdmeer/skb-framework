@@ -24,18 +24,29 @@
 ## The SKB Framework Application
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
 ##
 ## NOTE: do not remove lines that start with "#tag::" or "#end::"
 ## - the lines mark import regions for AsciiDoctor includes
 ## - they are used in the documentation, e.g. the Developer Guide
 ##
 
+#tag::dependencies[]
+HAVE_READLINK=false
+COMMAND=readlink
+if [[ -x "$(command -v $COMMAND)" ]]; then
+    HAVE_READLINK=true
+fi
+
+HAVE_DIRNAME=false
+COMMAND=dirname
+if [[ -x "$(command -v $COMMAND)" ]]; then
+    HAVE_DIRNAME=true
+fi
+#end::dependencies[]
 
 #tag::self-flavor[]
 if [[ -z ${__FW_LOADER_FLAVOR:-} ]]; then
@@ -45,20 +56,27 @@ if [[ -z ${__FW_LOADER_FLAVOR:-} ]]; then
     export __FW_LOADER_APPNAME="SKB Framework"
 
     ## try readline to find where we are
-    if [[ -z ${SF_HOME:-} ]]; then
+    if [[ -z ${SF_HOME:-} && $HAVE_READLINK == true ]]; then
         SF_HOME=$(readlink -f $0)
         SF_HOME=${SF_HOME%/*}
         SF_HOME=${SF_HOME%/*}
         export SF_HOME
     fi
     ## try dirname to find where we are
-    if [[ -z ${SF_HOME:-} ]]; then
+    if [[ -z ${SF_HOME:-} && $HAVE_DIRNAME == true ]]; then
         SF_HOME=$(dirname $0)
         SF_HOME=$(cd $SF_HOME/..; pwd)
         export SF_HOME
     fi
     if [[ -z ${SF_HOME:-} ]]; then
-        printf "  unable to set home \$SF_HOME (tried environment, readlink, and dirname \$0)\n"
+        printf "  unable to set home \$SF_HOME\n"
+        printf "    - tried environment\n"
+        if [[ $HAVE_READLINK == true ]]; then
+            printf "    - tried readlink\n"
+        fi
+        if [[ $HAVE_DIRNAME == true ]]; then
+            printf "    - tried dirname \$0\n"
+        fi
         printf "  please set SF_HOME\n\n"
         exit 10
     fi
@@ -67,20 +85,27 @@ if [[ -z ${__FW_LOADER_FLAVOR:-} ]]; then
 #tag::app-flavor[]
 else
     ## try readline to find where we are
-    if [[ -z ${FW_HOME:-} ]]; then
+    if [[ -z ${FW_HOME:-} && $HAVE_READLINK == true ]]; then
         FW_HOME=$(readlink -f $0)
         FW_HOME=${FW_HOME%/*}
         FW_HOME=${FW_HOME%/*}
         export FW_HOME
     fi
     ## try dirname to find where we are
-    if [[ -z ${FW_HOME:-} ]]; then
+    if [[ -z ${FW_HOME:-} && $HAVE_DIRNAME == true ]]; then
         FW_HOME=$(dirname $0)
         FW_HOME=$(cd $FW_HOME/..; pwd)
         export FW_HOME
     fi
     if [[ -z ${FW_HOME:-} ]]; then
-        printf "  unable to set framework home \$FW_HOME (tried environment, readlink, and dirname \$0)\n"
+        printf "  unable to set framework home \$FW_HOME\n"
+        printf "    - tried environment\n"
+        if [[ $HAVE_READLINK == true ]]; then
+            printf "    - tried readlink\n"
+        fi
+        if [[ $HAVE_DIRNAME == true ]]; then
+            printf "    - tried dirname \$0\n"
+        fi
         printf "  please set FW_HOME\n\n"
         exit 10
     fi

@@ -1,0 +1,50 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+==  GetOptionID()
+_String GetOptionID( $1 )_ - returns a option identifier (name) for a given short or long name.
+
+
+*Parameters*:
+
+* `$1`, _string_ - name to process, which can be the option's short or long name.
+
+
+*Return*:
+
+* _string_ - the option name, empty if not found, i.e. no option is declared for the given identifier.
+    The return is realized as a print of the found name or an empty string.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+OPTION_ID=$(GetOptionID "task-level")
+if [[ -z ${OPTION_ID:-} ]]; then
+    # some error
+else
+    # some success
+fi
+----
+
+The example above calls this function to return the options identifier for the string _task-level_ in line 1.
+If the option was found, _OPTION_ID_ will contain the name.
+Otherwise, _OPTION_ID_ will be empty.
+The lines 2-6 test the return value.
+In line 3 we can add some code for the error case.
+In line 5 we can add some code for the success case.
+
+

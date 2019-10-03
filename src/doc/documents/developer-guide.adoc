@@ -8,7 +8,8 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
 
 = Developer Guide
@@ -25,27 +26,59 @@ Sven van_der_Meer <vdmeer.sven@mykolab.com>
 :toc:
 :toclevels: 4
 :icons: font
+:sectlinks:
 
+ifeval::["{adoc-build-target}" == "pdf"]
+:adoc-build-link-post: -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+:adoc-build-link-post: -- 
+endif::[]
+
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/layouts.adoc[]
+
+
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/sequences.adoc[]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/sequences/normal-interactive.adoc[leveloffset=+1]
+
+
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/implementation.adoc[]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/implementation/skb-framework.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/implementation/loader.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/implementation/shell.adoc[leveloffset=+1]
 
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api.adoc[]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/commands.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/applications.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/config.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/commands.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/console.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/execute.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/dependencies.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/mvn-site.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/errorcodes.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/print-ansi.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/misc.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/prompt.adoc[leveloffset=+1]
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/options.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/parameters.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/print.adoc[leveloffset=+1]
 
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/scenarios.adoc[leveloffset=+1]
 
-include::{skb-site-main-dir}/doc/fragments/developer-guide/api/system.adoc[leveloffset=+1]
-
 include::{skb-site-main-dir}/doc/fragments/developer-guide/api/tasks.adoc[leveloffset=+1]
+
+
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/_index.adoc[]
+

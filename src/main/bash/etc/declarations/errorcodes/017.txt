@@ -1,0 +1,3 @@
+        The loader did not find the application `cat`  being  installed.  This
+        tool is used by the loader to read the version files.  Please  install
+        `cat` on your system.                                                 

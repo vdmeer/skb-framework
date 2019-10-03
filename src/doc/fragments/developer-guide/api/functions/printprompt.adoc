@@ -1,0 +1,73 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== PrintPrompt()
+_void PrintPrompt( $1 )_ - prints the requested prompt.
+
+Prints the prompt requested in `$1`.
+The prompt will be printed with preset colors and text effects, depending on the set _print mode_.
+The output will only show the prompt without a newline.
+Prompts will be printed as follows:
+
+* _flavor-mode_:
+    Takes the application flavor from _CONFIG_MAP["FLAVOR"]_, printed in lower case.
+    This is followed by the application mode printed in brackets, with colors.
+    The prompt is finished with a colon `:` and a space.
+    No newline is printed.
+
+
+*Parameter*
+
+* `$1` - String with the requested prompt.
+        The string may contain one of the following prompts:
+            _flavor-mode_.
+
+
+*Errors* (as _Console Error_)
+
+* For an unknown requested prompt
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
+to print colors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
+to print text effects.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printsetting-link.adoc[]
+to print settings.
+
+
+*Examples*
+
+The following example prints the prompt _flavor-mode_.
+
+[source%nowrap,bash,linenums]
+----
+PrintPrompt flavor-mode
+----
+
+Assuming that the application flavor is _std_,
+    that the application mode is _all_, and
+    that _print mode_ is set to _ansi_,
+    this call will result in the following prompt.
+
+[source%nowrap,subs="attributes,quotes"]
+----
+std(<span style="color: #FF0000">all</span>):
+----

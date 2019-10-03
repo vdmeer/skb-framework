@@ -1,39 +1,125 @@
 #!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
 ##
 ## Scripts for target set skb-fw
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    v0.0.0
+## @version    0.0.5
 ##
 
-TsRunTask() {
+TsRunTargets() {
     local RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
     local TOOL_VERSION="${RELEASE_VERSION}"
+
+    ## only when we are actually in the framework
+    if [[ ! -z ${FW_HOME:-} ]]; then
+        local TASK_LEVEL=$(GetSetting level)
+    fi
+
+    local TASKS=(
+        build-cache
+        build-help
+        build-manual
+        build-mvn-site
+        clean
+        cloc-installation
+        describe-application
+        describe-command
+        describe-dependency
+        describe-element
+        describe-errorcode
+        describe-option
+        describe-parameter
+        describe-scenario
+        describe-task
+        download-fw-tool
+        execute-program
+        list-commands
+        list-configuration
+        list-dependencies
+        list-errorcodes
+        list-options
+        list-parameters
+        list-scenarios
+        list-tasks
+        manual
+        repeat-scenario
+        repeat-task
+        run-target-set
+        set-file-versions
+        setting
+        start-browser
+        start-pdf-viewer
+        start-xterm
+        statistics
+        validate-installation
+        wait
+    )
+
+    ## required in JAVA > 9 to avoid juice reflector problems
+    ## see: https://github.com/google/guice/issues/1133 (cplerch commented on Oct 31, 2018)
+    #export MAVEN_OPTS=${MAVEN_OPTS:-}" --add-opens java.base/java.lang=ALL-UNNAMED"
 
     shopt -s globstar
 
     case $1 in
         help)
             printf "\n    available targets"
-            printf "\n       all           - runs all targets, except help"
-            printf "\n       clean         - removes all created artifacts"
-            printf "\n       help          - prints this help"
+            printf "\n       all         - runs all targets, except help"
+            printf "\n       clean       - removes all created artifacts (gradle, mvn)"
+            printf "\n       help        - prints this help"
             printf "\n"
-            printf "\n       tool          - builds the framework tool (Java app to convert ADOC to TXT)"
-            printf "\n       mkdirs        - creates required directories"
-            printf "\n       dist          - builds distribution archives (not the PPA!)"
-            printf "\n       site          - creates the framework site"
+            printf "\n       tool        - builds the framework tool (Java app to convert ADOC to TXT), gradle"
+            printf "\n       readme      - creates the file README.adoc for the source repository"
+            printf "\n       dist-scn    - runs scenario to build manual and help"
+            printf "\n       dist-chmod  - fixes file permissions for generated txt files"
+            printf "\n       dist        - builds distribution archives (not the PPA!) using gradle"
+            printf "\n       aindex      - creates ADOC index files for the documentation"
+            printf "\n       atext       - creates ADOC screen files, texts"
+            printf "\n       atasks      - creates ADOC screen files, tasks and task help"
+            printf "\n       docs        - build the stand-alone documents (HTML and PDF)"
+            printf "\n       site        - creates the framework site (mvn)"
             printf "\n\n    Notes: "
             printf "\n       - separate all required targets using a comma."
             printf "\n       - sequence of given targets is not critical, they are always build in the right order."
+            printf "\n       - the site will not rebuild element lists if they do exist already"
+            printf "\n         -- use target clean or run 'mvn clean' to build a fresh site"
+            printf "\n\n    Requirements:"
+            printf "\n       - gradle           - to build the Java tool and the distributions"
+            printf "\n       - JDK8             - to build the tool"
+            printf "\n       - Apache Ant       - to set file versions"
+            printf "\n       - Apache Maven     - to build the site"
+            printf "\n       - asciidoctor      - to build some targets for the manual, manual, and documents"
+            printf "\n       - asciidoctor-pdf  - to build the PDF manual and documents"
+            printf "\n       - coderay          - for syntax highlighting in ADOC files"
             printf "\n"
             ;;
 
         clean)
             ./gradlew clean
-            mvn clean
-
             (cd tool; ./gradlew clean)
+
+            mvn clean
             (cd tool; mvn clean)
 
             if [[ -d src/main/bash/lib/java ]]; then
@@ -64,34 +150,311 @@ TsRunTask() {
                 rmdir src/main/bash/man/man1
                 rmdir src/main/bash/man
             fi
+
+            ${DMAP_TASK_EXEC["build-cache"]} --clean
             ;;
 
         tool)
             (cd tool; ./gradlew)
+
+            TestFS tool/build/libs/skb-framework-tool-${TOOL_VERSION}.jar file exists,read ts-fw
+            ExitOnTaskErrors
+
             mkdir -p src/main/bash/lib/java
-            cp tool/build/libs/skb-framework-tool-${TOOL_VERSION}-all.jar src/main/bash/lib/java
+            cp tool/build/libs/skb-framework-tool-${TOOL_VERSION}.jar src/main/bash/lib/java
             ;;
 
-        mkdirs)
-            mkdir -p src/main/bash/man/man1 2> /dev/null
-            mkdir -p src/main/bash/doc/manual 2> /dev/null
+        readme)
+            README_FILE=./README.adoc
+            if [[ -f "$README_FILE" ]]; then
+                rm $README_FILE
+            fi
+
+            ## error handling first
+            TestFS src/doc/fragments/readme/copyright.adoc file exists,read ts-fw
+            TestFS src/doc/fragments/readme/introduction.adoc file exists,read ts-fw
+            TestFS src/doc/fragments/readme/install.adoc file exists,read ts-fw
+            TestFS src/doc/fragments/readme/run.adoc file exists,read ts-fw
+            TestFS src/main/bash/etc/manual/application/description.adoc file exists,read ts-fw
+            TestFS src/doc/fragments/requirements.adoc file exists,read ts-fw
+            TestFS src/doc/fragments/releases.adoc file exists,read ts-fw
+            TestFS src/doc/fragments/resources.adoc file exists,read ts-fw
+            ExitOnTaskErrors
+
+            cat src/doc/fragments/readme/copyright.adoc > $README_FILE
+            printf ":release-version: %s\n" "${RELEASE_VERSION}" >> $README_FILE
+            printf "= SKB Framework\n" >> $README_FILE
+            printf "v{release-version}\n" >> $README_FILE
+            printf ":page-layout: base\n" >> $README_FILE
+            printf ":toc: preamble\n\n" >> $README_FILE
+            printf "a flexible and extensible automation framework\n\n" >> $README_FILE
+
+            tail -n +14 src/doc/fragments/readme/introduction.adoc >> $README_FILE
+            tail -n +14 src/doc/fragments/readme/install.adoc >> $README_FILE
+            tail -n +14 src/doc/fragments/readme/run.adoc >> $README_FILE
+
+            printf "\n\n== Description\n\n" >> $README_FILE
+            cat src/main/bash/etc/manual/application/description.adoc >> $README_FILE
+            printf "\n\n" >> $README_FILE
+
+            tail -n +14 src/doc/fragments/requirements.adoc >> $README_FILE
+            printf "\n\n" >> $README_FILE
+
+            tail -n +14 src/doc/fragments/releases.adoc >> $README_FILE
+            printf "\n\n" >> $README_FILE
+
+            tail -n +14 src/doc/fragments/resources.adoc >> $README_FILE
+            printf "\n\n" >> $README_FILE
+            ;;
+
+        dist-scn)
+            mkdir -p src/main/bash/man/man1
+            mkdir -p src/main/bash/doc/manual
+            ExecuteScenario build-fw-distro
+            ExitOnTaskErrors
+            ;;
+
+        dist-chmod)
+            chmod 644 src/main/bash/**/*.id src/main/bash/**/*.scn tool/src/**/*.java src/**/*.adoc src/**/*.xml
+            (cd src/package; chmod 644 `find -type f`)
+            (cd src/site; chmod 644 `find -type f`)
+            (cd src/doc; chmod 644 `find -type f`)
+            (cd src/main/images; chmod 644 `find -type f`)
+            chmod 644 *.skb *.id *.adoc
+            chmod 664 `find -type f | grep "\.txt"`
             ;;
 
         dist)
-            ExecuteScenario build-fw-distro
-#             printf "%s\n\n" "building distributions"
             ./gradlew
-#             printf "\n\n"
-#             printf "%s\n" "distributions in ./build/distributions"
             ls -l ./build/distributions
+            ;;
+
+        aindex)
+            TestFS src/doc/fragments/developer-guide/api/function-links directory exists,read ts-fw
+            ExitOnTaskErrors
+
+            if [[ -d target/adoc-index ]]; then
+                rm -fr target/adoc-index
+            fi
+            mkdir -p target/adoc-index
+
+            local CHAR
+            local COUNT
+            local ENTRY
+            local FILE
+            local FOUND
+            local MAC
+            local OUT_FILE
+            local TAG
+            local WC_LIST
+            local WC_REPLACE=" "
+            local FIELD_SEAPARATOR=$IFS
+            IFS=,
+
+            declare -A FILE_ARRAY
+            ConsolePrint debug "scanning index alphabetical"
+            printf "      "
+            COUNT=0
+            for FILE in src/doc/fragments/developer-guide/api/function-links/*.adoc; do
+                FILE=${FILE##*/}
+                CHAR=${FILE:0:1}
+                FILE_ARRAY[$CHAR]="${FILE_ARRAY[$CHAR]:-},$FILE"
+                printf "$CHAR"
+                COUNT=$(($COUNT + 1))
+            done
+            printf "\n"
+            ConsolePrint debug "files: $COUNT, characters: ${#FILE_ARRAY[@]}"
+            OUT_FILE=target/adoc-index/alphabetical.adoc
+            touch ${OUT_FILE}
+            for FOUND in ${!FILE_ARRAY[@]}; do
+                WC_LIST=${FILE_ARRAY[$FOUND]}
+                WC_LIST=${WC_LIST//,/$WC_REPLACE}
+                MAX=$( echo "$WC_LIST" | wc -w )
+                ConsolePrint debug "${FOUND^^} ($MAX)"
+                COUNT=0;
+                for ENTRY in ${FILE_ARRAY[$FOUND]}; do
+                    if [[ -n "$ENTRY" ]]; then
+                        COUNT=$(($COUNT + 1))
+                        printf "include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/%s[]" "$ENTRY" >> ${OUT_FILE}
+                        if (( $COUNT < $MAX )); then
+                            printf "\n{adoc-build-link-post}\n" >> ${OUT_FILE}
+                        else
+                            printf "\n" >> ${OUT_FILE}
+                        fi
+                    fi
+                done
+                printf "\n'''\n\n" >> ${OUT_FILE}
+            done
+
+            declare -A TAG_ARRAY
+            ConsolePrint debug "scanning index per tag"
+            printf "      "
+            COUNT=0
+            for FILE in src/doc/fragments/developer-guide/api/function-links/*.adoc; do
+                TAG=$( cat $FILE | { grep "//tag:" || true; } )
+                if [[ -n "$TAG" ]]; then
+                    TAG=${TAG#*:}
+                    FILE=${FILE##*/}
+                    TAG_ARRAY[$TAG]="${TAG_ARRAY[$TAG]:-},$FILE"
+                    printf "%s" "${TAG:0:1}"
+                else
+                    printf "."
+                fi
+                COUNT=$(($COUNT + 1))
+            done
+            printf "\n"
+            ConsolePrint debug "files: $COUNT, tags: ${#TAG_ARRAY[@]}"
+            for FOUND in ${!TAG_ARRAY[@]}; do
+                OUT_FILE=target/adoc-index/$FOUND.adoc
+                touch $OUT_FILE
+                WC_LIST=${TAG_ARRAY[$FOUND]}
+                WC_LIST=${WC_LIST//,/$WC_REPLACE}
+                MAX=$( echo "$WC_LIST" | wc -w )
+                ConsolePrint debug "${FOUND^^} ($MAX)"
+                COUNT=0;
+                for ENTRY in ${TAG_ARRAY[$FOUND]}; do
+                    if [[ -n "$ENTRY" ]]; then
+                        COUNT=$(($COUNT + 1))
+                        printf "include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/%s[]" "$ENTRY" >> $OUT_FILE
+                        if (( $COUNT < $MAX )); then
+                            printf "\n{adoc-build-link-post}\n" >> $OUT_FILE
+                        else
+                            printf "\n" >> $OUT_FILE
+                        fi
+                    fi
+                done
+            done
+            IFS=$FIELD_SEAPARATOR
+            ;;
+
+        atext)
+            if [[ -d target/adoc-text ]]; then
+                rm -fr target/adoc-text
+            fi
+            mkdir -p target/adoc-text
+
+            ConsolePrint debug "running cloc"
+            cloc $(PathToSystemPath ${CONFIG_MAP["FW_HOME"]}) --force-lang="Bourne Again Shell",sh --quiet > target/adoc-text/cloci.txt
+
+            ConsolePrint debug "running stats"
+            CONFIG_MAP["TASK_LEVEL"]=error
+            WriteRuntimeConfig
+            ${DMAP_TASK_EXEC["statistics"]} --ov --task --print-mode text > target/adoc-text/stats.txt
+            CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
+            WriteRuntimeConfig
+
+            ConsolePrint debug "running api ListFunctions"
+            CONFIG_MAP["TASK_LEVEL"]=error
+            WriteRuntimeConfig
+            shopt -s extglob
+            local FLIST=$(ExecuteApiFunction ListFunctions | paste -s -d ' ')
+            printf "%s\n" "${FLIST##+([[:space:]])}" > target/adoc-text/api-function-list.txt
+            shopt -u extglob
+            CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
+            WriteRuntimeConfig
+
+            ConsolePrint debug "running ts help"
+            CONFIG_MAP["TASK_QUIET"]=on
+            CONFIG_MAP["TASK_LEVEL"]=error
+            WriteRuntimeConfig
+            CONFIG_MAP["TASK_LEVEL"]=error
+            ${DMAP_TASK_EXEC["run-target-set"]} --id skb-fw --targets help > target/adoc-text/ts-fw-help.txt
+            CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
+            CONFIG_MAP["TASK_QUIET"]=off
+            WriteRuntimeConfig
+            ;;
+
+        atasks)
+            if [[ -d target/adoc-task-help ]]; then
+                rm -fr target/adoc-task-help
+            fi
+            mkdir -p target/adoc-task-help
+
+            ConsolePrint debug "building task--help files"
+            for TASK in ${TASKS[@]}; do
+                ConsolePrint debug "  --> $TASK"
+                CONFIG_MAP["TASK_QUIET"]=on
+                CONFIG_MAP["TASK_LEVEL"]=error
+                WriteRuntimeConfig
+                ${DMAP_TASK_EXEC["setting"]} --print-mode man-adoc
+                ${DMAP_TASK_EXEC[$TASK]} --help > target/adoc-task-help/$TASK.adoc
+                CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
+                CONFIG_MAP["TASK_QUIET"]=off
+                WriteRuntimeConfig
+            done
+            CONFIG_MAP["TASK_QUIET"]=on
+            CONFIG_MAP["TASK_LEVEL"]=error
+            WriteRuntimeConfig
+            ${DMAP_TASK_EXEC["setting"]} --print-mode ansi
+            CONFIG_MAP["TASK_LEVEL"]=$TASK_LEVEL
+            CONFIG_MAP["TASK_QUIET"]=off
+            WriteRuntimeConfig
+            ;;
+
+        docs)
+            ConsolePrint debug "testing document source files"
+            TestFS src/doc/documents/developer-guide.adoc               file exists,read ts-fw
+            TestFS src/doc/documents/task-guide.adoc                    file exists,read ts-fw
+            TestFS src/doc/documents/user-guide.adoc                    file exists,read ts-fw
+            ExitOnTaskErrors
+
+            ConsolePrint debug "testing document: generated ADOC resources"
+            TestFS target/adoc-text/cloci.txt                           file exists,read ts-fw
+            TestFS target/adoc-text/stats.txt                           file exists,read ts-fw
+            TestFS target/adoc-text/api-function-list.txt               file exists,read ts-fw
+            TestFS target/adoc-text/ts-fw-help.txt                      file exists,read ts-fw
+            for TASK in ${TASKS[@]}; do
+                TestFS target/adoc-task-help/$TASK.adoc                 file exists,read ts-fw
+            done
+            ExitOnTaskErrors
+
+            if [[ -d target/documents ]]; then
+                rm -f target/documents/*
+            fi
+            mkdir -p target/documents
+
+            local SKB_SITE_MAIN_DIR=$PWD/src
+            local SKB_SITE_TARGET_DIR=$PWD/target
+            local RELEASE_VERSION="$(cat src/main/bash/etc/version.txt)"
+            local RELEASE_NOTES="for SKB-Framework v${RELEASE_VERSION}"
+            local RELEASE_DATE="$(date '+%B %d, %Y')"
+            local DOC_TARGET_DIR=target/documents
+
+            local SOURCE_HIGHLIGHTER=coderay
+            local SECT_NUMS=4
+            local TOC_LEVELS=4
+
+            local PDF_IMAGES_DIR=$PWD/src/site/resources/images/skb
+
+            local HTML_STYLESHEET="compass/rocket-panda.css"
+            local PDF_STYLE=skb-pdf.yml
+
+            mkdir -p ${DOC_TARGET_DIR}
+
+            ConsolePrint debug "building html documents"
+            ConsolePrint debug "  -> user guide"
+                asciidoctor ./src/doc/documents/user-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=html -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
+            ConsolePrint debug "  -> task guide"
+                asciidoctor ./src/doc/documents/task-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=html -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
+            ConsolePrint debug "  -> developer guide"
+                asciidoctor ./src/doc/documents/developer-guide.adoc    -D ${DOC_TARGET_DIR} -a adoc-build-target=html -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} --backend html -a stylesdir=$PWD/src/doc/resources/adoc-html -a stylesheet=${HTML_STYLESHEET} -a toc=left
+
+            ConsolePrint debug "building pdf documents"
+            ConsolePrint debug "  -> user guide"
+                asciidoctor-pdf ./src/doc/documents/user-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a pdf-fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a pdf-stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a pdf-style=${PDF_STYLE} -a toc=left
+            ConsolePrint debug "  -> task guide"
+                asciidoctor-pdf ./src/doc/documents/task-guide.adoc         -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a pdf-fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a pdf-stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a pdf-style=${PDF_STYLE} -a toc=left
+            ConsolePrint debug "  -> developer guide"
+                asciidoctor-pdf ./src/doc/documents/developer-guide.adoc    -D ${DOC_TARGET_DIR} -a adoc-build-target=pdf -a imagesdir="${PDF_IMAGES_DIR}" -a release-notes="${RELEASE_NOTES}" -a release-date="${RELEASE_DATE}" -a release-version="${RELEASE_VERSION}" -a skb-site-main-dir=${SKB_SITE_MAIN_DIR} -a skb-site-target-dir=${SKB_SITE_TARGET_DIR} -a source-highlighter=${SOURCE_HIGHLIGHTER} -a sectnums=${SECT_NUMS} -a toclevels=${TOC_LEVELS} -a pdf-fontsdir=$PWD/src/doc/resources/adoc-pdf/fonts -a pdf-stylesdir=$PWD/src/doc/resources/adoc-pdf/themes -a pdf-style=${PDF_STYLE} -a toc=left
             ;;
 
         site)
             ${DMAP_TASK_EXEC["build-mvn-site"]} --build --targets --id fw
+            ExitOnTaskErrors
             ;;
 
         *)
-            ConsoleWarnStrict "skb-fw:" "nunknown target '$TARGET'\nThis is a programming error in the script"
+            ConsolePrint warn-strict "unknown target '$TARGET'\nThis is a programming error in the script"
             ;;
     esac
 }

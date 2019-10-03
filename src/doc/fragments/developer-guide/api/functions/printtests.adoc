@@ -1,0 +1,122 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+==  PrintTests()
+_void PrintTests( $1 )_ - prints the requested terminal (print) tests
+
+This function prints one or more tests as requested in _$1_ and in the order given in `$1`.
+The tests can be used to show the terminal's capability to print ANSI colors, ANSI effects, and UTF-8 characters.
+The current setting for _print mode_ is used for all tests.
+Tests will be printed as follows:
+
+* _all_ - prints all test.
+    This is equivalent to using `color,effects,utf8` as requested test.
+    This test is used by the command line option `--test-terminal`.
+* _colors_ - prints all supported colors.
+    The test will show how the colors are printed.
+    This test is used by the command line option `--test-ansi-colors`.
+* _effects_ - prints all supported text effects.
+    The test will show how the effects are printed.
+    This test is used by the command line option `--test-ansi-effects`.
+* _utf8_ - prints a line with all UTF-8 characters used in the framework or application, taken from _CHAR_MAP_.
+    This test is used by the command line option `--test-utf-8`.
+
+
+*Parameter*
+
+* `$1` - String with the requested test.
+        Multiple tests can be used in a single string separated by a comma `,`.
+        The following tests are supported:
+            _all_,
+            _c_ | _colors_,
+            _e_ | _effects_, or
+            _u_ | _utf8_.
+
+
+*Errors* (as _Console Error_)
+
+* For an unknown requested test
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printcolor-link.adoc[]
+to print the colors.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/printeffect-link.adoc[]
+to print the text effects.
+
+
+*Examples*
+
+The following example will test ANSI colors:
+
+[source%nowrap,bash,linenums]
+----
+PrintTests colors
+----
+
+The result will be the following print out.
+
+[source%nowrap,subs="attributes,quotes"]
+----
+  ANSI colors, print mode: ansi
+    - <span style="color: #000000">black</span>, <span style="color: #FF0000">red</span>, <span style="color: #00FF00">green</span>, <span style="color: #A52A2A">brown</span>, <span style="color: #0000FF">blue</span>, <span style="color: #800080">purple</span>, <span style="color: #00FFFF">cyan</span>, <span style="color: #A9A9A9">dark-gray</span>
+    - <span style="color: #D3D3D3">light-gray</span>, <span style="color: #FF6600">light-red</span>, <span style="color: #90EE90">light-green</span>, <span style="color: #FFFF00">yellow</span>, <span style="color: #5C5CFF">light-blue</span>, <span style="color: #B695C0">light-purple</span>, <span style="color: #E0FFFF">light-cyan</span>
+----
+
+
+The following example will test ANSI effects:
+
+[source%nowrap,bash,linenums]
+----
+PrintTests effects
+
+----
+
+The result will be the following print out.
+
+[source%nowrap,subs="attributes,quotes"]
+----
+  ANSI effects, print mode: man-adoc
+    - *bold*, _italic_, <span style="background: #000000; color: #ffffff;">reverse</span>
+----
+
+
+
+The following example will test UTF-8 characters:
+
+[source%nowrap,bash,linenums]
+----
+PrintTests utf8
+----
+
+The result will be the following print out.
+
+[source%nowrap,bash]
+----
+  Used UTF-8 characters: ═  ■  ─  ✔  ═  ✘  ◆
+----
+
+Using the test _all_ will print the text from the three examples above.
+
+[source%nowrap,bash,linenums]
+----
+PrintTests all
+----
+
+Other options are to use different combinations, e.g. to change the sequence of two or more tests.
+One example is `effects,colors`, which will print the effects first followed by the colors.

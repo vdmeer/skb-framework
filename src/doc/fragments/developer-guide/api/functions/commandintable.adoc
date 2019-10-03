@@ -1,0 +1,69 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== CommandInTable()
+_string CommandInTable( $1, [$2] )_ - returns main command details for table views.
+
+This function prints the command long- and short name, an argument if declared, and a padding in one line.
+No newline will be printed.
+Command names will be formatted using the requested print mode (_$2_) or the set print mode of the application.
+The padding is calculated using the setting of _CONSOLE_MAP["CMD_PADDING"]_ and the length of the text line.
+The return is realized as print.
+
+
+*Parameters*
+
+* `$1`, _string_ - the command identifier (name), long- or short form
+* `$2`, _string_, optional - an optional print mode, standard setting used if not present.
+
+
+*Return*
+
+* _string_, the line with a leading space, command with long- and short name, an argument if declared, and padding
+
+*Errors*
+
+* For unknown command identifier
+* For unknown print mode
+
+
+*Internal Dependencies*
+
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/describecommand-link.adoc[]
+to get the formatted command details.
+* {blank}
+include::{skb-site-main-dir}/doc/fragments/developer-guide/api/function-links/consoleprint-link.adoc[]
+for throwing errors.
+
+
+*Examples*
+
+[source%nowrap,bash,linenums]
+----
+CommandInTable history
+----
+
+The example above calls he function for the command _history_.
+
+[source%nowrap,subs="attributes,quotes"]
+----
+⎵!,⎵history⎵NUMBER⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+⎵*!*,⎵*history*⎵<span style="color: #5C5CFF">NUMBER</span>⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵⎵
+----
+
+The return string depends on the settings for _print mode_.
+The screen above shows two possible results line one for plain text and line 2 with ANSI formatting.
+Whitespaces are marked by `⎵` to emphasize them.

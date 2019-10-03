@@ -24,13 +24,10 @@
 ## clean - removes all created artifacts and folders
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -50,11 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -72,12 +66,14 @@ CLI_LONG_OPTIONS=force,help,simulate
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name clean -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "clean: unknown CLI options"
+    ConsolePrint error "clean: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
 
+#tag::helpline-padding[]
 PRINT_PADDING=19
+#end::helpline-padding[]
 while true; do
     case "$1" in
         -f | --force)
@@ -87,10 +83,17 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "clean")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
+                BuildTaskHelpTag start helpline
+#tag::helpline[]
                 BuildTaskHelpLine f force       "<none>"    "force mode, not questions asked"                   $PRINT_PADDING
                 BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
                 BuildTaskHelpLine s simulate    "<none>"    "print only, removes nothing, overwrites force"     $PRINT_PADDING
+#end::helpline[]
+                BuildTaskHelpTag end helpline
+                BuildTaskHelpTag end options
             else
                 cat $CACHED_HELP
             fi
@@ -105,7 +108,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "clean: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "clean: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -118,12 +121,12 @@ done
 ##
 ############################################################################################
 ERRNO=0
-ConsoleInfo "  -->" "cl: starting task"
+ConsolePrint info "cl: starting task"
 
 for ID in "${!RTMAP_TASK_LOADED[@]}"; do
     case $ID in
         build-* | compile-*)
-            ConsoleDebug "cl: run clean on task $ID"
+            ConsolePrint debug "cl: run clean on task $ID"
             if [[ $SIMULATE == true ]]; then
                 printf "  ${DMAP_TASK_EXEC[$ID]} --clean\n"
             else
@@ -134,10 +137,10 @@ for ID in "${!RTMAP_TASK_LOADED[@]}"; do
 done
 
 if [[ -z ${CONFIG_MAP["TARGET"]:-} ]]; then
-    ConsoleDebug "cl: target directory not set"
+    ConsolePrint debug "cl: target directory not set"
 else
     if [[ -d ${CONFIG_MAP["TARGET"]} ]]; then
-        ConsoleDebug "cl: removing target: ${CONFIG_MAP["TARGET"]}"
+        ConsolePrint debug "cl: removing target: ${CONFIG_MAP["TARGET"]}"
         if [[ $SIMULATE == true ]]; then
             printf "  rm -fr ${CONFIG_MAP["TARGET"]}\n"
         elif [[ $FORCE == true ]]; then
@@ -149,5 +152,5 @@ else
     fi
 fi
 
-ConsoleInfo "  -->" "cl: done"
+ConsolePrint info "cl: done"
 exit $ERRNO

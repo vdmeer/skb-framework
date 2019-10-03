@@ -8,8 +8,10 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
+
 
 == list-*
 
@@ -19,7 +21,7 @@ Each of these tasks provides a list of framework and application features, namel
 * _list-commands_ - lists shell commands
 * _list-configuration_ - list current configuration keys and values
 * _list-dependencies_ - lists dependencies
-* _list-exitstatus_ - lists exit status, error codes
+* _list-errorcodes_ - lists  error codes
 * _list-options_ - lists CLI options
 * _list-parameters_ - lists parameters
 * _list-scenarios_ - lists scenarios
@@ -36,33 +38,41 @@ Each of the list tasks provides a _table_ view, which provides more detailed inf
 The list tasks can also use a print mode different than the currently configured.
 _print-mode_ can be set to any mode that is supported by the API, namely:
 
-* _adoc_ - print in AscciDoc format
+* _adoc_ - print in Asciidoc format
 * _ansi_ - print with ANSI formatting for colors and effects
 * _text_ - print as plain text, no special formatting will be used
 * _text-anon_ - print as text with some annotations, similar to _adoc_
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -h | --help              print help screen and exit
-   -P | --print-mode MODE   print mode: ansi, text, adoc
-   -T | --table             help screen format
+include::{skb-site-target-dir}/adoc-task-help/list-parameters.adoc[tags=standard-options]
 ----
 
+Most list tasks provide filters to include or exclude entries.
 All list tasks with filters provide a standard filter for listing all items, shown below.
 All other filters are task specific.
 If filters are used, only items that satisfy the filter will be listed.
 Any number of filters can be used in any combination.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-   -A | --all               all settings, disables all other filters
+include::{skb-site-target-dir}/adoc-task-help/list-parameters.adoc[tags=standard-filters]
 ----
+
+For all task-specific filters: if not stated otherwise, these filters exclude any entry that does not fit the filter.
+For instance, if a filter for _origin_ with setting _framework_ is activated, entries with origins other than _framework_ will not be listed.
+
+All filters are applied in combination.
+This means that when two or more filters are active, only elements matching all filters will be listed.
+For instance, if filters for a specific _origin_ and a specific _status_ are activated, then all elements matching the origin _and_ the status will be listed (and no element not matching both filters).
+
 
 
 === list-commands
 List the shell commands.
 This task does not provide any further options or filters.
+
+
 
 === list-configuration
 Lists configurations keys and values.
@@ -78,14 +88,9 @@ In table mode, a color coded status indicates from where a setting was taken.
 The task offers a number of filters.
 They all relate to the original source from which a configuration value was set: command line, environment, configuration file, default value, or internally.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-   -c | --cli               only settings from CLI options
-   -d | --default           only settings from default value
-   -e | --env               only settings from environment
-   -f | --file              only settings from configuration file
-   -i | --internal          only internal settings
+include::{skb-site-target-dir}/adoc-task-help/list-configuration.adoc[tags=task-filters]
 ----
 
 This task can take the list of items from the framework or application cache.
@@ -113,14 +118,9 @@ Provided filters:
     ** not attempted (as: `N`, `n`, or `not-attempted`)
 * _tested_ - filter dependencies that have been tested, ignoring untested dependencies
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-   -I | --install           only dependencies required only by install tasks
-   -o | --origin ORIGIN     only dependencies from origin: f(w), a(pp)
-   -r | --requested         only requested dependencies
-   -s | --status STATUS     only dependencies with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
-   -t | --tested            only tested dependencies
+include::{skb-site-target-dir}/adoc-task-help/list-dependencies.adoc[tags=task-filters]
 ----
 
 This task can take the list of items from the framework or application cache.
@@ -128,25 +128,20 @@ If _CACHE_DIR_ is set to a directory that contains cached dependency information
 
 
 
-=== list-exitstatus
-Lists exit status codes with their number and description.
+=== list-errorcodes
+Lists error codes with their number and description.
 Table mode shows two more aspects:
     the origin (of an error: all, application, framework, loader, shell, tasks) and
     an indicator of the problem (internal for a bug, external for a configuration problem).
 Provided filters focus on the _origin_ of the problem.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-        --app               only application status
-   -f | --fw                only framework status
-   -l | --loader            only loader status
-   -s | --shell             only shell status
-   -t | --task              only task status
+include::{skb-site-target-dir}/adoc-task-help/list-errorcodes.adoc[tags=task-filters]
 ----
 
 This task can take the list of items from the framework or application cache.
-If _CACHE_DIR_ is set to a directory that contains cached exit status information (map), this information is used.
+If _CACHE_DIR_ is set to a directory that contains cached error code information (map), this information is used.
 
 
 
@@ -155,11 +150,9 @@ Lists command line options with name, short name, if required a parameter, and a
 Table mode also shows the type of option, being either an _exit_ option or a _runtime_ option.
 Provided filters focus on the option type.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-   -e | --exit              only exit options
-   -r | --run               only runtime options
+include::{skb-site-target-dir}/adoc-task-help/list-options.adoc[tags=task-filters]
 ----
 
 This task can take the list of items from the framework or application cache.
@@ -177,10 +170,9 @@ Table mode shows three more aspects of parameters:
 The task also provides a second table.
 This table shows the parameter names with their declared default value.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   options
-   -D | --def-table         print default value table
+include::{skb-site-target-dir}/adoc-task-help/list-parameters.adoc[tags=task-options]
 ----
 
 Provided filters are:
@@ -198,14 +190,9 @@ Provided filters are:
     ** set from configuration file (as `F`, `f`, `file`)
     ** set from default value (as `D`, `d`, `default`)
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-   -d | --default           only parameters with a defined default value
-   -I | --install           only parameters required only by install tasks
-   -o | --origin ORIGIN     only parameters from origin: f(w), a(pp)
-   -r | --requested         only requested dependencies
-   -s | --status STATUS     only parameter for status: o, f, e, d
+include::{skb-site-target-dir}/adoc-task-help/list-parameters.adoc[tags=task-filters]
 ----
 
 This task can take the list of items from the framework or application cache.
@@ -251,22 +238,9 @@ Provided filters are:
     ** not attempted (as: `N`, `n`, or `not-attempted`)
 * _unloaded_ - filter for scenarios that have been unloaded
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-   -I | --install           only scenarios for application mode flavor 'install'
-   -l | --loaded            only loaded scenarios
-   -m | --mode MODE         only scenarios for application mode: dev, build, use
-        --no-a              activate all '--no-' filters
-        --no-b              exclude scenarios starting with 'build-'
-        --no-d              exclude scenarios starting with 'describe-'
-        --no-dl             exclude scenarios starting with 'describe-' or 'list-'
-        --no-l              exclude scenarios starting with 'list-'
-        --no-s              exclude scenarios starting with 'start-'
-   -o | --origin ORIGIN     only scenarios from origin: f(w), a(pp)
-        --odl               show only scenarios starting with 'describe-' or 'list-'
-   -s | --status STATUS     only scenarios with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
-   -u | --unloaded          only unloaded scenarios
+include::{skb-site-target-dir}/adoc-task-help/list-scenarios.adoc[tags=task-filters]
 ----
 
 This task can take the list of items from the framework or application cache.
@@ -312,22 +286,9 @@ Provided filters are:
     ** not attempted (as: `N`, `n`, or `not-attempted`)
 * _unloaded_ - filter for tasks that have been unloaded
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   filters
-   -I | --install           only tasks for application mode flavor 'install'
-   -l | --loaded            only loaded tasks
-   -m | --mode MODE         only tasks for application mode: dev, build, use
-        --no-a              activate all '--no-' filters
-        --no-b              exclude tasks starting with 'build-'
-        --no-d              exclude tasks starting with 'describe-'
-        --no-dl             exclude tasks starting with 'describe-' or 'list-'
-        --no-l              exclude tasks starting with 'list-'
-        --no-s              exclude tasks starting with 'start-'
-   -o | --origin ORIGIN     only tasks from origin: f(w), a(pp)
-        --odl               show only tasks starting with 'describe-' or 'list-'
-   -s | --status STATUS     only tasks with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted
-   -u | --unloaded          only unloaded tasks
+include::{skb-site-target-dir}/adoc-task-help/list-tasks.adoc[tags=task-filters]
 ----
 
 This task can take the list of items from the framework or application cache.

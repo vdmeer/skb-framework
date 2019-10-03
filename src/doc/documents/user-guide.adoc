@@ -8,7 +8,8 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
 
 = User Guide
@@ -25,4 +26,46 @@ Sven van_der_Meer <vdmeer.sven@mykolab.com>
 :toc:
 :toclevels: 4
 :icons: font
+:sectlinks:
+
+ifeval::["{adoc-build-target}" == "pdf"]
+:adoc-build-link-post: -- 
+endif::[]
+ifeval::["{adoc-build-target}" == "html"]
+:adoc-build-link-post: -- 
+endif::[]
+
+
+== Introduction
+include::{skb-site-main-dir}/doc/fragments/user-guide/introduction.adoc[]
+
+
+include::{skb-site-main-dir}/doc/fragments/user-guide/install.adoc[]
+
+include::{skb-site-main-dir}/doc/fragments/releases.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/requirements.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/user-guide/install/automated.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/user-guide/install/deb.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/user-guide/install/rpm.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/user-guide/install/tgz.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/user-guide/install/from-source.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/user-guide/install/verify-installation.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/user-guide/install/terminal-configuration.adoc[leveloffset=+1]
+
+include::{skb-site-main-dir}/doc/fragments/user-guide/install/build-cache.adoc[leveloffset=+1]
+
+
+
+include::{skb-site-main-dir}/doc/fragments/user-guide/performance.adoc[]
+
+
+
 

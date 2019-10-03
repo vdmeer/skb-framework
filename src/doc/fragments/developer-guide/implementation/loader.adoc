@@ -1,0 +1,389 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== The Loader
+The loader is the script `$FW_HOME/bin/loader/loader.sh`.
+It is responsible for all initial configuration, loading elements, testing settings and dependencies, processing command line arguments (options), and execute task, scenarios, or the shell.
+The load process has multiple steps, starting with some initial settings
+It finishes with a cleanup.
+
+First, fundamental dependencies are tested:
+
+* _BASH_ version 4 - needed to use associative arrays (or maps).
+* GNU _Getopt_ - extensively used in the loader and tasks to parse command lines.
+* _date_ - to generate time stamps as basis for calculations and logs.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=fundamental]
+----
+
+The next step puts _bash_ into a safe execution environment.
+it also activates extended globbing to find files recursively with wildecards such as `**/*.adoc`.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=safe-bash]
+----
+
+The loader does not some early settings.
+Here, a time stamp is taken for later use.
+It also removes an environment setting that prints rather annoying messages when running Java.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=set-early]
+----
+
+
+=== Dependencies
+The first real action in the load process is the test for core dependencies.
+Most of the tested dependencies are UNIX tools and programs, available on any given server or client installation.
+The reason to test them here, up front, is that the framework (or an application) can also be deployed in the cloud or inside a container.
+There is no guarantee that the operating system in these environments actually provide the programs (external dependencies) required by the framework.
+So the loader tests all external dependencies.
+
+* _dirname_, used early to set `$FW_HOME` if not yet in the environment
+* _pwd_, also for setting `$FW_HOME`
+* _uname_, to determine the underlying operating system
+* _cut_, to process strings when internal _bash_ commands are getting too complicated
+* _cat_, to concatenate files or cat them into a pipe
+* _mkdir_, to create directories, e.g. the temporary directory or in the cache
+* _bc_, to calculate execution time using floating point numbers
+* _mktemp_, to create names for temporary files
+* _ls_, to list directories, mostly used to check for files being present
+* _wc_, to count number of files in a directory (piped from _ls_)
+*_tput_, to get the terminal width and to store/restore the terminal context when showing files, e.g. the manual
+* _less_, to show the manual in various formats
+* _rm_, to remove files
+* _sort_, to sort array members and other information alphabetically
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=core-dep]
+----
+
+
+=== Core Settings
+Once all dependencies are satisfied, the loader realizes a few core settings.
+The main part here is to set the framework home directory in `FW_HOME`
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=core-settings]
+----
+
+
+
+=== CONFIG_MAP
+Now comes the declaration of the _CONFIG_MAP_, the core of all runtime settings of the framework.
+This map is first declared, and then some important settings are added to it.
+The map _CONFIG_SRC_ contains information about the source of configuration settings.
+The source can be one of: 
+
+* _O_, set by a (command line) option,
+* _F_, set from a configuration file,
+* _E_, set from the environment, or
+* _D_, set from a declared default value.
+
+The following configurations are set at this stage:
+
+* _FW_HOME_ - the home directory of the framework
+* _RUNNING_IN_ - tells everyone where we are currently running in.
+    Since we are in the loader now, it is set to loader.
+    This will later be changed to `shell` or `task` by the shell and tasks
+* _SYSTEM_ - to know in which system the framework is running, e.g. to generate system-specific paths
+* _CONFIG_FILE_ - the SKB configuration file, set to the file _.skb_ in the user's _HOME_ directory
+* _STRICT_ - set strict mode to `off` initially.
+    This setting can be changed with the command line option _--strict_.
+* _APP_MODE_ - set the default application mode to `use`.
+    This can be changed using the command line options _--all-mode_, _--build-mode_, or _--dev-mode_.
+* _APP_MODE_FLAVOR_ - set the default flavor of the application mode to _std_ (standard).
+    This setting can be changed with the command line option _--install_.
+* _PRINT_MODE_ - set the default print mode to _ansi_ (for ANSI formatted text with colors and effects).
+    This setting can be changed with the command line option _--print-mode_ or with the task _setting_.
+* Levels - set the levels for loader, shell, and tasks initially to `error`.
+    These settings can be changed with the command line options _--loader-level_, _--shell-level_, and _--task-level_; or with the task _setting_.
+    IF early debugging on the loader is required, change the loader level here to _debug_ temporarily.
+* Quiet - set quiet mode for loader, shell, and tasks to `off`, i.e. they are _not_ quiet.
+    These settings can be changed with the command line options _--lq_, _--sq_, and _--tq_; or with the task _setting_.
+* _SCENARIO_PATH_ - create an empty path for scenarios.
+    This setting is changed later from environment or file.
+* _SHELL_SNP_ - activate shell prompt.
+    This setting can be changed with the command line option _--snp_ or with the task _setting_.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=config-map]
+----
+
+
+
+=== Core Includes
+Next, some core files from the framework's API are loaded and the loader itself are loaded.
+To makes things simple, the provided `_include` files are used.
+Then, the loaders own function for parsing the command line is loaded.
+This only loads the function, it does not actually parse the command line.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=core-includes]
+----
+
+Once the API functions are loaded, the loader can make use of the _Console_ functions for printing error and warnings,
+    and track errors and warnings in the counters _LOADER_ERRORS_ and _LOADER_WARNINGS_.
+
+
+
+=== Application Flavor and Name
+The next step is to set the flavor and application name/script.
+The flavor is any prefix used by the application to identify parameters.
+It must be provided by the application (which starts the loader) as the setting `_FW_LOADER_FLAVOR`.
+Once flavor and application settings are realized, the application map and version are loaded.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=flavor-app]
+----
+
+
+
+=== Temporary Directory
+The next step is to test if the temporary directory can be created.
+This is important for two reasons:
+
+* The directory uses the application flavor in the same, to separate several SKB applications that might be running on the same host
+* In the directory, the loader will safe to runtime configuration.
+    This is required because associative arrays (or hash maps, or maps), used to store all configuration data, cannot be exported into the _bash_ environment.
+    Using temporary files is the only way for the loader to share the configuration with the shell, and for the shell to share it with tasks.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=tmp-dir]
+----
+
+
+
+=== Sneak Preview of CLI Arguments
+Next, the loader does a sneak preview inside the command line arguments.
+This is done to determine the application mode that might be requested from the command line.
+We need to know the requested mode here, before we actually do parse the arguments later.
+This is important to load the correct declarations for all elements.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=sneak-cli]
+----
+
+
+
+=== Parameter Declarations
+With the application mode set, the loader can load the parameter declarations.
+These declarations can only be loaded from source, i.e. not from an optional cache, since one of the parameters actually sets the cache directory.
+Once loaded (line 1), all loaded parameters are processed (line 4).
+This function will load values from the environment, then from an optional configuration file, and finally from potentially declared default values.
+This function only loads settings, it does not test any of these settings.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=param-decl]
+----
+
+
+
+=== Option Declarations
+Next is the declaration of command line options.
+This declaration can be done from cache (if cached) or source (if no cache exists).
+Errors here indicate bugs or runtime problems.
+Once declared, all options are set to `false` in the CLI map (lines 8-11).
+This allows to test which options have been used as actual arguments when parsing the command line later.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=opt-decl]
+----
+
+
+
+=== Parse Command Line Arguments
+Now the loader can safely parse the command line arguments.
+The parse function does parse for most options, only set options that have no further side effect.
+This means that this function does not execute on any option.
+This is done later in the load process.
+The print mode is immediately set and tested (lines 3-12) to make sure we have a valid setting for it.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=parse-cli]
+----
+
+
+
+=== Realize early Exit Options
+At this stage, the loader can realize early exit options.
+Those are options that do not require any further actions by the loader.
+These options include:
+
+* Clean the cache (lines 1-5),
+* Print the help screen (lines 6-9), and
+* Print the application version (lines 10-13)
+
+If any of these options was requested, the loader will exit with code _0_, success.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=exit-options]
+----
+
+
+
+=== Declarations for Commands and Error Codes
+Now the declarations of shell commands (lines 1-7) and error codes (lines 8-14) can be loaded, either from cache or source.
+Errors here indicate a framework bug or runtime problem, since commands and error codes are core features and rather static.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=cmdec-decl]
+----
+
+
+
+=== Dependency Declarations
+The next step is to load dependency declarations, either from cache or from source.
+Errors here can point to a bug in the framework, a problem in the application, or a problem with a dependency declaration itself.
+In this step, dependencies are only declared, but not tested, since the loader still does not know which of them are required by tasks.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=dep-decl]
+----
+
+
+
+=== Task Declarations
+This step is probably the most complicated and most important step in the load process.
+First, the declarations of tasks are loaded, either from cache or from source (lines 1-8).
+Errors here can point to a bug in the framework, a problem in the application, or a problem with a task declaration itself.
+Next, the loaded tasks are processed (line 9-11).
+This function will take the loaded tasks and test or validate all parameters and dependencies they require.
+This process can take some time, especially for testing external dependencies.
+Errors tend to indicate configuration or dependency problems, not internal or declaration problems.
+
+Some tasks might declare requirements as _optional_.
+Those dependencies only throw warnings in a normal application run.
+Only if an application is run in _strict_ mode will those problems throw errors.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=task-decl]
+----
+
+
+
+=== Scenario Declarations
+When tasks are declared, the loader can declare all scenarios from the framework and application home as well as the optional scenario path.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=scn-decl]
+----
+
+
+
+=== Set Levels
+The next step is to set the correct levels (log levels) for the loader (the remaining load steps), the shell, and the tasks.
+This is done for each level type in separation.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=set-levels]
+----
+
+
+
+=== Do (Exit) Options
+At this stage, the loader can process most the remaining exit options.
+Those are command line options that request some behavior and then should cause the loader to exit.
+
+If such options are requested, the loader might provide some information about its execution time (lines 5-11).
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=do-options]
+----
+
+
+
+=== Create Runtime Configuration File
+Now, the loader needs to create the temporary runtime configuration file.
+The remaining actions are either to run a execute a task, run a scenario, or execute the interactive shell.
+All of these actions require the configuration to be available.
+The configuration file is created in the already tested directory, usually located in `/tmp/`.
+The name of the configuration files includes a time stamp of its creation and an arbitrary, random string.
+`mktemp` is used to create the file name.
+Since the name is unique, the same application can be executed many times simultaneously.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=tmp-file]
+----
+
+
+
+=== Execute Task or Scenario
+The final exit options are to execute a task or to run a scenario.
+The loader will try either of them.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=tsk-scn]
+----
+
+
+
+=== Start Shell
+This is the final step of the load process.
+If no task or scenario was requested to be executed, the loader will start the interactive shell.
+This shell will run until a user caused it or exit, or until an error terminated the whole application.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=shell]
+----
+
+
+
+=== Clean Up
+Finally, the loader can cleanup and prepare to terminate.
+Cleanup basically means to remove the temporary configuration file.
+If the temporary directory is no longer needed, i.e. no other configuration exists in it, it can be removed as well.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=cleanup]
+----
+
+
+
+=== Done
+The loader is done, all actions have been taken.
+It now can safely exit and return the execution to the `skb-framework` or the calling application.
+A final message is displayed to mark this point in the process.
+
+[source%nowrap,bash,linenums,subs="attributes+"]
+----
+include::{skb-site-main-dir}/main/bash/bin/loader/loader.sh[tags=done]
+----
+

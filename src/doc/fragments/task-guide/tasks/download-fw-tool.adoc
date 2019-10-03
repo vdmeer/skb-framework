@@ -8,12 +8,14 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
+
 
 == download-fw-tool
 
-This tasks uses CURL to download the SKB Framework Tool.
+This tasks uses download and remote copt tools to download the SKB Framework Tool.
 The framework tool is an executable Java JAR file, including all dependencies.
 It is published on Bintray using the same version as the SKB Framework.
 The URL for download (without the filename) is: https://dl.bintray.com/vdmeer/generic/ .
@@ -25,6 +27,8 @@ The task uses the setting of the parameter `SKB_FRAMEWORK_TOOL` to determine whi
 The output directory will be created if it does not exist.
 If the JAR file already exists, no download will be started (use the force option to force a download).
 
+
+
 === Options
 
 The option _simulate_ can be used to simulate all task actions.
@@ -32,9 +36,18 @@ In this mode, the task will only print what it would do.
 The option _force_ can be used to force a download even if the JAR file already exists.
 _simulate_ will overwrite _force_.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
-   -f | --force       force mode, not questions asked
-   -h | --help        print help screen and exit
-   -s | --simulate    print only, downloads nothing, overwrites force
+include::{skb-site-target-dir}/adoc-task-help/download-fw-tool.adoc[tags=options]
+----
+
+The options for tools allow to select a download tool.
+The default is _curl_.
+The other option is to use _wget_.
+All tools are marked as optional dependencies for the task.
+The selected tool must be a successfully loaded dependency, otherwise an error message will be printed and no download is performed.
+
+[source%nowrap,indent=0,subs="attributes,quotes"]
+----
+include::{skb-site-target-dir}/adoc-task-help/download-fw-tool.adoc[tags=tools]
 ----

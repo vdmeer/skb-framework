@@ -8,8 +8,10 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // ============LICENSE_END=========================================================
 //
-// @author Sven van der Meer (vdmeer.sven@mykolab.com)
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
 //
+
 
 == build-manual
 
@@ -40,7 +42,7 @@ The structure is similar to other manual pages:
 * _Tasks_: a description and list of tasks provided by the application
 * _Dependencies_: a description and list of dependencies (that tasks might require)
 * _Shell Commands_: a description and list of commands the interactive shell provides
-* _Exit Status_: a description and list of the different exit status codes and messages.
+* _Error Codes_: a description and list of the different error codes and messages.
 * _Scenarios_: a description and list of scenarios provided by the application
 * _Security Concerns_: remarks on potential or actual security concerns when running the application
 * _Bugs_: notes on known bugs 
@@ -84,13 +86,13 @@ The task can be configured with two parameters:
 
 
 
-=== Manual Source
+=== Manual Source Layout
 
 include::{skb-site-main-dir}/doc/fragments/layouts/man-source.adoc[]
 
 
 
-=== General Options
+=== Options
 
 Following the SKB-Framework convention, the task has two main options: _clean_ to remove built manual artifacts and _build_ to build them.
 When _build_ is used, other general options and filters can be used to direct the build:
@@ -99,35 +101,25 @@ When _build_ is used, other general options and filters can be used to direct th
 * _primary_ - build all primary targets, i.e. _src_ and _adoc_
 * _secondary_ - build all secondary targets, i.e. _text_ (plain, ANSI, annotated), _manp_, _html_, and _pdf_
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
--A | --all         set all targets, overwrites other options
--b | --build       builds a manual (manpage), requires a target
--c | --clean       removes all target artifacts
--h | --help        print help screen and exit
--p | --primary     set all primary targets
--s | --secondary   set all secondary targets
--t | --test        test a manual (show results), requires a target
+include::{skb-site-target-dir}/adoc-task-help/build-manual.adoc[tags=options]
 ----
 
 
 
-=== Target Options
+=== Targets
 
 Targets can also be selected individually.
 The target options can be used in any sequence in the command line, the task will automatically generate all manual artifacts in the correct order.
 For the secondary targets that require _adoc_ to be build, the task will also automatically generate _adoc_ if the file does not exist.
 Text sources (target _src_) are not created automatically, only on request.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
---adoc        secondary target: text versions: ansi, text
---html        secondary target: HTML file
---manp        secondary target: man page file
---pdf         secondary target: PDF file)
---text        secondary target: text versions: ansi, text
---src         primary target: text source files from ADOC
+include::{skb-site-target-dir}/adoc-task-help/build-manual.adoc[tags=targets]
 ----
+
 
 
 
@@ -150,12 +142,11 @@ For selected element types, the element list filters can be used to direct what 
         If this option is used, only the requested dependencies and parameters are listed.
         Requested here means any dependency or parameter requested by a loaded task.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
--I | --install     do list 'install' app mode flavor tasks and scenarios
--l | --loaded      list only loaded tasks and scenarios
--r | --requested   list only requested dependencies and parameters
+include::{skb-site-target-dir}/adoc-task-help/build-manual.adoc[tags=element-list-filters]
 ----
+
 
 
 
@@ -165,13 +156,9 @@ These filters are negative filters to exclude general (application related) part
 The option name corresponds to the heading in the general manual structure described above.
 The default behavior is to include all general parts.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
---no-authors           do not include authors
---no-bugs              do not include bugs
---no-copying           do not include copying
---no-resources         do not include resources
---no-security          do not include security
+include::{skb-site-target-dir}/adoc-task-help/build-manual.adoc[tags=application-filters]
 ----
 
 
@@ -187,23 +174,11 @@ To give an example: to show all information about tasks do not use any of these 
 To show the general text, but no task list, use _--no-task-list_.
 To no show any information about tasks, use _--no-tasks_.
 
-[source%nowrap,bash,indent=0]
+[source%nowrap,indent=0,subs="attributes,quotes"]
 ----
---no-commands          do not include commands
---no-command-list      include command text, but no list
---no-deps              include dependency text, but no list
---no-dep-list          do not include dependencies
---no-exitstatus        do not include exit status
---no-exitstatus-list   include exit status text, but no list
---no-options           do not include options
---no-option-list       include option test, but no list
---no-params            do not include parameters
---no-param-list        include parameter text, but no list
---no-scenarios         do not include scenarios
---no-scenario-list     include scenario text, but no list
---no-tasks             do not include tasks
---no-task-list         include task text, but no list
+include::{skb-site-target-dir}/adoc-task-help/build-manual.adoc[tags=element-filters]
 ----
+
 
 
 
@@ -211,19 +186,19 @@ To no show any information about tasks, use _--no-tasks_.
 
 The following example will use the framework tool to convert _adoc_ sources into well-formatted plain text.
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 build-manual --build --src
-====
+----
 
 The following examples builds the targets _adoc_, _text_, _manp_, _html_, and _pdf_.
 All tasks and scenarios will be listed.
 Only requested dependencies and parameters will be listed.
 
-[example]
-====
+[source%nowrap,bash,indent=0]
+----
 build-manual --build --requested --adoc --text --manp --html --pdf
-====
+----
 
 
 
@@ -256,7 +231,7 @@ A few standard framework tasks are also required (all of them are mandatory and 
 * _describe-parameter_ - this task is used to generate the parameter list.
 * _describe-task_ - this task is used to generate the task list it is a mandatory.
 * _describe-dependency_ - this task is used to generate the dependency list.
-* _describe-existatus_ - this task is used to generate the exit status list.
+* _describe-errorcode_ - this task is used to generate the error code list.
 * _describe-command_ - this task is used to generate the command list.
 * _describe-scenario_ - this task is used to generate the scenario list.
 * _validate-installation_ - this task is used to validate all input required for the manual, i.e. _adoc_ and _txt_ files

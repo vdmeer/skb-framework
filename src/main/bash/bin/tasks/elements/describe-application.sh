@@ -24,13 +24,10 @@
 ## describe-application - describes the application
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -50,12 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/application.sh
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -82,7 +75,7 @@ CLI_LONG_OPTIONS+=,app,authors,bugs,copying,resources,security
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-application -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "describe-application: unknown CLI options"
+    ConsolePrint error "describe-application: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -93,18 +86,35 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "describe-application")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard describe options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                        $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                      $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
 
-                printf "\n   filters\n"
-                BuildTaskHelpLine A all               "<none>"   "all application aspects"              $PRINT_PADDING
-                BuildTaskHelpLine "<none>" app        "<none>"   "include application description"      $PRINT_PADDING
-                BuildTaskHelpLine "<none>" authors    "<none>"   "include authors"                      $PRINT_PADDING
-                BuildTaskHelpLine "<none>" bugs       "<none>"   "include bugs"                         $PRINT_PADDING
-                BuildTaskHelpLine "<none>" copying    "<none>"   "include copying"                      $PRINT_PADDING
-                BuildTaskHelpLine "<none>" resources  "<none>"   "include resources"                    $PRINT_PADDING
-                BuildTaskHelpLine "<none>" security   "<none>"   "include security"                     $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard describe filters\n"
+                BuildTaskHelpLine A all               "<none>"   "all entries, disables all other filters"      $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine "<none>" app        "<none>"   "text for application description"     $PRINT_PADDING
+                BuildTaskHelpLine "<none>" authors    "<none>"   "text for authors"                     $PRINT_PADDING
+                BuildTaskHelpLine "<none>" bugs       "<none>"   "text for bugs"                        $PRINT_PADDING
+                BuildTaskHelpLine "<none>" copying    "<none>"   "text for copying"                     $PRINT_PADDING
+                BuildTaskHelpLine "<none>" resources  "<none>"   "text for resources"                   $PRINT_PADDING
+                BuildTaskHelpLine "<none>" security   "<none>"   "text for security"                    $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
+
+                printf "\n"
+                BuildTaskHelpTag start notes
+                printf "   Notes\n"
+                printf "   - the standard filter '-A | --all' is the default\n"
+                BuildTaskHelpTag end notes
             else
                 cat $CACHED_HELP
             fi
@@ -157,7 +167,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "describe-application: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-application: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -170,7 +180,6 @@ done
 if [[ ! -n "$PRINT_MODE" ]]; then
     PRINT_MODE=${CONFIG_MAP["PRINT_MODE"]}
 fi
-TARGET=$PRINT_MODE
 
 if [[ "$ALL" == "yes" || $CLI_SET == false ]]; then
     APP=yes
@@ -188,31 +197,31 @@ fi
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "da: starting task"
+ConsolePrint info "da: starting task"
 
 if [[ "$APP" == "yes" ]]; then
-    DescribeApplicationDescription
+    DescribeApplication description $PRINT_MODE
 fi
 
 if [[ "$SECURITY" == "yes" ]]; then
-    DescribeApplicationSecurity
+    DescribeApplication security $PRINT_MODE
 fi
 
 if [[ "$BUGS" == "yes" ]]; then
-    DescribeApplicationBugs
+    DescribeApplication bugs $PRINT_MODE
 fi
 
 if [[ "$AUTHORS" == "yes" ]]; then
-    DescribeApplicationAuthors
+    DescribeApplication authors $PRINT_MODE
 fi
 
 if [[ "$RESOURCES" == "yes" ]]; then
-    DescribeApplicationResources
+    DescribeApplication resources $PRINT_MODE
 fi
 
 if [[ "$COPYING" == "yes" ]]; then
-    DescribeApplicationCopying
+    DescribeApplication copying $PRINT_MODE
 fi
 
-ConsoleInfo "  -->" "da: done"
+ConsolePrint info "da: done"
 exit $TASK_ERRORS

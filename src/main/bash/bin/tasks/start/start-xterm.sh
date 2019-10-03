@@ -24,13 +24,10 @@
 ## start-xterm - starts a new XTerm
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -50,11 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -74,7 +68,7 @@ CLI_LONG_OPTIONS=help,command:,title:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name start-xterm -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "start-xterm: unknown CLI options"
+    ConsolePrint error "start-xterm: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -89,9 +83,12 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "start-xterm")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
+                printf "\n"
+                BuildTaskHelpTag start options
+                printf "   options\n"
                 BuildTaskHelpLine h help    "<none>"    "print help screen and exit"                    $PRINT_PADDING
                 BuildTaskHelpLine t title   "TITLE"     "title for the XTerm, default: command name"    $PRINT_PADDING
+                BuildTaskHelpTag end options
             else
                 cat $CACHED_HELP
             fi
@@ -113,7 +110,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "start-xterm: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "start-xterm: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -126,11 +123,11 @@ done
 ##
 ############################################################################################
 ERRNO=0
-ConsoleInfo "  -->" "sx: starting task"
+ConsolePrint info "sx: starting task"
 
 if [[ -z "${CONFIG_MAP["XTERM"]:-}" ]]; then
-    ConsoleError "  ->" "sx: no setting for XTERM, cannot start any"
-    ConsoleInfo "  -->" "sx: done"
+    ConsolePrint error "sx: no setting for XTERM, cannot start any"
+    ConsolePrint info "sx: done"
     exit 60
 fi
 
@@ -145,5 +142,5 @@ SCRIPT=${SCRIPT//%TITLE%/"$TITLE"}
 $SCRIPT &
 ERRNO=$?
 
-ConsoleInfo "  -->" "sx: done"
+ConsolePrint info "sx: done"
 exit $ERRNO

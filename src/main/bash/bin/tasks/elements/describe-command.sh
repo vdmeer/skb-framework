@@ -24,13 +24,10 @@
 ## describe-command - describes a command or commands
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
 
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 ## put bugs into errors, safer
 set -o errexit -o pipefail -o noclobber -o nounset
@@ -50,12 +47,8 @@ CONFIG_MAP["RUNNING_IN"]="task"
 
 ##
 ## load main functions
-## - reset errors and warnings
 ##
 source $FW_HOME/bin/api/_include
-source $FW_HOME/bin/api/describe/command.sh
-ConsoleResetErrors
-ConsoleResetWarnings
 
 
 ##
@@ -76,7 +69,7 @@ CLI_LONG_OPTIONS=all,help,id:,print-mode:
 
 ! PARSED=$(getopt --options "$CLI_OPTIONS" --longoptions "$CLI_LONG_OPTIONS" --name describe-command -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    ConsoleError "  ->" "describe-command: unknown CLI options"
+    ConsolePrint error "describe-command: unknown CLI options"
     exit 51
 fi
 eval set -- "$PARSED"
@@ -92,12 +85,24 @@ while true; do
         -h | --help)
             CACHED_HELP=$(TaskGetCachedHelp "describe-command")
             if [[ -z ${CACHED_HELP:-} ]]; then
-                printf "\n   options\n"
-                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"    $PRINT_PADDING
-                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"  $PRINT_PADDING
-                printf "\n   filters\n"
-                BuildTaskHelpLine A all         "<none>"    "all commands, disables all other filters"  $PRINT_PADDING
-                BuildTaskHelpLine i id          "ID"        "long command identifier"                   $PRINT_PADDING
+                printf "\n"
+                BuildTaskHelpTag start standard-options
+                printf "   standard describe options\n"
+                BuildTaskHelpLine h help        "<none>"    "print help screen and exit"                    $PRINT_PADDING
+                BuildTaskHelpLine P print-mode  "MODE"      "print mode: ansi, text, adoc"                  $PRINT_PADDING
+                BuildTaskHelpTag end standard-options
+
+                printf "\n"
+                BuildTaskHelpTag start standard-filters
+                printf "   standard describe filters\n"
+                BuildTaskHelpLine A all         "<none>"    "all entries, disables all other filters"       $PRINT_PADDING
+                BuildTaskHelpTag end standard-filters
+
+                printf "\n"
+                BuildTaskHelpTag start task-filters
+                printf "   task filters\n"
+                BuildTaskHelpLine i id          "ID"        "command identifier, long or short form"        $PRINT_PADDING
+                BuildTaskHelpTag end task-filters
             else
                 cat $CACHED_HELP
             fi
@@ -118,7 +123,7 @@ while true; do
             break
             ;;
         *)
-            ConsoleFatal "  ->" "describe-command: internal error (task): CLI parsing bug"
+            ConsolePrint fatal "describe-command: internal error (task): CLI parsing bug"
             exit 52
     esac
 done
@@ -138,7 +143,7 @@ else
     if [[ -n "$CMD_ID" ]]; then
         TESTED_CMD_ID=$(GetCommandID $CMD_ID)
         if [[ -z "${TESTED_CMD_ID:-}" ]]; then
-            ConsoleError " ->" "dc: unknown command ID '$CMD_ID'"
+            ConsolePrint error "dc: unknown command ID '$CMD_ID'"
             exit 60
         else
             CMD_ID=$TESTED_CMD_ID
@@ -152,7 +157,7 @@ fi
 ## ready to go
 ##
 ############################################################################################
-ConsoleInfo "  -->" "dc: starting task"
+ConsolePrint info "dc: starting task"
 
 for ID in ${!DMAP_CMD[@]}; do
     if [[ -n "$CMD_ID" ]]; then
@@ -169,5 +174,5 @@ for i in ${!keys[@]}; do
     DescribeCommand $ID full "$PRINT_MODE line-indent" $PRINT_MODE
 done
 
-ConsoleInfo "  -->" "dc: done"
+ConsolePrint info "dc: done"
 exit $TASK_ERRORS

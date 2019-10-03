@@ -24,13 +24,9 @@
 ## Declare: (CLI) Options
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.4
+## @version    0.0.5
 ##
 
-
-##
-## DO NOT CHANGE CODE BELOW, unless you know what you are doing
-##
 
 
 declare -A DMAP_OPT_ORIGIN              # map [id]=type (exit, run)
@@ -45,16 +41,14 @@ declare -A DMAP_OPT_DESCR               # map [id]="descr-tag-line"
 ## - declares CLI options from FW_HOME directory
 ##
 DeclareOptions() {
-    ConsoleInfo "-->" "declare options"
-    ConsoleResetErrors
+    ConsolePrint info "declare options"
+    Counters reset errors
 
     if [[ ! -d $FW_HOME/${FW_PATH_MAP["OPTIONS"]} ]]; then
-        ConsoleError " ->" "declare-opt - did not find option directory, tried \$FW_HOME/${FW_PATH_MAP["OPTIONS"]}"
-        ConsoleInfo "-->" "done"
+        ConsolePrint error "declare-opt - did not find option directory, tried \$FW_HOME/${FW_PATH_MAP["OPTIONS"]}"
+        ConsolePrint info "done"
     else
-        ConsoleDebug "building new declaration map from directory: \$FW_HOME/${FW_PATH_MAP["OPTIONS"]}"
-        ConsoleResetErrors
-
+        ConsolePrint debug "building new declaration map from directory: \$FW_HOME/${FW_PATH_MAP["OPTIONS"]}"
         local file
         local ID
         local SHORT
@@ -67,7 +61,7 @@ DeclareOptions() {
             ID=${ID%.*}
 
             if [[ ! -z ${DMAP_OPT_ORIGIN[$ID]:-} ]]; then
-                ConsoleError " ->" "internal error: DMAP_OPT_ORIGIN for id '$ID' already set"
+                ConsolePrint error "internal error: DMAP_OPT_ORIGIN for id '$ID' already set"
             else
                 local HAVE_ERRORS=false
 
@@ -77,12 +71,12 @@ DeclareOptions() {
                 source "$file"
 
                 if [[ -z "${DESCRIPTION:-}" ]]; then
-                    ConsoleError " ->" "declare option - '$ID' has no description"
+                    ConsolePrint error "declare option - '$ID' has no description"
                     HAVE_ERRORS=true
                 fi
 
                 if [[ $HAVE_ERRORS == true ]]; then
-                    ConsoleError " ->" "declare option - could not declare option"
+                    ConsolePrint error "declare option - could not declare option"
                     NO_ERRORS=false
                 else
                     DMAP_OPT_SHORT[$ID]=$SHORT
@@ -92,10 +86,10 @@ DeclareOptions() {
                         *"${FW_PATH_MAP["OPTIONS"]}/run/"*)  DMAP_OPT_ORIGIN[$ID]=run ;;
                         *"${FW_PATH_MAP["OPTIONS"]}/exit/"*) DMAP_OPT_ORIGIN[$ID]=exit ;;
                     esac
-                    ConsoleDebug "declared option $ID"
+                    ConsolePrint debug "declared option $ID"
                 fi
             fi
         done
     fi
-    ConsoleInfo "-->" "done"
+    ConsolePrint info "done"
 }

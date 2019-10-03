@@ -10,9 +10,10 @@ install:
 	cp -dfrp bin $(DESTDIR)$(prefix)/
 	cp -dfrp doc $(DESTDIR)$(prefix)/
 	cp -dfrp etc $(DESTDIR)$(prefix)/
-	cp -dfrp lib $(DESTDIR)$(prefix)/
+#	cp -dfrp lib $(DESTDIR)$(prefix)/
 	cp -dfrp man $(DESTDIR)$(prefix)/
 	cp -dfrp scenarios $(DESTDIR)$(prefix)/
+	mkdir -p $(DESTDIR)$(prefix)/lib
 
 clean:
 	-rm -fr $(DESTDIR)$(prefix)/

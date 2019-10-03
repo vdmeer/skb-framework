@@ -1,2 +1,3 @@
 This is the dependency for a Java runtime environment, or JRE.
-The exact version of the JRE cannot be specified, since there is not standardized version string across the multiple options (e.g. Oracle Java, Open JRE).
+The exact version of the JRE cannot be specified,
+    since there is not standardized version string across the multiple options (e.g. Oracle Java, Open JRE).

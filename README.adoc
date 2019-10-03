@@ -1,0 +1,285 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+:release-version: 0.0.5
+= SKB Framework
+v{release-version}
+:page-layout: base
+:toc: preamble
+
+a flexible and extensible automation framework
+
+
+
+== Introduction
+
+The framework is written in `bash`.
+It runs wherever `bash` version 4 installed.
+We have tested it on
+
+* Ubuntu 14/16/18
+* Debian 3
+* Raspian (on PI model B and B+)
+* Cygwin on Windows 7 and 10
+* Windows 10 WSL with Ubuntu 18 installed
+* Mac OS X
+
+
+
+
+=== Install
+
+The easiest way to install the framework is using `apt` and the PPA distribution:
+[source%nowrap,bash,indent=0]
+----
+sudo add-apt-repository ppa:vdmeer/skb
+sudo apt-get update 
+sudo apt-get install skb-framework
+----
+
+For other installation options, please see the link:https://vdmeer.github.io/skb/framework/user-guide/install.html[Installation] section in the _User Guide_.
+
+
+
+=== Run
+
+Ideally, the framework is run with a special user, with limited privileges.
+The installation will create a user `skbuser` for that purpose.
+[source%nowrap,bash,indent=0]
+----
+sudo -u skbuser skb-framework 
+----
+
+
+
+
+== Description
+
+The SKB-Framework provides a flexible, metadata-driven automation framework.
+Its main objective is to load and provide flexible access to _tasks_.
+A task is a shell script with additional semantics (metadata) processed by the framework.
+These additional semantics allow the framework to take care of some common functions for defined tasks,
+    for example loading and evaluating parameters and dependencies.
+
+The framework itself provides a start script, a loader, and an interactive shell.
+The start script sets initial parameters, such as name, acronym for name, path to an installation.
+The loader will process specifications (mainly tasks) and validate them.
+Once the loader is satisfied, it will start the interactive shell.
+
+An application using the framework can be started in one of three different modes:
+`dev` for a development mode,
+`build` for a build mode, and
+`use` for a use mode.
+The development mode `dev` should load tasks required to develop an application.
+The build mode `build` should load tasks required to build artifacts for a given application.
+The use mode `use` should load tasks required to use built artifacts for a given application.
+
+An application can also run in two different flavors:
+`std` or _standard_ for the standard flavor, and
+`install` for the installation flavor.
+Almost all tasks are visible in the `std` flavor.
+Only specific tasks, required when installing an application, are limited to the `install` flavor.
+
+The framework provides definitions for seven different elements: tasks, their dependencies, their (configuration) parameters, application CLI options, shell commands, application error codes, and scenarios.
+The framework loader will load all those definitions and validate them based on the provided metadata.
+CLI options, commands, and error codes are handled by the framework itself.
+Tasks, dependencies, parameters, and scenarios can be defined by an application.
+This framework provides a basic set of tasks, dependencies, and parameters.
+It also defines some scenarios to build its own deployment artifacts.
+
+This software package also provides an application named `skb-framework` as a standard application utilizing the framework's features and tasks.
+
+For more information on the framework, how to use it, how to build software artifacts, and how develop your own application with it, please visit the SKB-Framework website at https://vdmeer.github.io/skb/framework/.
+
+
+
+== Requirements
+
+The framework is written in `bash`.
+It uses associative arrays, also known as hash maps.
+Thus version 4 or higher of `bash` is required.
+
+There are a few other requirements to start the framework, listed in the table below.
+These requirements are for the framework (start script, loader, interactive shell, and API).
+All of them are tested during the application load, i.e. before the interactive shell is started.
+
+[cols="10,80", grid=rows, frame=none, %autowidth.stretch, options="header"]
+|===
+| Dependency | Description
+
+| `bash` |
+The Bash shell version 4 or higher.
+On most UNIX/Linux system, Bash 4 will be part of a standard installation.
+
+| (GNU) `getopt` |
+The framework requires command line parsing for its own CLI arguments as well for every task.
+It uses the GNU enhanced version of `getopt`.
+The standard version is not supported.
+
+| `date` |
+Program to print formatted date and time information, or to get time stamps.
+It is used to create time stamps.
+
+| `dirname` |
+Program to strip the last component of a file name, leaving a path.
+It is used to set several paths for the framework.
+
+| `pwd` |
+Get the current working directory.
+It is used to generate several paths for the framework.
+
+| `uname` |
+Prints system information.
+It is used to determine the operating system the framework is running in, for some low level functions.
+
+| `cut` |
+Tool to remove sections from each line in a file or a string.
+It is used to parse strings, for instance the result of _uname_.
+
+| `cat` |
+This standard tool concatenates files and prints them to the standard output.
+It is used for instance to read the version files.
+
+| `mkdir` |
+Creates directories, used to create temporary and target directories.
+
+| `bc` |
+This is an arbitrary precision calculator (language and application).
+It is used here to calculate the execution time of tasks and scenarios (since Bash does not offer floating point arithmetic).
+`bc` should be standard in almost all UNIX systems.
+
+See also the link:https://www.gnu.org/software/bc/manual/html_mono/bc.html[GNU manual page].
+
+| (GNU) `mktemp` |
+The framework needs to create a temporary directory with runtime configuration files.
+It uses `mktemp` to create temporary file and directory names.
+This tool should be standard in Linux distributions.
+
+See also the link:https://www.gnu.org/software/autogen/mktemp.html[GNU page].
+
+| `ls` |
+Lists directories and files, used to test the contents of temporary directories.
+
+| `wc` |
+Counts several properties of files or strings, used to test temporary directories.
+
+| `tput` |
+This tool can be used to initialize a terminal or to query the terminal database (_terminfo_).
+The `manual` option and command is using `tput` to store (_smcup_) and restore (_rmcup_) the terminal context when showing the manual.
+
+| `less` |
+As the manual states: "less is the opposite of more".
+It essentially allows to show a file and move backwards and forwards, search the content, and more interactions.
+The `manual` option and command is using `less` to show the manual.
+
+| `rm` |
+Removes files, used to clean temporary and target directories.
+
+| `sort` |
+Sorts lines of text files as well as other input.
+It is used in several places to sort the keys of associative arrays alphabetically.
+
+//| `sed` |
+//The UNIX stream editor, used to manipulate text or files.
+//The application is required by some API functions.
+
+|===
+
+Most of the tested dependencies are standard UNIX tools and programs, available on any given server or client installation.
+The reason to test them before starting the shell is that the framework (or an application) can also be deployed in the cloud or inside a container.
+There is no guarantee that the operating system in these environments actually provide all required the programs (external dependencies).
+So we have to test them all.
+
+Tasks can define any other dependency to external applications and tools.
+Task dependencies are tested separately, when tasks are loaded.
+
+
+
+
+== Releases
+
+The framework is released in a few different formats, at a few different sites, all simultaneously (on the same day).
+The main release happens on a Ubuntu PPA on _Launchpad_.
+Then DEB and RPM files are released to _Bintray_.
+Finally, DEB, RPM, and TGZ files are released on _Github_.
+All releases are from the same original build, they might differ in some features (such as pre/post install automation).
+
+
+[cols="10,10,80", grid=rows, frame=none, %autowidth.stretch, options="header"]
+|===
+| Site | Links | Description
+
+| Launchpad | link:https://launchpad.net/~vdmeer/+archive/ubuntu/skb[ppa/skb] |
+This is the PPA and main release of the framework.
+Strict rules apply to packages here and they are checked at submission by _Launchpad_.
+
+| Bintray | link:https://bintray.com/vdmeer/deb/skb-framework[DEB], link:https://bintray.com/vdmeer/rpm/skb-framework[RPM] |
+I use _Bintray_ for binary releases of DEB and RPM files.
+You can find both of them here.
+
+| Github | link:https://github.com/vdmeer/skb-framework/releases[releases] a|
+When a new version is tagged on _Github_ (source directory, after successful deployment on _Launchpad_ and _Bintray_), the DEB and RPM files are also released here.
+This location provides two more release files:
+
+* A compressed tar archive with the same build that is released in DEB and RPM files
+* A compressed tar or zip archive with the associated sources from the Github repository
+
+|===
+
+
+
+
+== Resources
+
+[cols="15,20,65", grid=rows, frame=none, %autowidth.stretch, options="header"]
+|===
+| Item | Link(s) | Description
+
+| Website | link:https://vdmeer.github.io/skb/framework/index.html[web-site] |
+the framework's website with all information that has been produced
+
+| Source | link:https://github.com/vdmeer/skb-framework[github] |
+the software sources, in a Github repository, everything is here
+
+| Issues | link:https://github.com/vdmeer/skb-framework/issues[issues] |
+please look here for any issues, and if your issue or feature is not discussed already, then please add it!
+
+| Manual
+| link:https://vdmeer.github.io/skb/framework/manual.html[web-site]
+  \| link:https://vdmeer.github.io/skb/framework/documents/manual.html[HTML]
+  \| link:https://vdmeer.github.io/skb/framework/documents/manual.pdf[PDF]
+| The framework's manual page with the same content as the manual in the package and the manpage `skb-framework.1`.
+
+| User Guide
+| link:https://vdmeer.github.io/skb/framework/user-guide.html[web-site]
+  \| link:https://vdmeer.github.io/skb/framework/documents/user-guide.html[HTML]
+  \| link:https://vdmeer.github.io/skb/framework/documents/user-guide.pdf[PDF]
+| details how to install and use the framework
+
+| Task Guide
+| link:https://vdmeer.github.io/skb/framework/task-guide.html[web-site]
+  \| link:https://vdmeer.github.io/skb/framework/documents/task-guide.html[HTML]
+  \| link:https://vdmeer.github.io/skb/framework/documents/task-guide.pdf[PDF]
+| complete guide for all provided tasks
+
+| Developer Guide
+| link:https://vdmeer.github.io/skb/framework/developer-guide.html[web-site]
+  \| link:https://vdmeer.github.io/skb/framework/documents/developer-guide.html[HTML]
+  \| link:https://vdmeer.github.io/skb/framework/documents/developer-guide.pdf[PDF]
+| only if you are not afraid to see and use `bash` code :), comes with layout description, sequence charts, details on the implementation, API documentation, function index, and more.
+
+|===
+
+

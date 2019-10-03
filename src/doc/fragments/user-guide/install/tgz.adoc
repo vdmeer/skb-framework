@@ -1,0 +1,127 @@
+//
+// ============LICENSE_START=======================================================
+// Copyright (C) 2018-2019 Sven van der Meer. All rights reserved.
+// ================================================================================
+// This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License
+// Full license text at https://creativecommons.org/licenses/by-sa/4.0/legalcode
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// ============LICENSE_END=========================================================
+//
+// @author     Sven van der Meer (vdmeer.sven@mykolab.com)
+// @version    0.0.5
+//
+
+
+== Install using the TGZ Distribution
+The TGZ installation uses the compressed tar archive provided in the _Github_ release.
+It is based on the same build as the DEB and RPM files.
+However, it does not come with pre/post installation scripts, cannot be installed using a package manager, and does not provide pre/post uninstall scripts either.
+So a few additional manual steps are required.
+
+=== Download TGZ File
+Download the TGZ file from _Github_ release.
+You can do that manual (open a browser and download the file) or using a tools like `curl` or `wget`.
+
+The examples below show the download commands for `curl` and `wget` downloading:
+
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+curl -L "https://github.com/vdmeer/skb-framework/releases/download/v{release-version}/skb-framework-{release-version}.tar.gz" --output skb-framework-{release-version}.tar.gz
+wget https://github.com/vdmeer/skb-framework/releases/download/v{release-version}/skb-framework-{release-version}.tar.gz
+----
+
+
+=== Install TGZ File
+To install from the tar archive, create the required directories first, then use tar to extract the install files.
+If this is done on a system wide directory, it might require `sudo` and _root_ privileges.
+Otherwise normal _user_ privileges might be sufficient.
+The example below uses _root_ privileges (line 1) to create the required directories (line 2) and extract the archive (line 3).
+We assume that the archive is located in `/tmp`.
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+sudo -i
+mkdir -p /opt/skb/skb-framework
+tar xfvz /tmp/skb-framework-{release-version}.tar.gz /opt/skb/skb-framework
+----
+
+We strongly recommend to run the framework as a dedicated user.
+The following commands will create a group `skbuser`, a user `skbuser`, and change the ownership of the installed framework to the newly created user and group.
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+sudo -i
+groupadd skbuser
+useradd -g skbuser skbuser
+usermod -a -G skbuser skbuser
+
+chown -R skbuser:skbuser /opt/skb/skb-framework
+----
+
+The next commands will set the file permissions to the correct values.
+The permissions should be already set correctly from the tar archive, we do this just in case they are not.
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+sudo -i
+find /opt/skb/skb-framework -type d -perm 755
+find /opt/skb/skb-framework/bin -type f -perm 555
+find /opt/skb/skb-framework/etc -type f -perm 664
+find /opt/skb/skb-framework/lib -type f -perm 644
+find /opt/skb/skb-framework/man -type f -perm 644
+find /opt/skb/skb-framework/scenarios -type f -perm 644
+----
+
+Next, we create the required cache directory.
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+sudo -i
+mkdir -p /var/cache/skb-framework
+chown -R skbuser:skbuser /var/cache/skb-framework
+----
+
+Finally, we create symbolic links for the start script and the manpage.
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+sudi -i
+(cd /usr/local/bin; ln -s /opt/skb/skb-framework/bin/skb-framework)
+(cd /usr/local/share/man/man1; ln -s /opt/skb/skb-framework/man/man1/skb-framework.1)
+----
+
+
+=== After the Installation
+The installation will have created the following artifacts:
+
+* Installed SKB Framework in `/opt/skb/skb-framework`
+* Created user `skbuser`, and all files of the installation changed to this user
+* Created group `skbuser`, and all files of the installation changed to this group
+* Created a directory `/var/cache/skb-framework` owned by `skbuser`
+* A link `/usr/local/bin/skb-framework` pointing to `/opt/skb/skb-framework/bin/skb-framework`
+* A link `/usr/local/share/man/man1/skb-framework.1` pointing to `/opt/skb/skb-framework/man/man1/skb-framework.1`
+
+
+=== Uninstall / Remove TGZ
+To uninstall or remove the installation, we have to remove all created artifacts;
+    ideally in the reverse order of their creation.
+The commands below show how to do this (for the commands used in the install section above).
+Note: the examples here use `rm -fr` with _root_ privileges.
+    If you not using them as presented, there is a danger to remove large (and usually important) parts of your operating system!
+
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+sudi -i
+rm /usr/local/bin/skb-framework
+rm /usr/local/share/man/man1/skb-framework.1
+
+rm -fr /var/cache/skb-framework
+rm -fr /opt/skb/skb-framework
+----
+
+If there are no further SKB applications installed, you can also remove the directory `/opt/skb`, the created group, and the created user.
+[source%nowrap,bash,indent=0,subs="attributes"]
+----
+sudi -i
+rm -fr /opt/skb
+userdel skbuser
+groupdel skbuser
+rm -fr /home/skbuser
+----
+
