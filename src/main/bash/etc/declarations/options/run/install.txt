@@ -1,4 +1,0 @@
-        Starts the application in the flavor  `install`.  In  this  mode,  all
-        tasks are loaded and no mode restrictions on the tasks are  evaluated.
-        This  option  is  overwritten  by  the  options   `--build-mode`   and
-        `--dev-mode`.                                                         

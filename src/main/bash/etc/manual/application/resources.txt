@@ -1,2 +1,0 @@
-      * Project web site: https://vdmeer.github.io/skb/framework              
-      * Source repository: https://github.com/vdmeer/skb-framework            

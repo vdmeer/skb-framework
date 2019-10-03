@@ -1,0 +1,2 @@
+This is a test scenario for _describe_ tasks.
+It runs all those tasks with various options.

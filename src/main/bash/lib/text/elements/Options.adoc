@@ -1,0 +1,3 @@
+The application provides a Command Line Interface (CLI) in form of options to direct its basic behavior.
+These options can be categorized as option that provide information or execute behavior and exit (exit options) or as options that direct runtime behavior (runtime or run options).
+Any option, or configuration, that goes beyond basic behavior can be configured using parameters.

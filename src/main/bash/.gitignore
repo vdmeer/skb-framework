@@ -1,0 +1,6 @@
+lib/java
+lib/**/*.txt
+
+share/modules/**/*.txt
+share/themes/*.txt
+

@@ -1,0 +1,2 @@
+Prints the program version and exits.
+The actual printed information is: the application name, the string `version` and the version of the program.

@@ -1,2 +1,0 @@
-Executes a program with various options.
-The program can be started in the background or in a new XTerm.

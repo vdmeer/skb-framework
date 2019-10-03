@@ -1,3 +1,0 @@
-Executes a scenario, i.e. runs all commands (tasks) in a scenario file.
-The given scenario must be loaded.
-Use the task `list-scenarios` for loaded, available scenarios.

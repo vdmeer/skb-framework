@@ -1,2 +1,0 @@
-Starts a web browser using the setting from the parameter `BROWSER`.
-The URL option of the task sets theURL to be loaded in the browser.

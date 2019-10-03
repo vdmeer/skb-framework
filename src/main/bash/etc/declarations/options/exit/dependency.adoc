@@ -1,2 +1,0 @@
-Shows a description for a given dependency and exits.
-The description is the same as in the application manual.

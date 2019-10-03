@@ -1,0 +1,191 @@
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Scenario: test-list-tasks - runs list tasks with various options
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.6
+## @since      0.0.6
+##
+
+##
+## list objects tasks
+##
+list-configuration
+    list-configuration --format adoc
+    list-configuration --table
+    list-configuration --show-values
+    list-configuration --table --show-values
+
+list-formats
+    list-formats --format adoc
+    list-formats --table
+
+list-levels
+    list-levels --format adoc
+    list-levels --table
+
+list-modes
+    list-modes --format adoc
+    list-modes --table
+
+list-settings
+    list-settings --format adoc
+    list-settings --table
+    list-settings --show-values
+    list-settings --table --show-values
+    list-settings --cli
+    list-settings --default
+    list-settings --env
+    list-settings --file
+    list-settings --framework
+    list-settings --project
+    list-settings --scenario
+    list-settings --shell
+    list-settings --task
+
+
+
+##
+## list elements tasks
+##
+
+list-applications
+    list-applications --table
+    list-applications --format adoc
+    list-applications --origin Core
+    list-applications --requested yes
+    list-applications --requested no
+    list-applications --status N
+    list-applications --status E
+    list-applications --status W
+    list-applications --status S
+    list-applications --tested yes
+    list-applications --tested no
+
+list-dependencies
+    list-dependencies --table
+    list-dependencies --format adoc
+    list-dependencies --origin Core
+    list-dependencies --requested yes
+    list-dependencies --requested no
+    list-dependencies --status N
+    list-dependencies --status E
+    list-dependencies --status W
+    list-dependencies --status S
+    list-dependencies --tested yes
+    list-dependencies --tested no
+
+list-dirs
+    list-dirs --table
+    list-dirs --format adoc
+    list-dirs --requested yes
+    list-dirs --requested no
+    list-dirs --status N
+    list-dirs --status E
+    list-dirs --status W
+    list-dirs --status S
+    list-dirs --tested yes
+    list-dirs --tested no
+
+list-dirlists
+    list-dirlists --table
+    list-dirlists --format adoc
+    list-dirlists --requested yes
+    list-dirlists --requested no
+    list-dirlists --status N
+    list-dirlists --status E
+    list-dirlists --status W
+    list-dirlists --status S
+    list-dirlists --tested yes
+    list-dirlists --tested no
+
+
+list-files
+    list-files --table
+    list-files --format adoc
+    list-files --origin Core
+    list-files --requested yes
+    list-files --requested no
+    list-files --status N
+    list-files --status E
+    list-files --status W
+    list-files --status S
+    list-files --tested yes
+    list-files --tested no
+
+list-filelists
+    list-filelists --table
+    list-filelists --format adoc
+    list-filelists --origin Core
+    list-filelists --requested yes
+    list-filelists --requested no
+    list-filelists --status N
+    list-filelists --status E
+    list-filelists --status W
+    list-filelists --status S
+    list-filelists --tested yes
+    list-filelists --tested no
+
+list-modules
+    list-modules --table
+    list-modules --format adoc
+
+list-options
+    list-options --table
+    list-options --format adoc
+    list-options --exit
+    list-options --runtime
+
+list-projects
+    list-projects --table
+    list-projects --format adoc
+    list-projects --origin Core
+    list-projects --status N
+    list-projects --status E
+    list-projects --status W
+    list-projects --status S
+    list-projects --tested yes
+    list-projects --tested no
+
+list-scenarios
+    list-scenarios --table
+    list-scenarios --format adoc
+    list-scenarios --origin Core
+    list-scenarios --status N
+    list-scenarios --status E
+    list-scenarios --status W
+    list-scenarios --status S
+    list-scenarios --tested yes
+    list-scenarios --tested no
+
+list-tasks
+    list-tasks --table
+    list-tasks --format adoc
+    list-tasks --origin Core
+    list-tasks --requested yes
+    list-tasks --requested no
+    list-tasks --status N
+    list-tasks --status E
+    list-tasks --status W
+    list-tasks --status S
+    list-tasks --tested yes
+    list-tasks --tested no

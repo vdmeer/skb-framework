@@ -1,2 +1,0 @@
-        This is a test  scenario  for  that  simply  runs  all  tasks  of  the
-        framework with the ' --help' option.                                  

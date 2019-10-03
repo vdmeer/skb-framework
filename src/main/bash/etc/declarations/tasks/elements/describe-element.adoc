@@ -1,3 +1,0 @@
-This task provides the general descriptions of application elements.
-By default, all of those descriptions are shown.
-Otherwise, the task filters can be used to exclude parts of them.

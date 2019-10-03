@@ -1,4 +1,0 @@
-The loader did not find a required version file for the application.
-The file should be `$APP_HOME/etc/version.txt`.
-It must contain a single line with the version, usually using semantic versioning.
-This error points to a bug or installation error.

@@ -1,0 +1,214 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Default theme
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.6
+## @since      0.0.6
+##
+
+
+##
+## Set themeitem ITEM_ID VALUE
+##
+
+
+
+Set themeitem rptAppFatalTpl    "##APPNAME##: ##LEVEL##: ##TEXT##"
+Set themeitem rptAppErrorTpl    "##APPNAME##: ##LEVEL##: ##TEXT##"
+Set themeitem rptAppTextTpl     "##APPNAME##: ##TEXT##"
+Set themeitem rptAppMessageTpl  "##APPNAME##: ##TEXT##"
+Set themeitem rptAppWarningTpl  "##APPNAME##: ##LEVEL##: ##TEXT##"
+Set themeitem rptAppInfoTpl     "##APPNAME##: ##LEVEL##: ##TEXT##"
+Set themeitem rptAppDebugTpl    "##APPNAME##: ##LEVEL##: ##TEXT##"
+Set themeitem rptAppTraceTpl    "##APPNAME##: ##LEVEL##: ##TEXT##"
+
+Set themeitem rptProcFatalTpl   "  !!! [##LEVEL##] ##TEXT##"
+Set themeitem rptProcErrorTpl   "   !! [##LEVEL##] ##TEXT##"
+Set themeitem rptProcTextTpl    "  ##TEXT##"
+Set themeitem rptProcMessageTpl "  > ##TEXT##"
+Set themeitem rptProcWarningTpl "    ! [##LEVEL##] ##TEXT##"
+Set themeitem rptProcInfoTpl    "      [##LEVEL##] ##TEXT##"
+Set themeitem rptProcDebugTpl   "       >> [##LEVEL##] ##TEXT##"
+Set themeitem rptProcTraceTpl   "        > [##LEVEL##] ##TEXT##"
+
+
+Set themeitem rptFatalLvlFmt    red-hi,underline
+Set themeitem rptErrorLvlFmt    red-hi
+Set themeitem rptTextLvlFmt     white-hi
+Set themeitem rptMessageLvlFmt  white-hi
+Set themeitem rptWarningLvlFmt  yellow-hi
+Set themeitem rptInfoLvlFmt     green-hi
+Set themeitem rptDebugLvlFmt    white-hi
+Set themeitem rptTraceLvlFmt    white-hi,italic
+
+Set themeitem rptFatalTextFmt   regular
+Set themeitem rptErrorTextFmt   regular
+Set themeitem rptTextTextFmt    regular
+Set themeitem rptMessageTextFmt regular
+Set themeitem rptWarningTextFmt regular
+Set themeitem rptInfoTextFmt    regular
+Set themeitem rptDebugTextFmt   regular
+Set themeitem rptTraceTextFmt   regular
+
+
+
+Set themeitem tabTopruleChar    ═
+Set themeitem tabTopruleFmt     regular
+Set themeitem tabMidruleChar    ─
+Set themeitem tabMidruleFmt     regular
+Set themeitem tabBottomruleChar ═
+Set themeitem tabBottomruleFmt  regular
+
+
+
+Set themeitem modeAllFmt    red
+Set themeitem modeTestFmt   yellow
+Set themeitem modeDevFmt    yellow-hi
+Set themeitem modeBuildFmt  blue-hi
+Set themeitem modeUseFmt    green
+
+
+
+Set themeitem lvlFatalerrorFmt  red
+Set themeitem lvlErrorFmt       red-hi
+Set themeitem lvlWarningFmt     yellow
+Set themeitem lvlInfoFmt        green
+Set themeitem lvlDebugFmt       blue-hi
+Set themeitem lvlTraceFmt       cyan-hi
+Set themeitem lvlTextFmt        purple-hi
+Set themeitem lvlMessageFmt     purple-hi
+
+
+
+Set themeitem listHeadFmt       white,bold
+Set themeitem listNameFmt       white,bold
+Set themeitem listSeparator     "- "
+Set themeitem listDescrFmt      italic
+Set themeitem listValueFmt      italic
+Set themeitem listArgFmt        blue-hi
+Set themeitem listCatFmt        white,bold
+
+Set themeitem tableHeadFmt      inverse
+Set themeitem tableNameFmt      white-hi
+Set themeitem tableSeparator    "- "
+Set themeitem tableDescrFmt     italic
+Set themeitem tableValueFmt     italic
+Set themeitem tableOriginFmt    regular
+Set themeitem tableSourceFmt    regular
+Set themeitem tableArgFmt       blue-hi
+
+Set themeitem describeNameFmt   white,bold
+Set themeitem describeSeparator "- "
+Set themeitem describeDescrFmt  italic
+Set themeitem describeArgFmt    blue,bold
+
+
+
+Set themeitem phaLvlSetChar             ▮
+Set themeitem phaLvlNotsetChar          -
+Set themeitem phaLvlNotsetFmt           regular
+    Set themeitem phaLvlFatalSetFmt     red
+    Set themeitem phaLvlErrorSetFmt     red-hi,bold
+    Set themeitem phaLvlWarningSetFmt   yellow-hi,bold
+    Set themeitem phaLvlInfoSetFmt      green-hi,bold
+    Set themeitem phaLvlDebugSetFmt     blue,bold
+    Set themeitem phaLvlTraceSetFmt     blue-hi,bold
+    Set themeitem phaLvlMessageSetFmt   cyan,bold
+    Set themeitem phaLvlTextSetFmt      cyan-hi,bold
+Set themeitem phaErrNumberFmt           red-hi,bold
+Set themeitem phaWarnNumberFmt          yellow-hi,bold
+
+
+
+Set themeitem phaseCLIChar          ◆
+Set themeitem phaseCLIFmt           blue-hi
+Set themeitem phaseDefaultChar      ◆
+Set themeitem phaseDefaultFmt       yellow-hi
+Set themeitem phaseEnvChar          ◆
+Set themeitem phaseEnvFmt           green
+Set themeitem phaseFileChar         ◆
+Set themeitem phaseFileFmt          green-hi
+Set themeitem phaseLoadChar         ◆
+Set themeitem phaseLoadFmt          blue
+Set themeitem phaseProjectChar      ◆
+Set themeitem phaseProjectFmt       yellow
+Set themeitem phaseScenarioChar     ◆
+Set themeitem phaseScenarioFmt      purple-hi
+Set themeitem phaseShellChar        ◆
+Set themeitem phaseShellFmt         cyan
+Set themeitem phaseSiteChar         ◆
+Set themeitem phaseSiteFmt          purple
+Set themeitem phaseTaskChar         ◆
+Set themeitem phaseTaskFmt          cyan-hi
+
+
+
+Set themeitem elementStatusNFmt     blue-hi
+Set themeitem elementStatusNChar    ■
+Set themeitem elementStatusEFmt     red-hi
+Set themeitem elementStatusEChar    ■
+Set themeitem elementStatusWFmt     yellow-hi
+Set themeitem elementStatusWChar    ■
+Set themeitem elementStatusSFmt     green-hi
+Set themeitem elementStatusSChar    ■
+
+Set themeitem elementModeYesFmt     green-hi
+Set themeitem elementModeYesChar    ✔
+Set themeitem elementModeNoFmt      red-hi
+Set themeitem elementModeNoChar     ✘
+
+Set themeitem elementReqYesFmt      green,bold
+Set themeitem elementReqYesChar     Y
+Set themeitem elementReqNoFmt       blue,bold
+Set themeitem elementReqNoChar      N
+
+Set themeitem elementDefYesFmt      green,bold
+Set themeitem elementDefYesChar     Y
+Set themeitem elementDefNoFmt       blue,bold
+Set themeitem elementDefNoChar      N
+
+
+
+Set themeitem repeatLineChar        ─
+Set themeitem repeatLineFmt         bg-blue-hi,white-hi
+Set themeitem repeatSepLeftChar     "["
+Set themeitem repeatSepLeftFmt      bg-blue-hi,white-hi
+Set themeitem repeatSepRightChar    "]"
+Set themeitem repeatSepRightFmt     bg-blue-hi,white-hi
+Set themeitem repeatTextFmt         bg-blue-hi,cyan-hi
+Set themeitem repeatTextSepStr      " -- "
+Set themeitem repeatCmdFmt          bg-blue-hi,black,italic
+
+Set themeitem execLineChar          ═
+Set themeitem execLineFmt           bg-blue-hi,white-hi
+Set themeitem execStartNameFmt      bg-blue-hi,white-hi
+Set themeitem execStartTimeFmt      bg-blue-hi,black,italic
+Set themeitem execStartTextFmt      bg-blue-hi,black,italic
+Set themeitem execEndDoneFmt        bg-blue-hi,white-hi
+Set themeitem execEndTimeFmt        bg-blue-hi,whiteitalic
+Set themeitem execEndRuntimeFmt     bg-blue-hi,whiteitalic
+Set themeitem execEndStatusFmt      bg-blue-hi,whiteitalic
+Set themeitem execEndSuccessFmt     bg-blue-hi,green,bold
+Set themeitem execEndErrorFmt       bg-blue-hi,red,bold

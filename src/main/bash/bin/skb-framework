@@ -21,112 +21,39 @@
 #-------------------------------------------------------------------------------
 
 ##
-## The SKB Framework Application
+## The SKB Framework application
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
-## @version    0.0.5
+## @version    0.0.6
+## @since      0.0.1
 ##
 
 
-##
-## NOTE: do not remove lines that start with "#tag::" or "#end::"
-## - the lines mark import regions for AsciiDoctor includes
-## - they are used in the documentation, e.g. the Developer Guide
-##
+## Errorcodes 002
+if [[ "${BASH_VERSINFO[0]}" -lt 4 ]]; then printf "  skb-framework: \e[97mbash\e[0m \e[1m\e[91merror\e[0m in phase \e[3m\e[4minit\e[0m: did not find 'bash' major version 4 or higher\n\n"; exit 2; fi
+## Errorcodes 003
+if [[ "${BASH_VERSINFO[1]}" -lt 2 ]]; then printf "  skb-framework: \e[97mbash\e[0m \e[1m\e[91merror\e[0m in phase \e[3m\e[4minit\e[0m: did not find 'bash' minor version 2 or higher\n\n"; exit 3; fi
+set -o errexit -o pipefail -o noclobber -o nounset
+shopt -s globstar
 
-#tag::dependencies[]
-HAVE_READLINK=false
-COMMAND=readlink
-if [[ -x "$(command -v $COMMAND)" ]]; then
-    HAVE_READLINK=true
-fi
+## Errorcodes 004
+if [[ ! $(command -v realpath) ]]; then printf "  skb-framework: \e[97mcommand\e[0m \e[1m\e[91merror\e[0m in phase \e[3m\e[4minit\e[0m: did not find did not find command 'realpath'\n\n"; exit 4; fi
 
-HAVE_DIRNAME=false
-COMMAND=dirname
-if [[ -x "$(command -v $COMMAND)" ]]; then
-    HAVE_DIRNAME=true
-fi
-#end::dependencies[]
+SF_HOME=$(printf "$(realpath -L -P ${0})\n")
+SF_HOME=${SF_HOME%/*}
+SF_HOME=${SF_HOME%/*}
+## Errorcodes 005
+if [[ ! -d "${SF_HOME}" ]]; then printf "  skb-framework: \e[97mdirectory\e[0m \e[1m\e[91merror\e[0m in phase \e[3m\e[4minit\e[0m: \$SF_HOME as '${SF_HOME}' is not a directory\n\n"; exit 5; fi
+declare -r -x SF_HOME
 
-#tag::self-flavor[]
-if [[ -z ${__FW_LOADER_FLAVOR:-} ]]; then
-    ## we should load the framework itself, so SF
-    export __FW_LOADER_FLAVOR="SF"
-    export __FW_LOADER_SCRIPTNAME="$0"
-    export __FW_LOADER_APPNAME="SKB Framework"
+FW_INIT=yes
+source ${SF_HOME}/lib/framework/Framework.sh
 
-    ## try readline to find where we are
-    if [[ -z ${SF_HOME:-} && $HAVE_READLINK == true ]]; then
-        SF_HOME=$(readlink -f $0)
-        SF_HOME=${SF_HOME%/*}
-        SF_HOME=${SF_HOME%/*}
-        export SF_HOME
-    fi
-    ## try dirname to find where we are
-    if [[ -z ${SF_HOME:-} && $HAVE_DIRNAME == true ]]; then
-        SF_HOME=$(dirname $0)
-        SF_HOME=$(cd $SF_HOME/..; pwd)
-        export SF_HOME
-    fi
-    if [[ -z ${SF_HOME:-} ]]; then
-        printf "  unable to set home \$SF_HOME\n"
-        printf "    - tried environment\n"
-        if [[ $HAVE_READLINK == true ]]; then
-            printf "    - tried readlink\n"
-        fi
-        if [[ $HAVE_DIRNAME == true ]]; then
-            printf "    - tried dirname \$0\n"
-        fi
-        printf "  please set SF_HOME\n\n"
-        exit 10
-    fi
-    export FW_HOME=$SF_HOME
-#end::self-flavor[]
-#tag::app-flavor[]
-else
-    ## try readline to find where we are
-    if [[ -z ${FW_HOME:-} && $HAVE_READLINK == true ]]; then
-        FW_HOME=$(readlink -f $0)
-        FW_HOME=${FW_HOME%/*}
-        FW_HOME=${FW_HOME%/*}
-        export FW_HOME
-    fi
-    ## try dirname to find where we are
-    if [[ -z ${FW_HOME:-} && $HAVE_DIRNAME == true ]]; then
-        FW_HOME=$(dirname $0)
-        FW_HOME=$(cd $FW_HOME/..; pwd)
-        export FW_HOME
-    fi
-    if [[ -z ${FW_HOME:-} ]]; then
-        printf "  unable to set framework home \$FW_HOME\n"
-        printf "    - tried environment\n"
-        if [[ $HAVE_READLINK == true ]]; then
-            printf "    - tried readlink\n"
-        fi
-        if [[ $HAVE_DIRNAME == true ]]; then
-            printf "    - tried dirname \$0\n"
-        fi
-        printf "  please set FW_HOME\n\n"
-        exit 10
-    fi
-#end::app-flavor[]
-fi
+#clear -x
+bash --rcfile ${SF_HOME}/lib/framework/load.sh
 
-
-##
-## framework found, we think, check if loader is there
-##
-#tag::check-loader[]
-if [[ ! -x $FW_HOME/bin/loader/loader.sh ]]; then
-    printf "  did find/set \$FW_HOME, but did not find loader\n"
-    printf "  tried $FW_HOME/bin/loader/loader.sh\n\n"
-    exit 11
-fi
-#end::check-loader[]
-
-
-#tag::start-loader[]
-$FW_HOME/bin/loader/loader.sh $*
-exit $?
-#end::start-loader[]
-
+if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_FAST"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_FAST"]}"; fi
+if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_MEDIUM"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_MEDIUM"]}"; fi
+if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_SLOW"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_SLOW"]}"; fi
+if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_LOAD"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_LOAD"]}"; fi
+exit 0

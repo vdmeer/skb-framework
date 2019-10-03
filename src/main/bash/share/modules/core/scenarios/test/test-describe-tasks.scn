@@ -1,0 +1,204 @@
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Scenario: test-describe-tasks - runs describe tasks with various options
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.6
+## @since      0.0.6
+##
+
+
+##
+## describe: framework, elements, objects
+##
+describe-framework
+    describe-framework --format adoc
+    describe-framework --all
+    describe-framework --authors
+    describe-framework --bugs
+    describe-framework --copying
+    describe-framework --description
+    describe-framework --resources
+    describe-framework --security
+
+describe-elements
+    describe-elements --format adoc
+    describe-elements --all
+    describe-elements --applications
+    describe-elements --dependencies
+    describe-elements --dirlists
+    describe-elements --dirs
+    describe-elements --exit-options
+    describe-elements --filelists
+    describe-elements --files
+    describe-elements --modules
+    describe-elements --options
+    describe-elements --parameters
+    describe-elements --projects
+    describe-elements --runtime-options
+    describe-elements --scenarios
+    describe-elements --sites
+    describe-elements --tasks
+
+describe-objects
+    describe-objects --format adoc
+    describe-objects --all
+    describe-objects --cli
+    describe-objects --configuration
+    describe-objects --formats
+    describe-objects --levels
+    describe-objects --messages
+    describe-objects --modes
+    describe-objects --phases
+    describe-objects --settings
+    describe-objects --themeitems
+    describe-objects --themes
+
+
+
+
+
+##
+## describe tasks for elements
+##
+
+describe-applications
+    describe-applications --format adoc
+    describe-applications --id browser
+    describe-applications --origin Core
+    describe-applications --requested yes
+    describe-applications --requested no
+    describe-applications --status N
+    describe-applications --status E
+    describe-applications --status W
+    describe-applications --status S
+    describe-applications --tested yes
+    describe-applications --tested no
+
+describe-dependencies
+    describe-dependencies --format adoc
+    describe-dependencies --id curl
+    describe-dependencies --origin Core
+    describe-dependencies --requested yes
+    describe-dependencies --requested no
+    describe-dependencies --status N
+    describe-dependencies --status E
+    describe-dependencies --status W
+    describe-dependencies --status S
+    describe-dependencies --tested yes
+    describe-dependencies --tested no
+
+describe-dirs
+    describe-dirs --format adoc
+    describe-dirs --id target
+    describe-dirs --origin Core
+    describe-dirs --requested yes
+    describe-dirs --requested no
+    describe-dirs --status N
+    describe-dirs --status E
+    describe-dirs --status W
+    describe-dirs --status S
+    describe-dirs --tested yes
+    describe-dirs --tested no
+
+describe-dirlists
+    describe-dirlists --format adoc
+#    describe-dirlists --id target
+    describe-dirlists --origin Core
+    describe-dirlists --requested yes
+    describe-dirlists --requested no
+    describe-dirlists --status N
+    describe-dirlists --status E
+    describe-dirlists --status W
+    describe-dirlists --status S
+    describe-dirlists --tested yes
+    describe-dirlists --tested no
+
+describe-files
+    describe-files --format adoc
+    describe-files --id skb-tool
+    describe-files --origin Core
+    describe-files --requested yes
+    describe-files --requested no
+    describe-files --status N
+    describe-files --status E
+    describe-files --status W
+    describe-files --status S
+    describe-files --tested yes
+    describe-files --tested no
+
+describe-filelists
+    describe-filelists --format adoc
+#    describe-filelists --id skb-tool
+    describe-filelists --origin Core
+    describe-filelists --requested yes
+    describe-filelists --requested no
+    describe-filelists --status N
+    describe-filelists --status E
+    describe-filelists --status W
+    describe-filelists --status S
+    describe-filelists --tested yes
+    describe-filelists --tested no
+
+describe-options
+    describe-options --format adoc
+    describe-options --id version
+    describe-options --exit
+    describe-options --runtime
+
+describe-projects
+    describe-projects --format adoc
+#    describe-projects --id describe-framework
+    describe-projects --mode dev
+    describe-projects --origin Core
+    describe-projects --status N
+    describe-projects --status E
+    describe-projects --status W
+    describe-projects --status S
+    describe-projects --tested yes
+    describe-projects --tested no
+
+describe-scenarios
+    describe-scenarios --format adoc
+    describe-scenarios --id test-debug-tasks
+    describe-scenarios --mode dev
+    describe-scenarios --origin Core
+    describe-scenarios --status N
+    describe-scenarios --status E
+    describe-scenarios --status W
+    describe-scenarios --status S
+    describe-scenarios --tested yes
+    describe-scenarios --tested no
+
+describe-tasks
+    describe-tasks --format adoc
+    describe-tasks --id describe-framework
+    describe-tasks --mode dev
+    describe-tasks --origin Core
+    describe-tasks --requested yes
+    describe-tasks --requested no
+    describe-tasks --status N
+    describe-tasks --status E
+    describe-tasks --status W
+    describe-tasks --status S
+    describe-tasks --tested yes
+    describe-tasks --tested no

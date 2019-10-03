@@ -1,3 +1,0 @@
-        This task allows  to  change  selected  runtime  settings.  Changeable
-        settings include: shell and task level, strict mode, no prompt for the
-        shell, and print mode.                                                

@@ -1,3 +1,0 @@
-This task lists CLI options in simple list or table form.
-The table form provides additional information for each options.
-Filters can be applied to the list.

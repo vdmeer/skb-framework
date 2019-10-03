@@ -1,3 +1,0 @@
-Prints current settings after processing all environment settings.
-The settings depend on the application mode, the loaded tasks, and the given environment or file settings.
-All settings are presented without the flavor prefix.

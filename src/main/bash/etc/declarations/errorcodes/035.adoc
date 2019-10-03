@@ -1,3 +1,0 @@
-The loader did experience errors while declaring shell commands.
-This error points to an application bug or installation error.
-It should only happen when one or more command declarations are faulty.

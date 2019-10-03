@@ -1,0 +1,1 @@
+This dependency checks for the availability of the LaTeX reference tool `bibtex`.

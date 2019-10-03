@@ -1,2 +1,0 @@
-        This checks for the availability of the Gradle  build  system.  Gradle
-        can be required by tasks for building software artifacts.             

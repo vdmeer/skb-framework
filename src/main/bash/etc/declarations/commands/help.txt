@@ -1,4 +1,0 @@
-        Shows a  help  screen  with  all  shell  commands.  The  commands  are
-        alphabetically sorted  and  shown  as:  short  name,  long  name,  and
-        description. The task `list-commands` provides more  options  to  list
-        commands.                                                             

@@ -1,4 +1,0 @@
-        This task describes one or more dependencies. If a specific dependency
-        is requested, only this dependency will be described.  Otherwise,  all
-        dependencies are described. Filters can  be  applied  for  a  complete
-        description, such as a specific origin or status.                     

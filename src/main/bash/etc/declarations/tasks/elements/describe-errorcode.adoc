@@ -1,3 +1,0 @@
-This task describes one or more error codes.
-If a specific error code is requested, it will be described.
-Otherwise, all error codes will be described.

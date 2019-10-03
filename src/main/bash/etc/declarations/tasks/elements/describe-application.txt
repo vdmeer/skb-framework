@@ -1,3 +1,0 @@
-        This tasks describes a  few  aspects  of  the  application.  Available
-        filters are:  description,  authors,  bugs,  copying,  resources,  and
-        security information.                                                 

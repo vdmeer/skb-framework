@@ -1,2 +1,0 @@
-        Puts the tasks into  quiet  mode.  Here,  tasks  will  not  print  any
-        messages. Other output might still be printed, see `--task-level`.    

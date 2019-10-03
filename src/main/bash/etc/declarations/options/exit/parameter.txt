@@ -1,4 +1,0 @@
-        Shows a description for a given parameter and exits.  The  description
-        is the same as in the application manual. The parameter can  be  given
-        in upper or lower case spelling. Note: all parameters are used without
-        the flavor prefix.                                                    

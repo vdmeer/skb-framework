@@ -1,9 +1,0 @@
-Internal error: unresolved CLI options.
-This error points to a bug in the software.
-It means that the shell or a task were presented with unexpected CLI options.
-Those options should have been processed by the program.
-+
-The program detected an unknown argument in the command line.
-Some CLI option (or argument) was used that the program does not understand.
-If `--help` does not show this option, than it is unknown.
-If the help screen does show the options, than there is a bug in the software.

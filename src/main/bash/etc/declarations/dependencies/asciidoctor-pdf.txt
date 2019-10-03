@@ -1,1 +1,0 @@
-        PDF backend for Asciidoctor to create PDF output.                     

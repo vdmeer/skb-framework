@@ -1,3 +1,0 @@
-        Starts a PDF viewer using the setting from the parameter `PDF_VIEWER`.
-        The file option of the task sets the PDF file  to  be  loaded  in  the
-        viewer.                                                               

@@ -1,0 +1,4 @@
+Dependencies are specified to signify dependencies of tasks to external programs and software packages.
+The framework defines a set of basic dependencies, for instance Java JDK, Python 3, or Asciidoctor.
+Concrete applications can define their own dependencies.
+Tasks can then require a dependency, which will be tested on application start.

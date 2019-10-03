@@ -1,1 +1,0 @@
-Clears the screen, same as `cls` in the command prompt or `^L` in a login shell.

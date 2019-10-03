@@ -1,3 +1,0 @@
-        This task lists tasks in simple list or table  form.  The  table  form
-        provides additional information for each task. Filters can be  applied
-        to the list.                                                          

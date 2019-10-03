@@ -1,4 +1,0 @@
-This parameter should provide a list of directories where the application can find scenarios.
-Use whitespaces to separate directories.
-If set, each directory will be parsed to load scenarios during the load of the application.
-All found scenarios are available to be executed at runtime.

@@ -1,4 +1,0 @@
-This parameter should provide a list of directories that contain POM files to generate Maven sites.
-Use whitespaces to separate directories.
-Tasks that build Maven sites, such as `build-mvn-site` will use this parameter to find POM files.
-If not present, these tasks will not execute.

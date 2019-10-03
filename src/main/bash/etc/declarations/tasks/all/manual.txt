@@ -1,3 +1,0 @@
-        This task shows the application manual. The default  is  to  show  the
-        text version for the current print mode. Other formats, such  as  HTML
-        and PDF or manpage, can be selected using task options.               

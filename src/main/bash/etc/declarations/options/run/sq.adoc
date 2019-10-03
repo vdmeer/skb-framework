@@ -1,3 +1,0 @@
-Puts the application shell into quiet mode.
-Here, the shell will not print any messages.
-Other output might still be printed, see `--shell-level` and `--snp`.

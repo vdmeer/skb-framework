@@ -1,2 +1,0 @@
-        This task uses CLOC (Count Lines of Code) to count the lines  of  code
-        in different languages of the application.                            

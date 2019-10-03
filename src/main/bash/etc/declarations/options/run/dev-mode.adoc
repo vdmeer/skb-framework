@@ -1,2 +1,0 @@
-Starts the application in the mode `dev`.
-In this mode, only tasks marked for `dev` mode are loaded.

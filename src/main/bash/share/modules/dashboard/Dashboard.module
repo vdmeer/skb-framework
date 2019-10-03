@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Module Dashboard - the SKB dashboard module
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.6
+## @since      0.0.6
+##
+
+
+if [[ ! -n "${FW_MODULE_PATH:-}" ]]; then printf "  skb-framework: module \e[97mcore\e[0m \e[1m\e[91merror\e[0m when \e[3m\e[4mloading\e[0m: \$FW_MODULE_PATH not defined\n\n"; return; fi
+
+Add element module Dashboard DB ${FW_MODULE_PATH} "the SKB dashboard"
+
+FW_CURRENT_MODULE_NAME=Dashboard
+    Add requirement for module Dashboard as module Core
+
+    Add element file acronym-latex      to module with -w-c- "" "LaTeX file to write acronyms"
+    Add element file latex-aux          to module with r---- "" "LaTeX aux file to scan for required acronyms"
+    Add element file library-bib-file   to module with -w-c- "" "LaTeX file to write references"
+
+
+    Add element dir acronym-docs to module with r---- "" "home directory for acronym documents"
+    Add element dir acronym-yaml to module with r---- "" "path to YAML sources for acronyms"
+    Add element dir library-docs to module with r---- "" "home directory for library documents"
+    Add element dir library-home to module with r---- "" "home directory for library with artifacts, e.g. PDF files"
+    Add element dir library-yaml to module with r---- "" "path to YAML sources for the library"
+
+
+    Add element parameter LIBRARY_URL to module with "###" "URL prefix for auto-generated links for library"
+unset FW_CURRENT_MODULE_NAME

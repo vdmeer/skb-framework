@@ -1,4 +1,0 @@
-        Apache Ant is required by some tasks to build or manipulate artifacts.
-        One example is the task `set-file-versions`,  which  can  be  used  to
-        automatically  set  version  information  in  source  files.  For  Ant
-        documentation and installation see https://ant.apache.org/.           

@@ -1,4 +1,0 @@
-This parameter should provide a list of directories that contain an `skb-ts.id` file to run target sets.
-Use whitespaces to separate directories.
-Tasks that run target sets, such as `run-target-set` will use this parameter to find the identifier files.
-If not present, these tasks will not execute.

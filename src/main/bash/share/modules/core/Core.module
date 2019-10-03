@@ -1,0 +1,191 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Module Core - the core module with essential elements
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.6
+## @since      0.0.6
+##
+
+
+if [[ ! -n "${FW_MODULE_PATH:-}" ]]; then printf "  skb-framework: module \e[97mcore\e[0m \e[1m\e[91merror\e[0m when \e[3m\e[4mloading\e[0m: \$FW_MODULE_PATH not defined\n\n"; return; fi
+
+Add element module Core CR ${FW_MODULE_PATH} "essential elements for the framework"
+
+if [[ -r  "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/module--Core.cache" ]]; then
+    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/module--Core.cache"
+else
+    FW_CURRENT_MODULE_NAME=Core
+
+    Add element application browser     to module with firefox         1 "--new-tab ##ARG1##" "web browser application with URL argument"
+    Add element application xterm       to module with xfce4-terminal  2 "--disable-server --title='##ARG1##' -x ##ARG2##" "XTerm application with title and command arguments"
+    Add element application pdfviewer   to module with evince          1 "##ARG1##" "PDF viewer application with file argument"
+
+
+    Add element dependency asciidoctor     to module    with asciidoctor     "Asciidoctor processor"
+    Add element dependency asciidoctor-pdf to module    with asciidoctor-pdf "Asciidoctor processor, PDF backend"
+
+    Add element dependency curl to module               with curl "remote data transfer tool"
+    Add element dependency wget to module               with wget "non-interactive download tool"
+
+    Add element dependency cloc to module               with cloc "used to count Lines Of Code, static code analysis"
+
+    Add element dependency jdk to module                with javac "JAVA Development Kit (JDK) 8"
+    Add element dependency jre to module                with java  "JAVA Runtime Environment (JRE) 8"
+
+    Add element dependency gradle to module             with gradle "software build environment"
+    Add element dependency maven  to module             with mvn    "software build environment"; Add requirement for dependency maven as dependency jdk
+    Add element dependency ant    to module             with ant    "software build environment"; Add requirement for dependency ant as dependency jdk
+
+    Add element dependency pgrep to module              with pgrep "lookup proccesses by name"
+    Add element dependency pkill to module              with pkill "kill proccesses by name"
+
+    Add element dependency biber    to module           with biber    "bibliography processor in LaTeX"
+    Add element dependency bibtex   to module           with bibtex   "bibliography processor in LaTeX"
+    Add element dependency lualatex to module           with lualatex "LaTeX processor"
+    Add element dependency pdflatex to module           with pdflatex "LaTeX processor"
+
+    Add element dependency python3 to module            with python3 "Python language version 3"
+    Add element dependency pyyaml  to module            with "${SF_HOME}/bin/tools/python-module.sh yaml" "YAML processor module for Python3"; Add requirement for dependency pyyaml as dependency python3
+
+
+    Add element file skb-tool to module with r---- ${SF_HOME}/lib/java/skb-framework-tool-${SF_VERSION}.jar "text conversion tool as executable JAR"
+    Add element dir  target   to module with ---cd /tmp/target "target directory for software build tools"
+
+
+    Add element task describe-framework   to module with all ${FW_MODULE_PATH}/tasks/framework "describes aspects the framework"
+    Add element task describe-elements    to module with all ${FW_MODULE_PATH}/tasks/framework "general description of application elements"
+    Add element task describe-objects     to module with all ${FW_MODULE_PATH}/tasks/framework "general description of application objects"
+
+    Add element task list-configuration   to module with all ${FW_MODULE_PATH}/tasks/objects "lists the framework's configuration"
+    Add element task list-settings        to module with all ${FW_MODULE_PATH}/tasks/objects "lists the framework's settings"
+    Add element task list-formats         to module with all ${FW_MODULE_PATH}/tasks/objects "lists the framework's (print/log) formats"
+    Add element task list-levels          to module with all ${FW_MODULE_PATH}/tasks/objects "lists the framework's (print/log) levels"
+    Add element task list-modes           to module with all ${FW_MODULE_PATH}/tasks/objects "lists the framework's (application) modes"
+
+
+    Add element task list-applications  to module with all ${FW_MODULE_PATH}/tasks/elements-list "lists applications"
+    Add element task list-dependencies  to module with all ${FW_MODULE_PATH}/tasks/elements-list "lists dependencies"
+    Add element task list-dirs          to module with all ${FW_MODULE_PATH}/tasks/elements-list "lists directories (dirs)"
+    Add element task list-dirlists      to module with all ${FW_MODULE_PATH}/tasks/elements-list "lists directory lists"
+    Add element task list-files         to module with all ${FW_MODULE_PATH}/tasks/elements-list "lists files"
+    Add element task list-filelists     to module with all ${FW_MODULE_PATH}/tasks/elements-list "lists file lists"
+    Add element task list-modules       to module with all ${FW_MODULE_PATH}/tasks/elements-list "lists modules"
+    Add element task list-options       to module with all ${FW_MODULE_PATH}/tasks/elements-list "lists (CLI) options"
+    Add element task list-projects      to module with all ${FW_MODULE_PATH}/tasks/elements-list "lists projects"
+    Add element task list-scenarios     to module with all ${FW_MODULE_PATH}/tasks/elements-list "lists scenarios"
+    Add element task list-tasks         to module with all ${FW_MODULE_PATH}/tasks/elements-list "lists tasks"
+
+    Add element task describe-applications  to module with all ${FW_MODULE_PATH}/tasks/elements-describe "describes one or more applications"
+    Add element task describe-dependencies  to module with all ${FW_MODULE_PATH}/tasks/elements-describe "describes one or more dependencies"
+    Add element task describe-dirs          to module with all ${FW_MODULE_PATH}/tasks/elements-describe "describes one or more directories (dirs)"
+    Add element task describe-dirlists      to module with all ${FW_MODULE_PATH}/tasks/elements-describe "describes one or more directory lists"
+    Add element task describe-files         to module with all ${FW_MODULE_PATH}/tasks/elements-describe "describes one or more files"
+    Add element task describe-filelists     to module with all ${FW_MODULE_PATH}/tasks/elements-describe "describes one or more file lists"
+    Add element task describe-options       to module with all ${FW_MODULE_PATH}/tasks/elements-describe "describes one or more (CLI) options"
+    Add element task describe-projects      to module with all ${FW_MODULE_PATH}/tasks/elements-describe "describes one or more projects"
+    Add element task describe-scenarios     to module with all ${FW_MODULE_PATH}/tasks/elements-describe "describes one or more scenarios"
+    Add element task describe-tasks         to module with all ${FW_MODULE_PATH}/tasks/elements-describe "describes one or more tasks"
+
+    Add element task debug-tasks            to module with all ${FW_MODULE_PATH}/tasks/elements-debug "prints debug information for one or more tasks"
+
+    Add element task validate-installation  to module with dev ${SF_HOME}/share/modules/core/tasks/installation "validates the framework"
+    Add element task compile-adoc2text      to module with dev ${SF_HOME}/share/modules/core/tasks/installation "compiles ADOC sources to plain text"
+        Add required dependency jre to task compile-adoc2text
+        Add required file skb-tool  to task compile-adoc2text
+
+
+    Add element scenario test-simple to module with test ${SF_HOME}/share/modules/core/scenarios/test "simple scenario for testing API functions"
+
+    Add element scenario test-task-help to module with test ${SF_HOME}/share/modules/core/scenarios/test "runs all tasks with '--help'"
+        Add required task debug-tasks               to scenario test-task-help
+        Add required task describe-applications     to scenario test-task-help
+        Add required task describe-dependencies     to scenario test-task-help
+        Add required task describe-dirs             to scenario test-task-help
+        Add required task describe-elements         to scenario test-task-help
+        Add required task describe-files            to scenario test-task-help
+        Add required task describe-framework        to scenario test-task-help
+        Add required task describe-objects          to scenario test-task-help
+        Add required task describe-options          to scenario test-task-help
+        Add required task describe-projects         to scenario test-task-help
+        Add required task describe-scenarios        to scenario test-task-help
+        Add required task describe-tasks            to scenario test-task-help
+        Add required task list-applications         to scenario test-task-help
+        Add required task list-configuration        to scenario test-task-help
+        Add required task list-dependencies         to scenario test-task-help
+        Add required task list-dirs                 to scenario test-task-help
+        Add required task list-dirlists             to scenario test-task-help
+        Add required task list-files                to scenario test-task-help
+        Add required task list-filelists            to scenario test-task-help
+        Add required task list-formats              to scenario test-task-help
+        Add required task list-levels               to scenario test-task-help
+        Add required task list-modes                to scenario test-task-help
+        Add required task list-modules              to scenario test-task-help
+        Add required task list-options              to scenario test-task-help
+        Add required task list-projects             to scenario test-task-help
+        Add required task list-scenarios            to scenario test-task-help
+        Add required task list-settings             to scenario test-task-help
+        Add required task list-tasks                to scenario test-task-help
+
+    Add element scenario test-list-tasks to module with test ${SF_HOME}/share/modules/core/scenarios/test "runs list tasks with various options"
+        Add required task list-applications     to scenario test-list-tasks
+        Add required task list-configuration    to scenario test-list-tasks
+        Add required task list-dependencies     to scenario test-list-tasks
+        Add required task list-dirs             to scenario test-list-tasks
+        Add required task list-dirlists         to scenario test-list-tasks
+        Add required task list-files            to scenario test-list-tasks
+        Add required task list-filelists        to scenario test-list-tasks
+        Add required task list-formats          to scenario test-list-tasks
+        Add required task list-levels           to scenario test-list-tasks
+        Add required task list-modes            to scenario test-list-tasks
+        Add required task list-modules          to scenario test-list-tasks
+        Add required task list-options          to scenario test-list-tasks
+        Add required task list-projects         to scenario test-list-tasks
+        Add required task list-scenarios        to scenario test-list-tasks
+        Add required task list-settings         to scenario test-list-tasks
+        Add required task list-tasks            to scenario test-list-tasks
+
+    Add element scenario test-describe-tasks to module with test ${SF_HOME}/share/modules/core/scenarios/test "runs describe tasks with various options"
+        Add required task describe-applications     to scenario test-describe-tasks
+        Add required task describe-dependencies     to scenario test-describe-tasks
+        Add required task describe-dirs             to scenario test-describe-tasks
+        Add required task describe-dirlists         to scenario test-describe-tasks
+        Add required task describe-elements         to scenario test-describe-tasks
+        Add required task describe-files            to scenario test-describe-tasks
+        Add required task describe-filelists        to scenario test-describe-tasks
+        Add required task describe-framework        to scenario test-describe-tasks
+        Add required task describe-objects          to scenario test-describe-tasks
+        Add required task describe-options          to scenario test-describe-tasks
+        Add required task describe-projects         to scenario test-describe-tasks
+        Add required task describe-scenarios        to scenario test-describe-tasks
+        Add required task describe-tasks            to scenario test-describe-tasks
+
+    Add element scenario test-debug-tasks to module with test ${SF_HOME}/share/modules/core/scenarios/test "runs debug tasks with various options"
+        Add required task debug-tasks               to scenario test-describe-tasks
+
+    Add element scenario test-exec-app to module with test ${SF_HOME}/share/modules/core/scenarios/test "tests execute application in a scenario"
+        Add required application browser        to scenario test-exec-app
+
+    unset FW_CURRENT_MODULE_NAME
+fi

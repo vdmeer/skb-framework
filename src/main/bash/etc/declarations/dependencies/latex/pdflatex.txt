@@ -1,2 +1,0 @@
-        This dependency tests for the availability of `pdflatex`.  This  might
-        be required by tasks that compile LaTeX documents into PDF files.     

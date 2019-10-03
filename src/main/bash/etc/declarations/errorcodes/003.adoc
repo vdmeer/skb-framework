@@ -1,3 +1,0 @@
-An application did not find the SKB Framework executable.
-The framework installation was found, but no executable framework file.
-This is very likely a permission problem of the framework installation.

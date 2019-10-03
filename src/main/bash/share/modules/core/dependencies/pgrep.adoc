@@ -1,0 +1,2 @@
+`pgrep` is a UNIX tool to search for process names.
+This tool is required in tasks that search and kill processes.

@@ -1,2 +1,0 @@
-Prints this manual for the set print mode (see option `--print-mode`).
-The manual is created by the task `build-manual`.

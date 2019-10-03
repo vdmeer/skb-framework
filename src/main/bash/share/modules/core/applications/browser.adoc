@@ -1,0 +1,4 @@
+Sets the command to start a web browser, for instance Firefox, with a URL.
+The setting should contain the string `%URL%`, which will be substituted with the actual URL at runtime.
+To start for instance Firefox, this variable should be set to `firefox --new-tab %URL%`.
+The browser can be given as simple command (then it needs to be in the `PATH`) or as absolute command.

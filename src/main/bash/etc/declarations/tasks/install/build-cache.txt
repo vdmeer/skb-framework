@@ -1,7 +1,0 @@
-        This task builds a cache for an application with various  options  for
-        targets. It uses the parameter `CACHE_DIR` for the cache  location.  A
-        cache of application elements can speed-up the loader. A cache of task
-        can speed-up the help function of tasks. While  on  native  UNIX/LINUX
-        system on good-powered machines the cache might not  make  much  of  a
-        difference, on other machines it can improve the application's runtime
-        behavior.                                                             

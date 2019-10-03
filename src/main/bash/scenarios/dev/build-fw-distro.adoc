@@ -1,5 +1,0 @@
-This scenario will create all required artifacts for building a framework distributions.
-It can be used in the `dev` application mode, though the framework should be started with option `--all-mode` to catch all tasks.
-It also requires the flavor _install_ being used, using the start option `--install` or `-I`.
-The scenario calls the tasks `build-manual` and `build-help`.
-Since it builds all artifacts, it has all requirements as these two tasks, including JRE8 (for tool execution).

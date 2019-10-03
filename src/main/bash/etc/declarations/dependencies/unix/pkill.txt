@@ -1,2 +1,0 @@
-        `pgrep` is a UNIX tool to kill processes. This  tool  is  required  in
-        tasks that search and kill processes.                                 
