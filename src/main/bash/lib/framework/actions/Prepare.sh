@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Prepare"]="action to prepare something"
+FW_COMPONENTS_TAGLINE["prepare"]="action to prepare something"
 
 
 function Prepare() {
@@ -66,10 +66,8 @@ function Prepare() {
                     FW_OBJECT_PHA_ERRCOD[${cmd1^}]=""
                     Set auto write true ;;
 
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

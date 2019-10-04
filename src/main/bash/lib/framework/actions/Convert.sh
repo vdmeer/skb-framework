@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Convert"]="action to convert something"
+FW_COMPONENTS_TAGLINE["convert"]="action to convert something"
 
 
 function Convert() {
@@ -48,7 +48,6 @@ function Convert() {
             path="${1}"
             if [[ "${FW_OBJECT_CFG_VAL["SYSTEM"]}" == "CYGWIN" ]]; then printf "%s" "$(cygpath -m "${path}")"; else echo "${path}"; fi ;;
 
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

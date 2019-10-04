@@ -38,9 +38,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_LOAD+=" FW_OBJECT_MOD_LONG FW_OBJECT_MOD_PATH"
 fi
 
-FW_TABLES_COL1["mode"]=Mode
-FW_TABLES_EXTRAS["mode"]=""
-FW_TAGS_OBJECTS["Modes"]="data object representing the framework's modes"
+FW_COMPONENTS_SINGULAR["modes"]="mode"
+FW_COMPONENTS_PLURAL["modes"]="modes"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["modes"]="Mode"
+FW_COMPONENTS_TITLE_LONG_PLURAL["modes"]="Modes"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["modes"]="Mode"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["modes"]="Modes"
+FW_COMPONENTS_TABLE_DESCR["modes"]="Description"
+FW_COMPONENTS_TABLE_VALUE["modes"]="Description"
+#FW_COMPONENTS_TABLE_DEFVAL["modes"]=""
+FW_COMPONENTS_TABLE_EXTRA["modes"]=""
+FW_COMPONENTS_TAGLINE["modes"]="data object representing the framework's modes"
 
 
 function Modes() {
@@ -64,7 +72,7 @@ function Modes() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

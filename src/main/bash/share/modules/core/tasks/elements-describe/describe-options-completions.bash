@@ -49,7 +49,7 @@ function __skb_task_describe_options_words(){
                     esac ;;
         --format)   retval="$(Formats has)" ;;
 
-        --id)       retval="$(Options has long)" ;;
+        --id)       retval="$(Options has)" ;;
 
         *)  retval="${stdOptions} ${filterOptions}"
             case "$COMP_LINE" in

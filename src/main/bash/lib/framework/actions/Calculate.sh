@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Calculate"]="action to calculate something"
+FW_COMPONENTS_TAGLINE["calculate"]="action to calculate something"
 
 
 function Calculate() {
@@ -61,20 +61,6 @@ function Calculate() {
                         if (( longest < ${FW_ELEMENT_OPT_LEN[${id}]} )); then longest=${FW_ELEMENT_OPT_LEN[${id}]}; fi
                     done
                     printf ${longest} ;;
-                longest-module)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    arr="${1}"; IFS=" " read -a keys <<< "${arr}"; longest=0
-                    for id in ${keys[*]}; do
-                        if (( longest < ${#id} )); then longest=${#id}; fi
-                    done
-                    printf $(( longest + 4 )) ;;
-                longest-theme)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    arr="${1}"; IFS=" " read -a keys <<< "${arr}"; longest=0
-                    for id in ${keys[*]}; do
-                        if (( longest < ${#id} )); then longest=${#id}; fi
-                    done
-                    printf $(( longest + 5 )) ;;
                 longest-string)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
                     arr="${1}"; IFS=" " read -a keys <<< "${arr}"; longest=0
@@ -83,10 +69,8 @@ function Calculate() {
                     done
                     printf ${longest} ;;
 
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

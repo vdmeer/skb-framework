@@ -40,9 +40,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_LOAD+=" FW_OBJECT_TIM_LONG"
 fi
 
-FW_TABLES_COL1["themeitem"]="Theme Item"
-FW_TABLES_EXTRAS["themeitem"]="Src"
-FW_TAGS_OBJECTS["Themeitems"]="data object representing a theme's items"
+FW_COMPONENTS_SINGULAR["themeitems"]="themeitem"
+FW_COMPONENTS_PLURAL["themeitems"]="themeitems"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["themeitems"]="Theme Item"
+FW_COMPONENTS_TITLE_LONG_PLURAL["themeitems"]="Theme Items"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["themeitems"]="Theme Item"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["themeitems"]="Theme Item"
+FW_COMPONENTS_TABLE_DESCR["themeitems"]="Description"
+FW_COMPONENTS_TABLE_VALUE["themeitems"]="Set Value"
+#FW_COMPONENTS_TABLE_DEFVAL["themeitems"]=""
+FW_COMPONENTS_TABLE_EXTRA["themeitems"]="Source Theme"
+FW_COMPONENTS_TAGLINE["themeitems"]="data object representing a theme's items"
 
 
 function Themeitems() {
@@ -66,7 +74,7 @@ function Themeitems() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

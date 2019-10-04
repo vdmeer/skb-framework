@@ -32,11 +32,8 @@
 function __skb_Options_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Options)        retval="get has list long short" ;;
-
-        get)            retval="string" ;;
-        has)            retval="long short" ;;
-        long | short)   if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Options" ]]; then retval="string"; fi ;;
+        Options)        retval="has list long short shorts" ;;
+        long | short)   retval="string" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

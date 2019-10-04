@@ -31,8 +31,7 @@
 
 if [[ "${FW_ELEMENT_MDS_LONG[*]}" == "" ]]; then
     declare -A FW_ELEMENT_MDS_LONG      ## [long]="description"
-    declare -A FW_ELEMENT_MDS_SHORT     ## [short]=long
-    declare -A FW_ELEMENT_MDS_LS        ## [long]=short
+    declare -A FW_ELEMENT_MDS_ACR       ## [long]=acronym
     declare -A FW_ELEMENT_MDS_PATH      ## [long]=path
     declare -A FW_ELEMENT_MDS_PHA       ## [long]="phase that did set the value"
 
@@ -46,13 +45,21 @@ if [[ "${FW_ELEMENT_MDS_LONG[*]}" == "" ]]; then
 fi
 
 if [[ -n "${FW_INIT:-}" ]]; then
-    FW_RUNTIME_MAPS_SLOW+=" FW_ELEMENT_MDS_LONG FW_ELEMENT_MDS_SHORT FW_ELEMENT_MDS_LS FW_ELEMENT_MDS_PHA FW_ELEMENT_MDS_PATH FW_ELEMENT_MDS_REQUIRED_MODULES"
+    FW_RUNTIME_MAPS_SLOW+=" FW_ELEMENT_MDS_LONG FW_ELEMENT_MDS_ACR FW_ELEMENT_MDS_PHA FW_ELEMENT_MDS_PATH FW_ELEMENT_MDS_REQUIRED_MODULES"
     FW_RUNTIME_MAPS_MEDIUM+=" FW_ELEMENT_MDS_STATUS FW_ELEMENT_MDS_STATUS_COMMENTS FW_ELEMENT_MDS_REQUESTED"
 fi
 
-FW_TABLES_COL1["module"]=Module
-FW_TABLES_EXTRAS["module"]="P"
-FW_TAGS_ELEMENTS["Modules"]="element representing modules"
+FW_COMPONENTS_SINGULAR["modules"]="module"
+FW_COMPONENTS_PLURAL["modules"]="modules"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["modules"]="Module"
+FW_COMPONENTS_TITLE_LONG_PLURAL["modules"]="Modules"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["modules"]="Module"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["modules"]="Modules"
+FW_COMPONENTS_TABLE_DESCR["modules"]="Description"
+FW_COMPONENTS_TABLE_VALUE["modules"]="Path to Module"
+#FW_COMPONENTS_TABLE_DEFVAL["modules"]=""
+FW_COMPONENTS_TABLE_EXTRA["modules"]="SH P"
+FW_COMPONENTS_TAGLINE["modules"]="element representing modules"
 
 
 function Modules() {
@@ -81,26 +88,19 @@ function Modules() {
                 done
             done ;;
 
+        has)
+            echo " ${!FW_ELEMENT_MDS_LONG[@]} " ;;
+
         list)
             if [[ "${FW_ELEMENT_MDS_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_MDS_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s (%s, %s): %s, {%s}, %s\n" "${id}" "${FW_ELEMENT_MDS_LS[${id}]}" "${FW_ELEMENT_MDS_PHA[${id}]}" "${FW_ELEMENT_MDS_PATH[${id}]}" "${FW_ELEMENT_MDS_REQUIRED_MODULES[${id}]:-}" "${FW_ELEMENT_MDS_LONG[${id}]}"
+                    printf "    %s (%s, %s): %s, {%s}, %s\n" "${id}" "${FW_ELEMENT_MDS_ACR[${id}]}" "${FW_ELEMENT_MDS_PHA[${id}]}" "${FW_ELEMENT_MDS_PATH[${id}]}" "${FW_ELEMENT_MDS_REQUIRED_MODULES[${id}]:-}" "${FW_ELEMENT_MDS_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"
             fi ;;
 
-        has)
-            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
-            cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
-            case "${cmd1}-${cmd2}" in
-                has-long)   echo " ${!FW_ELEMENT_MDS_LONG[@]} " ;;
-                has-short)  echo " ${!FW_ELEMENT_MDS_SHORT[@]} " ;;
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
-            esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

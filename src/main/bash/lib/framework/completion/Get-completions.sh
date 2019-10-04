@@ -33,7 +33,7 @@ function __skb_Get_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
         Get)            retval="pid system version"
-                        retval+=" app cache config current default error file home last log module option print status strict theme user warning"
+                        retval+=" app cache config current default error file home last log module option print status strict user warning"
                         retval+=" auto element object"
                         ;;
 
@@ -44,20 +44,19 @@ function __skb_Get_completions(){
                         retval+=" file filelist dir dirlist" ;;
         object)         retval="configuration format level message mode phase setting theme themeitem" ;;
 
-        configuration)  retval="$(Configuration has)" ;;
+        configuration)  retval="$(Configurations has)" ;;
         format)         retval="$(Formats has)" ;;
         level)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "object" ]]; then retval="$(Levels has)"; fi ;;
         message)        retval="$(Messages has)" ;;
         mode)           if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "object" ]]; then retval="$(Modes has)"; fi ;;
         phase)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "object" ]]; then retval="$(Phases has)"; fi ;;
         setting)        retval="$(Settings has)" ;;
-        theme)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "object" ]]; then retval="$(Themes has long)"; fi
-                        if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Get" ]]; then retval="id"; fi ;;
+        theme)          retval="$(Themes has)" ;;
         themeitem)      retval="$(Themeitems has)" ;;
 
         dependency)     retval="$(Dependencies has)" ;;
-        module)         if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "element" ]]; then retval="$(Modules has long)"; fi
-                        if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Get" ]]; then retval="path id"; fi ;;
+        module)         if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "element" ]]; then retval="$(Modules has)"; fi
+                        if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Get" ]]; then retval="path"; fi ;;
         option)         retval="id" ;;
         parameter)      retval="$(Parameters has)" ;;
         project)        if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "element" ]]; then retval="$(Projects has)"; fi
@@ -106,12 +105,12 @@ function __skb_Get_completions(){
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "setting" ]]; then
                            retval="description phase value"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "theme" && "${COMP_WORDS[COMP_CWORD-3]}" != "Get" ]]; then
-                           retval="short description path"
+                           retval="description path"
 
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "dependency" ]]; then
                            retval="description origin command requirements"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "module" && "${COMP_WORDS[COMP_CWORD-3]}" != "Get" ]]; then
-                           retval="description short path requirements"
+                           retval="description acronym path requirements"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "parameter" ]]; then
                            retval="description origin type default-value"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "project" ]]; then

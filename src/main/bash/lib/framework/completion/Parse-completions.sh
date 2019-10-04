@@ -32,12 +32,7 @@
 function __skb_Parse_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Parse)      retval="cli get has is" ;;
-
-        cli)        retval="arguments" ;;
-        get)        retval="extra value" ;;
-        has)        retval="value" ;;
-        is)         retval="set" ;;
+        Parse)  retval="cli" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

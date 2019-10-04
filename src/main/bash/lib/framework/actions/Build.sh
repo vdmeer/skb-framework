@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Build"]="action to build something"
+FW_COMPONENTS_TAGLINE["build"]="action to build something"
 
 
 function Build() {
@@ -50,7 +50,7 @@ function Build() {
             text="${FW_OBJECT_MSG_TEXT[${id}]}"; count=1
             shift; for arg in "$@"; do text=${text/"##ARG$((count++))##"/"${arg}"}; done
             printf "%s" "${text}" ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

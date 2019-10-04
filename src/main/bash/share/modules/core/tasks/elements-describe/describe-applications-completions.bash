@@ -49,9 +49,9 @@ function __skb_task_describe_applications_words(){
                     esac ;;
         --format)   retval="$(Formats has)" ;;
 
-        --id)       retval="$(Applications has long)" ;;
+        --id)       retval="$(Applications has)" ;;
 
-        --origin)       retval="$(Modules has long)" ;;
+        --origin)       retval="$(Modules has)" ;;
         --requested)    retval="yes no" ;;
         --status)       retval="N E W S" ;;
         --tested)       retval="yes no" ;;

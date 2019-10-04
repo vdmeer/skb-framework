@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Explain"]="action to explain actions, elements, instances, and objects"
+FW_COMPONENTS_TAGLINE["explain"]="action to explain actions, elements, instances, and objects"
 
 
 function Explain() {

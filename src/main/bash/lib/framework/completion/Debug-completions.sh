@@ -40,8 +40,8 @@ function __skb_Debug_completions(){
         dir)            retval="$(Dirs has)" ;;
         filelist)       retval="$(Filelists has)" ;;
         file)           retval="$(Files has)" ;;
-        module)         retval="$(Modules has long)" ;;
-        option)         retval="$(Options has long)" ;;
+        module)         retval="$(Modules has)" ;;
+        option)         retval="$(Options has)" ;;
         parameter)      retval="$(Parameters has)" ;;
         project)        retval="$(Projects has)" ;;
         scenario)       retval="$(Scenarios has)" ;;

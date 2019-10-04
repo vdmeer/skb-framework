@@ -53,7 +53,7 @@ function __skb_task_list_tasks_words(){
         --format)   retval="$(Formats has)" ;;
 
         --mode)         retval="$(Modes has)" ;;
-        --origin)       retval="$(Modules has long)" ;;
+        --origin)       retval="$(Modules has)" ;;
         --requested)    retval="yes no" ;;
         --status)       retval="N E W S" ;;
         --tested)       retval="yes no" ;;

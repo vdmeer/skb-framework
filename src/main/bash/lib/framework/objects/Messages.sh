@@ -42,9 +42,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_LOAD+=" FW_OBJECT_MSG_LONG FW_OBJECT_MSG_TYPE FW_OBJECT_MSG_CAT FW_OBJECT_MSG_ARGS FW_OBJECT_MSG_TEXT FW_OBJECT_MSG_PATH"
 fi
 
-FW_TABLES_COL1["message"]=Message
-FW_TABLES_EXTRAS["message"]="T A Category"
-FW_TAGS_OBJECTS["Messages"]="data object representing the framework's messages"
+FW_COMPONENTS_SINGULAR["messages"]="message"
+FW_COMPONENTS_PLURAL["messages"]="messages"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["messages"]="Message"
+FW_COMPONENTS_TITLE_LONG_PLURAL["messages"]="Messages"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["messages"]="Message"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["messages"]="Messages"
+FW_COMPONENTS_TABLE_DESCR["messages"]="Description"
+FW_COMPONENTS_TABLE_VALUE["messages"]="Template"
+#FW_COMPONENTS_TABLE_DEFVAL["messages"]=""
+FW_COMPONENTS_TABLE_EXTRA["messages"]="T A Category"
+FW_COMPONENTS_TAGLINE["messages"]="data object representing the framework's messages"
 
 
 function Messages() {
@@ -68,7 +76,7 @@ function Messages() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

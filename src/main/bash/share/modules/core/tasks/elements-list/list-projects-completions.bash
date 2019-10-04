@@ -51,7 +51,7 @@ function __skb_task_list_projects_words(){
         --format)   retval="$(Formats has)" ;;
 
         --mode)         retval="$(Modes has)" ;;
-        --origin)       retval="$(Modules has long)" ;;
+        --origin)       retval="$(Modules has)" ;;
         --status)       retval="N E W S" ;;
         --tested)       retval="yes no" ;;
 

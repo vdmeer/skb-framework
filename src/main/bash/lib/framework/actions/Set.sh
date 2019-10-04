@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Set"]="action to set (change) something"
+FW_COMPONENTS_TAGLINE["set"]="action to set (change) something"
 
 
 function Set() {
@@ -380,11 +380,9 @@ function Set() {
                         Set phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} error codes "${value}"
                     fi ;;
 
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 
     if [[ "${idForPhase}" != "" ]]; then

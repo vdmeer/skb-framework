@@ -34,7 +34,7 @@ function __skb_Validate_completions(){
     case ${COMP_WORDS[COMP_CWORD-1]} in
         Validate)   retval="everything elements objects manual"
                     retval+=" applications dependencies dirlists dirs filelists files modules options parameters projects scenarios sites tasks"
-                    retval+=" configuration formats levels messages modes phases settings themeitems themes"
+                    retval+=" configurations formats levels messages modes phases settings themeitems themes"
                     ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi

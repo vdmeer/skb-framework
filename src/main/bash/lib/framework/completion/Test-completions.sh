@@ -65,13 +65,13 @@ function __skb_Test_completions(){
         phase)          retval="id" ;;
         setting)        retval="id" ;;
         theme)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "existing" ]]; then retval="id";
-                        elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "used" ]]; then retval="long-id short-id"; fi ;;
+                        elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "used" ]]; then retval="id"; fi ;;
         themeitem)      if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "existing" ]]; then retval="id identifiers";
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "used" ]]; then retval="id"; fi ;;
         application)    retval="id" ;;
         dependency)     retval="id" ;;
         module)         if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "existing" ]]; then retval="id";
-                        elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "used" ]]; then retval="long-id short-id"; fi ;;
+                        elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "used" ]]; then retval="id"; fi ;;
         option)         if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "existing" ]]; then retval="id";
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "used" ]]; then retval="long-id short-id"; fi ;;
         parameter)      retval="id" ;;

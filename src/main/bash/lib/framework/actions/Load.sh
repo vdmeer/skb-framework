@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Load"]="action to load something"
+FW_COMPONENTS_TAGLINE["load"]="action to load something"
 
 
 function Load() {
@@ -77,8 +77,6 @@ function Load() {
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
             id="${1}"
             Test existing theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            id="$(Get theme id ${id})"
-
             if [[ "${id}" != "API" ]]; then
                 Tablechars clear all
                 FW_CURRENT_THEME_NAME="${id}"
@@ -146,14 +144,11 @@ function Load() {
                             if [[ "${FW_OBJECT_SET_VAL["AUTO_VERIFY"]:-false}" != false ]]; then Verify everything; fi ;;
 ##TODO ADD Application to here?
 
-                        *)
-                            Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
+                        *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
                     esac ;;
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
     if [[ "${doWriteRT}" == true && "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write fast config; Write slow config; fi
 }

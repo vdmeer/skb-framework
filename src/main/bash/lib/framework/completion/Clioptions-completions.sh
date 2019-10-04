@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Cli - auto completion
+## Clioptions - auto completion
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.6
@@ -29,10 +29,10 @@
 ##
 
 
-function __skb_Cli_completions(){
+function __skb_Clioptions_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Cli)    retval="add get has list long short" ;;
+        Clioptions) retval="add has list long short shorts" ;;
 
         add)        retval="general option" ;;
         general)    retval="option" ;;
@@ -45,11 +45,8 @@ function __skb_Cli_completions(){
                         retval+=" target-all"
                     fi ;;
 
-        get)        retval="string" ;;
-        has)        retval="long short" ;;
-        long)       if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Cli" ]]; then retval="string"; fi ;;
-        short)      if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Cli" ]]; then retval="string"; fi ;;
+        long | short)   retval="string" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }
-complete -F __skb_Cli_completions Cli
+complete -F __skb_Clioptions_completions Clioptions

@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Print"]="action to print something"
+FW_COMPONENTS_TAGLINE["print"]="action to print something"
 
 
 function Print() {
@@ -128,31 +128,9 @@ function Print() {
                 action-descriptions | element-descriptions | instance-descriptions | object-descriptions)
                     if [[ "${#}" == 0 ]]; then
                         case ${cmd1} in
-                            application)    arr="$(Applications has)" ;;
-                            dependency)     arr="$(Dependencies has)" ;;
-                            dirlist)        arr="$(Dirlists has)" ;;
-                            dir)            arr="$(Dirs has)" ;;
-                            exitcode)       arr="$(Exitcodes has)" ;;
-                            filelist)       arr="$(Filelists has)" ;;
-                            file)           arr="$(Files has)" ;;
-                            format)         arr="$(Formats has)" ;;
-                            level)          arr="$(Levels has)" ;;
-                            message)        arr="$(Messages has)" ;;
-                            mode)           arr="$(Modes has)" ;;
-                            module)         arr="$(Modules has long)" ;;
-                            option)         arr="$(Options has long)" ;;
-                            parameter)      arr="$(Parameters has)" ;;
-                            phase)          arr="$(Phases has)" ;;
-                            project)        arr="$(Projects has)" ;;
-                            scenario)       arr="$(Scenarios has)" ;;
-                            site)           arr="$(Sites has)" ;;
-                            task)           arr="$(Tasks has)" ;;
-                            theme)          arr="$(Themes has long)" ;;
-
-                            action)         arr="$(Framework has actions)" ;;
-                            element)        arr="$(Framework has elements)" ;;
-                            instance)       arr="$(Framework has instances)" ;;
-                            object)         arr="$(Framework has objects)" ;;
+                            action | element | instance | object)   arr="$(Framework has "${cmd1}s")" ;;
+                            dependency)                             arr="$(Dependencies has)" ;;
+                            *)                                      arr="$(${FW_COMPONENTS_PLURAL["${cmd1}s"]^} has)" ;;
                         esac
                     elif [[ "${#}" == 1 ]]; then arr="${1}"; fi
                     IFS=" " read -a keys <<< "${arr}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
@@ -180,42 +158,18 @@ function Print() {
                         done
                     fi
                     case ${cmd1} in
-                        application)    if [[ "${arr}" == "" ]]; then arr="$(Applications has)"; fi;    longest=$(Calculate longest string "${arr}") ;;
-                        clioption)      if [[ "${arr}" == "" ]]; then arr="$(Cli has long)"; fi;        longest=$(Calculate longest clioption "${arr}") ;;
-                        configuration)  if [[ "${arr}" == "" ]]; then arr="$(Configuration has)"; fi;   longest=$(Calculate longest string "${arr}") ;;
-                        dependency)     if [[ "${arr}" == "" ]]; then arr="$(Dependencies has)"; fi;    longest=$(Calculate longest string "${arr}") ;;
-                        dirlist)        if [[ "${arr}" == "" ]]; then arr="$(Dirlists has)"; fi;        longest=$(Calculate longest string "${arr}") ;;
-                        dir)            if [[ "${arr}" == "" ]]; then arr="$(Dirs has)"; fi;            longest=$(Calculate longest string "${arr}") ;;
-                        exitcode)       if [[ "${arr}" == "" ]]; then arr="$(Exitcodes has)"; fi;       longest=$(Calculate longest string "${arr}") ;;
-                        filelist)       if [[ "${arr}" == "" ]]; then arr="$(Filelists has)"; fi;       longest=$(Calculate longest string "${arr}") ;;
-                        file)           if [[ "${arr}" == "" ]]; then arr="$(Files has)"; fi;           longest=$(Calculate longest string "${arr}") ;;
-                        format)         if [[ "${arr}" == "" ]]; then arr="$(Formats has)"; fi;         longest=$(Calculate longest string "${arr}") ;;
-                        level)          if [[ "${arr}" == "" ]]; then arr="$(Levels has)"; fi;          longest=$(Calculate longest string "${arr}") ;;
-                        message)        if [[ "${arr}" == "" ]]; then arr="$(Messages has)"; fi;        longest=$(Calculate longest string "${arr}") ;;
-                        mode)           if [[ "${arr}" == "" ]]; then arr="$(Modes has)"; fi;           longest=$(Calculate longest string "${arr}") ;;
-                        module)         if [[ "${arr}" == "" ]]; then arr="$(Modules has long)"; fi;    longest=$(Calculate longest module "${arr}") ;;
-                        option)         if [[ "${arr}" == "" ]]; then arr="$(Options has long)"; fi;    longest=$(Calculate longest option "${arr}") ;;
-                        parameter)      if [[ "${arr}" == "" ]]; then arr="$(Parameters has)"; fi;      longest=$(Calculate longest string "${arr}") ;;
-                        phase)          if [[ "${arr}" == "" ]]; then arr="$(Phases has)"; fi;          longest=$(Calculate longest string "${arr}") ;;
-                        project)        if [[ "${arr}" == "" ]]; then arr="$(Projects has)"; fi;        longest=$(Calculate longest string "${arr}") ;;
-                        scenario)       if [[ "${arr}" == "" ]]; then arr="$(Scenarios has)"; fi;       longest=$(Calculate longest string "${arr}") ;;
-                        setting)        if [[ "${arr}" == "" ]]; then arr="$(Settings has)"; fi;        longest=$(Calculate longest string "${arr}") ;;
-                        site)           if [[ "${arr}" == "" ]]; then arr="$(Sites has)"; fi;           longest=$(Calculate longest string "${arr}") ;;
-                        task)           if [[ "${arr}" == "" ]]; then arr="$(Tasks has)"; fi;           longest=$(Calculate longest string "${arr}") ;;
-                        theme)          if [[ "${arr}" == "" ]]; then arr="$(Themes has long)"; fi;     longest=$(Calculate longest theme "${arr}") ;;
-                        themeitem)      if [[ "${arr}" == "" ]]; then arr="$(Themeitems has)"; fi;      longest=$(Calculate longest string "${arr}") ;;
-
-                        action)         if [[ "${arr}" == "" ]]; then arr="$(Framework has actions)"; fi;  longest=$(Calculate longest string "${arr}") ;;
-                        element)        if [[ "${arr}" == "" ]]; then arr="$(Framework has elements)"; fi;  longest=$(Calculate longest string "${arr}") ;;
-                        instance)       if [[ "${arr}" == "" ]]; then arr="$(Framework has instances)"; fi; longest=$(Calculate longest string "${arr}") ;;
-                        object)         if [[ "${arr}" == "" ]]; then arr="$(Framework has objects)"; fi;   longest=$(Calculate longest string "${arr}") ;;
+                        action | element | instance | object)   if [[ "${arr}" == "" ]]; then arr="$(Framework has "${cmd1}s")"; fi;                 longest=$(Calculate longest string "${arr}") ;;
+                        dependency)                             if [[ "${arr}" == "" ]]; then arr="$(Dependencies has)"; fi;                         longest=$(Calculate longest string "${arr}") ;;
+                        clioption)                              if [[ "${arr}" == "" ]]; then arr="$(${FW_COMPONENTS_PLURAL["${cmd1}s"]^} has)"; fi; longest=$(Calculate longest clioption "${arr}") ;;
+                        option)                                 if [[ "${arr}" == "" ]]; then arr="$(${FW_COMPONENTS_PLURAL["${cmd1}s"]^} has)"; fi; longest=$(Calculate longest option "${arr}") ;;
+                        *)                                      if [[ "${arr}" == "" ]]; then arr="$(${FW_COMPONENTS_PLURAL["${cmd1}s"]^} has)"; fi; longest=$(Calculate longest string "${arr}") ;;
                     esac
                     IFS=" " read -a keys <<< "${arr}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                     for id in "${keys[@]}"; do Format tagline for ${cmd1} "${id}" ${cmd2} 4 2 "${FW_OBJECT_TIM_VAL[listSeparator]}" ${longest} ${showValues} ${showDefValues}; printf "\n"; done ;;
 
 
                 exitcode-table | \
-                configuration-table | format-table | level-table | message-table | mode-table | phase-table | setting-table | theme-table | themeitem-table | \
+                clioption-table | configuration-table | format-table | level-table | message-table | mode-table | phase-table | setting-table | theme-table | themeitem-table | \
                 application-table | dependency-table | dirlist-table | dirlist-table | dir-table | filelist-table | file-table | module-table | option-table | parameter-table | project-table | scenario-table | site-table | task-table | \
                 action-table | element-table | instance-table | object-table)
                     arr=""; showValues="no"; showDefValues="no"; withLegend="no"; withoutStatus="no"; withoutExtras="no"
@@ -240,37 +194,18 @@ function Print() {
                             shift
                         done
                     fi
-                    case ${cmd1} in
-                        application)    if [[ "${arr}" == "" ]]; then arr="$(Applications has)"; fi ;;
-                        configuration)  if [[ "${arr}" == "" ]]; then arr="$(Configuration has)"; fi ;;
-                        dependency)     if [[ "${arr}" == "" ]]; then arr="$(Dependencies has)"; fi ;;
-                        dirlist)        if [[ "${arr}" == "" ]]; then arr="$(Dirlists has)"; fi ;;
-                        dir)            if [[ "${arr}" == "" ]]; then arr="$(Dirs has)"; fi ;;
-                        exitcode)       if [[ "${arr}" == "" ]]; then arr="$(Exitcodes has)"; fi ;;
-                        filelist)       if [[ "${arr}" == "" ]]; then arr="$(Filelists has)"; fi ;;
-                        file)           if [[ "${arr}" == "" ]]; then arr="$(Files has)"; fi ;;
-                        format)         if [[ "${arr}" == "" ]]; then arr="$(Formats has)"; fi ;;
-                        level)          if [[ "${arr}" == "" ]]; then arr="$(Levels has)"; fi ;;
-                        message)        if [[ "${arr}" == "" ]]; then arr="$(Messages has)"; fi ;;
-                        mode)           if [[ "${arr}" == "" ]]; then arr="$(Modes has)"; fi ;;
-                        module)         if [[ "${arr}" == "" ]]; then arr="$(Modules has long)"; fi ;;
-                        phase)          if [[ "${arr}" == "" ]]; then arr="$(Phases has)"; fi ;;
-                        option)         if [[ "${arr}" == "" ]]; then arr="$(Options has long)"; fi ;;
-                        parameter)      if [[ "${arr}" == "" ]]; then arr="$(Parameters has)"; fi ;;
-                        project)        if [[ "${arr}" == "" ]]; then arr="$(Projects has)"; fi ;;
-                        scenario)       if [[ "${arr}" == "" ]]; then arr="$(Scenarios has)"; fi ;;
-                        setting)        if [[ "${arr}" == "" ]]; then arr="$(Settings has)"; fi ;;
-                        site)           if [[ "${arr}" == "" ]]; then arr="$(Sites has)"; fi ;;
-                        task)           if [[ "${arr}" == "" ]]; then arr="$(Tasks has)"; fi ;;
-                        theme)          if [[ "${arr}" == "" ]]; then arr="$(Themes has long)"; fi ;;
-                        themeitem)      if [[ "${arr}" == "" ]]; then arr="$(Themeitems has)"; fi ;;
+                    if [[ "${showDefValues}" == "yes" && "${cmd1}" != "parameter" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E804 "${cmd1} table property" "show-defvalues"; return; fi
 
-                        action)         if [[ "${arr}" == "" ]]; then arr="$(Framework has actions)"; fi ;;
-                        element)        if [[ "${arr}" == "" ]]; then arr="$(Framework has elements)"; fi ;;
-                        instance)       if [[ "${arr}" == "" ]]; then arr="$(Framework has instances)"; fi ;;
-                        object)         if [[ "${arr}" == "" ]]; then arr="$(Framework has objects)"; fi ;;
+                    case ${cmd1} in
+                        action | element | instance | object)   if [[ "${arr}" == "" ]]; then arr="$(Framework has "${cmd1}s")"; fi;                 longest=$(Calculate longest string "${arr}") ;;
+                        dependency)                             if [[ "${arr}" == "" ]]; then arr="$(Dependencies has)"; fi;                         longest=$(Calculate longest string "${arr}") ;;
+                        clioption)                              if [[ "${arr}" == "" ]]; then arr="$(${FW_COMPONENTS_PLURAL["${cmd1}s"]^} has)"; fi; longest=$(Calculate longest clioption "${arr}") ;;
+                        option)                                 if [[ "${arr}" == "" ]]; then arr="$(${FW_COMPONENTS_PLURAL["${cmd1}s"]^} has)"; fi; longest=$(Calculate longest option "${arr}") ;;
+                        *)                                      if [[ "${arr}" == "" ]]; then arr="$(${FW_COMPONENTS_PLURAL["${cmd1}s"]^} has)"; fi; longest=$(Calculate longest string "${arr}") ;;
                     esac
                     IFS=" " read -a keys <<< "${arr}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
+                    if (( longest < ${#FW_COMPONENTS_TITLE_SHORT_SINGULAR["${cmd1}s"]} )); then longest=$(( ${#FW_COMPONENTS_TITLE_SHORT_SINGULAR["${cmd1}"s]} + 2 )); fi
+                    if (( longest < 6 )); then longest=6; fi
 
                     ## prepare most used characters used in extras or legend
                     if [[ "${withoutExtras}" == "no" || "${withLegend}" == "yes" ]]; then
@@ -283,51 +218,33 @@ function Print() {
 
                     leftMargin=1; midPadding=2
                     width=$(tput cols); midString="${FW_OBJECT_TIM_VAL[tableSeparator]}"
-                    case ${cmd1} in
-                        exitcode | \
-                        application | configuration | dependency | dirlist | dir | filelist | file | format | level | message | mode | parameter | phase | project | scenario | setting | site | task | themeitem | \
-                        action | element | instance | object)
-                            longest=$(Calculate longest string "${arr}") ;;
-                        module | option | theme)
-                            longest=$(Calculate longest ${cmd1} "${arr}") ;;
-                    esac
-                    if (( longest < ${#FW_TABLES_COL1[${cmd1}]} )); then longest=$(( ${#FW_TABLES_COL1[${cmd1}]} + 2 )); fi
-                    if (( longest < 6 )); then longest=6; fi
                     char=$(Format themed text tableHeadFmt " ")
 
                     Format table topline ${width}
                     printf " "
-                    Format themed text tableHeadFmt "${FW_TABLES_COL1[${cmd1}]}"
-                    col1padding=$(( longest + midPadding - ${#FW_TABLES_COL1[${cmd1}]} ))
+                    Format themed text tableHeadFmt "${FW_COMPONENTS_TITLE_SHORT_SINGULAR["${cmd1}s"]}"
+                    col1padding=$(( longest + midPadding - ${#FW_COMPONENTS_TITLE_SHORT_SINGULAR["${cmd1}s"]} ))
                     for ((i = 1; i <= ${col1padding}; i++)); do printf "${char}"; done
 
                     case ${showValues} in
                         yes)    case ${cmd1} in
-                                    application | dependency)
-                                        Format themed text tableHeadFmt "Command"; col2StringLen=7 ;;
-                                    configuration | dirlist | dir | filelist | file | option | parameter | setting | themeitem)
-                                        Format themed text tableHeadFmt "Value"; col2StringLen=5 ;;
-                                    module | project | scenario | task)
-                                        Format themed text tableHeadFmt "Path"; col2StringLen=4 ;;
-                                    message)
-                                        Format themed text tableHeadFmt "Text"; col2StringLen=4 ;;
-                                    theme)
-                                        Format themed text tableHeadFmt "File"; col2StringLen=4 ;;
-                                    *)
-                                        Format themed text tableHeadFmt "Description"; col2StringLen=11 ;;
-                                esac;;
+                                    dependency) Format themed text tableHeadFmt "${FW_COMPONENTS_TABLE_VALUE["${cmd1}"]}"; col2StringLen=${#FW_COMPONENTS_TABLE_VALUE["${cmd1}"]} ;;
+                                    *)          Format themed text tableHeadFmt "${FW_COMPONENTS_TABLE_VALUE["${cmd1}s"]}"; col2StringLen=${#FW_COMPONENTS_TABLE_VALUE["${cmd1}s"]} ;;
+                                esac ;;
                         *)      case ${showDefValues} in
-                                    yes)    case ${cmd1} in
-                                                parameter) Format themed text tableHeadFmt "Default Value"; col2StringLen=13 ;;
-                                            esac;;
-                                    *)      Format themed text tableHeadFmt "Description"; col2StringLen=11 ;;
+                                    yes)    Format themed text tableHeadFmt "${FW_COMPONENTS_TABLE_DEFVAL["${cmd1}s"]}"; col2StringLen=${#FW_COMPONENTS_TABLE_DEFVAL["${cmd1}s"]} ;;
+                                    *)      case ${cmd1} in
+                                                dependency) Format themed text tableHeadFmt "${FW_COMPONENTS_TABLE_DESCR["${cmd1}"]}"; col2StringLen=${#FW_COMPONENTS_TABLE_DESCR["${cmd1}"]} ;;
+                                                *)          Format themed text tableHeadFmt "${FW_COMPONENTS_TABLE_DESCR["${cmd1}s"]}"; col2StringLen=${#FW_COMPONENTS_TABLE_DESCR["${cmd1}s"]} ;;
+                                            esac
+                                            ;;
                                 esac
                     esac
 
                     col2padding=$(( width - leftMargin - longest - midPadding - col2StringLen ))
-                    if [[ "${withoutExtras}" == "no" ]]; then col2padding=$(( col2padding - ${#FW_TABLES_EXTRAS[${cmd1}]} )); fi
+                    if [[ "${withoutExtras}" == "no" ]]; then col2padding=$(( col2padding - ${#FW_COMPONENTS_TABLE_EXTRA["${cmd1}s"]} )); fi
                     for ((i = 1; i < ${col2padding}; i++)); do printf "${char}"; done
-                    if [[ "${withoutExtras}" == "no" ]]; then Format themed text tableHeadFmt "${FW_TABLES_EXTRAS[${cmd1}]}"; fi
+                    if [[ "${withoutExtras}" == "no" ]]; then Format themed text tableHeadFmt "${FW_COMPONENTS_TABLE_EXTRA["${cmd1}s"]}"; fi
                     printf "\n"
                     Format table midline ${width}
 
@@ -336,6 +253,7 @@ function Print() {
                         Format tagline for ${cmd1} "${id}" ${cmd2} ${leftMargin} ${midPadding} "${midString}" ${longest} ${showValues} ${showDefValues}
                         case ${cmd1} in
                             application)    case ${showValues} in yes) col2StringLen=$(( ${#FW_ELEMENT_APP_COMMAND[${id}]} + 1 + ${#FW_ELEMENT_APP_ARGS[${id}]} )) ;; *) col2StringLen=${#FW_ELEMENT_APP_LONG[${id}]} ;; esac ;;
+                            clioption)      case ${showValues} in yes) col2StringLen=${#FW_INSTANCE_CLI_SET[${id}]} ;;      *) col2StringLen=${#FW_INSTANCE_CLI_LONG[${id}]} ;; esac ;;
                             configuration)  case ${showValues} in yes) col2StringLen=${#FW_OBJECT_CFG_VAL[${id}]} ;;        *) col2StringLen=${#FW_OBJECT_CFG_LONG[${id}]}  ;; esac ;;
                             dependency)     case ${showValues} in yes) col2StringLen=${#FW_ELEMENT_DEP_CMD[${id}]} ;;       *) col2StringLen=${#FW_ELEMENT_DEP_LONG[${id}]} ;; esac ;;
                             dirlist)        case ${showValues} in yes) col2StringLen=${#FW_ELEMENT_DLS_VAL[${id}]} ;;       *) col2StringLen=${#FW_ELEMENT_DLS_LONG[${id}]} ;; esac ;;
@@ -347,8 +265,8 @@ function Print() {
                             level)          col2StringLen=${#FW_OBJECT_LVL_LONG[${id}]} ;;
                             message)        case ${showValues} in yes) col2StringLen=${#FW_OBJECT_MSG_TEXT[${id}]} ;;       *) col2StringLen=${#FW_OBJECT_MSG_LONG[${id}]}  ;; esac ;;
                             mode)           col2StringLen=${#FW_OBJECT_MOD_LONG[${id}]} ;;
-                            module)         case ${showValues} in yes)    col2StringLen=$(( ${#FW_ELEMENT_MDS_PATH[${id}]} + 1 )) ;;   *) col2StringLen=$(( ${#FW_ELEMENT_MDS_LONG[${id}]} + 1 )) ;; esac ;;
-                            option)         case ${showValues} in yes) col2StringLen=${#FW_ELEMENT_OPT_VAL[${id}]} ;;       *) col2StringLen=${#FW_ELEMENT_OPT_LONG[${id}]} ;; esac ;;
+                            module)         case ${showValues} in yes) col2StringLen=${#FW_ELEMENT_MDS_PATH[${id}]} ;;      *) col2StringLen=${#FW_ELEMENT_MDS_LONG[${id}]} ;; esac ;;
+                            option)         case ${showValues} in yes) col2StringLen=${#FW_ELEMENT_OPT_SET[${id}]} ;;       *) col2StringLen=${#FW_ELEMENT_OPT_LONG[${id}]} ;; esac ;;
                             parameter)      case ${showDefValues} in
                                                 yes)    col2StringLen=${#FW_ELEMENT_PAR_DEFVAL[${id}]} ;;
                                                 *)      case ${showValues} in
@@ -365,46 +283,44 @@ function Print() {
                             theme)          case ${showValues} in yes) col2StringLen=${#FW_OBJECT_THM_PATH[${id}]} ;;       *) col2StringLen=${#FW_OBJECT_THM_LONG[${id}]}  ;; esac ;;
                             themeitem)      case ${showValues} in yes) col2StringLen=${#FW_OBJECT_TIM_VAL[${id}]} ;;        *) col2StringLen=${#FW_OBJECT_TIM_LONG[${id}]}  ;; esac ;;
 
-                            action)         col2StringLen=${#FW_TAGS_ACTIONS[${id}]} ;;
-                            element)        col2StringLen=${#FW_TAGS_ELEMENTS[${id}]} ;;
-                            instance)       col2StringLen=${#FW_TAGS_INSTANCES[${id}]} ;;
-                            object)         col2StringLen=${#FW_TAGS_OBJECTS[${id}]} ;;
+                            action | element | instance | object)
+                                col2StringLen=${#FW_COMPONENTS_TAGLINE[${id,,}]} ;;
                         esac
                         col2padding=$(( width - leftMargin - longest - midPadding - ${#midString} - col2StringLen ))
-                        if [[ "${withoutExtras}" == "no" ]]; then col2padding=$(( col2padding - ${#FW_TABLES_EXTRAS[${cmd1}]} )); fi
+                        if [[ "${withoutExtras}" == "no" ]]; then col2padding=$(( col2padding - ${#FW_COMPONENTS_TABLE_EXTRA["${cmd1}s"]} )); fi
                         for ((i = 1; i < ${col2padding}; i++)); do printf " "; done
 
 
                         if [[ "${withoutExtras}" == "no" ]]; then
                             case ${cmd1} in
-                                application)    Format themed text tableOriginFmt "${FW_ELEMENT_MDS_LS["${FW_ELEMENT_APP_ORIG[${id}]}"]}"
+                                application)    Format themed text tableOriginFmt "${FW_ELEMENT_MDS_ACR["${FW_ELEMENT_APP_ORIG[${id}]}"]}"
                                                 printf " %s" "${FW_ELEMENT_APP_ARGNUM[${id}]}"
                                                 if [[ -n "${FW_ELEMENT_APP_REQUESTED[${id}]:-}" ]]; then printf " ${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]}"; else printf " ${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]}"; fi
                                                 case "${FW_ELEMENT_APP_STATUS[${id}]}" in N) statusChar="${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]}";; E) statusChar="${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]}";; W) statusChar="${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]}";; S) statusChar="${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]}";; esac; printf " ${statusChar}"
                                                 case ${FW_ELEMENT_APP_PHA[${id}]} in CLI) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]}";; Default) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]}";; Env) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]}";; File) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]}";; Load) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]}";; Project) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]}";; Scenario) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]}";; Shell) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]}";; Site) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]}";; Task) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]}";; esac
                                                 printf " ${phaseChar}" ;;
-                                dependency)     Format themed text tableOriginFmt "${FW_ELEMENT_MDS_LS["${FW_ELEMENT_DEP_ORIG[${id}]}"]}"
+                                dependency)     Format themed text tableOriginFmt "${FW_ELEMENT_MDS_ACR["${FW_ELEMENT_DEP_ORIG[${id}]}"]}"
                                                 if [[ -n "${FW_ELEMENT_DEP_REQUESTED[${id}]:-}" ]]; then printf " ${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]}"; else printf " ${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]}"; fi
                                                 case "${FW_ELEMENT_DEP_STATUS[${id}]}" in N) statusChar="${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]}";; E) statusChar="${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]}";; W) statusChar="${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]}";; S) statusChar="${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]}";; esac; printf " ${statusChar}" ;;
-                                dirlist)        Format themed text tableOriginFmt "${FW_ELEMENT_MDS_LS["${FW_ELEMENT_DLS_ORIG[${id}]}"]}"
+                                dirlist)        Format themed text tableOriginFmt "${FW_ELEMENT_MDS_ACR["${FW_ELEMENT_DLS_ORIG[${id}]}"]}"
                                                 if [[ -n "${FW_ELEMENT_DLS_REQUESTED[${id}]:-}" ]]; then printf " ${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]}"; else printf " ${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]}"; fi
                                                 case "${FW_ELEMENT_DLS_STATUS[${id}]}" in N) statusChar="${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]}";; E) statusChar="${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]}";; W) statusChar="${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]}";; S) statusChar="${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]}";; esac; printf " ${statusChar}"
                                                 case ${FW_ELEMENT_DLS_PHA[${id}]} in CLI) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]}";; Default) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]}";; Env) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]}";; File) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]}";; Load) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]}";; Project) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]}";; Scenario) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]}";; Shell) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]}";; Site) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]}";; Task) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]}";; esac
                                                 printf " ${phaseChar}"
                                                 printf " %s" "${FW_ELEMENT_DLS_MOD[${id}]}" ;;
-                                dir)            Format themed text tableOriginFmt "${FW_ELEMENT_MDS_LS["${FW_ELEMENT_DIR_ORIG[${id}]}"]}"
+                                dir)            Format themed text tableOriginFmt "${FW_ELEMENT_MDS_ACR["${FW_ELEMENT_DIR_ORIG[${id}]}"]}"
                                                 if [[ -n "${FW_ELEMENT_DIR_REQUESTED[${id}]:-}" ]]; then printf " ${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]}"; else printf " ${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]}"; fi
                                                 case "${FW_ELEMENT_DIR_STATUS[${id}]}" in N) statusChar="${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]}";; E) statusChar="${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]}";; W) statusChar="${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]}";; S) statusChar="${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]}";; esac; printf " ${statusChar}"
                                                 case ${FW_ELEMENT_DIR_PHA[${id}]} in CLI) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]}";; Default) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]}";; Env) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]}";; File) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]}";; Load) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]}";; Project) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]}";; Scenario) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]}";; Shell) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]}";; Site) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]}";; Task) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]}";; esac
                                                 printf " ${phaseChar}"
                                                 printf " %s" "${FW_ELEMENT_DIR_MOD[${id}]}" ;;
-                                filelist)       Format themed text tableOriginFmt "${FW_ELEMENT_MDS_LS["${FW_ELEMENT_FLS_ORIG[${id}]}"]}"
+                                filelist)       Format themed text tableOriginFmt "${FW_ELEMENT_MDS_ACR["${FW_ELEMENT_FLS_ORIG[${id}]}"]}"
                                                 if [[ -n "${FW_ELEMENT_FLS_REQUESTED[${id}]:-}" ]]; then printf " ${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]}"; else printf " ${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]}"; fi
                                                 case "${FW_ELEMENT_FLS_STATUS[${id}]}" in N) statusChar="${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]}";; E) statusChar="${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]}";; W) statusChar="${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]}";; S) statusChar="${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]}";; esac; printf " ${statusChar}"
                                                 case ${FW_ELEMENT_FLS_PHA[${id}]} in CLI) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]}";; Default) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]}";; Env) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]}";; File) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]}";; Load) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]}";; Project) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]}";; Scenario) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]}";; Shell) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]}";; Site) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]}";; Task) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]}";; esac
                                                 printf " ${phaseChar}"
                                                 printf " %s" "${FW_ELEMENT_FLS_MOD[${id}]}" ;;
-                                file)           Format themed text tableOriginFmt "${FW_ELEMENT_MDS_LS["${FW_ELEMENT_FIL_ORIG[${id}]}"]}"
+                                file)           Format themed text tableOriginFmt "${FW_ELEMENT_MDS_ACR["${FW_ELEMENT_FIL_ORIG[${id}]}"]}"
                                                 if [[ -n "${FW_ELEMENT_FIL_REQUESTED[${id}]:-}" ]]; then printf " ${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]}"; else printf " ${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]}"; fi
                                                 case "${FW_ELEMENT_FIL_STATUS[${id}]}" in N) statusChar="${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]}";; E) statusChar="${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]}";; W) statusChar="${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]}";; S) statusChar="${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]}";; esac; printf " ${statusChar}"
                                                 case ${FW_ELEMENT_FIL_PHA[${id}]} in CLI) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]}";; Default) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]}";; Env) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]}";; File) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]}";; Load) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]}";; Project) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]}";; Scenario) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]}";; Shell) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]}";; Site) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]}";; Task) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]}";; esac
@@ -414,10 +330,11 @@ function Print() {
                                                 printf "%s" "${text:0:1}"
                                                 printf " %s" "${FW_OBJECT_MSG_ARGS[${id}]}"
                                                 printf " %s" "${FW_OBJECT_MSG_CAT[${id}]:0:8}" ;;
-                                module)         case ${FW_ELEMENT_MDS_PHA[${id}]} in CLI) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]}";; Default) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]}";; Env) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]}";; File) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]}";; Load) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]}";; Project) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]}";; Scenario) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]}";; Shell) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]}";; Site) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]}";; Task) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]}";; esac
-                                                printf " ${phaseChar}" ;;
+                                module)         printf "%s " "${FW_ELEMENT_MDS_ACR[${id}]}"
+                                                case ${FW_ELEMENT_MDS_PHA[${id}]} in CLI) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]}";; Default) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]}";; Env) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]}";; File) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]}";; Load) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]}";; Project) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]}";; Scenario) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]}";; Shell) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]}";; Site) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]}";; Task) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]}";; esac
+                                                printf "${phaseChar}" ;;
                                 option)         if [[ "${FW_ELEMENT_OPT_CAT[${id}]}" == "Exit+Options" ]]; then printf "exit"; else printf "run" ; fi ;;
-                                parameter)      Format themed text tableOriginFmt "${FW_ELEMENT_MDS_LS["${FW_ELEMENT_PAR_ORIG[${id}]}"]}"
+                                parameter)      Format themed text tableOriginFmt "${FW_ELEMENT_MDS_ACR["${FW_ELEMENT_PAR_ORIG[${id}]}"]}"
                                                 if [[ -n "${FW_ELEMENT_PAR_DEFVAL[${id}]:-}" ]]; then printf " ${FW_INSTANCE_TABLE_CHARS["charDefY-${format}"]}"; else printf " ${FW_INSTANCE_TABLE_CHARS["charDefN-${format}"]}"; fi
                                                 if [[ -n "${FW_ELEMENT_PAR_REQUESTED[${id}]:-}" ]]; then printf " ${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]}"; else printf " ${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]}"; fi
                                                 case "${FW_ELEMENT_PAR_STATUS[${id}]}" in N) statusChar="${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]}";; E) statusChar="${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]}";; W) statusChar="${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]}";; S) statusChar="${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]}";; esac; printf " ${statusChar}"
@@ -450,13 +367,13 @@ function Print() {
                                                 if (( ${FW_OBJECT_PHA_ERRCNT[${id}]} < 99 )); then printf " "; fi
                                                 if (( ${FW_OBJECT_PHA_ERRCNT[${id}]} < 9 )); then printf " "; fi
                                                 Format themed text phaErrNumberFmt ${FW_OBJECT_PHA_ERRCNT[${id}]} ;;
-                                project)        Format themed text tableOriginFmt "${FW_ELEMENT_MDS_LS["${FW_ELEMENT_PRJ_ORIG[${id}]}"]}"
+                                project)        Format themed text tableOriginFmt "${FW_ELEMENT_MDS_ACR["${FW_ELEMENT_PRJ_ORIG[${id}]}"]}"
                                                 case "${FW_ELEMENT_PRJ_STATUS[${id}]}" in N) statusChar="${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]}";; E) statusChar="${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]}";; W) statusChar="${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]}";; S) statusChar="${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]}";; esac; printf " ${statusChar} "
                                                 case ${FW_ELEMENT_PRJ_MODES[${id}]} in all | test) printf "${FW_INSTANCE_TABLE_CHARS["charModeSet-${format}"]} " ;; *) printf "${FW_INSTANCE_TABLE_CHARS["charModeNot-${format}"]} " ;; esac
                                                 case ${FW_ELEMENT_PRJ_MODES[${id}]} in all | dev) printf "${FW_INSTANCE_TABLE_CHARS["charModeSet-${format}"]} " ;; *) printf "${FW_INSTANCE_TABLE_CHARS["charModeNot-${format}"]} " ;; esac
                                                 case ${FW_ELEMENT_PRJ_MODES[${id}]} in all | build) printf "${FW_INSTANCE_TABLE_CHARS["charModeSet-${format}"]} " ;; *) printf "${FW_INSTANCE_TABLE_CHARS["charModeNot-${format}"]} " ;; esac
                                                 case ${FW_ELEMENT_PRJ_MODES[${id}]} in all | use) printf "${FW_INSTANCE_TABLE_CHARS["charModeSet-${format}"]}" ;; *) printf "${FW_INSTANCE_TABLE_CHARS["charModeNot-${format}"]}" ;; esac ;;
-                                scenario)       Format themed text tableOriginFmt "${FW_ELEMENT_MDS_LS["${FW_ELEMENT_SCN_ORIG[${id}]}"]}"
+                                scenario)       Format themed text tableOriginFmt "${FW_ELEMENT_MDS_ACR["${FW_ELEMENT_SCN_ORIG[${id}]}"]}"
                                                 case "${FW_ELEMENT_SCN_STATUS[${id}]}" in N) statusChar="${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]}";; E) statusChar="${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]}";; W) statusChar="${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]}";; S) statusChar="${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]}";; esac; printf " ${statusChar} "
                                                 case ${FW_ELEMENT_SCN_MODES[${id}]} in all | test) printf "${FW_INSTANCE_TABLE_CHARS["charModeSet-${format}"]} " ;; *) printf "${FW_INSTANCE_TABLE_CHARS["charModeNot-${format}"]} " ;; esac
                                                 case ${FW_ELEMENT_SCN_MODES[${id}]} in all | dev) printf "${FW_INSTANCE_TABLE_CHARS["charModeSet-${format}"]} " ;; *) printf "${FW_INSTANCE_TABLE_CHARS["charModeNot-${format}"]} " ;; esac
@@ -464,8 +381,8 @@ function Print() {
                                                 case ${FW_ELEMENT_SCN_MODES[${id}]} in all | use) printf "${FW_INSTANCE_TABLE_CHARS["charModeSet-${format}"]}" ;; *) printf "${FW_INSTANCE_TABLE_CHARS["charModeNot-${format}"]}" ;; esac ;;
                                 setting)        case ${FW_OBJECT_SET_PHA[${id}]} in CLI) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]}";; Default) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]}";; Env) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]}";; File) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]}";; Load) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]}";; Project) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]}";; Scenario) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]}";; Shell) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]}";; Site) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]}";; Task) phaseChar="${FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]}";; esac
                                                 printf "${phaseChar}" ;;
-                                site)           Format themed text tableOriginFmt "${FW_ELEMENT_MDS_LS["${FW_ELEMENT_SIT_ORIG[${id}]}"]}" ;;
-                                task)           Format themed text tableOriginFmt "${FW_ELEMENT_MDS_LS["${FW_ELEMENT_TSK_ORIG[${id}]}"]}"
+                                site)           Format themed text tableOriginFmt "${FW_ELEMENT_MDS_ACR["${FW_ELEMENT_SIT_ORIG[${id}]}"]}" ;;
+                                task)           Format themed text tableOriginFmt "${FW_ELEMENT_MDS_ACR["${FW_ELEMENT_TSK_ORIG[${id}]}"]}"
                                                 printf " "
                                                 if [[ -n "${FW_ELEMENT_TSK_REQUESTED[${id}]:-}" ]]; then printf "${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]}"; else printf "${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]}"; fi
                                                 case "${FW_ELEMENT_TSK_STATUS[${id}]}" in N) statusChar="${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]}";; E) statusChar="${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]}";; W) statusChar="${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]}";; S) statusChar="${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]}";; esac; printf " ${statusChar} "
@@ -473,7 +390,8 @@ function Print() {
                                                 case ${FW_ELEMENT_TSK_MODES[${id}]} in all | dev) printf "${FW_INSTANCE_TABLE_CHARS["charModeSet-${format}"]} " ;; *) printf "${FW_INSTANCE_TABLE_CHARS["charModeNot-${format}"]} " ;; esac
                                                 case ${FW_ELEMENT_TSK_MODES[${id}]} in all | build) printf "${FW_INSTANCE_TABLE_CHARS["charModeSet-${format}"]} " ;; *) printf "${FW_INSTANCE_TABLE_CHARS["charModeNot-${format}"]} " ;; esac
                                                 case ${FW_ELEMENT_TSK_MODES[${id}]} in all | use) printf "${FW_INSTANCE_TABLE_CHARS["charModeSet-${format}"]}" ;; *) printf "${FW_INSTANCE_TABLE_CHARS["charModeNot-${format}"]}" ;; esac ;;
-                                themeitem)      Format themed text tableSourceFmt "${FW_OBJECT_THM_LS["${FW_OBJECT_TIM_SOURCE[${id}]}"]}" ;;
+                                themeitem)      Format themed text tableSourceFmt "${FW_OBJECT_TIM_SOURCE[${id}]}" ;;
+##TODO Limit string to N characters
                             esac
                         fi
                         printf "\n"
@@ -489,19 +407,19 @@ function Print() {
                         case ${cmd1} in
                             application)
                                 Format table midline ${width}
-                                printf " properties:  (Or) origin, short module ID, (A) number of arguments, (R) requested, (S) status, (P) set in phase\n"
+                                printf " properties:  (MD) declaring module acronym, (A) number of arguments, (R) requested, (S) status, (P) set in phase\n"
                                 printf " - requested: ${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]} yes, ${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]} no\n"
                                 printf " - status:    ${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]} not-tested, ${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]} error, ${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]} warning, ${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]} success\n"
                                 printf " - phase:     ${FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]} CLI, ${FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]} Default (value), ${FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]} Environment, ${FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]} File\n"
                                 printf "              ${FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]} Load, ${FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]} Project, ${FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]} Scenario, ${FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]} Shell, ${FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]} Site, ${FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]} Task\n" ;;
                             dependency)
                                 Format table midline ${width}
-                                printf " properties:  (Or) origin, short module ID, (R) requested, (S) status\n"
+                                printf " properties:  (MD) declaring module acronym, (R) requested, (S) status\n"
                                 printf " - requested: ${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]} yes, ${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]} no\n"
                                 printf " - status:    ${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]} not-tested, ${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]} error, ${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]} warning, ${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]} success\n" ;;
                             dir | dirlist | file | filelist)
                                 Format table midline ${width}
-                                printf " properties:  (Or) origin, short module ID, (R) requested, (S) status, (P) set in phase\n"
+                                printf " properties:  (MD) declaring module acronym, (R) requested, (S) status, (P) set in phase\n"
                                 printf " - requested: ${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]} yes, ${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]} no\n"
                                 printf " - status:    ${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]} not-tested, ${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]} error, ${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]} warning, ${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]} success\n"
                                 printf " - phase:     ${FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]} CLI, ${FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]} Default (value), ${FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]} Environment, ${FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]} File\n"
@@ -513,7 +431,7 @@ function Print() {
                                 printf " - type:      E  error, W warning, M message, X text, I info, D debug, T trace\n" ;;
                             module)
                                 Format table midline ${width}
-                                printf " properties:  (P) set in phase\n"
+                                printf " properties:  (SH) acronym, (P) set in phase\n"
                                 printf " - phase:     ${FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]} CLI, ${FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]} Default (value), ${FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]} Environment, ${FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]} File\n"
                                 printf "              ${FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]} Load, ${FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]} Project, ${FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]} Scenario, ${FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]} Shell, ${FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]} Site, ${FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]} Task\n" ;;
                             option)
@@ -521,7 +439,7 @@ function Print() {
                                 printf " types: Exit - exit option, Run - runtime option\n" ;;
                             parameter)
                                 Format table midline ${width}
-                                printf " properties:  (Or) origin, short module ID, (D) default value, (R) requested, (S) status, (P) set in phase\n"
+                                printf " properties:  (MD) declaring module acronym, (D) default value, (R) requested, (S) status, (P) set in phase\n"
                                 printf " - def value: ${FW_INSTANCE_TABLE_CHARS["charDefY-${format}"]} yes, ${FW_INSTANCE_TABLE_CHARS["charDefN-${format}"]} no\n"
                                 printf " - requested: ${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]} yes, ${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]} no\n"
                                 printf " - status:    ${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]} not-tested, ${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]} error, ${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]} warning, ${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]} success\n"
@@ -536,7 +454,7 @@ function Print() {
                                 printf " - numbers:   "; Format themed text phaWarnNumberFmt 111; printf " warnings, "; Format themed text phaErrNumberFmt  222; printf " errors\n" ;;
                             project | scenario | task)
                                 Format table midline ${width}
-                                if [[ "${cmd1}" == "task" ]]; then printf " properties:  (Or)igin as short module ID, (R)equested, (S)tatus\n"; else printf " properties:  (Or)igin as short module ID, (S)tatus\n"; fi
+                                if [[ "${cmd1}" == "task" ]]; then printf " properties:  (MD) declaring module acronym, (R)equested, (S)tatus\n"; else printf " properties:  (MD) declaring module acronym, (S)tatus\n"; fi
                                 printf "              (T)est, (D)evelopment, (B)uild, (U)se\n"
                                 if [[ "${cmd1}" == "task" ]]; then
                                     printf " - requested: ${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]} yes, printf "${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]}" no\n"
@@ -550,7 +468,7 @@ function Print() {
                                 printf "              ${FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]} Load, ${FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]} Project, ${FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]} Scenario, ${FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]} Shell, ${FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]} Site, ${FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]} Task\n" ;;
                             site)
                                 Format table midline ${width}
-                                printf " properties:  (Or)igin as short module ID\n" ;;
+                                printf " properties:  (MD) declaring module acronym\n" ;;
                             themeitem)
                                 Format table midline ${width}
                                 printf " properties:  Src - source for item setting, short theme ID\n" ;;
@@ -572,16 +490,10 @@ function Print() {
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             Print message table "$(Filter messages ${1})" ;;
 
-                        *)
-                            Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
+                        *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
                     esac ;;
-
-
-
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

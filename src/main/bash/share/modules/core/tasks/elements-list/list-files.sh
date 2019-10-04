@@ -32,15 +32,15 @@
 if [[ ! -n "${SF_HOME}" || "${FW_LOADED:-no}" != yes ]]; then printf " skb-runtime: please run from skb-framework\n\n"; exit 100; fi
 source ${SF_HOME}/lib/framework/Framework.sh
 
-Cli add option table; Cli add option show-values; Cli add option with-legend; Cli add option without-status; Cli add option without-extras
+Clioptions add option table; Clioptions add option show-values; Clioptions add option with-legend; Clioptions add option without-status; Clioptions add option without-extras
 
-Cli add option filter-origin    files
-Cli add option filter-requested files
-Cli add option filter-status    files
-Cli add option filter-tested    files
-Cli add option filter-not-core  files
+Clioptions add option filter-origin    files
+Clioptions add option filter-requested files
+Clioptions add option filter-status    files
+Clioptions add option filter-tested    files
+Clioptions add option filter-not-core  files
 
-Parse cli arguments "Options Table+Options Filters" $*
+Parse cli "Options Table+Options Filters" $*
 
 
 ############################################################################################
@@ -53,43 +53,43 @@ requested=""
 status=""
 tested=""
 
-if [[ "${FW_PARSED_ARG_MAP[o]:-${FW_PARSED_ARG_MAP[origin]:-no}}" == yes ]]; then
-    Test existing module id "${FW_PARSED_VAL_MAP[o]:-${FW_PARSED_VAL_MAP[origin]}}"
-    origin="$(Get module id "${FW_PARSED_VAL_MAP[o]:-${FW_PARSED_VAL_MAP[origin]}}")"
+if [[ "${FW_INSTANCE_CLI_SET["origin"]}" == "yes" ]]; then
+    Test existing module id "${FW_INSTANCE_CLI_VAL["origin"]}"
+    origin="${FW_INSTANCE_CLI_VAL["origin"]}"
 fi
-if [[ "${FW_PARSED_ARG_MAP[r]:-${FW_PARSED_ARG_MAP[requested]:-no}}" == yes ]]; then
-    Test yesno "${FW_PARSED_VAL_MAP[r]:-${FW_PARSED_VAL_MAP[requested]}}" requested
-    requested="${FW_PARSED_VAL_MAP[r]:-${FW_PARSED_VAL_MAP[requested]}}"
+if [[ "${FW_INSTANCE_CLI_SET["requested"]}" == "yes" ]]; then
+    Test yesno "${FW_INSTANCE_CLI_VAL["requested"]}" requested
+    requested="${FW_INSTANCE_CLI_VAL["requested"]}"
     requested=${requested:0:1}
     requested=${requested,}
 fi
-if [[ "${FW_PARSED_ARG_MAP[s]:-${FW_PARSED_ARG_MAP[status]:-no}}" == yes ]]; then
-    Test element status "${FW_PARSED_VAL_MAP[s]:-${FW_PARSED_VAL_MAP[status]}}"
-    status="$(Get status char "${FW_PARSED_VAL_MAP[s]:-${FW_PARSED_VAL_MAP[status]}}")"
+if [[ "${FW_INSTANCE_CLI_SET["status"]}" == "yes" ]]; then
+    Test element status "${FW_INSTANCE_CLI_VAL["status"]}"
+    status="$(Get status char "${FW_INSTANCE_CLI_VAL["status"]}")"
 fi
-if [[ "${FW_PARSED_ARG_MAP[t]:-${FW_PARSED_ARG_MAP[tested]:-no}}" == yes ]]; then
-    Test yesno "${FW_PARSED_VAL_MAP[t]:-${FW_PARSED_VAL_MAP[tested]}}" tested
-    tested="${FW_PARSED_VAL_MAP[t]:-${FW_PARSED_VAL_MAP[tested]}}"
+if [[ "${FW_INSTANCE_CLI_SET["tested"]}" == "yes" ]]; then
+    Test yesno "${FW_INSTANCE_CLI_VAL["tested"]}" tested
+    tested="${FW_INSTANCE_CLI_VAL["tested"]}"
     tested=${tested:0:1}
     tested=${tested,}
 fi
 
 
 not_core=no
-if [[ "${FW_PARSED_ARG_MAP[n]:-${FW_PARSED_ARG_MAP[not-core]:-no}}" == yes ]]; then not_core=yes; fi
+if [[ "${FW_INSTANCE_CLI_SET["not-core"]}" == "yes" ]]; then not_core=yes; fi
 
 
 showValues=""
-if [[ "${FW_PARSED_ARG_MAP[V]:-${FW_PARSED_ARG_MAP[show-values]:-no}}" == "yes" ]]; then showValues="show-values"; fi
+if [[ "${FW_INSTANCE_CLI_SET["show-values"]}" == "yes" ]]; then showValues="show-values"; fi
 
 withLegend=""
-if [[ "${FW_PARSED_ARG_MAP[W]:-${FW_PARSED_ARG_MAP[with-legend]:-no}}" == "yes" ]]; then withLegend="with-legend"; fi
+if [[ "${FW_INSTANCE_CLI_SET["with-legend"]}" == "yes" ]]; then withLegend="with-legend"; fi
 
 withoutStatus=""
-if [[ "${FW_PARSED_ARG_MAP[S]:-${FW_PARSED_ARG_MAP[without-status]:-no}}" == "yes" ]]; then withoutStatus="without-status"; fi
+if [[ "${FW_INSTANCE_CLI_SET["without-status"]}" == "yes" ]]; then withoutStatus="without-status"; fi
 
 withoutExtras=""
-if [[ "${FW_PARSED_ARG_MAP[E]:-${FW_PARSED_ARG_MAP[without-extras]:-no}}" == "yes" ]]; then withoutExtras="without-extras"; fi
+if [[ "${FW_INSTANCE_CLI_SET["without-extras"]}" == "yes" ]]; then withoutExtras="without-extras"; fi
 
 
 
@@ -138,7 +138,7 @@ done
 ## print files as list or table
 ##
 ############################################################################################
-if [[ ${FW_PARSED_ARG_MAP[T]:-${FW_PARSED_ARG_MAP[table]:-no}} == no ]]; then
+if [[ "${FW_INSTANCE_CLI_SET["table"]}" == "no" ]]; then
     printf "\n  "
     Format themed text listHeadFmt Files
     printf "\n"

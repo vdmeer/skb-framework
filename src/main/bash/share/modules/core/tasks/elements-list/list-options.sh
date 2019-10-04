@@ -32,12 +32,12 @@
 if [[ ! -n "${SF_HOME}" || "${FW_LOADED:-no}" != yes ]]; then printf " skb-runtime: please run from skb-framework\n\n"; exit 100; fi
 source ${SF_HOME}/lib/framework/Framework.sh
 
-Cli add option table; Cli add option show-values; Cli add option with-legend; Cli add option without-status; Cli add option without-extras
+Clioptions add option table; Clioptions add option show-values; Clioptions add option with-legend; Clioptions add option without-status; Clioptions add option without-extras
 
-Cli add option filter-exitop
-Cli add option filter-runtop
+Clioptions add option filter-exitop
+Clioptions add option filter-runtop
 
-Parse cli arguments "Options Filters" $*
+Parse cli "Options Filters" $*
 
 
 ############################################################################################
@@ -46,16 +46,16 @@ Parse cli arguments "Options Filters" $*
 ##
 ############################################################################################
 showValues=""
-if [[ "${FW_PARSED_ARG_MAP[V]:-${FW_PARSED_ARG_MAP[show-values]:-no}}" == "yes" ]]; then showValues="show-values"; fi
+if [[ "${FW_INSTANCE_CLI_SET["show-values"]}" == "yes" ]]; then showValues="show-values"; fi
 
 withLegend=""
-if [[ "${FW_PARSED_ARG_MAP[W]:-${FW_PARSED_ARG_MAP[with-legend]:-no}}" == "yes" ]]; then withLegend="with-legend"; fi
+if [[ "${FW_INSTANCE_CLI_SET["with-legend"]}" == "yes" ]]; then withLegend="with-legend"; fi
 
 withoutStatus=""
-if [[ "${FW_PARSED_ARG_MAP[S]:-${FW_PARSED_ARG_MAP[without-status]:-no}}" == "yes" ]]; then withoutStatus="without-status"; fi
+if [[ "${FW_INSTANCE_CLI_SET["without-status"]}" == "yes" ]]; then withoutStatus="without-status"; fi
 
 withoutExtras=""
-if [[ "${FW_PARSED_ARG_MAP[E]:-${FW_PARSED_ARG_MAP[without-extras]:-no}}" == "yes" ]]; then withoutExtras="without-extras"; fi
+if [[ "${FW_INSTANCE_CLI_SET["without-extras"]}" == "yes" ]]; then withoutExtras="without-extras"; fi
 
 
 
@@ -65,8 +65,8 @@ if [[ "${FW_PARSED_ARG_MAP[E]:-${FW_PARSED_ARG_MAP[without-extras]:-no}}" == "ye
 ##
 ############################################################################################
 filters=""
-if [[ "${FW_PARSED_ARG_MAP[e]:-${FW_PARSED_ARG_MAP[exit]:-no}}" == yes ]];    then filters+=" Exit+Options"; fi
-if [[ "${FW_PARSED_ARG_MAP[r]:-${FW_PARSED_ARG_MAP[runtime]:-no}}" == yes ]]; then filters+=" Runtime+Options"; fi
+if [[ "${FW_INSTANCE_CLI_SET["exit"]}" == "yes" ]];    then filters+=" Exit+Options"; fi
+if [[ "${FW_INSTANCE_CLI_SET["runtime"]}" == "yes" ]]; then filters+=" Runtime+Options"; fi
 if [[ ! -n "${filters}" ]]; then filters="Options"; fi
 
 
@@ -76,7 +76,7 @@ if [[ ! -n "${filters}" ]]; then filters="Options"; fi
 ## list options
 ##
 ############################################################################################
-if [[ ${FW_PARSED_ARG_MAP[T]:-${FW_PARSED_ARG_MAP[table]:-no}} == no ]]; then
+if [[ "${FW_INSTANCE_CLI_SET["table"]}" == "no" ]]; then
     List categorized options ${filters}
 else
     Print categorized option table ${filters}

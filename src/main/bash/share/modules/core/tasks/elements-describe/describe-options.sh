@@ -32,11 +32,11 @@
 if [[ ! -n "${SF_HOME}" || "${FW_LOADED:-no}" != yes ]]; then printf " skb-runtime: please run from skb-framework\n\n"; exit 100; fi
 source ${SF_HOME}/lib/framework/Framework.sh
 
-Cli add option filter-id        describe option
-Cli add option filter-exitop
-Cli add option filter-runtop
+Clioptions add option filter-id        describe option
+Clioptions add option filter-exitop
+Clioptions add option filter-runtop
 
-Parse cli arguments "Options Filters" $*
+Parse cli "Options Filters" $*
 
 
 ############################################################################################
@@ -48,14 +48,14 @@ name=""
 exit=""
 runtime=""
 
-if [[ "${FW_PARSED_ARG_MAP[i]:-${FW_PARSED_ARG_MAP[id]:-no}}" == yes ]]; then
-    Test existing option id "${FW_PARSED_VAL_MAP[i]:-${FW_PARSED_VAL_MAP[id]}}"
-    name="${FW_PARSED_VAL_MAP[i]:-${FW_PARSED_VAL_MAP[id]}}"
+if [[ "${FW_INSTANCE_CLI_SET["id"]}" == "yes" ]]; then
+    Test existing option id "${FW_INSTANCE_CLI_VAL["id"]}"
+    name="${FW_INSTANCE_CLI_VAL["id"]}"
 fi
-if [[ "${FW_PARSED_ARG_MAP[e]:-${FW_PARSED_ARG_MAP[exit]:-no}}" == yes ]]; then
+if [[ "${FW_INSTANCE_CLI_SET["exit"]}" == "yes" ]]; then
     exit="Exit+Options"
 fi
-if [[ "${FW_PARSED_ARG_MAP[r]:-${FW_PARSED_ARG_MAP[runtime]:-no}}" == yes ]]; then
+if [[ "${FW_INSTANCE_CLI_SET["runtime"]}" == "yes" ]]; then
     runtime="Runtime+Options"
 fi
 
@@ -66,7 +66,7 @@ fi
 ## filter options
 ##
 ############################################################################################
-arr="$(Options has long)"
+arr="$(Options has)"
 remove=""
 
 if [[ -n "${name}" ]]; then

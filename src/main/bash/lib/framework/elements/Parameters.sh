@@ -47,9 +47,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_MEDIUM+=" FW_ELEMENT_PAR_STATUS FW_ELEMENT_PAR_STATUS_COMMENTS FW_ELEMENT_PAR_REQUESTED"
 fi
 
-FW_TABLES_COL1["parameter"]=Parameters
-FW_TABLES_EXTRAS["parameter"]="Or D R S P"
-FW_TAGS_ELEMENTS["Parameters"]="element representing parameters"
+FW_COMPONENTS_SINGULAR["parameters"]="parameter"
+FW_COMPONENTS_PLURAL["parameters"]="parameters"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["parameters"]="Parameter"
+FW_COMPONENTS_TITLE_LONG_PLURAL["parameters"]="Parameters"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["parameters"]="Parameter"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["parameters"]="Parameters"
+FW_COMPONENTS_TABLE_DESCR["parameters"]="Description"
+FW_COMPONENTS_TABLE_VALUE["parameters"]="Value"
+FW_COMPONENTS_TABLE_DEFVAL["parameters"]="Default Value"
+FW_COMPONENTS_TABLE_EXTRA["parameters"]="MD D R S P"
+FW_COMPONENTS_TAGLINE["parameters"]="element representing parameters"
 
 
 function Parameters() {
@@ -73,7 +81,7 @@ function Parameters() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

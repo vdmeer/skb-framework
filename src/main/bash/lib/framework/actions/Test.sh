@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Test"]="action to test something"
+FW_COMPONENTS_TAGLINE["test"]="action to test something"
 
 
 function Test() {
@@ -258,10 +258,7 @@ function Test() {
                             id="${1}"; if [[ ! -n "${FW_OBJECT_SET_LONG[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E805 "${cmd2}" "${id}"; return 1; fi ;;
                         existing-theme-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
-                            id="${1}"
-                            if [[ "${FW_OBJECT_THM_LONG[*]}"  != "" && -n "${FW_OBJECT_THM_LONG[${id}]:-}" ]];  then return; fi
-                            if [[ "${FW_OBJECT_THM_SHORT[*]}" != "" && -n "${FW_OBJECT_THM_SHORT[${id}]:-}" ]]; then return; fi
-                            Report application error "${functionName}" "${cmdString3}" E805 "${cmd2}" "${id}"; return 1 ;;
+                            id="${1}"; if [[ ! -n "${FW_OBJECT_THM_LONG[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E805 "${cmd2}" "${id}"; return 1; fi ;;
                         existing-themeitem-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"; if [[ ! -n "${FW_OBJECT_TIM_LONG[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E805 "${cmd2}" "${id}"; return 1; fi ;;
@@ -280,8 +277,7 @@ function Test() {
                         existing-module-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"
-                            if [[ "${FW_ELEMENT_MDS_LONG[*]}"  != "" && -n "${FW_ELEMENT_MDS_LONG[${id}]:-}" ]];  then return; fi
-                            if [[ "${FW_ELEMENT_MDS_SHORT[*]}" != "" && -n "${FW_ELEMENT_MDS_SHORT[${id}]:-}" ]]; then return; fi
+                            if [[ "${FW_ELEMENT_MDS_LONG[*]}" != "" && -n "${FW_ELEMENT_MDS_LONG[${id}]:-}" ]]; then return; fi
                             Report application error "${functionName}" "${cmdString3}" E805 "${cmd2}" "${id}"; return 1 ;;
                         existing-option-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
@@ -357,16 +353,9 @@ function Test() {
                         used-dependency-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"; if [[ "${FW_ELEMENT_DEP_LONG[*]}" != "" && -n "${FW_ELEMENT_DEP_LONG[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi ;;
-                        used-module-long-id)
+                        used-module-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
-                            id="${1}"
-                            if [[ "${FW_ELEMENT_MDS_LONG[*]}"  != "" && -n "${FW_ELEMENT_MDS_LONG[${id}]:-}" ]];  then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi
-                            if [[ "${FW_ELEMENT_MDS_SHORT[*]}" != "" && -n "${FW_ELEMENT_MDS_SHORT[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E808 "${cmd2}" "${id}"; return 1; fi ;;
-                        used-module-short-id)
-                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
-                            shortId="${1}"
-                            if [[ "${FW_ELEMENT_MDS_SHORT[*]}" != "" && -n "${FW_ELEMENT_MDS_SHORT[${shortId}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${shortId}"; return 1; fi
-                            if [[ "${FW_ELEMENT_MDS_LONG[*]}"  != "" && -n "${FW_ELEMENT_MDS_LONG[${shortId}]:-}" ]];  then Report application error "${functionName}" "${cmdString3}" E809 "${cmd2}" "${shortId}"; return 1; fi ;;
+                            id="${1}"; if [[ "${FW_ELEMENT_MDS_LONG[*]}" != "" && -n "${FW_ELEMENT_MDS_LONG[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi ;;
                         used-option-long-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"
@@ -445,27 +434,17 @@ function Test() {
                         used-setting-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"; if [[ -n "${FW_OBJECT_SET_LONG[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi ;;
-                        used-theme-long-id)
+                        used-theme-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
-                            id="${1}"
-                            if [[ "${FW_OBJECT_THM_LONG[*]}"  != "" && -n "${FW_OBJECT_THM_LONG[${id}]:-}" ]];  then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi
-                            if [[ "${FW_OBJECT_THM_SHORT[*]}" != "" && -n "${FW_OBJECT_THM_SHORT[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E811 "${cmd2}" "${id}"; return 1; fi ;;
-                        used-theme-short-id)
-                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
-                            shortId="${1}"
-                            if [[ "${shortId}" == "" ]]; then return; fi
-                            if [[ "${FW_OBJECT_THM_SHORT[*]}" != "" && -n "${FW_OBJECT_THM_SHORT[${shortId}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${shortId}"; return 1; fi
-                            if [[ "${FW_OBJECT_THM_LONG[*]}"  != "" && -n "${FW_OBJECT_THM_LONG[${shortId}]:-}" ]];  then Report application error "${functionName}" "${cmdString3}" E812 "${cmd2}" "${shortId}"; return 1; fi ;;
+                            id="${1}"; if [[ -n "${FW_OBJECT_THM_LONG[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi ;;
                         used-themeitem-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"; if [[ -n "${FW_OBJECT_TIM_LONG[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi ;;
 
                         *) Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
                     esac ;;
-
                 *) Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-
         *) Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

@@ -53,8 +53,8 @@ function __skb_Format_completions(){
         *)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "for" ]]; then
                         case ${COMP_WORDS[COMP_CWORD-1]} in
                             application)    retval="$(Applications has)" ;;
-                            clioption)      retval="$(Cli has long)" ;;
-                            configuration)  retval="$(Configuration has)" ;;
+                            clioption)      retval="$(Clioptions has)" ;;
+                            configuration)  retval="$(Configurations has)" ;;
                             dependency)     retval="$(Dependencies has)" ;;
                             dirlist)        retval="$(Dirlists has)" ;;
                             dir)            retval="$(Dirs has)" ;;
@@ -65,8 +65,8 @@ function __skb_Format_completions(){
                             level)          retval="$(Levels has)" ;;
                             message)        retval="$(Messages has)" ;;
                             mode)           retval="$(Modes has)" ;;
-                            modules)        retval="$(Modules has long)" ;;
-                            option)         retval="$(Options has long)" ;;
+                            modules)        retval="$(Modules has)" ;;
+                            option)         retval="$(Options has)" ;;
                             phase)          retval="$(Phases has)" ;;
                             parameter)      retval="$(Parameters has)" ;;
                             project)        retval="$(Projects has)" ;;
@@ -74,7 +74,7 @@ function __skb_Format_completions(){
                             setting)        retval="$(Settings has)" ;;
                             site)           retval="$(Sites has)" ;;
                             task)           retval="$(Tasks has)" ;;
-                            theme)          retval="$(Themes has long)" ;;
+                            theme)          retval="$(Themes has)" ;;
                             themeitem)      retval="$(Themeitems has)" ;;
 
                             action)         retval="$(Framework has actions)" ;;

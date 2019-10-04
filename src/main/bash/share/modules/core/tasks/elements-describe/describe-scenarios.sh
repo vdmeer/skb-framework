@@ -32,14 +32,14 @@
 if [[ ! -n "${SF_HOME}" || "${FW_LOADED:-no}" != yes ]]; then printf " skb-runtime: please run from skb-framework\n\n"; exit 100; fi
 source ${SF_HOME}/lib/framework/Framework.sh
 
-Cli add option filter-id        describe scenario
-Cli add option filter-mode      scenarios
-Cli add option filter-origin    scenarios
-Cli add option filter-status    scenarios
-Cli add option filter-tested    scenarios
-Cli add option filter-not-core  scenarios
+Clioptions add option filter-id        describe scenario
+Clioptions add option filter-mode      scenarios
+Clioptions add option filter-origin    scenarios
+Clioptions add option filter-status    scenarios
+Clioptions add option filter-tested    scenarios
+Clioptions add option filter-not-core  scenarios
 
-Parse cli arguments "Options Filters" $*
+Parse cli "Options Filters" $*
 
 
 ############################################################################################
@@ -53,32 +53,32 @@ origin=""
 status=""
 tested=""
 
-if [[ "${FW_PARSED_ARG_MAP[i]:-${FW_PARSED_ARG_MAP[id]:-no}}" == yes ]]; then
-    Test existing scenario id "${FW_PARSED_VAL_MAP[i]:-${FW_PARSED_VAL_MAP[id]}}"
-    name="${FW_PARSED_VAL_MAP[i]:-${FW_PARSED_VAL_MAP[id]}}"
+if [[ "${FW_INSTANCE_CLI_SET["id"]}" == "yes" ]]; then
+    Test existing scenario id "${FW_INSTANCE_CLI_VAL["id"]}"
+    name="${FW_INSTANCE_CLI_VAL["id"]}"
 fi
-if [[ "${FW_PARSED_ARG_MAP[m]:-${FW_PARSED_ARG_MAP[mode]:-no}}" == yes ]]; then
-    Test current mode "${FW_PARSED_VAL_MAP[m]:-${FW_PARSED_VAL_MAP[mode]}}"
-    mode="${FW_PARSED_VAL_MAP[m]:-${FW_PARSED_VAL_MAP[mode]}}"
+if [[ "${FW_INSTANCE_CLI_SET["mode"]}" == "yes" ]]; then
+    Test current mode "${FW_INSTANCE_CLI_VAL["mode"]}"
+    mode="${FW_INSTANCE_CLI_VAL["mode"]}"
 fi
-if [[ "${FW_PARSED_ARG_MAP[o]:-${FW_PARSED_ARG_MAP[origin]:-no}}" == yes ]]; then
-    Test existing module id "${FW_PARSED_VAL_MAP[o]:-${FW_PARSED_VAL_MAP[origin]}}"
-    origin="$(Get module id "${FW_PARSED_VAL_MAP[o]:-${FW_PARSED_VAL_MAP[origin]}}")"
+if [[ "${FW_INSTANCE_CLI_SET["origin"]}" == "yes" ]]; then
+    Test existing module id "${FW_INSTANCE_CLI_VAL["origin"]}"
+    origin="${FW_INSTANCE_CLI_VAL["origin"]}"
 fi
-if [[ "${FW_PARSED_ARG_MAP[s]:-${FW_PARSED_ARG_MAP[status]:-no}}" == yes ]]; then
-    Test element status "${FW_PARSED_VAL_MAP[s]:-${FW_PARSED_VAL_MAP[status]}}"
-    status="$(Get status char "${FW_PARSED_VAL_MAP[s]:-${FW_PARSED_VAL_MAP[status]}}")"
+if [[ "${FW_INSTANCE_CLI_SET["status"]}" == "yes" ]]; then
+    Test element status "${FW_INSTANCE_CLI_VAL["status"]}"
+    status="$(Get status char "${FW_INSTANCE_CLI_VAL["status"]}")"
 fi
-if [[ "${FW_PARSED_ARG_MAP[t]:-${FW_PARSED_ARG_MAP[tested]:-no}}" == yes ]]; then
-    Test yesno "${FW_PARSED_VAL_MAP[t]:-${FW_PARSED_VAL_MAP[tested]}}" tested
-    tested="${FW_PARSED_VAL_MAP[t]:-${FW_PARSED_VAL_MAP[tested]}}"
+if [[ "${FW_INSTANCE_CLI_SET["tested"]}" == "yes" ]]; then
+    Test yesno "${FW_INSTANCE_CLI_VAL["tested"]}" tested
+    tested="${FW_INSTANCE_CLI_VAL["tested"]}"
     tested=${tested:0:1}
     tested=${tested,}
 fi
 
 
 not_core=no
-if [[ "${FW_PARSED_ARG_MAP[n]:-${FW_PARSED_ARG_MAP[not-core]:-no}}" == yes ]]; then not_core=yes; fi
+if [[ "${FW_INSTANCE_CLI_SET["not-core"]}" == "yes" ]]; then not_core=yes; fi
 
 
 

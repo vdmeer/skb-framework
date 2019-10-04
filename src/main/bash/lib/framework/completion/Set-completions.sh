@@ -65,7 +65,7 @@ function __skb_Set_completions(){
                             retval="level"
                         fi ;;
         strict)         retval="mode" ;;
-        theme)          retval="$(Themes has long)" ;;
+        theme)          retval="$(Themes has)" ;;
         themeitem)      retval="$(Themeitems has)" ;;
         warning)        retval="count" ;;
 
@@ -83,11 +83,11 @@ function __skb_Set_completions(){
                             case ${COMP_WORDS[COMP_CWORD-2]} in
                                 CURRENT_MODE)                               retval="$(Modes has)" ;;
                                 CURRENT_PHASE)                              retval="$(Phases has)" ;;
-                                CURRENT_THEME)                              retval="$(Themes has long)" ;;
-                                CURRENT_PROJECT | LAST_PROJECT)             retval="$(Projects has long)" ;;
-                                CURRENT_SCENARIO | LAST_SCENARIO)           retval="$(Scenarios has long)" ;;
-                                CURRENT_SITE | LAST_SITE)                   retval="$(Sites has long)" ;;
-                                CURRENT_TASK | LAST_TASK)                   retval="$(Tasks has long)" ;;
+                                CURRENT_THEME)                              retval="$(Themes has)" ;;
+                                CURRENT_PROJECT | LAST_PROJECT)             retval="$(Projects has)" ;;
+                                CURRENT_SCENARIO | LAST_SCENARIO)           retval="$(Scenarios has)" ;;
+                                CURRENT_SITE | LAST_SITE)                   retval="$(Sites has)" ;;
+                                CURRENT_TASK | LAST_TASK)                   retval="$(Tasks has)" ;;
                                 LOG_LEVEL | PRINT_LEVEL)                    retval="$(Levels has) all none" ;;
                                 LOG_FORMAT | PRINT_FORMAT | PRINT_FORMAT2)  retval="$(Formats has)" ;;
                                 STRICT_MODE)                                retval="on off" ;;

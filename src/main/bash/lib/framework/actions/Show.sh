@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Show"]="action to show something"
+FW_COMPONENTS_TAGLINE["show"]="action to show something"
 
 
 function Show() {
@@ -607,12 +607,8 @@ function Show() {
                     esac
                     if [[ -r "${file}" ]]; then tput smcup; less -C -f -M -d ${file}; tput rmcup; fi ;;
 
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-
-
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

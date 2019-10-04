@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Execute"]="action to execute something"
+FW_COMPONENTS_TAGLINE["execute"]="action to execute something"
 
 
 function Execute() {
@@ -187,7 +187,6 @@ function Execute() {
                 printf "\n"
             fi ;;
 
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

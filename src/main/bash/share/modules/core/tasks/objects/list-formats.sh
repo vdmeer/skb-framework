@@ -32,9 +32,9 @@
 if [[ ! -n "${SF_HOME}" || "${FW_LOADED:-no}" != yes ]]; then printf " skb-runtime: please run from skb-framework\n\n"; exit 100; fi
 source ${SF_HOME}/lib/framework/Framework.sh
 
-Cli add option table; Cli add option without-status
+Clioptions add option table; Clioptions add option without-status
 
-Parse cli arguments "Options Table+Options" $*
+Parse cli "Options Table+Options" $*
 
 
 ############################################################################################
@@ -43,7 +43,7 @@ Parse cli arguments "Options Table+Options" $*
 ##
 ############################################################################################
 withoutStatus=""
-if [[ "${FW_PARSED_ARG_MAP[S]:-${FW_PARSED_ARG_MAP[without-status]:-no}}" == "yes" ]]; then withoutStatus="without-status"; fi
+if [[ "${FW_INSTANCE_CLI_SET["without-status"]}" == "yes" ]]; then withoutStatus="without-status"; fi
 
 
 
@@ -52,7 +52,7 @@ if [[ "${FW_PARSED_ARG_MAP[S]:-${FW_PARSED_ARG_MAP[without-status]:-no}}" == "ye
 ## print formats as list or table
 ##
 ############################################################################################
-if [[ ${FW_PARSED_ARG_MAP[T]:-${FW_PARSED_ARG_MAP[table]:-no}} == no ]]; then
+if [[ "${FW_INSTANCE_CLI_SET["table"]}" == "no" ]]; then
     printf "\n  "
     Format themed text listHeadFmt Formats
     printf "\n"

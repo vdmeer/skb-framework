@@ -47,9 +47,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_MEDIUM+=" FW_ELEMENT_DIR_STATUS FW_ELEMENT_DIR_STATUS_COMMENTS FW_ELEMENT_DIR_REQUESTED"
 fi
 
-FW_TABLES_COL1["dir"]=Directory
-FW_TABLES_EXTRAS["dir"]="Or R S P Modes"
-FW_TAGS_ELEMENTS["Dirs"]="element representing directories"
+FW_COMPONENTS_SINGULAR["dirs"]="dir"
+FW_COMPONENTS_PLURAL["dirs"]="dirs"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["dirs"]="Directory"
+FW_COMPONENTS_TITLE_LONG_PLURAL["dirs"]="Directories"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["dirs"]="Directory"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["dirs"]="Directories"
+FW_COMPONENTS_TABLE_DESCR["dirs"]="Description"
+FW_COMPONENTS_TABLE_VALUE["dirs"]="Directory"
+#FW_COMPONENTS_TABLE_DEFVAL["dirs"]=""
+FW_COMPONENTS_TABLE_EXTRA["dirs"]="MD R S P Modes"
+FW_COMPONENTS_TAGLINE["dirs"]="element representing directories"
 
 
 function Dirs() {
@@ -73,7 +81,7 @@ function Dirs() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

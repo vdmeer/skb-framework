@@ -32,19 +32,19 @@
 if [[ ! -n "${SF_HOME}" || "${FW_LOADED:-no}" != yes ]]; then printf " skb-runtime: please run from skb-framework\n\n"; exit 100; fi
 source ${SF_HOME}/lib/framework/Framework.sh
 
-Cli add option table; Cli add option show-values; Cli add option with-legend; Cli add option without-status; Cli add option without-extras
+Clioptions add option table; Clioptions add option show-values; Clioptions add option with-legend; Clioptions add option without-status; Clioptions add option without-extras
 
-Cli add general option  cli         C ""  "set from CLI option" "Filters"
-Cli add general option  default     d ""  "set from default value" "Filters"
-Cli add general option  env         e ""  "set from environment" "Filters"
-Cli add general option  file        f ""  "set from file" "Filters"
-Cli add general option  framework   w ""  "set from framework" "Filters"
-Cli add general option  project     p ""  "set from project" "Filters"
-Cli add general option  scenario    s ""  "set from scenario" "Filters"
-Cli add general option  shell       L ""  "set from shell" "Filters"
-Cli add general option  task        t ""  "set from task" "Filters"
+Clioptions add general option  cli         C ""  "set from CLI option" "Filters"
+Clioptions add general option  default     d ""  "set from default value" "Filters"
+Clioptions add general option  env         e ""  "set from environment" "Filters"
+Clioptions add general option  file        f ""  "set from file" "Filters"
+Clioptions add general option  framework   w ""  "set from framework" "Filters"
+Clioptions add general option  project     p ""  "set from project" "Filters"
+Clioptions add general option  scenario    s ""  "set from scenario" "Filters"
+Clioptions add general option  shell       L ""  "set from shell" "Filters"
+Clioptions add general option  task        t ""  "set from task" "Filters"
 
-Parse cli arguments "Options Table+Options Filters" $*
+Parse cli "Options Table+Options Filters" $*
 
 
 ############################################################################################
@@ -52,28 +52,28 @@ Parse cli arguments "Options Table+Options Filters" $*
 ## get filters from CLI
 ##
 ############################################################################################
-cli=no;         if [[ "${FW_PARSED_ARG_MAP[C]:-${FW_PARSED_ARG_MAP[cli]:-no}}" == yes ]]; then cli=yes; fi
-default=no;     if [[ "${FW_PARSED_ARG_MAP[d]:-${FW_PARSED_ARG_MAP[default]:-no}}" == yes ]]; then default=yes; fi
-env=no;         if [[ "${FW_PARSED_ARG_MAP[e]:-${FW_PARSED_ARG_MAP[env]:-no}}" == yes ]]; then env=yes; fi
-file=no;        if [[ "${FW_PARSED_ARG_MAP[f]:-${FW_PARSED_ARG_MAP[file]:-no}}" == yes ]]; then file=yes; fi
-framework=no;   if [[ "${FW_PARSED_ARG_MAP[w]:-${FW_PARSED_ARG_MAP[framework]:-no}}" == yes ]]; then framework=yes; fi
-project=no;     if [[ "${FW_PARSED_ARG_MAP[p]:-${FW_PARSED_ARG_MAP[project]:-no}}" == yes ]]; then project=yes; fi
-scenario=no;    if [[ "${FW_PARSED_ARG_MAP[s]:-${FW_PARSED_ARG_MAP[scenario]:-no}}" == yes ]]; then scenario=yes; fi
-shell=no;       if [[ "${FW_PARSED_ARG_MAP[S]:-${FW_PARSED_ARG_MAP[shell]:-no}}" == yes ]]; then shell=yes; fi
-task=no;        if [[ "${FW_PARSED_ARG_MAP[t]:-${FW_PARSED_ARG_MAP[task]:-no}}" == yes ]]; then task=yes; fi
+cli=no;         if [[ "${FW_INSTANCE_CLI_SET["cli"]}" == "yes" ]]; then cli=yes; fi
+default=no;     if [[ "${FW_INSTANCE_CLI_SET["default"]}" == "yes" ]]; then default=yes; fi
+env=no;         if [[ "${FW_INSTANCE_CLI_SET["env"]}" == "yes" ]]; then env=yes; fi
+file=no;        if [[ "${FW_INSTANCE_CLI_SET["file"]}" == "yes" ]]; then file=yes; fi
+framework=no;   if [[ "${FW_INSTANCE_CLI_SET["framework"]}" == "yes" ]]; then framework=yes; fi
+project=no;     if [[ "${FW_INSTANCE_CLI_SET["project"]}" == "yes" ]]; then project=yes; fi
+scenario=no;    if [[ "${FW_INSTANCE_CLI_SET["scenario"]}" == "yes" ]]; then scenario=yes; fi
+shell=no;       if [[ "${FW_INSTANCE_CLI_SET["shell"]}" == "yes" ]]; then shell=yes; fi
+task=no;        if [[ "${FW_INSTANCE_CLI_SET["task"]}" == "yes" ]]; then task=yes; fi
 
 
 showValues=""
-if [[ "${FW_PARSED_ARG_MAP[V]:-${FW_PARSED_ARG_MAP[show-values]:-no}}" == "yes" ]]; then showValues="show-values"; fi
+if [[ "${FW_INSTANCE_CLI_SET["show-values"]}" == "yes" ]]; then showValues="show-values"; fi
 
 withLegend=""
-if [[ "${FW_PARSED_ARG_MAP[W]:-${FW_PARSED_ARG_MAP[with-legend]:-no}}" == "yes" ]]; then withLegend="with-legend"; fi
+if [[ "${FW_INSTANCE_CLI_SET["with-legend"]}" == "yes" ]]; then withLegend="with-legend"; fi
 
 withoutStatus=""
-if [[ "${FW_PARSED_ARG_MAP[S]:-${FW_PARSED_ARG_MAP[without-status]:-no}}" == "yes" ]]; then withoutStatus="without-status"; fi
+if [[ "${FW_INSTANCE_CLI_SET["without-status"]}" == "yes" ]]; then withoutStatus="without-status"; fi
 
 withoutExtras=""
-if [[ "${FW_PARSED_ARG_MAP[E]:-${FW_PARSED_ARG_MAP[without-extras]:-no}}" == "yes" ]]; then withoutExtras="without-extras"; fi
+if [[ "${FW_INSTANCE_CLI_SET["without-extras"]}" == "yes" ]]; then withoutExtras="without-extras"; fi
 
 
 
@@ -108,7 +108,7 @@ done
 ## list settings
 ##
 ############################################################################################
-if [[ ${FW_PARSED_ARG_MAP[T]:-${FW_PARSED_ARG_MAP[table]:-no}} == no ]]; then
+if [[ "${FW_INSTANCE_CLI_SET["table"]}" == "no" ]]; then
     printf "\n  "
     Format themed text listHeadFmt Settings
     printf "\n"

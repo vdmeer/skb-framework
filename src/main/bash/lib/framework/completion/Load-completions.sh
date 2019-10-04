@@ -37,7 +37,7 @@ function __skb_Load_completions(){
         all)            retval="modules" ;;
         framework)      retval="completions sources" ;;
         module)         retval="$(Modules knows)" ;;
-        theme)          retval="$(Themes has long)" ;;
+        theme)          retval="$(Themes has)" ;;
         task)           retval="completions" ;;
 
         settings)       retval="from" ;;

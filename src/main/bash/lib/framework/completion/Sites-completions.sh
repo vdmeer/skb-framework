@@ -33,8 +33,6 @@ function __skb_Sites_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
         Sites)  retval="has list" ;;
-
-        has)    retval="short long" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

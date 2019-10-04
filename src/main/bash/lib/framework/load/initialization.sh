@@ -155,8 +155,8 @@ fi
 if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes.cache" ]]; then
     source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes.cache"
 else
-    Add Object Theme Default Def    "${SF_HOME}/share/themes" "the default theme"
-    Add Object Theme API     API    "${SF_HOME}/share/themes" "empty theme for API themitem settings"
+    Add Object Theme Default "${SF_HOME}/share/themes" "the default theme"
+    Add Object Theme API     "${SF_HOME}/share/themes" "empty theme for API themitem settings"
 fi
 
 

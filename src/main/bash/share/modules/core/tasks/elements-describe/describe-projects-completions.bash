@@ -51,7 +51,7 @@ function __skb_task_describe_projects_words(){
 
         --id)           retval="$(Projects has)" ;;
         --mode)         retval="$(Modes has)" ;;
-        --origin)       retval="$(Modules has long)" ;;
+        --origin)       retval="$(Modules has)" ;;
         --status)       retval="N E W S" ;;
         --tested)       retval="yes no" ;;
 

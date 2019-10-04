@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Terminate"]="action to terminate the framework with cleanup and extra prints"
+FW_COMPONENTS_TAGLINE["terminate"]="action to terminate the framework with cleanup and extra prints"
 
 
 function Terminate() {
@@ -49,7 +49,6 @@ function Terminate() {
             if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_SLOW"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_SLOW"]}"; fi
             \exit ${1:-0} ;;
 
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

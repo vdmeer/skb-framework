@@ -32,15 +32,15 @@
 if [[ ! -n "${SF_HOME}" || "${FW_LOADED:-no}" != yes ]]; then printf " skb-runtime: please run from skb-framework\n\n"; exit 100; fi
 source ${SF_HOME}/lib/framework/Framework.sh
 
-Cli add option table; Cli add option show-values; Cli add option with-legend; Cli add option without-status; Cli add option without-extras
+Clioptions add option table; Clioptions add option show-values; Clioptions add option with-legend; Clioptions add option without-status; Clioptions add option without-extras
 
-Cli add option filter-mode      projects
-Cli add option filter-origin    projects
-Cli add option filter-status    projects
-Cli add option filter-tested    projects
-Cli add option filter-not-core  projects
+Clioptions add option filter-mode      projects
+Clioptions add option filter-origin    projects
+Clioptions add option filter-status    projects
+Clioptions add option filter-tested    projects
+Clioptions add option filter-not-core  projects
 
-Parse cli arguments "Options Filters" $*
+Parse cli "Options Filters" $*
 
 
 ############################################################################################
@@ -53,41 +53,41 @@ origin=""
 status=""
 tested=""
 
-if [[ "${FW_PARSED_ARG_MAP[m]:-${FW_PARSED_ARG_MAP[mode]:-no}}" == yes ]]; then
-    Test current mode "${FW_PARSED_VAL_MAP[m]:-${FW_PARSED_VAL_MAP[mode]}}"
-    mode="${FW_PARSED_VAL_MAP[m]:-${FW_PARSED_VAL_MAP[mode]}}"
+if [[ "${FW_INSTANCE_CLI_SET["mode"]}" == "yes" ]]; then
+    Test current mode "${FW_INSTANCE_CLI_VAL["mode"]}"
+    mode="${FW_INSTANCE_CLI_VAL["mode"]}"
 fi
-if [[ "${FW_PARSED_ARG_MAP[o]:-${FW_PARSED_ARG_MAP[origin]:-no}}" == yes ]]; then
-    Test existing module id "${FW_PARSED_VAL_MAP[o]:-${FW_PARSED_VAL_MAP[origin]}}"
-    origin="$(Get module id "${FW_PARSED_VAL_MAP[o]:-${FW_PARSED_VAL_MAP[origin]}}")"
+if [[ "${FW_INSTANCE_CLI_SET["origin"]}" == "yes" ]]; then
+    Test existing module id "${FW_INSTANCE_CLI_VAL["origin"]}"
+    origin="${FW_INSTANCE_CLI_VAL["origin"]}"
 fi
-if [[ "${FW_PARSED_ARG_MAP[s]:-${FW_PARSED_ARG_MAP[status]:-no}}" == yes ]]; then
-    Test element status "${FW_PARSED_VAL_MAP[s]:-${FW_PARSED_VAL_MAP[status]}}"
-    status="$(Get status char "${FW_PARSED_VAL_MAP[s]:-${FW_PARSED_VAL_MAP[status]}}")"
+if [[ "${FW_INSTANCE_CLI_SET["status"]}" == "yes" ]]; then
+    Test element status "${FW_INSTANCE_CLI_VAL["status"]}"
+    status="$(Get status char "${FW_INSTANCE_CLI_VAL["status"]}")"
 fi
-if [[ "${FW_PARSED_ARG_MAP[t]:-${FW_PARSED_ARG_MAP[tested]:-no}}" == yes ]]; then
-    Test yesno "${FW_PARSED_VAL_MAP[t]:-${FW_PARSED_VAL_MAP[tested]}}" tested
-    tested="${FW_PARSED_VAL_MAP[t]:-${FW_PARSED_VAL_MAP[tested]}}"
+if [[ "${FW_INSTANCE_CLI_SET["tested"]}" == "yes" ]]; then
+    Test yesno "${FW_INSTANCE_CLI_VAL["tested"]}" tested
+    tested="${FW_INSTANCE_CLI_VAL["tested"]}"
     tested=${tested:0:1}
     tested=${tested,}
 fi
 
 
 not_core=no
-if [[ "${FW_PARSED_ARG_MAP[n]:-${FW_PARSED_ARG_MAP[not-core]:-no}}" == yes ]]; then not_core=yes; fi
+if [[ "${FW_INSTANCE_CLI_SET["not-core"]}" == "yes" ]]; then not_core=yes; fi
 
 
 showValues=""
-if [[ "${FW_PARSED_ARG_MAP[V]:-${FW_PARSED_ARG_MAP[show-values]:-no}}" == "yes" ]]; then showValues="show-values"; fi
+if [[ "${FW_INSTANCE_CLI_SET["show-values"]}" == "yes" ]]; then showValues="show-values"; fi
 
 withLegend=""
-if [[ "${FW_PARSED_ARG_MAP[W]:-${FW_PARSED_ARG_MAP[with-legend]:-no}}" == "yes" ]]; then withLegend="with-legend"; fi
+if [[ "${FW_INSTANCE_CLI_SET["with-legend"]}" == "yes" ]]; then withLegend="with-legend"; fi
 
 withoutStatus=""
-if [[ "${FW_PARSED_ARG_MAP[S]:-${FW_PARSED_ARG_MAP[without-status]:-no}}" == "yes" ]]; then withoutStatus="without-status"; fi
+if [[ "${FW_INSTANCE_CLI_SET["without-status"]}" == "yes" ]]; then withoutStatus="without-status"; fi
 
 withoutExtras=""
-if [[ "${FW_PARSED_ARG_MAP[E]:-${FW_PARSED_ARG_MAP[without-extras]:-no}}" == "yes" ]]; then withoutExtras="without-extras"; fi
+if [[ "${FW_INSTANCE_CLI_SET["without-extras"]}" == "yes" ]]; then withoutExtras="without-extras"; fi
 
 
 
@@ -136,7 +136,7 @@ done
 ## print projects as list or table
 ##
 ############################################################################################
-if [[ ${FW_PARSED_ARG_MAP[T]:-${FW_PARSED_ARG_MAP[table]:-no}} == no ]]; then
+if [[ "${FW_INSTANCE_CLI_SET["table"]}" == "no" ]]; then
     printf "\n  "
     Format themed text listHeadFmt Projects
     printf "\n"

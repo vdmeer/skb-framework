@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Report"]="action to report something"
+FW_COMPONENTS_TAGLINE["report"]="action to report something"
 
 
 function Report() {
@@ -171,13 +171,10 @@ function Report() {
                         done
                         printf "\n" >> ${logFile}
                         FW_OBJECT_SET_VAL["PRINT_FORMAT2"]="" ;;
-                    esac
-                    ;;
+                    esac ;;
 
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

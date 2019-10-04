@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Add"]="action to add an entry to an element or data object"
+FW_COMPONENTS_TAGLINE["add"]="action to add an entry to an element or data object"
 
 
 function Add() {
@@ -39,7 +39,7 @@ function Add() {
         printf "\n"; return
     fi
 
-    local entry arr id shortId elemCmd elemPath elemModes moduleId moduleShortId modulePath value category file message arguments description msgType errno number doWriteRT=false text path projectFile siteFile optionLength
+    local entry arr id shortId acronym elemCmd elemPath elemModes moduleId modulePath value category file message arguments description msgType errno number doWriteRT=false text path projectFile siteFile optionLength
     local shortOpt longOpt optArg
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
@@ -50,15 +50,13 @@ function Add() {
             case "${cmd1}-${cmd2}" in
 
                 element-module)
-                    # Add element module ID SHORT PATH DESCR
+                    # Add element module ID ACRONYM PATH DESCR
                     if [[ "${#}" -lt 4 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 4 "$#"; return; fi
-                    id="${1}"; shortId="${2:0:2}"; shortId="${shortId^^}"; elemPath="${3}"; description="${4}"
-                    Test used module long-id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    Test used module short-id "${shortId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    id="${1}"; acronym="${2:0:2}"; acronym="${acronym^^}"; elemPath="${3}"; description="${4}"
+                    Test used module id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
 
                     FW_ELEMENT_MDS_LONG["${id}"]="${description}"
-                    FW_ELEMENT_MDS_SHORT["${shortId}"]="${id}"
-                    FW_ELEMENT_MDS_LS["${id}"]="${shortId}"
+                    FW_ELEMENT_MDS_ACR["${id}"]="${acronym}"
                     FW_ELEMENT_MDS_PATH["${id}"]="${elemPath}"
                     FW_ELEMENT_MDS_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
 ##TODO path exists, is dir
@@ -81,7 +79,8 @@ function Add() {
                     fi
                     FW_ELEMENT_OPT_CAT["${id}"]="${category}"
                     FW_ELEMENT_OPT_LEN["${id}"]=${optionLength}
-                    FW_ELEMENT_OPT_VAL["${id}"]="no" ;;
+                    FW_ELEMENT_OPT_SET["${id}"]="no"
+                    FW_ELEMENT_OPT_VAL["${id}"]="" ;;
 
 
                 element-application | element-dependency | element-parameter | element-project | element-scenario | element-site | element-task | \
@@ -93,7 +92,6 @@ function Add() {
                     if [[ "${4}" != "with" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} ${1} to module ${FW_ELEMENT_MDS_PATH[${moduleId}]}" E803 "${4}"; return; fi
                     id="${1}"; moduleId="${FW_CURRENT_MODULE_NAME:-API}"; shift 4
                     Test existing module id "${moduleId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    moduleShortId=${FW_ELEMENT_MDS_LS[${moduleId}]}
                     modulePath=${FW_ELEMENT_MDS_PATH[${moduleId}]}
                     case ${cmd2} in
                         application)
@@ -395,14 +393,11 @@ function Add() {
                     FW_OBJECT_SET_VAL[${id}]="${value}"
                     doWriteRT=true ;;
                 object-theme)
-                    if [[ "${#}" -lt 4 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 4 "$#"; return; fi
-                    id="${1}"; shortId="${2:0:3}"; path="${3}"; description="${4}"
-                    Test used theme long-id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    Test used theme short-id "${shortId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 3 "$#"; return; fi
+                    id="${1}"; path="${2}"; description="${3}"
+                    Test used theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
 ##TODO error path does not exist
                     FW_OBJECT_THM_LONG["${id}"]="${description}"
-                    FW_OBJECT_THM_SHORT["${shortId}"]="${id}"
-                    FW_OBJECT_THM_LS["${id}"]="${shortId}"
                     FW_OBJECT_THM_PATH["${id}"]="${path}"
                     doWriteRT=true ;;
                 object-themeitem)
@@ -414,12 +409,10 @@ function Add() {
                     FW_OBJECT_TIM_VAL["${id}"]=""
                     doWriteRT=true ;;
 
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
+
     if [[ "${doWriteRT}" == true && "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write fast config; Write slow config; doWriteRT=false; fi
 }

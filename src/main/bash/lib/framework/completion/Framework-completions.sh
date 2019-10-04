@@ -42,7 +42,7 @@ function __Framework_component_completions(){
                 has)        COMPREPLY=($(compgen -W "actions elements instances objects" -- "${COMP_WORDS[2]}")) ;;
                 instance)   COMPREPLY=($(compgen -W "$(Framework has instances)" --         "${COMP_WORDS[2]}")) ;;
                 object)     COMPREPLY=($(compgen -W "$(Framework has objects)" --           "${COMP_WORDS[2]}")) ;;
-                task)       COMPREPLY=($(compgen -W "$(Tasks has long)" --                  "${COMP_WORDS[2]}")) ;;
+                task)       COMPREPLY=($(compgen -W "$(Tasks has)" --                       "${COMP_WORDS[2]}")) ;;
             esac ;;
         4)  case "${COMP_LINE}" in
                 "Framework has "*)  ;;

@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Finalize"]="action to finalize something"
+FW_COMPONENTS_TAGLINE["finalize"]="action to finalize something"
 
 
 function Finalize() {
@@ -64,10 +64,8 @@ function Finalize() {
                     FW_OBJECT_SET_VAL["LAST_${cmd1^^}"]="${id}"
                     Set auto write true ;;
 
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

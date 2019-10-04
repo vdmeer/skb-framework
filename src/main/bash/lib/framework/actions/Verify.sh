@@ -31,7 +31,7 @@
 
 ##https://www.toolsqa.com/software-testing/difference-between-verification-and-validation/
 
-FW_TAGS_ACTIONS["Verify"]="action to verify something"
+FW_COMPONENTS_TAGLINE["verify"]="action to verify something"
 
 
 function Verify() {
@@ -861,7 +861,6 @@ function Verify() {
                 done
             fi ;;
 
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

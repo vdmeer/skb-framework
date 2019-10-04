@@ -32,19 +32,19 @@
 if [[ ! -n "${SF_HOME}" || "${FW_LOADED:-no}" != yes ]]; then printf " skb-runtime: please run from skb-framework\n\n"; exit 100; fi
 source ${SF_HOME}/lib/framework/Framework.sh
 
-Cli add option target-all
+Clioptions add option target-all
 
-Cli add general option  configuration   c "" "general description of the configuration object" "Targets"
-Cli add general option  formats         f "" "general description of the format object" "Targets"
-Cli add general option  levels          l "" "general description of the level object" "Targets"
-Cli add general option  messages        M "" "general description of message object" "Targets"
-Cli add general option  modes           m "" "general description of mode object" "Targets"
-Cli add general option  phases          p "" "general description of phase object" "Targets"
-Cli add general option  settings        s "" "general description of setting object" "Targets"
-Cli add general option  themeitems      T "" "general description of theme item object" "Targets"
-Cli add general option  themes          t "" "general description of theme object" "Targets"
+Clioptions add general option  configuration   c "" "general description of the configuration object" "Targets"
+Clioptions add general option  formats         f "" "general description of the format object" "Targets"
+Clioptions add general option  levels          l "" "general description of the level object" "Targets"
+Clioptions add general option  messages        M "" "general description of message object" "Targets"
+Clioptions add general option  modes           m "" "general description of mode object" "Targets"
+Clioptions add general option  phases          p "" "general description of phase object" "Targets"
+Clioptions add general option  settings        s "" "general description of setting object" "Targets"
+Clioptions add general option  themeitems      T "" "general description of theme item object" "Targets"
+Clioptions add general option  themes          t "" "general description of theme object" "Targets"
 
-Parse cli arguments "Options Target" $*
+Parse cli "Options Target" $*
 
 
 ############################################################################################
@@ -54,16 +54,16 @@ Parse cli arguments "Options Target" $*
 ############################################################################################
 targets="$(Framework has objects)"
 
-if [[ "${FW_PARSED_ARG_MAP[A]:-${FW_PARSED_ARG_MAP[all]:-no}}" == no ]]; then
-    if [[ "${FW_PARSED_ARG_MAP[c]:-${FW_PARSED_ARG_MAP[configuration]:-no}}" == no ]]; then targets=${targets/Configuration/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[f]:-${FW_PARSED_ARG_MAP[formats]:-no}}" == no ]]; then targets=${targets/Formats/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[l]:-${FW_PARSED_ARG_MAP[levels]:-no}}" == no ]]; then targets=${targets/Levels/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[M]:-${FW_PARSED_ARG_MAP[messages]:-no}}" == no ]]; then targets=${targets/Messages/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[m]:-${FW_PARSED_ARG_MAP[modes]:-no}}" == no ]]; then targets=${targets/Modes/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[p]:-${FW_PARSED_ARG_MAP[phases]:-no}}" == no ]]; then targets=${targets/Phases/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[s]:-${FW_PARSED_ARG_MAP[settings]:-no}}" == no ]]; then targets=${targets/Settings/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[T]:-${FW_PARSED_ARG_MAP[themeitems]:-no}}" == no ]]; then targets=${targets/Themeitems/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[t]:-${FW_PARSED_ARG_MAP[themes]:-no}}" == no ]]; then targets=${targets/Themes/}; fi
+if [[ "${FW_INSTANCE_CLI_SET["all"]}" == "no" ]]; then
+    if [[ "${FW_INSTANCE_CLI_SET["configuration"]}" == "no" ]]; then targets=${targets/Configurations/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["formats"]}" == "no" ]]; then targets=${targets/Formats/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["levels"]}" == "no" ]]; then targets=${targets/Levels/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["messages"]}" == "no" ]]; then targets=${targets/Messages/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["modes"]}" == "no" ]]; then targets=${targets/Modes/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["phases"]}" == "no" ]]; then targets=${targets/Phases/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["settings"]}" == "no" ]]; then targets=${targets/Settings/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["themeitems"]}" == "no" ]]; then targets=${targets/Themeitems/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["themes"]}" == "no" ]]; then targets=${targets/Themes/}; fi
 fi
 
 

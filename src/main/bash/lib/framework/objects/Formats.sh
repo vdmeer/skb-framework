@@ -38,9 +38,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_SLOW+=" FW_OBJECT_FMT_LONG FW_OBJECT_FMT_PATH"
 fi
 
-FW_TABLES_COL1["format"]=Format
-FW_TABLES_EXTRAS["format"]=""
-FW_TAGS_OBJECTS["Formats"]="data object representing the framework's (text) formats"
+FW_COMPONENTS_SINGULAR["formats"]="format"
+FW_COMPONENTS_PLURAL["formats"]="formats"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["formats"]="Format"
+FW_COMPONENTS_TITLE_LONG_PLURAL["formats"]="Formats"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["formats"]="Format"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["formats"]="Formats"
+FW_COMPONENTS_TABLE_DESCR["formats"]="Description"
+FW_COMPONENTS_TABLE_VALUE["formats"]="Description"
+#FW_COMPONENTS_TABLE_DEFVAL["formats"]=""
+FW_COMPONENTS_TABLE_EXTRA["formats"]=""
+FW_COMPONENTS_TAGLINE["formats"]="data object representing the framework's (text) formats"
 
 
 function Formats() {
@@ -64,7 +72,7 @@ function Formats() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

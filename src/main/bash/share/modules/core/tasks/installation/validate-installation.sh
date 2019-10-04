@@ -32,13 +32,13 @@
 if [[ ! -n "${SF_HOME}" || "${FW_LOADED:-no}" != yes ]]; then printf " skb-runtime: please run from skb-framework\n\n"; exit 100; fi
 source ${SF_HOME}/lib/framework/Framework.sh
 
-Cli add option target-all
+Clioptions add option target-all
 
-Cli add general option  dependencies  d   ""  "validate dependencies"  "Targets"
-Cli add general option  options       o   ""  "validate options"  "Targets"
-Cli add general option  tasks         t   ""  "validate tasks"  "Targets"
+Clioptions add general option  dependencies  d   ""  "validate dependencies"  "Targets"
+Clioptions add general option  options       o   ""  "validate options"  "Targets"
+Clioptions add general option  tasks         t   ""  "validate tasks"  "Targets"
 
-Parse cli arguments "Options Targets" $*
+Parse cli "Options Targets" $*
 
 
 ############################################################################################
@@ -48,10 +48,10 @@ Parse cli arguments "Options Targets" $*
 ############################################################################################
 targets="dependencies options tasks"
 
-if [[ "${FW_PARSED_ARG_MAP[A]:-${FW_PARSED_ARG_MAP[all]:-no}}" == no ]]; then
-    if [[ "${FW_PARSED_ARG_MAP[d]:-${FW_PARSED_ARG_MAP[dependencies]:-no}}" == no ]]; then targets=${targets/dependencies/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[o]:-${FW_PARSED_ARG_MAP[options]:-no}}" == no ]]; then targets=${targets/options/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[t]:-${FW_PARSED_ARG_MAP[tasks]:-no}}" == no ]]; then targets=${targets/tasks/}; fi
+if [[ "${FW_INSTANCE_CLI_SET["all"]}" == "no" ]]; then
+    if [[ "${FW_INSTANCE_CLI_SET["dependencies"]}" == "no" ]]; then targets=${targets/dependencies/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["options"]}" == "no" ]]; then targets=${targets/options/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["tasks"]}" == "no" ]]; then targets=${targets/tasks/}; fi
 fi
 
 

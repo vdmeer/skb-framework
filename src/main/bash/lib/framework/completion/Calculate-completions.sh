@@ -34,7 +34,7 @@ function __skb_Calculate_completions(){
     case ${COMP_WORDS[COMP_CWORD-1]} in
         Calculate)      retval="longest" ;;
 
-        longest)        retval="clioption option module string theme" ;;
+        longest)        retval="clioption option string" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

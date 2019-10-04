@@ -47,9 +47,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_MEDIUM+=" FW_ELEMENT_APP_STATUS FW_ELEMENT_APP_STATUS_COMMENTS FW_ELEMENT_APP_REQUESTED"
 fi
 
-FW_TABLES_COL1["application"]=Application
-FW_TABLES_EXTRAS["application"]="Or A R S P"
-FW_TAGS_ELEMENTS["Applications"]="element representing (external) applications"
+FW_COMPONENTS_SINGULAR["applications"]="application"
+FW_COMPONENTS_PLURAL["applications"]="applications"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["applications"]="Application"
+FW_COMPONENTS_TITLE_LONG_PLURAL["applications"]="Applications"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["applications"]="Application"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["applications"]="Applications"
+FW_COMPONENTS_TABLE_DESCR["applications"]="Description"
+FW_COMPONENTS_TABLE_VALUE["applications"]="Command"
+#FW_COMPONENTS_TABLE_DEFVAL["applications"]=""
+FW_COMPONENTS_TABLE_EXTRA["applications"]="MD A R S P"
+FW_COMPONENTS_TAGLINE["applications"]="element representing (external) applications"
 
 
 function Applications() {
@@ -73,7 +81,7 @@ function Applications() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

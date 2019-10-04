@@ -56,9 +56,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_MEDIUM+=" FW_ELEMENT_PRJ_STATUS FW_ELEMENT_PRJ_STATUS_COMMENTS"
 fi
 
-FW_TABLES_COL1["project"]=Project
-FW_TABLES_EXTRAS["project"]="Or S T D B U"
-FW_TAGS_ELEMENTS["Projects"]="element representing projects"
+FW_COMPONENTS_SINGULAR["projects"]="project"
+FW_COMPONENTS_PLURAL["projects"]="projects"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["projects"]="Project"
+FW_COMPONENTS_TITLE_LONG_PLURAL["projects"]="Projects"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["projects"]="Project"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["projects"]="Projects"
+FW_COMPONENTS_TABLE_DESCR["projects"]="Description"
+FW_COMPONENTS_TABLE_VALUE["projects"]="Path to Project"
+#FW_COMPONENTS_TABLE_DEFVAL["projects"]=""
+FW_COMPONENTS_TABLE_EXTRA["projects"]="MD S T D B U"
+FW_COMPONENTS_TAGLINE["projects"]="element representing projects"
 
 
 function Projects() {
@@ -82,7 +90,7 @@ function Projects() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

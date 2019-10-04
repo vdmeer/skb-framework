@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Help"]="provides help for actions, elements, instances, and objects"
+FW_COMPONENTS_TAGLINE["help"]="provides help for actions, elements, instances, and objects"
 
 
 function Help() {

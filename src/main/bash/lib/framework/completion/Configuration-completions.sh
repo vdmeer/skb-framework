@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Configuration - auto completion
+## Configurations - auto completion
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.6
@@ -29,11 +29,11 @@
 ##
 
 
-function __skb_Configuration_completions(){
+function __skb_Configurations_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Configuration) retval="has list" ;;
+        Configurations) retval="has list" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }
-complete -F __skb_Configuration_completions Configuration
+complete -F __skb_Configurations_completions Configurations

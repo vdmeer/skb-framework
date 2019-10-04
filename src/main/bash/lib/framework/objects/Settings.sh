@@ -40,9 +40,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_SLOW+=" FW_OBJECT_SET_LONG"
 fi
 
-FW_TABLES_COL1["setting"]=Setting
-FW_TABLES_EXTRAS["setting"]="P"
-FW_TAGS_OBJECTS["Settings"]="data object representing the framework's settings"
+FW_COMPONENTS_SINGULAR["settings"]="setting"
+FW_COMPONENTS_PLURAL["settings"]="settings"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["settings"]="Setting"
+FW_COMPONENTS_TITLE_LONG_PLURAL["settings"]="Settings"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["settings"]="Setting"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["settings"]="Settings"
+FW_COMPONENTS_TABLE_DESCR["settings"]="Description"
+FW_COMPONENTS_TABLE_VALUE["settings"]="Value"
+#FW_COMPONENTS_TABLE_DEFVAL["settings"]=""
+FW_COMPONENTS_TABLE_EXTRA["settings"]="P"
+FW_COMPONENTS_TAGLINE["settings"]="data object representing the framework's settings"
 
 
 function Settings() {
@@ -66,7 +74,7 @@ function Settings() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

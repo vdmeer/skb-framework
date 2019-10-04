@@ -54,9 +54,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_MEDIUM+=" FW_ELEMENT_SIT_STATUS FW_ELEMENT_SIT_STATUS_COMMENTS"
 fi
 
-FW_TABLES_COL1["site"]=Site
-FW_TABLES_EXTRAS["site"]="Or"
-FW_TAGS_ELEMENTS["Sites"]="element representing sites"
+FW_COMPONENTS_SINGULAR["sites"]="site"
+FW_COMPONENTS_PLURAL["sites"]="sites"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["sites"]="Site"
+FW_COMPONENTS_TITLE_LONG_PLURAL["sites"]="Sites"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["sites"]="Site"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["sites"]="Sites"
+FW_COMPONENTS_TABLE_DESCR["sites"]="Description"
+FW_COMPONENTS_TABLE_VALUE["sites"]="Description"
+#FW_COMPONENTS_TABLE_DEFVAL["sites"]=""
+FW_COMPONENTS_TABLE_EXTRA["sites"]="MD"
+FW_COMPONENTS_TAGLINE["sites"]="element representing sites"
 
 
 function Sites() {
@@ -80,7 +88,7 @@ function Sites() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

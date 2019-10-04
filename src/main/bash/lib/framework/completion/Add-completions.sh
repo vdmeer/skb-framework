@@ -81,7 +81,7 @@ function __skb_Add_completions(){
             elif [[ "${COMP_CWORD}" -gt 2 && "${COMP_WORDS[COMP_CWORD-3]}" == "Add" && "${COMP_WORDS[COMP_CWORD-2]}" == "requirement" ]]; then
                 retval="dependency module"
             elif [[ "${COMP_CWORD}" -gt 3 && "${COMP_WORDS[COMP_CWORD-4]}" == "Add" && "${COMP_WORDS[COMP_CWORD-3]}" == "requirement" && "${COMP_WORDS[COMP_CWORD-2]}" == "for" && "${COMP_WORDS[COMP_CWORD-1]}" == "module" ]]; then
-                retval="$(Modules has long)"
+                retval="$(Modules has)"
             elif [[ "${COMP_CWORD}" -gt 3 && "${COMP_WORDS[COMP_CWORD-4]}" == "Add" && "${COMP_WORDS[COMP_CWORD-3]}" == "requirement" && "${COMP_WORDS[COMP_CWORD-2]}" == "for" && "${COMP_WORDS[COMP_CWORD-1]}" == "dependency" ]]; then
                 retval="$(Dependencies has)"
             elif [[ "${COMP_CWORD}" -gt 4 && "${COMP_WORDS[COMP_CWORD-5]}" == "Add" && "${COMP_WORDS[COMP_CWORD-4]}" == "requirement" ]]; then
@@ -91,7 +91,7 @@ function __skb_Add_completions(){
             elif [[ "${COMP_CWORD}" -gt 5 && "${COMP_WORDS[COMP_CWORD-6]}" == "Add" && "${COMP_WORDS[COMP_CWORD-5]}" == "requirement" && "${COMP_WORDS[COMP_CWORD-3]}" == "dependency" ]]; then
                 retval="dependency"
             elif [[ "${COMP_CWORD}" -gt 6 && "${COMP_WORDS[COMP_CWORD-7]}" == "Add" && "${COMP_WORDS[COMP_CWORD-6]}" == "requirement" && "${COMP_WORDS[COMP_CWORD-4]}" == "module" ]]; then
-                retval="$(Modules has long)"
+                retval="$(Modules has)"
             elif [[ "${COMP_CWORD}" -gt 6 && "${COMP_WORDS[COMP_CWORD-7]}" == "Add" && "${COMP_WORDS[COMP_CWORD-6]}" == "requirement" && "${COMP_WORDS[COMP_CWORD-4]}" == "dependency" ]]; then
                 retval="$(Dependencies has)"
 

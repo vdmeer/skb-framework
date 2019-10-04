@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Filter"]="action to filter something"
+FW_COMPONENTS_TAGLINE["filter"]="action to filter something"
 
 
 function Filter() {
@@ -73,7 +73,6 @@ function Filter() {
             done
             echo "${!keys[@]}" ;;
 
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

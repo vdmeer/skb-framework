@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Format"]="action to format something"
+FW_COMPONENTS_TAGLINE["format"]="action to format something"
 
 
 function Format() {
@@ -146,15 +146,18 @@ function Format() {
 
                         tagline-for-clioption)
                             if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 2 "$#"; return; fi
-                            id="${1}"; themeType="${2}"; idLength=${#id}; leftMargin="${3:-4}"; padding="${4:-2}"; midString="${5:-""}"; longest="${6:-${FW_INSTANCE_CLI_LEN[${id}]}}"
+                            id="${1}"; themeType="${2}"; idLength=${#id}; leftMargin="${3:-4}"; padding="${4:-2}"; midString="${5:-""}"; longest="${6:-${FW_INSTANCE_CLI_LEN[${id}]}}"; values="${7:-no}"
                             current=$(( 5 + ${#id} ))
                             printf "%*s" ${leftMargin}
                             if [[ -n "${FW_INSTANCE_CLI_LS[${id}]:-}" ]]; then printf "%s" "-"; Format themed text ${themeType}NameFmt "${FW_INSTANCE_CLI_LS[${id}]}"; printf ", "; else printf "    "; fi
                             printf "%s" "--"; Format themed text ${themeType}NameFmt "${id}"
                             if [[ -n "${FW_INSTANCE_CLI_ARG[${id}]:-}" ]]; then printf " "; Format themed text ${themeType}ArgFmt "${FW_INSTANCE_CLI_ARG[${id}]}"; current=$(( current + ${#FW_INSTANCE_CLI_ARG[${id}]} +1 )) ; fi
-                            printf "%*s" $(( longest - current + padding ))
+                            printf "%*s" $(( longest - current + padding -1 ))
                             printf "%s" "${midString}"
-                            Format themed text ${themeType}DescrFmt "${FW_INSTANCE_CLI_LONG[${id}]}" ;;
+                            case ${values} in
+                                yes)    Format themed text ${themeType}ValueFmt "${FW_INSTANCE_CLI_SET[${id}]}" ;;
+                                *)      Format themed text ${themeType}DescrFmt "${FW_INSTANCE_CLI_LONG[${id}]}" ;;
+                            esac ;;
 
                         tagline-for-option)
                             if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 2 "$#"; return; fi
@@ -170,41 +173,14 @@ function Format() {
                             printf "%*s" $(( longest - current + padding - 1 ))
                             printf "%s" "${midString}"
                             case ${values} in
-                                yes)    Format themed text ${themeType}ValueFmt "${FW_ELEMENT_OPT_VAL[${id}]}" ;;
+                                yes)    Format themed text ${themeType}ValueFmt "${FW_ELEMENT_OPT_SET[${id}]}" ;;
                                 *)      Format themed text ${themeType}DescrFmt "${FW_ELEMENT_OPT_LONG[${id}]}" ;;
                             esac ;;
 
-                        tagline-for-module)
-                            if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 2 "$#"; return; fi
-                            id="${1}"; themeType="${2}"; idLength=${#id}; leftMargin="${3:-4}"; padding="${4:-2}"; midString="${5:-""}"; longest="${6:-$(( ${#id} + 4 )) }"; values="${7:-no}"
-                            printf "%*s" ${leftMargin}
-                            Format themed text ${themeType}NameFmt "${id}"
-                            printf ", "
-                            Format themed text ${themeType}NameFmt "${FW_ELEMENT_MDS_LS[${id}]}"
-                            printf "%*s" $(( longest - ${#id} - 4 + padding ))
-                            printf "%s" "${midString}"
-                            case ${values} in
-                                yes)    Format themed text ${themeType}ValueFmt "${FW_ELEMENT_MDS_PATH[${id}]}" ;;
-                                *)      Format themed text ${themeType}DescrFmt "${FW_ELEMENT_MDS_LONG[${id}]}" ;;
-                            esac ;;
-
-                        tagline-for-theme)
-                            if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 2 "$#"; return; fi
-                            id="${1}"; themeType="${2}"; idLength=${#id}; leftMargin="${3:-4}"; padding="${4:-2}"; midString="${5:-""}"; longest="${6:-$(( ${#id} + 5 )) }"; values="${7:-no}"
-                            printf "%*s" ${leftMargin}
-                            Format themed text ${themeType}NameFmt "${id}"
-                            printf ", "
-                            Format themed text ${themeType}NameFmt "${FW_OBJECT_THM_LS[${id}]}"
-                            printf "%*s" $(( longest - ${#id} - 5 + padding ))
-                            printf "%s" "${midString}"
-                            case ${values} in
-                                yes)    Format themed text ${themeType}ValueFmt "${FW_OBJECT_THM_PATH[${id}]}" ;;
-                                *)      Format themed text ${themeType}DescrFmt "${FW_OBJECT_THM_LONG[${id}]}" ;;
-                            esac ;;
 
                         tagline-for-exitcode | \
-                        tagline-for-configuration | tagline-for-format | tagline-for-level | tagline-for-message | tagline-for-mode | tagline-for-phase | tagline-for-setting | tagline-for-themeitem | \
-                        tagline-for-application | tagline-for-dependency | tagline-for-dirlist | tagline-for-dir | tagline-for-filelist | tagline-for-file | tagline-for-parameter | tagline-for-project | tagline-for-scenario | tagline-for-site | tagline-for-task | \
+                        tagline-for-configuration | tagline-for-format | tagline-for-level | tagline-for-message | tagline-for-mode | tagline-for-phase | tagline-for-setting | tagline-for-theme | tagline-for-themeitem | \
+                        tagline-for-application | tagline-for-dependency | tagline-for-dirlist | tagline-for-dir | tagline-for-filelist | tagline-for-file | tagline-for-module | tagline-for-parameter | tagline-for-project | tagline-for-scenario | tagline-for-site | tagline-for-task | \
                         tagline-for-action | tagline-for-element | tagline-for-instance | tagline-for-object)
 
                             if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 2 "$#"; return; fi
@@ -252,6 +228,10 @@ function Format() {
                                                     *)      Format themed text ${themeType}DescrFmt "${FW_OBJECT_MSG_LONG[${id}]}" ;;
                                                 esac;;
                                 mode)           Format themed text ${themeType}DescrFmt "${FW_OBJECT_MOD_LONG[${id}]}" ;;
+                                module)         case ${values} in
+                                                    yes)    Format themed text ${themeType}ValueFmt "${FW_ELEMENT_MDS_PATH[${id}]}" ;;
+                                                    *)      Format themed text ${themeType}DescrFmt "${FW_ELEMENT_MDS_LONG[${id}]}" ;;
+                                                esac ;;
                                 phase)          Format themed text ${themeType}DescrFmt "${FW_OBJECT_PHA_LONG[${id}]}" ;;
                                 parameter)      case ${defValues} in
                                                     yes)    Format themed text ${themeType}ValueFmt "${FW_ELEMENT_PAR_DEFVAL[${id}]}" ;;
@@ -285,22 +265,22 @@ function Format() {
                                                     yes)    Format themed text ${themeType}ValueFmt "${FW_ELEMENT_TSK_PATH_TEXT[${id}]}" ;;
                                                     *)      Format themed text ${themeType}DescrFmt "${FW_ELEMENT_TSK_LONG[${id}]}" ;;
                                                 esac ;;
+                                theme)          case ${values} in
+                                                    yes)    Format themed text ${themeType}ValueFmt "${FW_OBJECT_THM_PATH[${id}]}" ;;
+                                                    *)      Format themed text ${themeType}DescrFmt "${FW_OBJECT_THM_LONG[${id}]}" ;;
+                                                esac ;;
                                 themeitem)      case ${values} in
                                                     yes)    Format themed text ${themeType}ValueFmt "${FW_OBJECT_TIM_VAL[${id}]}" ;;
                                                     *)      Format themed text ${themeType}DescrFmt "${FW_OBJECT_TIM_LONG[${id}]}" ;;
                                                 esac ;;
 
-                                action)         Format themed text ${themeType}DescrFmt "${FW_TAGS_ACTIONS[${id}]}" ;;
-                                element)        Format themed text ${themeType}DescrFmt "${FW_TAGS_ELEMENTS[${id}]}" ;;
-                                instance)       Format themed text ${themeType}DescrFmt "${FW_TAGS_INSTANCES[${id}]}" ;;
-                                object)         Format themed text ${themeType}DescrFmt "${FW_TAGS_OBJECTS[${id}]}" ;;
+                                action | element | instance | object)
+                                    Format themed text ${themeType}DescrFmt "${FW_COMPONENTS_TAGLINE[${id,,}]}" ;;
                             esac ;;
 
                         *)
                             Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
-                    esac
-                    ;;
-
+                    esac ;;
                 *)
                     Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;

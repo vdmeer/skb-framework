@@ -37,9 +37,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_LOAD+=" FW_INSTANCE_EXC_LONG"
 fi
 
-FW_TABLES_COL1["exitcode"]="Exitcode"
-FW_TABLES_EXTRAS["exitcode"]=""
-FW_TAGS_INSTANCES["Exitcodes"]="instance representing the framework's exit codes"
+FW_COMPONENTS_SINGULAR["exitcodes"]="exitcode"
+FW_COMPONENTS_PLURAL["exitcodes"]="exitcodes"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["exitcodes"]="Exit Code"
+FW_COMPONENTS_TITLE_LONG_PLURAL["exitcodes"]="Exit Codes"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["exitcodes"]="Exit Code"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["exitcodes"]="Exit Codes"
+FW_COMPONENTS_TABLE_DESCR["exitcodes"]="Description"
+FW_COMPONENTS_TABLE_VALUE["exitcodes"]="Description"
+#FW_COMPONENTS_TABLE_DEFVAL["exitcodes"]=""
+FW_COMPONENTS_TABLE_EXTRA["exitcodes"]=""
+FW_COMPONENTS_TAGLINE["exitcodes"]="instance representing the framework's exit codes"
 
 
 function Exitcodes() {
@@ -66,7 +74,6 @@ function Exitcodes() {
                 printf "    %s\n" "{}"
             fi ;;
 
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

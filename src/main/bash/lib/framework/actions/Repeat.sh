@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Repeat"]="action to repeat something"
+FW_COMPONENTS_TAGLINE["repeat"]="action to repeat something"
 
 
 function Repeat() {
@@ -86,14 +86,10 @@ function Repeat() {
                         sleep ${wait}
                         printf "\n"
                     done
-                    unset FW_EXEC_SCENARIO_DOEXTRAS FW_EXEC_TASK_DOEXTRAS
-                    ;;
+                    unset FW_EXEC_SCENARIO_DOEXTRAS FW_EXEC_TASK_DOEXTRAS ;;
 
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

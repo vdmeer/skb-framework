@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["List"]="action to list something"
+FW_COMPONENTS_TAGLINE["list"]="action to list something"
 
 
 function List() {
@@ -39,7 +39,7 @@ function List() {
         printf "\n"; return
     fi
 
-    local keys id category format longest showValues="" title arr command dir
+    local keys id category format longest showValues="" arr command dir
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
@@ -48,35 +48,23 @@ function List() {
             if [[ -d "${dir}" ]]; then printf "\nLog directory: ${dir}\n\n$(ls -l "${dir}")\n"; else Report process error "${FUNCNAME[0]}" "${cmd1}" E852 "${dir}"; fi ;;
 
         exitcodes | \
-        clioptions | configuration | formats | levels | messages | modes | phases | settings | themes | themeitems | tasks | \
+        clioptions | configurations | formats | levels | messages | modes | phases | settings | themes | themeitems | tasks | \
         applications | dependencies | dirlists | dirs | filelists | files | modules | options | parameters | projects | scenarios | sites | tasks | \
         actions | elements | instances | objects )
-            printf "\n  "
             case "${1:-}" in
                 "show-values")  showValues="show-values" ;;
             esac
-            command=""; title=""; arr=""
             case ${cmd1} in
-                applications | files | formats | levels | messages | modes | parameters | phases | projects | scenarios | sites | tasks | settings)
-                    command="${cmd1::-1}"; title="${cmd1^}"; arr="$(${cmd1^} has)" ;;
-                modules | options | themes)
-                    command="${cmd1::-1}"; title="${cmd1^}"; arr="$(${cmd1^} has long)" ;;
-
-                configuration)  command="configuration";    title=Configuration;        arr="$(Configuration has)" ;;
-                clioptions)     command="clioption";        title="CLI Options";        arr="$(Cli has long)" ;;
-                dependencies)   command="dependency";       title=Dependencies;         arr="$(Dependencies has)" ;;
-                dirlists)       command="dirlist";          title="Directory Lists";    arr="$(Dirlists has)" ;;
-                dirs)           command="dir";              title=Directories;          arr="$(Dirs has)" ;;
-                exitcodes)      command="exitcode";         title="Exit Codes";         arr="$(Exitcodes has)" ;;
-                filelists)      command="filelist";         title="File Lists";         arr="$(Filelists has)" ;;
-                themeitems)     command="themeitem";        title="Theme Items";        arr="$(Themeitems has)" ;;
-
                 actions | elements | instances | objects)
-                    command="${cmd1::-1}"; title="${cmd1^}"; arr="$(Framework has ${cmd1})" ;;
+                    arr="$(Framework has ${cmd1})" ;;
+                *)
+                    arr="$(${cmd1^} has)" ;;
             esac
-            Format themed text listHeadFmt "${title}"
+            printf "\n  "
+            Format themed text listHeadFmt "${FW_COMPONENTS_TITLE_LONG_PLURAL["${cmd1}"]}"
             printf "\n"
-            Print ${command} list "${arr}" ${showValues} ;;
+            Print ${FW_COMPONENTS_SINGULAR["${cmd1}"]} list "${arr}" ${showValues} ;;
+
 
         framework | categorized)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
@@ -107,10 +95,8 @@ function List() {
                         Print message list "$(Filter messages ${category})"
                     done ;;
 
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

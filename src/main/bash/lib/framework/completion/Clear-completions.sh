@@ -38,11 +38,11 @@ function __skb_Clear_completions(){
         full)       retval="cache" ;;
 
         framework)  retval="cache" ;;
-        theme)      retval="$(Themes has long)" ;;
+        theme)      retval="$(Themes has)" ;;
 
         cache)      if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Clear" ]]; then retval="for"; fi ;;
         for)        retval="module" ;;
-        module)     retval="$(Modules has long)" ;;
+        module)     retval="$(Modules has)" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

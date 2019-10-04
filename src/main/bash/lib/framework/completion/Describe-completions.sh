@@ -53,14 +53,14 @@ function __skb_Describe_completions(){
         level)          retval="$(Levels has)" ;;
         message)        retval="$(Messages has)" ;;
         mode)           retval="$(Modes has)" ;;
-        module)         retval="$(Modules has long)" ;;
-        option)         retval="$(Options has long)" ;;
+        module)         retval="$(Modules has)" ;;
+        option)         retval="$(Options has)" ;;
         parameter)      retval="$(Parameters has)" ;;
         phase)          retval="$(Phases has)" ;;
         project)        retval="$(Projects has)" ;;
         scenario)       retval="$(Scenarios has)" ;;
         task)           retval="$(Tasks has)" ;;
-        theme)          retval="$(Themes has long)" ;;
+        theme)          retval="$(Themes has)" ;;
 
         action)         retval="$(Framework has actions)" ;;
         element)        retval="$(Framework has elements)" ;;

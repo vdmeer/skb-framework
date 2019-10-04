@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Cli - instance representing CLI options for tasks
+## Clioptions - instance representing CLI options for tasks
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.6
@@ -35,17 +35,30 @@ if [[ "${FW_INSTANCE_CLI_LONG[*]}" == "" ]]; then
     declare -A FW_INSTANCE_CLI_LS       ## [long]=short
     declare -A FW_INSTANCE_CLI_ARG      ## [long]="argument"
     declare -A FW_INSTANCE_CLI_CAT      ## [long]="category+name"
-    declare -A FW_INSTANCE_CLI_LEN      ## [long]="length: short + long + arg" +3 for short/long dashes, plus 1 if arg is set
+    declare -A FW_INSTANCE_CLI_LEN      ## [long]="length: long + arg" + 5 for short/long dashes and short and blank, plus 1 if arg is set
+    declare -A FW_INSTANCE_CLI_SET      ## [long]="yes if option was set, no otherwise"
+    declare -A FW_INSTANCE_CLI_VAL      ## [long]="parsed value"
+               FW_INSTANCE_CLI_EXTRA="" ## string with extra arguments parsed
 fi
 
-FW_TAGS_INSTANCES["Cli"]="instance representing CLI options for tasks"
+FW_COMPONENTS_SINGULAR["clioptions"]="clioption"
+FW_COMPONENTS_PLURAL["clioptions"]="clioptions"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["clioptions"]="Command Line Option"
+FW_COMPONENTS_TITLE_LONG_PLURAL["clioptions"]="CLI Options"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["clioptions"]="Command Line Option"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["clioptions"]="CLI Options"
+FW_COMPONENTS_TABLE_DESCR["clioptions"]="Description"
+FW_COMPONENTS_TABLE_VALUE["clioptions"]="Value from Command Line"
+#FW_COMPONENTS_TABLE_DEFVAL["clioptions"]=""
+FW_COMPONENTS_TABLE_EXTRA["clioptions"]=""
+FW_COMPONENTS_TAGLINE["clioptions"]="instance representing CLI options for tasks"
 
 
-function Cli() {
+function Clioptions() {
     if [[ -z "${1:-}" ]]; then
         printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
         Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add general option"; printf " "; Format themed text explainArgFmt "LONG SHORT FORMAT DESCR CATEGORY"; printf "\n"
-            Format help indentation 3; Format themed text explainTextFmt "adds a new cli option, use empty string if no SHORT required"; printf "\n"
+            Format help indentation 3; Format themed text explainTextFmt "adds a new CLI option, use empty string if no SHORT required"; printf "\n"
 
 
         Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option filter-not-core"; printf "\n"
@@ -74,10 +87,8 @@ function Cli() {
         Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option without-extras"; printf "\n"
         Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option without-status"; printf "\n"
 
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "get string"; printf "\n"
-
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "has long"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "has short"; printf "\n"
+        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "has"; printf "\n"
+        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "shorts"; printf "\n"
 
         Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "list"; printf "\n"
 
@@ -89,6 +100,9 @@ function Cli() {
     local id shortId printString="" retval category keys
     local cmd1="${1,,}" cmd2 cmdString1="${1,,}" cmdString2
     shift; case "${cmd1}" in
+
+        has)    echo " ${!FW_INSTANCE_CLI_LONG[@]} " ;;
+        shorts) echo " ${!FW_INSTANCE_CLI_SHORT[@]} " ;;
         list)
             if [[ "${FW_INSTANCE_CLI_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_INSTANCE_CLI_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
@@ -99,21 +113,10 @@ function Cli() {
                 printf "    %s\n" "{}"
             fi ;;
 
-        add | get | has | long | run | short)
+        add | long | short)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
-
-                get-string)
-                    # Cli get string LONG
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    id="${1}"
-                    if [[ -n "${FW_INSTANCE_CLI_LS[${id}]:-}" ]]; then printf "${FW_INSTANCE_CLI_LS[${id}]} ${id}"; return; fi
-                    return 1;
-                    ;;
-
-                has-long)   echo " ${!FW_INSTANCE_CLI_LONG[@]} " ;;
-                has-short)  echo " ${!FW_INSTANCE_CLI_SHORT[@]} " ;;
 
                 long-string)
                     retval="${!FW_INSTANCE_CLI_LONG[@]}"
@@ -122,6 +125,7 @@ function Cli() {
                     done
                     retval=${retval//" "/","}
                     printf "${retval}" ;;
+
                 short-string)
                     retval="${!FW_INSTANCE_CLI_SHORT[@]}"
                     for id in ${!FW_INSTANCE_CLI_ARG[@]}; do
@@ -136,14 +140,14 @@ function Cli() {
                     case "${cmd1}-${cmd2}-${cmd3}" in
 
                         add-general-option)
-                            # Cli add option LONG SHORT FORMAT DESCR CATEGORY
+                            # Clioptions add option LONG SHORT FORMAT DESCR CATEGORY
                             if [[ "${#}" -lt 5 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 5 "$#"; return; fi
                             id="${1}"; shortId="${2}"; value="${3}"; description="${4}"; category="${5}"
                             if [[ ! -n "${id}" ]]; then Report application error "${FUNCNAME[0]}" "${cmdString2}" E813; return; fi
                             Test used clioption long-id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                             Test used clioption short-id "${shortId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                             FW_INSTANCE_CLI_LONG["${id}"]="${description}"
-                            optionLength=$(( 4 + ${#id} ))
+                            optionLength=$(( 5 + ${#id} ))
                             if [[ "${shortId}" != "" ]]; then FW_INSTANCE_CLI_SHORT["${shortId}"]="${id}"; fi
                             FW_INSTANCE_CLI_LS["${id}"]="${shortId}"
                             FW_INSTANCE_CLI_ARG["${id}"]="${value}"
@@ -151,52 +155,51 @@ function Cli() {
                                 optionLength=$(( optionLength + 1 + ${#value} ))
                             fi
                             FW_INSTANCE_CLI_CAT["${id}"]="${category}"
-                            FW_INSTANCE_CLI_LEN["${id}"]=${optionLength} ;;
+                            FW_INSTANCE_CLI_LEN["${id}"]=${optionLength}
+                            FW_INSTANCE_CLI_SET["${id}"]="no"
+                            FW_INSTANCE_CLI_VAL["${id}"]="" ;;
 
-                        add-option-help)            Cli add general option      help            h  ""       "print a help screen with CLI options" "Options" ;;
-                        add-option-format)          Cli add general option      format          F  "FORMAT" "sets format for printed text" "Options" ;;
-                        add-option-describe)        Cli add general option      describe        D  ""       "prints a description" "Options" ;;
+                        add-option-help)            Clioptions add general option      help            h  ""       "print a help screen with CLI options" "Options" ;;
+                        add-option-format)          Clioptions add general option      format          F  "FORMAT" "sets format for printed text" "Options" ;;
+                        add-option-describe)        Clioptions add general option      describe        D  ""       "prints a description" "Options" ;;
 
-                        add-option-table)           Cli add general option      table           T  ""       "table format with additional information"  "Options" ;;
-                        add-option-show-values)     Cli add general option      show-values     V  ""       "show values instead of description text"   "Options" ;;
+                        add-option-table)           Clioptions add general option      table           T  ""       "table format with additional information"  "Options" ;;
+                        add-option-show-values)     Clioptions add general option      show-values     V  ""       "show values instead of description text"   "Options" ;;
 
-                        add-option-with-legend)     Cli add general option      with-legend     W  ""       "print a legend if table format is used"                    "Table+Options" ;;
-                        add-option-without-extras)  Cli add general option      without-extras  E  ""       "do not show extra information if table format is used"     "Table+Options" ;;
-                        add-option-without-status)  Cli add general option      without-status  S  ""       "do not show status information if table format is used"    "Table+Options" ;;
+                        add-option-with-legend)     Clioptions add general option      with-legend     W  ""       "print a legend if table format is used"                    "Table+Options" ;;
+                        add-option-without-extras)  Clioptions add general option      without-extras  E  ""       "do not show extra information if table format is used"     "Table+Options" ;;
+                        add-option-without-status)  Clioptions add general option      without-status  S  ""       "do not show status information if table format is used"    "Table+Options" ;;
 
-                        add-option-filter-id)           Cli add general option  id          i   "ID"        "only ${1:-} ${2:-} ID, disables all other filters"                         "Filters" ;;
-                        add-option-filter-mode)         Cli add general option  mode        m   "MODE"      "only ${1:-} available in mode MODE"                                        "Filters" ;;
-                        add-option-filter-origin)       Cli add general option  origin      o   "MODULE"    "only ${1:-} with origin module MODULE"                                     "Filters" ;;
-                        add-option-filter-requested)    Cli add general option  requested   r   "REQ"       "only requested ${1:-}, yes or no"                                          "Filters" ;;
-                        add-option-filter-status)       Cli add general option  status      s   "STATUS"    "only ${1:-} with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"   "Filters" ;;
-                        add-option-filter-tested)       Cli add general option  tested      t   "TESTED"    "only tested ${1:-}, yes or no"                                             "Filters" ;;
-                        add-option-filter-not-core)     Cli add general option  not-core    n   ""          "no ${1:-} with origin module Core"                                         "Filters" ;;
+                        add-option-filter-id)           Clioptions add general option  id          i   "ID"        "only ${1:-} ${2:-} ID, disables all other filters"                         "Filters" ;;
+                        add-option-filter-mode)         Clioptions add general option  mode        m   "MODE"      "only ${1:-} available in mode MODE"                                        "Filters" ;;
+                        add-option-filter-origin)       Clioptions add general option  origin      o   "MODULE"    "only ${1:-} with origin module MODULE"                                     "Filters" ;;
+                        add-option-filter-requested)    Clioptions add general option  requested   r   "REQ"       "only requested ${1:-}, yes or no"                                          "Filters" ;;
+                        add-option-filter-status)       Clioptions add general option  status      s   "STATUS"    "only ${1:-} with status: (s)uccess, (w)arning, (e)rror, (n)ot attempted"   "Filters" ;;
+                        add-option-filter-tested)       Clioptions add general option  tested      t   "TESTED"    "only tested ${1:-}, yes or no"                                             "Filters" ;;
+                        add-option-filter-not-core)     Clioptions add general option  not-core    n   ""          "no ${1:-} with origin module Core"                                         "Filters" ;;
 
-                        add-option-filter-exitop)       Cli add general option  exit        e   ""      "show exit options"     "Filters" ;;
-                        add-option-filter-runtop)       Cli add general option  runtime     r   ""      "show runtime options"  "Filters" ;;
+                        add-option-filter-exitop)       Clioptions add general option  exit        e   ""      "show exit options"     "Filters" ;;
+                        add-option-filter-runtop)       Clioptions add general option  runtime     r   ""      "show runtime options"  "Filters" ;;
 
-                        add-option-task-none-all)       Cli add general option  none-all        N   ""  "activates all 'no' name filters"                               "Name+Filters,+none" ;;
-                        add-option-task-none-build)     Cli add general option  none-build      b   ""  "exclude tasks starting with 'build-'"                          "Name+Filters,+none" ;;
-                        add-option-task-none-debug)     Cli add general option  none-debug      ""  ""  "exclude tasks starting with 'debug-'"                          "Name+Filters,+none" ;;
-                        add-option-task-none-describe)  Cli add general option  none-describe   d   ""  "exclude tasks starting with 'describe-'"                       "Name+Filters,+none" ;;
-                        add-option-task-none-list)      Cli add general option  none-list       l   ""  "exclude tasks starting with 'list-'"                           "Name+Filters,+none" ;;
-                        add-option-task-none-dl)        Cli add general option  none-dl         ""  ""  "exclude tasks starting with 'describe-' or 'list-'"            "Name+Filters,+none" ;;
-                        add-option-task-none-dll)       Cli add general option  none-ddl        ""  ""  "exclude tasks starting with 'debug-', 'describe-' or 'list-'"  "Name+Filters,+none" ;;
+                        add-option-task-none-all)       Clioptions add general option  none-all        N   ""  "activates all 'no' name filters"                               "Name+Filters,+none" ;;
+                        add-option-task-none-build)     Clioptions add general option  none-build      b   ""  "exclude tasks starting with 'build-'"                          "Name+Filters,+none" ;;
+                        add-option-task-none-debug)     Clioptions add general option  none-debug      ""  ""  "exclude tasks starting with 'debug-'"                          "Name+Filters,+none" ;;
+                        add-option-task-none-describe)  Clioptions add general option  none-describe   d   ""  "exclude tasks starting with 'describe-'"                       "Name+Filters,+none" ;;
+                        add-option-task-none-list)      Clioptions add general option  none-list       l   ""  "exclude tasks starting with 'list-'"                           "Name+Filters,+none" ;;
+                        add-option-task-none-dl)        Clioptions add general option  none-dl         ""  ""  "exclude tasks starting with 'describe-' or 'list-'"            "Name+Filters,+none" ;;
+                        add-option-task-none-dll)       Clioptions add general option  none-ddl        ""  ""  "exclude tasks starting with 'debug-', 'describe-' or 'list-'"  "Name+Filters,+none" ;;
 
-                        add-option-task-only-build)     Cli add general option  only-build      B   ""  "show only tasks starting with 'build-'"        "Name+Filters,+only" ;;
-                        add-option-task-only-debug)     Cli add general option  only-debug      ""  ""  "show only tasks starting with 'debug-'"        "Name+Filters,+only" ;;
-                        add-option-task-only-describe)  Cli add general option  only-describe   ""  ""  "show only tasks starting with 'describe-'"     "Name+Filters,+only" ;;
-                        add-option-task-only-list)      Cli add general option  only-list       L   ""  "show only tasks starting with 'list-'"         "Name+Filters,+only" ;;
+                        add-option-task-only-build)     Clioptions add general option  only-build      B   ""  "show only tasks starting with 'build-'"        "Name+Filters,+only" ;;
+                        add-option-task-only-debug)     Clioptions add general option  only-debug      ""  ""  "show only tasks starting with 'debug-'"        "Name+Filters,+only" ;;
+                        add-option-task-only-describe)  Clioptions add general option  only-describe   ""  ""  "show only tasks starting with 'describe-'"     "Name+Filters,+only" ;;
+                        add-option-task-only-list)      Clioptions add general option  only-list       L   ""  "show only tasks starting with 'list-'"         "Name+Filters,+only" ;;
 
-                        add-option-target-all)  Cli add general option  all A   ""  "all targets" "Targets" ;;
+                        add-option-target-all)  Clioptions add general option  all A   ""  "all targets" "Targets" ;;
 
-                        *)
-                            Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
+                        *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
                     esac ;;
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Write"]="action to write something"
+FW_COMPONENTS_TAGLINE["write"]="action to write something"
 
 
 function Write() {
@@ -51,7 +51,6 @@ function Write() {
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmd1}" E801 1 "$#"; return; fi
             id="${1}"
             Test existing theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then printf ""; return; fi
-            id="$(Get theme id ${id})"
 
             if [[ "${id}" != "API" ]]; then
                 path="${FW_OBJECT_THM_PATH[${id}]}"
@@ -97,15 +96,15 @@ function Write() {
             case "${cmd1}-${cmd2}" in
 
                 all-themes)
-                    for id in $(Themes has long); do
+                    for id in $(Themes has); do
                         if [[ "${id}" != "API" ]]; then Write theme $id; fi
                     done ;;
+
                 full-cache)
                     Write framework cache
-                    for id in $(Modules has long); do
+                    for id in $(Modules has); do
                         if [[ "${id}" != "API" ]]; then Write cache for module $id; fi
-                    done
-                    ;;
+                    done ;;
 
                 framework-cache)
                     ## write format declarations
@@ -189,8 +188,6 @@ function Write() {
                     if [[ -w "${file}" ]]; then
                         rm ${file}; sedFile="${file}-sed"
                         declare -p FW_OBJECT_THM_LONG  >> ${sedFile}; echo "" >> ${sedFile}
-                        declare -p FW_OBJECT_THM_SHORT >> ${sedFile}; echo "" >> ${sedFile}
-                        declare -p FW_OBJECT_THM_LS    >> ${sedFile}; echo "" >> ${sedFile}
                         declare -p FW_OBJECT_THM_PATH  >> ${sedFile}; echo "" >> ${sedFile}
                         sed -e "s/declare -A/declare -A -g/g" ${sedFile} > ${file}; rm ${sedFile}
                     fi
@@ -215,8 +212,8 @@ function Write() {
                     esac
                     if [[ -w "${file}" ]]; then
                         rm ${file}; sedFile="${file}-sed"
-                        for map in ${mapsToWrite}; do declare -p $map >> ${sedFile}; echo "" >> ${sedFile}; done
-                        sed -e "s/declare -A/declare -A -g/g" ${sedFile} > ${file}; rm ${sedFile}
+                        for map in ${mapsToWrite}; do declare -p ${map} >> ${sedFile}; echo "" >> ${sedFile}; done
+                        sed -e "s/declare -A/declare -A -g/g" -e "s/declare --/declare -g/g" ${sedFile} > ${file}; rm ${sedFile}
                     fi ;;
 
                 cache-for)
@@ -229,7 +226,6 @@ function Write() {
 
                             if [[ "${moduleId}" != "API" ]]; then
                                 Test existing module id "${moduleId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                                moduleId="$(Get module id ${moduleId})"
 
                                 file="${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/module--${moduleId}.cache"
                                 touch ${file}
@@ -428,14 +424,10 @@ function Write() {
                                 Report process error "${FUNCNAME[0]}" "${cmd1}" E828 "module" "written"
                             fi ;;
 
-                        *)
-                            Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
+                        *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
                     esac ;;
-
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

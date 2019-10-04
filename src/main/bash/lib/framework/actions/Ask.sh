@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Ask"]="action to ask something"
+FW_COMPONENTS_TAGLINE["ask"]="action to ask something"
 
 
 function Ask() {
@@ -88,15 +88,10 @@ function Ask() {
                                 *)              printf "no" ;;
                             esac ;;
 
-                        *)
-                            Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
-                    esac
-                    ;;
-
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                        *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
+                    esac ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

@@ -31,18 +31,24 @@
 
 if [[ "${FW_OBJECT_THM_LONG[*]}" == "" ]]; then
     declare -A FW_OBJECT_THM_LONG       ## [long]=description
-    declare -A FW_OBJECT_THM_SHORT      ## [short]=long
-    declare -A FW_OBJECT_THM_LS         ## [long]=short
     declare -A FW_OBJECT_THM_PATH       ## [long]=path
 fi
 
 if [[ -n "${FW_INIT:-}" ]]; then
-    FW_RUNTIME_MAPS_SLOW+=" FW_OBJECT_THM_LONG FW_OBJECT_THM_SHORT FW_OBJECT_THM_LS FW_OBJECT_THM_PATH"
+    FW_RUNTIME_MAPS_SLOW+=" FW_OBJECT_THM_LONG FW_OBJECT_THM_PATH"
 fi
 
-FW_TABLES_COL1["theme"]=Theme
-FW_TABLES_EXTRAS["theme"]=""
-FW_TAGS_OBJECTS["Themes"]="data object representing the framework's themes"
+FW_COMPONENTS_SINGULAR["themes"]="theme"
+FW_COMPONENTS_PLURAL["themes"]="themes"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["themes"]="Theme"
+FW_COMPONENTS_TITLE_LONG_PLURAL["themes"]="Themes"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["themes"]="Theme"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["themes"]="Themes"
+FW_COMPONENTS_TABLE_DESCR["themes"]="Description"
+FW_COMPONENTS_TABLE_VALUE["themes"]="Path to Theme File"
+#FW_COMPONENTS_TABLE_DEFVAL["themes"]=""
+FW_COMPONENTS_TABLE_EXTRA["themes"]=""
+FW_COMPONENTS_TAGLINE["themes"]="data object representing the framework's themes"
 
 
 function Themes() {
@@ -55,25 +61,18 @@ function Themes() {
     local id printString="" keys
     local cmd1="${1,,}" cmdString1="${1,,}"
     shift; case "${cmd1}" in
+        has)
+            echo " ${!FW_OBJECT_THM_LONG[@]} " ;;
         list)
             if [[ "${FW_OBJECT_THM_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_OBJECT_THM_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s (%s): %s, %s\n" "${id}" "${FW_OBJECT_THM_LS[${id}]}" "${FW_OBJECT_THM_PATH[${id}]}" "${FW_OBJECT_THM_LONG[${id}]}"
+                    printf "    %s: %s, %s\n" "${id}" "${FW_OBJECT_THM_PATH[${id}]}" "${FW_OBJECT_THM_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"
             fi ;;
-        has)
-            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
-            cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
-            case "${cmd1}-${cmd2}" in
-                has-long)   echo " ${!FW_OBJECT_THM_LONG[@]} " ;;
-                has-short)  echo " ${!FW_OBJECT_THM_SHORT[@]} " ;;
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
-            esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

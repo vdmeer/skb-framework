@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Get"]="action to get something"
+FW_COMPONENTS_TAGLINE["get"]="action to get something"
 
 
 function Get() {
@@ -64,12 +64,6 @@ function Get() {
                 strict-mode | error-count | warning-count )
                     printf "%s" "${FW_OBJECT_SET_VAL["${cmd1^^}_${cmd2^^}"]}" ;;
 
-                module-id)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    id="${1}"
-                    Test existing module id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then printf ""; return; fi
-                    if [[ "${FW_ELEMENT_MDS_LONG[*]}" != "" && -n "${FW_ELEMENT_MDS_LONG[${id}]:-}" ]];  then printf "${id}"; else printf "${FW_ELEMENT_MDS_SHORT[${id}]}"; fi ;;
-
                 option-id)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
                     id="${1}"
@@ -81,12 +75,6 @@ function Get() {
                     id="${1}"
                     Test element status "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then printf ""; return; fi
                     id=${id:0:1}; echo "${id^}" ;;
-
-                theme-id)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    id="${1}"
-                    Test existing theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then printf ""; return; fi
-                    if [[ "${FW_OBJECT_THM_LONG[*]}" != "" && -n "${FW_OBJECT_THM_LONG[${id}]:-}" ]];  then printf "${id}"; else printf "${FW_OBJECT_THM_SHORT[${id}]}"; fi ;;
 
                 error-codes)    printf "%s" "$(Get object phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} error codes)" ;;
 
@@ -164,7 +152,6 @@ function Get() {
                     case "${property}" in
                         description | "")   printf "%s" "${FW_OBJECT_THM_LONG[${id}]}" ;;
                         path)               printf "%s" "${FW_OBJECT_THM_PATH[${id}]}" ;;
-                        short)              printf "%s" "${FW_OBJECT_THM_LS[${id}]}" ;;
                         *)                  Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 object-themeitem)
@@ -190,7 +177,7 @@ function Get() {
                     Test existing module id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description | "")   printf "%s" "${FW_ELEMENT_MDS_LONG[${id}]}" ;;
-                        short)              printf "%s" "${FW_ELEMENT_MDS_LS[${id}]}" ;;
+                        acronym)            printf "%s" "${FW_ELEMENT_MDS_ACR[${id}]}" ;;
                         path)               printf "%s" "${FW_ELEMENT_MDS_PATH[${id}]}" ;;
                         requirements)       printf "%s" "${FW_ELEMENT_MDS_REQUIRED_MODULES[${id}]:-}" ;;
                         *)                  Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
@@ -295,10 +282,8 @@ function Get() {
                         *)                  Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
 
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

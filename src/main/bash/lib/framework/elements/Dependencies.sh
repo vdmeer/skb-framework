@@ -46,9 +46,28 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_MEDIUM+=" FW_ELEMENT_DEP_STATUS FW_ELEMENT_DEP_STATUS_COMMENTS FW_ELEMENT_DEP_REQUESTED"
 fi
 
-FW_TABLES_COL1["dependency"]=Dependency
-FW_TABLES_EXTRAS["dependency"]="Or R S"
-FW_TAGS_ELEMENTS["Dependencies"]="element representing dependencies"
+FW_COMPONENTS_SINGULAR["dependencies"]="dependency"
+FW_COMPONENTS_PLURAL["dependencies"]="dependencies"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["dependencies"]="Dependency"
+FW_COMPONENTS_TITLE_LONG_PLURAL["dependencies"]="Dependencies"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["dependencies"]="Dependency"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["dependencies"]="Dependencies"
+FW_COMPONENTS_TABLE_DESCR["dependencies"]="Description"
+FW_COMPONENTS_TABLE_VALUE["dependencies"]="Command"
+#FW_COMPONENTS_TABLE_DEFVAL["dependencies"]=""
+FW_COMPONENTS_TABLE_EXTRA["dependencies"]="MD R S"
+FW_COMPONENTS_TAGLINE["dependencies"]="element representing dependencies"
+    FW_COMPONENTS_SINGULAR["dependency"]="dependency"
+    FW_COMPONENTS_PLURAL["dependency"]="dependencies"
+    FW_COMPONENTS_TITLE_LONG_SINGULAR["dependency"]="Dependency"
+    FW_COMPONENTS_TITLE_LONG_PLURAL["dependency"]="Dependencies"
+    FW_COMPONENTS_TITLE_SHORT_SINGULAR["dependency"]="Dependency"
+    FW_COMPONENTS_TITLE_SHORT_PLURAL["dependency"]="Dependencies"
+    FW_COMPONENTS_TABLE_DESCR["dependency"]="Description"
+    FW_COMPONENTS_TABLE_VALUE["dependency"]="Command"
+#    FW_COMPONENTS_TABLE_DEFVAL["dependency"]=""
+    FW_COMPONENTS_TABLE_EXTRA["dependency"]="MD R S"
+    FW_COMPONENTS_TAGLINE["dependency"]="element representing dependencies"
 
 
 function Dependencies() {
@@ -72,7 +91,7 @@ function Dependencies() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

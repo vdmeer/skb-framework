@@ -54,9 +54,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_MEDIUM+=" FW_ELEMENT_SCN_STATUS FW_ELEMENT_SIT_STATUS_COMMENTS"
 fi
 
-FW_TABLES_COL1["scenario"]=Scenario
-FW_TABLES_EXTRAS["scenario"]="Or S T D B U"
-FW_TAGS_ELEMENTS["Scenarios"]="element representing scenarios"
+FW_COMPONENTS_SINGULAR["scenarios"]="scenario"
+FW_COMPONENTS_PLURAL["scenarios"]="scenarios"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["scenarios"]="Scenario"
+FW_COMPONENTS_TITLE_LONG_PLURAL["scenarios"]="Scenarios"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["scenarios"]="Scenario"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["scenarios"]="Scenarios"
+FW_COMPONENTS_TABLE_DESCR["scenarios"]="Description"
+FW_COMPONENTS_TABLE_VALUE["scenarios"]="Path to Scenario"
+#FW_COMPONENTS_TABLE_DEFVAL["scenarios"]=""
+FW_COMPONENTS_TABLE_EXTRA["scenarios"]="MD S T D B U"
+FW_COMPONENTS_TAGLINE["scenarios"]="element representing scenarios"
 
 
 function Scenarios() {
@@ -80,7 +88,7 @@ function Scenarios() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

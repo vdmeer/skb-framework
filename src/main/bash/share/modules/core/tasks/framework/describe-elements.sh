@@ -32,26 +32,26 @@
 if [[ ! -n "${SF_HOME}" || "${FW_LOADED:-no}" != yes ]]; then printf " skb-runtime: please run from skb-framework\n\n"; exit 100; fi
 source ${SF_HOME}/lib/framework/Framework.sh
 
-Cli add option target-all
+Clioptions add option target-all
 
-Cli add general option  applications    a ""  "general description of applications"     "Targets"
-Cli add general option  dependencies    d ""  "general description of dependencies"     "Targets"
-Cli add general option  dirlists        "" "" "general description of directory lists"  "Targets"
-Cli add general option  dirs            "" "" "general description of directories"      "Targets"
-Cli add general option  filelists       "" "" "general description of file lists"       "Targets"
-Cli add general option  files           "" "" "general description of files"            "Targets"
-Cli add general option  modules         m ""  "general description of modules"          "Targets"
-Cli add general option  options         o ""  "general description of options"          "Targets"
-Cli add general option  parameters      p ""  "general description of parameters"       "Targets"
-Cli add general option  projects        P ""  "general description of projects"         "Targets"
-Cli add general option  scenarios       s ""  "general description of scenarios"        "Targets"
-Cli add general option  sites           S ""  "general description of sites"            "Targets"
-Cli add general option  tasks           t ""  "general description of tasks"            "Targets"
+Clioptions add general option  applications    a ""  "general description of applications"     "Targets"
+Clioptions add general option  dependencies    d ""  "general description of dependencies"     "Targets"
+Clioptions add general option  dirlists        "" "" "general description of directory lists"  "Targets"
+Clioptions add general option  dirs            "" "" "general description of directories"      "Targets"
+Clioptions add general option  filelists       "" "" "general description of file lists"       "Targets"
+Clioptions add general option  files           "" "" "general description of files"            "Targets"
+Clioptions add general option  modules         m ""  "general description of modules"          "Targets"
+Clioptions add general option  options         o ""  "general description of options"          "Targets"
+Clioptions add general option  parameters      p ""  "general description of parameters"       "Targets"
+Clioptions add general option  projects        P ""  "general description of projects"         "Targets"
+Clioptions add general option  scenarios       s ""  "general description of scenarios"        "Targets"
+Clioptions add general option  sites           S ""  "general description of sites"            "Targets"
+Clioptions add general option  tasks           t ""  "general description of tasks"            "Targets"
 
-#Cli add general option  exit-options    e ""  "general description of exit options"     "Targets"
-#Cli add general option  runtime-options r ""  "general description of runtime options"  "Targets"
+#Clioptions add general option  exit-options    e ""  "general description of exit options"     "Targets"
+#Clioptions add general option  runtime-options r ""  "general description of runtime options"  "Targets"
 
-Parse cli arguments "Options Targets" $*
+Parse cli "Options Targets" $*
 
 
 ############################################################################################
@@ -64,24 +64,23 @@ targets="$(Framework has elements)"
 #exit-options
 #runtime-options
 
+if [[ "${FW_INSTANCE_CLI_SET["all"]}" == "no" ]]; then
+    if [[ "${FW_INSTANCE_CLI_SET["applications"]}" == "no" ]]; then targets=${targets/Applications/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["dependencies"]}" == "no" ]]; then targets=${targets/Dependencies/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["dirlists"]}" == "no" ]]; then targets=${targets/Dirlists/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["dirs"]}" == "no" ]]; then targets=${targets/Dirs/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["filelists"]}" == "no" ]]; then targets=${targets/Filelists/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["files"]}" == "no" ]]; then targets=${targets/Files/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["modules"]}" == "no" ]]; then targets=${targets/Modules/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["options"]}" == "no" ]]; then targets=${targets/Options/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["parameters"]}" == "no" ]]; then targets=${targets/Parameters/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["projects"]}" == "no" ]]; then targets=${targets/Projects/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["scenarios"]}" == "no" ]]; then targets=${targets/Scenarios/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["sites"]}" == "no" ]]; then targets=${targets/Sites/}; fi
+    if [[ "${FW_INSTANCE_CLI_SET["tasks"]}" == "no" ]]; then targets=${targets/Tasks/}; fi
 
-if [[ "${FW_PARSED_ARG_MAP[A]:-${FW_PARSED_ARG_MAP[all]:-no}}" == no ]]; then
-    if [[ "${FW_PARSED_ARG_MAP[a]:-${FW_PARSED_ARG_MAP[applications]:-no}}" == no ]]; then targets=${targets/Applications/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[d]:-${FW_PARSED_ARG_MAP[dependencies]:-no}}" == no ]]; then targets=${targets/Dependencies/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[dirlists]:-no}" == no ]]; then targets=${targets/Dirlists/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[dirs]:-no}" == no ]]; then targets=${targets/Dirs/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[filelists]:-no}" == no ]]; then targets=${targets/Filelists/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[files]:-no}" == no ]]; then targets=${targets/Files/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[m]:-${FW_PARSED_ARG_MAP[modules]:-no}}" == no ]]; then targets=${targets/Modules/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[o]:-${FW_PARSED_ARG_MAP[options]:-no}}" == no ]]; then targets=${targets/Options/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[p]:-${FW_PARSED_ARG_MAP[parameters]:-no}}" == no ]]; then targets=${targets/Parameters/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[P]:-${FW_PARSED_ARG_MAP[projects]:-no}}" == no ]]; then targets=${targets/Projects/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[s]:-${FW_PARSED_ARG_MAP[scenarios]:-no}}" == no ]]; then targets=${targets/Scenarios/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[S]:-${FW_PARSED_ARG_MAP[sites]:-no}}" == no ]]; then targets=${targets/Sites/}; fi
-    if [[ "${FW_PARSED_ARG_MAP[t]:-${FW_PARSED_ARG_MAP[tasks]:-no}}" == no ]]; then targets=${targets/Tasks/}; fi
-
-#    if [[ "${FW_PARSED_ARG_MAP[e]:-${FW_PARSED_ARG_MAP[exit-options]:-no}}" == no ]]; then targets=${targets/exit-options/}; fi
-#    if [[ "${FW_PARSED_ARG_MAP[r]:-${FW_PARSED_ARG_MAP[runtime-options]:-no}}" == no ]]; then targets=${targets/runtime-options/}; fi
+#    if [[ "${FW_INSTANCE_CLI_SET["exit-options"]}" == "no" ]]; then targets=${targets/exit-options/}; fi
+#    if [[ "${FW_INSTANCE_CLI_SET["runtime-options"]}" == "no" ]]; then targets=${targets/runtime-options/}; fi
 fi
 
 

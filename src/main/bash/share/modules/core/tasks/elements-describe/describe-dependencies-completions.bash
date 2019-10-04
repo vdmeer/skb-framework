@@ -49,9 +49,9 @@ function __skb_task_describe_dependencies_words(){
                     esac ;;
         --format)   retval="$(Formats has)" ;;
 
-        --id)       retval="$(Dependencies has long)" ;;
+        --id)       retval="$(Dependencies has)" ;;
 
-        --origin)       retval="$(Modules has long)" ;;
+        --origin)       retval="$(Modules has)" ;;
         --status)       retval="N E W S" ;;
         --tested)       retval="yes no" ;;
         --requested)    retval="yes no" ;;

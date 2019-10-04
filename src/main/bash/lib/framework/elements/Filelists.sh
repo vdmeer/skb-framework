@@ -47,9 +47,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_MEDIUM+=" FW_ELEMENT_FLS_STATUS FW_ELEMENT_FLS_STATUS_COMMENTS FW_ELEMENT_FLS_REQUESTED"
 fi
 
-FW_TABLES_COL1["filelist"]="File List"
-FW_TABLES_EXTRAS["filelist"]="Or R S P Modes"
-FW_TAGS_ELEMENTS["Filelists"]="element representing file lists"
+FW_COMPONENTS_SINGULAR["filelists"]="filelist"
+FW_COMPONENTS_PLURAL["filelists"]="filelists"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["filelists"]="File List"
+FW_COMPONENTS_TITLE_LONG_PLURAL["filelists"]="File Lists"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["filelists"]="File List"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["filelists"]="File Lists"
+FW_COMPONENTS_TABLE_DESCR["filelists"]="Description"
+FW_COMPONENTS_TABLE_VALUE["filelists"]="Files"
+#FW_COMPONENTS_TABLE_DEFVAL["filelists"]=""
+FW_COMPONENTS_TABLE_EXTRA["filelists"]="MD R S P Modes"
+FW_COMPONENTS_TAGLINE["filelists"]="element representing file lists"
 
 
 function Filelists() {
@@ -73,7 +81,7 @@ function Filelists() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

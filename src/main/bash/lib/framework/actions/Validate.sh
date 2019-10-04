@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Validate"]="action to validate something"
+FW_COMPONENTS_TAGLINE["validate"]="action to validate something"
 
 
 function Validate() {
@@ -64,7 +64,7 @@ function Validate() {
             Validate tasks ;;
 
         objects)
-            Validate configuration
+            Validate configurations
             Validate formats
             Validate levels
             Validate messages
@@ -88,7 +88,7 @@ function Validate() {
                                 expected+=" exit-options run-options" ;;
                     exitcodes)  expected="$(Exitcodes has)" ;;
                     objects)    expected="$(Framework has objects)" ;;
-                    options)    expected="$(Options has long)" ;;
+                    options)    expected="$(Options has)" ;;
                     tags)       expected="authors name" ;;
                     themeitems) expected="$(Themeitems has)" ;;
                 esac
@@ -203,7 +203,7 @@ function Validate() {
             fi ;;
 
 
-        configuration)
+        configurations)
             ;;
 
         formats)
@@ -254,7 +254,6 @@ function Validate() {
                 done
             fi ;;
 
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

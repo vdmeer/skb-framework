@@ -34,7 +34,7 @@ if [[ "${FW_INSTANCE_TABLE_CHARS[*]}" == "" ]]; then
     FW_INSTANCE_TABLE_CHARS_BUILT=" "   ## string with built formats, with leading and trailing space
 fi
 
-FW_TAGS_INSTANCES["Tablechars"]="instance that maintains cached table characters"
+FW_COMPONENTS_TAGLINE["tablechars"]="instance that maintains cached table characters"
 
 
 function Tablechars() {
@@ -135,10 +135,8 @@ function Tablechars() {
                         FW_INSTANCE_TABLE_CHARS_BUILT=${FW_INSTANCE_TABLE_CHARS_BUILT/"${format} "/}
                     fi ;;
 
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

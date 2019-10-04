@@ -47,9 +47,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_MEDIUM+=" FW_ELEMENT_FIL_STATUS FW_ELEMENT_FIL_STATUS_COMMENTS FW_ELEMENT_FIL_REQUESTED"
 fi
 
-FW_TABLES_COL1["file"]=File
-FW_TABLES_EXTRAS["file"]="Or R S P Modes"
-FW_TAGS_ELEMENTS["Files"]="element representing files"
+FW_COMPONENTS_SINGULAR["files"]="file"
+FW_COMPONENTS_PLURAL["files"]="files"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["files"]="File"
+FW_COMPONENTS_TITLE_LONG_PLURAL["files"]="Files"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["files"]="File"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["files"]="Files"
+FW_COMPONENTS_TABLE_DESCR["files"]="Description"
+FW_COMPONENTS_TABLE_VALUE["files"]="File"
+#FW_COMPONENTS_TABLE_DEFVAL["files"]=""
+FW_COMPONENTS_TABLE_EXTRA["files"]="MD R S P Modes"
+FW_COMPONENTS_TAGLINE["files"]="element representing files"
 
 
 function Files() {
@@ -73,7 +81,7 @@ function Files() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

@@ -44,9 +44,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_SLOW+=" FW_OBJECT_PHA_LONG FW_OBJECT_PHA_PATH"
 fi
 
-FW_TABLES_COL1["phase"]=Phase
-FW_TABLES_EXTRAS["phase"]="FEXMWIDT  FEXMWIDT  WRN ERR"
-FW_TAGS_OBJECTS["Phases"]="data object representing the framework's phases"
+FW_COMPONENTS_SINGULAR["phases"]="phase"
+FW_COMPONENTS_PLURAL["phases"]="phases"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["phases"]="Phase"
+FW_COMPONENTS_TITLE_LONG_PLURAL["phases"]="Phases"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["phases"]="Phase"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["phases"]="Phases"
+FW_COMPONENTS_TABLE_DESCR["phases"]="Description"
+FW_COMPONENTS_TABLE_VALUE["phases"]="Description"
+#FW_COMPONENTS_TABLE_DEFVAL["phases"]=""
+FW_COMPONENTS_TABLE_EXTRA["phases"]="FEXMWIDT  FEXMWIDT  WRN ERR"
+FW_COMPONENTS_TAGLINE["phases"]="data object representing the framework's phases"
 
 
 function Phases() {
@@ -69,8 +77,6 @@ function Phases() {
                 done
             else
                 printf "    %s\n" "{}"
-            fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+            fi ;;        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

@@ -43,7 +43,7 @@ function __skb_Print_completions(){
         test)           retval="colors effects characters terminal" ;;
 
         application)    retval="table descriptions list" ;;
-        clioption)      retval="list" ;;
+        clioption)      retval="table list" ;;
         configuration)  retval="list table" ;;
         dependency)     retval="table descriptions list" ;;
         dirlist)        retval="table descriptions list" ;;

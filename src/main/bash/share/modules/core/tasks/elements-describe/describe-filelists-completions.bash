@@ -49,9 +49,9 @@ function __skb_task_describe_filelists_words(){
                     esac ;;
         --format)   retval="$(Formats has)" ;;
 
-        --id)       retval="$(Filelists has long)" ;;
+        --id)       retval="$(Filelists has)" ;;
 
-        --origin)       retval="$(Modules has long)" ;;
+        --origin)       retval="$(Modules has)" ;;
         --status)       retval="N E W S" ;;
         --tested)       retval="yes no" ;;
         --requested)    retval="yes no" ;;

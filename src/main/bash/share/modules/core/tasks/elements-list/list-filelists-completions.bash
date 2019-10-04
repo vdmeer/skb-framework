@@ -50,7 +50,7 @@ function __skb_task_list_filelists_words(){
                     esac ;;
         --format)   retval="$(Formats has)" ;;
 
-        --origin)       retval="$(Modules has long)" ;;
+        --origin)       retval="$(Modules has)" ;;
         --requested)    retval="yes no" ;;
         --status)       retval="N E W S" ;;
         --tested)       retval="yes no" ;;

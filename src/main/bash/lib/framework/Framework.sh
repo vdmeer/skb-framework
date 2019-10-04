@@ -33,6 +33,7 @@ if [[ -n "${SF_HOME:-}" ]]; then
 ## backup for IFS
 ###    if [[ -z "${SF_FIELD_SEPARATOR:-}" ]]; then SF_FIELD_SEPARATOR="$IFS"; declare -r -g -x SF_FIELD_SEPARATOR; fi
 
+    ## maps for writing runtime configuration maps
     if [[ -n "${FW_INIT:-}" ]]; then
         declare -x FW_RUNTIME_MAPS_FAST=""    ## fast changing maps, such as settings, phases
         declare -x FW_RUNTIME_MAPS_MEDIUM=""  ## medium changing maps, such as status and status comments
@@ -40,13 +41,29 @@ if [[ -n "${SF_HOME:-}" ]]; then
         declare -x FW_RUNTIME_MAPS_LOAD=""    ## maps written only at load time, such as options and known theme items
     fi
 
-    declare -A -g FW_TABLES_COL1 FW_TABLES_EXTRAS
-        FW_TABLES_COL1["action"]=Action;     FW_TABLES_EXTRAS["action"]=""
-        FW_TABLES_COL1["element"]=Element;   FW_TABLES_EXTRAS["element"]=""
-        FW_TABLES_COL1["instance"]=Instance; FW_TABLES_EXTRAS["instance"]=""
-        FW_TABLES_COL1["object"]=Object;     FW_TABLES_EXTRAS["object"]=""
 
-    declare -A -g FW_TAGS_ACTIONS FW_TAGS_ELEMENTS FW_TAGS_INSTANCES FW_TAGS_OBJECTS
+    ## maps to flaten naming edge cases and static component properties
+    ## {name,,} means the name, plural, lower case
+    ## components with special plural spelling (e.g. dependency/dependencies) can get 2 entries in each map
+
+    declare -A -g FW_COMPONENTS_SINGULAR                ## [name,,]="all lower case singular of the term for elements, instances, objects"
+    declare -A -g FW_COMPONENTS_PLURAL                  ## [name,,]="all lower case plural of the term for elements, instances, objects"
+    declare -A -g FW_COMPONENTS_TITLE_LONG_SINGULAR     ## [name,,]="Long Title, singular"
+    declare -A -g FW_COMPONENTS_TITLE_LONG_PLURAL       ## [name,,]="Long Title, plural"
+    declare -A -g FW_COMPONENTS_TITLE_SHORT_SINGULAR    ## [name,,]="Short Title, singular"
+    declare -A -g FW_COMPONENTS_TITLE_SHORT_PLURAL      ## [name,,]="Short Title, plural"
+    declare -A -g FW_COMPONENTS_TABLE_DESCR             ## [name,,]="text for table head when showing taglines"
+    declare -A -g FW_COMPONENTS_TABLE_VALUE             ## [name,,]="text for table head when showing values"
+    declare -A -g FW_COMPONENTS_TABLE_DEFVAL            ## [name,,]="text for table head when showing default values"
+    declare -A -g FW_COMPONENTS_TABLE_EXTRA             ## [name,,]="Extra properties in table", empty if none
+    declare -A -g FW_COMPONENTS_TAGLINE                 ## [name,,]="tagline", i.e. s short description
+
+    ## create entries for the 4 components, they don't have a function defined
+    FW_COMPONENTS_SINGULAR["actions"]="action";     FW_COMPONENTS_PLURAL["actions"]="actions";     FW_COMPONENTS_TITLE_LONG_SINGULAR["actions"]="Action";     FW_COMPONENTS_TITLE_LONG_PLURAL["actions"]="Actions";     FW_COMPONENTS_TITLE_SHORT_SINGULAR["actions"]="Action";     FW_COMPONENTS_TITLE_SHORT_PLURAL["actions"]="Actions";     FW_COMPONENTS_TABLE_EXTRA["actions"]=""
+    FW_COMPONENTS_SINGULAR["elements"]="element";   FW_COMPONENTS_PLURAL["elements"]="elements";   FW_COMPONENTS_TITLE_LONG_SINGULAR["elements"]="Element";   FW_COMPONENTS_TITLE_LONG_PLURAL["elements"]="Elements";   FW_COMPONENTS_TITLE_SHORT_SINGULAR["elements"]="Element";   FW_COMPONENTS_TITLE_SHORT_PLURAL["elements"]="Elements";   FW_COMPONENTS_TABLE_EXTRA["elements"]=""
+    FW_COMPONENTS_SINGULAR["instances"]="instance"; FW_COMPONENTS_PLURAL["instances"]="instances"; FW_COMPONENTS_TITLE_LONG_SINGULAR["instances"]="Instance"; FW_COMPONENTS_TITLE_LONG_PLURAL["instances"]="Instances"; FW_COMPONENTS_TITLE_SHORT_SINGULAR["instances"]="Instance"; FW_COMPONENTS_TITLE_SHORT_PLURAL["instances"]="Instances"; FW_COMPONENTS_TABLE_EXTRA["instances"]=""
+    FW_COMPONENTS_SINGULAR["objects"]="object";     FW_COMPONENTS_PLURAL["objects"]="objects";     FW_COMPONENTS_TITLE_LONG_SINGULAR["objects"]="Object";     FW_COMPONENTS_TITLE_LONG_PLURAL["objects"]="Objects";     FW_COMPONENTS_TITLE_SHORT_SINGULAR["objects"]="Object";     FW_COMPONENTS_TITLE_SHORT_PLURAL["objects"]="Objects";     FW_COMPONENTS_TABLE_EXTRA["objects"]=""
+
 
     for file in ${SF_HOME}/lib/framework/{actions,elements,objects,instances}/*.sh; do source ${file}; done; unset file
 
@@ -70,7 +87,7 @@ if [[ -n "${SF_HOME:-}" ]]; then
             set -o pipefail -o noclobber -o nounset -o errexit
             shopt -s globstar
             FW_CURRENT_TASK_NAME="${FW_OBJECT_SET_VAL["CURRENT_TASK"]}"
-            Cli add option help; Cli add option format; Cli add option describe
+            Clioptions add option help; Clioptions add option format; Clioptions add option describe
         fi
     fi
 else

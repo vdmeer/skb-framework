@@ -40,9 +40,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_LOAD+=" FW_OBJECT_LVL_LONG FW_OBJECT_LVL_PATH FW_OBJECT_LVL_CHAR_ABBR FW_OBJECT_LVL_STRING_THM"
 fi
 
-FW_TABLES_COL1["level"]=Level
-FW_TABLES_EXTRAS["level"]=""
-FW_TAGS_OBJECTS["Levels"]="data object representing the framework's levels"
+FW_COMPONENTS_SINGULAR["levels"]="level"
+FW_COMPONENTS_PLURAL["levels"]="levels"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["levels"]="Level"
+FW_COMPONENTS_TITLE_LONG_PLURAL["levels"]="Levels"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["levels"]="Level"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["levels"]="Levels"
+FW_COMPONENTS_TABLE_DESCR["levels"]="Description"
+FW_COMPONENTS_TABLE_VALUE["levels"]="Description"
+#FW_COMPONENTS_TABLE_DEFVAL["levels"]=""
+FW_COMPONENTS_TABLE_EXTRA["levels"]=""
+FW_COMPONENTS_TAGLINE["levels"]="data object representing the framework's levels"
 
 
 function Levels() {
@@ -86,13 +94,10 @@ function Levels() {
                             id="${id}"; Test existing level id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                             printf "${FW_OBJECT_LVL_STRING_THM[${id}]}" ;;
 
-                        *)
-                            Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
+                        *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
                     esac ;;
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

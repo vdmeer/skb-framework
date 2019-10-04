@@ -55,9 +55,17 @@ if [[ -n "${FW_INIT:-}" ]]; then
     FW_RUNTIME_MAPS_MEDIUM+=" FW_ELEMENT_TSK_STATUS FW_ELEMENT_TSK_STATUS_COMMENTS FW_ELEMENT_TSK_REQUESTED"
 fi
 
-FW_TABLES_COL1["task"]=Task
-FW_TABLES_EXTRAS["task"]="Or R S T D B U"
-FW_TAGS_ELEMENTS["Tasks"]="element representing tasks"
+FW_COMPONENTS_SINGULAR["tasks"]="task"
+FW_COMPONENTS_PLURAL["tasks"]="tasks"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["tasks"]="Task"
+FW_COMPONENTS_TITLE_LONG_PLURAL["tasks"]="Tasks"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["tasks"]="Task"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["tasks"]="Tasks"
+FW_COMPONENTS_TABLE_DESCR["tasks"]="Description"
+FW_COMPONENTS_TABLE_VALUE["tasks"]="Path to Task"
+#FW_COMPONENTS_TABLE_DEFVAL["tasks"]=""
+FW_COMPONENTS_TABLE_EXTRA["tasks"]="MD R S T D B U"
+FW_COMPONENTS_TAGLINE["tasks"]="element representing tasks"
 
 
 function Tasks() {
@@ -81,7 +89,7 @@ function Tasks() {
             else
                 printf "    %s\n" "{}"
             fi ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

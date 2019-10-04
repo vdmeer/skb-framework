@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Describe"]="action to describe something"
+FW_COMPONENTS_TAGLINE["describe"]="action to describe something"
 
 
 function Describe() {
@@ -39,7 +39,7 @@ function Describe() {
         printf "\n"; return
     fi
 
-    local id format modid modpath dir heading file command
+    local id format dir heading file command
     if [[ -n "${FW_OBJECT_SET_VAL["PRINT_FORMAT2"]:-}" ]]; then format="${FW_OBJECT_SET_VAL["PRINT_FORMAT2"]}"; else format="${FW_OBJECT_SET_VAL["PRINT_FORMAT"]}"; fi
 
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
@@ -50,30 +50,30 @@ function Describe() {
         format | level | message | mode | phase | theme | \
         action | element | instance | object)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
-            id="${1}"
+            id="${1}"; Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             case ${cmd1} in
-                application)    Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; modid="${FW_ELEMENT_APP_ORIG[${id}]}"; dir="${FW_ELEMENT_MDS_PATH[${modid}]}/applications" ;;
-                dependency)     Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; modid="${FW_ELEMENT_DEP_ORIG[${id}]}"; dir="${FW_ELEMENT_MDS_PATH[${modid}]}/dependencies" ;;
-                dirlist)        Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; modid="${FW_ELEMENT_DLS_ORIG[${id}]}"; dir="${FW_ELEMENT_MDS_PATH[${modid}]}/dirlists" ;;
-                dir)            Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; modid="${FW_ELEMENT_DIR_ORIG[${id}]}"; dir="${FW_ELEMENT_MDS_PATH[${modid}]}/dirs" ;;
-                filelist)       Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; modid="${FW_ELEMENT_FLS_ORIG[${id}]}"; dir="${FW_ELEMENT_MDS_PATH[${modid}]}/filelists" ;;
-                file)           Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; modid="${FW_ELEMENT_FIL_ORIG[${id}]}"; dir="${FW_ELEMENT_MDS_PATH[${modid}]}/files" ;;
-                module)         Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; id="$(Get module id ${id})"; dir=${FW_ELEMENT_MDS_PATH[${id}]} ;;
-                option)         Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; id="$(Get option id ${id})"; dir=${SF_HOME}/lib/text/options/ ;;
-                parameter)      Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; modid="${FW_ELEMENT_PAR_ORIG[${id}]}"; dir="${FW_ELEMENT_MDS_PATH[${modid}]}/parameters" ;;
-                project)        Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; dir=${FW_ELEMENT_PRJ_PATH[${id}]} ;;
-                scenario)       Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; dir=${FW_ELEMENT_SCN_PATH[${id}]} ;;
-                task)           Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; dir=${FW_ELEMENT_TSK_PATH[${id}]} ;;
+                application)    dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_APP_ORIG[${id}]}"]}/applications" ;;
+                dependency)     dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_DEP_ORIG[${id}]}"]}/dependencies" ;;
+                dirlist)        dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_DLS_ORIG[${id}]}"]}/dirlists" ;;
+                dir)            dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_DIR_ORIG[${id}]}"]}/dirs" ;;
+                filelist)       dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_DIR_ORIG[${id}]}"]}/filelists" ;;
+                file)           dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_FIL_ORIG[${id}]}"]}/files" ;;
+                module)         dir=${FW_ELEMENT_MDS_PATH[${id}]} ;;
+                option)         id="$(Get option id ${id})"; dir=${SF_HOME}/lib/text/options/ ;;
+                parameter)      dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_PAR_ORIG[${id}]}"]}/parameters" ;;
+                project)        dir=${FW_ELEMENT_PRJ_PATH[${id}]} ;;
+                scenario)       dir=${FW_ELEMENT_SCN_PATH[${id}]} ;;
+                task)           dir=${FW_ELEMENT_TSK_PATH[${id}]} ;;
 
-                format)         Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; dir=${FW_OBJECT_FMT_PATH[${id}]} ;;
-                level)          Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; dir=${FW_OBJECT_LVL_PATH[${id}]} ;;
-                message)        Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; dir=${FW_OBJECT_MSG_PATH[${id}]} ;;
-                mode)           Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; dir=${FW_OBJECT_MOD_PATH[${id}]} ;;
-                phase)          Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; dir=${FW_OBJECT_PHA_PATH[${id}]} ;;
-                theme)          Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; id="$(Get theme id ${id})"; dir=${FW_OBJECT_THM_PATH[${id}]} ;;
+                format)         dir=${FW_OBJECT_FMT_PATH[${id}]} ;;
+                level)          dir=${FW_OBJECT_LVL_PATH[${id}]} ;;
+                message)        dir=${FW_OBJECT_MSG_PATH[${id}]} ;;
+                mode)           dir=${FW_OBJECT_MOD_PATH[${id}]} ;;
+                phase)          dir=${FW_OBJECT_PHA_PATH[${id}]} ;;
+                theme)          dir=${FW_OBJECT_THM_PATH[${id}]} ;;
 
                 exitcode | action | element | instance | object)
-                    Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi; dir=${SF_HOME}/lib/text/${cmd1}s/ ;;
+                    dir=${SF_HOME}/lib/text/${cmd1}s/ ;;
             esac
             case "${format}" in
                 ansi | plain)   Format tagline for ${cmd1} "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
@@ -120,10 +120,8 @@ function Describe() {
                                         printf "== ${heading^^}\n"; cat ${SF_HOME}/lib/text/framework/${cmd2}.adoc ;;
                     esac ;;
 
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

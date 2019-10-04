@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Debug"]="action to debugs something"
+FW_COMPONENTS_TAGLINE["debug"]="action to debugs something"
 
 
 function Debug() {
@@ -192,12 +192,11 @@ function Debug() {
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
             id="${1}"
             Test existing module id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            id="$(Get module id ${id})"
 
             printf "\n"; Format tagline for module "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
-                printf "%s long:  %s\n" "${listIndent}" "${id}"
-                printf "%s short: %s\n" "${listIndent}" "${FW_ELEMENT_MDS_LS[${id}]}"
-                printf "%s path:  %s\n" "${listIndent}" "${FW_ELEMENT_MDS_PATH[${id}]}"
+                printf "%s long:    %s\n" "${listIndent}" "${id}"
+                printf "%s acronym: %s\n" "${listIndent}" "${FW_ELEMENT_MDS_ACR[${id}]}"
+                printf "%s path:    %s\n" "${listIndent}" "${FW_ELEMENT_MDS_PATH[${id}]}"
 
             printf "\n    "; Format text regular,italic "Load and Status"; printf "\n"
                 printf "%s status: %s\n" "${listIndent}" "$(Format element status ${FW_ELEMENT_MDS_STATUS[${id}]})"
@@ -471,7 +470,6 @@ function Debug() {
                     for tmpString in ${FW_ELEMENT_TSK_REQUIRED_DIRLIST[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
                 fi ;;
 
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

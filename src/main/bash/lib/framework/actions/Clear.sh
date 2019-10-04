@@ -29,7 +29,7 @@
 ##
 
 
-FW_TAGS_ACTIONS["Clear"]="action to clear something"
+FW_COMPONENTS_TAGLINE["clear"]="action to clear something"
 
 
 function Clear() {
@@ -52,8 +52,6 @@ function Clear() {
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
             id="${1}"
             Test existing theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then printf ""; return; fi
-            id="$(Get theme id ${id})"
-
             if [[ "${id}" != "API" ]]; then
                 path="${FW_OBJECT_THM_PATH[${id}]}"
                 decFile="${path}/${id}.dec"
@@ -74,12 +72,12 @@ function Clear() {
             case "${cmd1}-${cmd2}" in
 
                 all-themes)
-                    for id in $(Themes has long); do
+                    for id in $(Themes has); do
                         Clear theme $id
                     done ;;
                 full-cache)
                     Clear framework cache
-                    for id in $(Modules has long); do
+                    for id in $(Modules has); do
                         Clear cache for module $id
                     done
                     ;;
@@ -102,18 +100,14 @@ function Clear() {
 
                             if [[ "${moduleId}" != "API" ]]; then
                                 Test existing module id "${moduleId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                                moduleId="$(Get module id ${moduleId})"
                                 file="${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/module--${moduleId}.cache"
                                 if [[ -w "${file}" ]]; then rm "${file}"; fi
                             fi ;;
 
-                        *)
-                            Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
+                        *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
                     esac ;;
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }
