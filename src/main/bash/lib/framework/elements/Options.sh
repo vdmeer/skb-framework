@@ -49,7 +49,12 @@ FW_TAGS_ELEMENTS["Options"]="element representing options"
 
 
 function Options() {
-    if [[ -z "${1:-}" ]]; then Report process error "${FUNCNAME[0]}" E802 1 "$#"; return; fi
+    if [[ -z "${1:-}" ]]; then
+        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
+##TODO
+        printf "\n"; return
+    fi
+
     local id shortId printString="" retval category keys
     local cmd1="${1,,}" cmd2 cmdString1="${1,,}" cmdString2
     shift; case "${cmd1}" in

@@ -33,18 +33,20 @@ function __skb_Describe_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
         Describe)       retval="component framework"
+                        retval+=" exitcode"
                         retval+=" format level message mode phase theme"
                         retval+=" application dependency dirlist dir filelist file module option parameter project scenario task"
                         retval+=" exit-options runtime-options"
-                        retval+=" command element instance object" ;;
+                        retval+=" action element instance object" ;;
 
-        component)      retval="commands elements instances objects" ;;
-        framework)      retval="authors bugs copying description resources security" ;;
+        component)      retval="actions elements instances objects" ;;
+        framework)      retval="authors bugs copying exit-status description resources security" ;;
 
         application)    retval="$(Applications has)" ;;
         dependency)     retval="$(Dependencies has)" ;;
         dirlist)        retval="$(Dirlists has)" ;;
         dir)            retval="$(Dirs has)" ;;
+        exitcode)       retval="$(Exitcodes has)" ;;
         filelist)       retval="$(Filelists has)" ;;
         file)           retval="$(Files has)" ;;
         format)         retval="$(Formats has)" ;;
@@ -60,7 +62,7 @@ function __skb_Describe_completions(){
         task)           retval="$(Tasks has)" ;;
         theme)          retval="$(Themes has long)" ;;
 
-        command)        retval="$(Framework has commands)" ;;
+        action)         retval="$(Framework has actions)" ;;
         element)        retval="$(Framework has elements)" ;;
         instance)       retval="$(Framework has instances)" ;;
         object)         retval="$(Framework has objects)" ;;

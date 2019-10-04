@@ -32,12 +32,15 @@
 function __skb_Print_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Print)          retval="categorized help version test"
+        Print)          retval="categorized framework test"
+                        retval+=" exitcode"
                         retval+=" clioption configuration format level message mode phase setting theme themeitem"
                         retval+=" application dependency dirlist dir filelist file module option parameter project scenario site task"
-                        retval+=" command element instance object" ;;
+                        retval+=" action element instance object" ;;
 
         categorized)    retval="message option" ;;
+        framework)      retval="help version" ;;
+        test)           retval="colors effects characters terminal" ;;
 
         application)    retval="table descriptions list" ;;
         clioption)      retval="list" ;;
@@ -45,6 +48,7 @@ function __skb_Print_completions(){
         dependency)     retval="table descriptions list" ;;
         dirlist)        retval="table descriptions list" ;;
         dir)            retval="table descriptions list" ;;
+        exitcode)       retval="table descriptions list" ;;
         filelist)       retval="table descriptions list" ;;
         file)           retval="table descriptions list" ;;
         format)         retval="table descriptions list" ;;
@@ -60,10 +64,10 @@ function __skb_Print_completions(){
         setting)        retval="list table" ;;
         site)           retval="table descriptions list" ;;
         task)           retval="table descriptions list" ;;
-        theme)          retval="list table" ;;
+        theme)          retval="table descriptions list" ;;
         themeitem)      retval="list table" ;;
 
-        command)        retval="table descriptions list" ;;
+        action)         retval="table descriptions list" ;;
         element)        retval="table descriptions list" ;;
         instance)       retval="table descriptions list" ;;
         object)         retval="table descriptions list" ;;
@@ -74,7 +78,6 @@ function __skb_Print_completions(){
                                 "Print parameter table "* ) retval+=" show-defvalues" ;;
                             esac
                         fi ;;
-        test)           retval="colors effects characters terminal" ;;
 
         *)  case "$COMP_LINE" in
                 "Print application table "* | "Print configuration table "* | "Print dependency table "* | "Print dir table "* | "Print dirlist table "* | "Print file table "* | "Print filelist table "* | \

@@ -50,7 +50,12 @@ FW_TAGS_OBJECTS["Phases"]="data object representing the framework's phases"
 
 
 function Phases() {
-    if [[ -z "${1:-}" ]]; then Report process error "${FUNCNAME[0]}" E802 1 "$#"; return; fi
+    if [[ -z "${1:-}" ]]; then
+        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
+##TODO
+        printf "\n"; return
+    fi
+
     local id printString="" keys
     local cmd1="${1,,}" cmdString1="${1,,}"
     shift; case "${cmd1}" in

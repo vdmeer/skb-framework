@@ -135,7 +135,7 @@ describe-dirlists
 
 describe-files
     describe-files --format adoc
-    describe-files --id skb-tool
+#    describe-files --id ####
     describe-files --origin Core
     describe-files --requested yes
     describe-files --requested no
@@ -148,7 +148,7 @@ describe-files
 
 describe-filelists
     describe-filelists --format adoc
-#    describe-filelists --id skb-tool
+#    describe-filelists --id ####
     describe-filelists --origin Core
     describe-filelists --requested yes
     describe-filelists --requested no

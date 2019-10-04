@@ -52,9 +52,9 @@ function __prompt_command() {
 }
 export PROMPT_COMMAND=__prompt_command
 
-alias exit="Terminate 0"
-alias quit="Terminate 0"
-alias bye="Terminate 0"
+alias exit="Terminate framework 0"
+alias quit="Terminate framework 0"
+alias bye="Terminate framework 0"
 
 Modules search
 Load module Core
@@ -62,43 +62,40 @@ Load module Core
 Set current phase File
 if [[ -r "${FW_OBJECT_SET_VAL["CONFIG_FILE"]:-}" ]]; then
     Load settings from file "${FW_OBJECT_SET_VAL["CONFIG_FILE"]}"
+    if (( ${FW_OBJECT_SET_VAL["ERROR_COUNT"]} > 0 )); then printf "\n"; Terminate framework 10; fi
 elif [[ -r "${FW_OBJECT_CFG_VAL["USER_CONFIG"]:-}" ]]; then
     Load settings from file "${FW_OBJECT_CFG_VAL["USER_CONFIG"]}"
+    if (( ${FW_OBJECT_SET_VAL["ERROR_COUNT"]} > 0 )); then printf "\n"; Terminate framework 11; fi
 fi
-if (( ${FW_OBJECT_SET_VAL["ERROR_COUNT"]} > 0 )); then printf "\n"; Terminate 1; fi
 
 Set current phase Env; Load settings from environment
-if (( ${FW_OBJECT_SET_VAL["ERROR_COUNT"]} > 0 )); then printf "\n"; Terminate 1; fi
+if (( ${FW_OBJECT_SET_VAL["ERROR_COUNT"]} > 0 )); then printf "\n"; Terminate framework 12; fi
 
 Verify everything
 Set current phase Load
 
 Write fast config; Write slow config
 
+
 if [[ -n "${FW_CLI_EXEC_TASK:-}" ]]; then
-    set -o errexit
     Execute task ${FW_CLI_EXEC_TASK} ${FW_CLI_EXEC_ARGS:-}
-    errno=$?
-    Terminate ${errno}
+    if (( $(Get object phase Task error count) > 0 )); then printf "\n"; Terminate framework 13; else Terminate framework 0; fi
 fi
+
 if [[ -n "${FW_CLI_EXEC_SCENARIO:-}" ]]; then
-    set -o errexit
     Execute scenario ${FW_CLI_EXEC_SCENARIO}
-    errno=$?
-    Terminate ${errno}
+    if (( $(Get object phase Scenario error count) > 0 )); then printf "\n"; Terminate framework 14; else Terminate framework 0; fi
 fi
+
 if [[ -n "${FW_CLI_EXEC_COMMAND:-}" ]]; then
-    set -o errexit
-    cmd="${FW_CLI_EXEC_COMMAND}"; object=""
-    for index in ${SF_HOME}/lib/framework/{commands,elements,objects,instances}/*.sh; do index=${index##*/}; if [[ "${index}" != "Framework" ]]; then objects+="${index%%.sh} "; fi; done
-    case $objects in
+    cmd="${FW_CLI_EXEC_COMMAND}"
+    case "$(Framework has actions) $(Framework has elements) $(Framework has instances) $(Framework has objects)" in
         *" ${cmd} "*)   ${cmd} ${FW_CLI_EXEC_ARGS:-}
-                        errno=$?
-                        Terminate ${errno}
-                        ;;
-        *) Report application fatalerror E803 "${cmd}" ;;
+                        if (( ${FW_OBJECT_SET_VAL["ERROR_COUNT"]} > 0 )); then printf "\n"; Terminate framework 16; else Terminate framework 0; fi ;;
+        *)              Report application fatalerror E803 "${cmd}"; Terminate framework 15 ;;
     esac
 fi
+
 
 Set current phase Shell
 FW_OBJECT_SET_VAL["AUTO_VERIFY"]=true

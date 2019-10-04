@@ -212,3 +212,15 @@ Set themeitem execEndRuntimeFmt     bg-blue-hi,whiteitalic
 Set themeitem execEndStatusFmt      bg-blue-hi,whiteitalic
 Set themeitem execEndSuccessFmt     bg-blue-hi,green,bold
 Set themeitem execEndErrorFmt       bg-blue-hi,red,bold
+
+
+
+Set themeitem explainTitleFmt       bold
+Set themeitem explainTextFmt        italic
+Set themeitem explainComponentFmt   green
+Set themeitem explainOperationFmt   yellow
+Set themeitem explainArgFmt         blue-hi
+
+Set themeitem explainIndent1        "  "
+Set themeitem explainIndent2        "    "
+Set themeitem explainIndent3        "      "

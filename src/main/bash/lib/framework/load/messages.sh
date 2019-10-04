@@ -37,7 +37,6 @@ Add Object Message E802 2 "too few arguments, expected at least ##ARG1##, found 
 Add Object Message E803 1 "unknown command '##ARG1##'"                                          "API"   "${SF_HOME}/lib/text/messages" "##description"
 Add Object Message E804 2 "unknown ##ARG1## '##ARG2##'"                                         ""      "${SF_HOME}/lib/text/messages" "##description"
 Add Object Message E805 2 "unknown ##ARG1## identifier '##ARG2##'"                              ""      "${SF_HOME}/lib/text/messages" "##description"
-Add Object Message E806 1 "unknown command/element/object/instance '##ARG1##'"                  "API"   "${SF_HOME}/lib/text/messages" "##description"
 Add Object Message E807 2 "##ARG1## identifier '##ARG2##' already defined"                      "API"   "${SF_HOME}/lib/text/messages" "##description"
 
 Add Object Message E808 2 "##ARG1## long ID '##ARG2##' already defined as short ID"             "CLI"   "${SF_HOME}/lib/text/messages" "##description"

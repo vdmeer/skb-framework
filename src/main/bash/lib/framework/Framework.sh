@@ -41,21 +41,21 @@ if [[ -n "${SF_HOME:-}" ]]; then
     fi
 
     declare -A -g FW_TABLES_COL1 FW_TABLES_EXTRAS
-        FW_TABLES_COL1["command"]=Command;   FW_TABLES_EXTRAS["command"]=""
+        FW_TABLES_COL1["action"]=Action;     FW_TABLES_EXTRAS["action"]=""
         FW_TABLES_COL1["element"]=Element;   FW_TABLES_EXTRAS["element"]=""
         FW_TABLES_COL1["instance"]=Instance; FW_TABLES_EXTRAS["instance"]=""
         FW_TABLES_COL1["object"]=Object;     FW_TABLES_EXTRAS["object"]=""
 
-    declare -A -g FW_TAGS_COMMANDS FW_TAGS_ELEMENTS FW_TAGS_INSTANCES FW_TAGS_OBJECTS
+    declare -A -g FW_TAGS_ACTIONS FW_TAGS_ELEMENTS FW_TAGS_INSTANCES FW_TAGS_OBJECTS
 
-    for file in ${SF_HOME}/lib/framework/{commands,elements,objects,instances}/*.sh; do source ${file}; done; unset file
+    for file in ${SF_HOME}/lib/framework/{actions,elements,objects,instances}/*.sh; do source ${file}; done; unset file
 
     if [[ -n "${FW_INIT:-}" ]]; then
         # start
         Test getopt
         source ${SF_HOME}/lib/framework/load/initialization.sh
         source ${SF_HOME}/lib/framework/load/cli.sh
-        if (( ${FW_OBJECT_SET_VAL["ERROR_COUNT"]} > 0 )); then printf "\n"; Terminate 1; fi
+        if (( ${FW_OBJECT_SET_VAL["ERROR_COUNT"]} > 0 )); then printf "\n"; Terminate framework 1; fi
         Write load config
 
         Set current phase Load
@@ -79,27 +79,37 @@ fi
 
 
 function Framework() {
-    if [[ -z "${1:-}" ]]; then Report process error "${FUNCNAME[0]}" E802 1 "$#"; return; fi
-    local object="${1,,}"; object="${object^}"; shift
-    local files name list
+    if [[ -z "${1:-}" ]]; then
+        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
+##TODO
+        Format help indentation 1; Format text yellow "Auto completion"; printf " work fo all components.\n"
+        Format help indentation 1; printf "Completion is dynamic, using the framework itself as much as possible\n"
+        Format help indentation 1; printf "Completion will show only available completions for any given request.\n\n"
+        Format help indentation 1; printf "To exit, use bye, exit, or quit; or use the action Terminate\n\n"; return
+    fi
 
-    if [[ "${object,,}" == "has" ]]; then
-        list=""
-        case "${1:-}" in
-            commands | elements | instances | objects)
-                files="${SF_HOME}/lib/framework/${1}/*.sh" ;;
-            *)
-                Report process error "${FUNCNAME[0]}" E803 "${object,,} ${1:-}"; return ;;
-        esac
-        for name in ${files}; do
-            name="$(basename ${name})"; name="${name%*.sh}"
-            if (( ${#list} > 0 )); then list+=" "; fi
-            list+="${name}"
-        done
-        echo "${list}"
-    elif [[ -f "${SF_HOME}/lib/framework/commands/${object}.sh" ]];  then ${object} $@;
-    elif [[ -f "${SF_HOME}/lib/framework/elements/${object}.sh" ]];  then ${object} $@;
-    elif [[ -f "${SF_HOME}/lib/framework/instances/${object}.sh" ]]; then ${object} $@;
-    elif [[ -f "${SF_HOME}/lib/framework/objects/${object}.sh" ]];   then ${object} $@;
-    else Report process error "${FUNCNAME[0]}" E806 "${object}"; fi
+    if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" E801 2 "$#"; return; fi
+    local cmd1="${1}"; shift
+    case "${cmd1}" in
+        has)
+            case "${1}" in
+                actions | elements | instances | objects)
+                    local name count=0
+                    for name in ${SF_HOME}/lib/framework/${1}/*.sh; do
+                        name="${name#${SF_HOME}/lib/framework/${1}/*}"
+                        if (( count > 0 )); then printf " "; fi
+                        printf "%s" "${name%*.sh}"
+                        count=$(( count + 1 ))
+                    done ;;
+                *) Report process error "${FUNCNAME[0]}" E803 "${cmd1} ${1}" ;;
+            esac; return ;;
+        task)
+            Test existing task id "${1}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+            Execute task ${@}; return ;;
+        action | element | instance | object)
+            Test existing ${cmd1} id "${1}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+            $@; return ;;
+        *)
+            Report process error "${FUNCNAME[0]}" E803 "${cmd1}"; return ;;
+    esac
 }

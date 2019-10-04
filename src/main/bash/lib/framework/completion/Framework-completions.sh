@@ -30,24 +30,29 @@
 
 
 function __Framework_component_completions(){
-    local retval="" index
+    local retval="" index taskName taskCompletion
 
     case "${#COMP_WORDS[@]}" in
         1)  ;;
-        2)  for index in ${SF_HOME}/lib/framework/{commands,elements,objects,instances}/*.sh; do index=${index##*/}; if [[ "${index}" != "Framework" ]]; then retval+=" ${index%%.sh}"; fi; done
-            retval+=" has"
+        2)  retval="action element has instance object task"
             COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[1]}")) ;;
-        3)  case "${COMP_LINE}" in
-                "Framework has "*)  COMPREPLY=($(compgen -W "commands elements instances objects" -- "${COMP_WORDS[2]}")) ;;
-                *)                  __skb_${COMP_WORDS[1]}_completions
+        3)  case ${COMP_WORDS[COMP_CWORD-1]} in
+                action)     COMPREPLY=($(compgen -W "$(Framework has actions)" --           "${COMP_WORDS[2]}")) ;;
+                element)    COMPREPLY=($(compgen -W "$(Framework has elements)" --          "${COMP_WORDS[2]}")) ;;
+                has)        COMPREPLY=($(compgen -W "actions elements instances objects" -- "${COMP_WORDS[2]}")) ;;
+                instance)   COMPREPLY=($(compgen -W "$(Framework has instances)" --         "${COMP_WORDS[2]}")) ;;
+                object)     COMPREPLY=($(compgen -W "$(Framework has objects)" --           "${COMP_WORDS[2]}")) ;;
+                task)       COMPREPLY=($(compgen -W "$(Tasks has long)" --                  "${COMP_WORDS[2]}")) ;;
             esac ;;
         4)  case "${COMP_LINE}" in
                 "Framework has "*)  ;;
-                *)                  __skb_${COMP_WORDS[1]}_completions
+                "Framework task "*) taskName="${COMP_WORDS[2]//-/_}"
+                                    taskCompletion="__skb_task_${taskName}_words"
+                                    if [[ -n "$(type -t $taskCompletion)" && "$(type -t $taskCompletion)" = "function" ]]; then retval="$(${taskCompletion})"; fi
+                                    if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi ;;
+                *)                  __skb_${COMP_WORDS[2]}_completions
             esac ;;
-        *)  __skb_${COMP_WORDS[1]}_completions ;;
+        *)  __skb_${COMP_WORDS[2]}_completions ;;
     esac
 }
 complete -F __Framework_component_completions Framework
-
-

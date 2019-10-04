@@ -205,3 +205,15 @@ Add object themeitem execEndRuntimeFmt      "format for runtime"
 Add object themeitem execEndStatusFmt       "format for status text"
 Add object themeitem execEndSuccessFmt      "format for success status"
 Add object themeitem execEndErrorFmt        "format for error status"
+
+
+
+Add object themeitem explainTitleFmt        "explain: title format"
+Add object themeitem explainTextFmt         "explain: text format"
+Add object themeitem explainComponentFmt    "explain: format for component name"
+Add object themeitem explainOperationFmt    "explain: format for operation names"
+Add object themeitem explainArgFmt          "explain: format for operation arguments"
+
+Add object themeitem explainIndent1         "explain: indentation for string 'Available ...'"
+Add object themeitem explainIndent2         "explain: indentation for commands"
+Add object themeitem explainIndent3         "explain: indentation for command descriptions"

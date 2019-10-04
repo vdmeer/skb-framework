@@ -29,17 +29,22 @@
 ##
 
 Set current phase CLI
+
+##
+## Parse automatically takes care of all "Terminate framework 0" options, plus setting format (which will exit with errors if any)
+##
 Parse cli arguments "" $*
 
-if [[ ${FW_PARSED_ARG_MAP[v]:-${FW_PARSED_ARG_MAP[version]:-no}} == yes ]]; then Print version; Terminate 0; fi
-if [[ ${FW_PARSED_ARG_MAP[R]:-${FW_PARSED_ARG_MAP[runtime-tests]:-no}} == yes ]]; then Test framework dependencies; Terminate 0; fi
-if [[ ${FW_PARSED_ARG_MAP[o]:-${FW_PARSED_ARG_MAP[option]:-no}} == yes ]]; then Describe option "${FW_PARSED_VAL_MAP[o]:-${FW_PARSED_VAL_MAP[option]}}"; Terminate 0; fi
+##
+## Test dependencies if not deactivated, terminates with 7/8 on errors
+##
+if [[ ${FW_PARSED_ARG_MAP[N]:-${FW_PARSED_ARG_MAP[no-runtime-tests]:-no}} == no ]]; then Test framework dependencies; fi
+if [[ ${FW_PARSED_ARG_MAP[N]:-${FW_PARSED_ARG_MAP[no-runtime-tests]:-no}} == yes ]]; then FW_ELEMENT_OPT_VAL[no-runtime-tests]="yes"; fi
 
-if [[ ${FW_PARSED_ARG_MAP[test-colors]:-no} == yes ]]; then Print test colors; Terminate 0; fi
-if [[ ${FW_PARSED_ARG_MAP[test-effects]:-no} == yes ]]; then Print test effects; Terminate 0; fi
-if [[ ${FW_PARSED_ARG_MAP[test-characters]:-no} == yes ]]; then Print test characters; Terminate 0; fi
-if [[ ${FW_PARSED_ARG_MAP[test-terminal]:-no} == yes ]]; then Print test terminal; Terminate 0; fi
 
+##
+## Continue with runtiem options, simply set, no errors
+##
 if [[ ${FW_PARSED_ARG_MAP[C]:-${FW_PARSED_ARG_MAP[config-file]:-no}} == yes ]]; then
     FW_ELEMENT_OPT_VAL[config-file]="${FW_PARSED_VAL_MAP[C]:-${FW_PARSED_VAL_MAP[config-file]}}"
     Set config file "${FW_PARSED_VAL_MAP[C]:-${FW_PARSED_VAL_MAP[config-file]}}"
@@ -49,9 +54,6 @@ if [[ ${FW_PARSED_ARG_MAP[S]:-${FW_PARSED_ARG_MAP[strict-mode]:-no}} == yes ]]; 
     FW_ELEMENT_OPT_VAL[strict-mode]="yes"
     Set strict mode on
 fi
-
-if [[ ${FW_PARSED_ARG_MAP[N]:-${FW_PARSED_ARG_MAP[no-runtime-tests]:-no}} == no ]]; then Test framework dependencies; fi
-if [[ ${FW_PARSED_ARG_MAP[N]:-${FW_PARSED_ARG_MAP[no-runtime-tests]:-no}} == yes ]]; then FW_ELEMENT_OPT_VAL[no-runtime-tests]="yes"; fi
 
 if [[ ${FW_PARSED_ARG_MAP[A]:-${FW_PARSED_ARG_MAP[all-mode]:-no}} == yes ]]; then
     FW_ELEMENT_OPT_VAL[all-mode]="yes"

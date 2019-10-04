@@ -46,6 +46,8 @@ else
     Add element dependency asciidoctor     to module    with asciidoctor     "Asciidoctor processor"
     Add element dependency asciidoctor-pdf to module    with asciidoctor-pdf "Asciidoctor processor, PDF backend"
 
+    Add element dependency tree to module               with tree "list contents of directories in a tree-like format"
+
     Add element dependency curl to module               with curl "remote data transfer tool"
     Add element dependency wget to module               with wget "non-interactive download tool"
 
@@ -70,7 +72,6 @@ else
     Add element dependency pyyaml  to module            with "${SF_HOME}/bin/tools/python-module.sh yaml" "YAML processor module for Python3"; Add requirement for dependency pyyaml as dependency python3
 
 
-    Add element file skb-tool to module with r---- ${SF_HOME}/lib/java/skb-framework-tool-${SF_VERSION}.jar "text conversion tool as executable JAR"
     Add element dir  target   to module with ---cd /tmp/target "target directory for software build tools"
 
 
@@ -111,10 +112,6 @@ else
     Add element task debug-tasks            to module with all ${FW_MODULE_PATH}/tasks/elements-debug "prints debug information for one or more tasks"
 
     Add element task validate-installation  to module with dev ${SF_HOME}/share/modules/core/tasks/installation "validates the framework"
-    Add element task compile-adoc2text      to module with dev ${SF_HOME}/share/modules/core/tasks/installation "compiles ADOC sources to plain text"
-        Add required dependency jre to task compile-adoc2text
-        Add required file skb-tool  to task compile-adoc2text
-
 
     Add element scenario test-simple to module with test ${SF_HOME}/share/modules/core/scenarios/test "simple scenario for testing API functions"
 

@@ -42,9 +42,11 @@ function __skb_Execute_completions(){
                 "Execute task "*)
                     taskName="${COMP_WORDS[2]//-/_}"
                     taskCompletion="__skb_task_${taskName}_words"
-                    if [[ -n "$(type -t $taskCompletion)" && "$(type -t $taskCompletion)" = function ]]; then
-                        retval="$(${taskCompletion})"
-                    fi ;;
+                    if [[ -n "$(type -t $taskCompletion)" && "$(type -t $taskCompletion)" = "function" ]]; then retval="$(${taskCompletion})"; fi ;;
+                "Framework Execute task "*)
+                    taskName="${COMP_WORDS[3]//-/_}"
+                    taskCompletion="__skb_task_${taskName}_words"
+                    if [[ -n "$(type -t $taskCompletion)" && "$(type -t $taskCompletion)" = "function" ]]; then retval="$(${taskCompletion})"; fi ;;
             esac ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi

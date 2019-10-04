@@ -38,7 +38,12 @@ FW_TAGS_INSTANCES["Tablechars"]="instance that maintains cached table characters
 
 
 function Tablechars() {
-    if [[ -z "${1:-}" ]]; then Report process error "${FUNCNAME[0]}" E802 1 "$#"; return; fi
+    if [[ -z "${1:-}" ]]; then
+        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
+##TODO
+        printf "\n"; return
+    fi
+
     local id keys element format remove
     if [[ -n "${FW_OBJECT_SET_VAL["PRINT_FORMAT2"]:-}" ]]; then format="${FW_OBJECT_SET_VAL["PRINT_FORMAT2"]}"; else format="${FW_OBJECT_SET_VAL["PRINT_FORMAT"]}"; fi
 

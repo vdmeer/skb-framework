@@ -35,9 +35,10 @@ source ${SF_HOME}/lib/framework/Framework.sh
 Cli add option target-all
 
 Cli add general option  authors     a "" "the authors of the framework" "Targets"
-Cli add general option  description d "" "a description of the framework" "Targets"
 Cli add general option  bugs        b "" "information about bugs and problem reporting" "Targets"
 Cli add general option  copying     c "" "information on the framework license" "Targets"
+Cli add general option  description d "" "a description of the framework" "Targets"
+Cli add general option  exit-status e "" "description of possible exit status codes" "Targets"
 Cli add general option  resources   r "" "further (online) resources" "Targets"
 Cli add general option  security    s "" "security aspects of the framework" "Targets"
 
@@ -49,13 +50,14 @@ Parse cli arguments "Options Targets" $*
 ## set targets
 ##
 ############################################################################################
-targets="description security bugs authors resources copying"
+targets="description exit-status security bugs authors resources copying"
 
 if [[ "${FW_PARSED_ARG_MAP[A]:-${FW_PARSED_ARG_MAP[all]:-no}}" == no ]]; then
     if [[ "${FW_PARSED_ARG_MAP[a]:-${FW_PARSED_ARG_MAP[authors]:-no}}" == no ]]; then targets=${targets/authors/}; fi
     if [[ "${FW_PARSED_ARG_MAP[b]:-${FW_PARSED_ARG_MAP[bugs]:-no}}" == no ]]; then targets=${targets/bugs/}; fi
     if [[ "${FW_PARSED_ARG_MAP[c]:-${FW_PARSED_ARG_MAP[copying]:-no}}" == no ]]; then targets=${targets/copying/}; fi
     if [[ "${FW_PARSED_ARG_MAP[d]:-${FW_PARSED_ARG_MAP[description]:-no}}" == no ]]; then targets=${targets/description/}; fi
+    if [[ "${FW_PARSED_ARG_MAP[e]:-${FW_PARSED_ARG_MAP[exit-status]:-no}}" == no ]]; then targets=${targets/exit-status/}; fi
     if [[ "${FW_PARSED_ARG_MAP[r]:-${FW_PARSED_ARG_MAP[resources]:-no}}" == no ]]; then targets=${targets/resources/}; fi
     if [[ "${FW_PARSED_ARG_MAP[s]:-${FW_PARSED_ARG_MAP[security]:-no}}" == no ]]; then targets=${targets/security/}; fi
 fi

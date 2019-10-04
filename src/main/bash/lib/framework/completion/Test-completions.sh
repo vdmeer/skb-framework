@@ -37,12 +37,20 @@ function __skb_Test_completions(){
                         retval+=" current dir element error file framework fs known log print strict warning yesno"
                         ;;
 
-        existing)       retval="clioption configuration format level message mode phase setting theme themeitem"
+        existing)       retval="exitcode action element instance object"
+                        retval+=" clioption configuration format level message mode phase setting theme themeitem"
                         retval+=" application dependency module option parameter project scenario site task"
                         retval+=" file filelist dir dirlist" ;;
         used)           retval="clioption configuration format level message mode phase setting theme themeitem"
                         retval+=" application dependency module option parameter project scenario site task"
                         retval+=" file filelist dir dirlist" ;;
+
+        exitcode)       retval="id" ;;
+        instance)       retval="id" ;;
+        object)         retval="id" ;;
+        element)        if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "existing" ]]; then retval="id"; else retval="status"; fi ;;
+        action)         retval="id" ;;
+
         clioption)      if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "existing" ]]; then retval="id";
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "used" ]]; then retval="long-id short-id"; fi ;;
         configuration)  if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "existing" ]]; then retval="id";
@@ -86,7 +94,6 @@ function __skb_Test_completions(){
                         if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "file" ]]; then retval+=" execute"; fi ;;
 
         current)        retval="mode phase theme" ;;
-        element)        retval="status" ;;
         error)          retval="count" ;;
         known)          retval="module" ;;
         log)            retval="format level" ;;

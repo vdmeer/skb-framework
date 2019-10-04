@@ -32,7 +32,7 @@
 function __skb_task_describe_framework_words(){
     local retval=""
     local stdOptions="--describe --format --help"
-    local taskOptions="--all --authors --bugs --copying --description --resources --security"
+    local taskOptions="--all --authors --bugs --copying --exit-status --description --resources --security"
 
     case ${COMP_WORDS[COMP_CWORD-1]} in
         describe-framework)   retval="${stdOptions} ${taskOptions}" ;;
@@ -66,6 +66,7 @@ function __skb_task_describe_framework_words(){
                 *"--bugs"*)             retval="${retval//"--bugs"/}" ;;&
                 *"--copying"*)          retval="${retval//"--copying"/}" ;;&
                 *"--description"*)      retval="${retval//"--description"/}" ;;&
+                *"--exit-status"*)      retval="${retval//"--exit-status"/}" ;;&
                 *"--resources"*)        retval="${retval//"--resources"/}" ;;&
                 *"--security"*)         retval="${retval//"--security"/}" ;;
             esac

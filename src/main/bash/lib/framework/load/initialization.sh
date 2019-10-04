@@ -55,15 +55,37 @@ Add Object Configuration    USER_CONFIG             "${HOME}/.skbrc"            
 Add Object Configuration    PATTERN_REMOVE_ANSI     "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"   "SED pattern to remove ANSI escape codes from text"
 Add Object Configuration    CACHE_DIR               "/var/cache/skb-framework/${SF_VERSION}"        "directory for cached data"
 Add Object Configuration    DEFAULT_THEME           "Default"                                       "file with the default theme definitions"
+Add Object Configuration    PAR_PARA                "j1s0f1"                                        "options for the 'par' command to format paragraphs"
+Add Object Configuration    PAR_LIST                "P=*"                                           "options for the 'par' command to format lists"
 
 system="$(uname -a)"
 case ${system} in
     *CYGWIN*)       system=CYGWIN ;;
     *Microsoft*)    system=WSL ;;
     *Linux*)        system=Linux ;;
-    *)              system="$(uname -s | cut -c1-6)" ;;
+    *)              system="$(uname -s)" ;;
 esac
 Add Object Configuration    SYSTEM                  "${system}"                                     "identifier for the underlying operating system"
+
+
+FW_INSTANCE_EXC_LONG["00"]="normal exit"
+FW_INSTANCE_EXC_LONG["01"]="general error during initialization, load, or option processing" ## e.g. unknown print format set in CLI
+FW_INSTANCE_EXC_LONG["02"]="wrong bash major version, requires minimum 4"
+FW_INSTANCE_EXC_LONG["03"]="wrong bash minor version, requires minimum 2"
+FW_INSTANCE_EXC_LONG["04"]="command 'realpath' not found"
+FW_INSTANCE_EXC_LONG["05"]="\$SF_HOME does not exist or is not a directory"
+FW_INSTANCE_EXC_LONG["06"]="did not find GNU (Extended) getopt"
+FW_INSTANCE_EXC_LONG["07"]="missing core dependency core-utils"
+FW_INSTANCE_EXC_LONG["08"]="missing important dependency"
+#FW_INSTANCE_EXC_LONG["09"]="not used"
+FW_INSTANCE_EXC_LONG["10"]="error while reading the set configuration file"
+FW_INSTANCE_EXC_LONG["11"]="error while reading the default configuration file"
+FW_INSTANCE_EXC_LONG["12"]="error loading settings from the environment"
+FW_INSTANCE_EXC_LONG["13"]="error(s) executing task"
+FW_INSTANCE_EXC_LONG["14"]="error(s) executing scenario"
+FW_INSTANCE_EXC_LONG["15"]="requested command for execution not found"
+FW_INSTANCE_EXC_LONG["16"]="error(s) executing command"
+
 
 if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/formats.cache" ]]; then
     source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/formats.cache"
@@ -73,6 +95,7 @@ else
     Add Object Format adoc          "${SF_HOME}/lib/text/formats" "ADCIIDOC formatted text"
     Add Object Format mdoc          "${SF_HOME}/lib/text/formats" "ADCIIDOC formatted text with special color encoding for the manual"
 fi
+
 
 if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/levels.cache" ]]; then
     source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/levels.cache"
@@ -87,11 +110,13 @@ else
     Add Object Level trace          "T"  "Trace"    "${SF_HOME}/lib/text/levels" "very detailed information about a flow or process"
 fi
 
+
 if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/messages.cache" ]]; then
     source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/messages.cache"
 else
     source ${SF_HOME}/lib/framework/load/messages.sh
 fi
+
 
 if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modes.cache" ]]; then
     source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modes.cache"
@@ -102,6 +127,7 @@ else
     Add Object Mode build           "${SF_HOME}/lib/text/modes" "mode for build tasks"
     Add Object Mode use             "${SF_HOME}/lib/text/modes" "mode for use tasks"
 fi
+
 
 if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/phases.cache" ]]; then
     source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/phases.cache"
@@ -118,11 +144,13 @@ else
     Add Object Phase Site           "${SF_HOME}/lib/text/phases" "phase running functions for a (Maven) site"
 fi
 
+
 if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themeitems.cache" ]]; then
     source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themeitems.cache"
 else
     source ${SF_HOME}/lib/framework/load/theme-items.sh
 fi
+
 
 if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes.cache" ]]; then
     source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes.cache"

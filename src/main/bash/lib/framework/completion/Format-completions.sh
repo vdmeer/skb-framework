@@ -32,17 +32,23 @@
 function __skb_Format_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Format)     retval="current element tagline table text themed" ;;
+        Format)     retval="ansi current element help list paragraph tagline table text themed" ;;
 
+        ansi)           retval="file" ;;
         current)        retval="mode" ;;
         element)        retval="status" ;;
+        help)           retval="indentation" ;;
+        list)           retval="from" ;;
+        paragraph)      retval="from" ;;
         tagline)        retval="for" ;;
         table)          retval="topline midline bottomline" ;;
         themed)         retval="text" ;;
 
-        for)            retval="clioption configuration format level mode setting theme themeitem"
+        for)            retval="exitcode"
+                        retval+=" clioption configuration format level mode setting theme themeitem"
                         retval+=" application dependency dirlist dir filelist file module option parameter project scenario site task"
-                        retval+=" command element instance object" ;;
+                        retval+=" action element instance object" ;;
+        from)           retval="file" ;;
 
         *)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "for" ]]; then
                         case ${COMP_WORDS[COMP_CWORD-1]} in
@@ -52,6 +58,7 @@ function __skb_Format_completions(){
                             dependency)     retval="$(Dependencies has)" ;;
                             dirlist)        retval="$(Dirlists has)" ;;
                             dir)            retval="$(Dirs has)" ;;
+                            exitcode)       retval="$(Exitcodes has)" ;;
                             filelist)       retval="$(Filelists has)" ;;
                             file)           retval="$(Files has)" ;;
                             format)         retval="$(Formats has)" ;;
@@ -70,7 +77,7 @@ function __skb_Format_completions(){
                             theme)          retval="$(Themes has long)" ;;
                             themeitem)      retval="$(Themeitems has)" ;;
 
-                            command)        retval="$(Framework has commands)" ;;
+                            action)         retval="$(Framework has actions)" ;;
                             element)        retval="$(Framework has elements)" ;;
                             instance)       retval="$(Framework has instances)" ;;
                             object)         retval="$(Framework has objects)" ;;

@@ -32,17 +32,17 @@
 function __skb_List_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        List)       retval="cache categorized log"
+        List)       retval="categorized framework logs"
+                    retval+=" exitcodes"
                     retval+=" clioptions configuration formats levels messages modes phases settings themes themeitems"
                     retval+=" applications dependencies dirlists dirs filelists files modules options parameters projects scenarios sites tasks"
-                    retval+=" commands elements instances objects" ;;
+                    retval+=" actions elements instances objects" ;;
 
         configuration | applications | dependencies | dirlists | dirs | filelists | files | formats | levels | modes | modules | parameters | phases | projects | scenarios | settings | sites | tasks | themes | themeitems)
             retval="show-values" ;;
 
-        cache)          retval="directory" ;;
         categorized)    retval="clioptions messages options" ;;
-        log)            retval="directory" ;;
+        framework)      retval="cache" ;;
 
         clioptions)     if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "List" ]]; then retval="show-values"; fi ;;
         messages)       if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "List" ]]; then retval="show-values"; fi ;;
