@@ -29,8 +29,8 @@
 ##
 
 
-if [[ ! -n "${SF_HOME}" || "${FW_LOADED:-no}" != yes ]]; then printf " skb-runtime: please run from skb-framework\n\n"; exit 100; fi
-source ${SF_HOME}/lib/framework/Framework.sh
+if [[ ! -n "${SF_HOME:-}" ]]; then printf " $(basename $0): please run from skb-framework\n\n"; exit 10; fi
+source ${SF_HOME}/lib/task-runtime.sh
 
 Clioptions add option target-all
 

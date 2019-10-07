@@ -58,13 +58,11 @@ function TTTTTTT() {
                         A-k-x)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             ;;
-                        *)
-                            Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
+
+                        *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
                     esac ;;
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

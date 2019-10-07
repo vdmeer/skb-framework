@@ -29,33 +29,18 @@
 ##
 
 
-## Exitcode 2
-if [[ "${BASH_VERSINFO[0]}" -lt 4 ]]; then printf "  skb-framework: \e[97mbash\e[0m \e[1m\e[91merror\e[0m in phase \e[3m\e[4minit\e[0m: did not find 'bash' major version 4 or higher\n\n"; exit 2; fi
-
-## Exitcode 3
-if [[ "${BASH_VERSINFO[1]}" -lt 2 ]]; then printf "  skb-framework: \e[97mbash\e[0m \e[1m\e[91merror\e[0m in phase \e[3m\e[4minit\e[0m: did not find 'bash' minor version 2 or higher\n\n"; exit 3; fi
-
 set -o errexit -o pipefail -o noclobber -o nounset
 shopt -s globstar
 
-## Exitcode 4
-if [[ ! $(command -v realpath) ]]; then printf "  skb-framework: \e[97mcommand\e[0m \e[1m\e[91merror\e[0m in phase \e[3m\e[4minit\e[0m: did not find did not find command 'realpath'\n\n"; exit 4; fi
+## Exitcode 2
+if [[ ! $(command -v realpath) ]]; then printf "  skb-framework: \e[97mcommand\e[0m \e[1m\e[91merror\e[0m in phase \e[3m\e[4minit\e[0m: did not find did not find command 'realpath'\n\n"; exit 2; fi
 
 SF_HOME=$(printf "$(realpath -L -P ${0})\n")
 SF_HOME=${SF_HOME%/*}
 SF_HOME=${SF_HOME%/*}
-## Exitcode 5
-if [[ ! -d "${SF_HOME}" ]]; then printf "  skb-framework: \e[97mdirectory\e[0m \e[1m\e[91merror\e[0m in phase \e[3m\e[4minit\e[0m: \$SF_HOME as '${SF_HOME}' is not a directory\n\n"; exit 5; fi
+## Exitcode 3
+if [[ ! -d "${SF_HOME}" ]]; then printf "  skb-framework: \e[97mdirectory\e[0m \e[1m\e[91merror\e[0m in phase \e[3m\e[4minit\e[0m: \$SF_HOME as '${SF_HOME}' is not a directory\n\n"; exit 3; fi
 declare -r -x SF_HOME
 
-FW_INIT=yes
-source ${SF_HOME}/lib/framework/Framework.sh
-
-#clear -x
-bash --rcfile ${SF_HOME}/lib/framework/load.sh
-
-if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_FAST"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_FAST"]}"; fi
-if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_MEDIUM"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_MEDIUM"]}"; fi
-if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_SLOW"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_SLOW"]}"; fi
-if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_LOAD"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_LOAD"]}"; fi
+source ${SF_HOME}/lib/start.sh
 exit 0
