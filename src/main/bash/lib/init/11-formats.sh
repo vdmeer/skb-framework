@@ -29,7 +29,7 @@
 ##
 
 
-Add Object Format ansi          "${SF_HOME}/lib/text/formats" "text with ansi codes for colors and effects"
-Add Object Format plain         "${SF_HOME}/lib/text/formats" "plain text without any formatting"
-Add Object Format adoc          "${SF_HOME}/lib/text/formats" "ADCIIDOC formatted text"
-Add Object Format mdoc          "${SF_HOME}/lib/text/formats" "ADCIIDOC formatted text with special color encoding for the manual"
+Add object format ansi          "${SF_HOME}/lib/text/formats" "text with ansi codes for colors and effects"
+Add object format plain         "${SF_HOME}/lib/text/formats" "plain text without any formatting"
+Add object format adoc          "${SF_HOME}/lib/text/formats" "ADCIIDOC formatted text"
+Add object format mdoc          "${SF_HOME}/lib/text/formats" "ADCIIDOC formatted text with special color encoding for the manual"

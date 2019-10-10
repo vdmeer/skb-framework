@@ -28,5 +28,5 @@
 ## @since      0.0.6
 ##
 
-Add Object Theme Default "${SF_HOME}/share/themes" "the default theme"
-Add Object Theme API     "${SF_HOME}/share/themes" "empty theme for API themitem settings"
+Add object theme API     "${SF_HOME}/share/themes"  "empty theme for API themitem settings"
+Add object theme Default "${SF_HOME}/share/themes"  "the default theme"

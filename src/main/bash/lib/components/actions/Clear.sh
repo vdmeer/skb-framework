@@ -30,11 +30,7 @@
 
 
 function Clear() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local id dir file
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
@@ -42,18 +38,7 @@ function Clear() {
 
         everything)
             Clear logs
-            Clear all themes
             Clear full cache ;;
-
-        theme)
-            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
-            id="${1}"
-            Test existing theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then printf ""; return; fi
-            if [[ "${id}" != "API" ]]; then
-                path="${FW_OBJECT_THM_PATH[${id}]}"
-                decFile="${path}/${id}.dec"
-                if [[ -w "${decFile}" ]]; then rm "${decFile}"; fi
-            fi ;;
 
         logs)
             dir="${FW_OBJECT_SET_VAL["LOG_DIR"]}"
@@ -63,20 +48,21 @@ function Clear() {
                 fi
             done ;;
 
-        all | cache | framework | full)
+        cache | framework | full)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
 
-                all-themes)
-                    for id in $(Themes has); do
-                        Clear theme $id
-                    done ;;
                 full-cache)
                     Clear framework cache
                     for id in $(Modules has); do
                         Clear cache for module $id
                     done
+                    if [[ -d ${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules ]]; then rmdir ${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules; fi
+                    for id in $(Themes has); do
+                        Clear cache for theme $id
+                    done
+                    if [[ -d ${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes ]]; then rmdir ${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes; fi
                     ;;
 
                 framework-cache)
@@ -93,13 +79,24 @@ function Clear() {
                     case "${cmd1}-${cmd2}-${cmd3}" in
                         cache-for-module)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
-                            moduleId="${1}"
+                            id="${1}"
 
-                            if [[ "${moduleId}" != "API" ]]; then
-                                Test existing module id "${moduleId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                                file="${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/module--${moduleId}.cache"
+                            if [[ "${id}" != "API" ]]; then
+                                Test existing module id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                                file="${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}.cache"
                                 if [[ -w "${file}" ]]; then rm "${file}"; fi
                             fi ;;
+
+                        cache-for-theme)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            id="${1}"
+
+                            if [[ "${id}" != "API" ]]; then
+                                Test existing theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                                file="${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}.cache"
+                                if [[ -w "${file}" ]]; then rm "${file}"; fi
+                            fi ;;
+
 
                         *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
                     esac ;;

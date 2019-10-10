@@ -32,54 +32,84 @@
 function __skb_Set_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Set)            retval="value phase themeitem file filelist dir dirlist parameter"
-                        retval+=" application app config current error last log module print strict warning"
-                        retval+=" auto"
-                        ;;
-
-        file)           if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Set" ]]; then retval="$(Files has)"; fi ;;
-        filelist)       if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Set" ]]; then retval="$(Filelists has)"; fi ;;
-        dir)            if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Set" ]]; then retval="$(Dirs has)"; fi ;;
-        dirlist)        if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Set" ]]; then retval="$(Dirlists has)"; fi ;;
-        parameter)      if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Set" ]]; then retval="$(Parameters has)"; fi ;;
-
-        value)          retval="for" ;;
-        phase)          retval="$(Phases has)" ;;
-
-        application)    retval="$(Applications has)" ;;
+        Set)            retval="app config current last log module print"
+                        retval+=" element object" ;;
 
         app)            retval="name name2" ;;
         config)         retval="file" ;;
         current)        retval="mode phase theme project scenario site task" ;;
-        error)          retval="count codes" ;;
         last)           retval="project scenario site task" ;;
-        log)            if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Set" ]]; then
-                            retval="dir file format level date-arg"
-                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "phase" ]]; then
-                            retval="level"
-                        fi ;;
+        log)            retval="dir file format level date-arg" ;;
         module)         retval="path" ;;
-        print)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Set" ]]; then
-                            retval="format format2 level"
-                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "phase" ]]; then
-                            retval="level"
-                        fi ;;
-        strict)         retval="mode" ;;
-        theme)          retval="$(Themes has)" ;;
+        print)          retval="format format2 level" ;;
+
+        object)         retval="phase setting themeitem" ;;
+        element)        retval="application" ;;
+
+        phase)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "object" ]]; then retval="$(Phases has)"; fi
+                        if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "current" ]]; then retval="to"; fi ;;
+        setting)        retval="$(Settings has)" ;;
         themeitem)      retval="$(Themeitems has)" ;;
-        warning)        retval="count" ;;
+        application)    retval="$(Applications has)" ;;
 
-        auto)           retval="verify write" ;;
 
-        codes)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "error" ]]; then retval="$(Messages has)"; fi ;;
+        name)           retval="to" ;;
+        name2)          retval="to" ;;
+        file)           retval="to" ;;
+        mode)           retval="to" ;;
+        theme)          retval="to" ;;
+        project)        retval="to" ;;
+        scenario)       retval="to" ;;
+        site)           retval="to" ;;
+        task)           retval="to" ;;
+        dir)            retval="to" ;;
+        format)         retval="to" ;;
+        format2)        retval="to" ;;
+        level)          retval="to" ;;
+        date-arg)       retval="to" ;;
+        path)           retval="to" ;;
+        site)           retval="to" ;;
 
-        *)              if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "phase" ]]; then
-                            retval="print error log warning"
-                        elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "value" && "${COMP_WORDS[COMP_CWORD-1]}" == "for" ]]; then
-                            retval="$(Settings has)"
-                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "value" && "${COMP_WORDS[COMP_CWORD-2]}" == "for" ]]; then
+
+        *)              if [[ "${COMP_WORDS[COMP_CWORD-3]}" == "current" && "${COMP_WORDS[COMP_CWORD-2]}" == "mode" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Modes has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "current" && "${COMP_WORDS[COMP_CWORD-2]}" == "theme" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Themes has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "current" && "${COMP_WORDS[COMP_CWORD-2]}" == "phase" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Phases has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "current" && "${COMP_WORDS[COMP_CWORD-2]}" == "project" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Projects has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "current" && "${COMP_WORDS[COMP_CWORD-2]}" == "scenario" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Scenarios has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "current" && "${COMP_WORDS[COMP_CWORD-2]}" == "site" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Sites has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "current" && "${COMP_WORDS[COMP_CWORD-2]}" == "task" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Tasks has)"
+
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "last" && "${COMP_WORDS[COMP_CWORD-2]}" == "project" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Projects has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "last" && "${COMP_WORDS[COMP_CWORD-2]}" == "scenario" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Scenarios has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "last" && "${COMP_WORDS[COMP_CWORD-2]}" == "site" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Sites has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "last" && "${COMP_WORDS[COMP_CWORD-2]}" == "task" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Tasks has)"
+
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "log" && "${COMP_WORDS[COMP_CWORD-2]}" == "format" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Formats has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "log" && "${COMP_WORDS[COMP_CWORD-2]}" == "level" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Levels has)"
+
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "print" && "${COMP_WORDS[COMP_CWORD-2]}" == "format" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Formats has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "print" && "${COMP_WORDS[COMP_CWORD-2]}" == "format2" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Formats has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "print" && "${COMP_WORDS[COMP_CWORD-2]}" == "level" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Levels has)"
+
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "object" && "${COMP_WORDS[COMP_CWORD-2]}" == "setting" ]]; then
                             retval="to"
-                        elif [[ "${COMP_WORDS[COMP_CWORD-4]}" == "value" && "${COMP_WORDS[COMP_CWORD-3]}" == "for" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                        elif [[ "${COMP_WORDS[COMP_CWORD-4]}" == "object" && "${COMP_WORDS[COMP_CWORD-3]}" == "setting" ]]; then
                             case ${COMP_WORDS[COMP_CWORD-2]} in
                                 CURRENT_MODE)                               retval="$(Modes has)" ;;
                                 CURRENT_PHASE)                              retval="$(Phases has)" ;;
@@ -90,37 +120,22 @@ function __skb_Set_completions(){
                                 CURRENT_TASK | LAST_TASK)                   retval="$(Tasks has)" ;;
                                 LOG_LEVEL | PRINT_LEVEL)                    retval="$(Levels has) all none" ;;
                                 LOG_FORMAT | PRINT_FORMAT | PRINT_FORMAT2)  retval="$(Formats has)" ;;
-                                STRICT_MODE)                                retval="on off" ;;
-                                ERROR_COUNT | WARNING_COUNT)                retval="-2 -1 0 +1 +2 1 2 3 4 5" ;;
                             esac
 
-                        elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "current" ]]; then
-                            case ${COMP_WORDS[COMP_CWORD-1]} in
-                                mode)       retval="$(Modes has)" ;;
-                                phase)      retval="$(Phases has)" ;;
-                                theme)      retval="$(Themes has)" ;;
-                                project)    retval="$(Projects has)" ;;
-                                scenario)   retval="$(Scenarios has)" ;;
-                                site)       retval="$(Sites has)" ;;
-                                task)       retval="$(Tasks has)" ;;
-                            esac
-                        elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "last" ]]; then
-                            case ${COMP_WORDS[COMP_CWORD-1]} in
-                                project)    retval="$(Projects has)" ;;
-                                scenario)   retval="$(Scenarios has)" ;;
-                                site)       retval="$(Sites has)" ;;
-                                task)       retval="$(Tasks has)" ;;
-                            esac
-                        elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "log" || "${COMP_WORDS[COMP_CWORD-2]}" == "print" ]]; then
-                            case ${COMP_WORDS[COMP_CWORD-1]} in
-                                format)     retval="$(Formats has)" ;;
-                                format2)    retval="$(Formats has)" ;;
-                                level)      retval="$(Levels has) all none" ;;
-                            esac
-                        elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "strict" ]]; then
-                            case ${COMP_WORDS[COMP_CWORD-1]} in
-                                mode)       retval="on off" ;;
-                            esac
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "object" && "${COMP_WORDS[COMP_CWORD-2]}" == "themeitem" ]]; then
+                            retval="to"
+
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "object" && "${COMP_WORDS[COMP_CWORD-2]}" == "phase" ]]; then
+                            retval="print-level log-level"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-4]}" == "object" && "${COMP_WORDS[COMP_CWORD-3]}" == "phase" ]]; then
+                            retval="to"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-5]}" == "object" && "${COMP_WORDS[COMP_CWORD-4]}" == "phase" ]]; then
+                            retval="all none $(Levels has)"
+
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "element" && "${COMP_WORDS[COMP_CWORD-2]}" == "application" ]]; then
+                            retval="command to"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-4]}" == "element" && "${COMP_WORDS[COMP_CWORD-3]}" == "application" && "${COMP_WORDS[COMP_CWORD-1]}" == "command" ]]; then
+                            retval="to"
 
                         fi ;;
     esac

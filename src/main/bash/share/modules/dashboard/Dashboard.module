@@ -33,20 +33,23 @@ if [[ ! -n "${FW_MODULE_PATH:-}" ]]; then printf "  skb-framework: module \e[97m
 
 Add element module Dashboard DB ${FW_MODULE_PATH} "the SKB dashboard"
 
-FW_CURRENT_MODULE_NAME=Dashboard
-    Add requirement for module Dashboard as module Core
+if [[ -r  "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/Dashboard.cache" ]]; then
+    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/Dashboard.cache"
+else
+    FW_CURRENT_MODULE_NAME=Dashboard
+        Add requirement for module Dashboard as module Core
 
-    Add element file acronym-latex      to module with -w-c- "" "LaTeX file to write acronyms"
-    Add element file latex-aux          to module with r---- "" "LaTeX aux file to scan for required acronyms"
-    Add element file library-bib-file   to module with -w-c- "" "LaTeX file to write references"
-
-
-    Add element dir acronym-docs to module with r---- "" "home directory for acronym documents"
-    Add element dir acronym-yaml to module with r---- "" "path to YAML sources for acronyms"
-    Add element dir library-docs to module with r---- "" "home directory for library documents"
-    Add element dir library-home to module with r---- "" "home directory for library with artifacts, e.g. PDF files"
-    Add element dir library-yaml to module with r---- "" "path to YAML sources for the library"
+        Add element file acronym-latex to       module with -w-c- "" "LaTeX file to write acronyms"
+        Add element file latex-aux to           module with r---- "" "LaTeX aux file to scan for required acronyms"
+        Add element file library-bib-file to    module with -w-c- "" "LaTeX file to write references"
 
 
-    Add element parameter LIBRARY_URL to module with "###" "URL prefix for auto-generated links for library"
-unset FW_CURRENT_MODULE_NAME
+        Add element dir acronym-docs to module with r---- "" "home directory for acronym documents"
+        Add element dir acronym-yaml to module with r---- "" "path to YAML sources for acronyms"
+        Add element dir library-docs to module with r---- "" "home directory for library documents"
+        Add element dir library-home to module with r---- "" "home directory for library with artifacts, e.g. PDF files"
+        Add element dir library-yaml to module with r---- "" "path to YAML sources for the library"
+
+        Add element parameter LIBRARY_URL to module with "###" "URL prefix for auto-generated links for library"
+    unset FW_CURRENT_MODULE_NAME
+fi

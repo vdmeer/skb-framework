@@ -30,11 +30,7 @@
 
 
 function Convert() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local path
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3

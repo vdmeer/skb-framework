@@ -32,22 +32,24 @@
 function __skb_Format_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Format)     retval="ansi current element help list paragraph tagline table text themed" ;;
+        Format)     retval="ansi element help level list mode paragraph tagline table text themed" ;;
 
         ansi)           retval="file" ;;
         current)        retval="mode" ;;
         element)        retval="status" ;;
         help)           retval="indentation" ;;
+        level)          retval="$(Levels has)" ;;
         list)           retval="from" ;;
+        mode)           retval="$(Modes has)" ;;
         paragraph)      retval="from" ;;
         tagline)        retval="for" ;;
-        table)          retval="topline midline bottomline" ;;
+        table)          retval="toprule midrule bottomrule" ;;
         themed)         retval="text" ;;
 
         for)            retval="exitcode"
                         retval+=" clioption configuration format level mode setting theme themeitem"
                         retval+=" application dependency dirlist dir filelist file module option parameter project scenario site task"
-                        retval+=" action element instance object" ;;
+                        retval+=" action element instance object operation" ;;
         from)           retval="file" ;;
 
         *)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "for" ]]; then
@@ -62,9 +64,7 @@ function __skb_Format_completions(){
                             filelist)       retval="$(Filelists has)" ;;
                             file)           retval="$(Files has)" ;;
                             format)         retval="$(Formats has)" ;;
-                            level)          retval="$(Levels has)" ;;
                             message)        retval="$(Messages has)" ;;
-                            mode)           retval="$(Modes has)" ;;
                             modules)        retval="$(Modules has)" ;;
                             option)         retval="$(Options has)" ;;
                             phase)          retval="$(Phases has)" ;;
@@ -81,6 +81,7 @@ function __skb_Format_completions(){
                             element)        retval="$(Framework has elements)" ;;
                             instance)       retval="$(Framework has instances)" ;;
                             object)         retval="$(Framework has objects)" ;;
+                            operation)      retval="${!FW_API[@]}" ;;
                         esac
                     elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "for" ]]; then retval="list table"
 

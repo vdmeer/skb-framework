@@ -30,11 +30,7 @@
 
 
 function Debug() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local id errno listIndent="    -" tmpString
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
@@ -256,7 +252,7 @@ function Debug() {
             Test existing project id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             printf "\n"; Format tagline for project "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
                 printf "%s origin:  %s\n" "${listIndent}" "${FW_ELEMENT_PAR_ORIG[${id}]}"
-                printf "%s mode:    %s\n" "${listIndent}" "$(Format current mode ${FW_ELEMENT_PAR_MODES[${id}]})"
+                printf "%s mode:    %s\n" "${listIndent}" "$(Format mode ${FW_ELEMENT_PAR_MODES[${id}]})"
                 printf "%s path:    %s\n" "${listIndent}" "${FW_ELEMENT_PRJ_PATH_TEXT[${id}]}"
                 printf "%s file:    %s\n" "${listIndent}" "${FW_ELEMENT_PRJ_FILE[${id}]}"
                 printf "%s targets: %s\n" "${listIndent}" "${FW_ELEMENT_PRJ_TGTS[${id}]:-}"
@@ -311,7 +307,7 @@ function Debug() {
             Test existing scenario id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             printf "\n"; Format tagline for scenario "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
                 printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_SCN_ORIG[${id}]}"
-                printf "%s mode:   %s\n" "${listIndent}" "$(Format current mode ${FW_ELEMENT_SCN_MODES[${id}]})"
+                printf "%s mode:   %s\n" "${listIndent}" "$(Format mode ${FW_ELEMENT_SCN_MODES[${id}]})"
                 printf "%s path:   %s\n" "${listIndent}" "${FW_ELEMENT_SCN_PATH_TEXT[${id}]}"
 
             printf "\n    "; Format text regular,italic "Load and Status"; printf "\n"
@@ -417,7 +413,7 @@ function Debug() {
             Test existing task id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             printf "\n"; Format tagline for task "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
                 printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_TSK_ORIG[${id}]}"
-                printf "%s mode:   %s\n" "${listIndent}" "$(Format current mode ${FW_ELEMENT_TSK_MODES[${id}]})"
+                printf "%s mode:   %s\n" "${listIndent}" "$(Format mode ${FW_ELEMENT_TSK_MODES[${id}]})"
                 printf "%s path:   %s\n" "${listIndent}" "${FW_ELEMENT_TSK_PATH_TEXT[${id}]}"
 
             printf "\n    "; Format text regular,italic "Load and Status"; printf "\n"

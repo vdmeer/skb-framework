@@ -8,35 +8,33 @@ declare -A FW_INSTANCE_CLI_SET      ## [long]="yes if option was set, no otherwi
 declare -A FW_INSTANCE_CLI_VAL      ## [long]="parsed value"
            FW_INSTANCE_CLI_EXTRA="" ## string with extra arguments parsed
 
-FW_COMPONENTS_SINGULAR["clioptions"]="clioption"
-FW_COMPONENTS_PLURAL["clioptions"]="clioptions"
-FW_COMPONENTS_TITLE_LONG_SINGULAR["clioptions"]="Command Line Option"
-FW_COMPONENTS_TITLE_LONG_PLURAL["clioptions"]="CLI Options"
-FW_COMPONENTS_TITLE_SHORT_SINGULAR["clioptions"]="Command Line Option"
-FW_COMPONENTS_TITLE_SHORT_PLURAL["clioptions"]="CLI Options"
-FW_COMPONENTS_TABLE_DESCR["clioptions"]="Description"
-FW_COMPONENTS_TABLE_VALUE["clioptions"]="Value from Command Line"
-#FW_COMPONENTS_TABLE_DEFVAL["clioptions"]=""
-FW_COMPONENTS_TABLE_EXTRA["clioptions"]=""
-FW_COMPONENTS_TAGLINE["clioptions"]="instance representing CLI options for tasks"
+FW_COMPONENTS_SINGULAR["Clioptions"]="clioption"
+FW_COMPONENTS_PLURAL["Clioptions"]="clioptions"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["Clioptions"]="Command Line Option"
+FW_COMPONENTS_TITLE_LONG_PLURAL["Clioptions"]="CLI Options"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["Clioptions"]="Command Line Option"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["Clioptions"]="CLI Options"
+FW_COMPONENTS_TABLE_DESCR["Clioptions"]="Description"
+FW_COMPONENTS_TABLE_VALUE["Clioptions"]="Value from Command Line"
+FW_COMPONENTS_TABLE_EXTRA["Clioptions"]=""
+FW_COMPONENTS_TAGLINE["Clioptions"]="instance representing CLI options for tasks"
 
 
 
-FW_COMPONENTS_SINGULAR["exitcodes"]="exitcode"
-FW_COMPONENTS_PLURAL["exitcodes"]="exitcodes"
-FW_COMPONENTS_TITLE_LONG_SINGULAR["exitcodes"]="Exit Code"
-FW_COMPONENTS_TITLE_LONG_PLURAL["exitcodes"]="Exit Codes"
-FW_COMPONENTS_TITLE_SHORT_SINGULAR["exitcodes"]="Exit Code"
-FW_COMPONENTS_TITLE_SHORT_PLURAL["exitcodes"]="Exit Codes"
-FW_COMPONENTS_TABLE_DESCR["exitcodes"]="Description"
-FW_COMPONENTS_TABLE_VALUE["exitcodes"]="Description"
-#FW_COMPONENTS_TABLE_DEFVAL["exitcodes"]=""
-FW_COMPONENTS_TABLE_EXTRA["exitcodes"]=""
-FW_COMPONENTS_TAGLINE["exitcodes"]="instance representing the framework's exit codes"
+FW_COMPONENTS_SINGULAR["Exitcodes"]="exitcode"
+FW_COMPONENTS_PLURAL["Exitcodes"]="exitcodes"
+FW_COMPONENTS_TITLE_LONG_SINGULAR["Exitcodes"]="Exit Code"
+FW_COMPONENTS_TITLE_LONG_PLURAL["Exitcodes"]="Exit Codes"
+FW_COMPONENTS_TITLE_SHORT_SINGULAR["Exitcodes"]="Exit Code"
+FW_COMPONENTS_TITLE_SHORT_PLURAL["Exitcodes"]="Exit Codes"
+FW_COMPONENTS_TABLE_DESCR["Exitcodes"]="Description"
+FW_COMPONENTS_TABLE_VALUE["Exitcodes"]="Description"
+FW_COMPONENTS_TABLE_EXTRA["Exitcodes"]=""
+FW_COMPONENTS_TAGLINE["Exitcodes"]="instance representing the framework's exit codes"
 
 
 
 declare -A FW_INSTANCE_TABLE_CHARS  ## [id-format]="formatted char"
 FW_INSTANCE_TABLE_CHARS_BUILT=" "   ## string with built formats, with leading and trailing space
 
-FW_COMPONENTS_TAGLINE["tablechars"]="instance that maintains cached table characters"
+FW_COMPONENTS_TAGLINE["Tablechars"]="instance that maintains cached table characters"

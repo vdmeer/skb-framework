@@ -32,9 +32,9 @@
 function __skb_Calculate_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Calculate)      retval="longest" ;;
+        Calculate)      retval="longest runtime" ;;
 
-        longest)        retval="clioption option string" ;;
+        longest)        retval="clioption operation option string" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

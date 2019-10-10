@@ -34,9 +34,9 @@ source ${SF_HOME}/lib/task-runtime.sh
 
 Clioptions add option target-all
 
-Clioptions add general option  dependencies  d   ""  "validate dependencies"  "Targets"
-Clioptions add general option  options       o   ""  "validate options"  "Targets"
-Clioptions add general option  tasks         t   ""  "validate tasks"  "Targets"
+Clioptions add general option  dependencies  d   ""  "validate dependencies"    "Targets"
+Clioptions add general option  options       o   ""  "validate options"         "Targets"
+Clioptions add general option  tasks         t   ""  "validate tasks"           "Targets"
 
 Parse cli "Options Targets" $*
 

@@ -30,11 +30,7 @@
 
 
 function Report() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local id i message messageID level strictString themeItem nameString typeString template arr str logFile logString t1 t2 t3
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
@@ -93,11 +89,17 @@ function Report() {
                     fi
                     case ${level} in
                         fatalerror | error) FW_OBJECT_PHA_ERRCNT[${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}]=$(( FW_OBJECT_PHA_ERRCNT[${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}] + 1 ))
-                                            FW_OBJECT_SET_VAL["ERROR_COUNT"]="${FW_OBJECT_PHA_ERRCNT[${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}]}"
-                                            if [[ "${messageID:0:1}" == "E" ]]; then FW_OBJECT_PHA_ERRCOD[${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}]+=" ${messageID}"; fi
+                                            FW_OBJECT_SET_PHA["ERROR_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                                            FW_OBJECT_SET_VAL["ERROR_COUNT"]=$(( FW_OBJECT_SET_VAL["ERROR_COUNT"] + 1 ))
+                                            if [[ "${messageID:0:1}" == "E" ]]; then
+                                                FW_OBJECT_PHA_ERRCOD[${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}]+=" ${messageID}"
+                                                FW_OBJECT_SET_PHA["ERROR_CODES"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                                                FW_OBJECT_SET_VAL["ERROR_CODES"]+=" ${messageID}"
+                                            fi
                                             if [[ "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write fast config; fi ;;
                         warning)            FW_OBJECT_PHA_WRNCNT[${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}]=$(( FW_OBJECT_PHA_WRNCNT[${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}] + 1 ))
-                                            FW_OBJECT_SET_VAL["WARNING_COUNT"]="${FW_OBJECT_PHA_WRNCNT[${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}]}"
+                                            FW_OBJECT_SET_PHA["WARNING_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                                            FW_OBJECT_SET_VAL["WARNING_COUNT"]=$(( FW_OBJECT_SET_VAL["WARNING_COUNT"] + 1 ))
                                             if [[ "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write fast config; fi ;;
                     esac
 

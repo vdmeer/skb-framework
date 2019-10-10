@@ -32,9 +32,10 @@
 function __skb_Filter_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Filter)         retval="clioptions messages options" ;;
+        Filter)         retval="clioptions messages options operations" ;;
 
         options)        retval="Exit+Options Runtime+Options" ;;
+        operations)     retval="$(Framework has actions) $(Framework has elements) $(Framework has instances) $(Framework has objects)" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

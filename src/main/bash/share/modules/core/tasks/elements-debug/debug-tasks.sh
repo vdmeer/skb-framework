@@ -73,7 +73,7 @@ if [[ "${FW_INSTANCE_CLI_SET["id"]}" == "yes" ]]; then
     name="${FW_INSTANCE_CLI_VAL["id"]}"
 fi
 if [[ "${FW_INSTANCE_CLI_SET["mode"]}" == "yes" ]]; then
-    Test current mode "${FW_INSTANCE_CLI_VAL["mode"]}"
+    Test existing mode id "${FW_INSTANCE_CLI_VAL["mode"]}"
     mode="${FW_INSTANCE_CLI_VAL["mode"]}"
 fi
 if [[ "${FW_INSTANCE_CLI_SET["origin"]}" == "yes" ]]; then

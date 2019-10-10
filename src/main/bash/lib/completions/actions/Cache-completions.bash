@@ -32,9 +32,10 @@
 function __skb_Cache_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Cache)  retval="formats framework levels messages modes module options phases themeitems" ;;
+        Cache)  retval="formats framework levels messages modes module options phases themeitems theme" ;;
 
         module) retval="$(Modules has)" ;;
+        theme)  retval="$(Themes has)" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

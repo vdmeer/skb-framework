@@ -37,11 +37,7 @@ fi
 
 
 function Parse() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local id appName shortString longString helpList doExit=false
     local cmd1="${1,,}" cmdString1="${1,,}"
@@ -93,7 +89,7 @@ function Parse() {
                         for id in "${!FW_PARSED_VAL_MAP[@]}"; do if (( ${#id} == 1 )); then FW_ELEMENT_OPT_VAL["${FW_ELEMENT_OPT_SHORT[${id}]}"]="${FW_PARSED_VAL_MAP[${id}]}"; else FW_ELEMENT_OPT_VAL["${id}"]="${FW_PARSED_VAL_MAP[${id}]}"; fi; done
                         FW_ELEMENT_OPT_EXTRA="${FW_PARSED_EXTRA}"
 
-                        if [[ "${FW_ELEMENT_OPT_SET["format"]}" == "yes" ]];            then Set print format "${FW_ELEMENT_OPT_VAL["format"]}"; fi
+                        if [[ "${FW_ELEMENT_OPT_SET["format"]}" == "yes" ]];            then Set print format to "${FW_ELEMENT_OPT_VAL["format"]}"; fi
                         if [[ "${FW_ELEMENT_OPT_SET["help"]}" == "yes" ]];              then Print framework help; Terminate framework 0; fi
                         if [[ "${FW_ELEMENT_OPT_SET["version"]}" == "yes" ]];           then Print framework version; Terminate framework 0; fi
                         if [[ "${FW_ELEMENT_OPT_SET["option"]}" == "yes" ]];            then printf "\n"; Describe option "${FW_ELEMENT_OPT_VAL["option"]}"; Terminate framework 0; fi

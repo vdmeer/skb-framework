@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Test - API declarations
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.6
+## @since      0.0.6
+##
+
+
+FW_API["Test%command%@ID@%@CALLER@%@TEXT@"]="tests command ID executable (CALLER and TEXT for errors)"
+
+FW_API["Test%integer%@INT@"]="tests if INT is a valid integer, 0 or positive number"
+
+FW_API["Test%yesno%@TEXT@%@ERRTEXT@"]="not case-sensitive test if TEXT is 'y|yes' or 'n|no' with ERRTEXT"
+
+FW_API["Test%element%status%@TEXT@"]="not case-sensitive test if TEXT is valid element status (news)"
+
+FW_API["Test%known%module%@ID@"]="tests if ID is known module name"
+
+FW_API["Test%log%format%@ID@"]="tests if ID is known format name"
+FW_API["Test%print%format%@ID@"]="tests if ID is known format name"
+FW_API["Test%log%level%@ID@"]="tests if ID is known level name"
+FW_API["Test%print%level%@ID@"]="tests if ID is known level name"
+
+
+FW_API["Test%fs%mode%@ID@%@MOD@"]="tests if MOD is a valid file/directory mode (rwxcd), (ID for errors)"
+
+FW_API["Test%file%exists%@FILE@%[%@TEXT@%]"]="tests FILE exists (TEXT for error messages)"
+FW_API["Test%dir%exists%@DIR@%[%@TEXT@%]"]="tests DIR exists (TEXT for error messages)"
+
+
+FW_API["Test%file%can%read%@FILE@%[%@TEXT@%]"]="tests FILE is readable (TEXT for error messages)"
+FW_API["Test%file%can%write%@FILE@%[%@TEXT@%]"]="tests FILE is writable (TEXT for error messages)"
+FW_API["Test%file%can%execute%@FILE@%[%@TEXT@%]"]="tests FILE executable (TEXT for error messages)"
+FW_API["Test%file%can%create%@FILE@%[%@TEXT@%]"]="tests FILE can be created (TEXT for error messages)"
+FW_API["Test%file%can%delete%@FILE@%[%@TEXT@%]"]="tests FILE can be deleted (TEXT for error messages)"
+
+FW_API["Test%dir%can%read%@DIR@%[%@TEXT@%]"]="tests DIR is readable (TEXT for error messages)"
+FW_API["Test%dir%can%write%@DIR@%[%@TEXT@%]"]="tests DIR is writable (TEXT for error messages)"
+FW_API["Test%dir%can%create%@DIR@%[%@TEXT@%]"]="tests DIR can be created (TEXT for error messages)"
+FW_API["Test%dir%can%delete%@DIR@%[%@TEXT@%]"]="tests DIR can be deleted (TEXT for error messages)"
+
+
+
+FW_API["Test%existing%configuration%id%@ID@"]="tests if configuration ID exists"
+FW_API["Test%existing%format%id%@ID@"]="tests if format ID exists"
+FW_API["Test%existing%level%id%@ID@"]="tests if level ID exists"
+FW_API["Test%existing%message%id%@ID@"]="tests if message ID exists"
+FW_API["Test%existing%mode%id%@ID@"]="tests if mode ID exists"
+FW_API["Test%existing%phase%id%@ID@"]="tests if phase ID exists"
+FW_API["Test%existing%setting%id%@ID@"]="tests if setting ID exists"
+FW_API["Test%existing%theme%id%@ID@"]="tests if theme ID exists"
+FW_API["Test%existing%themeitem%id%@ID@"]="tests if theme item ID exists"
+
+FW_API["Test%existing%application%id%@ID@"]="tests if application ID exists"
+FW_API["Test%existing%dependency%id%@ID@"]="tests if dependency ID exists"
+FW_API["Test%existing%dirlist%id%@ID@"]="tests if directory list ID exists"
+FW_API["Test%existing%dir%id%@ID@"]="tests if directory ID exists"
+FW_API["Test%existing%filelist%id%@ID@"]="tests if file list ID exists"
+FW_API["Test%existing%file%id%@ID@"]="tests if file ID exists"
+FW_API["Test%existing%module%id%@ID@"]="tests if module ID exists"
+FW_API["Test%existing%option%id%@ID@"]="tests if option ID exists"
+FW_API["Test%existing%parameter%id%@ID@"]="tests if parameter ID exists"
+FW_API["Test%existing%project%id%@ID@"]="tests if project ID exists"
+FW_API["Test%existing%scenario%id%@ID@"]="tests if scenario ID exists"
+FW_API["Test%existing%site%id%@ID@"]="tests if site ID exists"
+FW_API["Test%existing%task%id%@ID@"]="tests if task ID exists"
+
+FW_API["Test%existing%clioption%id%@ID@"]="tests if CLI option ID exists"
+FW_API["Test%existing%exitcode%id%@ID@"]="tests if exit code ID exists"
+
+FW_API["Test%existing%action%id%@ID@"]="tests if action ID exists"
+FW_API["Test%existing%element%id%@ID@"]="tests if element ID exists"
+FW_API["Test%existing%instance%id%@ID@"]="tests if instance ID exists"
+FW_API["Test%existing%object%id%@ID@"]="tests if object ID exists"
+FW_API["Test%existing%component%id%@ID@"]="tests if component ID exists"
+
+
+
+FW_API["Test%used%application%id%@ID@"]="tests if application ID is already used"
+FW_API["Test%used%dependency%id%@ID@"]="tests if dependency ID is already used"
+FW_API["Test%used%dirlist%id%@ID@"]="tests if directory list ID is already used"
+FW_API["Test%used%dir%id%@ID@"]="tests if directory ID is already used"
+FW_API["Test%used%filelist%id%@ID@"]="tests if file list ID is already used"
+FW_API["Test%used%file%id%@ID@"]="tests if file ID is already used"
+FW_API["Test%used%module%id%@ID@"]="tests if module ID is already used"
+FW_API["Test%used%option%long-id%@ID@"]="tests if option ID is already used (as long or short option)"
+FW_API["Test%used%option%short-id%@ID@"]="tests if option ID is already used (as short or long option)"
+FW_API["Test%used%parameter%id%@ID@"]="tests if parameter ID is already used"
+FW_API["Test%used%project%id%@ID@"]="tests if project ID is already used"
+FW_API["Test%used%scenario%id%@ID@"]="tests if scenario ID is already used"
+FW_API["Test%used%site%id%@ID@"]="tests if site ID is already used"
+FW_API["Test%used%task%id%@ID@"]="tests if task ID is already used (including aliases: bye, quit, exit)"
+
+FW_API["Test%used%configuration%id%@ID@"]="tests if configuration ID is already used"
+FW_API["Test%used%format%id%@ID@"]="tests if format ID is already used"
+FW_API["Test%used%level%id%@ID@"]="tests if level ID is already used"
+FW_API["Test%used%message%id%@ID@"]="tests if message ID is already used"
+FW_API["Test%used%mode%id%@ID@"]="tests if mode ID is already used"
+FW_API["Test%used%phase%id%@ID@"]="tests if phase ID is already used"
+FW_API["Test%used%setting%id%@ID@"]="tests if setting ID is already used"
+FW_API["Test%used%theme%id%@ID@"]="tests if theme ID is already used"
+FW_API["Test%used%themeitem%id%@ID@"]="tests if theme item ID is already used"
+
+FW_API["Test%used%clioption%long-id%@ID@"]="tests if CLI option ID is already used (as long or short option)"
+FW_API["Test%used%clioption%short-id%@ID@"]="tests if CLI option ID is already used (as short or long option)"
+
+
+

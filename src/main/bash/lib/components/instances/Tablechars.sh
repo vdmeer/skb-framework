@@ -30,11 +30,7 @@
 
 
 function Tablechars() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local id keys element format remove
     if [[ -n "${FW_OBJECT_SET_VAL["PRINT_FORMAT2"]:-}" ]]; then format="${FW_OBJECT_SET_VAL["PRINT_FORMAT2"]}"; else format="${FW_OBJECT_SET_VAL["PRINT_FORMAT"]}"; fi
@@ -81,6 +77,10 @@ function Tablechars() {
 
                     FW_INSTANCE_TABLE_CHARS["charDefY-${format}"]="$(Format themed text elementDefYesFmt "${FW_OBJECT_TIM_VAL["elementDefYesChar"]}")"
                     FW_INSTANCE_TABLE_CHARS["charDefN-${format}"]="$(Format themed text elementDefNoFmt  "${FW_OBJECT_TIM_VAL["elementDefNoChar"]}")"
+
+                    FW_INSTANCE_TABLE_CHARS["charExexY-${format}"]="$(Format themed text elementExexYesFmt "${FW_OBJECT_TIM_VAL["elementExexYesChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charExexN-${format}"]="$(Format themed text elementExexNoFmt  "${FW_OBJECT_TIM_VAL["elementExexNoChar"]}")"
+
                     FW_INSTANCE_TABLE_CHARS_BUILT+="${format} " ;;
             esac ;;
 

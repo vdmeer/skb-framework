@@ -30,54 +30,13 @@
 
 
 function Clioptions() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add general option"; printf " "; Format themed text explainArgFmt "LONG SHORT FORMAT DESCR CATEGORY"; printf "\n"
-            Format help indentation 3; Format themed text explainTextFmt "adds a new CLI option, use empty string if no SHORT required"; printf "\n"
-
-
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option filter-not-core"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option filter-origin"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option filter-requested"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option filter-runtop"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option filter-status"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option filter-tested"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option format"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option help"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option show-values"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option table"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option target-all"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option task-none-all"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option task-none-build"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option task-none-debug"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option task-none-describe"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option task-none-dl"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option task-none-dll"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option task-none-list"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option task-only-build"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option task-only-debug"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option task-only-describe"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option task-only-list"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option with-legend"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option without-extras"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "add option without-status"; printf "\n"
-
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "has"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "shorts"; printf "\n"
-
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "list"; printf "\n"
-
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "long string"; printf "\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "short string"; printf "\n"
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local id shortId printString="" retval category keys
     local cmd1="${1,,}" cmd2 cmdString1="${1,,}" cmdString2
     shift; case "${cmd1}" in
 
         has)    echo " ${!FW_INSTANCE_CLI_LONG[@]} " ;;
-        shorts) echo " ${!FW_INSTANCE_CLI_SHORT[@]} " ;;
         list)
             if [[ "${FW_INSTANCE_CLI_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_INSTANCE_CLI_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
@@ -87,6 +46,7 @@ function Clioptions() {
             else
                 printf "    %s\n" "{}"
             fi ;;
+        shorts) echo " ${!FW_INSTANCE_CLI_SHORT[@]} " ;;
 
         add | long | short)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
@@ -154,7 +114,7 @@ function Clioptions() {
                         add-option-filter-not-core)     Clioptions add general option  not-core    n   ""          "no ${1:-} with origin module Core"                                         "Filters" ;;
 
                         add-option-filter-exitop)       Clioptions add general option  exit        e   ""      "show exit options"     "Filters" ;;
-                        add-option-filter-runtop)       Clioptions add general option  runtime     r   ""      "show runtime options"  "Filters" ;;
+                        add-option-filter-runop)        Clioptions add general option  runtime     r   ""      "show runtime options"  "Filters" ;;
 
                         add-option-task-none-all)       Clioptions add general option  none-all        N   ""  "activates all 'no' name filters"                               "Name+Filters,+none" ;;
                         add-option-task-none-build)     Clioptions add general option  none-build      b   ""  "exclude tasks starting with 'build-'"                          "Name+Filters,+none" ;;

@@ -35,7 +35,7 @@ function __skb_Finalize_completions(){
         Finalize)       retval="project scenario task" ;;
 
         project)        retval="execution" ;;
-        scenatio)       retval="execution" ;;
+        scenario)       retval="execution" ;;
         task)           retval="execution" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi

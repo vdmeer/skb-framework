@@ -49,7 +49,7 @@ function Help() {
     if [[ -n "${type}" ]]; then
         printf "\n"
         Describe ${type} ${cmd}
-        Explain ${cmd}
+        Explain  ${type} ${cmd}
     else
         Report process error "${FUNCNAME[0]}" E803 "${cmd}"
     fi

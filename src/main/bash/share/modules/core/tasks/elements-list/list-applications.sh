@@ -144,5 +144,3 @@ if [[ "${FW_INSTANCE_CLI_SET["table"]}" == "no" ]]; then
 else
     Print application table "${arr}" ${showValues} ${withLegend} ${withoutStatus} ${withoutExtras}
 fi
-
-exit ${FW_OBJECT_SET_VAL["ERROR_COUNT"]}

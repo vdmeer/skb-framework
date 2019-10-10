@@ -29,13 +29,13 @@
 ##
 
 
-    Add Object Phase Load           "${SF_HOME}/lib/text/phases" "load, from start to final settings"
-    Add Object Phase CLI            "${SF_HOME}/lib/text/phases" "phase loading CLI options"
-    Add Object Phase Default        "${SF_HOME}/lib/text/phases" "phase loading default values"
-    Add Object Phase Env            "${SF_HOME}/lib/text/phases" "phase loading values from the environment"
-    Add Object Phase File           "${SF_HOME}/lib/text/phases" "phase loading values from a file"
-    Add Object Phase Project        "${SF_HOME}/lib/text/phases" "phase running targets on a project"
-    Add Object Phase Scenario       "${SF_HOME}/lib/text/phases" "phase running tasks from a scenario"
-    Add Object Phase Shell          "${SF_HOME}/lib/text/phases" "phase executing commands in the shell"
-    Add Object Phase Task           "${SF_HOME}/lib/text/phases" "phase executing tasks"
-    Add Object Phase Site           "${SF_HOME}/lib/text/phases" "phase running functions for a (Maven) site"
+Add object phase Load           "${SF_HOME}/lib/text/phases" "load, from start to final settings"
+Add object phase CLI            "${SF_HOME}/lib/text/phases" "phase loading CLI options"
+Add object phase Default        "${SF_HOME}/lib/text/phases" "phase loading default values"
+Add object phase Env            "${SF_HOME}/lib/text/phases" "phase loading values from the environment"
+Add object phase File           "${SF_HOME}/lib/text/phases" "phase loading values from a file"
+Add object phase Project        "${SF_HOME}/lib/text/phases" "phase running targets on a project"
+Add object phase Scenario       "${SF_HOME}/lib/text/phases" "phase running tasks from a scenario"
+Add object phase Shell          "${SF_HOME}/lib/text/phases" "phase executing commands in the shell"
+Add object phase Task           "${SF_HOME}/lib/text/phases" "phase executing tasks"
+Add object phase Site           "${SF_HOME}/lib/text/phases" "phase running functions for a (Maven) site"

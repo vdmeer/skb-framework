@@ -32,9 +32,8 @@
 function __skb_Write_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Write)                          retval="fast load medium slow theme" ;;
+        Write)                          retval="fast load medium slow" ;;
 
-        theme)                          retval="$(Themes has)" ;;
         fast | load | medium | slow)    retval="config" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi

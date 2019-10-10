@@ -30,13 +30,9 @@
 
 
 function Show() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id i padding stats count1 count2 statRule statHalfRule statSource statId file
+    local id i padding stats count1 count2 statRule statHalfRule statSource statId file time char width tsStart tsEnd
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
@@ -49,6 +45,20 @@ function Show() {
             case ${stats} in
                 overview)
                     printf "\n  "; Format text bold Statistics; printf "\n"
+
+                    printf "%s\n" "${statHalfRule}"
+                        count1=0; for name in ${SF_HOME}/lib/components/*/*.sh; do count1=$(( count1 + 1 )); done
+                        count2=${#FW_API[*]}
+                        printf "   Components:              % 3s         Operations:               % 3s\n"      "${count1}"     "${count2}"
+
+                    printf "%s\n" "${statHalfRule}"
+                        count1=0; for name in ${SF_HOME}/lib/components/elements/*.sh; do count1=$(( count1 + 1 )); done
+                        count2=0; for name in ${SF_HOME}/lib/components/objects/*.sh; do count2=$(( count2 + 1 )); done
+                        printf "   Elements:                % 3s         Objects:                  % 3s\n"      "${count1}"     "${count2}"
+
+                        count1=0; for name in ${SF_HOME}/lib/components/instances/*.sh; do count1=$(( count1 + 1 )); done
+                        count2=0; for name in ${SF_HOME}/lib/components/actions/*.sh; do count2=$(( count2 + 1 )); done
+                        printf "   Instances:               % 3s         Actions:                  % 3s\n"      "${count1}"     "${count2}"
 
                     printf "%s\n" "${statHalfRule}"
                         if [[ "${FW_OBJECT_CFG_LONG[*]}" != "" ]]; then count1=${#FW_OBJECT_CFG_LONG[@]}; else count1=0; fi
@@ -588,7 +598,8 @@ function Show() {
                     printf "\n" ;;
             esac ;;
 
-        log | fast | load | medium | slow)
+        log | fast | load | medium | slow | \
+        project | scenario | site | task)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
@@ -604,6 +615,70 @@ function Show() {
                     esac
                     if [[ -r "${file}" ]]; then tput smcup; less -C -f -M -d ${file}; tput rmcup; fi ;;
 
+                project-execution | scenario-execution | site-execution | task-execution)
+                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} cmd3" E802 1 "$#"; return; fi
+                    cmd3=${1,,}; shift; cmdString3="${cmd1} ${cmd2} ${cmd3}"
+                    case "${cmd1}-${cmd2}-${cmd3}" in
+
+                        project-execution-start | scenario-execution-start | site-execution-start | task-execution-start)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            id="${1}"; width=$(( $(tput cols) - 2 ))
+
+                            printf "\n"
+                            Format themed text execLineFmt " "
+                            char="$(Format themed text execLineFmt "${FW_OBJECT_TIM_VAL["execLineChar"]}")"
+                            for (( i=1; i <= width; i++ )); do printf "%s" "${char}"; done
+                            Format themed text execLineFmt " "
+                            printf "\n"
+                            Format themed text execStartNameFmt "  ${id} "
+                            time=$(date +"%T")
+                            Format themed text execStartTimeFmt " ${time} "
+                            Format themed text execStartTextFmt " executing ${cmd1}"
+                            lineLength=$(( 5 + ${#id} + ${#time} + 9 + ${#cmd1} ))
+                            padding=$(( width - lineLength ))
+                            char="$(Format themed text execStartTextFmt " ")"
+                            for (( i=1; i <= padding; i++ )); do printf "%s" "${char}"; done
+                            printf "\n\n" ;;
+
+                        project-execution-end | scenario-execution-end | site-execution-end | task-execution-end)
+                            if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 3 "$#"; return; fi
+                            id="${1}"; width=$(( $(tput cols) - 2 ))
+                            tsStart="${2}"; tsEnd="${3}"
+
+                            time=$(date +"%T")
+                            runtime="$(Calculate runtime ${tsStart} ${tsEnd})"
+                            printf "\n\n"
+
+                            Format themed text execEndDoneFmt "  done (${cmd1}): ${id}";    lineLength=$(( 11 + ${#cmd1} + ${#id} ))
+                            Format themed text execEndTimeFmt "  ${time} (${runtime}) ";    lineLength=$(( lineLength + 6 + ${#time} + ${#runtime} ))
+                            Format themed text execEndStatusFmt " -  status: ";             lineLength=$(( lineLength + 12 ))
+                            if [[ "${FW_OBJECT_PHA_ERRCNT[${cmd1^}]}" > 0 ]]; then
+                                Format themed text execEndErrorFmt "error "
+                                case ${FW_OBJECT_PHA_ERRCNT[${cmd1^}]} in
+                                    1)  Format themed text execEndStatusFmt "(${FW_OBJECT_PHA_ERRCNT[${cmd1^}]} error)";    lineLength=$(( lineLength + 14 + ${#FW_OBJECT_PHA_ERRCNT[${cmd1^}]} )) ;;
+                                    *)  Format themed text execEndStatusFmt "(${FW_OBJECT_PHA_ERRCNT[${cmd1^}]} errors)";   lineLength=$(( lineLength + 15 + ${#FW_OBJECT_PHA_ERRCNT[${cmd1^}]} )) ;;
+                                esac
+                            elif [[ "${FW_OBJECT_PHA_WRNCNT[${cmd1^}]}" > 0 ]]; then
+                                Format themed text execEndWarningFmt "warning "
+                                case ${FW_OBJECT_PHA_WRNCNT[${cmd1^}]} in
+                                    1)  Format themed text execEndStatusFmt "(${FW_OBJECT_PHA_WRNCNT[${cmd1^}]} warning)";  lineLength=$(( lineLength + 18 + ${#FW_OBJECT_PHA_WRNCNT[${cmd1^}]} )) ;;
+                                    *)  Format themed text execEndStatusFmt "(${FW_OBJECT_PHA_WRNCNT[${cmd1^}]} warnings)"; lineLength=$(( lineLength + 19 + ${#FW_OBJECT_PHA_WRNCNT[${cmd1^}]} )) ;;
+                                esac
+                            else
+                                Format themed text execEndSuccessFmt "success "; lineLength=$(( lineLength + 8 ))
+                            fi
+                            padding=$(( width - lineLength + 2 ))
+                            char="$(Format themed text execEndDoneFmt " ")"
+                            for (( i=1; i <= padding; i++ )); do printf "%s" "${char}"; done
+                            printf "\n"
+                            Format themed text execLineFmt " "
+                            char="$(Format themed text execLineFmt "${FW_OBJECT_TIM_VAL["execLineChar"]}")"
+                            for (( i=1; i <= width; i++ )); do printf "%s" "${char}"; done
+                            Format themed text execLineFmt " "
+                            printf "\n" ;;
+
+                        *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
+                    esac ;;
                 *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
         *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;

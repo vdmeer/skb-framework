@@ -28,7 +28,7 @@
 ## @since      0.0.6
 ##
 
-Set current phase CLI
+Set current phase to CLI
 
 
 ##
@@ -40,15 +40,15 @@ Parse cli "" ${FW_START_CLI}
 ##
 ## Continue with runtime options, simply set, no errors
 ##
-if [[ "${FW_ELEMENT_OPT_SET["config-file"]}" == yes ]]; then Set config file "${FW_ELEMENT_OPT_VAL["config-file"]}"; fi
-if [[ "${FW_ELEMENT_OPT_SET["strict-mode"]}" == yes ]]; then Set strict mode on; fi
+if [[ "${FW_ELEMENT_OPT_SET["config-file"]}" == yes ]]; then Set config file to "${FW_ELEMENT_OPT_VAL["config-file"]}"; fi
+if [[ "${FW_ELEMENT_OPT_SET["strict-mode"]}" == yes ]]; then Activate strict mode; fi
 
 if [[ "${FW_ELEMENT_OPT_SET["all-mode"]}" == yes ]]; then
-    Set current mode all
+    Set current mode to all
 elif [[ "${FW_ELEMENT_OPT_SET["dev-mode"]}" == yes ]]; then
-    Set current mode dev
+    Set current mode to dev
 elif [[ "${FW_ELEMENT_OPT_SET["build-mode"]}" == yes ]]; then
-    Set current mode build
+    Set current mode to build
 elif [[ "${FW_ELEMENT_OPT_SET["use-mode"]}" == yes ]]; then
-    Set current mode use
+    Set current mode to use
 fi

@@ -30,11 +30,7 @@
 
 
 function Themeitems() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local id printString="" keys
     local cmd1="${1,,}" cmdString1="${1,,}"
@@ -54,4 +50,3 @@ function Themeitems() {
         *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }
-export -f Themeitems

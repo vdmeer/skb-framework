@@ -30,11 +30,7 @@
 
 
 function Modules() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local id printString="" errno keys
     local cmd1="${1,,}" cmd2 cmdString1="${1,,}" cmdString2
@@ -42,7 +38,7 @@ function Modules() {
         knows)
             echo " ${!FW_ELEMENT_MDS_KNOWN[@]} " ;;
         search)
-            local path="$(Get module path)" dir modFile modId
+            local path="$(Get primary module path) $(Get module path)" dir modFile modId
             unset -v FW_ELEMENT_MDS_KNOWN
             declare -A -g FW_ELEMENT_MDS_KNOWN
             for dir in ${path}; do

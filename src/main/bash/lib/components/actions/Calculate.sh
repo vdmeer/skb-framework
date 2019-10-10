@@ -30,15 +30,28 @@
 
 
 function Calculate() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local arr keys longest current argCount new short
+    local longest=0 startTime endTime execTime bcalc
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
+
+        runtime)
+            if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 2 "$#"; return; fi
+            startTime="${1}"; endTime="${2}"
+
+            execTime=$(echo "scale=0;(${endTime}-${startTime})/1" | bc -l)
+            if (( execTime == 0 )); then
+                bcalc=$(echo "scale=4;(${endTime}-${startTime})/1" | bc -l)
+                printf "0%s seconds\n" "$bcalc"
+            elif (( execTime < 60 )); then
+                bcalc=$(echo "scale=4;(${endTime}-${startTime})/1" | bc -l)
+                printf "%s seconds\n" "$bcalc"
+            else
+                local bcalc=$(echo "scale=2;(${endTime}-${startTime})/60" | bc -l)
+                printf "%s minutes\n" "$bcalc"
+            fi ;;
+
         longest)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
@@ -46,24 +59,22 @@ function Calculate() {
 
                 longest-clioption)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    arr="${1}"; IFS=" " read -a keys <<< "${arr}"; longest=0
-                    for id in "${keys[@]}"; do
-                        if (( longest < ${FW_INSTANCE_CLI_LEN[${id}]} )); then longest=${FW_INSTANCE_CLI_LEN[${id}]}; fi
-                    done
+                    for id in ${1}; do if (( longest < ${FW_INSTANCE_CLI_LEN[${id}]} )); then longest=${FW_INSTANCE_CLI_LEN[${id}]}; fi; done
                     printf ${longest} ;;
+
                 longest-option)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    arr="${1}"; IFS=" " read -a keys <<< "${arr}"; longest=0
-                    for id in "${keys[@]}"; do
-                        if (( longest < ${FW_ELEMENT_OPT_LEN[${id}]} )); then longest=${FW_ELEMENT_OPT_LEN[${id}]}; fi
-                    done
+                    for id in ${1}; do if (( longest < ${FW_ELEMENT_OPT_LEN[${id}]} )); then longest=${FW_ELEMENT_OPT_LEN[${id}]}; fi; done
                     printf ${longest} ;;
+
+                longest-operation)
+                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
+                    for id in ${1}; do id="${id%%\%*}"; if (( longest < ${#id} )); then longest=${#id}; fi; done
+                    printf ${longest} ;;
+
                 longest-string)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    arr="${1}"; IFS=" " read -a keys <<< "${arr}"; longest=0
-                    for id in ${keys[*]}; do
-                        if (( longest < ${#id} )); then longest=${#id}; fi
-                    done
+                    for id in ${1}; do if (( longest < ${#id} )); then longest=${#id}; fi; done
                     printf ${longest} ;;
 
                 *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;

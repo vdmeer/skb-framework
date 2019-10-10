@@ -30,11 +30,7 @@
 
 
 function Scenarios() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local id printString="" keys
     local cmd1="${1,,}" cmd2 cmdString1="${1,,}" cmdString2
@@ -45,7 +41,7 @@ function Scenarios() {
             if [[ "${FW_ELEMENT_SCN_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_SCN_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s (%s): %s, %s, %s, %s\n" "${id}" "${FW_ELEMENT_SCN_STATUS[${id}]}" "${FW_ELEMENT_SCN_ORIG[${id}]}" "${FW_ELEMENT_SCN_MODES[${id}]}" "${FW_ELEMENT_SCN_PATH[${id}]}" "${FW_ELEMENT_SCN_LONG[${id}]}"
+                    printf "    %s (%s): %s, %s, %s, %s, %s\n" "${id}" "${FW_ELEMENT_SCN_STATUS[${id}]}" "${FW_ELEMENT_SCN_ORIG[${id}]}" "${FW_ELEMENT_SCN_MODES[${id}]}" "${FW_ELEMENT_SCN_PATH[${id}]}" "${FW_ELEMENT_SCN_SHOW_EXEC[${id}]}" "${FW_ELEMENT_SCN_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

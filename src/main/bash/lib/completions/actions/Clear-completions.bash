@@ -32,17 +32,16 @@
 function __skb_Clear_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Clear)      retval="all cache everything framework full logs theme" ;;
+        Clear)      retval="cache everything framework full logs" ;;
 
-        all)        retval="themes" ;;
         full)       retval="cache" ;;
 
         framework)  retval="cache" ;;
-        theme)      retval="$(Themes has)" ;;
 
         cache)      if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Clear" ]]; then retval="for"; fi ;;
-        for)        retval="module" ;;
+        for)        retval="module theme" ;;
         module)     retval="$(Modules has)" ;;
+        theme)      retval="$(Themes has)" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

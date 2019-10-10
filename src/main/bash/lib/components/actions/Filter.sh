@@ -30,11 +30,7 @@
 
 
 function Filter() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local id keys filter
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
@@ -42,9 +38,10 @@ function Filter() {
         clioptions)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
             filter="${1}"; declare -A keys
+            if [[ ! -n "${filter}" ]]; then echo ""; return; fi
             if [[ "${FW_INSTANCE_CLI_LONG[*]}" != "" ]]; then
                 for id in ${!FW_INSTANCE_CLI_LONG[@]}; do
-                    if [[ -n "${filter}" && "${FW_INSTANCE_CLI_CAT[${id}]}" != "${filter}" ]]; then continue; fi
+                    if [[ "${FW_INSTANCE_CLI_CAT[${id}]}" != "${filter}" ]]; then continue; fi
                     keys[${id}]="f"
                 done
                 echo "${!keys[@]}"
@@ -55,17 +52,27 @@ function Filter() {
         options)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
             filter="${1}"; declare -A keys
+            if [[ ! -n "${filter}" ]]; then echo ""; return; fi
             for id in ${!FW_ELEMENT_OPT_LONG[@]}; do
-                if [[ -n "${filter}" && "${FW_ELEMENT_OPT_CAT[${id}]}" != "${filter}" ]]; then continue; fi
+                if [[ "${FW_ELEMENT_OPT_CAT[${id}]}" != "${filter}" ]]; then continue; fi
                 keys[${id}]="f"
             done
+            echo "${!keys[@]}" ;;
+
+        operations)
+            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
+            filter="${1}"; declare -A keys
+            if [[ ! -n "${filter}" ]]; then echo ""; return; fi
+            for id in "${!FW_API[@]}"; do case ${id} in "${filter}%"*) keys[${id}]="f" ;; esac; done
             echo "${!keys[@]}" ;;
 
         messages)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
             filter="${1}"; declare -A keys
+            if [[ ! -n "${filter}" ]]; then echo ""; return; fi
             for id in ${!FW_OBJECT_MSG_LONG[@]}; do
-                if [[ -n "${filter}" && "${FW_OBJECT_MSG_CAT[${id}]}" != "${filter}" ]]; then continue; fi
+                if [[ ! -n "${FW_OBJECT_MSG_CAT[${id}]}" ]]; then continue; fi
+                if [[ "${FW_OBJECT_MSG_CAT[${id}]}" != "${filter}" ]]; then continue; fi
                 keys[${id}]="f"
             done
             echo "${!keys[@]}" ;;

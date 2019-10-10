@@ -30,10 +30,9 @@
 
 
 function __skb_Build_completions(){
-    local retval=""
+    local retval="" id
     case ${COMP_WORDS[COMP_CWORD-1]} in
         Build)      retval="message" ;;
-
         message)    retval="$(Messages has)" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi

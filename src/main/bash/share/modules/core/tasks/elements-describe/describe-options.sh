@@ -34,7 +34,7 @@ source ${SF_HOME}/lib/task-runtime.sh
 
 Clioptions add option filter-id        describe option
 Clioptions add option filter-exitop
-Clioptions add option filter-runtop
+Clioptions add option filter-runop
 
 Parse cli "Options Filters" $*
 
@@ -97,5 +97,3 @@ fi
 ##
 ############################################################################################
 Print option descriptions "${arr}"
-
-exit ${FW_OBJECT_SET_VAL["ERROR_COUNT"]}

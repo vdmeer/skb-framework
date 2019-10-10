@@ -30,11 +30,7 @@
 
 
 function Repeat() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local id errno i count number wait arguments="" width padding lineLength char
     # doExtras time tsStart tsEnd execTime runtime bcalc
@@ -46,21 +42,19 @@ function Repeat() {
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
                 application-execution)
-                    if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E802 3 "$#"; return; fi
+                    if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 3 "$#"; return; fi
                     number="${1}"; wait="${2}"; id="${3}"; shift 3
                     case ${number} in '' | *[!0-9.]* | '.' | *.*.*) Report process error "${FUNCNAME[0]}" "${cmdString2}" E829 repeat repetitions "${number}"; return ;; esac
                     case ${wait}   in '' | *[!0-9.]* | '.' | *.*.*) Report process error "${FUNCNAME[0]}" "${cmdString2}" E829 repeat wait "${wait}"; return ;; esac
-                    Test existing ${cmd1} id ${id}; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    ;;
+                    Test existing ${cmd1} id ${id}; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
 
                 scenario-execution | task-execution)
-                    if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E802 3 "$#"; return; fi
+                    if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 3 "$#"; return; fi
                     number="${1}"; wait="${2}"; id="${3}"; shift 3; arguments="${@}"
                     case ${number} in '' | *[!0-9.]* | '.' | *.*.*) Report process error "${FUNCNAME[0]}" "${cmdString2}" E829 repeat repetitions "${number}"; return ;; esac
                     case ${wait}   in '' | *[!0-9.]* | '.' | *.*.*) Report process error "${FUNCNAME[0]}" "${cmdString2}" E829 repeat wait "${wait}"; return ;; esac
                     Test existing ${cmd1} id ${id}; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    FW_EXEC_SCENARIO_DOEXTRAS=no
-                    FW_EXEC_TASK_DOEXTRAS=no
+                    Deactivate show execution2
 
                     width=$(( $(tput cols) - 2 ))
                     lineLength=$(( 1 + 4 + ${#FW_OBJECT_TIM_VAL["repeatSepLeftChar"]} + ${#FW_OBJECT_TIM_VAL["repeatSepRightChar"]} + ${#cmd1} + ${#number} + ${#FW_OBJECT_TIM_VAL["repeatTextSepStr"]} + ${#id} + ${#arguments} + 11 ))
@@ -83,7 +77,7 @@ function Repeat() {
                         sleep ${wait}
                         printf "\n"
                     done
-                    unset FW_EXEC_SCENARIO_DOEXTRAS FW_EXEC_TASK_DOEXTRAS ;;
+                    Activate show execution2 ;;
 
                 *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;

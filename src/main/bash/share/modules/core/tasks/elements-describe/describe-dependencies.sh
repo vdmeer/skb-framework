@@ -132,5 +132,3 @@ fi
 ##
 ############################################################################################
 Print dependency descriptions "${arr}"
-
-exit ${FW_OBJECT_SET_VAL["ERROR_COUNT"]}

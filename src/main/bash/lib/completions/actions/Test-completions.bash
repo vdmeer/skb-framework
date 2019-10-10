@@ -32,24 +32,24 @@
 function __skb_Test_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Test)           retval="command configuration format level"
+        Test)           retval="command"
                         retval+=" existing used"
-                        retval+=" current dir element error file fs known log print strict warning yesno"
-                        ;;
+                        retval+=" dir element file fs integer known log print yesno" ;;
 
-        existing)       retval="exitcode action element instance object"
+        existing)       retval="exitcode"
+                        retval+=" action element instance object component"
                         retval+=" clioption configuration format level message mode phase setting theme themeitem"
-                        retval+=" application dependency module option parameter project scenario site task"
-                        retval+=" file filelist dir dirlist" ;;
+                        retval+=" application dependency dirlist dir filelist file module option parameter project scenario site task" ;;
         used)           retval="clioption configuration format level message mode phase setting theme themeitem"
-                        retval+=" application dependency module option parameter project scenario site task"
-                        retval+=" file filelist dir dirlist" ;;
+                        retval+=" application dependency dirlist dir filelist file module option parameter project scenario site task" ;;
 
         exitcode)       retval="id" ;;
+
         instance)       retval="id" ;;
         object)         retval="id" ;;
         element)        if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "existing" ]]; then retval="id"; else retval="status"; fi ;;
         action)         retval="id" ;;
+        component)      retval="id" ;;
 
         clioption)      if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "existing" ]]; then retval="id";
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "used" ]]; then retval="long-id short-id"; fi ;;
@@ -93,13 +93,9 @@ function __skb_Test_completions(){
         can)            retval="read write create delete"
                         if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "file" ]]; then retval+=" execute"; fi ;;
 
-        current)        retval="mode phase theme" ;;
-        error)          retval="count" ;;
         known)          retval="module" ;;
         log)            retval="format level" ;;
         print)          retval="format level" ;;
-        strict)         retval="mode" ;;
-        warning)        retval="count" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

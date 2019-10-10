@@ -35,7 +35,7 @@ source ${SF_HOME}/lib/task-runtime.sh
 Clioptions add option table; Clioptions add option show-values; Clioptions add option with-legend; Clioptions add option without-status; Clioptions add option without-extras
 
 Clioptions add option filter-exitop
-Clioptions add option filter-runtop
+Clioptions add option filter-runop
 
 Parse cli "Options Filters" $*
 
@@ -81,5 +81,3 @@ if [[ "${FW_INSTANCE_CLI_SET["table"]}" == "no" ]]; then
 else
     Print categorized option table ${filters}
 fi
-
-exit ${FW_OBJECT_SET_VAL["ERROR_COUNT"]}

@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Add - API declarations
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.6
+## @since      0.0.6
+##
+
+
+FW_API["Add%fast%config"]="writes the fast runtime configuration file"
+
+FW_API["Add%element%module%@ID@%@ACRONYM@%@PATH@%@DESCRIPTION@"]="adds module ID with ACRONYM, PATH, and DESCRIPTION"
+
+FW_API["Add%element%option%@LONG@%@SHORT@%@ARG@%@DESCRIPTION@%@CAEGORY@"]="adds option LONG with SHORT, ARG, DESCRIPTION, and CATEGORY"
+
+
+## Add element x ID(1) to(2) module(3) with(4) 5...
+FW_API["Add%element%application%@ID@%to%module%with%@COMMAND@%@ARGNUM@%@ARGS@%@DESCRIPTION@"]="adds application ID with properties: COMMAND, ARGNUM, ARGS, DESCRIPTION"
+FW_API["Add%element%dependency%@ID@%to%module%with%@COMMAND@%@DESCRIPTION@"]="adds dependency ID with properties: COMMAND, DESCRIPTION"
+FW_API["Add%element%dirlist%@ID@%to%module%with%@MOD@%@VALUE@%@DESCRIPTION@"]="adds directory list ID with properties: MOD (rwxcd), VALUE (list), DESCRIPTION"
+FW_API["Add%element%dir%@ID@%to%module%with%@MOD@%@VALUE@%@DESCRIPTION@"]="adds directory ID with properties: MOD (rwxcd), VALUE (directory), DESCRIPTION"
+FW_API["Add%element%filelist%@ID@%to%module%with%@MOD@%@VALUE@%@DESCRIPTION@"]="adds file list ID with properties: MOD (rwxcd), VALUE (list), DESCRIPTION"
+FW_API["Add%element%file%@ID@%to%module%with%@MOD@%@VALUE@%@DESCRIPTION@"]="adds file ID with properties: MOD (rwxcd), VALUE (file), DESCRIPTION"
+FW_API["Add%element%parameter%@ID@%to%module%with%@DEFVAL@%@DESCRIPTION@"]="adds parameter ID with properties: DEFVAL (default value), DESCRIPTION"
+FW_API["Add%element%project%@ID@%to%module%with%@MODE@%@PATH@%@FILE@%@TARGETS@%@EXEX@%@DESCRIPTION@"]="adds project ID with properties: MODE, PATH, FILE, TARGETS, EXEX, DESCRIPTION"
+FW_API["Add%element%scenario%@ID@%to%module%with%@MODE@%@PATH@%@EXEX@%@DESCRIPTION@"]="adds scenario ID with properties: MODE, PATH, EXEX, DESCRIPTION"
+FW_API["Add%element%site%@ID@%to%module%with%@PATH@%@FILE@%@EXEX@%@DESCRIPTION@"]="adds site ID with properties: PATH, FILE, EXEX, DESCRIPTION"
+FW_API["Add%element%task%@ID@%to%module%with%@MODE@%@PATH@%@EXEX@%@DESCRIPTION@"]="adds task ID with properties: MODE, PATH, EXEX, DESCRIPTION"
+
+
+
+## Add requirement for [module|dependency](1) ID(2) as(3) [module|dependency](4) ID(5)
+FW_API["Add%element%requirement%for%dependency%@ID@%as%dependency%@REQID@"]="adds a required dependency REQID to dependency ID"
+FW_API["Add%element%requirement%for%module%@ID@%as%module%@REQID@"]="adds a required module REQID to module ID"
+
+
+
+## Add required [app|dep|par|tsk|file|filelist|dir|dirlist] ID(1) to [prj|scn|sit|task] ID(4)
+FW_API["Add%required%application%@ID@%to%project%@PRJ@"]="adds required application ID to project PRJ"
+FW_API["Add%required%application%@ID@%to%scenario%@SCN@"]="adds required application ID to scenario SCN"
+FW_API["Add%required%application%@ID@%to%site%@SIT@"]="adds required application ID to site SIT"
+FW_API["Add%required%application%@ID@%to%task%@TSK@"]="adds required application ID to task TSK"
+
+FW_API["Add%required%dependency%@ID@%to%project%@PRJ@"]="adds required dependency ID to project PRJ"
+FW_API["Add%required%dependency%@ID@%to%scenario%@SCN@"]="adds required dependency ID to scenario SCN"
+FW_API["Add%required%dependency%@ID@%to%site%@SIT@"]="adds required dependency ID to site SIT"
+FW_API["Add%required%dependency%@ID@%to%task%@TSK@"]="adds required dependency ID to task TSK"
+
+FW_API["Add%required%parameter%@ID@%to%project%@PRJ@"]="adds required parameter ID to project PRJ"
+FW_API["Add%required%parameter%@ID@%to%scenario%@SCN@"]="adds required parameter ID to scenario SCN"
+FW_API["Add%required%parameter%@ID@%to%site%@SIT@"]="adds required parameter ID to site SIT"
+FW_API["Add%required%parameter%@ID@%to%task%@TSK@"]="adds required parameter ID to task TSK"
+
+FW_API["Add%required%task%@ID@%to%project%@PRJ@"]="adds required task ID to project PRJ"
+FW_API["Add%required%task%@ID@%to%scenario%@SCN@"]="adds required task ID to scenario SCN"
+FW_API["Add%required%task%@ID@%to%site%@SIT@"]="adds required task ID to site SIT"
+FW_API["Add%required%task%@ID@%to%task%@TSK@"]="adds required task ID to task TSK"
+
+FW_API["Add%required%file%@ID@%to%project%@PRJ@"]="adds required file ID to project PRJ"
+FW_API["Add%required%file%@ID@%to%scenario%@SCN@"]="adds required file ID to scenario SCN"
+FW_API["Add%required%file%@ID@%to%site%@SIT@"]="adds required file ID to site SIT"
+FW_API["Add%required%file%@ID@%to%task%@TSK@"]="adds required file ID to task TSK"
+
+FW_API["Add%required%filelist%@ID@%to%project%@PRJ@"]="adds required file list ID to project PRJ"
+FW_API["Add%required%filelist%@ID@%to%scenario%@SCN@"]="adds required file list ID to scenario SCN"
+FW_API["Add%required%filelist%@ID@%to%site%@SIT@"]="adds required file list ID to site SIT"
+FW_API["Add%required%filelist%@ID@%to%task%@TSK@"]="adds required file list ID to task TSK"
+
+FW_API["Add%required%dir%@ID@%to%project%@PRJ@"]="adds required directory ID to project PRJ"
+FW_API["Add%required%dir%@ID@%to%scenario%@SCN@"]="adds required directory ID to scenario SCN"
+FW_API["Add%required%dir%@ID@%to%site%@SIT@"]="adds required directory ID to site SIT"
+FW_API["Add%required%dir%@ID@%to%task%@TSK@"]="adds required directory ID to task TSK"
+
+
+FW_API["Add%required%dirlist%@ID@%to%project%@PRJ@"]="adds required directory list ID to project PRJ"
+FW_API["Add%required%dirlist%@ID@%to%scenario%@SCN@"]="adds required directory list ID to scenario SCN"
+FW_API["Add%required%dirlist%@ID@%to%site%@SIT@"]="adds required directory list ID to site SIT"
+FW_API["Add%required%dirlist%@ID@%to%task%@TSK@"]="adds required directory list ID to task TSK"
+
+
+
+FW_API["Add%object%configuration%@ID@%@VALUE@%@DESCRIPTION@"]="adds configuration ID (all upper case) with properties: VALUE, DESCRIPTION"
+FW_API["Add%object%format%@ID@%@PATH@%@DESCRIPTION@"]="adds format ID (all lower case) with property: PATH, DESCRIPTION"
+FW_API["Add%object%level%@ID@%@CHAR_ABBR@%@THM_STR@%@PATH@%@DESCRIPTION@"]="adds level ID (all lower case) with properties: CHAR_ABBR, THM_STR, PATH, DESCRIPTION"
+FW_API["Add%object%message%@ID@%@ARG_NUM@%@TEXT@%@CATEGORY@%@PATH@%@DESCRIPTION@"]="adds message ID (first character upper case) with properties: ARG_NUM, TEXT, CATEGORY, PATH, DESCRIPTION"
+FW_API["Add%object%mode%@ID@%@PATH@%@DESCRIPTION@"]="adds mode ID (all lower case) with properties: PATH, DESCRIPTION"
+FW_API["Add%object%phase%@ID@%@PATH@%@DESCRIPTION@"]="adds phase ID with properties: PATH, DESCRIPTION"
+FW_API["Add%object%setting%@ID@%@VALUE@%@DESCRIPTION@"]="adds settings ID (all upper case) with properties: VALUE, DESCRIPTION"
+FW_API["Add%object%theme%@ID@%@PATH@%@DESCRIPTION@"]="adds theme ID with properties: PATH, DESCRIPTION"
+FW_API["Add%object%themeitem%@ID@%@DESCRIPTION@"]="adds theme item ID with property: DESCRIPTION"
+

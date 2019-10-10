@@ -33,10 +33,10 @@ function __skb_Print_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
         Print)          retval="categorized framework test"
-                        retval+=" exitcode"
-                        retval+=" clioption configuration format level message mode phase setting theme themeitem"
+                        retval+=" exitcode clioption"
+                        retval+=" configuration format level message mode phase setting theme themeitem"
                         retval+=" application dependency dirlist dir filelist file module option parameter project scenario site task"
-                        retval+=" action element instance object" ;;
+                        retval+=" action element instance object operation" ;;
 
         categorized)    retval="message option" ;;
         framework)      retval="help version" ;;
@@ -44,7 +44,7 @@ function __skb_Print_completions(){
 
         application)    retval="table descriptions list" ;;
         clioption)      retval="table list" ;;
-        configuration)  retval="list table" ;;
+        configuration)  retval="table list" ;;
         dependency)     retval="table descriptions list" ;;
         dirlist)        retval="table descriptions list" ;;
         dir)            retval="table descriptions list" ;;
@@ -71,10 +71,17 @@ function __skb_Print_completions(){
         element)        retval="table descriptions list" ;;
         instance)       retval="table descriptions list" ;;
         object)         retval="table descriptions list" ;;
+        operation)      retval="table list" ;;
 
         table)          if [[ "${COMP_WORDS[COMP_CWORD-3]}" == "categorized" ]]; then retval="Exit+Options Runtime+Options"; else
                             retval="show-values with-legend without-status without-extras"
                             case "$COMP_LINE" in
+                                "Print exitcode table "* )  retval="without-status" ;;
+                                "Print action table "* )    retval="without-status" ;;
+                                "Print element table "* )   retval="without-status" ;;
+                                "Print instance table "* )  retval="without-status" ;;
+                                "Print object table "* )    retval="without-status" ;;
+                                "Print operation table "* ) retval="without-status" ;;
                                 "Print parameter table "* ) retval+=" show-defvalues" ;;
                             esac
                         fi ;;
@@ -82,7 +89,8 @@ function __skb_Print_completions(){
         *)  case "$COMP_LINE" in
                 "Print application table "* | "Print configuration table "* | "Print dependency table "* | "Print dir table "* | "Print dirlist table "* | "Print file table "* | "Print filelist table "* | \
                 "Print format table "* | "Print level table "* | "Print message table "* | "Print mode table "* | "Print module table "* | "Print option table "* | "Print parameter table "* | "Print phase table "* | "Print project table "* | \
-                "Print scenario table "* | "Print setting table "* | "Print site table "* | "Print task table "* | "Print theme table "* | "Print themeitem table "*)
+                "Print scenario table "* | "Print setting table "* | "Print site table "* | "Print task table "* | "Print theme table "* | "Print themeitem table "* | \
+                "Print clioption table "* | "Print exitcode table "*)
                     retval="show-values with-legend without-status without-extras"
                     case "$COMP_LINE" in
                         "Print parameter table "* ) retval+=" show-defvalues" ;;
@@ -96,7 +104,8 @@ function __skb_Print_completions(){
                     esac ;;
                 "Print application list "* | "Print configuration list "* | "Print dependency list "* | "Print dir list "* | "Print dirlist list "* | "Print file list "* | "Print filelist list "* | \
                 "Print format list "* | "Print level list "* | "Print message list "* | "Print mode list "* | "Print module list "* | "Print option list "* | "Print parameter list "* | "Print phase list "* | "Print project list "* | \
-                "Print scenario list "* | "Print setting list "* | "Print site list "* | "Print task list "* | "Print theme list "* | "Print themeitem list "*)
+                "Print scenario list "* | "Print setting list "* | "Print site list "* | "Print task list "* | "Print theme list "* | "Print themeitem list "* | \
+                "Print clioption list "*)
                     retval="show-values"
                     case "$COMP_LINE" in
                         "Print parameter list "* ) retval+=" show-defvalues" ;;

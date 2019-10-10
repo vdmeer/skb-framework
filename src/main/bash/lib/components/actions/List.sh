@@ -33,13 +33,9 @@
 
 
 function List() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local keys id category format longest showValues="" arr command dir
+    local keys id componentClass category format longest showValues="" arr command dir
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
@@ -47,32 +43,38 @@ function List() {
             dir="${FW_OBJECT_SET_VAL["LOG_DIR"]}"
             if [[ -d "${dir}" ]]; then printf "\nLog directory: ${dir}\n\n$(ls -l "${dir}")\n"; else Report process error "${FUNCNAME[0]}" "${cmd1}" E852 "${dir}"; fi ;;
 
-        exitcodes | \
-        clioptions | configurations | formats | levels | messages | modes | phases | settings | themes | themeitems | tasks | \
+        clioptions | exitcodes | \
+        configurations | formats | levels | messages | modes | phases | settings | themes | themeitems | \
         applications | dependencies | dirlists | dirs | filelists | files | modules | options | parameters | projects | scenarios | sites | tasks | \
-        actions | elements | instances | objects )
+        actions | elements | instances | objects | operations)
+            case ${cmd1} in
+                dependency)     componentClass="Dependencies" ;;
+                *)              componentClass="${cmd1^}" ;;
+            esac
             case "${1:-}" in
                 "show-values")  showValues="show-values" ;;
             esac
             case ${cmd1} in
                 actions | elements | instances | objects)
                     arr="$(Framework has ${cmd1})" ;;
+                operations)
+                    arr="${!FW_API[@]}" ;;
                 *)
                     arr="$(${cmd1^} has)" ;;
             esac
             printf "\n  "
-            Format themed text listHeadFmt "${FW_COMPONENTS_TITLE_LONG_PLURAL["${cmd1}"]}"
+            Format themed text listHeadFmt "${FW_COMPONENTS_TITLE_LONG_PLURAL["${componentClass}"]}"
             printf "\n"
-            Print ${FW_COMPONENTS_SINGULAR["${cmd1}"]} list "${arr}" ${showValues} ;;
-
+            Print ${FW_COMPONENTS_SINGULAR["${componentClass}"]} list "${arr}" ${showValues} ;;
 
         framework | categorized)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
+
                 framework-cache)
-                    dir="${FW_OBJECT_SET_VAL["LOG_DIR"]}"
-                    if [[ -d "${dir}" ]]; then printf "\n"Log directory: ${dir}"\n\n$(ls -l "${dir}")\n"; else Report process error "${FUNCNAME[0]}" "${cmdString2}" E852 "${dir}"; fi ;;
+                    dir="${FW_OBJECT_CFG_VAL["CACHE_DIR"]}"
+                    if [[ -d "${dir}" ]]; then printf "\nCache directory: ${dir}\n\n$(ls -l "${dir}")\n"; else Report process error "${FUNCNAME[0]}" "${cmdString2}" E852 "${dir}"; fi ;;
 
                 categorized-clioptions | categorized-options)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi

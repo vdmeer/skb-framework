@@ -32,7 +32,13 @@
 function __skb_Explain_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Explain)    retval="$(Framework has actions) $(Framework has elements) $(Framework has instances) $(Framework has objects)" ;;
+        Explain)    retval="action element instance object component" ;;
+
+        action)     retval="$(Framework has actions)" ;;
+        element)    retval="$(Framework has elements)" ;;
+        instance)   retval="$(Framework has instances)" ;;
+        object)     retval="$(Framework has objects)" ;;
+        component)  retval="$(Framework has actions) $(Framework has elements) $(Framework has instances) $(Framework has objects)" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

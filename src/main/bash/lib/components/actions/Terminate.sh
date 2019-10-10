@@ -30,12 +30,7 @@
 
 
 function Terminate() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-        Format help indentation 2; Format themed text explainComponentFmt "${FUNCNAME[0]}"; printf " "; Format themed text explainOperationFmt "framework"; printf " "; Format themed text explainArgFmt "[INTEGER]"; printf "\n"
-            Format help indentation 3; Format themed text explainTextFmt "does cleanup and terminates framework using exit code 0 or given INTEGER"; printf "\n"
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in

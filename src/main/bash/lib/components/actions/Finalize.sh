@@ -30,11 +30,7 @@
 
 
 function Finalize() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local id errno phase appName2
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
@@ -54,12 +50,12 @@ function Finalize() {
 
                     Load runtime
                     FW_OBJECT_SET_VAL["AUTO_WRITE"]="false"
-                    Set current phase ${phase}
+                    Set current phase to ${phase}
                     FW_OBJECT_SET_VAL["APP_NAME2"]="${appName2}"
                     FW_OBJECT_SET_VAL["CURRENT_${cmd1^^}"]=""
                     FW_OBJECT_SET_VAL["PRINT_FORMAT2"]=""
                     FW_OBJECT_SET_VAL["LAST_${cmd1^^}"]="${id}"
-                    Set auto write true ;;
+                    Activate auto write ;;
 
                 *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;

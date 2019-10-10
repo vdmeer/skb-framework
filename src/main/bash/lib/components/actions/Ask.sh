@@ -30,11 +30,7 @@
 
 
 function Ask() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local id errno mode
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
@@ -44,8 +40,8 @@ function Ask() {
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
 
-                has-warnings?)          if (( ${FW_OBJECT_SET_VAL["WARNING_COUNT"]} > 0 )); then printf yes; else printf no; fi ;;
-                has-errors?)            if (( ${FW_OBJECT_SET_VAL["ERROR_COUNT"]} > 0 ));   then printf yes; else printf no; fi ;;
+                has-warnings?)  if (( ${FW_OBJECT_SET_VAL["WARNING_COUNT"]} > 0 )); then printf yes; else printf no; fi ;;
+                has-errors?)    if (( ${FW_OBJECT_SET_VAL["ERROR_COUNT"]} > 0 ));   then printf yes; else printf no; fi ;;
 
                 print-level?)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi

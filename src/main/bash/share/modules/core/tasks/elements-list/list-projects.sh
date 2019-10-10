@@ -54,7 +54,7 @@ status=""
 tested=""
 
 if [[ "${FW_INSTANCE_CLI_SET["mode"]}" == "yes" ]]; then
-    Test current mode "${FW_INSTANCE_CLI_VAL["mode"]}"
+    Test existing mode id "${FW_INSTANCE_CLI_VAL["mode"]}"
     mode="${FW_INSTANCE_CLI_VAL["mode"]}"
 fi
 if [[ "${FW_INSTANCE_CLI_SET["origin"]}" == "yes" ]]; then
@@ -144,5 +144,3 @@ if [[ "${FW_INSTANCE_CLI_SET["table"]}" == "no" ]]; then
 else
     Print project table "${arr}" ${showValues} ${withLegend} ${withoutStatus} ${withoutExtras}
 fi
-
-exit ${FW_OBJECT_SET_VAL["ERROR_COUNT"]}

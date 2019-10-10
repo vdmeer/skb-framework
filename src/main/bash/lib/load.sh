@@ -124,7 +124,7 @@ source ${SF_HOME}/lib/load/02-settings.sh
 
 
 if [[ -n "${SF_DEBUG:-}" ]]; then printf "[debug-load] change to phase mode\n"; fi
-Set current phase Load
+Set current phase to Load
 
 
 if [[ -n "${SF_DEBUG:-}" ]]; then printf "[debug-load] load modules: API, Core\n"; fi
@@ -141,7 +141,7 @@ source ${SF_HOME}/lib/load/05-env.sh
 
 if [[ -n "${SF_DEBUG:-}" ]]; then printf "[debug-load] verify\n"; fi
 Verify everything
-Set current phase Load
+Set current phase to Load
 
 
 Report process message "framework loaded"
@@ -162,7 +162,8 @@ source ${SF_HOME}/lib/runtime.sh
 
 
 if [[ -n "${SF_DEBUG:-}" ]]; then printf "[debug-load] last settings\n"; fi
+source ${SF_HOME}/lib/api/api.sh
 Report process message "framework started, ready to go"
-Set current phase Shell
+Set current phase to Shell
 FW_OBJECT_SET_VAL["AUTO_VERIFY"]=true
-Set auto write true
+Activate auto write

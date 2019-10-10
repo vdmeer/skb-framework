@@ -29,8 +29,8 @@
 ##
 
 
-Add Object Mode all             "${SF_HOME}/lib/text/modes" "all modes are active"
-Add Object Mode test            "${SF_HOME}/lib/text/modes" "mode for testing framework and modules"
-Add Object Mode dev             "${SF_HOME}/lib/text/modes" "mode for development tasks"
-Add Object Mode build           "${SF_HOME}/lib/text/modes" "mode for build tasks"
-Add Object Mode use             "${SF_HOME}/lib/text/modes" "mode for use tasks"
+Add object mode all             "${SF_HOME}/lib/text/modes" "all modes are active"
+Add object mode test            "${SF_HOME}/lib/text/modes" "mode for testing framework and modules"
+Add object mode dev             "${SF_HOME}/lib/text/modes" "mode for development tasks"
+Add object mode build           "${SF_HOME}/lib/text/modes" "mode for build tasks"
+Add object mode use             "${SF_HOME}/lib/text/modes" "mode for use tasks"

@@ -39,7 +39,7 @@ function __skb_Clioptions_completions(){
         option)     if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "add" ]]; then
                         retval="help format describe table show-values with-legend without-extras without-status"
                         retval+=" filter-id filter-mode filter-origin filter-requested filter-status filter-tested filter-not-core"
-                        retval+=" filter-exitop filter-runtop"
+                        retval+=" filter-exitop filter-runop"
                         retval+=" task-none-all task-none-build task-none-debug task-none-describe task-none-list task-none-dl task-none-dll"
                         retval+=" task-only-build task-only-debug task-only-describe task-only-list"
                         retval+=" target-all"

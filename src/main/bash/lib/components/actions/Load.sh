@@ -30,11 +30,7 @@
 
 
 function Load() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local id errno file path doWriteRT=false themeId envKey
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
@@ -52,7 +48,7 @@ function Load() {
             unset -v FW_MODULE_PATH
             Reload task completions
             if [[ "${FW_OBJECT_SET_VAL["AUTO_VERIFY"]}" != false ]]; then Verify everything; fi
-            Set auto write true
+            Activate auto write
             Write slow config ;;
 
         runtime)
@@ -63,8 +59,7 @@ function Load() {
 
         theme)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
-            id="${1}"
-            Test existing theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+            id="${1}"; Test existing theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             if [[ "${id}" != "API" ]]; then
                 Tablechars clear all
                 FW_CURRENT_THEME_NAME="${id}"
@@ -75,13 +70,13 @@ function Load() {
                     FW_OBJECT_SET_VAL["AUTO_WRITE"]=false
                     source "${path}/${id}.thm"
                 fi
-                if [[ "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" != "Load" ]]; then Write slow config; Set auto write true; fi
+                if [[ "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" != "Load" ]]; then Write slow config; Activate auto write; fi
                 unset FW_CURRENT_THEME_NAME
             else
                 Report process error "${FUNCNAME[0]}" "${cmd1}" E828 "theme" "loaded"
             fi ;;
 
-        all | framework | settings | task)
+        all | settings)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
@@ -110,7 +105,7 @@ function Load() {
                             if [[ "${FW_OBJECT_SET_VAL["AUTO_VERIFY"]:-false}" != false ]]; then Verify everything; fi ;;
 
                         settings-from-environment)
-                            envKey=SF_APP_NAME; if [[ ! -z "${!envKey:-}" ]]; then Set app name "${!envKey}"; fi
+                            envKey=SF_APP_NAME; if [[ ! -z "${!envKey:-}" ]]; then Set app name to "${!envKey}"; fi
                             for id in ${!FW_ELEMENT_DLS_LONG[@]}; do envKey="${id//-/_}"; envKey="SF_DIRLIST_${envKey^^}";  if [[ ! -z "${!envKey:-}" ]]; then FW_ELEMENT_DLS_VAL[${id}]="${!envKey}"; fi; done
                             for id in ${!FW_ELEMENT_DIR_LONG[@]}; do envKey="${id//-/_}"; envKey="SF_DIR_${envKey^^}";      if [[ ! -z "${!envKey:-}" ]]; then FW_ELEMENT_DIR_VAL[${id}]="${!envKey}"; fi; done
                             for id in ${!FW_ELEMENT_FLS_LONG[@]}; do envKey="${id//-/_}"; envKey="SF_FILELIST_${envKey^^}"; if [[ ! -z "${!envKey:-}" ]]; then FW_ELEMENT_FLS_VAL[${id}]="${!envKey}"; fi; done

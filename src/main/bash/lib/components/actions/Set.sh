@@ -30,365 +30,213 @@
 
 
 function Set() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local idForPhase="" id property object entry value sourcePhase program errno doWriteFast=false doWriteSlow=false doVerify=false
+    local id property level object entry value program errno doWriteFast=false doWriteSlow=false doVerify=false
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
-        value)
-            ## Set value for XXX to YYY
-            if [[ "${#}" -lt 4 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 4 "$#"; return; fi
-            cmd2=${1,,}; cmd3=${3,,}; id=${2}; value=${4}
-            case ${cmd2} in
-                for)
-                    Test existing setting id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    case ${cmd3} in
-                        to) object=${id,,}; entry=${object##*_}; object=${object%%_*}
-                            case ${object}-${entry} in
-                                auto-verify | auto-write | config-file | current-mode | current-phase | current-theme | current-project | current-scenario | current-site | current-task | last-project | last-scenario | last-site | last-task | error-count | log-date-arg | log-dir | log-file | log-format | log-level | print-format | print-format2 | print-level | strict-mode | warning-count) Set ${object} ${entry} "${value}" ;;
-                                *) FW_OBJECT_SET_VAL["${id}"]="${value}"; idForPhase=${id}
-                                   doWriteFast=true ;;
-                            esac ;;
-                        *)  Report process error "${FUNCNAME[0]}" "${cmd1} ${cmd2} ${id} ${cmd3}" E803 "${cmd3}"; return ;;
-                    esac ;;
-                *)  Report process error "${FUNCNAME[0]}" "${cmd1} ${cmd2}" E803 "${cmd2}"; return ;;
-            esac ;;
 
-        phase)
-            if [[ "${#}" -lt 4 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 4 "$#"; return; fi
-            id="${1}"; cmd2="${2:-}"; cmd3="${3:-}"; value="${4}"; property="${cmd2}-${cmd3}"
-            Test existing phase id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            case "${cmd2}-${cmd3}" in
-                log-level)
-                    object="${value##*+}"; object="${object##*-}"; errno=0
-                    if [[ "${value}" != "all" && "${value}" != "none" ]]; then Test ${cmd2} ${cmd3} "${object}"; errno=$?; fi
-                    if [[ "${errno}" == 0 ]]; then
-                        if [[ "${value}" == "all" ]]; then
-                            FW_OBJECT_PHA_LOG_LVL[${id}]=" fatal error text message warning info debug trace "
-                        elif [[ "${value}" == "none" ]]; then
-                            FW_OBJECT_PHA_LOG_LVL[${id}]=" "
-                        elif [[ "${value:0:1}" == "+" ]]; then
-                            FW_OBJECT_PHA_LOG_LVL[${id}]="${FW_OBJECT_PHA_LOG_LVL[${id}]}${object} "
-                        elif [[ "${value:0:1}" == "-" ]]; then
-                            FW_OBJECT_PHA_LOG_LVL[${id}]=${FW_OBJECT_PHA_LOG_LVL[${id}]/"${object} "/}
-                        else
-                            case ${value} in
-                                fatalerror) FW_OBJECT_PHA_LOG_LVL[${id}]=" fatalerror " ;;
-                                error)      FW_OBJECT_PHA_LOG_LVL[${id}]=" fatal error " ;;
-                                text)       FW_OBJECT_PHA_LOG_LVL[${id}]=" fatal error text " ;;
-                                message)    FW_OBJECT_PHA_LOG_LVL[${id}]=" fatal error text message " ;;
-                                warning)    FW_OBJECT_PHA_LOG_LVL[${id}]=" fatal error text message warning " ;;
-                                info)       FW_OBJECT_PHA_LOG_LVL[${id}]=" fatal error text message warning info " ;;
-                                debug)      FW_OBJECT_PHA_LOG_LVL[${id}]=" fatal error text message warning info debug " ;;
-                                trace)      FW_OBJECT_PHA_LOG_LVL[${id}]=" fatal error text message warning info debug trace " ;;
-                            esac
-                        fi
-                        doWriteFast=true
-                    else
-                        return
-                    fi ;;
-                print-level)
-                    object="${value##*+}"; object="${object##*-}"; errno=0
-                    if [[ "${value}" != "all" && "${value}" != "none" ]]; then Test ${cmd2} ${cmd3} "${object}"; errno=$?; fi
-                    if [[ "${errno}" == 0 ]]; then
-                        if [[ "${value}" == "all" ]]; then
-                            FW_OBJECT_PHA_PRT_LVL[${id}]=" fatal error text message warning info debug trace "
-                        elif [[ "${value}" == "none" ]]; then
-                            FW_OBJECT_PHA_PRT_LVL[${id}]=" "
-                        elif [[ "${value:0:1}" == "+" ]]; then
-                            FW_OBJECT_PHA_PRT_LVL[${id}]="${FW_OBJECT_PHA_PRT_LVL[${id}]}${object} "
-                        elif [[ "${value:0:1}" == "-" ]]; then
-                            FW_OBJECT_PHA_PRT_LVL[${id}]=${FW_OBJECT_PHA_PRT_LVL[${id}]/"${object} "/}
-                        else
-                            case ${value} in
-                                fatalerror) FW_OBJECT_PHA_PRT_LVL[${id}]=" fatalerror " ;;
-                                error)      FW_OBJECT_PHA_PRT_LVL[${id}]=" fatal error " ;;
-                                text)       FW_OBJECT_PHA_PRT_LVL[${id}]=" fatal error text " ;;
-                                message)    FW_OBJECT_PHA_PRT_LVL[${id}]=" fatal error text message " ;;
-                                warning)    FW_OBJECT_PHA_PRT_LVL[${id}]=" fatal error text message warning " ;;
-                                info)       FW_OBJECT_PHA_PRT_LVL[${id}]=" fatal error text message warning info " ;;
-                                debug)      FW_OBJECT_PHA_PRT_LVL[${id}]=" fatal error text message warning info debug " ;;
-                                trace)      FW_OBJECT_PHA_PRT_LVL[${id}]=" fatal error text message warning info debug trace " ;;
-                            esac
-                        fi
-                        doWriteFast=true
-                    else
-                        return
-                    fi ;;
-                error-count)
-                    Test error count "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    if [[ "${value:0:1}" == "+" ]]; then FW_OBJECT_PHA_ERRCNT[${id}]=$(( FW_OBJECT_PHA_ERRCNT[${id}] + ${value} )); else FW_OBJECT_PHA_ERRCNT[${id}]="${value}"; fi
-                    doWriteFast=true ;;
-                warning-count)
-                    Test warning count "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    if [[ "${value:0:1}" == "+" ]]; then FW_OBJECT_PHA_WRNCNT[${id}]=$(( FW_OBJECT_PHA_WRNCNT[${id}] + ${value} )); else FW_OBJECT_PHA_WRNCNT[${id}]="${value}"; fi
-                    doWriteFast=true ;;
-                error-codes)
-                    entry="${value##*+}"
-                    if [[ "${value}" == "" ]]; then
-                        FW_OBJECT_PHA_ERRCOD[${id}]=""
-                    else
-                        Test existing message id "${entry}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                        if [[ "${value}:0:1" == "+" ]]; then
-                            FW_OBJECT_PHA_ERRCOD[${id}]=" ${value}"
-                        else
-                            if [[ "${FW_OBJECT_PHA_ERRCOD[${id}]}" == "" ]]; then
-                                FW_OBJECT_PHA_ERRCOD[${id}]="${value}"
-                            else
-                                FW_OBJECT_PHA_ERRCOD[${id}]+=" ${entry}"
-                            fi
-                        fi
-                        doWriteFast=true
-                    fi ;;
-                *)  Report process error "${FUNCNAME[0]}" "${cmdString1}" E879 "${cmd1}" "${cmd2} ${cmd3}"; return ;;
-            esac
-            ;;
-
-        themeitem)
-            if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 2 "$#"; return; fi
-            id="${1}"; value="${2}"
-            Test existing themeitem id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            FW_OBJECT_TIM_VAL["${id}"]="${value}"
-            FW_OBJECT_TIM_SOURCE["${id}"]="${FW_CURRENT_THEME_NAME:-API}"
-            doWriteSlow=true ;;
-
-        application)
-            if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E802 2 "$#"; return; fi
-            if [[ "${#}" == 2 ]];   then  id="${1}"; program="${2}"
-            elif [[ "${#}" == 4 ]]; then id="${1}"; program="${2}"; property="${3}"; value="${4}"
-            else Report process error "${FUNCNAME[0]}" "${cmdString1}" E802 "2/4" "$#"; return; fi
-            Test existing application id ${id}; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            FW_ELEMENT_APP_COMMAND[${id}]="${program}"
-            FW_ELEMENT_APP_PHA[${id}]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-            if [[ "${#}" == 4 ]]; then
-                FW_ELEMENT_APP_ARGNUM[${id}]="${property}"
-                FW_ELEMENT_APP_ARGS[${id}]="${value}"
-            fi
-            doVerify=true
-            doWriteSlow=true ;;
-
-        file)
-            if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 2 "$#"; return; fi
-            id="${1}"; value="${2}"
-            Test existing file id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            FW_ELEMENT_FIL_VAL["${id}"]="${value}"
-            FW_ELEMENT_FIL_PHA[${id}]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-            doVerify=true
-            doWriteFast=true ;;
-        filelist)
-            if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 2 "$#"; return; fi
-            id="${1}"; value="${2}"
-            object="${value##*+}"; object="${object##*-}";
-            Test existing filelist id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            if [[ "${value:0:1}" == "+" ]]; then
-                FW_ELEMENT_FLS_VAL[${id}]="${FW_ELEMENT_FLS_VAL[${id}]} ${object} "
-            elif [[ "${value:0:1}" == "-" ]]; then
-                FW_ELEMENT_FLS_VAL[${id}]=${FW_ELEMENT_FLS_VAL[${id}]/"${object} "/}
-            else
-                FW_ELEMENT_FLS_VAL[${id}]=" ${value} "
-            fi
-            FW_ELEMENT_FLS_PHA[${id}]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-            doVerify=true
-            doWriteFast=true ;;
-        dir)
-            if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 2 "$#"; return; fi
-            id="${1}"; value="${2}"
-            Test existing dir id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            FW_ELEMENT_DIR_VAL["${id}"]="${value}"
-            FW_ELEMENT_DIR_PHA[${id}]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-            doVerify=true
-            doWriteFast=true ;;
-        dirlist)
-            if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 2 "$#"; return; fi
-            id="${1}"; value="${2}"
-            object="${value##*+}"; object="${object##*-}";
-            Test existing dirlist id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            if [[ "${value:0:1}" == "+" ]]; then
-                FW_ELEMENT_DLS_VAL[${id}]="${FW_ELEMENT_DLS_VAL[${id}]} ${object} "
-            elif [[ "${value:0:1}" == "-" ]]; then
-                FW_ELEMENT_DLS_VAL[${id}]=${FW_ELEMENT_DLS_VAL[${id}]/"${object} "/}
-            else
-                FW_ELEMENT_DLS_VAL[${id}]=" ${value} "
-            fi
-            FW_ELEMENT_DLS_PHA[${id}]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-            doVerify=true
-            doWriteFast=true ;;
-        parameter)
-            if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 2 "$#"; return; fi
-            id="${1}"; value="${2}"
-            FW_ELEMENT_PAR_VAL[${id}]="${value}"
-            FW_ELEMENT_PAR_PHA[${id}]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-            doVerify=true
-            doWriteFast=true ;;
-
-        app | auto | config | current | error | last | log | module | print | strict | warning)
+        app | config | current | last | log | module | print | \
+        element | object)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
 
-                app-name | app-name2)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"; id=${cmd1^^}_${cmd2^^}
-                    FW_OBJECT_SET_VAL["${id}"]="${value}"
-                    idForPhase=${id}
+                object-phase)
+                    ## Set object phase ID [ print-level | log-level ] to [ all | none LEVEL ]
+                    if [[ "${#}" -lt 4 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 4 "$#"; return; fi
+                    if [[ "${3}" != "to" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E803 "${2}"; return; fi
+                    id="${1}"; property="${2}"; level="${4}"; errno=0
+                    Test existing phase id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    if [[ "${level}" != "all" && "${level}" != "none" ]]; then Test existing level id "${level}"; errno=$?; fi; if [[ "${errno}" != 0 ]]; then return; fi
+                    case "${level}" in
+                        none)       value="" ;;
+                        fatalerror) value=" fatalerror " ;;
+                        error)      value=" fatalerror error " ;;
+                        text)       value=" fatalerror error text " ;;
+                        message)    value=" fatalerror error text message " ;;
+                        warning)    value=" fatalerror error text message warning " ;;
+                        info)       value=" fatalerror error text message warning info " ;;
+                        debug)      value=" fatalerror error text message warning info debug " ;;
+                        trace)      value=" fatalerror error text message warning info debug trace " ;;
+                        all)        value=" fatalerror error text message warning info debug trace " ;;
+                    esac
+                    case "${property}" in
+                        print-level)    FW_OBJECT_PHA_PRT_LVL[${id}]="${value}" ;;
+                        log-level)      FW_OBJECT_PHA_LOG_LVL[${id}]="${value}" ;;
+                    esac
                     doWriteFast=true ;;
-
-                auto-verify)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"; id=${cmd1^^}_${cmd2^^}
-                    case "${value}" in
-                        false | true)   FW_OBJECT_SET_VAL[${id}]="${value}"
-                                        idForPhase=${id}
-                                        doWriteFast=true ;;
+                object-setting)
+                    ## Set object setting ID to VAL
+                    if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 3 "$#"; return; fi
+                    if [[ "${2}" != "to" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E803 "${2}"; return; fi
+                    id="${1}"; value="${3}"
+                    Test existing setting id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    object=${id,,}; entry=${object##*_}; object=${object%%_*}
+                    case ${object}-${entry} in
+                        config-file | current-mode | current-phase | current-theme | current-project | current-scenario | current-site | current-task | \
+                        last-project | last-scenario | last-site | last-task | log-date-arg | log-dir | log-file | log-format | log-level | print-format | print-format2 | print-level | module-path)
+                            Set ${object} ${entry} to "${value}" ;;
+                        error-count)    Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E830 setting error ;;
+                        warning-count)  Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E830 setting warning ;;
+                        error-codes)    Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E831 setting ;;
+                        auto-verify | auto-write)   Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E832 setting ${object} ;;
+                        *)              FW_OBJECT_SET_VAL["${id}"]="${value}"; FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"; doWriteFast=true ;;
                     esac ;;
-                auto-write)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"; id=${cmd1^^}_${cmd2^^}
-                    case "${value}" in
-                        false | true)   FW_OBJECT_SET_VAL[${id}]="${value}"
-                                        idForPhase=${id}
-                                        doWriteFast=true ;;
-                    esac ;;
+                object-themeitem)
+                    ## Set object themeitem ID to VAL
+                    if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 3 "$#"; return; fi
+                    if [[ "${2}" != "to" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E803 "${2}"; return; fi
+                    id="${1}"; value="${3}"
+                    Test existing themeitem id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    FW_OBJECT_TIM_VAL["${id}"]="${value}"
+                    FW_OBJECT_TIM_SOURCE["${id}"]="${FW_CURRENT_THEME_NAME:-API}"
+                    doWriteSlow=true ;;
 
-                config-file)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="$(realpath ${1})"; id=${cmd1^^}_${cmd2^^}
-                    Test file exists "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    Test file can read "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    FW_OBJECT_SET_VAL["${id}"]="${value}"
-                    idForPhase=${id}
-                    doWriteFast=true ;;
 
-                current-mode)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"; id=${cmd1^^}_${cmd2^^}
-                    Test current mode "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    FW_OBJECT_SET_VAL["${id}"]="${value}"
-                    idForPhase=${id}
+                element-application)
+                    ## Set element application ID command to COMMAND
+                    ## Set element application ID to COMMAND ARGNUM ARGS
+                    if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E802 2 "$#"; return; fi
+                    property=""; value=""
+                    if [[ "${#}" == 4 ]]; then
+                        id="${1}"; program="${4}"
+                        if [[ "${2}" != "command" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E803 "${2}"; return; fi
+                        if [[ "${3}" != "to" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E803 "${2}"; return; fi
+                    elif [[ "${#}" == 5 ]]; then
+                        id="${1}"; program="${3}"; property="${4}"; value="${5}"
+                        if [[ "${2}" != "to" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E803 "${2}"; return; fi
+                        Test integer "${property}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    else Report process error "${FUNCNAME[0]}" "${cmdString2}" E802 "4/5" "$#"; return; fi
+                    Test existing application id ${id}; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    FW_ELEMENT_APP_COMMAND[${id}]="${program}"
+                    FW_ELEMENT_APP_PHA[${id}]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                    if [[ -n "${property}" ]]; then FW_ELEMENT_APP_ARGNUM[${id}]="${property}"; fi
+                    if [[ -n "${value}" ]]; then FW_ELEMENT_APP_ARGS[${id}]="${value}"; fi
                     doVerify=true
-                    doWriteFast=true ;;
-                current-phase)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"; id=${cmd1^^}_${cmd2^^}
-                    Test current phase "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    FW_OBJECT_SET_VAL["${id}"]="${value}"
-                    object="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                    FW_OBJECT_SET_VAL["PRINT_LEVEL"]="${FW_OBJECT_PHA_PRT_LVL[${object}]}"
-                    FW_OBJECT_SET_VAL["LOG_LEVEL"]="${FW_OBJECT_PHA_LOG_LVL[${object}]}"
-                    FW_OBJECT_SET_VAL["ERROR_COUNT"]="${FW_OBJECT_PHA_ERRCNT[${object}]}"
-                    FW_OBJECT_SET_VAL["WARNING_COUNT"]="${FW_OBJECT_PHA_WRNCNT[${object}]}"
-                    idForPhase=${id}
-                    doWriteFast=true ;;
-                current-theme)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"; id=${cmd1^^}_${cmd2^^}
-                    Test current theme "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    FW_OBJECT_SET_VAL["${id}"]="${value}"
-                    Load theme ${value}
-                    idForPhase=${id}
-                    doWriteFast=true ;;
-
-                current-project | current-scenario | current-site | current-task | last-project | last-scenario | last-site | last-task)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"; id=${cmd1^^}_${cmd2^^}
-                    Test existing ${cmd2} id "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    FW_OBJECT_SET_VAL["${id}"]="${value}"
-                    idForPhase=${id}
-                    doWriteFast=true ;;
+                    doWriteSlow=true ;;
 
 
-                log-format | print-format | print-format2)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"; id=${cmd1^^}_${cmd2^^}
-                    Test ${cmd1} format "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    FW_OBJECT_SET_VAL["${id}"]="${value}"
-                    idForPhase=${id}
-                    doWriteFast=true ;;
-                log-level | print-level)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"; object="${1##*+}"; object="${object##*-}"; id=${cmd1^^}_${cmd2^^}; errno=0
-                    if [[ "${value}" != "all" && "${value}" != "none" ]]; then Test ${cmd1} ${cmd2} "${object}"; errno=$?; fi
-                    if [[ "${errno}" == 0 ]]; then Set phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${cmd1} ${cmd2} ${value}; FW_OBJECT_SET_VAL["${id}"]="$(Get object phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${cmd1} ${cmd2})"; idForPhase=${id}; else return; fi
-                    doWriteFast=true ;;
+                app-name | app-name2 | config-file | current-mode | current-phase | current-theme | \
+                current-project | current-scenario | current-site | current-task | last-project | last-scenario | last-site | last-task | \
+                log-format | print-format | print-format2 | log-level | print-level | log-date-arg | log-dir | log-file | module-path)
+                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} cmd3" E802 1 "$#"; return; fi
+                    cmd3=${1,,}; shift; cmdString3="${cmd1} ${cmd2} ${cmd3}"
+                    case "${cmd1}-${cmd2}-${cmd3}" in
 
-                log-date-arg)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"
-                    FW_OBJECT_SET_VAL["LOG_DATE_ARG"]="${value}"
-                    doWriteFast=true ;;
-                log-dir)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"
-                    FW_OBJECT_SET_VAL["LOG_DIR"]="${value}"
-                    doWriteFast=true ;;
-                log-file)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"
-                    FW_OBJECT_SET_VAL["LOG_FILE"]="${value}"
-                    doWriteFast=true ;;
+                        app-name-to | app-name2-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            value="${1}"; id=${cmd1^^}_${cmd2^^}
+                            FW_OBJECT_SET_VAL["${id}"]="${value}"
+                            FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            doWriteFast=true ;;
 
-                module-path)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"
-                    object="${value##*+}"; object="${object##*-}";
-                    if [[ "${value:0:1}" == "+" ]]; then
-                        FW_OBJECT_SET_VAL["MODULE_PATH"]="${FW_OBJECT_SET_VAL["MODULE_PATH"]} ${object}"
-                    elif [[ "${value:0:1}" == "-" ]]; then
-                        FW_OBJECT_SET_VAL["MODULE_PATH"]=${FW_OBJECT_SET_VAL["MODULE_PATH"]/"${object} "/}
-                    else
-                        FW_OBJECT_SET_VAL["MODULE_PATH"]=" ${value} "
-                    fi
-                    doWriteFast=true ;;
+                        config-file-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            value="$(realpath ${1})"; id=${cmd1^^}_${cmd2^^}
+                            Test file exists "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                            Test file can read "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                            FW_OBJECT_SET_VAL["${id}"]="${value}"
+                            FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            doWriteFast=true ;;
 
-                strict-mode)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"; id=${cmd1^^}_${cmd2^^}
-                    Test ${cmd1} mode "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    FW_OBJECT_SET_VAL["${id}"]="${value}"
-                    idForPhase=${id}
-                    doWriteFast=true ;;
+                        current-mode-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            value="${1}"; id=${cmd1^^}_${cmd2^^}
+                            Test existing mode id "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                            FW_OBJECT_SET_VAL["${id}"]="${value}"
+                            FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            doVerify=true; doWriteFast=true ;;
+                        current-phase-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            value="${1}"; id=${cmd1^^}_${cmd2^^}
+                            Test existing phase id "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                            FW_OBJECT_SET_VAL["${id}"]="${value}";                                                                  FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            FW_OBJECT_SET_VAL["PRINT_LEVEL"]="${FW_OBJECT_PHA_PRT_LVL["${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"]}";   FW_OBJECT_SET_PHA["PRINT_LEVEL"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            FW_OBJECT_SET_VAL["LOG_LEVEL"]="${FW_OBJECT_PHA_LOG_LVL["${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"]}";     FW_OBJECT_SET_PHA["LOG_LEVEL"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            FW_OBJECT_SET_VAL["ERROR_COUNT"]="${FW_OBJECT_PHA_ERRCNT["${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"]}";    FW_OBJECT_SET_PHA["ERROR_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            FW_OBJECT_SET_VAL["ERROR_CODES"]="${FW_OBJECT_PHA_ERRCOD["${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"]}";    FW_OBJECT_SET_PHA["ERROR_CODES"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            FW_OBJECT_SET_VAL["WARNING_COUNT"]="${FW_OBJECT_PHA_WRNCNT["${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"]}";  FW_OBJECT_SET_PHA["WARNING_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            doWriteFast=true ;;
+                        current-theme-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            value="${1}"; id=${cmd1^^}_${cmd2^^}
+                            Test existing theme id "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                            FW_OBJECT_SET_VAL["${id}"]="${value}"; Load theme ${value}
+                            FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            doWriteFast=true ;;
 
-                error-count)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"; id=${cmd1^^}_${cmd2^^}
-                    Test ${cmd1} ${cmd2} "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    Set phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} error count ${value}
-                    FW_OBJECT_SET_VAL["ERROR_COUNT"]="$(Get object phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} error count)"
-                    idForPhase=ERROR_COUNT ;;
-                warning-count)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"; id=${cmd1^^}_${cmd2^^}
-                    Test ${cmd1} ${cmd2} "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    Set phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} warning count ${value}
-                    FW_OBJECT_SET_VAL["WARNING_COUNT"]="$(Get object phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} warning count)"
-                    idForPhase=WARNING_COUNT ;;
+                        current-project-to | current-scenario-to | current-site-to | current-task-to | last-project-to | last-scenario-to | last-site-to | last-task-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            value="${1}"; id=${cmd1^^}_${cmd2^^}
+                            Test existing ${cmd2} id "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                            FW_OBJECT_SET_VAL["${id}"]="${value}"
+                            FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            doWriteFast=true ;;
 
-                error-codes)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    value="${1}"; entry="${1##*+}"
-                    if [[ "${value}" == "" ]]; then
-                       Set phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} error codes ""
-                    else
-                        Test existing message id "${entry}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                        Set phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} error codes "${value}"
-                    fi ;;
+                        log-format-to | print-format-to | print-format2-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            value="${1}"; id=${cmd1^^}_${cmd2^^}
+                            Test ${cmd1} format "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                            FW_OBJECT_SET_VAL["${id}"]="${value}"
+                            FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            doWriteFast=true ;;
 
+                        log-level-to | print-level-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            level="${1}"; errno=0
+                            if [[ "${level}" != "all" && "${level}" != "none" ]]; then Test existing level id "${level}"; errno=$?; fi; if [[ "${errno}" != 0 ]]; then return; fi
+                            case "${level}" in
+                                none)       value="" ;;
+                                fatalerror) value=" fatalerror " ;;
+                                error)      value=" fatalerror error " ;;
+                                text)       value=" fatalerror error text " ;;
+                                message)    value=" fatalerror error text message " ;;
+                                warning)    value=" fatalerror error text message warning " ;;
+                                info)       value=" fatalerror error text message warning info " ;;
+                                debug)      value=" fatalerror error text message warning info debug " ;;
+                                trace)      value=" fatalerror error text message warning info debug trace " ;;
+                                all)        value=" fatalerror error text message warning info debug trace " ;;
+                            esac
+                            FW_OBJECT_SET_PHA["${cmd1^^}_LEVEL"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            FW_OBJECT_SET_VAL["${cmd1^^}_LEVEL"]="${value}"
+                            Set object phase "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" ${cmd1}-level to "${level}" ;;
+
+                        log-date-arg-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            value="${1}"
+                            FW_OBJECT_SET_VAL["LOG_DATE_ARG"]="${value}"; doWriteFast=true ;;
+                        log-dir-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            value="${1}"
+                            FW_OBJECT_SET_VAL["LOG_DIR"]="${value}"; doWriteFast=true ;;
+                        log-file-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            value="${1}"
+                            FW_OBJECT_SET_VAL["LOG_FILE"]="${value}"; doWriteFast=true ;;
+
+                        module-path-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            value="${1}"
+                            if [[ ! -n "${value}" ]]; then
+                                FW_OBJECT_SET_VAL["MODULE_PATH"]=" "
+                                FW_OBJECT_SET_PHA["MODULE_PATH"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                                doWriteFast=true
+                            else
+                                Test dir can read "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                                FW_OBJECT_SET_VAL["MODULE_PATH"]="${FW_OBJECT_SET_VAL["MODULE_PATH"]}${value} "
+                                FW_OBJECT_SET_PHA["MODULE_PATH"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                                doWriteFast=true
+                            fi ;;
+
+                        *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
+                    esac ;;
                 *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
         *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 
-    if [[ "${idForPhase}" != "" ]]; then
-        sourcePhase="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-        FW_OBJECT_SET_PHA[${idForPhase}]=${sourcePhase}
-    fi
-
-    if [[ "${idForPhase:-}" == "AUTO_WRITE" ]]; then Write fast config; doWriteFast=false
-    elif [[ "${doWriteFast}" == true && "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write fast config; doWriteFast=false
+    if [[ "${doWriteFast}" == true && "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write fast config; doWriteFast=false
     elif [[ "${doWriteSlow}" == true && "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write slow config; doWriteSlow=false; fi
 
     if [[ "${doVerify}" == true && "${FW_OBJECT_SET_VAL["AUTO_VERIFY"]:-false}" != false ]]; then Verify everything; fi

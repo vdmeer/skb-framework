@@ -1,0 +1,274 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Get - API declarations
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.6
+## @since      0.0.6
+##
+
+
+FW_API["Get%pid"]="returns configuration value for PID (process ID)"
+FW_API["Get%system"]="returns configuration value for SYSTEM"
+FW_API["Get%version"]="returns configuration value for VERSION"
+
+
+FW_API["Get%cache%dir"]="returns configuration value for CACHE_DIR (cache directory)"
+FW_API["Get%default%theme"]="returns configuration value for DEFAULT_THEME (default theme)"
+FW_API["Get%file%string"]="returns configuration value for FILE_STRING"
+FW_API["Get%home%dir"]="returns configuration value for HOME_DIR (same as \$SF_HOME)"
+FW_API["Get%user%config"]="returns configuration value for USER_CONFIG (standard configuration file)"
+
+
+FW_API["Get%app%name"]="returns setting for APP_NAME (application name)"
+FW_API["Get%app%name2"]="returns setting for APP_NAME2 (application name 2)"
+FW_API["Get%auto%verify"]="returns setting for AUTO_VERIFY"
+FW_API["Get%auto%write"]="returns setting for AUTO_WRITE"
+FW_API["Get%config%file"]="returns setting for CONFIG_FILE (configuration file from CLI)"
+FW_API["Get%current%mode"]="returns setting for CURRENT_MODE"
+FW_API["Get%current%phase"]="returns setting for CURRENT_PHASE"
+FW_API["Get%current%theme"]="returns setting for CURRENT_THEME"
+FW_API["Get%current%project"]="returns setting for CURRENT_PROJECT"
+FW_API["Get%current%scenario"]="returns setting for CURRENT_SCENARIO"
+FW_API["Get%current%site"]="returns setting for CURRENT_SITE"
+FW_API["Get%current%task"]="returns setting for CURRENT_TASK"
+FW_API["Get%last%project"]="returns setting for LAST_PROJECT"
+FW_API["Get%last%scenario"]="returns setting for LAST_SCENARIO"
+FW_API["Get%last%site"]="returns setting for LAST_SITE"
+FW_API["Get%last%task"]="returns setting for LAST_TASK"
+FW_API["Get%log%dir"]="returns setting for LOG_DIR (log directory)"
+FW_API["Get%log%file"]="returns setting for LOG_FILE (set log file)"
+FW_API["Get%log%format"]="returns setting for LOG_FORMAT"
+FW_API["Get%log%level"]="returns setting for LOG_LEVEL"
+FW_API["Get%log%date%arg"]="returns setting for LOAG_DATE_ARG"
+FW_API["Get%module%path"]="returns setting for MODULE_PATH (path to search for modules)"
+FW_API["Get%print%format"]="returns setting for PRINT_FORMAT"
+FW_API["Get%print%format2"]="returns setting for PRINT_FORMAT2"
+FW_API["Get%print%level"]="returns setting for PRINT_LEVEL"
+FW_API["Get%start%time"]="returns setting for START_TIME"
+FW_API["Get%strict%mode"]="returns setting for STRICT_MODE"
+FW_API["Get%error%count"]="returns setting for ERROR_COUNT"
+FW_API["Get%warning%count"]="returns setting for WARNING_COUNT"
+
+FW_API["Get%show%execution"]="returns setting for SHOW_EXECUTION"
+FW_API["Get%show%execution2"]="returns setting for SHOW_EXECUTION2"
+
+FW_API["Get%option%id%(%@SHORT@%|%@LONG@%)"]="returns option ID for either SHORT or LONG name"
+
+FW_API["Get%status%char%@STRING@"]="returns the status character for given string"
+
+FW_API["Get%error%codes"]="returns list of recorded error codes (message IDs)"
+
+
+FW_API["Get%object%configuration%@ID@%description"]="returns the description of object configuration ID"
+    FW_API["Get%object%configuration%@ID@%value"]="returns the value of object configuration ID"
+
+FW_API["Get%object%format%@ID@%description"]="returns the description of object format ID"
+    FW_API["Get%object%format%@ID@%path"]="returns the path of object format ID"
+
+FW_API["Get%object%level%@ID@%description"]="returns the description of object level ID"
+    FW_API["Get%object%level%@ID@%path"]="returns the path of object level ID"
+    FW_API["Get%object%level%@ID@%character"]="returns the character abbreviation of object level ID"
+    FW_API["Get%object%level%@ID@%theme-string"]="returns the theme string of object level ID"
+
+FW_API["Get%object%message%@ID@%description"]="returns the description of object message ID"
+    FW_API["Get%object%message%@ID@%arguments"]="returns the number of arguments of object message ID"
+    FW_API["Get%object%message%@ID@%type"]="returns the type of object message ID"
+    FW_API["Get%object%message%@ID@%text"]="returns the text of object message ID"
+    FW_API["Get%object%message%@ID@%category"]="returns the category of object message ID"
+    FW_API["Get%object%message%@ID@%path"]="returns the path of object message ID"
+
+FW_API["Get%object%mode%@ID@%description"]="returns the description of object mode ID"
+    FW_API["Get%object%mode%@ID@%path"]="returns the path of object mode ID"
+
+FW_API["Get%object%phase%@ID@%description"]="returns the description of object phase ID"
+    FW_API["Get%object%phase%@ID@%print%level"]="returns the print level of object phase ID"
+    FW_API["Get%object%phase%@ID@%log%level"]="returns the log level of object phase ID"
+    FW_API["Get%object%phase%@ID@%error%codes"]="returns the error codes of object phase ID"
+    FW_API["Get%object%phase%@ID@%error%count"]="returns the error count of object phase ID"
+    FW_API["Get%object%phase%@ID@%warning%count"]="returns the warning count of object phase ID"
+    FW_API["Get%object%phase%@ID@%path"]="returns the path of object phase ID"
+
+FW_API["Get%object%setting%@ID@%description"]="returns the description of object setting ID"
+    FW_API["Get%object%setting%@ID@%phase"]="returns the phase of object setting ID"
+    FW_API["Get%object%setting%@ID@%value"]="returns the value of object setting ID"
+
+FW_API["Get%object%theme%@ID@%description"]="returns the description of object theme ID"
+    FW_API["Get%object%theme%@ID@%path"]="returns the description of object path ID"
+
+FW_API["Get%object%themeitem%@ID@%description"]="returns the description of object theme item ID"
+    FW_API["Get%object%themeitem%@ID@%value"]="returns the value of object theme item ID"
+    FW_API["Get%object%themeitem%@ID@%source"]="returns the soure of object theme item ID"
+
+
+
+FW_API["Get%element%application%@ID@%description"]="returns the description of element application ID"
+    FW_API["Get%element%application%@ID@%origin"]="returns the origin of element application ID"
+    FW_API["Get%element%application%@ID@%phase"]="returns the phase of element application ID"
+    FW_API["Get%element%application%@ID@%command"]="returns the command of element application ID"
+    FW_API["Get%element%application%@ID@%argnum"]="returns the number of arguments of element application ID"
+    FW_API["Get%element%application%@ID@%arguments"]="returns the argument string of element application ID"
+    FW_API["Get%element%application%@ID@%status"]="returns the status of element application ID"
+    FW_API["Get%element%application%@ID@%status-comments"]="returns the status comments of element application ID"
+    FW_API["Get%element%application%@ID@%requested"]="returns the requested status of element application ID"
+
+FW_API["Get%element%dependency%@ID@%description"]="returns the description of element dependency ID"
+    FW_API["Get%element%dependency%@ID@%origin"]="returns the origin of element dependency ID"
+    FW_API["Get%element%dependency%@ID@%command"]="returns the command of element dependency ID"
+    FW_API["Get%element%dependency%@ID@%requirements"]="returns the requirements of element dependency ID"
+    FW_API["Get%element%dependency%@ID@%status"]="returns the status of element dependency ID"
+    FW_API["Get%element%dependency%@ID@%status-comments"]="returns the status comments of element dependency ID"
+    FW_API["Get%element%dependency%@ID@%requested"]="returns the requested status of element dependency ID"
+
+FW_API["Get%element%dirlist%@ID@%description"]="returns the description of element directory list ID"
+    FW_API["Get%element%dirlist%@ID@%origin"]="returns the origin of element directory list ID"
+    FW_API["Get%element%dirlist%@ID@%phase"]="returns the phase of element directory list ID"
+    FW_API["Get%element%dirlist%@ID@%value"]="returns the value of element directory list ID"
+    FW_API["Get%element%dirlist%@ID@%mode"]="returns the mode of element directory list ID"
+    FW_API["Get%element%dirlist%@ID@%status"]="returns the status of element directory list ID"
+    FW_API["Get%element%dirlist%@ID@%status-comments"]="returns the status comments of element directory list ID"
+    FW_API["Get%element%dirlist%@ID@%requested"]="returns the requested status of element directory list ID"
+
+FW_API["Get%element%dir%@ID@%description"]="returns the description of element directory ID"
+    FW_API["Get%element%dir%@ID@%origin"]="returns the origin of element directory ID"
+    FW_API["Get%element%dir%@ID@%phase"]="returns the phase of element directory ID"
+    FW_API["Get%element%dir%@ID@%value"]="returns the value of element directory ID"
+    FW_API["Get%element%dir%@ID@%mode"]="returns the mode of element directory ID"
+    FW_API["Get%element%dir%@ID@%status"]="returns the status of element directory ID"
+    FW_API["Get%element%dir%@ID@%status-comments"]="returns the status comments of element directory ID"
+    FW_API["Get%element%dir%@ID@%requested"]="returns the requested status of element directory ID"
+
+FW_API["Get%element%filelist%@ID@%description"]="returns the description of element file list ID"
+    FW_API["Get%element%filelist%@ID@%origin"]="returns the origin of element file list ID"
+    FW_API["Get%element%filelist%@ID@%phase"]="returns the phase of element file list ID"
+    FW_API["Get%element%filelist%@ID@%value"]="returns the value of element file list ID"
+    FW_API["Get%element%filelist%@ID@%mode"]="returns the mode of element file list ID"
+    FW_API["Get%element%filelist%@ID@%status"]="returns the status of element file list ID"
+    FW_API["Get%element%filelist%@ID@%status-comments"]="returns the status comments of element file list ID"
+    FW_API["Get%element%filelist%@ID@%requested"]="returns the requested status of element file list ID"
+
+FW_API["Get%element%file%@ID@%description"]="returns the description of element file ID"
+    FW_API["Get%element%file%@ID@%origin"]="returns the origin of element file ID"
+    FW_API["Get%element%file%@ID@%phase"]="returns the phase of element file ID"
+    FW_API["Get%element%file%@ID@%value"]="returns the value of element file ID"
+    FW_API["Get%element%file%@ID@%mode"]="returns the mode of element file ID"
+    FW_API["Get%element%file%@ID@%status"]="returns the status of element file ID"
+    FW_API["Get%element%file%@ID@%status-comments"]="returns the status comments of element file ID"
+    FW_API["Get%element%file%@ID@%requested"]="returns the requested status of element file ID"
+
+FW_API["Get%element%module%@ID@%description"]="returns the description of element module ID"
+    FW_API["Get%element%module%@ID@%acronym"]="returns the acronym of element module ID"
+    FW_API["Get%element%module%@ID@%path"]="returns the path of element module ID"
+    FW_API["Get%element%module%@ID@%phase"]="returns the phase of element module ID"
+    FW_API["Get%element%module%@ID@%requirements"]="returns the requirements of element module ID"
+    FW_API["Get%element%module%@ID@%status"]="returns the status of element module ID"
+    FW_API["Get%element%module%@ID@%status-comments"]="returns the status comments of element module ID"
+    FW_API["Get%element%module%@ID@%requested"]="returns the requested status of element module ID"
+
+FW_API["Get%element%option%@ID@%description"]="returns the description of element option ID"
+    FW_API["Get%element%option%@ID@%short"]="returns the short name of element option ID"
+    FW_API["Get%element%option%@ID@%argument"]="returns the argument of element option ID"
+    FW_API["Get%element%option%@ID@%category"]="returns the category of element option ID"
+    FW_API["Get%element%option%@ID@%length"]="returns the length of element option ID"
+    FW_API["Get%element%option%@ID@%set"]="returns the set (yes/no) of element option ID"
+    FW_API["Get%element%option%@ID@%value"]="returns the value (if any) of element option ID"
+
+FW_API["Get%element%parameter%@ID@%description"]="returns the description of element parameter ID"
+    FW_API["Get%element%parameter%@ID@%origin"]="returns the origin of element parameter ID"
+    FW_API["Get%element%parameter%@ID@%default-value"]="returns the default-value of element parameter ID"
+    FW_API["Get%element%parameter%@ID@%phase"]="returns the phase of element parameter ID"
+    FW_API["Get%element%parameter%@ID@%value"]="returns the value of element parameter ID"
+    FW_API["Get%element%parameter%@ID@%status"]="returns the status of element parameter ID"
+    FW_API["Get%element%parameter%@ID@%status-comments"]="returns the status comments of element parameter ID"
+    FW_API["Get%element%parameter%@ID@%requested"]="returns the requested status of element parameter ID"
+
+FW_API["Get%element%project%@ID@%description"]="returns the description of element project ID"
+    FW_API["Get%element%project%@ID@%origin"]="returns the origin of element project ID"
+    FW_API["Get%element%project%@ID@%modes"]="returns the modes of element project ID"
+    FW_API["Get%element%project%@ID@%path"]="returns the path of element project ID"
+    FW_API["Get%element%project%@ID@%path-text"]="returns the path text of element project ID"
+    FW_API["Get%element%project%@ID@%file"]="returns the file of element project ID"
+    FW_API["Get%element%project%@ID@%targets"]="returns the targets of element project ID"
+    FW_API["Get%element%project%@ID@%status"]="returns the status of element project ID"
+    FW_API["Get%element%project%@ID@%status-comments"]="returns the status comments of element project ID"
+    FW_API["Get%element%project%@ID@%required-applications"]="returns the required applications of element project ID"
+    FW_API["Get%element%project%@ID@%required-dependencies"]="returns the required dependencies of element project ID"
+    FW_API["Get%element%project%@ID@%required-parameters"]="returns the required parameters of element project ID"
+    FW_API["Get%element%project%@ID@%required-tasks"]="returns the required tasks of element project ID"
+    FW_API["Get%element%project%@ID@%required-files"]="returns the required files of element project ID"
+    FW_API["Get%element%project%@ID@%required-filelists"]="returns the required file lists of element project ID"
+    FW_API["Get%element%project%@ID@%required-directories"]="returns the required directories of element project ID"
+    FW_API["Get%element%project%@ID@%required-dirlists"]="returns the required directory lists of element project ID"
+
+FW_API["Get%element%scenario%@ID@%description"]="returns the description of element scenario ID"
+    FW_API["Get%element%scenario%@ID@%origin"]="returns the origin of element scenario ID"
+    FW_API["Get%element%scenario%@ID@%modes"]="returns the modes of element scenario ID"
+    FW_API["Get%element%scenario%@ID@%path"]="returns the path of element scenario ID"
+    FW_API["Get%element%scenario%@ID@%path-text"]="returns the path text of element scenario ID"
+    FW_API["Get%element%scenario%@ID@%status"]="returns the status of element scenario ID"
+    FW_API["Get%element%scenario%@ID@%status-comments"]="returns the status comments of element scenario ID"
+    FW_API["Get%element%scenario%@ID@%required-applications"]="returns the required applications of element scenario ID"
+    FW_API["Get%element%scenario%@ID@%required-dependencies"]="returns the required dependencies of element scenario ID"
+    FW_API["Get%element%scenario%@ID@%required-parameters"]="returns the required parameters of element scenario ID"
+    FW_API["Get%element%scenario%@ID@%required-tasks"]="returns the required tasks of element scenario ID"
+    FW_API["Get%element%scenario%@ID@%required-files"]="returns the required files of element scenario ID"
+    FW_API["Get%element%scenario%@ID@%required-filelists"]="returns the required file lists of element scenario ID"
+    FW_API["Get%element%scenario%@ID@%required-directories"]="returns the required directories of element scenario ID"
+    FW_API["Get%element%scenario%@ID@%required-dirlists"]="returns the required directory lists of element scenario ID"
+
+FW_API["Get%element%site%@ID@%description"]="returns the description of element site ID"
+    FW_API["Get%element%site%@ID@%origin"]="returns the origin of element site ID"
+    FW_API["Get%element%site%@ID@%path"]="returns the path of element site ID"
+    FW_API["Get%element%site%@ID@%path-text"]="returns the path text of element site ID"
+    FW_API["Get%element%site%@ID@%file"]="returns the file of element site ID"
+    FW_API["Get%element%site%@ID@%status"]="returns the status of element site ID"
+    FW_API["Get%element%site%@ID@%status-comments"]="returns the status comments of element site ID"
+    FW_API["Get%element%site%@ID@%required-applications"]="returns the required applications of element site ID"
+    FW_API["Get%element%site%@ID@%required-dependencies"]="returns the required dependencies of element site ID"
+    FW_API["Get%element%site%@ID@%required-parameters"]="returns the required parameters of element site ID"
+    FW_API["Get%element%site%@ID@%required-tasks"]="returns the required tasks of element site ID"
+    FW_API["Get%element%site%@ID@%required-files"]="returns the required files of element site ID"
+    FW_API["Get%element%site%@ID@%required-filelists"]="returns the required file lists of element site ID"
+    FW_API["Get%element%site%@ID@%required-directories"]="returns the required directories of element site ID"
+    FW_API["Get%element%site%@ID@%required-dirlists"]="returns the required directory lists of element site ID"
+
+FW_API["Get%element%task%@ID@%description"]="returns the description of element task ID"
+    FW_API["Get%element%task%@ID@%origin"]="returns the origin of element task ID"
+    FW_API["Get%element%task%@ID@%modes"]="returns the modes of element task ID"
+    FW_API["Get%element%task%@ID@%path"]="returns the path of element task ID"
+    FW_API["Get%element%task%@ID@%path-text"]="returns the path text of element task ID"
+    FW_API["Get%element%task%@ID@%status"]="returns the status of element task ID"
+    FW_API["Get%element%task%@ID@%status-comments"]="returns the status comments of element task ID"
+    FW_API["Get%element%task%@ID@%required-applications"]="returns the required applications of element task ID"
+    FW_API["Get%element%task%@ID@%required-dependencies"]="returns the required dependencies of element task ID"
+    FW_API["Get%element%task%@ID@%required-parameters"]="returns the required parameters of element task ID"
+    FW_API["Get%element%task%@ID@%required-tasks"]="returns the required tasks of element task ID"
+    FW_API["Get%element%task%@ID@%required-files"]="returns the required files of element task ID"
+    FW_API["Get%element%task%@ID@%required-filelists"]="returns the required file lists of element task ID"
+    FW_API["Get%element%task%@ID@%required-directories"]="returns the required directories of element task ID"
+    FW_API["Get%element%task%@ID@%required-dirlists"]="returns the required directory lists of element task ID"
+
+
+FW_API["Get%primary%module%path"]="returns the primary module path"
+

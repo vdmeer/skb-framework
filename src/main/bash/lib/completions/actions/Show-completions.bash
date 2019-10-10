@@ -32,13 +32,17 @@
 function __skb_Show_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Show)  retval="log statistics fast load medium slow" ;;
+        Show)  retval="log statistics fast load medium slow project scenario site task" ;;
 
-        log)                            retval="file" ;;
-        fast | load | medium | slow)    retval="runtime" ;;
-        statistics)                     retval="overview"
-                                        retval+=" applications dependencies dirlists dirs filelists files options parameters projects scenarios sites tasks"
-                                        retval+=" messages phases settings themeitems" ;;
+        log)                                retval="file" ;;
+        fast | load | medium | slow)        retval="runtime" ;;
+        statistics)                         retval="overview"
+                                            retval+=" applications dependencies dirlists dirs filelists files options parameters projects scenarios sites tasks"
+                                            retval+=" messages phases settings themeitems" ;;
+
+        project | scenario | site | task)   retval="execution" ;;
+        execution)                          retval="start end" ;;
+
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

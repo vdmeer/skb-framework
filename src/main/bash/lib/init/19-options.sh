@@ -29,37 +29,37 @@
 ##
 
 
-    ##
-    ##                      LONG                SHORT   ARG         DESCRIPTION                                         CATEGORY
-    ##
-    Add element option      help                h       ""          "print a help screen with CLI options"              "Exit+Options"
-    Add element option      version             v       ""          "show program version"                              "Exit+Options"
-    Add element option      format              F       "FORMAT"    "sets format for printed text"                      "Runtime+Options"
+##
+##                      LONG                SHORT   ARG         DESCRIPTION                                         CATEGORY
+##
+Add element option      help                h       ""          "print a help screen with CLI options"              "Exit+Options"
+Add element option      version             v       ""          "show program version"                              "Exit+Options"
+Add element option      format              F       "FORMAT"    "sets format for printed text"                      "Runtime+Options"
 
-    Add element option      runtime-tests       R       ""          "test dependencies and installation"                "Exit+Options"
-    Add element option      no-runtime-tests    N       ""          "do not test core dependencies on load"             "Runtime+Options"
+Add element option      runtime-tests       R       ""          "test dependencies and installation"                "Exit+Options"
+Add element option      no-runtime-tests    N       ""          "do not test core dependencies on load"             "Runtime+Options"
 
-    Add element option      execute-task        t       "ID"        "executes task ID, task arguments after '--'"       "Exit+Options"
-    Add element option      execute-scenario    s       "ID"        "executes scenario ID"                              "Exit+Options"
-    Add element option      execute-command     c       "ID"        "executes command ID, any arguments after '--'"     "Exit+Options"
+Add element option      execute-task        t       "ID"        "executes task ID, task arguments after '--'"       "Exit+Options"
+Add element option      execute-scenario    s       "ID"        "executes scenario ID"                              "Exit+Options"
+Add element option      execute-command     c       "ID"        "executes command ID, any arguments after '--'"     "Exit+Options"
 
-    Add element option      test-colors         ""      ""          "prints some text with colors"                      "Exit+Options"
-    Add element option      test-effects        ""      ""          "prints some text with effects"                     "Exit+Options"
-    Add element option      test-characters     ""      ""          "prints some UTF-8 characters"                      "Exit+Options"
-    Add element option      test-terminal       ""      ""          "runs color, effect, and character tests"           "Exit+Options"
+Add element option      test-colors         ""      ""          "prints some text with colors"                      "Exit+Options"
+Add element option      test-effects        ""      ""          "prints some text with effects"                     "Exit+Options"
+Add element option      test-characters     ""      ""          "prints some UTF-8 characters"                      "Exit+Options"
+Add element option      test-terminal       ""      ""          "runs color, effect, and character tests"           "Exit+Options"
 
-    Add element option      all-mode            A       ""          "run framework in mode 'all'"                       "Runtime+Options"
-    Add element option      dev-mode            D       ""          "run framework in mode 'dev'"                       "Runtime+Options"
-    Add element option      build-mode          B       ""          "run framework in mode 'build'"                     "Runtime+Options"
-    Add element option      use-mode            U       ""          "run framework in mode 'use'"                       "Runtime+Options"
+Add element option      all-mode            A       ""          "run framework in mode 'all'"                       "Runtime+Options"
+Add element option      dev-mode            D       ""          "run framework in mode 'dev'"                       "Runtime+Options"
+Add element option      build-mode          B       ""          "run framework in mode 'build'"                     "Runtime+Options"
+Add element option      use-mode            U       ""          "run framework in mode 'use'"                       "Runtime+Options"
 
-    Add element option      option              o       "ID"        "print a help screen for the CLI option ID"         "Exit+Options"
+Add element option      option              o       "ID"        "print a help screen for the CLI option ID"         "Exit+Options"
 
-    Add element option      config-file         C       "FILE"      "configuration file read during initialization"     "Runtime+Options"
+Add element option      config-file         C       "FILE"      "configuration file read during initialization"     "Runtime+Options"
 
-    Add element option      strict-mode         S       ""          "strict mode: treat strict warnings as errors"      "Runtime+Options"
+Add element option      strict-mode         S       ""          "strict mode: treat strict warnings as errors"      "Runtime+Options"
 
 
-    #Add element option     C   clean-cache          ""          "cleans the application cache"                  "Exit+Options"
-    #Add element option     m   manual               ""          "print a manual"                                "Exit+Options"
-    #Add element option     V   validate             ""          "validate installation"                         "Exit+Options"
+#Add element option     C   clean-cache          ""          "cleans the application cache"                  "Exit+Options"
+#Add element option     m   manual               ""          "print a manual"                                "Exit+Options"
+#Add element option     V   validate             ""          "validate installation"                         "Exit+Options"

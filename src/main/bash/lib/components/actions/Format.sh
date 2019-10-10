@@ -30,33 +30,35 @@
 
 
 function Format() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local themeType id printId idLength leftMargin rightMargin padding midString longest current width i char short value values defValues mode format file parOptions
+    local themeType id printId count idLength leftMargin rightMargin padding midString longest current width i char short value values defValues mode format file parOptions
     if [[ -n "${FW_OBJECT_SET_VAL["PRINT_FORMAT2"]:-}" ]]; then format="${FW_OBJECT_SET_VAL["PRINT_FORMAT2"]}"; else format="${FW_OBJECT_SET_VAL["PRINT_FORMAT"]}"; fi
 
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
         text)
-            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E802 1 "$#"; return
-            elif [[ "${#}" == 1 ]]; then format_${format} ""     "${1}"
-            elif [[ "${#}" == 2 ]]; then format_${format} "${1}" "${2}"
+            if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 2 "$#"; return; fi
+            format_${format} "${1}" "${2}" ;;
+#            elif [[ "${#}" == 1 ]]; then format_${format} ""     "${1}"
+#            elif [[ "${#}" == 2 ]]; then format_${format} "${1}" "${2}"
 #            elif [[ "${#}" == 3 ]]; then format_${1} "${2}" "${3}"
-            else Report process error "${FUNCNAME[0]}" "${cmdString1}" E802 1 "$#"; return; fi ;;
+#            else Report process error "${FUNCNAME[0]}" "${cmdString1}" E802 1 "$#"; return; fi ;;
 ## TODO wrong error message, need too many
 
         level)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
-            id="${1}"
-            Test level "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+            id="${1}"; Test existing level id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             Format themed text lvl${id^}Fmt "${id}" ;;
 
-        ansi | current | element | help | list | paragraph | table | tagline | themed)
+        mode)
+            id="${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+            if [[ "${#}" == 1 ]]; then id="${1}"; fi
+            Test existing mode id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+            Format themed text mode${id^}Fmt "${id}" ;;
+
+        ansi | element | help | list | paragraph | table | tagline | themed)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
@@ -70,16 +72,11 @@ function Format() {
                         *)      printf "%b\n" "$(cat ${file})" | sed -r "${FW_OBJECT_CFG_VAL["PATTERN_REMOVE_ANSI"]}" ;;
                     esac ;;
 
-                current-mode)
-                    id="${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                    if [[ "${#}" == 1 ]]; then id="${1}"; fi
-                    Test current mode "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    Format themed text mode${id^}Fmt "${id}" ;;
-
                 element-status)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
                     id="${1}"
                     Test element status "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    id="$(Get status char ${id})"
                     Format themed text elementStatus${id}Fmt "${id}" ;;
 
                 help-indentation)
@@ -89,30 +86,10 @@ function Format() {
                         *)  printf "${FW_OBJECT_TIM_VAL["explainIndent1"]}" ;;
                     esac ;;
 
-                table-topline)
+                table-toprule | table-midrule | table-bottomrule)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
                     width="${1}"; width=$(( width - 2 ))
-                    char="$(Format themed text tabTopruleFmt "${FW_OBJECT_TIM_VAL["tabTopruleChar"]}")"
-                    printf " "
-                    for ((i = 1; i <= ${width}; i++)); do
-                        printf "%s" "${char}"
-                    done
-                    printf "\n" ;;
-
-                table-midline)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    width="${1}"; width=$(( width - 2 ))
-                    char="$(Format themed text tabMidruleFmt "${FW_OBJECT_TIM_VAL["tabMidruleChar"]}")"
-                    printf " "
-                    for ((i = 1; i <= ${width}; i++)); do
-                        printf "%s" "${char}"
-                    done
-                    printf "\n" ;;
-
-                table-bottomline)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    width="${1}"; width=$(( width - 2 ))
-                    char="$(Format themed text tabBottomruleFmt "${FW_OBJECT_TIM_VAL["tabBottomruleChar"]}")"
+                    char="$(Format themed text tab${cmd2^}Fmt "${FW_OBJECT_TIM_VAL["tabTopruleChar"]}")"
                     printf " "
                     for ((i = 1; i <= ${width}; i++)); do
                         printf "%s" "${char}"
@@ -120,10 +97,12 @@ function Format() {
                     printf "\n" ;;
 
                 themed-text)
-                    if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E802 2 "$#"; return
-                    elif [[ "${#}" == 2 ]]; then format_${format} "${FW_OBJECT_TIM_VAL[${1}]}" "${2}"
+                    if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 2 "$#"; return; fi
+                    id="${1}"; Test existing themeitem id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    format_${format} "${FW_OBJECT_TIM_VAL[${id}]}" "${2}" ;;
+#                    elif [[ "${#}" == 2 ]]; then format_${format} "${FW_OBJECT_TIM_VAL[${1}]}" "${2}"
 #                    elif [[ "${#}" == 3 ]]; then format_${1} "${FW_OBJECT_TIM_VAL[${2}]}" "${3}"
-                    else Report process error "${FUNCNAME[0]}" "${cmdString1}" E802 1 "$#"; return; fi ;;
+#                    else Report process error "${FUNCNAME[0]}" "${cmdString1}" E802 1 "$#"; return; fi ;;
 ## TODO wrong error message, need too many
 
                 list-from | paragraph-from | tagline-for)
@@ -174,12 +153,30 @@ function Format() {
                                 *)      Format themed text ${themeType}DescrFmt "${FW_ELEMENT_OPT_LONG[${id}]}" ;;
                             esac ;;
 
+                        tagline-for-operation)
+                            if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 2 "$#"; return; fi
+                            id="${1}"; themeType="${2}"; leftMargin="${3:-4}"; padding="${4:-2}"; midString="${5:-""}"; longest="${6:-0}"; values="${7:-no}"; defValues="${8:-no}"
+                            printId=${id%%\%*}
+                            if (( longest == 0 )); then longest=${#printId}; fi
+                            printf "%*s" ${leftMargin}
+                            Format themed text explainComponentFmt "${printId}"
+                            printf "%*s" $(( longest - ${#printId} + padding ))
+                            printf "%s" "${midString}"
+                            IFS="%" read -r -a current <<< "${id#*\%}"; unset IFS
+                            count=0
+                            for value in "${current[@]}"; do
+                                if (( count > 0 )); then printf " "; fi
+                                case "${value}" in
+                                    @*@)    Format themed text explainArgFmt "${value//@/}" ;;
+                                    *)      Format themed text explainOperationFmt "${value}" ;;
+                                esac
+                                count=$(( count + 1 ))
+                            done ;;
 
                         tagline-for-exitcode | \
                         tagline-for-configuration | tagline-for-format | tagline-for-level | tagline-for-message | tagline-for-mode | tagline-for-phase | tagline-for-setting | tagline-for-theme | tagline-for-themeitem | \
                         tagline-for-application | tagline-for-dependency | tagline-for-dirlist | tagline-for-dir | tagline-for-filelist | tagline-for-file | tagline-for-module | tagline-for-parameter | tagline-for-project | tagline-for-scenario | tagline-for-site | tagline-for-task | \
                         tagline-for-action | tagline-for-element | tagline-for-instance | tagline-for-object)
-
                             if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 2 "$#"; return; fi
                             id="${1}"; themeType="${2}"; idLength=${#id}; leftMargin="${3:-4}"; padding="${4:-2}"; midString="${5:-""}"; longest="${6:-$idLength}"; values="${7:-no}"; defValues="${8:-no}"
                             printId="${id}"
@@ -247,7 +244,7 @@ function Format() {
                                                 esac ;;
                                 setting)        case ${values} in
                                                     yes)    case ${id} in
-                                                                CURRENT_MODE)   Format current mode "${FW_OBJECT_SET_VAL[${id}]}" ;;
+                                                                CURRENT_MODE)   Format mode "${FW_OBJECT_SET_VAL[${id}]}" ;;
                                                                 LOG_LEVEL)      printf " "; for i in ${FW_OBJECT_SET_VAL[${id}]}; do Format level "${i}"; printf " "; done ;;
                                                                 PRINT_LEVEL)    printf " "; for i in ${FW_OBJECT_SET_VAL[${id}]}; do Format level "${i}"; printf " ";  done ;;
                                                                 *)              Format themed text ${themeType}ValueFmt "${FW_OBJECT_SET_VAL[${id}]}" ;;
@@ -272,17 +269,14 @@ function Format() {
                                                 esac ;;
 
                                 action | element | instance | object)
-                                    Format themed text ${themeType}DescrFmt "${FW_COMPONENTS_TAGLINE[${id,,}]}" ;;
+                                    Format themed text ${themeType}DescrFmt "${FW_COMPONENTS_TAGLINE[${id}]}" ;;
                             esac ;;
 
-                        *)
-                            Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
+                        *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
                     esac ;;
-                *)
-                    Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
-        *)
-            Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
+        *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }
 

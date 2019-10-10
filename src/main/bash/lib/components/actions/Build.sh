@@ -30,15 +30,12 @@
 
 
 function Build() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-##TODO
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id errno text arg count
+    local id errno text arg count arr str
     local cmd1="${1,,}" cmdString1="${1,,}"
     shift; case "${cmd1}" in
+
         message)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
             id="${1}"
