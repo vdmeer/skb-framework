@@ -32,24 +32,38 @@
 function __skb_Format_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Format)     retval="ansi element help level list mode paragraph tagline table text themed" ;;
+        Format)     retval="ansi available defval element exec execution help level list mode phase paragraph requested status table tagline text themed" ;;
 
-        ansi)           retval="file" ;;
+        ansi)           retval="end file start" ;;
         current)        retval="mode" ;;
         element)        retval="status" ;;
+        execution)      retval="line" ;;
         help)           retval="indentation" ;;
         level)          retval="$(Levels has)" ;;
         list)           retval="from" ;;
         mode)           retval="$(Modes has)" ;;
         paragraph)      retval="from" ;;
         tagline)        retval="for" ;;
-        table)          retval="toprule midrule bottomrule" ;;
+        table)          retval="toprule midrule bottomrule legendrule statusrule extras legend" ;;
         themed)         retval="text" ;;
 
-        for)            retval="exitcode"
-                        retval+=" clioption configuration format level mode setting theme themeitem"
-                        retval+=" application dependency dirlist dir filelist file module option parameter project scenario site task"
-                        retval+=" action element instance object operation" ;;
+        extras)         retval="for" ;;
+        legend)         retval="for" ;;
+
+        phase)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Format" ]]; then retval="char"
+                        else retval="$(Phases has)"
+                        fi ;;
+        available)      retval="char" ;;
+        defval)         retval="char" ;;
+        exec)           retval="char" ;;
+        requested)      retval="char" ;;
+        status)         retval="char" ;;
+
+        for)            retval="clioption exitcode"
+                        retval+=" configuration format level message mode setting phase theme themeitem variable"
+                        retval+=" application dependency dirlist dir filelist file module option parameter project scenario script site task"
+                        retval+=" action element instance object operation"
+                        if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "tagline" ]]; then retval+=" framework"; fi ;;
         from)           retval="file" ;;
 
         *)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "for" ]]; then
@@ -72,16 +86,18 @@ function __skb_Format_completions(){
                             project)        retval="$(Projects has)" ;;
                             scenario)       retval="$(Scenarios has)" ;;
                             setting)        retval="$(Settings has)" ;;
+                            script)         retval="$(Scripts has)" ;;
                             site)           retval="$(Sites has)" ;;
                             task)           retval="$(Tasks has)" ;;
                             theme)          retval="$(Themes has)" ;;
                             themeitem)      retval="$(Themeitems has)" ;;
+                            variable)       retval="$(Variables has)" ;;
 
                             action)         retval="$(Framework has actions)" ;;
                             element)        retval="$(Framework has elements)" ;;
                             instance)       retval="$(Framework has instances)" ;;
                             object)         retval="$(Framework has objects)" ;;
-                            operation)      retval="${!FW_API[@]}" ;;
+                            operation)      retval="${!SF_OPERATIONS[@]}" ;;
                         esac
                     elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "for" ]]; then retval="list table"
 

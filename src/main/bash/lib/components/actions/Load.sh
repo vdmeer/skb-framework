@@ -32,24 +32,30 @@
 function Load() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id errno file path doWriteRT=false themeId envKey
+    local id errno file doWriteRT=false themeId envKey
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
         module)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
-            id="${1}"; if [[ "${id}" == "API" ]]; then Report process error "${FUNCNAME[0]}" "${cmd1}" E828 "module" "loaded"; return; fi
+            id="${1}"; if [[ "${id}" == "☰API☷" || "${id}" == "⫷Framework⫸" ]]; then Report process error "${FUNCNAME[0]}" "${cmd1}" E828 "module" "loaded"; return; fi
             Test known module "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            local modFile="${FW_ELEMENT_MDS_KNOWN[${id}]}" modPath
-            modPath="${modFile%/*}"
-            FW_MODULE_PATH="${modPath}"
-            FW_OBJECT_SET_VAL["AUTO_WRITE"]=false
-            source "${modFile}"
-            unset -v FW_MODULE_PATH
-            Reload task completions
-            if [[ "${FW_OBJECT_SET_VAL["AUTO_VERIFY"]}" != false ]]; then Verify everything; fi
-            Activate auto write
-            Write slow config ;;
+
+            if [[ -r  "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}.cache" ]]; then
+                source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}.cache"
+            else
+                local modFile="${FW_ELEMENT_MDS_KNOWN["${id}"]}" modPath
+                modPath="${modFile%/*}"
+                FW_MODULE_PATH="${modPath}"
+                FW_OBJECT_SET_VAL["AUTO_WRITE"]=false
+                FW_CURRENT_MODULE_NAME="${id}"
+                source "${modFile}"
+                unset -v FW_MODULE_PATH
+                Reload task completions
+                Activate auto write
+                Write slow config
+            fi
+            if [[ "${FW_OBJECT_SET_VAL["AUTO_VERIFY"]}" != false ]]; then Verify elements; fi ;;
 
         runtime)
             source ${FW_RUNTIME_CONFIG_FAST}
@@ -60,15 +66,17 @@ function Load() {
         theme)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
             id="${1}"; Test existing theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            if [[ "${id}" != "API" ]]; then
+            if [[ "${id}" != "☰API☷" && "${id}" != "⫷Framework⫸" ]]; then
                 Tablechars clear all
                 FW_CURRENT_THEME_NAME="${id}"
-                path="${FW_OBJECT_THM_PATH[${id}]}"
-                if [[ -r "${path}/${id}.dec" ]]; then
-                    source "${path}/${id}.dec"
-                else
+                if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}.cache" ]]; then
+                    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}.cache"
+                elif [[ -r "${FW_ELEMENT_MDS_PATH["${FW_OBJECT_THM_DECMDS["${id}"]}"]}/themes/${id}.thm" ]]; then
                     FW_OBJECT_SET_VAL["AUTO_WRITE"]=false
-                    source "${path}/${id}.thm"
+                    source "${FW_ELEMENT_MDS_PATH["${FW_OBJECT_THM_DECMDS["${id}"]}"]}/themes/${id}.thm"
+                else
+                    :
+##TODO ERROR file not found, tried cache and std dir
                 fi
                 if [[ "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" != "Load" ]]; then Write slow config; Activate auto write; fi
                 unset FW_CURRENT_THEME_NAME
@@ -99,19 +107,18 @@ function Load() {
                         settings-from-file)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             file="${1}"
-                            Test file exists   "${file}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                             Test file can read "${file}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                             source ${file}
-                            if [[ "${FW_OBJECT_SET_VAL["AUTO_VERIFY"]:-false}" != false ]]; then Verify everything; fi ;;
+                            if [[ "${FW_OBJECT_SET_VAL["AUTO_VERIFY"]:-false}" != false ]]; then Verify elements; fi ;;
 
                         settings-from-environment)
                             envKey=SF_APP_NAME; if [[ ! -z "${!envKey:-}" ]]; then Set app name to "${!envKey}"; fi
-                            for id in ${!FW_ELEMENT_DLS_LONG[@]}; do envKey="${id//-/_}"; envKey="SF_DIRLIST_${envKey^^}";  if [[ ! -z "${!envKey:-}" ]]; then FW_ELEMENT_DLS_VAL[${id}]="${!envKey}"; fi; done
-                            for id in ${!FW_ELEMENT_DIR_LONG[@]}; do envKey="${id//-/_}"; envKey="SF_DIR_${envKey^^}";      if [[ ! -z "${!envKey:-}" ]]; then FW_ELEMENT_DIR_VAL[${id}]="${!envKey}"; fi; done
-                            for id in ${!FW_ELEMENT_FLS_LONG[@]}; do envKey="${id//-/_}"; envKey="SF_FILELIST_${envKey^^}"; if [[ ! -z "${!envKey:-}" ]]; then FW_ELEMENT_FLS_VAL[${id}]="${!envKey}"; fi; done
-                            for id in ${!FW_ELEMENT_FIL_LONG[@]}; do envKey="${id//-/_}"; envKey="SF_FILE_${envKey^^}";     if [[ ! -z "${!envKey:-}" ]]; then FW_ELEMENT_FIL_VAL[${id}]="${!envKey}"; fi; done
-                            for id in ${!FW_ELEMENT_PAR_LONG[@]}; do envKey="${id//-/_}"; envKey="SF_PARAM_${envKey^^}";    if [[ ! -z "${!envKey:-}" ]]; then FW_ELEMENT_PAR_VAL[${id}]="${!envKey}"; fi; done
-                            if [[ "${FW_OBJECT_SET_VAL["AUTO_VERIFY"]:-false}" != false ]]; then Verify everything; fi ;;
+                            for id in ${!FW_ELEMENT_DLS_LONG[@]}; do envKey="${id//-/_}"; envKey="SF_DIRLIST_${envKey^^}";  if [[ ! -z "${!envKey:-}" ]]; then FW_ELEMENT_DLS_VAL["${id}"]="${!envKey}"; fi; done
+                            for id in ${!FW_ELEMENT_DIR_LONG[@]}; do envKey="${id//-/_}"; envKey="SF_DIR_${envKey^^}";      if [[ ! -z "${!envKey:-}" ]]; then FW_ELEMENT_DIR_VAL["${id}"]="${!envKey}"; fi; done
+                            for id in ${!FW_ELEMENT_FLS_LONG[@]}; do envKey="${id//-/_}"; envKey="SF_FILELIST_${envKey^^}"; if [[ ! -z "${!envKey:-}" ]]; then FW_ELEMENT_FLS_VAL["${id}"]="${!envKey}"; fi; done
+                            for id in ${!FW_ELEMENT_FIL_LONG[@]}; do envKey="${id//-/_}"; envKey="SF_FILE_${envKey^^}";     if [[ ! -z "${!envKey:-}" ]]; then FW_ELEMENT_FIL_VAL["${id}"]="${!envKey}"; fi; done
+                            for id in ${!FW_ELEMENT_PAR_LONG[@]}; do envKey="${id//-/_}"; envKey="SF_PARAM_${envKey^^}";    if [[ ! -z "${!envKey:-}" ]]; then FW_ELEMENT_PAR_VAL["${id}"]="${!envKey}"; fi; done
+                            if [[ "${FW_OBJECT_SET_VAL["AUTO_VERIFY"]:-false}" != false ]]; then Verify elements; fi ;;
 ##TODO ADD Application to here?
 
                         *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;

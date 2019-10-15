@@ -32,7 +32,7 @@
 function __skb_Help_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Help)   retval="$(Framework has actions) $(Framework has elements) $(Framework has instances) $(Framework has objects)" ;;
+        Help)   retval="$(Framework has actions) $(Framework has elements) $(Framework has instances) $(Framework has objects) Framework" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

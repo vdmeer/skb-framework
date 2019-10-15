@@ -41,7 +41,15 @@ function Projects() {
             if [[ "${FW_ELEMENT_PRJ_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_PRJ_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s: %s, %s, %s, %s, %s, %s\n" "${id}" "${FW_ELEMENT_PRJ_ORIG[${id}]}" "${FW_ELEMENT_PRJ_MODES[${id}]}" "${FW_ELEMENT_PRJ_PATH[${id}]}" "${FW_ELEMENT_PRJ_TGTS[${id}]}" "${FW_ELEMENT_PRJ_SHOW_EXEC[${id}]}" "${FW_ELEMENT_PRJ_LONG[${id}]}"
+#                    printf "    %s (dec: %s / %s, set: %s)\n" "${id}" "${FW_ELEMENT_APP_DECMDS[${id}]}" "${FW_ELEMENT_APP_DECPHA[${id}]}" "${FW_ELEMENT_APP_PHA[${id}]}"
+#                    printf "        status:     s: %s, c: %s, r: %s\n" "${FW_ELEMENT_APP_STATUS[${id}]}" "${FW_ELEMENT_APP_STATUS_COMMENTS[${id}]}" "${FW_ELEMENT_APP_REQUESTED[${id}]}"
+#                    printf "        print:      %s\n" "${FW_OBJECT_PHA_PRT_LVL[${id}]}"
+#                    printf "        log:        %s\n" "${FW_OBJECT_PHA_LOG_LVL[${id}]}"
+#                    printf "        path:       %s\n" "${FW_OBJECT_PHA_PATH[${id}]}"
+#                    printf "        descr:      %s\n\n" "${FW_OBJECT_PHA_LONG[${id}]}"
+
+
+                    printf "    %s: %s, %s, %s, %s, %s, %s\n" "${id}" "${FW_ELEMENT_PRJ_DECMDS[${id}]}" "${FW_ELEMENT_PRJ_MODES[${id}]}" "${FW_ELEMENT_PRJ_PATH[${id}]}" "${FW_ELEMENT_PRJ_TGTS[${id}]}" "${FW_ELEMENT_PRJ_SHOW_EXEC[${id}]}" "${FW_ELEMENT_PRJ_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

@@ -41,7 +41,9 @@ function Levels() {
             if [[ "${FW_OBJECT_LVL_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_OBJECT_LVL_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s: %s, %s, (%s, %s)\n" "${id}" "${FW_OBJECT_LVL_LONG[${id}]}" "${FW_OBJECT_LVL_PATH[${id}]}" "${FW_OBJECT_LVL_CHAR_ABBR[${id}]}" "${FW_OBJECT_LVL_STRING_THM[${id}]}"
+                    printf "    %s (dec: %s / %s)\n"                    "${id}" "${FW_OBJECT_LVL_DECMDS[${id}]}" "${FW_OBJECT_LVL_DECPHA[${id}]}"
+                    printf "        char/str:   %s, %s\n"               "${FW_OBJECT_LVL_CHAR_ABBR[${id}]}" "${FW_OBJECT_LVL_STRING_THM[${id}]}"
+                    printf "        descr:      %s\n\n"                 "${FW_OBJECT_LVL_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

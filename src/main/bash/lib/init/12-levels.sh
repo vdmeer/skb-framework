@@ -29,11 +29,12 @@
 ##
 
 
-Add object level fatalerror     "F"  "Fatal"    "${SF_HOME}/lib/text/levels" "a fatal problem that should lead to exit"
-Add object level error          "E"  "Error"    "${SF_HOME}/lib/text/levels" "a serious problem, recovery might be possible"
-Add object level text           "X"  "Text"     "${SF_HOME}/lib/text/levels" "simple text"
-Add object level message        "M"  "Message"  "${SF_HOME}/lib/text/levels" "a formatted messsage"
-Add object level warning        "W"  "Warning"  "${SF_HOME}/lib/text/levels" "a warning that should not impede further processing"
-Add object level info           "I"  "Info"     "${SF_HOME}/lib/text/levels" "information about a flow or process"
-Add object level debug          "D"  "Debug"    "${SF_HOME}/lib/text/levels" "detailed information about a flow of process"
-Add object level trace          "T"  "Trace"    "${SF_HOME}/lib/text/levels" "very detailed information about a flow or process"
+Add object level fatalerror     with    "F"  "Fatal"    "a fatal problem that should lead to exit"
+Add object level error          with    "E"  "Error"    "a serious problem, recovery might be possible"
+Add object level text           with    "X"  "Text"     "simple text"
+Add object level message        with    "M"  "Message"  "a formatted messsage"
+Add object level warning        with    "W"  "Warning"  "a warning that should not impede further processing"
+Add object level info           with    "I"  "Info"     "information about a flow or process"
+Add object level debug          with    "D"  "Debug"    "detailed information about a flow of process"
+Add object level trace          with    "T"  "Trace"    "very detailed information about a flow or process"
+

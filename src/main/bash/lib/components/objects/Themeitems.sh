@@ -41,7 +41,10 @@ function Themeitems() {
             if [[ "${FW_OBJECT_TIM_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_OBJECT_TIM_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s: %s, %s, %s\n" "${id}" "${FW_OBJECT_TIM_SOURCE[${id}]}" "${FW_OBJECT_TIM_VAL[${id}]}" "${FW_OBJECT_TIM_LONG[${id}]}"
+                    printf "    %s (dec: %s / %s)\n"                    "${id}" "${FW_OBJECT_TIM_DECMDS[${id}]}" "${FW_OBJECT_TIM_DECPHA[${id}]}"
+                    printf "        source:     %s\n"                   "${FW_OBJECT_TIM_SOURCE[${id}]}"
+                    printf "        value:      %s\n"                   "${FW_OBJECT_TIM_VAL[${id}]}"
+                    printf "        descr:      %s\n\n"                 "${FW_OBJECT_TIM_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

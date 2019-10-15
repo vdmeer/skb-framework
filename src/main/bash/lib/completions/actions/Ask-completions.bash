@@ -32,19 +32,21 @@
 function __skb_Ask_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Ask)            retval="has log print project task scenario" ;;
+        Ask)            retval="has log print project task scenario script " ;;
 
         has)            retval="warnings? errors?" ;;
         print | log)    retval="level?" ;;
         level?)         retval="$(Levels has)" ;;
 
-        project | task | scenario)  retval="in" ;;
-        in)                         retval="mode?" ;;
+        project | task | scenario | script) retval="in" ;;
+        in)                                 retval="mode?" ;;
 
         *)              if [[ "${COMP_WORDS[COMP_CWORD-3]}" == "task" && "${COMP_WORDS[COMP_CWORD-2]}" == "in" && "${COMP_WORDS[COMP_CWORD-1]}" == "mode?" ]]; then
                             retval="$(Tasks has)"
                         elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "scenario" && "${COMP_WORDS[COMP_CWORD-2]}" == "in" && "${COMP_WORDS[COMP_CWORD-1]}" == "mode?" ]]; then
                             retval="$(Scenarios has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "script" && "${COMP_WORDS[COMP_CWORD-2]}" == "in" && "${COMP_WORDS[COMP_CWORD-1]}" == "mode?" ]]; then
+                            retval="$(Scripts has)"
                         elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "project" && "${COMP_WORDS[COMP_CWORD-2]}" == "in" && "${COMP_WORDS[COMP_CWORD-1]}" == "mode?" ]]; then
                             retval="$(Projects has)"
                         elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "in" && "${COMP_WORDS[COMP_CWORD-2]}" == "mode?" ]]; then

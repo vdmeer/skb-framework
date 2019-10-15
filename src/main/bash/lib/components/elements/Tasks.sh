@@ -41,7 +41,24 @@ function Tasks() {
             if [[ "${FW_ELEMENT_TSK_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_TSK_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s (%s): %s, %s, %s, %s, %s\n" "${id}" "${FW_ELEMENT_TSK_STATUS[${id}]}" "${FW_ELEMENT_TSK_ORIG[${id}]}" "${FW_ELEMENT_TSK_MODES[${id}]}" "${FW_ELEMENT_TSK_PATH[${id}]}" "${FW_ELEMENT_TSK_SHOW_EXEC[${id}]}" "${FW_ELEMENT_TSK_LONG[${id}]}"
+                    printf "    %s (dec: %s / %s)\n"                    "${id}" "${FW_ELEMENT_TSK_DECMDS[${id}]}" "${FW_ELEMENT_TSK_DECPHA[${id}]}"
+                    printf "        status:     s: %s, c: %s, r: %s\n"  "${FW_ELEMENT_TSK_STATUS[${id}]}" "${FW_ELEMENT_TSK_STATUS_COMMENTS[${id}]}" "${FW_ELEMENT_TSK_REQUESTED[${id}]}"
+                    printf "        modes:      %s\n"                   "${FW_ELEMENT_TSK_MODES[${id}]}"
+                    printf "        req-num:    %s\n"                   "${FW_ELEMENT_TSK_REQNUM[${id}]}"
+                    printf "        showexec:   %s\n"                   "${FW_ELEMENT_TSK_SHOW_EXEC[${id}]}"
+                    printf "        path:       %s\n"                   "${FW_ELEMENT_TSK_PATH[${id}]}"
+                    printf "        path-text:  %s\n"                   "${FW_ELEMENT_TSK_PATH_TEXT[${id}]}"
+                    printf "        descr:      %s\n"                   "${FW_ELEMENT_TSK_LONG[${id}]}"
+
+                    if [[ -n "${FW_ELEMENT_TSK_REQUIRED_APP[${id}]:-}" ]]; then         printf "        req-app:    %s\n"   "${FW_ELEMENT_TSK_REQUIRED_APP[${id}]}"; fi
+                    if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DEP[${id}]:-}" ]]; then         printf "        req-dep:    %s\n"   "${FW_ELEMENT_TSK_REQUIRED_DEP[${id}]}"; fi
+                    if [[ -n "${FW_ELEMENT_TSK_REQUIRED_PAR[${id}]:-}" ]]; then         printf "        req-par:    %s\n"   "${FW_ELEMENT_TSK_REQUIRED_PAR[${id}]}"; fi
+                    if [[ -n "${FW_ELEMENT_TSK_REQUIRED_TSK[${id}]:-}" ]]; then         printf "        req-tsk:    %s\n"   "${FW_ELEMENT_TSK_REQUIRED_TSK[${id}]}"; fi
+                    if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DIRLIST[${id}]:-}" ]]; then     printf "        req-dls:    %s\n"   "${FW_ELEMENT_TSK_REQUIRED_DIRLIST[${id}]}"; fi
+                    if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DIR[${id}]:-}" ]]; then         printf "        req-dir:    %s\n"   "${FW_ELEMENT_TSK_REQUIRED_DIR[${id}]}"; fi
+                    if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FILELIST[${id}]:-}" ]]; then    printf "        req-fls:    %s\n"   "${FW_ELEMENT_TSK_REQUIRED_FILELIST[${id}]}"; fi
+                    if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FILE[${id}]:-}" ]]; then        printf "        req-fil:    %s\n"   "${FW_ELEMENT_TSK_REQUIRED_FILE[${id}]}"; fi
+                    printf "\n"
                 done
             else
                 printf "    %s\n" "{}"

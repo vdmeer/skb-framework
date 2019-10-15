@@ -29,9 +29,6 @@
 ##
 
 
-
-
-
 function List() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
@@ -44,28 +41,36 @@ function List() {
             if [[ -d "${dir}" ]]; then printf "\nLog directory: ${dir}\n\n$(ls -l "${dir}")\n"; else Report process error "${FUNCNAME[0]}" "${cmd1}" E852 "${dir}"; fi ;;
 
         clioptions | exitcodes | \
-        configurations | formats | levels | messages | modes | phases | settings | themes | themeitems | \
-        applications | dependencies | dirlists | dirs | filelists | files | modules | options | parameters | projects | scenarios | sites | tasks | \
+        configurations | formats | levels | messages | modes | phases | settings | themes | themeitems | variables | \
+        applications | dependencies | dirlists | dirs | filelists | files | modules | options | parameters | projects | scenarios | scripts | sites | tasks | \
         actions | elements | instances | objects | operations)
             case ${cmd1} in
                 dependency)     componentClass="Dependencies" ;;
                 *)              componentClass="${cmd1^}" ;;
             esac
+
+
             case "${1:-}" in
                 "show-values")  showValues="show-values" ;;
             esac
             case ${cmd1} in
+                clioptions)
+                    arr="$(echo ${FW_INSTANCE_CLI_SORT[@]})" ;;
+                options)
+                    arr="$(echo ${FW_ELEMENT_OPT_SORT[@]})" ;;
                 actions | elements | instances | objects)
                     arr="$(Framework has ${cmd1})" ;;
                 operations)
-                    arr="${!FW_API[@]}" ;;
+                    arr="${!SF_OPERATIONS[@]}" ;;
                 *)
                     arr="$(${cmd1^} has)" ;;
             esac
+            Format ansi start "${FW_OBJECT_TIM_VAL["listBgrndFmt"]}"
             printf "\n  "
             Format themed text listHeadFmt "${FW_COMPONENTS_TITLE_LONG_PLURAL["${componentClass}"]}"
             printf "\n"
-            Print ${FW_COMPONENTS_SINGULAR["${componentClass}"]} list "${arr}" ${showValues} ;;
+            Print ${FW_COMPONENTS_SINGULAR["${componentClass}"]} list "${arr}" ${showValues}
+            Format ansi end ;;
 
         framework | categorized)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
@@ -74,7 +79,7 @@ function List() {
 
                 framework-cache)
                     dir="${FW_OBJECT_CFG_VAL["CACHE_DIR"]}"
-                    if [[ -d "${dir}" ]]; then printf "\nCache directory: ${dir}\n\n$(ls -l "${dir}")\n"; else Report process error "${FUNCNAME[0]}" "${cmdString2}" E852 "${dir}"; fi ;;
+                    if [[ -d "${dir}" ]]; then printf "\nCache directory: ${dir}\n\n$(ls -lR "${dir}")\n"; else Report process error "${FUNCNAME[0]}" "${cmdString2}" E852 "${dir}"; fi ;;
 
                 categorized-clioptions | categorized-options)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi

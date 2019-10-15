@@ -34,13 +34,13 @@ function __skb_Describe_completions(){
     case ${COMP_WORDS[COMP_CWORD-1]} in
         Describe)       retval="component framework"
                         retval+=" exitcode"
-                        retval+=" format level message mode phase theme"
-                        retval+=" application dependency dirlist dir filelist file module option parameter project scenario task"
+                        retval+=" format level message mode phase theme themeitem variable"
+                        retval+=" application dependency dirlist dir filelist file module option parameter project scenario script site task"
                         retval+=" exit-options runtime-options"
                         retval+=" action element instance object" ;;
 
         component)      retval="actions elements instances objects" ;;
-        framework)      retval="authors bugs copying exit-status description resources security" ;;
+        framework)      if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Describe" ]]; then retval="authors bugs copying exit-status description resources security framework"; fi ;;
 
         application)    retval="$(Applications has)" ;;
         dependency)     retval="$(Dependencies has)" ;;
@@ -59,8 +59,12 @@ function __skb_Describe_completions(){
         phase)          retval="$(Phases has)" ;;
         project)        retval="$(Projects has)" ;;
         scenario)       retval="$(Scenarios has)" ;;
+        script)         retval="$(Scripts has)" ;;
+        site)           retval="$(Sites has)" ;;
         task)           retval="$(Tasks has)" ;;
         theme)          retval="$(Themes has)" ;;
+        themeitem)      retval="$(Themeitems has)" ;;
+        variable)       retval="$(Variables has)" ;;
 
         action)         retval="$(Framework has actions)" ;;
         element)        retval="$(Framework has elements)" ;;

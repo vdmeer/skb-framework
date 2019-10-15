@@ -1,0 +1,147 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Report - API declarations
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.6
+## @since      0.0.6
+##
+
+
+SF_OPERATIONS["Report"]="shows available operations"
+
+SF_OPERATIONS["Report%application%fatalerror%@TEXT@"]="print/log TEXT using template rptAppFatalTploptions"
+SF_OPERATIONS["Report%application%error%@TEXT@"]="print/log TEXT using template rptAppErrorTploptions"
+SF_OPERATIONS["Report%application%text%@TEXT@"]="print/log TEXT using template rptAppTextTploptions"
+SF_OPERATIONS["Report%application%message%@TEXT@"]="print/log TEXT using template rptAppMessageTploptions"
+SF_OPERATIONS["Report%application%warning%@TEXT@"]="print/log TEXT using template rptAppWarningTploptions"
+SF_OPERATIONS["Report%application%info%@TEXT@"]="print/log TEXT using template rptAppInfoTploptions"
+SF_OPERATIONS["Report%application%debug%@TEXT@"]="print/log TEXT using template rptAppDebugTploptions"
+SF_OPERATIONS["Report%application%trace%@TEXT@"]="print/log TEXT using template rptAppTraceTploptions"
+
+SF_OPERATIONS["Report%process%fatalerror%@TEXT@"]="print/log TEXT using template rptProcFatalTploptions"
+SF_OPERATIONS["Report%process%error%@TEXT@"]="print/log TEXT using template rptProcErrorTploptions"
+SF_OPERATIONS["Report%process%text%@TEXT@"]="print/log TEXT using template rptProcTextTploptions"
+SF_OPERATIONS["Report%process%message%@TEXT@"]="print/log TEXT using template rptProcMessageTploptions"
+SF_OPERATIONS["Report%process%warning%@TEXT@"]="print/log TEXT using template rptProcWarningTploptions"
+SF_OPERATIONS["Report%process%info%@TEXT@"]="print/log TEXT using template rptProcInfoTploptions"
+SF_OPERATIONS["Report%process%debug%@TEXT@"]="print/log TEXT using template rptProcDebugTploptions"
+SF_OPERATIONS["Report%process%trace%@TEXT@"]="print/log TEXT using template rptProcTraceTploptions"
+
+
+SF_OPERATIONS["Report%application%fatalerror%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptAppFatalTploptions"
+SF_OPERATIONS["Report%application%error%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptAppErrorTploptions"
+SF_OPERATIONS["Report%application%text%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptAppTextTploptions"
+SF_OPERATIONS["Report%application%message%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptAppMessageTploptions"
+SF_OPERATIONS["Report%application%warning%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptAppWarningTploptions"
+SF_OPERATIONS["Report%application%info%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptAppInfoTploptions"
+SF_OPERATIONS["Report%application%debug%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptAppDebugTploptions"
+SF_OPERATIONS["Report%application%trace%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptAppTraceTploptions"
+
+SF_OPERATIONS["Report%process%fatalerror%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptProcFatalTploptions"
+SF_OPERATIONS["Report%process%error%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptProcErrorTploptions"
+SF_OPERATIONS["Report%process%text%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptProcTextTploptions"
+SF_OPERATIONS["Report%process%message%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptProcMessageTploptions"
+SF_OPERATIONS["Report%process%warning%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptProcWarningTploptions"
+SF_OPERATIONS["Report%process%info%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptProcInfoTploptions"
+SF_OPERATIONS["Report%process%debug%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptProcDebugTploptions"
+SF_OPERATIONS["Report%process%trace%@FUNC@%@TEXT@"]="print/log 'FUNC: TEXT' using template rptProcTraceTploptions"
+
+
+SF_OPERATIONS["Report%application%fatalerror%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptAppFatalTploptions"
+SF_OPERATIONS["Report%application%error%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptAppErrorTploptions"
+SF_OPERATIONS["Report%application%text%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptAppTextTploptions"
+SF_OPERATIONS["Report%application%message%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptAppMessageTploptions"
+SF_OPERATIONS["Report%application%warning%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptAppWarningTploptions"
+SF_OPERATIONS["Report%application%info%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptAppInfoTploptions"
+SF_OPERATIONS["Report%application%debug%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptAppDebugTploptions"
+SF_OPERATIONS["Report%application%trace%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptAppTraceTploptions"
+
+SF_OPERATIONS["Report%process%fatalerror%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptProcFatalTploptions"
+SF_OPERATIONS["Report%process%error%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptProcErrorTploptions"
+SF_OPERATIONS["Report%process%text%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptProcTextTploptions"
+SF_OPERATIONS["Report%process%message%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptProcMessageTploptions"
+SF_OPERATIONS["Report%process%warning%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptProcWarningTploptions"
+SF_OPERATIONS["Report%process%info%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptProcInfoTploptions"
+SF_OPERATIONS["Report%process%debug%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptProcDebugTploptions"
+SF_OPERATIONS["Report%process%trace%@FUNC@%@CMD@%@TEXT@"]="print/log 'FUNC(CMD): TEXT' using template rptProcTraceTploptions"
+
+
+
+
+SF_OPERATIONS["Report%application%fatalerror%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptAppFatalTploptions"
+SF_OPERATIONS["Report%application%error%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptAppErrorTploptions"
+SF_OPERATIONS["Report%application%text%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptAppTextTploptions"
+SF_OPERATIONS["Report%application%message%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptAppMessageTploptions"
+SF_OPERATIONS["Report%application%warning%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptAppWarningTploptions"
+SF_OPERATIONS["Report%application%info%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptAppInfoTploptions"
+SF_OPERATIONS["Report%application%debug%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptAppDebugTploptions"
+SF_OPERATIONS["Report%application%trace%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptAppTraceTploptions"
+
+SF_OPERATIONS["Report%process%fatalerror%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptProcFatalTploptions"
+SF_OPERATIONS["Report%process%error%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptProcErrorTploptions"
+SF_OPERATIONS["Report%process%text%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptProcTextTploptions"
+SF_OPERATIONS["Report%process%message%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptProcMessageTploptions"
+SF_OPERATIONS["Report%process%warning%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptProcWarningTploptions"
+SF_OPERATIONS["Report%process%info%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptProcInfoTploptions"
+SF_OPERATIONS["Report%process%debug%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptProcDebugTploptions"
+SF_OPERATIONS["Report%process%trace%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log using template rptProcTraceTploptions"
+
+
+SF_OPERATIONS["Report%application%fatalerror%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptAppFatalTploptions"
+SF_OPERATIONS["Report%application%error%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptAppErrorTploptions"
+SF_OPERATIONS["Report%application%text%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptAppTextTploptions"
+SF_OPERATIONS["Report%application%message%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptAppMessageTploptions"
+SF_OPERATIONS["Report%application%warning%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptAppWarningTploptions"
+SF_OPERATIONS["Report%application%info%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptAppInfoTploptions"
+SF_OPERATIONS["Report%application%debug%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptAppDebugTploptions"
+SF_OPERATIONS["Report%application%trace%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptAppTraceTploptions"
+
+SF_OPERATIONS["Report%process%fatalerror%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message' using template rptProcFatalTploptions"
+SF_OPERATIONS["Report%process%error%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptProcErrorTploptions"
+SF_OPERATIONS["Report%process%text%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptProcTextTploptions"
+SF_OPERATIONS["Report%process%message%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptProcMessageTploptions"
+SF_OPERATIONS["Report%process%warning%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptProcWarningTploptions"
+SF_OPERATIONS["Report%process%info%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptProcInfoTploptions"
+SF_OPERATIONS["Report%process%debug%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptProcDebugTploptions"
+SF_OPERATIONS["Report%process%trace%@FUNC@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC: message'using template rptProcTraceTploptions"
+
+
+SF_OPERATIONS["Report%application%fatalerror%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptAppFatalTploptions"
+SF_OPERATIONS["Report%application%error%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptAppErrorTploptions"
+SF_OPERATIONS["Report%application%text%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptAppTextTploptions"
+SF_OPERATIONS["Report%application%message%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptAppMessageTploptions"
+SF_OPERATIONS["Report%application%warning%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptAppWarningTploptions"
+SF_OPERATIONS["Report%application%info%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptAppInfoTploptions"
+SF_OPERATIONS["Report%application%debug%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptAppDebugTploptions"
+SF_OPERATIONS["Report%application%trace%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptAppTraceTploptions"
+
+SF_OPERATIONS["Report%process%fatalerror%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message' using template rptProcFatalTploptions"
+SF_OPERATIONS["Report%process%error%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptProcErrorTploptions"
+SF_OPERATIONS["Report%process%text%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptProcTextTploptions"
+SF_OPERATIONS["Report%process%message%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptProcMessageTploptions"
+SF_OPERATIONS["Report%process%warning%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptProcWarningTploptions"
+SF_OPERATIONS["Report%process%info%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptProcInfoTploptions"
+SF_OPERATIONS["Report%process%debug%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptProcDebugTploptions"
+SF_OPERATIONS["Report%process%trace%@FUNC@%@CMD@%@ID@%[%@OPTIONS@%]"]="build message ID options OPTIONS, then print/log 'FUNC(CMD): message'using template rptProcTraceTploptions"

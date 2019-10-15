@@ -41,7 +41,12 @@ function Applications() {
             if [[ "${FW_ELEMENT_APP_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_APP_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s (%s, %s, %s): %s, %s, %s, %s (%s)\n" "${id}" "${FW_ELEMENT_APP_ORIG[${id}]}" "${FW_ELEMENT_APP_STATUS[${id}]}" "${FW_ELEMENT_APP_REQUESTED[${id}]}" "${FW_ELEMENT_APP_PHA[${id}]}" "${FW_ELEMENT_APP_LONG[${id}]}" "${FW_ELEMENT_APP_COMMAND[${id}]}" "${FW_ELEMENT_APP_ARGS[${id}]}" "${FW_ELEMENT_APP_ARGNUM[${id}]}"
+                    printf "    %s (dec: %s / %s, set: %s)\n"           "${id}" "${FW_ELEMENT_APP_DECMDS[${id}]}" "${FW_ELEMENT_APP_DECPHA[${id}]}" "${FW_ELEMENT_APP_PHA[${id}]}"
+                    printf "        status:     s: %s, c: %s, r: %s\n"  "${FW_ELEMENT_APP_STATUS[${id}]}" "${FW_ELEMENT_APP_STATUS_COMMENTS[${id}]}" "${FW_ELEMENT_APP_REQUESTED[${id}]}"
+                    printf "        command:    %s\n"                   "${FW_ELEMENT_APP_COMMAND[${id}]}"
+                    printf "        argnum:     %s\n"                   "${FW_ELEMENT_APP_ARGNUM[${id}]}"
+                    printf "        args:       %s\n"                   "${FW_ELEMENT_APP_ARGS[${id}]}"
+                    printf "        descr:      %s\n\n"                 "${FW_ELEMENT_APP_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

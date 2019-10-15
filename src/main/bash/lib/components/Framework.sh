@@ -30,17 +30,19 @@
 
 
 for file in ${SF_HOME}/lib/components/{actions,elements,objects,instances}/*.sh; do source ${file}; done; unset file
+source ${SF_HOME}/lib/components/internal.sh
 
 
 function Framework() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
+    if [[ -z "${1:-}" ]]; then Explain "${FUNCNAME[0],,}"; return; fi
+#    if [[ -z "${1:-}" ]]; then
+#        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
 ##TODO
-        Format help indentation 1; Format text yellow "Auto completion"; printf " work fo all components.\n"
-        Format help indentation 1; printf "Completion is dynamic, using the framework itself as much as possible\n"
-        Format help indentation 1; printf "Completion will show only available completions for any given request.\n\n"
-        Format help indentation 1; printf "To exit, use bye, exit, or quit; or use the action Terminate\n\n"; return
-    fi
+#        Format help indentation 1; Format text yellow "Auto completion"; printf " work fo all components.\n"
+#        Format help indentation 1; printf "Completion is dynamic, using the framework itself as much as possible\n"
+#        Format help indentation 1; printf "Completion will show only available completions for any given request.\n\n"
+#        Format help indentation 1; printf "To exit, use bye, exit, or quit; or use the action Terminate\n\n"; return
+#    fi
 
     if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" E801 2 "$#"; return; fi
     local cmd1="${1}"; shift
@@ -55,6 +57,8 @@ function Framework() {
                         printf "%s" "${name%*.sh}"
                         count=$(( count + 1 ))
                     done ;;
+                components)
+                    printf " $(Framework has actions) $(Framework has elements) $(Framework has instances) $(Framework has objects) " ;;
                 *) Report process error "${FUNCNAME[0]}" E803 "${cmd1} ${1}" ;;
             esac; return ;;
         task)

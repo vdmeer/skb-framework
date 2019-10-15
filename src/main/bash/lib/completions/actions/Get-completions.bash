@@ -33,7 +33,7 @@ function __skb_Get_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
         Get)            retval="pid system version"
-                        retval+=" app cache config current default error file home last log module option primary print show start status strict user warning"
+                        retval+=" app cache config current default error file home message last log module option primary print show start status strict user warning"
                         retval+=" auto element object"
                         ;;
 
@@ -42,19 +42,22 @@ function __skb_Get_completions(){
         primary)        retval="module" ;;
 
         element)        retval="application dependency dirlist dir filelist file module option parameter project scenario site task" ;;
-        object)         retval="configuration format level message mode phase setting theme themeitem" ;;
+        object)         retval="configuration format level message mode phase setting theme themeitem variable" ;;
 
         configuration)  retval="$(Configurations has)" ;;
         format)         retval="$(Formats has)" ;;
         level)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "object" ]]; then retval="$(Levels has)"; fi ;;
         message)        if [[ "${COMP_WORDS[COMP_CWORD-3]}" == "object" ]]; then retval="description path character theme-string"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Get" ]]; then retval="codes"
                         else retval="$(Messages has)"
                         fi ;;
+        codes)          retval="" ;;
         mode)           if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "object" ]]; then retval="$(Modes has)"; fi ;;
         phase)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "object" ]]; then retval="$(Phases has)"; fi ;;
         setting)        retval="$(Settings has)" ;;
         theme)          retval="$(Themes has)" ;;
         themeitem)      retval="$(Themeitems has)" ;;
+        variable)       retval="$(Variables has)" ;;
 
         application)    retval="$(Applications has)" ;;
         dependency)     retval="$(Dependencies has)" ;;
@@ -86,7 +89,7 @@ function __skb_Get_completions(){
         home)           retval="dir" ;;
 
         error)          if [[ "${COMP_WORDS[COMP_CWORD-3]}" == "object" ]]; then retval="description path character theme-string"
-                        else retval="count codes"
+                        else retval="count"
                         fi ;;
         last)           retval="project scenario site task" ;;
         log)            if [[ "${COMP_WORDS[COMP_CWORD-3]}" == "phase" ]]; then retval="level"; else retval="dir file format level date-arg"; fi ;;
@@ -103,23 +106,25 @@ function __skb_Get_completions(){
         *)              if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "configuration" ]]; then
                             retval="description value"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "format" ]]; then
-                           retval="description path"
+                           retval="description"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "level" ]]; then
-                           retval="description path character theme-string"
+                           retval="description character theme-string"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "message" ]]; then
-                           retval="arguments description text type category path"
+                           retval="arguments description text type category"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "mode" ]]; then
-                           retval="description path"
+                           retval="description"
 
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "phase" ]]; then
-                           retval="print-level description error-count error-codes log-level warning-count path"
+                           retval="print-level description error-count message-codes log-level warning-count"
 
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "setting" ]]; then
                            retval="description phase value"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "theme" && "${COMP_WORDS[COMP_CWORD-3]}" != "Get" ]]; then
-                           retval="description path"
+                           retval="description"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "themeitem" && "${COMP_WORDS[COMP_CWORD-3]}" != "Get" ]]; then
                            retval="description value source"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "variable" && "${COMP_WORDS[COMP_CWORD-3]}" != "Get" ]]; then
+                           retval="description"
 
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "application" ]]; then
                            retval="description origin phase command argnum arguments status status-comments requested"
@@ -134,9 +139,9 @@ function __skb_Get_completions(){
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "parameter" ]]; then
                            retval="description origin default-value phase value status status-comments requested"
                                 elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "project" ]]; then
-                           retval="description origin modes path path-text file targets status status-comments required-applications required-dependencies required-parameters required-tasks required-files required-filelists required-directories required-dirlists"
+                           retval="description origin modes path path-text root-dir targets status status-comments required-applications required-dependencies required-parameters required-tasks required-files required-filelists required-directories required-dirlists"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "scenario" ]]; then
-                           retval="description origin modes path path-text status status-comments required-applications required-dependencies required-parameters required-tasks required-files required-filelists required-directories required-dirlists"
+                           retval="description origin modes path path-text status status-comments required-applications required-tasks"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "site" ]]; then
                            retval="description origin path path-text file status status-comments required-applications required-dependencies required-parameters required-tasks required-files required-filelists required-directories required-dirlists"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "task" ]]; then

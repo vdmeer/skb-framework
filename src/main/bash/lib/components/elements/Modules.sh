@@ -37,6 +37,7 @@ function Modules() {
     shift; case "${cmd1}" in
         knows)
             echo " ${!FW_ELEMENT_MDS_KNOWN[@]} " ;;
+
         search)
             local path="$(Get primary module path) $(Get module path)" dir modFile modId
             unset -v FW_ELEMENT_MDS_KNOWN
@@ -58,7 +59,12 @@ function Modules() {
             if [[ "${FW_ELEMENT_MDS_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_MDS_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s (%s, %s): %s, {%s}, %s\n" "${id}" "${FW_ELEMENT_MDS_ACR[${id}]}" "${FW_ELEMENT_MDS_PHA[${id}]}" "${FW_ELEMENT_MDS_PATH[${id}]}" "${FW_ELEMENT_MDS_REQUIRED_MODULES[${id}]:-}" "${FW_ELEMENT_MDS_LONG[${id}]}"
+                    printf "    %s (acr: %s, dec: %s)\n"                "${id}" "${FW_ELEMENT_MDS_ACR[${id}]}" "${FW_ELEMENT_MDS_DECPHA[${id}]}"
+                    printf "        status:     s: %s, c: %s, r: %s\n"  "${FW_ELEMENT_MDS_STATUS[${id}]}" "${FW_ELEMENT_MDS_STATUS_COMMENTS[${id}]}" "${FW_ELEMENT_MDS_REQUESTED[${id}]}"
+                    printf "        req-num:    %s\n"                   "${FW_ELEMENT_MDS_REQNUM[${id}]}"
+                    printf "        req-mods:   %s\n"                   "${FW_ELEMENT_MDS_REQUIRED_MODULES[${id}]:-none}"
+                    printf "        path:       %s\n"                   "${FW_ELEMENT_MDS_PATH[${id}]}"
+                    printf "        descr:      %s\n\n"                 "${FW_ELEMENT_MDS_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

@@ -32,15 +32,16 @@
 function __skb_Reset_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Reset)      retval="error warning phase" ;;
+        Reset)      retval="error message warning phase" ;;
 
-        error)      retval="codes count" ;;
+        message)    retval="codes" ;;
+        error)      retval="count" ;;
         warning)    retval="count" ;;
 
         phase)      retval="$(Phases has)" ;;
 
         *)              if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "phase" ]]; then
-                            retval="error warning"
+                            retval="error message warning"
                         fi ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi

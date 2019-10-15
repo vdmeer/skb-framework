@@ -41,7 +41,9 @@ function Configurations() {
             if [[ "${FW_OBJECT_CFG_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_OBJECT_CFG_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s: %s := %s\n" "${id}" "${FW_OBJECT_CFG_LONG[${id}]}" "${FW_OBJECT_CFG_VAL[${id}]}"
+                    printf "    %s (dec: %s / %s)\n"                    "${id}" "${FW_OBJECT_CFG_DECMDS[${id}]}" "${FW_OBJECT_CFG_DECPHA[${id}]}"
+                    printf "        value:      %s\n"                   "${FW_OBJECT_CFG_VAL[${id}]}"
+                    printf "        descr:      %s\n\n"                 "${FW_OBJECT_CFG_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

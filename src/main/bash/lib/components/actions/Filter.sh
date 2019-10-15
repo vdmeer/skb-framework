@@ -42,7 +42,7 @@ function Filter() {
             if [[ "${FW_INSTANCE_CLI_LONG[*]}" != "" ]]; then
                 for id in ${!FW_INSTANCE_CLI_LONG[@]}; do
                     if [[ "${FW_INSTANCE_CLI_CAT[${id}]}" != "${filter}" ]]; then continue; fi
-                    keys[${id}]="f"
+                    keys["${FW_INSTANCE_CLI_SORT[${id}]}"]="f"
                 done
                 echo "${!keys[@]}"
             else
@@ -55,7 +55,7 @@ function Filter() {
             if [[ ! -n "${filter}" ]]; then echo ""; return; fi
             for id in ${!FW_ELEMENT_OPT_LONG[@]}; do
                 if [[ "${FW_ELEMENT_OPT_CAT[${id}]}" != "${filter}" ]]; then continue; fi
-                keys[${id}]="f"
+                keys["${FW_ELEMENT_OPT_SORT[${id}]}"]="f"
             done
             echo "${!keys[@]}" ;;
 
@@ -63,7 +63,7 @@ function Filter() {
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
             filter="${1}"; declare -A keys
             if [[ ! -n "${filter}" ]]; then echo ""; return; fi
-            for id in "${!FW_API[@]}"; do case ${id} in "${filter}%"*) keys[${id}]="f" ;; esac; done
+            for id in "${!SF_OPERATIONS[@]}"; do case ${id} in "${filter}%"*) keys[${id}]="f" ;; esac; done
             echo "${!keys[@]}" ;;
 
         messages)

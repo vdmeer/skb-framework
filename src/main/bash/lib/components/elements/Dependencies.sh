@@ -41,7 +41,12 @@ function Dependencies() {
             if [[ "${FW_ELEMENT_DEP_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_DEP_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s(%s, %s): %s, %s, {%s}, %s\n" "${id}" "${FW_ELEMENT_DEP_REQUESTED[${id}]}" "${FW_ELEMENT_DEP_STATUS[${id}]}" "${FW_ELEMENT_DEP_ORIG[${id}]}" "${FW_ELEMENT_DEP_CMD[${id}]}" "${FW_ELEMENT_DEP_REQUIRED_DEPENDENCIES[${id}]:-}" "${FW_ELEMENT_DEP_LONG[${id}]}"
+                    printf "    %s (dec: %s / %s)\n"                    "${id}" "${FW_ELEMENT_DEP_DECMDS[${id}]}" "${FW_ELEMENT_DEP_DECPHA[${id}]}"
+                    printf "        status:     s: %s, c: %s, r: %s\n"  "${FW_ELEMENT_DEP_STATUS[${id}]}" "${FW_ELEMENT_DEP_STATUS_COMMENTS[${id}]}" "${FW_ELEMENT_DEP_REQUESTED[${id}]}"
+                    printf "        command:    %s\n"                   "${FW_ELEMENT_DEP_CMD[${id}]}"
+                    printf "        req-num:    %s\n"                   "${FW_ELEMENT_DEP_REQNUM[${id}]}"
+                    printf "        req-dep:    %s\n"                   "${FW_ELEMENT_DEP_REQUIRED_DEPENDENCIES[${id}]:-none}"
+                    printf "        descr:      %s\n\n"                 "${FW_ELEMENT_DEP_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

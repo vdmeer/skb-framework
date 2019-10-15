@@ -79,20 +79,26 @@ function Clioptions() {
                             if [[ "${#}" -lt 5 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 5 "$#"; return; fi
                             id="${1}"; shortId="${2}"; value="${3}"; description="${4}"; category="${5}"
                             if [[ ! -n "${id}" ]]; then Report application error "${FUNCNAME[0]}" "${cmdString2}" E813; return; fi
+                            if (( "${#id}" < 2 )); then Report application error "${FUNCNAME[0]}" "${cmdString2}" E808 "${id}"; return; fi
                             Test used clioption long-id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                             Test used clioption short-id "${shortId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                             FW_INSTANCE_CLI_LONG["${id}"]="${description}"
                             optionLength=$(( 5 + ${#id} ))
-                            if [[ "${shortId}" != "" ]]; then FW_INSTANCE_CLI_SHORT["${shortId}"]="${id}"; fi
+                            if [[ "${shortId}" != "" ]]; then
+                                if (( "${#shortId}" > 1 )); then Report application error "${FUNCNAME[0]}" "${cmdString2}" E809 "${shortId}" "${#shortId}"; return; fi
+                                FW_INSTANCE_CLI_SHORT["${shortId}"]="${id}"
+                                FW_INSTANCE_CLI_SORT["${id}"]="#${shortId,}${id}"
+                            else
+                                FW_INSTANCE_CLI_SORT["${id}"]="#${id:0:1}${id}"
+                            fi
                             FW_INSTANCE_CLI_LS["${id}"]="${shortId}"
                             FW_INSTANCE_CLI_ARG["${id}"]="${value}"
-                            if [[ -n "${value}" ]]; then
-                                optionLength=$(( optionLength + 1 + ${#value} ))
-                            fi
+                            if [[ -n "${value}" ]]; then optionLength=$(( optionLength + 1 + ${#value} )); fi
                             FW_INSTANCE_CLI_CAT["${id}"]="${category}"
                             FW_INSTANCE_CLI_LEN["${id}"]=${optionLength}
                             FW_INSTANCE_CLI_SET["${id}"]="no"
                             FW_INSTANCE_CLI_VAL["${id}"]="" ;;
+
 
                         add-option-help)            Clioptions add general option      help            h  ""       "print a help screen with CLI options" "Options" ;;
                         add-option-format)          Clioptions add general option      format          F  "FORMAT" "sets format for printed text" "Options" ;;

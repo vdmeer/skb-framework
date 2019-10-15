@@ -61,10 +61,15 @@ function Execute() {
             id="${1}"; shift 1
             Test existing ${cmd1} id ${id}; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
 
-            case ${FW_ELEMENT_SCN_MODES[${id}]} in
-                all | ${FW_OBJECT_SET_VAL["CURRENT_MODE"]}) ;;
-                *) Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 ${cmd1} "${id}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"; return ;;
-            esac
+            if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" == "test" ]]; then
+                : # always available in test mode
+            else
+                case ${FW_ELEMENT_SCN_MODES[${id}]} in
+                    all | ${FW_OBJECT_SET_VAL["CURRENT_MODE"]}) ;;
+                    *) Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 ${cmd1} "${id}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"; return ;;
+                esac
+            fi
+
             case "${FW_ELEMENT_SCN_STATUS[${id}]}" in
                 N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E853 ${cmd1} "${id}"; return ;;
                 E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 ${cmd1} "${id}"; return ;;
@@ -96,7 +101,7 @@ function Execute() {
                         *)                          Execute task ${line}
                                                     if [[ "${FW_OBJECT_PHA_ERRCNT["Task"]}" > 0 ]]; then
                                                         Report application error E827 "task: ${line}"
-                                                        FW_OBJECT_PHA_ERRCNT[${cmd1^}]="${FW_OBJECT_SET_VAL["ERROR_COUNT"]}"
+                                                        FW_OBJECT_PHA_ERRCNT["Scenario"]="${FW_OBJECT_SET_VAL["ERROR_COUNT"]}"
                                                         break
                                                     fi ;;
                     esac
@@ -113,10 +118,15 @@ function Execute() {
             id="${1}"; shift 1
             Test existing ${cmd1} id ${id}; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
 
-            case ${FW_ELEMENT_TSK_MODES[${id}]} in
-                all | ${FW_OBJECT_SET_VAL["CURRENT_MODE"]}) ;;
-                *) Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 ${cmd1} "${id}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"; return ;;
-            esac
+            if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" == "test" ]]; then
+                : # always available in test mode
+            else
+                case ${FW_ELEMENT_TSK_MODES[${id}]} in
+                    all | ${FW_OBJECT_SET_VAL["CURRENT_MODE"]}) ;;
+                    *) Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 ${cmd1} "${id}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"; return ;;
+                esac
+            fi
+
             case "${FW_ELEMENT_TSK_STATUS[${id}]}" in
                 N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E853 ${cmd1} "${id}"; return ;;
                 E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 ${cmd1} "${id}"; return ;;
@@ -135,8 +145,8 @@ function Execute() {
             if [[ "${showExecution}" == "on" ]]; then tsStart="$(date +%s.%N)"; fi
 
             ${FW_ELEMENT_TSK_PATH[${id}]}/${id}.sh ${@}; errno=$?
-            if [[ "${errno}" != 0 ]]; then for (( i=1; i <= errno; i++ )); do Increase error count; done; fi
-            if [[ "${FW_OBJECT_PHA_ERRCNT["${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"]}" > 0 ]]; then Report application error E827 ${cmd1}; fi
+            if [[ "${errno}" != 0 ]]; then FW_OBJECT_PHA_ERRCNT["Task"]=$(( ${FW_OBJECT_PHA_ERRCNT["Task"]} + errno)); fi
+            if [[ "${FW_OBJECT_PHA_ERRCNT["Task"]}" > 0 ]]; then Report application error E827 ${cmd1}; fi
 
             if [[ "${showExecution}" == "on" ]]; then tsEnd="$(date +%s.%N)"; fi
             Finalize ${cmd1} execution "${id}" "${thisPhase}" "${thisAppname}"

@@ -39,6 +39,7 @@ function Terminate() {
             if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_FAST"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_FAST"]}"; fi
             if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_MEDIUM"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_MEDIUM"]}"; fi
             if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_SLOW"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_SLOW"]}"; fi
+            if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_LOAD"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_LOAD"]}"; fi
             \exit ${1:-0} ;;
 
         *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;

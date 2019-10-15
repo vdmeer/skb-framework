@@ -36,15 +36,18 @@ function Explain() {
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
-        action | element | instance | object | component)
-            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
-            componentID="${1}"; Test existing ${cmd1} id "${componentID}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+        action | element | instance | object | component | framework)
+            componentID="${1:-Framework}";
+            case ${componentID} in
+                Framework)  ;;
+                *)          Test existing ${cmd1} id "${componentID}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
+            esac
 
             printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Operations"; printf "\n\n"
             IFS=" " read -a keys <<< "$(Filter operations ${componentID})"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
             for id in "${keys[@]}"; do
                 Format tagline for operation "${id}" describe ${#FW_OBJECT_TIM_VAL["explainIndent2"]} 1 ""; printf "\n"
-                Format help indentation 3; Format themed text explainTextFmt "${FW_API[${id}]}"
+                Format help indentation 3; Format themed text explainTextFmt "${SF_OPERATIONS[${id}]}"
                 printf "\n"
             done ;;
 

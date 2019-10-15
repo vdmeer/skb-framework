@@ -52,7 +52,7 @@ function Ask() {
                     id="${1}"; Test existing level id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case ${FW_OBJECT_SET_VAL["LOG_LEVEL"]} in *" ${id} "*)   printf yes ;; *) printf no ;; esac ;;
 
-                project-in | task-in | scenario-in)
+                project-in | task-in | scenario-in | script-in)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} cmd3" E802 1 "$#"; return; fi
                     cmd3=${1,,}; shift; cmdString3="${cmd1} ${cmd2} ${cmd3}"
                     case "${cmd1}-${cmd2}-${cmd3}" in
@@ -60,26 +60,50 @@ function Ask() {
                         project-in-mode?)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 1 "$#"; return; fi
                             id="${1}"; mode="${2:-${FW_OBJECT_SET_VAL["CURRENT_MODE"]}}"
-                            case ${FW_ELEMENT_PRJ_MODES[${id}]} in
-                                all | ${mode})  printf "yes" ;;
-                                *)              printf "no" ;;
-                            esac ;;
+                            if [[ "${mode}" == "test" ]]; then
+                                printf "yes"
+                            else
+                                case ${FW_ELEMENT_PRJ_MODES[${id}]} in
+                                    all | ${mode})  printf "yes" ;;
+                                    *)              printf "no" ;;
+                                esac
+                            fi;;
 
                         task-in-mode?)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 1 "$#"; return; fi
                             id="${1}"; mode="${2:-${FW_OBJECT_SET_VAL["CURRENT_MODE"]}}"
-                            case ${FW_ELEMENT_TSK_MODES[${id}]} in
-                                all | ${mode})  printf "yes" ;;
-                                *)              printf "no" ;;
-                            esac ;;
+                            if [[ "${mode}" == "test" ]]; then
+                                 printf "yes"
+                            else
+                                case ${FW_ELEMENT_TSK_MODES[${id}]} in
+                                    all | ${mode})  printf "yes" ;;
+                                    *)              printf "no" ;;
+                                esac
+                            fi ;;
 
                         scenario-in-mode?)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 1 "$#"; return; fi
                             id="${1}"; mode="${2:-${FW_OBJECT_SET_VAL["CURRENT_MODE"]}}"
-                            case ${FW_ELEMENT_SCN_MODES[${id}]} in
-                                all | ${mode})  printf "yes" ;;
-                                *)              printf "no" ;;
-                            esac ;;
+                            if [[ "${mode}" == "test" ]]; then
+                                 printf "yes"
+                            else
+                                case ${FW_ELEMENT_SCN_MODES[${id}]} in
+                                    all | ${mode})  printf "yes" ;;
+                                    *)              printf "no" ;;
+                                esac
+                            fi ;;
+
+                        script-in-mode?)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 1 "$#"; return; fi
+                            id="${1}"; mode="${2:-${FW_OBJECT_SET_VAL["CURRENT_MODE"]}}"
+                            if [[ "${mode}" == "test" ]]; then
+                                 printf "yes"
+                            else
+                                case ${FW_ELEMENT_TCR_MODES[${id}]} in
+                                    all | ${mode})  printf "yes" ;;
+                                    *)              printf "no" ;;
+                                esac
+                            fi ;;
 
                         *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
                     esac ;;

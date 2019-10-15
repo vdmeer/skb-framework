@@ -88,19 +88,16 @@ function Report() {
                         esac
                     fi
                     case ${level} in
-                        fatalerror | error) FW_OBJECT_PHA_ERRCNT[${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}]=$(( FW_OBJECT_PHA_ERRCNT[${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}] + 1 ))
-                                            FW_OBJECT_SET_PHA["ERROR_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                                            FW_OBJECT_SET_VAL["ERROR_COUNT"]=$(( FW_OBJECT_SET_VAL["ERROR_COUNT"] + 1 ))
-                                            if [[ "${messageID:0:1}" == "E" ]]; then
-                                                FW_OBJECT_PHA_ERRCOD[${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}]+=" ${messageID}"
-                                                FW_OBJECT_SET_PHA["ERROR_CODES"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                                                FW_OBJECT_SET_VAL["ERROR_CODES"]+=" ${messageID}"
+                        fatalerror | error) if [[ "${messageID:0:1}" == "E" ]]; then
+                                                sf_alter_phase_counts increase error-count ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${messageID}
+                                            else
+                                                sf_alter_phase_counts increase error-count ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}
+                                            fi ;;
+                        warning)            if [[ "${messageID:0:1}" == "W" ]]; then
+                                                sf_alter_phase_counts increase warning-count ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${messageID}
+                                            else
+                                                sf_alter_phase_counts increase warning-count ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}
                                             fi
-                                            if [[ "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write fast config; fi ;;
-                        warning)            FW_OBJECT_PHA_WRNCNT[${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}]=$(( FW_OBJECT_PHA_WRNCNT[${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}] + 1 ))
-                                            FW_OBJECT_SET_PHA["WARNING_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                                            FW_OBJECT_SET_VAL["WARNING_COUNT"]=$(( FW_OBJECT_SET_VAL["WARNING_COUNT"] + 1 ))
-                                            if [[ "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write fast config; fi ;;
                     esac
 
                     themeItem="${FW_OBJECT_LVL_STRING_THM[${level}]}"

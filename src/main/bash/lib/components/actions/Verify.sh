@@ -35,30 +35,17 @@
 function Verify() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local i id errno status dir file fileText modid modpath fsMode list element command
+    local i id errno status dir file fileText modid modpath fsMode list element command appName
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
-        everything)
-            Verify requests
+        elements)
+            if [[ -n "${FW_OBJECT_SET_VAL["APP_NAME2"]}" ]]; then appName="${FW_OBJECT_SET_VAL["APP_NAME2"]}"; else appName="${FW_OBJECT_SET_VAL["APP_NAME"]}"; fi
 
-            Verify applications
-            Verify dependencies
-            Verify dirlists
-            Verify dirs
-            Verify filelists
-            Verify files
-            Verify modules
-            Verify parameters
-
-            Verify tasks
-            Verify projects
-            Verify scenarios
-            Verify sites
-
-            Write medium config file ;;
-
-        requests)
+            ##
+            ## RESET ALL REQUESTS
+            ##
+            Report process info "${appName}" "resetting status, computing requests"
             if [[ "${FW_ELEMENT_MDS_LONG[*]}" != "" ]]; then
                 for id in ${!FW_ELEMENT_MDS_LONG[@]}; do FW_ELEMENT_MDS_STATUS[${id}]="N"; FW_ELEMENT_MDS_STATUS_COMMENTS[${id}]=""; FW_ELEMENT_MDS_REQUESTED[${id}]=""; done
                 for id in ${!FW_ELEMENT_MDS_LONG[@]}; do
@@ -81,14 +68,14 @@ function Verify() {
                         if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "all" && "${FW_ELEMENT_TSK_MODES[${id}]}" != "all" ]]; then continue; fi
                     fi
 
-                    for entry in ${FW_ELEMENT_TSK_REQUIRED_TSK[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_TSK_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_TSK_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_TSK_REQUESTED[${entry}]+=" task:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_TSK_REQUIRED_APP[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_APP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_APP_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_APP_REQUESTED[${entry}]+=" task:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_TSK_REQUIRED_DEP[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_DEP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DEP_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_DEP_REQUESTED[${entry}]+=" task:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_TSK_REQUIRED_DIR[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_DIR_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DIR_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_DIR_REQUESTED[${entry}]+=" task:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_TSK_REQUIRED_DIRLIST[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_DLS_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DLS_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_DLS_REQUESTED[${entry}]+=" task:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_TSK_REQUIRED_FILE[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_FIL_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_FIL_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_FIL_REQUESTED[${entry}]+=" task:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_TSK_REQUIRED_TSK[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_TSK_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_TSK_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_TSK_REQUESTED[${entry}]+=" task:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_TSK_REQUIRED_APP[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_APP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_APP_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_APP_REQUESTED[${entry}]+=" task:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_TSK_REQUIRED_DEP[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_DEP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DEP_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_DEP_REQUESTED[${entry}]+=" task:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_TSK_REQUIRED_DIR[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_DIR_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DIR_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_DIR_REQUESTED[${entry}]+=" task:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_TSK_REQUIRED_DIRLIST[${id}]:-};   do if [[ ! -n "${FW_ELEMENT_DLS_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DLS_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_DLS_REQUESTED[${entry}]+=" task:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_TSK_REQUIRED_FILE[${id}]:-};      do if [[ ! -n "${FW_ELEMENT_FIL_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_FIL_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_FIL_REQUESTED[${entry}]+=" task:${id}"; fi; done
                     for entry in ${FW_ELEMENT_TSK_REQUIRED_FILELIST[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_FLS_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_FLS_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_FLS_REQUESTED[${entry}]+=" task:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_TSK_REQUIRED_PAR[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_PAR_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_PAR_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_PAR_REQUESTED[${entry}]+=" task:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_TSK_REQUIRED_PAR[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_PAR_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_PAR_REQUESTED[${entry}]="task:${id}"; else FW_ELEMENT_PAR_REQUESTED[${entry}]+=" task:${id}"; fi; done
                 done
             fi
 
@@ -96,14 +83,14 @@ function Verify() {
                 for id in ${!FW_ELEMENT_SIT_LONG[@]}; do
                     FW_ELEMENT_SIT_STATUSP[${id}]="N"; FW_ELEMENT_SIT_STATUS_COMMENTSP[${id}]=""
 
-                    for entry in ${FW_ELEMENT_SIT_REQUIRED_DEP[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_DEP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DEP_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_DEP_REQUESTED[${entry}]+=" site:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_SIT_REQUIRED_DIR[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_DIR_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DIR_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_DIR_REQUESTED[${entry}]+=" site:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_SIT_REQUIRED_DIRLIST[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_DLS_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DLS_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_DLS_REQUESTED[${entry}]+=" site:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_SIT_REQUIRED_FILE[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_FIL_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_FIL_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_FIL_REQUESTED[${entry}]+=" site:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_SIT_REQUIRED_DEP[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_DEP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DEP_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_DEP_REQUESTED[${entry}]+=" site:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_SIT_REQUIRED_DIR[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_DIR_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DIR_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_DIR_REQUESTED[${entry}]+=" site:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_SIT_REQUIRED_DIRLIST[${id}]:-};   do if [[ ! -n "${FW_ELEMENT_DLS_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DLS_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_DLS_REQUESTED[${entry}]+=" site:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_SIT_REQUIRED_FILE[${id}]:-};      do if [[ ! -n "${FW_ELEMENT_FIL_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_FIL_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_FIL_REQUESTED[${entry}]+=" site:${id}"; fi; done
                     for entry in ${FW_ELEMENT_SIT_REQUIRED_FILELIST[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_FLS_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_FLS_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_FLS_REQUESTED[${entry}]+=" site:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_SIT_REQUIRED_PAR[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_PAR_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_PAR_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_PAR_REQUESTED[${entry}]+=" site:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_SIT_REQUIRED_TSK[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_TSK_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_TSK_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_TSK_REQUESTED[${entry}]+=" site:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_SIT_REQUIRED_APP[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_APP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_APP_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_APP_REQUESTED[${entry}]+=" site:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_SIT_REQUIRED_PAR[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_PAR_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_PAR_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_PAR_REQUESTED[${entry}]+=" site:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_SIT_REQUIRED_TSK[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_TSK_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_TSK_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_TSK_REQUESTED[${entry}]+=" site:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_SIT_REQUIRED_APP[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_APP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_APP_REQUESTED[${entry}]="site:${id}"; else FW_ELEMENT_APP_REQUESTED[${entry}]+=" site:${id}"; fi; done
                 done
             fi
 
@@ -114,14 +101,8 @@ function Verify() {
                         if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "all" && "${FW_ELEMENT_SCN_MODES[${id}]}" != "all" ]]; then continue; fi
                     fi
 
-                    for entry in ${FW_ELEMENT_SCN_REQUIRED_DEP[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_DEP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DEP_REQUESTED[${entry}]="scenario:${id}"; else FW_ELEMENT_DEP_REQUESTED[${entry}]+=" scenario:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_SCN_REQUIRED_DIR[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_DIR_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DIR_REQUESTED[${entry}]="scenario:${id}"; else FW_ELEMENT_DIR_REQUESTED[${entry}]+=" scenario:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_SCN_REQUIRED_DIRLIST[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_DLS_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DLS_REQUESTED[${entry}]="scenario:${id}"; else FW_ELEMENT_DLS_REQUESTED[${entry}]+=" scenario:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_SCN_REQUIRED_FILE[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_FIL_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_FIL_REQUESTED[${entry}]="scenario:${id}"; else FW_ELEMENT_FIL_REQUESTED[${entry}]+=" scenario:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_SCN_REQUIRED_FILELIST[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_FLS_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_FLS_REQUESTED[${entry}]="scenario:${id}"; else FW_ELEMENT_FLS_REQUESTED[${entry}]+=" scenario:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_SCN_REQUIRED_PAR[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_PAR_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_PAR_REQUESTED[${entry}]="scenario:${id}"; else FW_ELEMENT_PAR_REQUESTED[${entry}]+=" scenario:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_TSK_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_TSK_REQUESTED[${entry}]="scenario:${id}"; else FW_ELEMENT_TSK_REQUESTED[${entry}]+=" scenario:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_SCN_REQUIRED_APP[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_APP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_APP_REQUESTED[${entry}]="scenario:${id}"; else FW_ELEMENT_APP_REQUESTED[${entry}]+=" scenario:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_SCN_REQUIRED_APP[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_APP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_APP_REQUESTED[${entry}]="scenario:${id}"; else FW_ELEMENT_APP_REQUESTED[${entry}]+=" scenario:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_TSK_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_TSK_REQUESTED[${entry}]="scenario:${id}"; else FW_ELEMENT_TSK_REQUESTED[${entry}]+=" scenario:${id}"; fi; done
                 done
             fi
 
@@ -132,14 +113,14 @@ function Verify() {
                         if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "all" && "${FW_ELEMENT_PRJ_MODES[${id}]}" != "all" ]]; then continue; fi
                     fi
 
-                    for entry in ${FW_ELEMENT_PRJ_REQUIRED_DEP[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_DEP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DEP_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_DEP_REQUESTED[${entry}]+=" project:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_PRJ_REQUIRED_DIR[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_DIR_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DIR_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_DIR_REQUESTED[${entry}]+=" project:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_PRJ_REQUIRED_DIRLIST[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_DLS_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DLS_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_DLS_REQUESTED[${entry}]+=" project:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_PRJ_REQUIRED_FILE[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_FIL_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_FIL_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_FIL_REQUESTED[${entry}]+=" project:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_PRJ_REQUIRED_APP[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_APP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_APP_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_APP_REQUESTED[${entry}]+=" project:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_PRJ_REQUIRED_DEP[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_DEP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DEP_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_DEP_REQUESTED[${entry}]+=" project:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_PRJ_REQUIRED_DIRLIST[${id}]:-};   do if [[ ! -n "${FW_ELEMENT_DLS_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DLS_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_DLS_REQUESTED[${entry}]+=" project:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_PRJ_REQUIRED_DIR[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_DIR_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_DIR_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_DIR_REQUESTED[${entry}]+=" project:${id}"; fi; done
                     for entry in ${FW_ELEMENT_PRJ_REQUIRED_FILELIST[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_FLS_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_FLS_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_FLS_REQUESTED[${entry}]+=" project:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_PRJ_REQUIRED_PAR[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_PAR_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_PAR_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_PAR_REQUESTED[${entry}]+=" project:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_PRJ_REQUIRED_TSK[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_TSK_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_TSK_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_TSK_REQUESTED[${entry}]+=" project:${id}"; fi; done
-                    for entry in ${FW_ELEMENT_PRJ_REQUIRED_APP[${id}]:-};  do if [[ ! -n "${FW_ELEMENT_APP_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_APP_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_APP_REQUESTED[${entry}]+=" project:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_PRJ_REQUIRED_FILE[${id}]:-};      do if [[ ! -n "${FW_ELEMENT_FIL_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_FIL_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_FIL_REQUESTED[${entry}]+=" project:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_PRJ_REQUIRED_PAR[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_PAR_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_PAR_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_PAR_REQUESTED[${entry}]+=" project:${id}"; fi; done
+                    for entry in ${FW_ELEMENT_PRJ_REQUIRED_TSK[${id}]:-};       do if [[ ! -n "${FW_ELEMENT_TSK_REQUESTED[${entry}]:-}" ]]; then FW_ELEMENT_TSK_REQUESTED[${entry}]="project:${id}"; else FW_ELEMENT_TSK_REQUESTED[${entry}]+=" project:${id}"; fi; done
                 done
             fi
 
@@ -149,10 +130,12 @@ function Verify() {
                         for entry in ${FW_ELEMENT_DEP_REQUIRED_DEPENDENCIES[${id}]:-}; do if [[ ! -n "${FW_ELEMENT_DEP_REQUESTED[${entry}]:-}" ]];  then FW_ELEMENT_DEP_REQUESTED[${entry}]="dependency:${id}"; else FW_ELEMENT_DEP_REQUESTED[${entry}]+=" dependency:${id}"; fi; done
                     fi
                 done
-            fi ;;
+            fi
 
-
-        applications)
+            ##
+            ## VERIFY APPLICATIONS
+            ##
+            Report process info "${appName}" "verifying applications"
             if [[ "${FW_ELEMENT_APP_LONG[*]}" != "" ]]; then
                 for id in ${!FW_ELEMENT_APP_LONG[@]}; do
                     if [[ -n "${FW_ELEMENT_APP_REQUESTED[${id}]:-}" ]]; then
@@ -164,10 +147,12 @@ function Verify() {
                         fi
                     fi
                 done
-            fi ;;
+            fi
 
-
-        dependencies)
+            ##
+            ## VERIFY DEPENDENCIES
+            ##
+            Report process info "${appName}" "verifying dependencies"
             if [[ "${FW_ELEMENT_DEP_LONG[*]}" != "" ]]; then
                 for id in ${!FW_ELEMENT_DEP_LONG[@]}; do
                     if [[ -n "${FW_ELEMENT_DEP_REQUESTED[${id}]:-}" ]]; then
@@ -204,10 +189,12 @@ function Verify() {
                         fi
                     fi
                 done
-            fi ;;
+            fi
 
-
-        dirlists)
+            ##
+            ## VERIFY DIRECTORY LISTS / DIRLISTS
+            ##
+            Report process info "${appName}" "verifying directory lists"
             if [[ "${FW_ELEMENT_DLS_LONG[*]}" != "" ]]; then
                 for id in ${!FW_ELEMENT_DLS_LONG[@]}; do
                     if [[ -n "${FW_ELEMENT_DLS_REQUESTED[${id}]:-}" ]]; then
@@ -240,10 +227,12 @@ function Verify() {
                         esac
                     fi
                 done
-            fi ;;
+            fi
 
-
-        dirs)
+            ##
+            ## VERIFY DIRECTORIES / DIRS
+            ##
+            Report process info "${appName}" "verifying directories"
             if [[ "${FW_ELEMENT_DIR_LONG[*]}" != "" ]]; then
                 for id in ${!FW_ELEMENT_DIR_LONG[@]}; do
                     if [[ -n "${FW_ELEMENT_DIR_REQUESTED[${id}]:-}" ]]; then
@@ -274,10 +263,12 @@ function Verify() {
                         esac
                     fi
                 done
-            fi ;;
+            fi
 
-
-        filelists)
+            ##
+            ## VERIFY FILE LISTS / FILELISTS
+            ##
+            Report process info "${appName}" "verifying file lists"
             if [[ "${FW_ELEMENT_FLS_LONG[*]}" != "" ]]; then
                 for id in ${!FW_ELEMENT_FLS_LONG[@]}; do
                     if [[ -n "${FW_ELEMENT_FLS_REQUESTED[${id}]:-}" ]]; then
@@ -310,10 +301,12 @@ function Verify() {
                         esac
                     fi
                 done
-            fi ;;
+            fi
 
-
-        files)
+            ##
+            ## VERIFY FILES
+            ##
+            Report process info "${appName}" "verifying files"
             if [[ "${FW_ELEMENT_FIL_LONG[*]}" != "" ]]; then
                 for id in ${!FW_ELEMENT_FIL_LONG[@]}; do
                     if [[ -n "${FW_ELEMENT_FIL_REQUESTED[${id}]:-}" ]]; then
@@ -344,14 +337,17 @@ function Verify() {
                         esac
                     fi
                 done
-            fi ;;
+            fi
 
+            ##
+            ## VERIFY MODULES
+            ##
+            Report process info "${appName}" "verifying modules"
 
-        modules)
-            ;;
-
-
-        parameters)
+            ##
+            ## VERIFY PARAMETERS
+            ##
+            Report process info "${appName}" "verifying parameters"
             if [[ "${FW_ELEMENT_PAR_LONG[*]}" != "" ]]; then
                 for id in ${!FW_ELEMENT_PAR_LONG[@]}; do
                     if [[ -n "${FW_ELEMENT_PAR_REQUESTED[${id}]:-}" ]]; then
@@ -360,373 +356,16 @@ function Verify() {
                     fi
                 done
             fi
-            ;;
 
-
-        projects)
-            if [[ "${FW_ELEMENT_PRJ_LONG[*]}" != "" ]]; then
-                for id in ${!FW_ELEMENT_PRJ_LONG[@]}; do
-                    if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "${FW_ELEMENT_PRJ_MODES[${id}]}" ]]; then if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "all" && "${FW_ELEMENT_PRJ_MODES[${id}]}" != "all" ]]; then continue; fi; fi
-
-                    status="S"
-                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_APP[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_PRJ_REQUIRED_APP[${id}]}; do
-                            case "${FW_ELEMENT_APP_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 application "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}app(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 application "${element}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}app(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 application "${element}"
-                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}app(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_DEP[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_PRJ_REQUIRED_DEP[${id}]}; do
-                            case "${FW_ELEMENT_DEP_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 dependency "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dep(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 dependency "${element}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dep(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 dependency "${element}"
-                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dep(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_PAR[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_PRJ_REQUIRED_PAR[${id}]}; do
-                            case "${FW_ELEMENT_PAR_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 parameter "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}par(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 parameter "${element}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}par(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 parameter "${element}"
-                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}par(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_TSK[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_PRJ_REQUIRED_TSK[${id}]}; do
-                            case "${FW_ELEMENT_TSK_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 task "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}tsk(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 task "${element}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}tsk(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 task "${element}"
-                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}tsk(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_FILE[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_PRJ_REQUIRED_FILE[${id}]}; do
-                            case "${FW_ELEMENT_FIL_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 file "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}fil(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 file "${element}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}fil(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 file "${element}"
-                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}fil(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_FILELIST[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_PRJ_REQUIRED_FILELIST[${id}]}; do
-                            case "${FW_ELEMENT_FLS_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 "file list" "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}fls(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 "file list" "${element}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}fls(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 "file list" "${element}"
-                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}fls(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_DIR[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_PRJ_REQUIRED_DIR[${id}]}; do
-                            case "${FW_ELEMENT_DIR_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 directory "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dir(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 directory "${element}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dir(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 directory "${element}"
-                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dir(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_DIRLIST[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_PRJ_REQUIRED_DIRLIST[${id}]}; do
-                            case "${FW_ELEMENT_DLS_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 "directory list" "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dls(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 "directory list" "${element}"
-                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dls(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 "directory list" "${element}"
-                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dls(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-
-                    case ${status} in
-                        *E*)    FW_ELEMENT_PRJ_STATUS[${id}]=E ;;
-                        *W*)    FW_ELEMENT_PRJ_STATUS[${id}]=W ;;
-                        *S*)    FW_ELEMENT_PRJ_STATUS[${id}]=S ;;
-                    esac
-                done
-            fi ;;
-
-
-        scenarios)
-            if [[ "${FW_ELEMENT_SCN_LONG[*]}" != "" ]]; then
-                for id in ${!FW_ELEMENT_SCN_LONG[@]}; do
-                    if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "${FW_ELEMENT_SCN_MODES[${id}]}" ]]; then if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "all" && "${FW_ELEMENT_SCN_MODES[${id}]}" != "all" ]]; then continue; fi; fi
-
-                    status="S"
-                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_APP[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SCN_REQUIRED_APP[${id}]}; do
-                            case "${FW_ELEMENT_APP_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 application "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}app(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 application "${element}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}app(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 application "${element}"
-                                    status="${status}W"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}app(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_DEP[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SCN_REQUIRED_DEP[${id}]}; do
-                            case "${FW_ELEMENT_DEP_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 dependency "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}dep(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 dependency "${element}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}dep(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 dependency "${element}"
-                                    status="${status}W"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}dep(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_PAR[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SCN_REQUIRED_PAR[${id}]}; do
-                            case "${FW_ELEMENT_PAR_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 parameter "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}par(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 parameter "${element}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}par(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 parameter "${element}"
-                                    status="${status}W"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}par(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]}; do
-                            case "${FW_ELEMENT_TSK_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 task "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}tsk(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 task "${element}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}tsk(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 task "${element}"
-                                    status="${status}W"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}tsk(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_FILE[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SCN_REQUIRED_FILE[${id}]}; do
-                            case "${FW_ELEMENT_FIL_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 file "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}fil(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 file "${element}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}fil(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 file "${element}"
-                                    status="${status}W"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}fil(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_FILELIST[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SCN_REQUIRED_FILELIST[${id}]}; do
-                            case "${FW_ELEMENT_FLS_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 "file list" "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}fls(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 "file list" "${element}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}fls(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 "file list" "${element}"
-                                    status="${status}W"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}fls(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_DIR[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SCN_REQUIRED_DIR[${id}]}; do
-                            case "${FW_ELEMENT_DIR_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 directory "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}dir(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 directory "${element}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}dir(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 directory "${element}"
-                                    status="${status}W"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}dir(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_DIRLIST[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SCN_REQUIRED_DIRLIST[${id}]}; do
-                            case "${FW_ELEMENT_DLS_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 "directory list" "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}dls(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 "directory list" "${element}"
-                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}dls(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 "directory list" "${element}"
-                                    status="${status}W"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}dls(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-
-                    case ${status} in
-                        *E*)    FW_ELEMENT_SCN_STATUS[${id}]=E ;;
-                        *W*)    FW_ELEMENT_SCN_STATUS[${id}]=W ;;
-                        *S*)    FW_ELEMENT_SCN_STATUS[${id}]=S ;;
-                    esac
-                done
-            fi ;;
-
-
-        sites)
-            if [[ "${FW_ELEMENT_SIT_LONG[*]}" != "" ]]; then
-                for id in ${!FW_ELEMENT_SIT_LONG[@]}; do
-                    if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "${FW_ELEMENT_SIT_MODES[${id}]}" ]]; then if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "all" && "${FW_ELEMENT_SIT_MODES[${id}]}" != "all" ]]; then continue; fi; fi
-
-                    status="S"
-                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_APP[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SIT_REQUIRED_APP[${id}]}; do
-                            case "${FW_ELEMENT_APP_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 application "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}app(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 application "${element}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}app(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 application "${element}"
-                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}app(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_DEP[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SIT_REQUIRED_DEP[${id}]}; do
-                            case "${FW_ELEMENT_DEP_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 dependency "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dep(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 dependency "${element}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dep(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 dependency "${element}"
-                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dep(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_PAR[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SIT_REQUIRED_PAR[${id}]}; do
-                            case "${FW_ELEMENT_PAR_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 parameter "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}par(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 parameter "${element}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}par(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 parameter "${element}"
-                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}par(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_TSK[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SIT_REQUIRED_TSK[${id}]}; do
-                            case "${FW_ELEMENT_TSK_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 task "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}tsk(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 task "${element}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}tsk(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 task "${element}"
-                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}tsk(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_FILE[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SIT_REQUIRED_FILE[${id}]}; do
-                            case "${FW_ELEMENT_FIL_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 file "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}fil(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 file "${element}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}fil(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 file "${element}"
-                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}fil(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_FILELIST[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SIT_REQUIRED_FILELIST[${id}]}; do
-                            case "${FW_ELEMENT_FLS_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 "file list" "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}fls(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 "file list" "${element}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}fls(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 "file list" "${element}"
-                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}fls(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_DIR[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SIT_REQUIRED_DIR[${id}]}; do
-                            case "${FW_ELEMENT_DIR_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 directory "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dir(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 directory "${element}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dir(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 directory "${element}"
-                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dir(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_DIRLIST[${id}]:-}" ]]; then
-                        for element in ${FW_ELEMENT_SIT_REQUIRED_DIRLIST[${id}]}; do
-                            case "${FW_ELEMENT_DLS_STATUS[${element}]}" in
-                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 "directory list" "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dls(N):${element} " ;;
-                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 "directory list" "${element}"
-                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dls(E):${element} " ;;
-                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 "directory list" "${element}"
-                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dls(W):${element} " ;;
-                                S)  status="${status}S" ;;
-                            esac
-                        done
-                    fi
-
-                    case ${status} in
-                        *E*)    FW_ELEMENT_SIT_STATUS[${id}]=E ;;
-                        *W*)    FW_ELEMENT_SIT_STATUS[${id}]=W ;;
-                        *S*)    FW_ELEMENT_SIT_STATUS[${id}]=S ;;
-                    esac
-                done
-            fi ;;
-
-
-        tasks)
+            ##
+            ## VERIFY TASKS
+            ##
+            Report process info "${appName}" "verifying tasks"
             if [[ "${FW_ELEMENT_TSK_LONG[*]}" != "" ]]; then
                 for id in ${!FW_ELEMENT_TSK_LONG[@]}; do
-                    if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "${FW_ELEMENT_TSK_MODES[${id}]}" ]]; then if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "all" && "${FW_ELEMENT_TSK_MODES[${id}]}" != "all" ]]; then continue; fi; fi
+                    if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "test" ]]; then
+                        if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "${FW_ELEMENT_TSK_MODES[${id}]}" ]]; then if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "all" && "${FW_ELEMENT_TSK_MODES[${id}]}" != "all" ]]; then continue; fi; fi
+                    fi
 
                     status="S"
                     if [[ -n "${FW_ELEMENT_TSK_REQUIRED_APP[${id}]:-}" ]]; then
@@ -853,7 +492,305 @@ function Verify() {
                         fi
                     fi
                 done
-            fi ;;
+            fi
+
+            ##
+            ## VERIFY PROJECTS
+            ##
+            Report process info "${appName}" "verifying projects"
+            if [[ "${FW_ELEMENT_PRJ_LONG[*]}" != "" ]]; then
+                for id in ${!FW_ELEMENT_PRJ_LONG[@]}; do
+                    if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "test" ]]; then
+                        if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "${FW_ELEMENT_PRJ_MODES[${id}]}" ]]; then if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "all" && "${FW_ELEMENT_PRJ_MODES[${id}]}" != "all" ]]; then continue; fi; fi
+                    fi
+
+                    status="S"
+                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_APP[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_PRJ_REQUIRED_APP[${id}]}; do
+                            case "${FW_ELEMENT_APP_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 application "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}app(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 application "${element}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}app(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 application "${element}"
+                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}app(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_DEP[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_PRJ_REQUIRED_DEP[${id}]}; do
+                            case "${FW_ELEMENT_DEP_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 dependency "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dep(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 dependency "${element}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dep(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 dependency "${element}"
+                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dep(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_PAR[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_PRJ_REQUIRED_PAR[${id}]}; do
+                            case "${FW_ELEMENT_PAR_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 parameter "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}par(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 parameter "${element}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}par(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 parameter "${element}"
+                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}par(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_TSK[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_PRJ_REQUIRED_TSK[${id}]}; do
+                            case "${FW_ELEMENT_TSK_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 task "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}tsk(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 task "${element}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}tsk(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 task "${element}"
+                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}tsk(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_FILE[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_PRJ_REQUIRED_FILE[${id}]}; do
+                            case "${FW_ELEMENT_FIL_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 file "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}fil(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 file "${element}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}fil(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 file "${element}"
+                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}fil(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_FILELIST[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_PRJ_REQUIRED_FILELIST[${id}]}; do
+                            case "${FW_ELEMENT_FLS_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 "file list" "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}fls(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 "file list" "${element}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}fls(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 "file list" "${element}"
+                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}fls(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_DIR[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_PRJ_REQUIRED_DIR[${id}]}; do
+                            case "${FW_ELEMENT_DIR_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 directory "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dir(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 directory "${element}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dir(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 directory "${element}"
+                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dir(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_DIRLIST[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_PRJ_REQUIRED_DIRLIST[${id}]}; do
+                            case "${FW_ELEMENT_DLS_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 "directory list" "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dls(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 "directory list" "${element}"
+                                    status="${status}E"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dls(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 "directory list" "${element}"
+                                    status="${status}W"; FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]="${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}dls(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+
+                    case ${status} in
+                        *E*)    FW_ELEMENT_PRJ_STATUS[${id}]=E ;;
+                        *W*)    FW_ELEMENT_PRJ_STATUS[${id}]=W ;;
+                        *S*)    FW_ELEMENT_PRJ_STATUS[${id}]=S ;;
+                    esac
+                done
+            fi
+
+            ##
+            ## VERIFY SCENARIOS
+            ##
+            Report process info "${appName}" "verifying scenarios"
+            if [[ "${FW_ELEMENT_SCN_LONG[*]}" != "" ]]; then
+                for id in ${!FW_ELEMENT_SCN_LONG[@]}; do
+                    if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "test" ]]; then
+                        if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "${FW_ELEMENT_SCN_MODES[${id}]}" ]]; then if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "all" && "${FW_ELEMENT_SCN_MODES[${id}]}" != "all" ]]; then continue; fi; fi
+                    fi
+
+                    status="S"
+                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_APP[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_SCN_REQUIRED_APP[${id}]}; do
+                            case "${FW_ELEMENT_APP_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 application "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}app(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 application "${element}"
+                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}app(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 application "${element}"
+                                    status="${status}W"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}app(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]}; do
+                            case "${FW_ELEMENT_TSK_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 task "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}tsk(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 task "${element}"
+                                    status="${status}E"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}tsk(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 task "${element}"
+                                    status="${status}W"; FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}tsk(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+
+                    case ${status} in
+                        *E*)    FW_ELEMENT_SCN_STATUS[${id}]=E ;;
+                        *W*)    FW_ELEMENT_SCN_STATUS[${id}]=W ;;
+                        *S*)    FW_ELEMENT_SCN_STATUS[${id}]=S ;;
+                    esac
+                done
+            fi
+
+            ##
+            ## VERIFY SITES
+            ##
+            Report process info "${appName}" "verifying sites"
+            if [[ "${FW_ELEMENT_SIT_LONG[*]}" != "" ]]; then
+                for id in ${!FW_ELEMENT_SIT_LONG[@]}; do
+                    if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "test" ]]; then
+                        if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "${FW_ELEMENT_SIT_MODES[${id}]}" ]]; then if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" != "all" && "${FW_ELEMENT_SIT_MODES[${id}]}" != "all" ]]; then continue; fi; fi
+                    fi
+
+                    status="S"
+                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_APP[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_SIT_REQUIRED_APP[${id}]}; do
+                            case "${FW_ELEMENT_APP_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 application "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}app(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 application "${element}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}app(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 application "${element}"
+                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}app(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_DEP[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_SIT_REQUIRED_DEP[${id}]}; do
+                            case "${FW_ELEMENT_DEP_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 dependency "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dep(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 dependency "${element}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dep(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 dependency "${element}"
+                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dep(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_PAR[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_SIT_REQUIRED_PAR[${id}]}; do
+                            case "${FW_ELEMENT_PAR_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 parameter "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}par(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 parameter "${element}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}par(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 parameter "${element}"
+                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}par(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_TSK[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_SIT_REQUIRED_TSK[${id}]}; do
+                            case "${FW_ELEMENT_TSK_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 task "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}tsk(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 task "${element}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}tsk(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 task "${element}"
+                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}tsk(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_FILE[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_SIT_REQUIRED_FILE[${id}]}; do
+                            case "${FW_ELEMENT_FIL_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 file "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}fil(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 file "${element}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}fil(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 file "${element}"
+                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}fil(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_FILELIST[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_SIT_REQUIRED_FILELIST[${id}]}; do
+                            case "${FW_ELEMENT_FLS_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 "file list" "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}fls(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 "file list" "${element}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}fls(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 "file list" "${element}"
+                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}fls(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_DIR[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_SIT_REQUIRED_DIR[${id}]}; do
+                            case "${FW_ELEMENT_DIR_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 directory "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dir(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 directory "${element}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dir(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 directory "${element}"
+                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dir(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+                    if [[ -n "${FW_ELEMENT_SIT_REQUIRED_DIRLIST[${id}]:-}" ]]; then
+                        for element in ${FW_ELEMENT_SIT_REQUIRED_DIRLIST[${id}]}; do
+                            case "${FW_ELEMENT_DLS_STATUS[${element}]}" in
+                                N)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 "directory list" "${element}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dls(N):${element} " ;;
+                                E)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E854 "directory list" "${element}"
+                                    status="${status}E"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dls(E):${element} " ;;
+                                W)  Report application error "${FUNCNAME[0]}" "${cmdString1}" E855 "directory list" "${element}"
+                                    status="${status}W"; FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]="${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}dls(W):${element} " ;;
+                                S)  status="${status}S" ;;
+                            esac
+                        done
+                    fi
+
+                    case ${status} in
+                        *E*)    FW_ELEMENT_SIT_STATUS[${id}]=E ;;
+                        *W*)    FW_ELEMENT_SIT_STATUS[${id}]=W ;;
+                        *S*)    FW_ELEMENT_SIT_STATUS[${id}]=S ;;
+                    esac
+                done
+            fi
+
+            Report process info "${appName}" "writing medium config file"
+            Write medium config file
+            ;;
 
         *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac

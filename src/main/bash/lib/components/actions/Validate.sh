@@ -32,221 +32,307 @@
 function Validate() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id element dir printDir name expected modid modpath file extension
+    local id component element dir name expected printDir modid modDir compPath file extension tmpName excludeIDs
+    local actions elements instances objects compType
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
         everything)
-            Validate elements
-            Validate objects
-            Validate manual ;;
-
-        elements)
-            Validate applications
-            Validate dependencies
-            Validate dirlists
-            Validate dirs
-            Validate filelists
-            Validate files
-            Validate modules
-            Validate options
-            Validate parameters
-            Validate projects
-            Validate scenarios
-            Validate sites
-            Validate tasks ;;
-
-        objects)
-            Validate configurations
-            Validate formats
-            Validate levels
-            Validate messages
-            Validate modes
-            Validate phases
-            Validate settings
-            Validate themeitems
-            Validate themes ;;
-
-
-        manual)
-            for element in framework actions components elements exitcodes instances objects options tags themeitems; do
-                dir="${SF_HOME}/lib/text/${element}"
-                printDir="\$SF_HOME/lib/text/${element}"
-                case ${element} in
-                    framework)  expected="authors bugs copying description exit-status resources security" ;;
-                    components) expected="actions elements instances objects" ;;
-                    actions)   expected="$(Framework has actions)" ;;
-                    instances)  expected="$(Framework has instances)" ;;
-                    elements)   expected="$(Framework has elements)"
-                                expected+=" exit-options run-options" ;;
-                    exitcodes)  expected="$(Exitcodes has)" ;;
-                    objects)    expected="$(Framework has objects)" ;;
-                    options)    expected="$(Options has)" ;;
-                    tags)       expected="authors name" ;;
-                    themeitems) expected="$(Themeitems has)" ;;
-                esac
-
-                for name in ${expected}; do
-                    Test file exists "${dir}/${name}.adoc" "${printDir}/${name}.adoc"; Test file can read "${dir}/${name}.adoc" "${printDir}/${name}.adoc"
-                done
-                for file in ${dir}/**; do
-                    file=${file##*/}; extension=${file##*.}; name=${file%%.*}
-                    case "${expected}" in
-                        *"${name}"*) ;;
-                        *) Report application strictwarning E826 "${file}" "${printDir}"
-                    esac
-                    case "${extension}" in
-                        adoc) ;;
-                        *) Report application strictwarning E826 "${file}" "${printDir}"
-                    esac
-                done
-            done ;;
-
-
-        applications)
-            if [[ "${FW_ELEMENT_APP_LONG[*]}" != "" ]]; then
-                for id in ${!FW_ELEMENT_APP_LONG[@]}; do
-                    modid="${FW_ELEMENT_APP_ORIG[${id}]}"
-                    modpath="${FW_ELEMENT_MDS_PATH[${modid}]}"
-                    Test file exists "${modpath}/applications/${id}.adoc"; Test file can read "${modpath}/applications/${id}.adoc"
-                done
-            fi ;;        dependencies)
-            if [[ "${FW_ELEMENT_DEP_LONG[*]}" != "" ]]; then
-                for id in ${!FW_ELEMENT_DEP_LONG[@]}; do
-                    modid="${FW_ELEMENT_DEP_ORIG[${id}]}"
-                    modpath="${FW_ELEMENT_MDS_PATH[${modid}]}"
-                    Test file exists "${modpath}/dependencies/${id}.adoc"; Test file can read "${modpath}/dependencies/${id}.adoc"
-                done
-            fi ;;
-
-        dirlists)
+            Validate library text
+            Validate framework components
+            Validate added components
+            Validate runtime settings
             ;;
 
-        dirs)
-            if [[ "${FW_ELEMENT_DIR_LONG[*]}" != "" ]]; then
-                for id in ${!FW_ELEMENT_DIR_LONG[@]}; do
-                    modid="${FW_ELEMENT_DIR_ORIG[${id}]}"
-                    modpath="${FW_ELEMENT_MDS_PATH[${modid}]}"
-                    Test file exists "${modpath}/dirs/${id}.adoc"; Test file can read "${modpath}/dirs/${id}.adoc"
-                done
-            fi ;;
+        added | library | framework | runtime)
+            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
+            cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
+            case "${cmd1}-${cmd2}" in
 
-        filelists)
-            ;;
+                added-components)
+                    Report application info "validating added components"
+                    if [[ "${FW_ELEMENT_MDS_LONG[*]}" != "" ]]; then
+                        for modid in "${!FW_ELEMENT_MDS_LONG[@]}"; do
+                            Report application info "validating added components - module ${modid}"
+                            Test file can read "${FW_ELEMENT_MDS_PATH[${modid}]}/${modid}.adoc"
 
-        files)
-            if [[ "${FW_ELEMENT_FIL_LONG[*]}" != "" ]]; then
-                for id in ${!FW_ELEMENT_FIL_LONG[@]}; do
-                    modid="${FW_ELEMENT_FIL_ORIG[${id}]}"
-                    modpath="${FW_ELEMENT_MDS_PATH[${modid}]}"
-                    Test file exists "${modpath}/files/${id}.adoc"; Test file can read "${modpath}/files/${id}.adoc"
-                done
-            fi ;;
+                            for element in applications dependencies dirlists dirs filelists files parameters projects scenarios scripts sites tasks configurations formats levels messages modes phases settings themeitems themes; do
+                                Report application info "validating added components - module ${modid}, element ${element}"
 
-        dependencies)
-            if [[ "${FW_ELEMENT_DEP_LONG[*]}" != "" ]]; then
-                for id in ${!FW_ELEMENT_DEP_LONG[@]}; do
-                    modid="${FW_ELEMENT_DEP_ORIG[${id}]}"
-                    modpath="${FW_ELEMENT_MDS_PATH[${modid}]}"
-                    Test file exists "${modpath}/dependencies/${id}.adoc"; Test file can read "${modpath}/dependencies/${id}.adoc"
-                done
-            fi ;;
+                                dir="${FW_ELEMENT_MDS_PATH[${modid}]}/${element}"
+                                printDir="$modid::/${element}"
+                                expected=" "
+                                case ${element} in
+                                    applications)
+                                        for component in $(Applications has); do
+                                            if [[ "${FW_ELEMENT_APP_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+                                    dependencies)
+                                        for component in $(Dependencies has); do
+                                            if [[ "${FW_ELEMENT_DEP_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+                                    dirlists)
+                                        for component in $(Dirlists has); do
+                                            if [[ "${FW_ELEMENT_DLS_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+                                    dirs)
+                                        for component in $(Dirs has); do
+                                            if [[ "${FW_ELEMENT_DIR_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+                                    filelists)
+                                        for component in $(Filelists has); do
+                                            if [[ "${FW_ELEMENT_FLS_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+                                    files)
+                                        for component in $(Files has); do
+                                            if [[ "${FW_ELEMENT_FIL_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+                                    parameters)
+                                        for component in $(Parameters has); do
+                                            if [[ "${FW_ELEMENT_PAR_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+#                                    projects)
+#                                        for component in $(Projects has); do
+#                                            if [[ "${FW_ELEMENT_PRJ_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+#                                        done ;;
+                                    scenarios)
+                                        for component in $(Scenarios has); do
+                                            if [[ "${FW_ELEMENT_SCN_DECMDS[${component}]}" == "${modid}" ]]; then
+                                                compPath="${FW_ELEMENT_SCN_PATH[${component}]}"
+                                                compPath=${compPath//${dir}/}
+                                                compPath=${compPath//\//}
+                                                expected+="${compPath}/${component} "
+                                            fi
+                                        done ;;
+#                                    scripts)
+#                                        for component in $(Scripts has); do
+#                                            if [[ "${FW_ELEMENT_SCR_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+#                                        done ;;
+#                                    sites)
+#                                        for component in $(Sites has); do
+#                                            if [[ "${FW_ELEMENT_SIT_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+#                                        done ;;
+                                    tasks)
+                                        for component in $(Tasks has); do
+                                            if [[ "${FW_ELEMENT_TSK_DECMDS[${component}]}" == "${modid}" ]]; then
+                                                compPath="${FW_ELEMENT_TSK_PATH[${component}]}"
+                                                compPath=${compPath//${dir}/}
+                                                compPath=${compPath//\//}
+                                                expected+="${compPath}/${component} "
+                                            fi
+                                        done ;;
 
-        modules)
-            if [[ "${FW_ELEMENT_MDS_LONG[*]}" != "" ]]; then
-                for id in ${!FW_ELEMENT_MDS_LONG[@]}; do
-                    Test file exists "${FW_ELEMENT_MDS_PATH[${id}]}/${id}.adoc"; Test file can read "${FW_ELEMENT_MDS_PATH[${id}]}/${id}.adoc"
-                done
-            fi ;;
+                                    configurations)
+                                        for component in $(Configurations has); do
+                                            if [[ "${FW_OBJECT_CFG_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+                                    formats)
+                                        for component in $(Formats has); do
+                                            if [[ "${FW_OBJECT_FMT_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+                                    levels)
+                                        for component in $(Levels has); do
+                                            if [[ "${FW_OBJECT_LVL_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+                                    messages)
+                                        for component in $(Messages has); do
+                                            if [[ "${FW_OBJECT_MSG_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+                                    modes)
+                                        for component in $(Modes has); do
+                                            if [[ "${FW_OBJECT_MOD_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+                                    phases)
+                                        for component in $(Phases has); do
+                                            if [[ "${FW_OBJECT_PHA_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+                                    settings)
+                                        for component in $(Settings has); do
+                                            if [[ "${FW_OBJECT_SET_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+                                    themeitems)
+                                        for component in $(Themeitems has); do
+                                            if [[ "${FW_OBJECT_TIM_DECMDS[${component}]}" == "${modid}" ]]; then expected+="${component} "; fi
+                                        done ;;
+                                    themes)
+                                        for component in $(Themes has); do
+                                            if [[ "${FW_OBJECT_THM_DECMDS[${component}]}" == "${modid}" ]]; then
+                                                expected+="${component} "
+                                                Test file can read "${dir}/${component}.thm" "${printDir}/${component}.thm"
+                                            fi
+                                        done ;;
 
-        options)
-            if [[ "${FW_ELEMENT_OPT_LONG[*]}" != "" ]]; then
-                for id in ${!FW_ELEMENT_OPT_LONG[@]}; do
-                    Test file exists "${SF_HOME}/lib/text/options/${id}.adoc"; Test file can read "${SF_HOME}/lib/text/options/${id}.adoc"
-                done
-            fi ;;
+                                    *) echo "## ERROR, element $element"; continue ;;
+                                esac
 
-        parameters)
-            if [[ "${FW_ELEMENT_PAR_LONG[*]}" != "" ]]; then
-                for id in ${!FW_ELEMENT_PAR_LONG[@]}; do
-                    modid="${FW_ELEMENT_PAR_ORIG[${id}]}"
-                    modpath="${FW_ELEMENT_MDS_PATH[${modid}]}"
-                    Test file exists "${modpath}/parameters/${id}.adoc"; Test file can read "${modpath}/parameters/${id}.adoc"
-                done
-            fi ;;
+                                if [[ -n "${expected}" && "${expected}" != " " ]]; then
+                                    for name in ${expected}; do
+                                        Test file can read "${dir}/${name}.adoc" "${printDir}/${name}.adoc"
+                                        if [[ "${element}" == "tasks" ]]; then
+                                            Test file can read "${dir}/${name}.sh" "${printDir}/${name}.sh"
+                                            Test file can read "${dir}/${name}-completions.bash" "${printDir}/${name}-completions.bash"
+                                        fi
+                                        if [[ "${element}" == "scenarios" ]]; then
+                                            Test file can read "${dir}/${name}.scn" "${printDir}/${name}.scn"
+                                        fi
+                                    done
+                                    for file in ${dir}/**; do
+                                        if [[ -d "${file}" ]]; then continue; fi
+                                        file=${file//${dir}/}; file=${file/\//}; extension=${file##*.}; name=${file%%.*}; nameCompletions="${name}-completions"
+                                        case "${expected}" in
+                                            *"${name} "*) ;;
+                                            *)
+                                                if [[ "${element}" == "tasks" ]]; then
+                                                    tmpName=${name//-completions/}
+                                                    case "${expected}" in
+                                                        *"${tmpName} "*) ;;
+                                                        *) Report application strictwarning E826 "${file}" "${printDir}" ;;
+                                                    esac
+                                                else
+                                                    Report application strictwarning E826 "${file}" "${printDir}"
+                                                fi ;;
+                                        esac
+                                        case "${extension}" in
+                                            adoc)   ;;
+                                            sh)     if [[ "${element}" != "tasks" ]]; then Report application strictwarning E826 "${file}" "${printDir}"; fi ;;
+                                            bash)   if [[ "${element}" != "tasks" ]]; then Report application strictwarning E826 "${file}" "${printDir}"; fi ;;
+                                            scn)    if [[ "${element}" != "scenarios" ]]; then Report application strictwarning E826 "${file}" "${printDir}"; fi ;;
+                                            thm)    if [[ "${element}" != "themes" ]]; then Report application strictwarning E826 "${file}" "${printDir}"; fi ;;
+                                            *)      Report application strictwarning E826 "${file}" "${printDir}"
+                                        esac
+                                    done
+                                fi
+                            done
+                        done
+                    fi ;;
 
-        projects)
-            ;;
 
-        scenarios)
-            if [[ "${FW_ELEMENT_SCN_LONG[*]}" != "" ]]; then
-                for id in ${!FW_ELEMENT_SCN_LONG[@]}; do
-                    Test file exists "${FW_ELEMENT_SCN_PATH[${id}]}/${id}.adoc"; Test file can read "${FW_ELEMENT_SCN_PATH[${id}]}/${id}.adoc"
-                done
-            fi ;;
+                library-text)
+                    Report application info "validating library texts"
+                    for element in $(ls ${SF_HOME}/lib/text); do
+                        dir="${SF_HOME}/lib/text/${element}"
+                        printDir="\$SF_HOME/lib/text/${element}"
+                        expected=""
+                        case ${element} in
+                            actions)    expected="$(Framework has actions)" ;;
+                            components) expected="actions elements instances objects" ;;
+                            elements)   expected="$(Framework has elements)"
+                                        expected+=" exit-options run-options" ;;
+                            exitcodes)  expected="$(Exitcodes has)" ;;
+                            framework)  expected="authors bugs copying description exit-status resources security" ;;
+                            instances)  expected="$(Framework has instances)" ;;
+                            objects)    expected="$(Framework has objects)" ;;
+                            options)    expected="$(Options has)" ;;
+                            tags)       expected="authors name" ;;
+                            variables)  expected="$(Variables has)" ;;
+                        esac
+                        for name in ${expected}; do
+                            Test file can read "${dir}/${name}.adoc" "${printDir}/${name}.adoc"
+                        done
+                        for file in ${dir}/**; do
+                            if [[ -d "${file}" ]]; then continue; fi
+                            file=${file##*/}; extension=${file##*.}; name=${file%%.*}
+                            case "${expected}" in
+                                *"${name}"*) ;;
+                                *) Report application strictwarning E826 "${file}" "${printDir}"
+                            esac
+                            case "${extension}" in
+                                adoc) ;;
+                                *) Report application strictwarning E826 "${file}" "${printDir}"
+                            esac
+                        done
+                    done ;;
 
-        sites)
-            ;;
 
-        tasks)
-            if [[ "${FW_ELEMENT_TSK_LONG[*]}" != "" ]]; then
-                for id in ${!FW_ELEMENT_TSK_LONG[@]}; do
-                    Test file exists "${FW_ELEMENT_TSK_PATH[${id}]}/${id}.adoc"; Test file can read "${FW_ELEMENT_TSK_PATH[${id}]}/${id}.adoc"
-                done
-            fi ;;
+                framework-components)
+                    Report application info "validating framework components"
+                    Test file can read "${SF_HOME}/lib/components/Framework.sh"                 "\$SF_HOME/lib/components/Framework.sh"
+                    Test file can read "${SF_HOME}/lib/completions/Framework-completions.bash"  "\$SF_HOME/lib/completions/Framework-completions.bash"
+                    if [[ -z "${FW_COMPONENTS_TAGLINE["Framework"]:-}" ]];   then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 "main functiosn" "Framework" tagline; fi
+
+                    actions=" $(Framework has actions) "
+                    elements=" $(Framework has elements) "
+                    instances=" $(Framework has instances) "
+                    objects=" $(Framework has objects) "
+
+                    for id in ${actions} ${elements} ${instances} ${objects}; do
+                        case ${actions} in *" ${id} "*) compType=actions ;; esac
+                        case ${elements} in *" ${id} "*) compType=elements ;; esac
+                        case ${instances} in *" ${id} "*) compType=instances ;; esac
+                        case ${objects} in *" ${id} "*) compType=objects ;; esac
+
+                        Test file can read "${SF_HOME}/lib/components/${compType}/${id}.sh"                 "\$SF_HOME/lib/components/${compType}/${id}.sh"
+                        Test file can read "${SF_HOME}/lib/completions/${compType}/${id}-completions.bash"  "\$SF_HOME/lib/completions/${compType}/${id}-completions.bash"
+
+                        if [[ -z "${FW_COMPONENTS_TAGLINE[${id}]:-}" ]];   then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} tagline; fi
+                        if [[ ! -n "${FW_COMPONENTS_TAGLINE[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "${compType:0:-1} ${id}" tagline; fi
+
+                        excludeIDs=" Module Dependency Project Scenario Script Site Task Tablechars "
+                        if [[ "${compType}" != "actions" ]]; then
+                        case ${excludeIDs} in
+                            *" ${id} "*) ;;
+                            *)  if [[ -z "${FW_COMPONENTS_SINGULAR[${id}]:-}" ]];   then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} singular; fi
+                                if [[ ! -n "${FW_COMPONENTS_SINGULAR[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "${compType:0:-1} ${id}" singular; fi
+
+                                if [[ -z "${FW_COMPONENTS_PLURAL[${id}]:-}" ]];   then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} plural; fi
+                                if [[ ! -n "${FW_COMPONENTS_PLURAL[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "${compType:0:-1} ${id}" plural; fi
+
+                                if [[ -z "${FW_COMPONENTS_TITLE_LONG_SINGULAR[${id}]:-}" ]];   then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} "long singular title"; fi
+                                if [[ ! -n "${FW_COMPONENTS_TITLE_LONG_SINGULAR[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "${compType:0:-1} ${id}" "long singular title"; fi
+
+                                if [[ -z "${FW_COMPONENTS_TITLE_LONG_PLURAL[${id}]:-}" ]];   then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} "long plural title"; fi
+                                if [[ ! -n "${FW_COMPONENTS_TITLE_LONG_PLURAL[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "${compType:0:-1} ${id}" "long plural title"; fi
+
+                                if [[ -z "${FW_COMPONENTS_TITLE_SHORT_SINGULAR[${id}]:-}" ]];   then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} "short singular title"; fi
+                                if [[ ! -n "${FW_COMPONENTS_TITLE_SHORT_SINGULAR[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "${compType:0:-1} ${id}" "short singular title"; fi
+
+                                if [[ -z "${FW_COMPONENTS_TITLE_SHORT_PLURAL[${id}]:-}" ]];   then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} "short plural title"; fi
+                                if [[ ! -n "${FW_COMPONENTS_TITLE_SHORT_PLURAL[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "${compType:0:-1} ${id}" "short plural title"; fi
+
+                                if [[ -z "${FW_COMPONENTS_TABLE_DESCR[${id}]:-}" ]];   then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} "table description"; fi
+                                if [[ ! -n "${FW_COMPONENTS_TABLE_DESCR[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "${compType:0:-1} ${id}" "table description"; fi
+
+                                if [[ -z "${FW_COMPONENTS_TABLE_VALUE[${id}]:-}" ]];   then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} "table value"; fi
+                                if [[ ! -n "${FW_COMPONENTS_TABLE_VALUE[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "${compType:0:-1} ${id}" "table value"; fi
+
+                                if [[ "${id}" != "Clioptions" && "${id}" != "Exitcodes" ]]; then
+                                    if [[ -z "${FW_COMPONENTS_TABLE_EXTRA[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} "table extra"; fi
+                                fi ;;
+                            esac
+                        fi;
+
+                        if [[ -z "${SF_OPERATIONS[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} "SF_OPERATIONS entries"; fi
+                    done ;;
 
 
-        configurations)
-            ;;
+                runtime-settings)
+                    Report application info "validating runtime settings"
 
-        formats)
-            if [[ "${FW_OBJECT_FMT_LONG[*]}" != "" ]]; then
-                for id in ${!FW_OBJECT_FMT_LONG[@]}; do
-                    Test file exists "${FW_OBJECT_FMT_PATH[${id}]}/${id}.adoc"; Test file can read "${FW_OBJECT_FMT_PATH[${id}]}/${id}.adoc"
-                done
-            fi ;;
+                    ##
+                    ## CURRENT THEME, normal items not empty, chars only #1 (some allowed to be empty)
+                    ##
+                    Report application info "runtime settings - validating current theme (theme item settings)"
+                    if [[ "${FW_OBJECT_TIM_LONG[*]}" != "" ]]; then
+                        for id in ${!FW_OBJECT_TIM_LONG[@]}; do
+                            case ${id} in
+                                *Char)  case ${id} in
+                                            ## can be 0 (not set) or 1 (set
+                                            tabBottomruleChar | tabLegendruleChar | tabMidruleChar | tabStatusruleChar | tabTopruleChar | execEndRuleChar | execStartRuleChar | execLineChar)
+                                                if [[ "${#FW_OBJECT_TIM_VAL[${id}]}" > 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E816 "theme item" "${id}" 1 ${#FW_OBJECT_TIM_VAL[${id}]} ; fi ;;
+                                            ## can be 0 (not set) or anything (set)
+                                            tableBgrndFmt |describeBgrndFmt | listBgrndFmt | execTskBgrndFmt | execScnBgrndFmt | execPrjBgrndFmt | repeatTskBgrndFmt | repeatScnBgrndFmt)
+                                                ;;
+                                            *)
+                                                if [[ ! -n "${FW_OBJECT_TIM_VAL[${id}]}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "theme item" "${id}"; fi
+                                                if [[ "${#FW_OBJECT_TIM_VAL[${id}]}" > 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E816 "theme item" "${id}" 1 ${#FW_OBJECT_TIM_VAL[${id}]} ; fi ;;
+                                        esac ;;
+                                *)      if [[ ! -n "${FW_OBJECT_TIM_VAL[${id}]}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "theme item" "${id}"; fi ;;
+                            esac
+                        done
+                    fi ;;
 
-        levels)
-            if [[ "${FW_OBJECT_LVL_LONG[*]}" != "" ]]; then
-                for id in ${!FW_OBJECT_LVL_LONG[@]}; do
-                    Test file exists "${FW_OBJECT_LVL_PATH[${id}]}/${id}.adoc"; Test file can read "${FW_OBJECT_LVL_PATH[${id}]}/${id}.adoc"
-                done
-            fi ;;
-
-        messages)
-            if [[ "${FW_OBJECT_MSG_LONG[*]}" != "" ]]; then
-                for id in ${!FW_OBJECT_MSG_LONG[@]}; do
-                    Test file exists "${FW_OBJECT_MSG_PATH[${id}]}/${id}.adoc"; Test file can read "${FW_OBJECT_MSG_PATH[${id}]}/${id}.adoc"
-                done
-            fi ;;
-
-        modes)
-            if [[ "${FW_OBJECT_MOD_LONG[*]}" != "" ]]; then
-                for id in ${!FW_OBJECT_MOD_LONG[@]}; do
-                    Test file exists "${FW_OBJECT_MOD_PATH[${id}]}/${id}.adoc"; Test file can read "${FW_OBJECT_MOD_PATH[${id}]}/${id}.adoc"
-                done
-            fi ;;
-
-        phases)
-            if [[ "${FW_OBJECT_PHA_LONG[*]}" != "" ]]; then
-                for id in ${!FW_OBJECT_PHA_LONG[@]}; do
-                    Test file exists "${FW_OBJECT_PHA_PATH[${id}]}/${id}.adoc"; Test file can read "${FW_OBJECT_PHA_PATH[${id}]}/${id}.adoc"
-                done
-            fi ;;
-
-        settings)
-            ;;
-
-        themeitems)
-            ;;
-
-        themes)
-            if [[ "${FW_OBJECT_THM_LONG[*]}" != "" ]]; then
-                for id in ${!FW_OBJECT_THM_LONG[@]}; do
-                    Test file exists "${FW_OBJECT_THM_PATH[${id}]}/${id}.adoc"; Test file can read "${FW_OBJECT_THM_PATH[${id}]}/${id}.adoc"
-                done
-            fi ;;
-
+                *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
+            esac ;;
         *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
 }

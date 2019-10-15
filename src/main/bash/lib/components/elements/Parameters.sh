@@ -41,7 +41,11 @@ function Parameters() {
             if [[ "${FW_ELEMENT_PAR_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_PAR_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s (%s): %s, %s, (%s :: %s), %s\n" "${id}" "${FW_ELEMENT_PAR_STATUS[${id}]}" "${FW_ELEMENT_PAR_PHA[${id}]}" "${FW_ELEMENT_PAR_ORIG[${id}]}" "${FW_ELEMENT_PAR_DEFVAL[${id}]}" "${FW_ELEMENT_PAR_VAL[${id}]}" "${FW_ELEMENT_PAR_LONG[${id}]}"
+                    printf "    %s (dec: %s / %s, set: %s)\n"           "${id}" "${FW_ELEMENT_PAR_DECMDS[${id}]}" "${FW_ELEMENT_PAR_DECPHA[${id}]}" "${FW_ELEMENT_PAR_PHA[${id}]}"
+                    printf "        status:     s: %s, c: %s, r: %s\n"  "${FW_ELEMENT_PAR_STATUS[${id}]}" "${FW_ELEMENT_PAR_STATUS_COMMENTS[${id}]}" "${FW_ELEMENT_PAR_REQUESTED[${id}]}"
+                    printf "        def-val:    %s\n"                   "${FW_ELEMENT_PAR_DEFVAL[${id}]}"
+                    printf "        value:      %s\n"                   "${FW_ELEMENT_PAR_VAL[${id}]}"
+                    printf "        descr:      %s\n\n"                 "${FW_ELEMENT_PAR_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

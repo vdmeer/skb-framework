@@ -42,7 +42,7 @@ function Debug() {
             Test existing application id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
 
             printf "\n"; Format tagline for application "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
-                printf "%s origin:      %s\n" "${listIndent}" "${FW_ELEMENT_APP_ORIG[${id}]}"
+                printf "%s origin:      %s\n" "${listIndent}" "${FW_ELEMENT_APP_DECMDS[${id}]}"
                 printf "%s command:     %s\n" "${listIndent}" "${FW_ELEMENT_APP_COMMAND[${id}]}"
                 printf "%s # arguments: %s\n" "${listIndent}" "${FW_ELEMENT_APP_ARGNUM[${id}]}"
                 printf "%s template:    %s\n" "${listIndent}" "${FW_ELEMENT_APP_ARGS[${id}]}"
@@ -66,7 +66,7 @@ function Debug() {
             Test existing dependency id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
 
             printf "\n"; Format tagline for dependency "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
-                printf "%s origin:  %s\n" "${listIndent}" "${FW_ELEMENT_DEP_ORIG[${id}]}"
+                printf "%s origin:  %s\n" "${listIndent}" "${FW_ELEMENT_DEP_DECMDS[${id}]}"
                 printf "%s command: %s\n" "${listIndent}" "${FW_ELEMENT_DEP_CMD[${id}]}"
 
             printf "\n    "; Format text regular,italic "Load and Status"; printf "\n"
@@ -94,7 +94,7 @@ function Debug() {
             Test existing dirlist id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
 
             printf "\n"; Format tagline for dirlist "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
-                printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_DLS_ORIG[${id}]}"
+                printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_DLS_DECMDS[${id}]}"
                 printf "%s value:  %s\n" "${listIndent}" "${FW_ELEMENT_DLS_VAL[${id}]}"
                 printf "%s modes:  %s\n" "${listIndent}" "${FW_ELEMENT_DLS_MOD[${id}]}"
 
@@ -117,7 +117,7 @@ function Debug() {
             Test existing dir id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
 
             printf "\n"; Format tagline for dir "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
-                printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_DIR_ORIG[${id}]}"
+                printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_DIR_DECMDS[${id}]}"
                 printf "%s value:  %s\n" "${listIndent}" "${FW_ELEMENT_DIR_VAL[${id}]}"
                 printf "%s modes:  %s\n" "${listIndent}" "${FW_ELEMENT_DIR_MOD[${id}]}"
 
@@ -140,7 +140,7 @@ function Debug() {
             Test existing filelist id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
 
             printf "\n"; Format tagline for filelist "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
-                printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_FLS_ORIG[${id}]}"
+                printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_FLS_DECMDS[${id}]}"
                 printf "%s value:  %s\n" "${listIndent}" "${FW_ELEMENT_FLS_VAL[${id}]}"
                 printf "%s modes:  %s\n" "${listIndent}" "${FW_ELEMENT_FLS_MOD[${id}]}"
 
@@ -163,7 +163,7 @@ function Debug() {
             Test existing file id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
 
             printf "\n"; Format tagline for file "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
-                printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_FIL_ORIG[${id}]}"
+                printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_FIL_DECMDS[${id}]}"
                 printf "%s value:  %s\n" "${listIndent}" "${FW_ELEMENT_FIL_VAL[${id}]}"
                 printf "%s modes:  %s\n" "${listIndent}" "${FW_ELEMENT_FIL_MOD[${id}]}"
 
@@ -229,7 +229,7 @@ function Debug() {
             Test existing parameter id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
 
             printf "\n"; Format tagline for parameter "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
-                printf "%s origin:        %s\n" "${listIndent}" "${FW_ELEMENT_PAR_ORIG[${id}]}"
+                printf "%s origin:        %s\n" "${listIndent}" "${FW_ELEMENT_PAR_DECMDS[${id}]}"
                 printf "%s default value: %s\n" "${listIndent}" "${FW_ELEMENT_PAR_DEFVAL[${id}]}"
 
             printf "\n    "; Format text regular,italic "Load and Status"; printf "\n"
@@ -251,10 +251,10 @@ function Debug() {
             id="${1}"
             Test existing project id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             printf "\n"; Format tagline for project "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
-                printf "%s origin:  %s\n" "${listIndent}" "${FW_ELEMENT_PAR_ORIG[${id}]}"
+                printf "%s origin:  %s\n" "${listIndent}" "${FW_ELEMENT_PAR_DECMDS[${id}]}"
                 printf "%s mode:    %s\n" "${listIndent}" "$(Format mode ${FW_ELEMENT_PAR_MODES[${id}]})"
                 printf "%s path:    %s\n" "${listIndent}" "${FW_ELEMENT_PRJ_PATH_TEXT[${id}]}"
-                printf "%s file:    %s\n" "${listIndent}" "${FW_ELEMENT_PRJ_FILE[${id}]}"
+                printf "%s root:    %s\n" "${listIndent}" "${FW_ELEMENT_PRJ_RDIR[${id}]}"
                 printf "%s targets: %s\n" "${listIndent}" "${FW_ELEMENT_PRJ_TGTS[${id}]:-}"
 
             printf "\n    "; Format text regular,italic "Load and Status"; printf "\n"
@@ -306,7 +306,7 @@ function Debug() {
             id="${1}"
             Test existing scenario id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             printf "\n"; Format tagline for scenario "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
-                printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_SCN_ORIG[${id}]}"
+                printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_SCN_DECMDS[${id}]}"
                 printf "%s mode:   %s\n" "${listIndent}" "$(Format mode ${FW_ELEMENT_SCN_MODES[${id}]})"
                 printf "%s path:   %s\n" "${listIndent}" "${FW_ELEMENT_SCN_PATH_TEXT[${id}]}"
 
@@ -323,33 +323,9 @@ function Debug() {
                     printf "%s applications:\n" "${listIndent}"
                     for tmpString in ${FW_ELEMENT_SCN_REQUIRED_APP[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
                 fi
-                if [[ -n "${FW_ELEMENT_SCN_REQUIRED_DEP[${id}]:-}" ]]; then
-                    printf "%s dependencies:\n" "${listIndent}"
-                    for tmpString in ${FW_ELEMENT_SCN_REQUIRED_DEP[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
-                fi
-                if [[ -n "${FW_ELEMENT_SCN_REQUIRED_PAR[${id}]:-}" ]]; then
-                    printf "%s parameters:\n" "${listIndent}"
-                    for tmpString in ${FW_ELEMENT_SCN_REQUIRED_PAR[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
-                fi
                 if [[ -n "${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]:-}" ]]; then
                     printf "%s tasks:\n" "${listIndent}"
                     for tmpString in ${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
-                fi
-                if [[ -n "${FW_ELEMENT_SCN_REQUIRED_FILE[${id}]:-}" ]]; then
-                    printf "%s files:\n" "${listIndent}"
-                    for tmpString in ${FW_ELEMENT_SCN_REQUIRED_FILE[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
-                fi
-                if [[ -n "${FW_ELEMENT_SCN_REQUIRED_FILELIST[${id}]:-}" ]]; then
-                    printf "%s file lists:\n" "${listIndent}"
-                    for tmpString in ${FW_ELEMENT_SCN_REQUIRED_FILELIST[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
-                fi
-                if [[ -n "${FW_ELEMENT_SCN_REQUIRED_DIR[${id}]:-}" ]]; then
-                    printf "%s directories:\n" "${listIndent}"
-                    for tmpString in ${FW_ELEMENT_SCN_REQUIRED_DIR[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
-                fi
-                if [[ -n "${FW_ELEMENT_SCN_REQUIRED_DIRLIST[${id}]:-}" ]]; then
-                    printf "%s directory lists:\n" "${listIndent}"
-                    for tmpString in ${FW_ELEMENT_SCN_REQUIRED_DIRLIST[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
                 fi
             ;;
 
@@ -359,9 +335,9 @@ function Debug() {
             id="${1}"
             Test existing site id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             printf "\n"; Format tagline for site "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
-                printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_SIT_ORIG[${id}]}"
+                printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_SIT_DECMDS[${id}]}"
                 printf "%s path:   %s\n" "${listIndent}" "${FW_ELEMENT_SIT_PATH_TEXT[${id}]}"
-                printf "%s file:   %s\n" "${listIndent}" "${FW_ELEMENT_SIT_FILE[${id}]}"
+                printf "%s root:   %s\n" "${listIndent}" "${FW_ELEMENT_SIT_RDIR[${id}]}"
 
             printf "\n    "; Format text regular,italic "Load and Status"; printf "\n"
                 printf "%s status: %s\n" "${listIndent}" "$(Format element status ${FW_ELEMENT_SIT_STATUS[${id}]})"
@@ -412,7 +388,7 @@ function Debug() {
             id="${1}"
             Test existing task id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             printf "\n"; Format tagline for task "${id}" describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
-                printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_TSK_ORIG[${id}]}"
+                printf "%s origin: %s\n" "${listIndent}" "${FW_ELEMENT_TSK_DECMDS[${id}]}"
                 printf "%s mode:   %s\n" "${listIndent}" "$(Format mode ${FW_ELEMENT_TSK_MODES[${id}]})"
                 printf "%s path:   %s\n" "${listIndent}" "${FW_ELEMENT_TSK_PATH_TEXT[${id}]}"
 

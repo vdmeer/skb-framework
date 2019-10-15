@@ -32,9 +32,7 @@
 function __skb_Verify_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Verify)     retval="everything"
-                    retval+=" applications dependencies dirlists dirs filelists files modules parameters projects scenarios sites tasks"
-                    ;;
+        Verify)     retval="elements" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

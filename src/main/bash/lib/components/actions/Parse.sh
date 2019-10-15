@@ -29,11 +29,11 @@
 ##
 
 
-if [[ "${FW_PARSED_ARG_MAP[*]}" == "" ]]; then
-    declare -A FW_PARSED_ARG_MAP    ## map of parsed values
-    declare -A FW_PARSED_VAL_MAP    ## map of parsed arguments, options that are used with an argument
-    declare FW_PARSED_EXTRA=""      ## extra parts of command line, after final '--'
-fi
+#if [[ "${FW_PARSED_ARG_MAP[*]}" == "" ]]; then
+#    declare -A FW_PARSED_ARG_MAP    ## map of parsed values
+#    declare -A FW_PARSED_VAL_MAP    ## map of parsed arguments, options that are used with an argument
+#    declare FW_PARSED_EXTRA=""      ## extra parts of command line, after final '--'
+#fi
 
 
 function Parse() {
@@ -46,17 +46,9 @@ function Parse() {
         cli)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmd1}" E801 1 "$#"; return; fi
             helpList="${1}"; shift
-            case "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" in
-                CLI)    appName="skb-framework"
-                        shortString="$(Options short string)"
-                        longString="$(Options long string)" ;;
-                Task)   appName="${FW_OBJECT_SET_VAL["CURRENT_TASK"]}"
-                        shortString="$(Clioptions short string)"
-                        longString="$(Clioptions long string)" ;;
-                *)
-##ERROR MESSAGE
-;;
-            esac
+            if [[ "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" == "CLI" ]]; then appName="skb-framework"; else appName="${FW_OBJECT_SET_VAL["CURRENT_TASK"]}"; fi
+            shortString="$(Clioptions short string)"
+            longString="$(Clioptions long string)"
 
             unset -v FW_PARSED_ARG_MAP FW_PARSED_VAL_MAP FW_PARSED_EXTRA
             declare -A -g FW_PARSED_ARG_MAP FW_PARSED_VAL_MAP; declare -g FW_PARSED_EXTRA=""
@@ -64,10 +56,7 @@ function Parse() {
             ! PARSED=$(getopt --options "${shortString}" --longoptions "${longString}" --name "${appName}" -- "$@")
             if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
                 Report application error "${FUNCNAME[0]}" "${cmd1}" E814
-                case "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" in
-                    CLI)    Terminate framework 1 ;;
-                    Task)   exit 1;;
-                esac
+                if [[ "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" == "CLI" ]]; then Terminate framework 1; else exit 1; fi
             fi
             eval set -- "$PARSED"
             while true; do
@@ -84,10 +73,21 @@ function Parse() {
                 esac
             done
 
+            for id in "${!FW_PARSED_ARG_MAP[@]}"; do if (( ${#id} == 1 )); then FW_INSTANCE_CLI_SET["${FW_INSTANCE_CLI_SHORT[${id}]}"]="yes"; else FW_INSTANCE_CLI_SET["${id}"]="yes"; fi; done
+            for id in "${!FW_PARSED_VAL_MAP[@]}"; do if (( ${#id} == 1 )); then FW_INSTANCE_CLI_VAL["${FW_INSTANCE_CLI_SHORT[${id}]}"]="${FW_PARSED_VAL_MAP[${id}]}"; else FW_INSTANCE_CLI_VAL["${id}"]="${FW_PARSED_VAL_MAP[${id}]}"; fi; done
+            FW_INSTANCE_CLI_EXTRA="${FW_PARSED_EXTRA}"
+
             case "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" in
-                CLI)    for id in "${!FW_PARSED_ARG_MAP[@]}"; do if (( ${#id} == 1 )); then FW_ELEMENT_OPT_SET["${FW_ELEMENT_OPT_SHORT[${id}]}"]="yes"; else FW_ELEMENT_OPT_SET["${id}"]="yes"; fi; done
-                        for id in "${!FW_PARSED_VAL_MAP[@]}"; do if (( ${#id} == 1 )); then FW_ELEMENT_OPT_VAL["${FW_ELEMENT_OPT_SHORT[${id}]}"]="${FW_PARSED_VAL_MAP[${id}]}"; else FW_ELEMENT_OPT_VAL["${id}"]="${FW_PARSED_VAL_MAP[${id}]}"; fi; done
-                        FW_ELEMENT_OPT_EXTRA="${FW_PARSED_EXTRA}"
+                CLI)    for id in "${!FW_INSTANCE_CLI_LONG[@]}"; do FW_ELEMENT_OPT_LONG[${id}]="${FW_INSTANCE_CLI_LONG[${id}]}"; done
+                        for id in "${!FW_INSTANCE_CLI_SHORT[@]}"; do FW_ELEMENT_OPT_SHORT[${id}]="${FW_INSTANCE_CLI_SHORT[${id}]}"; done
+                        for id in "${!FW_INSTANCE_CLI_SORT[@]}"; do FW_ELEMENT_OPT_SORT[${id}]="${FW_INSTANCE_CLI_SORT[${id}]}"; done
+                        for id in "${!FW_INSTANCE_CLI_LS[@]}"; do FW_ELEMENT_OPT_LS[${id}]="${FW_INSTANCE_CLI_LS[${id}]}"; done
+                        for id in "${!FW_INSTANCE_CLI_ARG[@]}"; do FW_ELEMENT_OPT_ARG[${id}]="${FW_INSTANCE_CLI_ARG[${id}]}"; done
+                        for id in "${!FW_INSTANCE_CLI_CAT[@]}"; do FW_ELEMENT_OPT_CAT[${id}]="${FW_INSTANCE_CLI_CAT[${id}]}"; done
+                        for id in "${!FW_INSTANCE_CLI_LEN[@]}"; do FW_ELEMENT_OPT_LEN[${id}]="${FW_INSTANCE_CLI_LEN[${id}]}"; done
+                        for id in "${!FW_INSTANCE_CLI_SET[@]}"; do FW_ELEMENT_OPT_SET[${id}]="${FW_INSTANCE_CLI_SET[${id}]}"; done
+                        for id in "${!FW_INSTANCE_CLI_VAL[@]}"; do FW_ELEMENT_OPT_VAL[${id}]="${FW_INSTANCE_CLI_VAL[${id}]}"; done
+                        FW_ELEMENT_OPT_EXTRA="${FW_INSTANCE_CLI_EXTRA}"
 
                         if [[ "${FW_ELEMENT_OPT_SET["format"]}" == "yes" ]];            then Set print format to "${FW_ELEMENT_OPT_VAL["format"]}"; fi
                         if [[ "${FW_ELEMENT_OPT_SET["help"]}" == "yes" ]];              then Print framework help; Terminate framework 0; fi
@@ -98,16 +98,11 @@ function Parse() {
                         if [[ "${FW_ELEMENT_OPT_SET["test-characters"]}" == "yes" ]];   then Print test characters; Terminate framework 0; fi
                         if [[ "${FW_ELEMENT_OPT_SET["test-terminal"]}" == "yes" ]];     then Print test terminal; Terminate framework 0; fi ;;
 
-                Task)   for id in "${!FW_PARSED_ARG_MAP[@]}"; do if (( ${#id} == 1 )); then FW_INSTANCE_CLI_SET["${FW_INSTANCE_CLI_SHORT[${id}]}"]="yes"; else FW_INSTANCE_CLI_SET["${id}"]="yes"; fi; done
-                        for id in "${!FW_PARSED_VAL_MAP[@]}"; do if (( ${#id} == 1 )); then FW_INSTANCE_CLI_VAL["${FW_INSTANCE_CLI_SHORT[${id}]}"]="${FW_PARSED_VAL_MAP[${id}]}"; else FW_INSTANCE_CLI_VAL["${id}"]="${FW_PARSED_VAL_MAP[${id}]}"; fi; done
-                        FW_INSTANCE_CLI_EXTRA="${FW_PARSED_EXTRA}"
-
-                        if [[ "${FW_INSTANCE_CLI_SET["format"]}" == "yes" ]];     then FW_OBJECT_SET_VAL["PRINT_FORMAT2"]="${FW_INSTANCE_CLI_VAL["format"]}"; fi
+                Task)   if [[ "${FW_INSTANCE_CLI_SET["format"]}" == "yes" ]];     then FW_OBJECT_SET_VAL["PRINT_FORMAT2"]="${FW_INSTANCE_CLI_VAL["format"]}"; fi
                         if [[ "${FW_INSTANCE_CLI_SET["describe"]}" == "yes" ]];   then printf "\n"; Describe task "${FW_OBJECT_SET_VAL["CURRENT_TASK"]}"; doExit=true; fi
                         if [[ "${FW_INSTANCE_CLI_SET["help"]}" == "yes" ]];       then List categorized clioptions ${helpList}; doExit=true; fi
                         if [[ "${doExit}" == true ]]; then exit 0; fi ;;
-            esac
-            unset -v FW_PARSE_HELP_LIST ;;
+            esac ;;
 
         *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac

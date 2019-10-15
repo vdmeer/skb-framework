@@ -1,0 +1,135 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Test - API declarations
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.6
+## @since      0.0.6
+##
+
+
+SF_OPERATIONS["Test"]="shows available operations"
+
+SF_OPERATIONS["Test%command%@ID@%@CALLER@%@TEXT@"]="tests command ID executable (CALLER and TEXT for errors)"
+
+SF_OPERATIONS["Test%integer%@INT@"]="tests if INT is a valid integer, 0 or positive number"
+
+SF_OPERATIONS["Test%yesno%@TEXT@%@ERRTEXT@"]="not case-sensitive test if TEXT is 'y|yes' or 'n|no' with ERRTEXT"
+
+SF_OPERATIONS["Test%element%status%@TEXT@"]="not case-sensitive test if TEXT is valid element status (news)"
+
+SF_OPERATIONS["Test%known%module%@ID@"]="tests if ID is known module name"
+
+SF_OPERATIONS["Test%log%format%@ID@"]="tests if ID is known format name"
+SF_OPERATIONS["Test%print%format%@ID@"]="tests if ID is known format name"
+SF_OPERATIONS["Test%log%level%@ID@"]="tests if ID is known level name"
+SF_OPERATIONS["Test%print%level%@ID@"]="tests if ID is known level name"
+
+
+SF_OPERATIONS["Test%fs%mode%@ID@%@MOD@"]="tests if MOD is a valid file/directory mode (rwxcd), (ID for errors)"
+
+SF_OPERATIONS["Test%file%exists%@FILE@%[%@TEXT@%]"]="tests FILE exists (TEXT for error messages)"
+SF_OPERATIONS["Test%dir%exists%@DIR@%[%@TEXT@%]"]="tests DIR exists (TEXT for error messages)"
+
+
+SF_OPERATIONS["Test%file%can%read%@FILE@%[%@TEXT@%]"]="tests FILE is readable (TEXT for error messages)"
+SF_OPERATIONS["Test%file%can%write%@FILE@%[%@TEXT@%]"]="tests FILE is writable (TEXT for error messages)"
+SF_OPERATIONS["Test%file%can%execute%@FILE@%[%@TEXT@%]"]="tests FILE executable (TEXT for error messages)"
+SF_OPERATIONS["Test%file%can%create%@FILE@%[%@TEXT@%]"]="tests FILE can be created (TEXT for error messages)"
+SF_OPERATIONS["Test%file%can%delete%@FILE@%[%@TEXT@%]"]="tests FILE can be deleted (TEXT for error messages)"
+
+SF_OPERATIONS["Test%dir%can%read%@DIR@%[%@TEXT@%]"]="tests DIR is readable (TEXT for error messages)"
+SF_OPERATIONS["Test%dir%can%write%@DIR@%[%@TEXT@%]"]="tests DIR is writable (TEXT for error messages)"
+SF_OPERATIONS["Test%dir%can%create%@DIR@%[%@TEXT@%]"]="tests DIR can be created (TEXT for error messages)"
+SF_OPERATIONS["Test%dir%can%delete%@DIR@%[%@TEXT@%]"]="tests DIR can be deleted (TEXT for error messages)"
+
+
+
+SF_OPERATIONS["Test%existing%configuration%id%@ID@"]="tests if configuration ID exists"
+SF_OPERATIONS["Test%existing%format%id%@ID@"]="tests if format ID exists"
+SF_OPERATIONS["Test%existing%level%id%@ID@"]="tests if level ID exists"
+SF_OPERATIONS["Test%existing%message%id%@ID@"]="tests if message ID exists"
+SF_OPERATIONS["Test%existing%mode%id%@ID@"]="tests if mode ID exists"
+SF_OPERATIONS["Test%existing%phase%id%@ID@"]="tests if phase ID exists"
+SF_OPERATIONS["Test%existing%setting%id%@ID@"]="tests if setting ID exists"
+SF_OPERATIONS["Test%existing%theme%id%@ID@"]="tests if theme ID exists"
+SF_OPERATIONS["Test%existing%themeitem%id%@ID@"]="tests if theme item ID exists"
+SF_OPERATIONS["Test%existing%variable%id%@ID@"]="tests if variable ID exists"
+
+SF_OPERATIONS["Test%existing%application%id%@ID@"]="tests if application ID exists"
+SF_OPERATIONS["Test%existing%dependency%id%@ID@"]="tests if dependency ID exists"
+SF_OPERATIONS["Test%existing%dirlist%id%@ID@"]="tests if directory list ID exists"
+SF_OPERATIONS["Test%existing%dir%id%@ID@"]="tests if directory ID exists"
+SF_OPERATIONS["Test%existing%filelist%id%@ID@"]="tests if file list ID exists"
+SF_OPERATIONS["Test%existing%file%id%@ID@"]="tests if file ID exists"
+SF_OPERATIONS["Test%existing%module%id%@ID@"]="tests if module ID exists"
+SF_OPERATIONS["Test%existing%option%id%@ID@"]="tests if option ID exists"
+SF_OPERATIONS["Test%existing%parameter%id%@ID@"]="tests if parameter ID exists"
+SF_OPERATIONS["Test%existing%project%id%@ID@"]="tests if project ID exists"
+SF_OPERATIONS["Test%existing%scenario%id%@ID@"]="tests if scenario ID exists"
+SF_OPERATIONS["Test%existing%script%id%@ID@"]="tests if script ID exists"
+SF_OPERATIONS["Test%existing%site%id%@ID@"]="tests if site ID exists"
+SF_OPERATIONS["Test%existing%task%id%@ID@"]="tests if task ID exists"
+
+SF_OPERATIONS["Test%existing%clioption%id%@ID@"]="tests if CLI option ID exists"
+SF_OPERATIONS["Test%existing%exitcode%id%@ID@"]="tests if exit code ID exists"
+
+SF_OPERATIONS["Test%existing%action%id%@ID@"]="tests if action ID exists"
+SF_OPERATIONS["Test%existing%element%id%@ID@"]="tests if element ID exists"
+SF_OPERATIONS["Test%existing%instance%id%@ID@"]="tests if instance ID exists"
+SF_OPERATIONS["Test%existing%object%id%@ID@"]="tests if object ID exists"
+SF_OPERATIONS["Test%existing%component%id%@ID@"]="tests if component ID exists"
+
+
+
+SF_OPERATIONS["Test%used%application%id%@ID@"]="tests if application ID is already used"
+SF_OPERATIONS["Test%used%dependency%id%@ID@"]="tests if dependency ID is already used"
+SF_OPERATIONS["Test%used%dirlist%id%@ID@"]="tests if directory list ID is already used"
+SF_OPERATIONS["Test%used%dir%id%@ID@"]="tests if directory ID is already used"
+SF_OPERATIONS["Test%used%filelist%id%@ID@"]="tests if file list ID is already used"
+SF_OPERATIONS["Test%used%file%id%@ID@"]="tests if file ID is already used"
+SF_OPERATIONS["Test%used%module%id%@ID@"]="tests if module ID is already used"
+SF_OPERATIONS["Test%used%parameter%id%@ID@"]="tests if parameter ID is already used"
+SF_OPERATIONS["Test%used%project%id%@ID@"]="tests if project ID is already used"
+SF_OPERATIONS["Test%used%scenario%id%@ID@"]="tests if scenario ID is already used"
+SF_OPERATIONS["Test%used%script%id%@ID@"]="tests if script ID is already used"
+SF_OPERATIONS["Test%used%site%id%@ID@"]="tests if site ID is already used"
+SF_OPERATIONS["Test%used%task%id%@ID@"]="tests if task ID is already used (including aliases: bye, quit, exit)"
+
+SF_OPERATIONS["Test%used%configuration%id%@ID@"]="tests if configuration ID is already used"
+SF_OPERATIONS["Test%used%format%id%@ID@"]="tests if format ID is already used"
+SF_OPERATIONS["Test%used%level%id%@ID@"]="tests if level ID is already used"
+SF_OPERATIONS["Test%used%message%id%@ID@"]="tests if message ID is already used"
+SF_OPERATIONS["Test%used%mode%id%@ID@"]="tests if mode ID is already used"
+SF_OPERATIONS["Test%used%phase%id%@ID@"]="tests if phase ID is already used"
+SF_OPERATIONS["Test%used%setting%id%@ID@"]="tests if setting ID is already used"
+SF_OPERATIONS["Test%used%theme%id%@ID@"]="tests if theme ID is already used"
+SF_OPERATIONS["Test%used%themeitem%id%@ID@"]="tests if theme item ID is already used"
+SF_OPERATIONS["Test%used%variable%id%@ID@"]="tests if variable ID is already used"
+
+SF_OPERATIONS["Test%used%clioption%long-id%@ID@"]="tests if CLI option ID is already used (as long or short option)"
+SF_OPERATIONS["Test%used%clioption%short-id%@ID@"]="tests if CLI option ID is already used (as short or long option)"
+
+
+

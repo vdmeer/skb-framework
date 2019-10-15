@@ -32,7 +32,7 @@
 function Decrease() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id errno doWriteFast=false
+    local id errno
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
@@ -41,14 +41,7 @@ function Decrease() {
             id="${1}"; cmd2="${2}"; cmd3="${3}"
             Test existing phase id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             case "${cmd2}-${cmd3}" in
-                error-count)
-                    FW_OBJECT_PHA_ERRCNT[${id}]=$(( FW_OBJECT_PHA_ERRCNT[${id}] - 1 ))
-                    if (( FW_OBJECT_PHA_ERRCNT[${id}] < 0 )); then FW_OBJECT_PHA_ERRCNT[${id}]=0; fi
-                    doWriteFast=true ;;
-                warning-count)
-                    FW_OBJECT_PHA_WRNCNT[${id}]=$(( FW_OBJECT_PHA_WRNCNT[${id}] - 1 ))
-                    if (( FW_OBJECT_PHA_WRNCNT[${id}] < 0 )); then FW_OBJECT_PHA_WRNCNT[${id}]=0; fi
-                    doWriteFast=true ;;
+                error-count | warning-count) sf_alter_phase_counts decrease ${cmd2}-${cmd3} ${id} ;;
                 *)  Report process error "${FUNCNAME[0]}" "${cmdString1}" E879 "${cmd1}" "${cmd2} ${cmd3}"; return ;;
             esac ;;
 
@@ -57,22 +50,11 @@ function Decrease() {
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
 
-                error-count)
-                    FW_OBJECT_SET_PHA["ERROR_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                    FW_OBJECT_SET_VAL["ERROR_COUNT"]=$(( FW_OBJECT_SET_VAL["ERROR_COUNT"] - 1 ))
-                    if (( FW_OBJECT_SET_VAL["ERROR_COUNT"] < 0 )); then FW_OBJECT_SET_VAL["ERROR_COUNT"]=0; fi
-                    Decrease phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} error count ;;
-
-                warning-count)
-                    FW_OBJECT_SET_PHA["WARNING_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                    FW_OBJECT_SET_VAL["WARNING_COUNT"]=$(( FW_OBJECT_SET_VAL["WARNING_COUNT"] - 1 ))
-                    if (( FW_OBJECT_SET_VAL["WARNING_COUNT"] < 0 )); then FW_OBJECT_SET_VAL["WARNING_COUNT"]=0; fi
-                    Decrease phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} warning count ;;
+                error-count | warning-count)
+                    sf_alter_phase_counts decrease ${cmd1}-${cmd2} ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ;;
 
                 *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
         *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
     esac
-
-    if [[ "${doWriteFast}" == true && "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write fast config; doWriteFast=false; fi
 }

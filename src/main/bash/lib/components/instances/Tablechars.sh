@@ -71,6 +71,7 @@ function Tablechars() {
                     FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]="$(Format themed text phaseLoadFmt      "${FW_OBJECT_TIM_VAL["phaseLoadChar"]}")"
                     FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]="$(Format themed text phaseProjectFmt   "${FW_OBJECT_TIM_VAL["phaseProjectChar"]}")"
                     FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]="$(Format themed text phaseScenarioFmt  "${FW_OBJECT_TIM_VAL["phaseScenarioChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charPhaScr-${format}"]="$(Format themed text phaseScriptFmt    "${FW_OBJECT_TIM_VAL["phaseScriptChar"]}")"
                     FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]="$(Format themed text phaseShellFmt     "${FW_OBJECT_TIM_VAL["phaseShellChar"]}")"
                     FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]="$(Format themed text phaseSiteFmt      "${FW_OBJECT_TIM_VAL["phaseSiteChar"]}")"
                     FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]="$(Format themed text phaseTaskFmt      "${FW_OBJECT_TIM_VAL["phaseTaskChar"]}")"
@@ -80,6 +81,33 @@ function Tablechars() {
 
                     FW_INSTANCE_TABLE_CHARS["charExexY-${format}"]="$(Format themed text elementExexYesFmt "${FW_OBJECT_TIM_VAL["elementExexYesChar"]}")"
                     FW_INSTANCE_TABLE_CHARS["charExexN-${format}"]="$(Format themed text elementExexNoFmt  "${FW_OBJECT_TIM_VAL["elementExexNoChar"]}")"
+
+                    local legend
+                    legend=" - phase:     ${FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]} CLI, ${FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]} Default (value), ${FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]} Environment, ${FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]} File, ${FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]} Load\n"
+                    legend+="              ${FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]} Project, ${FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]} Scenario, ${FW_INSTANCE_TABLE_CHARS["charPhaScr-${format}"]} Script, ${FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]} Shell, ${FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]} Site, ${FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]} Task\n"
+                    FW_INSTANCE_TABLE_STRINGS["legend-phases-${format}"]="${legend}"
+
+                    legend=" - status:    ${FW_INSTANCE_TABLE_CHARS["charStN-${format}"]} not-tested, ${FW_INSTANCE_TABLE_CHARS["charStE-${format}"]} error, ${FW_INSTANCE_TABLE_CHARS["charStW-${format}"]} warning, ${FW_INSTANCE_TABLE_CHARS["charStS-${format}"]} success\n"
+                    FW_INSTANCE_TABLE_STRINGS["legend-status-${format}"]="${legend}"
+
+                    legend=" - mode:      ${FW_INSTANCE_TABLE_CHARS["charModeSet-${format}"]} available, ${FW_INSTANCE_TABLE_CHARS["charModeNot-${format}"]} not available\n"
+                    FW_INSTANCE_TABLE_STRINGS["legend-mode-${format}"]="${legend}"
+
+                    legend=" - requested: ${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]} yes, ${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]} no\n"
+                    FW_INSTANCE_TABLE_STRINGS["legend-requested-${format}"]="${legend}"
+
+                    legend=" - levels     ${FW_INSTANCE_TABLE_CHARS["charLvlN-${format}"]} not set, ${FW_INSTANCE_TABLE_CHARS["charLvlF-${format}"]} (F)atal error, ${FW_INSTANCE_TABLE_CHARS["charLvlE-${format}"]} (E)rror, ${FW_INSTANCE_TABLE_CHARS["charLvlX-${format}"]} te(X)t, ${FW_INSTANCE_TABLE_CHARS["charLvlM-${format}"]} (M)essage\n"
+                    legend+="              ${FW_INSTANCE_TABLE_CHARS["charLvlW-${format}"]} (W)arning, ${FW_INSTANCE_TABLE_CHARS["charLvlI-${format}"]} (I)nfo, ${FW_INSTANCE_TABLE_CHARS["charLvlD-${format}"]} (D)ebug, ${FW_INSTANCE_TABLE_CHARS["charLvlT-${format}"]} (T)race\n"
+                    FW_INSTANCE_TABLE_STRINGS["legend-levels-${format}"]="${legend}"
+
+                    legend=" - numbers:   $(Format themed text phaWarnNumberFmt 111) warnings, $(Format themed text phaErrNumberFmt 222) errors, $(Format themed text phaMsgNumberFmt 333) message count\n"
+                    FW_INSTANCE_TABLE_STRINGS["legend-numbers-${format}"]="${legend}"
+
+                    legend=" - show exec: ${FW_INSTANCE_TABLE_CHARS["charExexY-${format}"]} yes, printf "${FW_INSTANCE_TABLE_CHARS["charExexN-${format}"]}" no\n"
+                    FW_INSTANCE_TABLE_STRINGS["legend-showexec-${format}"]="${legend}"
+
+                    legend=" - def value: ${FW_INSTANCE_TABLE_CHARS["charDefY-${format}"]} yes, ${FW_INSTANCE_TABLE_CHARS["charDefN-${format}"]} no\n"
+                    FW_INSTANCE_TABLE_STRINGS["legend-defval-${format}"]="${legend}"
 
                     FW_INSTANCE_TABLE_CHARS_BUILT+="${format} " ;;
             esac ;;
@@ -99,9 +127,10 @@ function Tablechars() {
         list)
             if [[ "${FW_INSTANCE_TABLE_CHARS[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_INSTANCE_TABLE_CHARS[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
-                for id in "${keys[@]}"; do
-                    printf "    %s :: %s\n" "${id}" "${FW_INSTANCE_TABLE_CHARS[${id}]}"
-                done
+                for id in "${keys[@]}"; do printf "    %s :: %s\n" "${id}" "${FW_INSTANCE_TABLE_CHARS[${id}]}"; done
+                printf "\n"
+                IFS=" " read -a keys <<< "${!FW_INSTANCE_TABLE_STRINGS[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
+                for id in "${keys[@]}"; do printf "${FW_INSTANCE_TABLE_STRINGS[${id}]}"; done
             else
                 printf "    %s\n" "{}"
             fi ;;
@@ -112,20 +141,21 @@ function Tablechars() {
             case "${cmd1}-${cmd2}" in
 
                 clear-all)
-                    declare -A -g FW_INSTANCE_TABLE_CHARS
+                    declare -A -g FW_INSTANCE_TABLE_CHARS FW_INSTANCE_TABLE_STRINGS
                     FW_INSTANCE_TABLE_CHARS_BUILT=" " ;;
 
                 clear-format)
                     if [[ "${FW_INSTANCE_TABLE_CHARS[*]}" != "" ]]; then
                         remove=""
-                        for id in ${!FW_INSTANCE_TABLE_CHARS[@]}; do
-                            if [[ "${id#*-}" == "${format}" ]]; then remove+=" "$id; fi
-                        done
-                        for id in $remove; do
-                            unset FW_INSTANCE_TABLE_CHARS[${id}]
-                        done
-                        FW_INSTANCE_TABLE_CHARS_BUILT=${FW_INSTANCE_TABLE_CHARS_BUILT/"${format} "/}
-                    fi ;;
+                        for id in ${!FW_INSTANCE_TABLE_CHARS[@]}; do if [[ "${id#*-}" == "${format}" ]]; then remove+=" "$id; fi; done
+                        for id in $remove; do unset FW_INSTANCE_TABLE_CHARS[${id}]; done
+                    fi
+                    if [[ "${FW_INSTANCE_TABLE_STRINGS[*]}" != "" ]]; then
+                        remove=""
+                        for id in ${!FW_INSTANCE_TABLE_STRINGS[@]}; do if [[ "${id#*-}" == "${format}" ]]; then remove+=" "$id; fi; done
+                        for id in $remove; do unset FW_INSTANCE_TABLE_STRINGS[${id}]; done
+                    fi
+                    FW_INSTANCE_TABLE_CHARS_BUILT=${FW_INSTANCE_TABLE_CHARS_BUILT/"${format} "/} ;;
 
                 *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;

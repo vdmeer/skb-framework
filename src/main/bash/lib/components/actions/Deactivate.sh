@@ -42,8 +42,7 @@ function Deactivate() {
             Test existing phase id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             Test existing level id "${level}" ; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             case "${cmd2}-${cmd3}" in
-                print-level)    FW_OBJECT_PHA_PRT_LVL[${id}]="${FW_OBJECT_PHA_PRT_LVL[${id}]/"${level} "/}"; doWriteFast=true ;;
-                log-level)      FW_OBJECT_PHA_LOG_LVL[${id}]="${FW_OBJECT_PHA_LOG_LVL[${id}]/"${level} "/}"; doWriteFast=true ;;
+                print-level | log-level) sf_deac_phase_level deactivate ${cmd2}-${cmd3} ${id} ${level} ;;
                 *)  Report process error "${FUNCNAME[0]}" "${cmdString1}" E879 "${cmd1}" "${cmd2} ${cmd3}"; return ;;
             esac ;;
 
@@ -54,39 +53,30 @@ function Deactivate() {
 
                 auto-verify)
                     FW_OBJECT_SET_VAL["AUTO_VERIFY"]=false
-                    FW_OBJECT_SET_PHA["AUTO_VERIFY"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                    FW_OBJECT_SET_PHASET["AUTO_VERIFY"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                     doWriteFast=true ;;
 
                 auto-write)
                     FW_OBJECT_SET_VAL["AUTO_WRITE"]=false
-                    FW_OBJECT_SET_PHA["AUTO_WRITE"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                    FW_OBJECT_SET_PHASET["AUTO_WRITE"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                     doWriteFast=true ;;
 
-                log-level)
+                print-level | log-level)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
                     level="${1}"; Test existing level id "${level}" ; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    FW_OBJECT_SET_PHA["LOG_LEVEL"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                    FW_OBJECT_SET_VAL["LOG_LEVEL"]="${FW_OBJECT_SET_VAL["LOG_LEVEL"]/"${level} "/}"
-                    Deactivate phase "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" log level "${level}" ;;
-
-                print-level)
-                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    level="${1}"; Test existing level id "${level}" ; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    FW_OBJECT_SET_PHA["PRINT_LEVEL"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                    FW_OBJECT_SET_VAL["PRINT_LEVEL"]="${FW_OBJECT_SET_VAL["PRINT_LEVEL"]/"${level} "/}"
-                    Deactivate phase "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" print level "${level}" ;;
+                    sf_deac_phase_level deactivate ${cmd1}-${cmd2} ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${level} ;;
 
                 show-execution)
-                    FW_OBJECT_SET_PHA["SHOW_EXECUTION"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                    FW_OBJECT_SET_PHASET["SHOW_EXECUTION"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                     FW_OBJECT_SET_VAL["SHOW_EXECUTION"]="off"
                     doWriteFast=true ;;
                 show-execution2)
-                    FW_OBJECT_SET_PHA["SHOW_EXECUTION2"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                    FW_OBJECT_SET_PHASET["SHOW_EXECUTION2"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                     FW_OBJECT_SET_VAL["SHOW_EXECUTION2"]="off"
                     doWriteFast=true ;;
 
                 strict-mode)
-                    FW_OBJECT_SET_PHA["STRICT_MODE"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                    FW_OBJECT_SET_PHASET["STRICT_MODE"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                     FW_OBJECT_SET_VAL["STRICT_MODE"]="off"
                     doWriteFast=true ;;
 

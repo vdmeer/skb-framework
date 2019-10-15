@@ -32,7 +32,7 @@
 function Append() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local path errno doWriteFast=false
+    local id1 id2 path errno doWriteFast=false
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
@@ -47,7 +47,7 @@ function Append() {
             Test dir can read "${path}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             case "${FW_OBJECT_SET_VAL["MODULE_PATH"]}" in
                 *" ${path} "*) ;;
-                *)  FW_OBJECT_SET_PHA["MODULE_PATH"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                *)  FW_OBJECT_SET_PHASET["MODULE_PATH"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                     FW_OBJECT_SET_VAL["MODULE_PATH"]="${FW_OBJECT_SET_VAL["MODULE_PATH"]}${path} "
                     doWriteFast=true ;;
             esac ;;

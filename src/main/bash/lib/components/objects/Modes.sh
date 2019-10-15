@@ -41,7 +41,8 @@ function Modes() {
             if [[ "${FW_OBJECT_MOD_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_OBJECT_MOD_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s: %s, %s\n" "${id}" "${FW_OBJECT_MOD_LONG[${id}]}" "${FW_OBJECT_MOD_PATH[${id}]}"
+                    printf "    %s (dec: %s / %s)\n"                    "${id}" "${FW_OBJECT_MOD_DECMDS[${id}]}" "${FW_OBJECT_MOD_DECPHA[${id}]}"
+                    printf "        descr:      %s\n\n"                 "${FW_OBJECT_MOD_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

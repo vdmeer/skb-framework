@@ -39,7 +39,7 @@ function Get() {
         system)     printf "%s" "${FW_OBJECT_CFG_VAL["SYSTEM"]}" ;;
         version)    printf "%s" "${FW_OBJECT_CFG_VAL["VERSION"]}" ;;
 
-        app | auto | cache | config | current | default | error | file | home | last | log | module | option | primary | print | show | start | status | strict | user | warning | \
+        app | auto | cache | config | current | default | error | file | home | last | log | message | module | option | primary | print | show | start | status | strict | user | warning | \
         element | object)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
@@ -52,8 +52,8 @@ function Get() {
                 current-mode | current-phase | current-theme | current-project | current-scenario | current-site | current-task | \
                 last-project | last-scenario | last-site | last-task | \
                 log-dir | log-file | log-format | log-level | log-date-arg | \
-                module-path | print-format | print-format2 | print-level | \
-                strict-mode | error-count | error-codes | warning-count | \
+                message-codes | module-path | print-format | print-format2 | print-level | \
+                strict-mode | error-count | warning-count | \
                 show-execution | show-execution2)
                     printf "%s" "${FW_OBJECT_SET_VAL["${cmd1^^}_${cmd2^^}"]}" ;;
 
@@ -67,98 +67,110 @@ function Get() {
                     id="${1}"; Test element status "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then printf ""; return; fi
                     id=${id:0:1}; echo "${id^}" ;;
 
+
                 object-configuration)
                     if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 2 "$#"; return; fi
                     id="${1}"; property="${2}"
-                    Test existing configuration id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    Test existing ${cmd2} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)    printf "%s" "${FW_OBJECT_CFG_LONG[${id}]}" ;;
                         value)          printf "%s" "${FW_OBJECT_CFG_VAL[${id}]}" ;;
                         *)              Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
+
                 object-format)
                     if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 2 "$#"; return; fi
                     id="${1}"; property="${2}"
-                    Test existing format id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    Test existing ${cmd2} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)    printf "%s" "${FW_OBJECT_FMT_LONG[${id}]}" ;;
-                        path)           printf "%s" "${FW_OBJECT_FMT_PATH[${id}]}" ;;
                         *)              Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
+
                 object-level)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E802 1 "$#"; return; fi
                     id="${1}"; property="${2:}"
-                    Test existing level id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    Test existing ${cmd2} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)        printf "%s" "${FW_OBJECT_LVL_LONG[${id}]}" ;;
-                        path)               printf "%s" "${FW_OBJECT_LVL_PATH[${id}]}" ;;
                         character)          printf "%s" "${FW_OBJECT_LVL_CHAR_ABBR[${id}]}" ;;
                         theme-string)       printf "%s" "${FW_OBJECT_LVL_STRING_THM[${id}]}" ;;
                         *)                  Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
+
                 object-message)
                     if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 2 "$#"; return; fi
                     id="${1}"; property="${2}"
-                    Test existing message id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    Test existing ${cmd2} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)    printf "%s" "${FW_OBJECT_MSG_LONG[${id}]}" ;;
                         arguments)      printf "%s" "${FW_OBJECT_MSG_ARGS[${id}]}" ;;
                         type)           printf "%s" "${FW_OBJECT_MSG_TYPE[${id}]}" ;;
                         text)           printf "%s" "${FW_OBJECT_MSG_TEXT[${id}]}" ;;
                         category)       printf "%s" "${FW_OBJECT_MSG_CAT[${id}]}" ;;
-                        path)           printf "%s" "${FW_OBJECT_MSG_PATH[${id}]}" ;;
                         *)              Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
+
                 object-mode)
                     if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 2 "$#"; return; fi
                     id="${1}"; property="${2}"
-                    Test existing mode id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    Test existing ${cmd2} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)    printf "%s" "${FW_OBJECT_MOD_LONG[${id}]}" ;;
-                        path)           printf "%s" "${FW_OBJECT_MOD_PATH[${id}]}" ;;
                         *)              Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
+
                 object-phase)
                     if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 2 "$#"; return; fi
                     id="${1}"; property="${2}"
-                    Test existing phase id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    Test existing ${cmd2} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)    printf "%s" "${FW_OBJECT_PHA_LONG[${id}]}" ;;
                         print-level)    printf "%s" "${FW_OBJECT_PHA_PRT_LVL[${id}]}" ;;
                         log-level)      printf "%s" "${FW_OBJECT_PHA_LOG_LVL[${id}]}" ;;
-                        error-codes)    printf "%s" "${FW_OBJECT_PHA_ERRCOD[${id}]}" ;;
+                        message-codes)  printf "%s" "${FW_OBJECT_PHA_MSGCOD[${id}]}" ;;
                         error-count)    printf "%s" "${FW_OBJECT_PHA_ERRCNT[${id}]}" ;;
                         warning-count)  printf "%s" "${FW_OBJECT_PHA_WRNCNT[${id}]}" ;;
-                        path)           printf "%s" "${FW_OBJECT_PHA_PATH[${id}]}" ;;
                         *)              Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
+
                 object-setting)
                     if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 2 "$#"; return; fi
                     id="${1}"; property="${2}"
-                    Test existing setting id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    Test existing ${cmd2} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)    printf "%s" "${FW_OBJECT_SET_LONG[${id}]}" ;;
-                        phase)          printf "%s" "${FW_OBJECT_SET_PHA[${id}]}" ;;
+                        phase)          printf "%s" "${FW_OBJECT_SET_PHASET[${id}]}" ;;
                         value)          printf "%s" "${FW_OBJECT_SET_VAL[${id}]}" ;;
                         *)              Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
+
                 object-theme)
                     if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 2 "$#"; return; fi
                     id="${1}"; property="${2}"
-                    Test existing theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    Test existing ${cmd2} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)    printf "%s" "${FW_OBJECT_THM_LONG[${id}]}" ;;
-                        path)           printf "%s" "${FW_OBJECT_THM_PATH[${id}]}" ;;
                         *)              Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
+
                 object-themeitem)
                     if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 2 "$#"; return; fi
                     id="${1}"; property="${2}"
-                    Test existing themeitem id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    Test existing ${cmd2} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)    printf "%s" "${FW_OBJECT_TIM_LONG[${id}]}" ;;
                         source)         printf "%s" "${FW_OBJECT_TIM_SOURCE[${id}]}" ;;
                         value)          printf "%s" "${FW_OBJECT_TIM_VAL[${id}]}" ;;
+                        *)              Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
+                    esac ;;
+
+                object-variable)
+                    if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 2 "$#"; return; fi
+                    id="${1}"; property="${2}"
+                    Test existing ${cmd2} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                    case "${property}" in
+                        description)    printf "%s" "${FW_OBJECT_VAR_LONG[${id}]}" ;;
                         *)              Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
 
@@ -169,7 +181,7 @@ function Get() {
                     Test existing application id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)        printf "%s" "${FW_ELEMENT_APP_LONG[${id}]}" ;;
-                        origin)             printf "%s" "${FW_ELEMENT_APP_ORIG[${id}]}" ;;
+                        origin)             printf "%s" "${FW_ELEMENT_APP_DECMDS[${id}]}" ;;
                         phase)              printf "%s" "${FW_ELEMENT_APP_PHA[${id}]}" ;;
                         command)            printf "%s" "${FW_ELEMENT_APP_COMMAND[${id}]}" ;;
                         argnum)             printf "%s" "${FW_ELEMENT_APP_ARGNUM[${id}]}" ;;
@@ -185,7 +197,7 @@ function Get() {
                     Test existing dependency id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)        printf "%s" "${FW_ELEMENT_DEP_LONG[${id}]}" ;;
-                        origin)             printf "%s" "${FW_ELEMENT_DEP_ORIG[${id}]}" ;;
+                        origin)             printf "%s" "${FW_ELEMENT_DEP_DECMDS[${id}]}" ;;
                         command)            printf "%s" "${FW_ELEMENT_DEP_CMD[${id}]}" ;;
                         requirements)       printf "%s" "${FW_ELEMENT_DEP_REQUIRED_DEPENDENCIES[${id}]:-}" ;;
                         status)             printf "%s" "${FW_ELEMENT_DEP_STATUS[${id}]}" ;;
@@ -199,7 +211,7 @@ function Get() {
                     Test existing dirlist id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)        printf "%s" "${FW_ELEMENT_DLS_LONG[${id}]}" ;;
-                        origin)             printf "%s" "${FW_ELEMENT_DLS_ORIG[${id}]}" ;;
+                        origin)             printf "%s" "${FW_ELEMENT_DLS_DECMDS[${id}]}" ;;
                         phase)              printf "%s" "${FW_ELEMENT_DLS_PHA[${id}]}" ;;
                         value)              printf "%s" "${FW_ELEMENT_DLS_VAL[${id}]:-}" ;;
                         mode)               printf "%s" "${FW_ELEMENT_DLS_MOD[${id}]:-}" ;;
@@ -214,7 +226,7 @@ function Get() {
                     Test existing dir id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)        printf "%s" "${FW_ELEMENT_DIR_LONG[${id}]}" ;;
-                        origin)             printf "%s" "${FW_ELEMENT_DIR_ORIG[${id}]}" ;;
+                        origin)             printf "%s" "${FW_ELEMENT_DIR_DECMDS[${id}]}" ;;
                         phase)              printf "%s" "${FW_ELEMENT_DIR_PHA[${id}]}" ;;
                         value)              printf "%s" "${FW_ELEMENT_DIR_VAL[${id}]:-}" ;;
                         mode)               printf "%s" "${FW_ELEMENT_DIR_MOD[${id}]:-}" ;;
@@ -229,7 +241,7 @@ function Get() {
                     Test existing filelist id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)        printf "%s" "${FW_ELEMENT_FLS_LONG[${id}]}" ;;
-                        origin)             printf "%s" "${FW_ELEMENT_FLS_ORIG[${id}]}" ;;
+                        origin)             printf "%s" "${FW_ELEMENT_FLS_DECMDS[${id}]}" ;;
                         phase)              printf "%s" "${FW_ELEMENT_FLS_PHA[${id}]}" ;;
                         value)              printf "%s" "${FW_ELEMENT_FLS_VAL[${id}]:-}" ;;
                         mode)               printf "%s" "${FW_ELEMENT_FLS_MOD[${id}]:-}" ;;
@@ -244,7 +256,7 @@ function Get() {
                     Test existing file id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)        printf "%s" "${FW_ELEMENT_FIL_LONG[${id}]}" ;;
-                        origin)             printf "%s" "${FW_ELEMENT_FIL_ORIG[${id}]}" ;;
+                        origin)             printf "%s" "${FW_ELEMENT_FIL_DECMDS[${id}]}" ;;
                         phase)              printf "%s" "${FW_ELEMENT_PHA_ORIG[${id}]}" ;;
                         value)              printf "%s" "${FW_ELEMENT_FIL_VAL[${id}]:-}" ;;
                         mode)               printf "%s" "${FW_ELEMENT_FIL_MOD[${id}]:-}" ;;
@@ -289,7 +301,7 @@ function Get() {
                     Test existing parameter id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)        printf "%s" "${FW_ELEMENT_PAR_LONG[${id}]}" ;;
-                        origin)             printf "%s" "${FW_ELEMENT_PAR_ORIG[${id}]}" ;;
+                        origin)             printf "%s" "${FW_ELEMENT_PAR_DECMDS[${id}]}" ;;
                         default-value)      printf "%s" "${FW_ELEMENT_PAR_DEFVAL[${id}]:-}" ;;
                         phase)              printf "%s" "${FW_ELEMENT_PAR_PHA[${id}]}" ;;
                         value)              printf "%s" "${FW_ELEMENT_PAR_VAL[${id}]}" ;;
@@ -304,11 +316,11 @@ function Get() {
                     Test existing project id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)            printf "%s" "${FW_ELEMENT_PRJ_LONG[${id}]}" ;;
-                        origin)                 printf "%s" "${FW_ELEMENT_PRJ_ORIG[${id}]}" ;;
+                        origin)                 printf "%s" "${FW_ELEMENT_PRJ_DECMDS[${id}]}" ;;
                         modes)                  printf "%s" "${FW_ELEMENT_PRJ_MODES[${id}]}" ;;
                         path)                   printf "%s" "${FW_ELEMENT_PRJ_PATH[${id}]}" ;;
                         path-text)              printf "%s" "${FW_ELEMENT_PRJ_PATH_TEXT[${id}]}" ;;
-                        file)                   printf "%s" "${FW_ELEMENT_PRJ_FILE[${id}]}" ;;
+                        root-dir)               printf "%s" "${FW_ELEMENT_PRJ_RDIR[${id}]}" ;;
                         targets)                printf "%s" "${FW_ELEMENT_PRJ_TGTS[${id}]:-}" ;;
                         status)                 printf "%s" "${FW_ELEMENT_PRJ_STATUS[${id}]}" ;;
                         status-comments)        printf "%s" "${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}" ;;
@@ -328,21 +340,15 @@ function Get() {
                     Test existing scenario id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)            printf "%s" "${FW_ELEMENT_SCN_LONG[${id}]}" ;;
-                        origin)                 printf "%s" "${FW_ELEMENT_SCN_ORIG[${id}]}" ;;
+                        origin)                 printf "%s" "${FW_ELEMENT_SCN_DECMDS[${id}]}" ;;
                         modes)                  printf "%s" "${FW_ELEMENT_SCN_MODES[${id}]}" ;;
                         path)                   printf "%s" "${FW_ELEMENT_SCN_PATH[${id}]}" ;;
                         path-text)              printf "%s" "${FW_ELEMENT_SCN_PATH_TEXT[${id}]}" ;;
                         status)                 printf "%s" "${FW_ELEMENT_SCN_STATUS[${id}]}" ;;
                         status-comments)        printf "%s" "${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}" ;;
                         required-applications)  printf "%s" "${FW_ELEMENT_SCN_REQUIRED_APP[${id}]:-}" ;;
-                        required-dependencies)  printf "%s" "${FW_ELEMENT_SCN_REQUIRED_DEP[${id}]:-}" ;;
-                        required-parameters)    printf "%s" "${FW_ELEMENT_SCN_REQUIRED_PAR[${id}]:-}" ;;
                         required-tasks)         printf "%s" "${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]:-}" ;;
-                        required-files)         printf "%s" "${FW_ELEMENT_SCN_REQUIRED_FILE[${id}]:-}" ;;
-                        required-filelists)     printf "%s" "${FW_ELEMENT_SCN_REQUIRED_FILELIST[${id}]:-}" ;;
-                        required-directories)   printf "%s" "${FW_ELEMENT_SCN_REQUIRED_DIR[${id}]:-}" ;;
-                        required-dirlists)      printf "%s" "${FW_ELEMENT_SCN_REQUIRED_DIRLIST[${id}]:-}" ;;
-                        *)              Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
+                        *)                      Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 element-site)
                     if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 2 "$#"; return; fi
@@ -350,10 +356,10 @@ function Get() {
                     Test existing site id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)            printf "%s" "${FW_ELEMENT_SIT_LONG[${id}]}" ;;
-                        origin)                 printf "%s" "${FW_ELEMENT_SIT_ORIG[${id}]}" ;;
+                        origin)                 printf "%s" "${FW_ELEMENT_SIT_DECMDS[${id}]}" ;;
                         path)                   printf "%s" "${FW_ELEMENT_SIT_PATH[${id}]}" ;;
                         path-text)              printf "%s" "${FW_ELEMENT_SIT_PATH_TEXT[${id}]}" ;;
-                        file)                   printf "%s" "${FW_ELEMENT_SIT_FILE[${id}]}" ;;
+                        root-dir)               printf "%s" "${FW_ELEMENT_SIT_RDIR[${id}]}" ;;
                         status)                 printf "%s" "${FW_ELEMENT_SIT_STATUS[${id}]}" ;;
                         status-comments)        printf "%s" "${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}" ;;
                         required-applications)  printf "%s" "${FW_ELEMENT_SIT_REQUIRED_APP[${id}]:-}" ;;
@@ -364,7 +370,7 @@ function Get() {
                         required-filelists)     printf "%s" "${FW_ELEMENT_SIT_REQUIRED_FILELIST[${id}]:-}" ;;
                         required-directories)   printf "%s" "${FW_ELEMENT_SIT_REQUIRED_DIR[${id}]:-}" ;;
                         required-dirlists)      printf "%s" "${FW_ELEMENT_SIT_REQUIRED_DIRLIST[${id}]:-}" ;;
-                        *)              Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
+                        *)                      Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 element-task)
                     if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 2 "$#"; return; fi
@@ -372,7 +378,7 @@ function Get() {
                     Test existing task id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     case "${property}" in
                         description)            printf "%s" "${FW_ELEMENT_TSK_LONG[${id}]}" ;;
-                        origin)                 printf "%s" "${FW_ELEMENT_TSK_ORIG[${id}]}" ;;
+                        origin)                 printf "%s" "${FW_ELEMENT_TSK_DECMDS[${id}]}" ;;
                         modes)                  printf "%s" "${FW_ELEMENT_TSK_MODES[${id}]}" ;;
                         path)                   printf "%s" "${FW_ELEMENT_TSK_PATH[${id}]}" ;;
                         path-text)              printf "%s" "${FW_ELEMENT_TSK_PATH_TEXT[${id}]}" ;;
@@ -386,9 +392,8 @@ function Get() {
                         required-filelists)     printf "%s" "${FW_ELEMENT_TSK_REQUIRED_FILELIST[${id}]:-}" ;;
                         required-directories)   printf "%s" "${FW_ELEMENT_TSK_REQUIRED_DIR[${id}]:-}" ;;
                         required-dirlists)      printf "%s" "${FW_ELEMENT_TSK_REQUIRED_DIRLIST[${id}]:-}" ;;
-                        *)              Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
+                        *)                      Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
-
 
                 primary-module)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} cmd3" E802 1 "$#"; return; fi

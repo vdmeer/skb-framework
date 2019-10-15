@@ -41,7 +41,18 @@ function Scenarios() {
             if [[ "${FW_ELEMENT_SCN_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_SCN_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s (%s): %s, %s, %s, %s, %s\n" "${id}" "${FW_ELEMENT_SCN_STATUS[${id}]}" "${FW_ELEMENT_SCN_ORIG[${id}]}" "${FW_ELEMENT_SCN_MODES[${id}]}" "${FW_ELEMENT_SCN_PATH[${id}]}" "${FW_ELEMENT_SCN_SHOW_EXEC[${id}]}" "${FW_ELEMENT_SCN_LONG[${id}]}"
+                    printf "    %s (dec: %s / %s)\n"                    "${id}" "${FW_ELEMENT_SCN_DECMDS[${id}]}" "${FW_ELEMENT_SCN_DECPHA[${id}]}"
+                    printf "        status:     s: %s, c: %s\n"         "${FW_ELEMENT_SCN_STATUS[${id}]}" "${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}"
+                    printf "        modes:      %s\n"                   "${FW_ELEMENT_SCN_MODES[${id}]}"
+                    printf "        req-num:    %s\n"                   "${FW_ELEMENT_SCN_REQNUM[${id}]}"
+                    printf "        showexec:   %s\n"                   "${FW_ELEMENT_SCN_SHOW_EXEC[${id}]}"
+                    printf "        path:       %s\n"                   "${FW_ELEMENT_SCN_PATH[${id}]}"
+                    printf "        path-text:  %s\n"                   "${FW_ELEMENT_SCN_PATH_TEXT[${id}]}"
+                    printf "        descr:      %s\n"                   "${FW_ELEMENT_SCN_LONG[${id}]}"
+
+                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_APP[${id}]:-}" ]]; then         printf "        req-app:    %s\n"   "${FW_ELEMENT_SCN_REQUIRED_APP[${id}]}"; fi
+                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]:-}" ]]; then         printf "        req-tsk:    %s\n"   "${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]}"; fi
+                    printf "\n"
                 done
             else
                 printf "    %s\n" "{}"

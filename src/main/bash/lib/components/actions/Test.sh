@@ -32,7 +32,7 @@
 function Test() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id shortId value valueText program functionName="${FUNCNAME[1]:-$FUNCNAME[0]}" errno char
+    local id shortId value valueText program functionName="${FUNCNAME[1]:-$FUNCNAME[0]}" errno char fsRetVal=0
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
@@ -120,10 +120,10 @@ function Test() {
 
                 existing-exitcode | \
                 existing-action | existing-element | existing-instance | existing-object | existing-component | \
-                existing-clioption | existing-configuration | existing-format | existing-level | existing-message | existing-mode | existing-phase | existing-setting | existing-theme | existing-themeitem | \
-                    used-clioption | used-configuration     |     used-format |     used-level |     used-message |     used-mode |     used-phase |     used-setting |     used-theme |     used-themeitem | \
-                existing-application | existing-dependency | existing-module | existing-option | existing-parameter | existing-project | existing-scenario | existing-site | existing-task | \
-                    used-application |     used-dependency |     used-module |     used-option |     used-parameter |     used-project |     used-scenario |     used-site |     used-task | \
+                existing-clioption | existing-configuration | existing-format | existing-level | existing-message | existing-mode | existing-phase | existing-setting | existing-theme | existing-themeitem | existing-variable | \
+                    used-clioption | used-configuration     |     used-format |     used-level |     used-message |     used-mode |     used-phase |     used-setting |     used-theme |     used-themeitem |     used-variable | \
+                existing-application | existing-dependency | existing-module | existing-option | existing-parameter | existing-project | existing-scenario | existing-script | existing-site | existing-task | \
+                    used-application |     used-dependency |     used-module |                       used-parameter |     used-project |     used-scenario |     used-script |     used-site |     used-task | \
                 existing-file | existing-filelist | existing-dir | existing-dirlist | \
                     used-file |     used-filelist |     used-dir |     used-dirlist | \
                 file-can | dir-can)
@@ -134,18 +134,21 @@ function Test() {
                         file-can-read)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 1 "$#"; return; fi
                             value="${1}"; valueText="${2:-$value}"
-                            if [[ ! -f "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E821 "file" "${valueText}"; return 1; fi
-                            if [[ ! -r "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E821 "file" "${valueText}"; return 1; fi ;;
+                            if [[ ! -f "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E821 "file" "${valueText}"; fsRetVal=1; fi
+                            if [[ ! -r "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E821 "file" "${valueText}"; fsRetVal=1; fi
+                            return ${fsRetVal} ;;
                         file-can-write)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 1 "$#"; return; fi
                             value="${1}"; valueText="${2:-$value}"
-                            if [[ ! -f "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E822 "file" "${valueText}"; return 1; fi
-                            if [[ ! -w "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E822 "file" "${valueText}"; return 1; fi ;;
+                            if [[ ! -f "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E822 "file" "${valueText}"; fsRetVal=1; fi
+                            if [[ ! -w "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E822 "file" "${valueText}"; fsRetVal=1; fi
+                            return ${fsRetVal} ;;
                         file-can-execute)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 1 "$#"; return; fi
                             value="${1}"; valueText="${2:-$value}"
-                            if [[ ! -f "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E823 "${valueText}"; return 1; fi
-                            if [[ ! -x "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E823 "${valueText}"; return 1; fi ;;
+                            if [[ ! -f "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E823 "${valueText}"; fsRetVal=1; fi
+                            if [[ ! -x "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E823 "${valueText}"; fsRetVal=1; fi
+                            return ${fsRetVal} ;;
                         file-can-create)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 1 "$#"; return; fi
                             value="${1}"; valueText="${2:-$value}"
@@ -159,24 +162,28 @@ function Test() {
                         dir-can-read)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 1 "$#"; return; fi
                             value="${1}"; valueText="${2:-$value}"
-                            if [[ ! -d "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E821 "directory" "${valueText}"; return 1; fi
-                            if [[ ! -r "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E821 "directory" "${valueText}"; return 1; fi ;;
+                            if [[ ! -d "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E821 "directory" "${valueText}"; fsRetVal=1; fi
+                            if [[ ! -r "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E821 "directory" "${valueText}"; fsRetVal=1; fi
+                            return ${fsRetVal} ;;
                         dir-can-write)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 1 "$#"; return; fi
                             value="${1}"; valueText="${2:-$value}"
-                            if [[ ! -d "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E822 "directory" "${valueText}"; return 1; fi
-                            if [[ ! -w "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E822 "directory" "${valueText}"; return 1; fi ;;
+                            if [[ ! -d "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E822 "directory" "${valueText}"; fsRetVal=1; fi
+                            if [[ ! -w "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E822 "directory" "${valueText}"; fsRetVal=1; fi
+                            return ${fsRetVal} ;;
                         dir-can-create)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 1 "$#"; return; fi
                             value="${1}"; valueText="${2:-$value}"
-                            if [[ -f "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E824 "directory" "${valueText}"; return 1; fi
-                            if [[ -d "${value}" && ! -w "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E824 "directory" "${valueText}"; return 1; fi
+                            if [[ -f "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E824 "directory" "${valueText}"; fsRetVal=1; fi
+                            if [[ -d "${value}" && ! -w "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E824 "directory" "${valueText}"; fsRetVal=1; fi
+                            if [[ ${fsRetVal} == 1 ]]; then return ${fsRetVal}; fi
                             if [[ ! -w "${value%/*}" ]]; then Report application error "${functionName}" "${cmdString3}" E824 "directory" "${valueText}"; return 1; fi ;;
                         dir-can-delete)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E802 1 "$#"; return; fi
                             value="${1}"; valueText="${2:-$value}"
-                            if [[ -f "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E825 "directory" "${valueText}"; return 1; fi
-                            if [[ -d "${value}" && ! -w "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E825 "directory" "${valueText}"; return 1; fi
+                            if [[ -f "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E825 "directory" "${valueText}"; fsRetVal=1; fi
+                            if [[ -d "${value}" && ! -w "${value}" ]]; then Report application error "${functionName}" "${cmdString3}" E825 "directory" "${valueText}"; fsRetVal=1; fi
+                            if [[ ${fsRetVal} == 1 ]]; then return ${fsRetVal}; fi
                             if [[ ! -w "${value%/*}" ]]; then Report application error "${functionName}" "${cmdString3}" E825 "directory" "${valueText}"; return 1; fi ;;
 
 
@@ -207,6 +214,9 @@ function Test() {
                         existing-themeitem-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"; if [[ ! -n "${FW_OBJECT_TIM_LONG[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E805 "${cmd2}" "${id}"; return 1; fi ;;
+                        existing-variable-id)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            id="${1}"; if [[ ! -n "${FW_OBJECT_VAR_LONG[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E805 "${cmd2}" "${id}"; return 1; fi ;;
 
 
                         existing-application-id)
@@ -254,6 +264,10 @@ function Test() {
                         existing-scenario-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"; if [[ "${FW_ELEMENT_SCN_LONG[*]}" != "" && -n "${FW_ELEMENT_SCN_LONG[${id}]:-}" ]]; then return; fi
+                            Report application error "${functionName}" "${cmdString3}" E805 "${cmd2}" "${id}"; return 1 ;;
+                        existing-script-id)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            id="${1}"; if [[ "${FW_ELEMENT_SCR_LONG[*]}" != "" && -n "${FW_ELEMENT_SCR_LONG[${id}]:-}" ]]; then return; fi
                             Report application error "${functionName}" "${cmdString3}" E805 "${cmd2}" "${id}"; return 1 ;;
                         existing-site-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
@@ -312,17 +326,6 @@ function Test() {
                         used-module-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"; if [[ "${FW_ELEMENT_MDS_LONG[*]}" != "" && -n "${FW_ELEMENT_MDS_LONG[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi ;;
-                        used-option-long-id)
-                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
-                            id="${1}"
-                            if [[ "${FW_ELEMENT_OPT_LONG[*]}"  != "" && -n "${FW_ELEMENT_OPT_LONG[${id}]:-}" ]];  then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi
-                            if [[ "${FW_ELEMENT_OPT_SHORT[*]}" != "" && -n "${FW_ELEMENT_OPT_SHORT[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E811 "${cmd2}" "${id}"; return 1; fi ;;
-                        used-option-short-id)
-                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
-                            shortId="${1}"
-                            if [[ "${shortId}" == "" ]]; then return; fi
-                            if [[ "${FW_ELEMENT_OPT_SHORT[*]}" != "" && -n "${FW_ELEMENT_OPT_SHORT[${shortId}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${shortId}"; return 1; fi
-                            if [[ "${FW_ELEMENT_OPT_LONG[*]}"  != "" && -n "${FW_ELEMENT_OPT_LONG[${shortId}]:-}" ]];  then Report application error "${functionName}" "${cmdString3}" E812 "${cmd2}" "${shortId}"; return 1; fi ;;
                         used-parameter-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"; if [[ "${FW_ELEMENT_PAR_LONG[*]}" != "" && -n "${FW_ELEMENT_PAR_LONG[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi ;;
@@ -332,6 +335,9 @@ function Test() {
                         used-scenario-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"; if [[ "${FW_ELEMENT_SCN_LONG[*]}"  != "" && -n "${FW_ELEMENT_SCN_LONG[${id}]:-}" ]];  then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi ;;
+                        used-script-id)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            id="${1}"; if [[ "${FW_ELEMENT_SCR_LONG[*]}"  != "" && -n "${FW_ELEMENT_SCR_LONG[${id}]:-}" ]];  then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi ;;
                         used-site-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"; if [[ "${FW_ELEMENT_SIT_LONG[*]}"  != "" && -n "${FW_ELEMENT_SIT_LONG[${id}]:-}" ]];  then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi ;;
@@ -369,19 +375,20 @@ function Test() {
                         used-themeitem-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"; if [[ -n "${FW_OBJECT_TIM_LONG[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi ;;
+                        used-variable-id)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            id="${1}"; if [[ -n "${FW_OBJECT_VAR_LONG[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi ;;
 
 
                         used-clioption-long-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"
-                            if [[ "${FW_INSTANCE_CLI_LONG[*]}"  != "" && -n "${FW_INSTANCE_CLI_LONG[${id}]:-}" ]];  then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi
-                            if [[ "${FW_INSTANCE_CLI_SHORT[*]}" != "" && -n "${FW_INSTANCE_CLI_SHORT[${id}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E811 "${cmd2}" "${id}"; return 1; fi ;;
+                            if [[ "${FW_INSTANCE_CLI_LONG[*]}"  != "" && -n "${FW_INSTANCE_CLI_LONG[${id}]:-}" ]];  then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${id}"; return 1; fi ;;
                         used-clioption-short-id)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             shortId="${1}"
                             if [[ "${shortId}" == "" ]]; then return; fi
-                            if [[ "${FW_INSTANCE_CLI_SHORT[*]}" != "" && -n "${FW_INSTANCE_CLI_SHORT[${shortId}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${shortId}"; return 1; fi
-                            if [[ "${FW_INSTANCE_CLI_LONG[*]}"  != "" && -n "${FW_INSTANCE_CLI_LONG[${shortId}]:-}" ]];  then Report application error "${functionName}" "${cmdString3}" E812 "${cmd2}" "${shortId}"; return 1; fi ;;
+                            if [[ "${FW_INSTANCE_CLI_SHORT[*]}" != "" && -n "${FW_INSTANCE_CLI_SHORT[${shortId}]:-}" ]]; then Report application error "${functionName}" "${cmdString3}" E807 "${cmd2}" "${shortId}"; return 1; fi ;;
 
                         *) Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
                     esac ;;

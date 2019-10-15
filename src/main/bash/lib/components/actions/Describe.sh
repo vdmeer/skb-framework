@@ -39,33 +39,37 @@ function Describe() {
     shift; case "${cmd1}" in
 
         exitcode | \
-        application | dependency | dirlist | dir | filelist | file | module | option | parameter | project | scenario | task | \
-        format | level | message | mode | phase | theme | \
+        application | dependency | dirlist | dir | filelist | file | module | option | parameter | project | scenario | script | site | task | \
+        format | level | message | mode | phase | theme | themeitem | variable | \
         action | element | instance | object)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
-            id="${1}"; Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+            id="${1}"; if [[ "${id:0:1}" == "#" ]]; then id="${id:2}"; fi
+            Test existing ${cmd1} id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             case ${cmd1} in
-                application)    dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_APP_ORIG[${id}]}"]}/applications" ;;
-                dependency)     dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_DEP_ORIG[${id}]}"]}/dependencies" ;;
-                dirlist)        dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_DLS_ORIG[${id}]}"]}/dirlists" ;;
-                dir)            dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_DIR_ORIG[${id}]}"]}/dirs" ;;
-                filelist)       dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_DIR_ORIG[${id}]}"]}/filelists" ;;
-                file)           dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_FIL_ORIG[${id}]}"]}/files" ;;
+                application)    dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_APP_DECMDS[${id}]}"]}/applications" ;;
+                dependency)     dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_DEP_DECMDS[${id}]}"]}/dependencies" ;;
+                dirlist)        dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_DLS_DECMDS[${id}]}"]}/dirlists" ;;
+                dir)            dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_DIR_DECMDS[${id}]}"]}/dirs" ;;
+                filelist)       dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_DIR_DECMDS[${id}]}"]}/filelists" ;;
+                file)           dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_FIL_DECMDS[${id}]}"]}/files" ;;
                 module)         dir=${FW_ELEMENT_MDS_PATH[${id}]} ;;
                 option)         id="$(Get option id ${id})"; dir=${SF_HOME}/lib/text/options/ ;;
-                parameter)      dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_PAR_ORIG[${id}]}"]}/parameters" ;;
+                parameter)      dir="${FW_ELEMENT_MDS_PATH["${FW_ELEMENT_PAR_DECMDS[${id}]}"]}/parameters" ;;
                 project)        dir=${FW_ELEMENT_PRJ_PATH[${id}]} ;;
                 scenario)       dir=${FW_ELEMENT_SCN_PATH[${id}]} ;;
+                script)         dir=${FW_ELEMENT_SCR_PATH[${id}]} ;;
+                site)           dir=${FW_ELEMENT_SIT_PATH[${id}]} ;;
                 task)           dir=${FW_ELEMENT_TSK_PATH[${id}]} ;;
 
-                format)         dir=${FW_OBJECT_FMT_PATH[${id}]} ;;
-                level)          dir=${FW_OBJECT_LVL_PATH[${id}]} ;;
-                message)        dir=${FW_OBJECT_MSG_PATH[${id}]} ;;
-                mode)           dir=${FW_OBJECT_MOD_PATH[${id}]} ;;
-                phase)          dir=${FW_OBJECT_PHA_PATH[${id}]} ;;
-                theme)          dir=${FW_OBJECT_THM_PATH[${id}]} ;;
+                format)         dir="${FW_ELEMENT_MDS_PATH["${FW_OBJECT_FMT_DECMDS[${id}]}"]}/formats" ;;
+                level)          dir="${FW_ELEMENT_MDS_PATH["${FW_OBJECT_LVL_DECMDS[${id}]}"]}/levels" ;;
+                message)        dir="${FW_ELEMENT_MDS_PATH["${FW_OBJECT_MSG_DECMDS[${id}]}"]}/messages" ;;
+                mode)           dir="${FW_ELEMENT_MDS_PATH["${FW_OBJECT_MOD_DECMDS[${id}]}"]}/modes" ;;
+                phase)          dir="${FW_ELEMENT_MDS_PATH["${FW_OBJECT_PHA_DECMDS[${id}]}"]}/phases" ;;
+                theme)          dir="${FW_ELEMENT_MDS_PATH["${FW_OBJECT_THM_DECMDS[${id}]}"]}/themes" ;;
+                themeitem)      dir="${FW_ELEMENT_MDS_PATH["${FW_OBJECT_TIM_DECMDS[${id}]}"]}/themeitems" ;;
 
-                exitcode | action | element | instance | object)
+                exitcode | action | element | instance | object | variable)
                     dir=${SF_HOME}/lib/text/${cmd1}s/ ;;
             esac
             case "${format}" in
@@ -82,6 +86,7 @@ function Describe() {
                 *)              Format themed text describeNameFmt "Exit Options"; printf "::\n"
                                 cat ${SF_HOME}/lib/text/elements/exit-options.adoc ;;
             esac ;;
+
         runtime-options)
             case "${format}" in
                 ansi | plain)   printf "%*s" "4"; Format themed text describeNameFmt "Runtime Options"; printf "\n"
@@ -111,6 +116,14 @@ function Describe() {
                                         Format ${command} from file ${SF_HOME}/lib/text/framework/${cmd2}.adoc ;;
                         adoc | mdoc)    Format themed text describeNameFmt "${heading}"; printf "::\n"
                                         printf "== ${heading^^}\n"; cat ${SF_HOME}/lib/text/framework/${cmd2}.adoc ;;
+                    esac ;;
+
+                framework-framework)
+                    case "${format}" in
+                        ansi | plain)   Format tagline for framework Framework describe 2 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "\n"
+                                        Format paragraph from file ${SF_HOME}/lib/text/framework/Framework.adoc ;;
+                        *)              Format tagline for framework Framework describe 0 1 "${FW_OBJECT_TIM_VAL[listSeparator]}"; printf "::\n"
+                                        ${SF_HOME}/lib/text/framework/Framework.adoc ;;
                     esac ;;
 
                 *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;

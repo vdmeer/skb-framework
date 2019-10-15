@@ -41,7 +41,9 @@ function Settings() {
             if [[ "${FW_OBJECT_SET_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_OBJECT_SET_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s [%s]: %s := %s\n" "${id}" "${FW_OBJECT_SET_PHA[${id}]}" "${FW_OBJECT_SET_LONG[${id}]}" "${FW_OBJECT_SET_VAL[${id}]}"
+                    printf "    %s (dec: %s / %s, set: %s)\n"           "${id}" "${FW_OBJECT_SET_DECMDS[${id}]}" "${FW_OBJECT_SET_DECPHA[${id}]}" "${FW_OBJECT_SET_PHASET[${id}]}"
+                    printf "        value:      %s\n"                   "${FW_OBJECT_SET_VAL[${id}]}"
+                    printf "        descr:      %s\n\n"                 "${FW_OBJECT_SET_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

@@ -41,7 +41,8 @@ function Themes() {
             if [[ "${FW_OBJECT_THM_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_OBJECT_THM_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s: %s, %s\n" "${id}" "${FW_OBJECT_THM_PATH[${id}]}" "${FW_OBJECT_THM_LONG[${id}]}"
+                    printf "    %s (dec: %s / %s)\n"                    "${id}" "${FW_OBJECT_THM_DECMDS[${id}]}" "${FW_OBJECT_THM_DECPHA[${id}]}"
+                    printf "        descr:      %s\n\n"                 "${FW_OBJECT_THM_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

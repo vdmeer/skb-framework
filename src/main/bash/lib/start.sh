@@ -28,7 +28,7 @@
 ## @since      0.0.6
 ##
 
-if [[ -n "${SF_TEST:-}" ]]; then
+if [[ -n "${SF_START_TESTS:-}" ]]; then
     ## Exitcode 4
     if [[ ! -n "${SF_HOME:-}" ]]; then printf "  skb-framework: \e[97mbash\e[0m \e[1m\e[91merror\e[0m in phase \e[3m\e[4minit\e[0m: \$SF_HOME not set, cannot initialize\n\n"; exit 4; fi
 
@@ -60,13 +60,13 @@ if [[ -n "${SF_TEST:-}" ]]; then
 fi
 
 
-if [[ -n "${SF_DEBUG:-}" ]]; then printf "[debug-init] source load\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] source load\n"; fi
 #clear -x
 declare -x FW_START_CLI="$*"
 bash --rcfile ${SF_HOME}/lib/load.sh
 
 
-if [[ -n "${SF_DEBUG:-}" ]]; then printf "[debug-init] removing runtime configuration files\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] removing runtime configuration files\n"; fi
 if [[ "${FW_OBJECT_CFG_LONG[*]:-}" != "" ]]; then
     if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_FAST"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_FAST"]}"; fi
     if [[ -f "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_MEDIUM"]}" ]]; then rm "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_MEDIUM"]}"; fi
@@ -75,5 +75,5 @@ if [[ "${FW_OBJECT_CFG_LONG[*]:-}" != "" ]]; then
 fi
 
 
-if [[ -n "${SF_DEBUG:-}" ]]; then printf "[debug-init] finished, exiting\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] finished, exiting\n"; fi
 #exit 0

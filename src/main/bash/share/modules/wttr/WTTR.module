@@ -32,15 +32,7 @@
 if [[ ! -n "${FW_MODULE_PATH:-}" ]]; then printf "  skb-framework: module \e[97mcore\e[0m \e[1m\e[91merror\e[0m when \e[3m\e[4mloading\e[0m: \$FW_MODULE_PATH not defined\n\n"; return; fi
 
 Add element module WTTR WT ${FW_MODULE_PATH} "weather reports using wttr.in"
+    Module WTTR requires module Core
 
-if [[ -r  "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/WTTR.cache" ]]; then
-    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/WTTR.cache"
-else
-    FW_CURRENT_MODULE_NAME=Core
-        Add requirement for module WTTR as module Core
-
-        Add element task wttr to module with all ${FW_MODULE_PATH}/tasks NO "uses CURL to get weather reports from wttr.in"
-            Add required dependency curl to task wttr
-
-    unset FW_CURRENT_MODULE_NAME
-fi
+Add element task wttr with all ${FW_MODULE_PATH}/tasks NO "uses CURL to get weather reports from wttr.in"
+    Task wttr requires dependency curl

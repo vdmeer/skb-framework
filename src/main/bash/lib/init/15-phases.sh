@@ -29,13 +29,15 @@
 ##
 
 
-Add object phase Load           "${SF_HOME}/lib/text/phases" "load, from start to final settings"
-Add object phase CLI            "${SF_HOME}/lib/text/phases" "phase loading CLI options"
-Add object phase Default        "${SF_HOME}/lib/text/phases" "phase loading default values"
-Add object phase Env            "${SF_HOME}/lib/text/phases" "phase loading values from the environment"
-Add object phase File           "${SF_HOME}/lib/text/phases" "phase loading values from a file"
-Add object phase Project        "${SF_HOME}/lib/text/phases" "phase running targets on a project"
-Add object phase Scenario       "${SF_HOME}/lib/text/phases" "phase running tasks from a scenario"
-Add object phase Shell          "${SF_HOME}/lib/text/phases" "phase executing commands in the shell"
-Add object phase Task           "${SF_HOME}/lib/text/phases" "phase executing tasks"
-Add object phase Site           "${SF_HOME}/lib/text/phases" "phase running functions for a (Maven) site"
+Add object phase Load           with    "load, from start to final settings"
+Add object phase CLI            with    "phase loading CLI options"
+Add object phase Default        with    "phase loading default values"
+Add object phase Env            with    "phase loading values from the environment"
+Add object phase File           with    "phase loading values from a file"
+Add object phase Project        with    "phase running targets on a project"
+Add object phase Scenario       with    "phase running tasks from a scenario"
+Add object phase Script         with    "phase running tasks from a script"
+Add object phase Shell          with    "phase executing commands in the shell"
+Add object phase Task           with    "phase executing tasks"
+Add object phase Site           with    "phase running functions for a (Maven) site"
+

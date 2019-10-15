@@ -32,12 +32,12 @@
 function Repeat() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id errno i count number wait arguments="" width padding lineLength char
+    local id errno i count number wait arguments="" width lineLength char format string
     # doExtras time tsStart tsEnd execTime runtime bcalc
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
-        application | scenario | task)
+        application | scenario | task | print)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
@@ -60,18 +60,20 @@ function Repeat() {
                     lineLength=$(( 1 + 4 + ${#FW_OBJECT_TIM_VAL["repeatSepLeftChar"]} + ${#FW_OBJECT_TIM_VAL["repeatSepRightChar"]} + ${#cmd1} + ${#number} + ${#FW_OBJECT_TIM_VAL["repeatTextSepStr"]} + ${#id} + ${#arguments} + 11 ))
                     for (( count=1; count <= number; count++ )); do
                         printf "\n"
+                        case ${cmd1} in
+                            task)       Format ansi start "${FW_OBJECT_TIM_VAL["repeatTskBgrndFmt"]}" ;;
+                            scenario)   Format ansi start "${FW_OBJECT_TIM_VAL["repeatScnBgrndFmt"]}" ;;
+                        esac
                         Format themed text repeatLineFmt " "
-                        char="$(Format themed text repeatLineFmt "${FW_OBJECT_TIM_VAL["repeatLineChar"]}")"
-                        for (( i=1; i <= 4; i++ )); do printf "%s" "${char}"; done
+                        Repeat print formatted character 4 "${FW_OBJECT_TIM_VAL["repeatLineChar"]}" repeatLineFmt
                         Format themed text repeatSepLeftFmt "${FW_OBJECT_TIM_VAL["repeatSepLeftChar"]}"
                         Format themed text repeatTextFmt " ${cmd1} run ${count} of ${number}${FW_OBJECT_TIM_VAL["repeatTextSepStr"]}"
                         Format themed text repeatCmdFmt "${id} ${arguments}"
                         Format themed text repeatTextFmt " "
                         Format themed text repeatSepRightFmt "${FW_OBJECT_TIM_VAL["repeatSepRightChar"]}"
-                        padding=$(( width - lineLength - ${#count} ))
-                        char="$(Format themed text repeatLineFmt "${FW_OBJECT_TIM_VAL["repeatLineChar"]}")"
-                        for (( i=1; i <= padding; i++ )); do printf "%s" "${char}"; done
+                        Repeat print formatted character $(( width - lineLength - ${#count} )) "${FW_OBJECT_TIM_VAL["repeatLineChar"]}" repeatLineFmt
                         Format themed text repeatLineFmt " "
+                        Format ansi end
                         printf "\n\n"
                         Execute ${cmd1} ${id} ${arguments}
                         sleep ${wait}
@@ -79,6 +81,25 @@ function Repeat() {
                     done
                     Activate show execution2 ;;
 
+                print-character)
+                    if [[ "${#}" -lt 2 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 2 "$#"; return; fi
+                    count="${1}"; char="${2}"; string=""
+                    for (( i=1; i <= count; i++ )); do string+="${char}"; done
+                    printf "%s" "${string}" ;;
+
+                print-formatted)
+                    if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} cmd3" E802 1 "$#"; return; fi
+                    cmd3=${1,,}; shift; cmdString3="${cmd1} ${cmd2} ${cmd3}"
+                    case "${cmd1}-${cmd2}-${cmd3}" in
+
+                        print-formatted-character)
+                            if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 3 "$#"; return; fi
+                            count="${1}"; char="${2}"; format="${3}"; string=""
+                            for (( i=1; i <= count; i++ )); do string+="${char}"; done
+                            Format themed text ${format} "${string}" ;;
+
+                        *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
+                    esac ;;
                 *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;
         *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;

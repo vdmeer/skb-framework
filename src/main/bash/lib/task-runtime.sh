@@ -34,6 +34,7 @@ if [[ ! -n "${SF_HOME:-}" || "${FW_LOADED:-no}" != yes ]]; then printf " task-ru
 
 source ${SF_HOME}/lib/runtime.sh
 source ${SF_HOME}/lib/components/Framework.sh
+source ${SF_HOME}/lib/operations/operations.sh
 Load runtime
 IFS="." read -r -a SF_VERSINFO <<< "${SF_VERSION}"
 

@@ -45,7 +45,7 @@ function Remove() {
             if [[ "${4}" != "path" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E803 "${2}"; return; fi
 
             case "${FW_OBJECT_SET_VAL["MODULE_PATH"]}" in
-                *" ${path} "*)  FW_OBJECT_SET_PHA["MODULE_PATH"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                *" ${path} "*)  FW_OBJECT_SET_PHASET["MODULE_PATH"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                                 FW_OBJECT_SET_VAL["MODULE_PATH"]=${FW_OBJECT_SET_VAL["MODULE_PATH"]/" ${path}"/}
                                 doWriteFast=true ;;
                 *) ;;

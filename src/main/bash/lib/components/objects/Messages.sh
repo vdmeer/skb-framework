@@ -41,7 +41,10 @@ function Messages() {
             if [[ "${FW_OBJECT_MSG_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_OBJECT_MSG_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s: %s, %s, %s, %s, %s\n" "${id}" "${FW_OBJECT_MSG_TYPE[${id}]}" "${FW_OBJECT_MSG_ARGS[${id}]}" "${FW_OBJECT_MSG_TEXT[${id}]}" "${FW_OBJECT_MSG_LONG[${id}]}" "${FW_OBJECT_MSG_PATH[${id}]}"
+                    printf "    %s (dec: %s / %s)\n"                    "${id}" "${FW_OBJECT_MSG_DECMDS[${id}]}" "${FW_OBJECT_MSG_DECPHA[${id}]}"
+                    printf "        a/type/cat: %s, %s, %s\n"           "${FW_OBJECT_MSG_ARGS[${id}]}" "${FW_OBJECT_MSG_TYPE[${id}]}" "${FW_OBJECT_MSG_CAT[${id}]}"
+                    printf "        text:       '%s'\n"                 "${FW_OBJECT_MSG_TEXT[${id}]}"
+                    printf "        descr:      %s\n\n"                 "${FW_OBJECT_MSG_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

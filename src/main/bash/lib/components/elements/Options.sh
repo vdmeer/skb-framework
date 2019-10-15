@@ -42,7 +42,13 @@ function Options() {
             if [[ "${FW_ELEMENT_OPT_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_OPT_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    -%s --%s [%s]: %s, %s, %s\n" "${FW_ELEMENT_OPT_LS[${id}]}" "${id}" "${FW_ELEMENT_OPT_ARG[${id}]}" "${FW_ELEMENT_OPT_CAT[${id}]}" "${FW_ELEMENT_OPT_VAL[${id}]}" "${FW_ELEMENT_OPT_LONG[${id}]}"
+                    printf "    %s (len: %s, short: %s)\n"              "${id}" "${FW_ELEMENT_OPT_LEN[${id}]}" "${FW_ELEMENT_OPT_LS[${id}]}"
+                    printf "        arg:        %s\n"                   "${FW_ELEMENT_OPT_ARG[${id}]}"
+                    printf "        sort:       %s\n"                   "${FW_ELEMENT_OPT_SORT[${id}]}"
+                    printf "        cat:        %s\n"                   "${FW_ELEMENT_OPT_CAT[${id}]}"
+                    printf "        set:        %s\n"                   "${FW_ELEMENT_OPT_SET[${id}]}"
+                    printf "        value:      %s\n"                   "${FW_ELEMENT_OPT_VAL[${id}]}"
+                    printf "        descr:      %s\n\n"                 "${FW_ELEMENT_OPT_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

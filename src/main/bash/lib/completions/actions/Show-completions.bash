@@ -30,11 +30,16 @@
 
 
 function __skb_Show_completions(){
-    local retval=""
+    local retval="" list file dir
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Show)  retval="log statistics fast load medium slow project scenario site task" ;;
+        Show)  retval="cache log statistics fast load medium slow project scenario site task" ;;
 
-        log)                                retval="file" ;;
+        cache | log)                        retval="file" ;;
+        file)                               if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "cache" ]]; then
+                                                dir="$(Get cache dir)"
+                                                for file in ${dir}/*.cache ${dir}/**/*.cache; do file=${file//"${dir}/"/}; retval+=" ${file//.cache/}"; done
+                                            fi ;;
+
         fast | load | medium | slow)        retval="runtime" ;;
         statistics)                         retval="overview"
                                             retval+=" applications dependencies dirlists dirs filelists files options parameters projects scenarios sites tasks"

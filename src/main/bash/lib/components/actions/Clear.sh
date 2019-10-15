@@ -81,7 +81,7 @@ function Clear() {
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"
 
-                            if [[ "${id}" != "API" ]]; then
+                            if [[ "${id}" != "☰API☷" && "${id}" != "⫷Framework⫸" ]]; then
                                 Test existing module id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                                 file="${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}.cache"
                                 if [[ -w "${file}" ]]; then rm "${file}"; fi
@@ -91,7 +91,7 @@ function Clear() {
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"
 
-                            if [[ "${id}" != "API" ]]; then
+                            if [[ "${id}" != "☰API☷" && "${id}" != "⫷Framework⫸" ]]; then
                                 Test existing theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                                 file="${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}.cache"
                                 if [[ -w "${file}" ]]; then rm "${file}"; fi

@@ -36,36 +36,28 @@ function Set() {
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
-        app | config | current | last | log | module | print | \
+        app | config | current | error | last | log | module | print | warning | \
         element | object)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
 
                 object-phase)
-                    ## Set object phase ID [ print-level | log-level ] to [ all | none LEVEL ]
+                    ## Set object phase ID [ print-level | log-level ] to [ all | none | LEVEL ]
                     if [[ "${#}" -lt 4 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 4 "$#"; return; fi
                     if [[ "${3}" != "to" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E803 "${2}"; return; fi
-                    id="${1}"; property="${2}"; level="${4}"; errno=0
+                    id="${1}"; property="${2}"; value="${4}"; errno=0
                     Test existing phase id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    if [[ "${level}" != "all" && "${level}" != "none" ]]; then Test existing level id "${level}"; errno=$?; fi; if [[ "${errno}" != 0 ]]; then return; fi
-                    case "${level}" in
-                        none)       value="" ;;
-                        fatalerror) value=" fatalerror " ;;
-                        error)      value=" fatalerror error " ;;
-                        text)       value=" fatalerror error text " ;;
-                        message)    value=" fatalerror error text message " ;;
-                        warning)    value=" fatalerror error text message warning " ;;
-                        info)       value=" fatalerror error text message warning info " ;;
-                        debug)      value=" fatalerror error text message warning info debug " ;;
-                        trace)      value=" fatalerror error text message warning info debug trace " ;;
-                        all)        value=" fatalerror error text message warning info debug trace " ;;
-                    esac
-                    case "${property}" in
-                        print-level)    FW_OBJECT_PHA_PRT_LVL[${id}]="${value}" ;;
-                        log-level)      FW_OBJECT_PHA_LOG_LVL[${id}]="${value}" ;;
-                    esac
-                    doWriteFast=true ;;
+                    case ${property} in
+                        print-level | log-level)
+                            if [[ "${value}" != "all" && "${value}" != "none" ]]; then Test existing level id "${value}"; errno=$?; fi; if [[ "${errno}" != 0 ]]; then return; fi
+                            sf_set_phase_level ${property} ${id} ${value} ;;
+                        error-count | warning-count)
+                            Test integer "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                            sf_alter_phase_counts set ${property} ${id} ${value} ;;
+                        *) Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}"; return ;;
+                    esac ;;
+
                 object-setting)
                     ## Set object setting ID to VAL
                     if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 3 "$#"; return; fi
@@ -75,17 +67,17 @@ function Set() {
                     object=${id,,}; entry=${object##*_}; object=${object%%_*}
                     case ${object}-${entry} in
                         config-file | current-mode | current-phase | current-theme | current-project | current-scenario | current-site | current-task | \
-                        last-project | last-scenario | last-site | last-task | log-date-arg | log-dir | log-file | log-format | log-level | print-format | print-format2 | print-level | module-path)
+                        last-project | last-scenario | last-site | last-task | log-date-arg | log-dir | log-file | log-format | log-level | print-format | print-format2 | print-level | module-path | \
+                        error-count | warning-count)
                             Set ${object} ${entry} to "${value}" ;;
-                        error-count)    Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E830 setting error ;;
-                        warning-count)  Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E830 setting warning ;;
-                        error-codes)    Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E831 setting ;;
-                        auto-verify | auto-write)   Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E832 setting ${object} ;;
-                        *)              FW_OBJECT_SET_VAL["${id}"]="${value}"; FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"; doWriteFast=true ;;
+                        message-codes) Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E831 setting ;;
+                        auto-verify | auto-write) Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E832 setting ${object} ;;
+                        *)  FW_OBJECT_SET_VAL["${id}"]="${value}"; FW_OBJECT_SET_PHASET["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"; doWriteFast=true ;;
                     esac ;;
+
                 object-themeitem)
                     ## Set object themeitem ID to VAL
-                    if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 3 "$#"; return; fi
+                    if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 3 "$#"; return; fi
                     if [[ "${2}" != "to" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E803 "${2}"; return; fi
                     id="${1}"; value="${3}"
                     Test existing themeitem id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
@@ -119,7 +111,8 @@ function Set() {
 
                 app-name | app-name2 | config-file | current-mode | current-phase | current-theme | \
                 current-project | current-scenario | current-site | current-task | last-project | last-scenario | last-site | last-task | \
-                log-format | print-format | print-format2 | log-level | print-level | log-date-arg | log-dir | log-file | module-path)
+                log-format | print-format | print-format2 | log-level | print-level | log-date-arg | log-dir | log-file | module-path | \
+                error-count | warning-count)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} cmd3" E802 1 "$#"; return; fi
                     cmd3=${1,,}; shift; cmdString3="${cmd1} ${cmd2} ${cmd3}"
                     case "${cmd1}-${cmd2}-${cmd3}" in
@@ -128,16 +121,15 @@ function Set() {
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             value="${1}"; id=${cmd1^^}_${cmd2^^}
                             FW_OBJECT_SET_VAL["${id}"]="${value}"
-                            FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            FW_OBJECT_SET_PHASET["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                             doWriteFast=true ;;
 
                         config-file-to)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             value="$(realpath ${1})"; id=${cmd1^^}_${cmd2^^}
-                            Test file exists "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                             Test file can read "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                             FW_OBJECT_SET_VAL["${id}"]="${value}"
-                            FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            FW_OBJECT_SET_PHASET["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                             doWriteFast=true ;;
 
                         current-mode-to)
@@ -145,25 +137,27 @@ function Set() {
                             value="${1}"; id=${cmd1^^}_${cmd2^^}
                             Test existing mode id "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                             FW_OBJECT_SET_VAL["${id}"]="${value}"
-                            FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            FW_OBJECT_SET_PHASET["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                             doVerify=true; doWriteFast=true ;;
+
                         current-phase-to)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             value="${1}"; id=${cmd1^^}_${cmd2^^}
                             Test existing phase id "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                            FW_OBJECT_SET_VAL["${id}"]="${value}";                                                                  FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                            FW_OBJECT_SET_VAL["PRINT_LEVEL"]="${FW_OBJECT_PHA_PRT_LVL["${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"]}";   FW_OBJECT_SET_PHA["PRINT_LEVEL"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                            FW_OBJECT_SET_VAL["LOG_LEVEL"]="${FW_OBJECT_PHA_LOG_LVL["${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"]}";     FW_OBJECT_SET_PHA["LOG_LEVEL"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                            FW_OBJECT_SET_VAL["ERROR_COUNT"]="${FW_OBJECT_PHA_ERRCNT["${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"]}";    FW_OBJECT_SET_PHA["ERROR_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                            FW_OBJECT_SET_VAL["ERROR_CODES"]="${FW_OBJECT_PHA_ERRCOD["${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"]}";    FW_OBJECT_SET_PHA["ERROR_CODES"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                            FW_OBJECT_SET_VAL["WARNING_COUNT"]="${FW_OBJECT_PHA_WRNCNT["${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"]}";  FW_OBJECT_SET_PHA["WARNING_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            FW_OBJECT_SET_VAL["${id}"]="${value}";                                     FW_OBJECT_SET_PHASET["${id}"]="${value}"
+                            FW_OBJECT_SET_VAL["PRINT_LEVEL"]="${FW_OBJECT_PHA_PRT_LVL["${value}"]}";   FW_OBJECT_SET_PHASET["PRINT_LEVEL"]="${value}"
+                            FW_OBJECT_SET_VAL["LOG_LEVEL"]="${FW_OBJECT_PHA_LOG_LVL["${value}"]}";     FW_OBJECT_SET_PHASET["LOG_LEVEL"]="${value}"
+                            FW_OBJECT_SET_VAL["ERROR_COUNT"]="${FW_OBJECT_PHA_ERRCNT["${value}"]}";    FW_OBJECT_SET_PHASET["ERROR_COUNT"]="${value}"
+                            FW_OBJECT_SET_VAL["MESSAGE_CODES"]="${FW_OBJECT_PHA_MSGCOD["${value}"]}";  FW_OBJECT_SET_PHASET["MESSAGE_CODES"]="${value}"
+                            FW_OBJECT_SET_VAL["WARNING_COUNT"]="${FW_OBJECT_PHA_WRNCNT["${value}"]}";  FW_OBJECT_SET_PHASET["WARNING_COUNT"]="${value}"
                             doWriteFast=true ;;
+
                         current-theme-to)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             value="${1}"; id=${cmd1^^}_${cmd2^^}
                             Test existing theme id "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                             FW_OBJECT_SET_VAL["${id}"]="${value}"; Load theme ${value}
-                            FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            FW_OBJECT_SET_PHASET["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                             doWriteFast=true ;;
 
                         current-project-to | current-scenario-to | current-site-to | current-task-to | last-project-to | last-scenario-to | last-site-to | last-task-to)
@@ -171,36 +165,27 @@ function Set() {
                             value="${1}"; id=${cmd1^^}_${cmd2^^}
                             Test existing ${cmd2} id "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                             FW_OBJECT_SET_VAL["${id}"]="${value}"
-                            FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            FW_OBJECT_SET_PHASET["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                             doWriteFast=true ;;
+
+                        error-count-to | warning-count-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            value="${1}"; Test integer "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                            sf_alter_phase_counts set ${cmd1}-${cmd2} ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${value} ;;
 
                         log-format-to | print-format-to | print-format2-to)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             value="${1}"; id=${cmd1^^}_${cmd2^^}
                             Test ${cmd1} format "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                             FW_OBJECT_SET_VAL["${id}"]="${value}"
-                            FW_OBJECT_SET_PHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            FW_OBJECT_SET_PHASET["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                             doWriteFast=true ;;
 
                         log-level-to | print-level-to)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             level="${1}"; errno=0
                             if [[ "${level}" != "all" && "${level}" != "none" ]]; then Test existing level id "${level}"; errno=$?; fi; if [[ "${errno}" != 0 ]]; then return; fi
-                            case "${level}" in
-                                none)       value="" ;;
-                                fatalerror) value=" fatalerror " ;;
-                                error)      value=" fatalerror error " ;;
-                                text)       value=" fatalerror error text " ;;
-                                message)    value=" fatalerror error text message " ;;
-                                warning)    value=" fatalerror error text message warning " ;;
-                                info)       value=" fatalerror error text message warning info " ;;
-                                debug)      value=" fatalerror error text message warning info debug " ;;
-                                trace)      value=" fatalerror error text message warning info debug trace " ;;
-                                all)        value=" fatalerror error text message warning info debug trace " ;;
-                            esac
-                            FW_OBJECT_SET_PHA["${cmd1^^}_LEVEL"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                            FW_OBJECT_SET_VAL["${cmd1^^}_LEVEL"]="${value}"
-                            Set object phase "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" ${cmd1}-level to "${level}" ;;
+                            sf_set_phase_level ${cmd1}-level ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${level} ;;
 
                         log-date-arg-to)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
@@ -220,12 +205,12 @@ function Set() {
                             value="${1}"
                             if [[ ! -n "${value}" ]]; then
                                 FW_OBJECT_SET_VAL["MODULE_PATH"]=" "
-                                FW_OBJECT_SET_PHA["MODULE_PATH"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                                FW_OBJECT_SET_PHASET["MODULE_PATH"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                                 doWriteFast=true
                             else
                                 Test dir can read "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                                 FW_OBJECT_SET_VAL["MODULE_PATH"]="${FW_OBJECT_SET_VAL["MODULE_PATH"]}${value} "
-                                FW_OBJECT_SET_PHA["MODULE_PATH"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                                FW_OBJECT_SET_PHASET["MODULE_PATH"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                                 doWriteFast=true
                             fi ;;
 
@@ -239,5 +224,5 @@ function Set() {
     if [[ "${doWriteFast}" == true && "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write fast config; doWriteFast=false
     elif [[ "${doWriteSlow}" == true && "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write slow config; doWriteSlow=false; fi
 
-    if [[ "${doVerify}" == true && "${FW_OBJECT_SET_VAL["AUTO_VERIFY"]:-false}" != false ]]; then Verify everything; fi
+    if [[ "${doVerify}" == true && "${FW_OBJECT_SET_VAL["AUTO_VERIFY"]:-false}" != false ]]; then Verify elements; fi
 }

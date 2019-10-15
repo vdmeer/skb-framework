@@ -32,7 +32,7 @@
 function __skb_Explain_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Explain)    retval="action element instance object component" ;;
+        Explain)    retval="action element instance object component framework" ;;
 
         action)     retval="$(Framework has actions)" ;;
         element)    retval="$(Framework has elements)" ;;

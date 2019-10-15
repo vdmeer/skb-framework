@@ -150,13 +150,17 @@ remove=""
 
 for id in $arr; do
     if [[ -n "${mode}" ]]; then
-        case ${FW_ELEMENT_TSK_MODES[${id}]} in
-            all | ${mode})  ;;
-            *)              remove+=" "$id ;;
-        esac
+        if [[ "${mode}" == "test" ]]; then
+            : # always available in test mode
+        else
+            case ${FW_ELEMENT_TSK_MODES[${id}]} in
+                all | ${mode})  ;;
+                *)              remove+=" "$id ;;
+            esac
+        fi
     fi
     if [[ -n "${origin}" ]]; then
-        if [[ "${origin}" != "${FW_ELEMENT_TSK_ORIG[${id}]}" ]]; then
+        if [[ "${origin}" != "${FW_ELEMENT_TSK_DECMDS[${id}]}" ]]; then
             remove+=" "$id
         fi
     fi
@@ -178,7 +182,7 @@ for id in $arr; do
         esac
     fi
 
-    if [[ "${not_core}" == yes ]];      then if [[ "Core" == "${FW_ELEMENT_TSK_ORIG[${id}]}" ]]; then remove+=" "$id; fi; fi
+    if [[ "${not_core}" == yes ]];      then if [[ "Core" == "${FW_ELEMENT_TSK_DECMDS[${id}]}" ]]; then remove+=" "$id; fi; fi
 
     if [[ "${none_build}" == yes ]];    then case "${id}" in "build-"*)    remove+=" "$id ;; esac; fi
     if [[ "${none_debug}" == yes ]];    then case "${id}" in "debug-"*)    remove+=" "$id ;; esac; fi

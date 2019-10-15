@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Set - API declarations
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.6
+## @since      0.0.6
+##
+
+
+SF_OPERATIONS["Set"]="shows available operations"
+
+SF_OPERATIONS["Set%object%phase%@ID@%print-level%to%(%all%|%none%|%@LEVEL@%)"]="sets print level for phase ID to all, none, or LEVEL"
+SF_OPERATIONS["Set%object%phase%@ID@%log-level%to%(%all%|%none%|%@LEVEL@%)"]="sets log level for phase ID to all, none, or LEVEL"
+
+SF_OPERATIONS["Set%object%phase%@ID@%error-count%to%@INTEGER@"]="sets error count for phase ID"
+SF_OPERATIONS["Set%object%phase%@ID@%warning-count%to%@INTEGER@"]="sets warning count for phase ID"
+
+SF_OPERATIONS["Set%object%settings%@ID@%to%@VALUE@"]="sets setting ID to VALUE"
+
+SF_OPERATIONS["Set%object%themeitem%@ID@%to%@VALUE@"]="sets theme item ID to VALUE"
+
+SF_OPERATIONS["Set%element%application%@ID@%command%to%@COMMAND@"]="sets applcation ID command to COMMAND"
+    SF_OPERATIONS["Set%element%application%@ID@%to%@COMMAND@%@ARGNUM@%@ARGS@"]="sets applcation ID properties: COMMAND, ARGNUM, ARGS"
+
+SF_OPERATIONS["Set%app%name%to%@VALUE@"]="sets application name to VALUE"
+SF_OPERATIONS["Set%app%name2%to%@VALUE@"]="sets application name 2 to VALUE"
+
+SF_OPERATIONS["Set%config%file%to%@FILE@"]="sets config file to FILE"
+
+SF_OPERATIONS["Set%current%mode%to%@MODE@"]="sets current mode to MODE"
+SF_OPERATIONS["Set%current%phase%to%@PHASE@"]="sets current phase to PHASE and copies errors/warnings"
+SF_OPERATIONS["Set%current%theme%to%@THEME@"]="sets current theme to THEME"
+
+SF_OPERATIONS["Set%current%project%to%@PROJECT@"]="sets current project to PROJECT"
+SF_OPERATIONS["Set%last%project%to%@PROJECT@"]="sets last project to PROJECT"
+
+SF_OPERATIONS["Set%current%scenario%to%@SCENARIO@"]="sets current scenario to SCENARIO"
+SF_OPERATIONS["Set%last%scenario%to%@SCENARIO@"]="sets last scenario to SCENARIO"
+
+SF_OPERATIONS["Set%current%site%to%@SITE@"]="sets current site to SITE"
+SF_OPERATIONS["Set%last%site%to%@SITE@"]="sets last site to SITE"
+
+SF_OPERATIONS["Set%current%task%to%@TASK@"]="sets current task to TASK"
+SF_OPERATIONS["Set%last%task%to%@TASK@"]="sets last task to TASK"
+
+SF_OPERATIONS["Set%error%count%to%@INTEGER@"]="sets error count"
+SF_OPERATIONS["Set%warning%count%to%@INTEGER@"]="sets warning count"
+
+SF_OPERATIONS["Set%log%format%to%@FORMAT@"]="sets log format to FORMAT"
+SF_OPERATIONS["Set%print%format%to%@FORMAT@"]="sets print format to FORMAT"
+SF_OPERATIONS["Set%print%format2%to%@FORMAT@"]="sets print format 2 to FORMAT"
+
+SF_OPERATIONS["Set%print%level%to%(%all%|%none%|%@LEVEL@%)"]="sets print level to all, none, or LEVEL"
+SF_OPERATIONS["Set%log%level%to%(%all%|%none%|%@LEVEL@%)"]="sets log level to all, none, or LEVEL"
+
+SF_OPERATIONS["Set%log%date-arg%to%@VALUE@"]="sets log date-arg to VALUE"
+SF_OPERATIONS["Set%log%dir%to%@DIR@"]="sets log dir to DIR"
+SF_OPERATIONS["Set%log%file%to%@FILE@"]="sets log file to FILE"
+
+SF_OPERATIONS["Set%module%path%to%@PATH@"]="sets module path to PATH"

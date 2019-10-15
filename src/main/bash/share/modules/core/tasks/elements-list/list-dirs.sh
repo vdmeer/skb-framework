@@ -103,7 +103,7 @@ remove=""
 
 for id in $arr; do
     if [[ -n "${origin}" ]]; then
-        if [[ "${origin}" != "${FW_ELEMENT_DIR_ORIG[${id}]}" ]]; then
+        if [[ "${origin}" != "${FW_ELEMENT_DIR_DECMDS[${id}]}" ]]; then
             remove+=" "$id
         fi
     fi
@@ -124,7 +124,7 @@ for id in $arr; do
             n)  if [[ "${FW_ELEMENT_DIR_STATUS[${id}]}" != "N" ]]; then remove+=" "$id; fi ;;
         esac
     fi
-    if [[ "${not_core}" == yes ]];      then if [[ "Core" == "${FW_ELEMENT_DIR_ORIG[${id}]}" ]]; then remove+=" "$id; fi; fi
+    if [[ "${not_core}" == yes ]];      then if [[ "Core" == "${FW_ELEMENT_DIR_DECMDS[${id}]}" ]]; then remove+=" "$id; fi; fi
 done
 
 for id in $remove; do

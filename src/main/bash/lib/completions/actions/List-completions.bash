@@ -34,11 +34,11 @@ function __skb_List_completions(){
     case ${COMP_WORDS[COMP_CWORD-1]} in
         List)       retval="categorized framework logs"
                     retval+=" exitcodes clioptions"
-                    retval+=" configurations formats levels messages modes phases settings themes themeitems"
-                    retval+=" applications dependencies dirlists dirs filelists files modules options parameters projects scenarios sites tasks"
+                    retval+=" configurations formats levels messages modes phases settings themes themeitems variables"
+                    retval+=" applications dependencies dirlists dirs filelists files modules options parameters projects scenarios scripts sites tasks"
                     retval+=" actions elements instances objects operations" ;;
 
-        configurations | applications | dependencies | dirlists | dirs | filelists | files | formats | levels | modes | modules | parameters | phases | projects | scenarios | settings | sites | tasks | themes | themeitems)
+        configurations | applications | dependencies | dirlists | dirs | filelists | files | formats | levels | modes | modules | parameters | phases | projects | scenarios | settings | scripts | sites | tasks | themes | themeitems)
             retval="show-values" ;;
 
         categorized)    retval="clioptions messages options" ;;

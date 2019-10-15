@@ -59,12 +59,12 @@ function Calculate() {
 
                 longest-clioption)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    for id in ${1}; do if (( longest < ${FW_INSTANCE_CLI_LEN[${id}]} )); then longest=${FW_INSTANCE_CLI_LEN[${id}]}; fi; done
+                    for id in ${1}; do if [[ "${id:0:1}" == "#" ]]; then id="${id:2}"; fi; if (( longest < ${FW_INSTANCE_CLI_LEN[${id}]} )); then longest=${FW_INSTANCE_CLI_LEN[${id}]}; fi; done
                     printf ${longest} ;;
 
                 longest-option)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
-                    for id in ${1}; do if (( longest < ${FW_ELEMENT_OPT_LEN[${id}]} )); then longest=${FW_ELEMENT_OPT_LEN[${id}]}; fi; done
+                    for id in ${1}; do if [[ "${id:0:1}" == "#" ]]; then id="${id:2}"; fi; if (( longest < ${FW_ELEMENT_OPT_LEN[${id}]} )); then longest=${FW_ELEMENT_OPT_LEN[${id}]}; fi; done
                     printf ${longest} ;;
 
                 longest-operation)

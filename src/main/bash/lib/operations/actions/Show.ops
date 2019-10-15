@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Show - API declarations
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.6
+## @since      0.0.6
+##
+
+
+SF_OPERATIONS["Show"]="shows available operations"
+
+SF_OPERATIONS["Show%log%file"]="shows the log file"
+SF_OPERATIONS["Show%cache%file%@FILE@"]="shows cache file FILE"
+
+SF_OPERATIONS["Show%fast%runtime"]="shows the fast runtime configuration file"
+SF_OPERATIONS["Show%medium%runtime"]="shows the medium runtime configuration file"
+SF_OPERATIONS["Show%slow%runtime"]="shows the slow runtime configuration file"
+SF_OPERATIONS["Show%load%runtime"]="shows the load runtime configuration file"
+
+SF_OPERATIONS["Show%statistics"]="shows general runtime statistics"
+SF_OPERATIONS["Show%statistics%overview"]="shows general runtime statistics"
+    SF_OPERATIONS["Show%statistics%applications"]="shows application statistics"
+    SF_OPERATIONS["Show%statistics%dirlists"]="shows directory list statistics"
+    SF_OPERATIONS["Show%statistics%filelists"]="shows file list statistics"
+    SF_OPERATIONS["Show%statistics%messages"]="shows message statistics"
+    SF_OPERATIONS["Show%statistics%phases"]="shows phase statistics"
+    SF_OPERATIONS["Show%statistics%scenarios"]="shows scenario statistics"
+    SF_OPERATIONS["Show%statistics%sites"]="shows site statistics"
+    SF_OPERATIONS["Show%statistics%themeitems"]="shows them item statistics"
+    SF_OPERATIONS["Show%statistics%dependencies"]="shows dependency statistics"
+    SF_OPERATIONS["Show%statistics%dirs"]="shows directory statistics"
+    SF_OPERATIONS["Show%statistics%files"]="shows file statistics"
+    SF_OPERATIONS["Show%statistics%options"]="shows option statistics"
+    SF_OPERATIONS["Show%statistics%parameters"]="shows parameter statistics"
+    SF_OPERATIONS["Show%statistics%projects"]="shows project statistics"
+    SF_OPERATIONS["Show%statistics%settings"]="shows setting statistics"
+    SF_OPERATIONS["Show%statistics%tasks"]="shows task statistics"
+
+
+
+SF_OPERATIONS["Show%project%execution%start%@ID@"]="shows start of project execution for project ID"
+SF_OPERATIONS["Show%project%execution%endt%@ID@%@START@%@END@"]="shows end of project execution for project ID for START and END time"
+
+SF_OPERATIONS["Show%scenario%execution%start%@ID@"]="shows start of scenario execution for scenario ID"
+SF_OPERATIONS["Show%scenario%execution%end%@ID@%@START@%@END@"]="shows end of scenario execution for scenario ID for START and END time"
+
+SF_OPERATIONS["Show%site%execution%start%@ID@"]="shows start of site execution for site ID"
+SF_OPERATIONS["Show%site%execution%end%@ID@%@START@%@END@"]="shows end of scenario execution for scenario ID for START and END time"
+
+SF_OPERATIONS["Show%task%execution%start%@ID@"]="shows start of task execution for task ID"
+SF_OPERATIONS["Show%task%execution%end%@ID@%@START@%@END@"]="shows end of scenario execution for scenario ID for START and END time"
+

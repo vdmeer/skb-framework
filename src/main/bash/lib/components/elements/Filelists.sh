@@ -41,7 +41,11 @@ function Filelists() {
             if [[ "${FW_ELEMENT_FLS_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_FLS_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s (%s): %s, %s, %s, %s, %s\n" "${id}" "${FW_ELEMENT_FLS_STATUS[${id}]}" "${FW_ELEMENT_FLS_PHA[${id}]}" "${FW_ELEMENT_FLS_ORIG[${id}]}" "${FW_ELEMENT_FLS_MOD[${id}]}" "${FW_ELEMENT_FLS_VAL[${id}]}" "${FW_ELEMENT_FLS_LONG[${id}]}"
+                    printf "    %s (dec: %s / %s, set: %s)\n"           "${id}" "${FW_ELEMENT_FLS_DECMDS[${id}]}" "${FW_ELEMENT_FLS_DECPHA[${id}]}" "${FW_ELEMENT_FLS_PHA[${id}]}"
+                    printf "        status:     s: %s, c: %s, r: %s\n"  "${FW_ELEMENT_FLS_STATUS[${id}]}" "${FW_ELEMENT_FLS_STATUS_COMMENTS[${id}]}" "${FW_ELEMENT_FLS_REQUESTED[${id}]}"
+                    printf "        value:      %s\n"                   "${FW_ELEMENT_FLS_VAL[${id}]}"
+                    printf "        mode:       %s\n"                   "${FW_ELEMENT_FLS_MOD[${id}]}"
+                    printf "        descr:      %s\n\n"                 "${FW_ELEMENT_FLS_LONG[${id}]}"
                 done
             else
                 printf "    %s\n" "{}"

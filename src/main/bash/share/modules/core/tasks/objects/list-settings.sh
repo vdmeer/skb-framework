@@ -86,15 +86,15 @@ if [[ "${FW_INSTANCE_CLI_SET["without-extras"]}" == "yes" ]]; then withoutExtras
 arr="$(Settings has)"
 remove=""
 for id in $arr; do
-    if [[ "${cli}" == yes && "${FW_OBJECT_SET_PHA[${id}]}" != "CLI" ]]; then remove+=" "$id; fi
-    if [[ "${default}" == yes && "${FW_OBJECT_SET_PHA[${id}]}" != "Default" ]]; then remove+=" "$id; fi
-    if [[ "${env}" == yes && "${FW_OBJECT_SET_PHA[${id}]}" != "Env" ]]; then remove+=" "$id; fi
-    if [[ "${file}" == yes && "${FW_OBJECT_SET_PHA[${id}]}" != "File" ]]; then remove+=" "$id; fi
-    if [[ "${framework}" == yes && "${FW_OBJECT_SET_PHA[${id}]}" != "Framework" ]]; then remove+=" "$id; fi
-    if [[ "${project}" == yes && "${FW_OBJECT_SET_PHA[${id}]}" != "Project" ]]; then remove+=" "$id; fi
-    if [[ "${scenario}" == yes && "${FW_OBJECT_SET_PHA[${id}]}" != "Scenario" ]]; then remove+=" "$id; fi
-    if [[ "${shell}" == yes && "${FW_OBJECT_SET_PHA[${id}]}" != "Shell" ]]; then remove+=" "$id; fi
-    if [[ "${task}" == yes && "${FW_OBJECT_SET_PHA[${id}]}" != "Task" ]]; then remove+=" "$id; fi
+    if [[ "${cli}" == yes && "${FW_OBJECT_SET_PHASET[${id}]}" != "CLI" ]]; then remove+=" "$id; fi
+    if [[ "${default}" == yes && "${FW_OBJECT_SET_PHASET[${id}]}" != "Default" ]]; then remove+=" "$id; fi
+    if [[ "${env}" == yes && "${FW_OBJECT_SET_PHASET[${id}]}" != "Env" ]]; then remove+=" "$id; fi
+    if [[ "${file}" == yes && "${FW_OBJECT_SET_PHASET[${id}]}" != "File" ]]; then remove+=" "$id; fi
+    if [[ "${framework}" == yes && "${FW_OBJECT_SET_PHASET[${id}]}" != "Framework" ]]; then remove+=" "$id; fi
+    if [[ "${project}" == yes && "${FW_OBJECT_SET_PHASET[${id}]}" != "Project" ]]; then remove+=" "$id; fi
+    if [[ "${scenario}" == yes && "${FW_OBJECT_SET_PHASET[${id}]}" != "Scenario" ]]; then remove+=" "$id; fi
+    if [[ "${shell}" == yes && "${FW_OBJECT_SET_PHASET[${id}]}" != "Shell" ]]; then remove+=" "$id; fi
+    if [[ "${task}" == yes && "${FW_OBJECT_SET_PHASET[${id}]}" != "Task" ]]; then remove+=" "$id; fi
 done
 
 for id in $remove; do

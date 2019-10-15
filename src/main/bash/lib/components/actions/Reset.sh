@@ -41,31 +41,17 @@ function Reset() {
             id="${1}"; cmd2="${2}"; cmd3="${3}"
             Test existing phase id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             case "${cmd2}-${cmd3}" in
-                error-codes)    FW_OBJECT_PHA_ERRCOD[${id}]=""; doWriteFast=true ;;
-                error-count)    FW_OBJECT_PHA_ERRCNT[${id}]=0; doWriteFast=true ;;
-                warning-count)  FW_OBJECT_PHA_WRNCNT[${id}]=0; doWriteFast=true ;;
-                *)  Report process error "${FUNCNAME[0]}" "${cmdString1}" E879 "${cmd1}" "${cmd2} ${cmd3}"; return ;;
+                message-codes | error-count | warning-count) sf_alter_phase_counts reset ${cmd2}-${cmd3} ${id} ;;
+                *) Report process error "${FUNCNAME[0]}" "${cmdString1}" E879 "${cmd1}" "${cmd2} ${cmd3}"; return ;;
             esac ;;
 
-        error | warning)
+        error | message | warning)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
 
-                error-codes)
-                    FW_OBJECT_SET_PHA["ERROR_CODES"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                    FW_OBJECT_SET_VAL["ERROR_CODES"]=""
-                    Reset phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} error codes ;;
-
-                error-count)
-                    FW_OBJECT_SET_PHA["ERROR_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                    FW_OBJECT_SET_VAL["ERROR_COUNT"]=0
-                    Reset phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} error count ;;
-
-                warning-count)
-                    FW_OBJECT_SET_PHA["WARNING_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
-                    FW_OBJECT_SET_VAL["WARNING_COUNT"]=0
-                    Reset phase ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} warning count ;;
+                message-codes | error-count | warning-count)
+                    sf_alter_phase_counts reset ${cmd1}-${cmd2} ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ;;
 
                 *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;

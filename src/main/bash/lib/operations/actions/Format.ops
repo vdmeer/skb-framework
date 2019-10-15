@@ -1,0 +1,125 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Format - API declarations
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.6
+## @since      0.0.6
+##
+
+
+SF_OPERATIONS["Format"]="shows available operations"
+
+SF_OPERATIONS["Format%text%@FMT@%@TEXT@"]="formats TEXT according to FMT"
+SF_OPERATIONS["Format%themed%text%@ITEM@%@TEXT@"]="formats TEXT using theme item ITEM"
+
+SF_OPERATIONS["Format%level%fatalerror"]="formats level fatalerror using theme item lvlFatalerrorFmt"
+SF_OPERATIONS["Format%level%error"]="formats level fatalerror using theme item lvlErrorFmt"
+SF_OPERATIONS["Format%level%warning"]="formats level fatalerror using theme item lvlWarningFmt"
+SF_OPERATIONS["Format%level%info"]="formats level fatalerror using theme item lvlInfoFmt"
+SF_OPERATIONS["Format%level%debug"]="formats level fatalerror using theme item lvlDebugFmt"
+SF_OPERATIONS["Format%level%trace"]="formats level fatalerror using theme item lvlTraceFmt"
+SF_OPERATIONS["Format%level%message"]="formats level fatalerror using theme item lvlMessageFmt"
+SF_OPERATIONS["Format%level%text"]="formats level fatalerror using theme item lvlTextFmt"
+
+SF_OPERATIONS["Format%ansi%file%@FILE@"]="formats file FILE with ANSI escape codes"
+SF_OPERATIONS["Format%ansi%start%@FMT@"]="prints start of format, e.g. colors, in ansi mode"
+SF_OPERATIONS["Format%ansi%eend"]="prints end of format, in ansi mode"
+
+SF_OPERATIONS["Format%mode%[%@MODE@%]"]="formats MODE or CURRENT_MODE"
+
+SF_OPERATIONS["Format%element%status%@STATUS@"]="formats element status STATUS (N, E, W, S)"
+
+SF_OPERATIONS["Format%help%indentation"]="formats help indentation using theme item explainIndent1"
+SF_OPERATIONS["Format%help%indentation%1"]="formats help indentation using theme item explainIndent1"
+SF_OPERATIONS["Format%help%indentation%2"]="formats help indentation using theme item explainIndent2"
+SF_OPERATIONS["Format%help%indentation%3"]="formats help indentation using theme item explainIndent3"
+
+
+
+SF_OPERATIONS["Format%available%char%@MODES@%@MODE@"]="prints the mode availability for MODE tested in MODES"
+SF_OPERATIONS["Format%defval%char%@STRING@"]="prints the default value character"
+SF_OPERATIONS["Format%exec%char%@STATUS@"]="prints the 'show extras' characters"
+SF_OPERATIONS["Format%phase%char%@CHAR@"]="prints phase character"
+SF_OPERATIONS["Format%requested%char%@STRING@"]="prints the requested character"
+SF_OPERATIONS["Format%status%char%@CHAR@"]="prints status character"
+
+
+
+SF_OPERATIONS["Format%table%toprule%@WIDTH@"]="formats a line of WIDTH width using theme items tabTopruleChar and tabTopruleFmt"
+SF_OPERATIONS["Format%table%midrule%@WIDTH@"]="formats a line of WIDTH width using theme items tabMidruleChar and tabMidruleFmt"
+SF_OPERATIONS["Format%table%bottomrule%@WIDTH@"]="formats a line of WIDTH width using theme items tabBottomruleChar and tabBottomruleFmt"
+SF_OPERATIONS["Format%table%legendrule%@WIDTH@"]="formats a line of WIDTH width using theme items tabLegendruleChar and tabLegendruleFmt"
+SF_OPERATIONS["Format%table%statusrule%@WIDTH@"]="formats a line of WIDTH width using theme items tabStatusruleChar and tabStatusruleFmt"
+
+SF_OPERATIONS["Format%execution%line%@WIDTH@%@FORMAT@"]="formats a line of WIDTH width using theme items execLineFmt, FORMATFmt and FORMATChar"
+
+SF_OPERATIONS["Format%list%from%file%@FILE@%[%@LEFTMARGIN@%[%@RIGHT_MARGIN@%]%]"]="formats content of FILE as list using given margins and screen width"
+SF_OPERATIONS["Format%paragraph%from%file%@FILE@%[%@LEFTMARGIN@%[%@RIGHT_MARGIN@%]%]"]="formats content of FILE as paragraph using given margins and screen width"
+
+
+SF_OPERATIONS["Format%tagline%for%clioption%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats CLI option tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%option%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats option tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+
+SF_OPERATIONS["Format%tagline%for%exitcode%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats exit code tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%configuration%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats configuration tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%format%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats format tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%level%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats level tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%message%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats message tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%mode%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats mode tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%phase%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats phase tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%setting%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats setting tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%theme%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats theme tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%themeitem%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats theme item tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%variable%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats variable tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+
+SF_OPERATIONS["Format%tagline%for%application%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats application tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%dependency%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats dependency tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%dirlist%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats directory list tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%dir%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats directory tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%filelist%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats file list tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%file%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats file tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%module%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats module tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%project%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats project tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%scenario%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats scenario tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%script%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats script tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%site%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats site tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%task%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats task tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+
+SF_OPERATIONS["Format%tagline%for%action%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats action tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%element%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats element tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%instance%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats instance tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%object%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats object tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+SF_OPERATIONS["Format%tagline%for%operation%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats operation tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+
+SF_OPERATIONS["Format%tagline%for%framework%Framework%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%]%]%]%]%]"]="formats framework tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES"
+
+
+SF_OPERATIONS["Format%tagline%for%parameter%@ID@%@TYPE@%[%@LEFT@%[%@PAD@%[%@MS@%[%@LONGEST@%[%@VALUES@%[%@DEVALUES@%]%]%]%]%]%]"]="formats parameter tagline for TYPE, with left margin LEFT, padding PAD, mid string MS, longest LONGEST, showing VALUES or DEFVALUES"
+
+
+
+SF_OPERATIONS["Format%table%extras-for%@TYPE@%@ID@"]="prints table extras for component TYPE (e.g. phase) ID"
+SF_OPERATIONS["Format%table%legend-for%@TYPE@"]="prints table legend for component TYPE (e.g. phase)"
+

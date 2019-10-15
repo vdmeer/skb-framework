@@ -30,12 +30,15 @@
 
 
 function Help() {
-    if [[ -z "${1:-}" ]]; then
-        printf "\n"; Format help indentation 1; Format themed text explainTitleFmt "Available Commands"; printf "\n\n"
-        printf "\n"; return
-    fi
+    if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
     local cmd="${1}" type=""
+    if [[ "${cmd}" == "Framework" ]]; then
+        printf "\n"
+        Describe framework ${cmd}
+        Explain  framework ${cmd}
+    fi
+
     local actions=" $(Framework has actions) "
     local elements=" $(Framework has elements) "
     local objects=" $(Framework has objects) "

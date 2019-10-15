@@ -32,11 +32,14 @@
 function __skb_Repeat_completions(){
     local retval="" taskName taskCompletion
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Repeat)         retval="application scenario task" ;;
+        Repeat)         retval="application scenario task print" ;;
 
         application)    retval="execution" ;;
         scenario)       retval="execution" ;;
         task)           retval="execution" ;;
+
+        print)          retval="formatted character" ;;
+        formatted)      retval="character" ;;
 
         *)  if [[ "${COMP_WORDS[COMP_CWORD-1]}" == "execution" ]]; then retval="1 2 3 4 5 6 7 8 9"
             elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "execution" ]]; then retval="0 1 2 3 4 5 6 7 8 9"

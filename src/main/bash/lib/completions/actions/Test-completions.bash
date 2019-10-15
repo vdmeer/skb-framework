@@ -38,10 +38,10 @@ function __skb_Test_completions(){
 
         existing)       retval="exitcode"
                         retval+=" action element instance object component"
-                        retval+=" clioption configuration format level message mode phase setting theme themeitem"
-                        retval+=" application dependency dirlist dir filelist file module option parameter project scenario site task" ;;
-        used)           retval="clioption configuration format level message mode phase setting theme themeitem"
-                        retval+=" application dependency dirlist dir filelist file module option parameter project scenario site task" ;;
+                        retval+=" clioption configuration format level message mode phase setting theme themeitem variable"
+                        retval+=" application dependency dirlist dir filelist file module option parameter project scenario script site task" ;;
+        used)           retval="clioption configuration format level message mode phase setting theme themeitem variable"
+                        retval+=" application dependency dirlist dir filelist file module parameter project scenario script site task" ;;
 
         exitcode)       retval="id" ;;
 
@@ -68,15 +68,17 @@ function __skb_Test_completions(){
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "used" ]]; then retval="id"; fi ;;
         themeitem)      if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "existing" ]]; then retval="id identifiers";
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "used" ]]; then retval="id"; fi ;;
+        variable)       retval="id" ;;
+
         application)    retval="id" ;;
         dependency)     retval="id" ;;
         module)         if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "existing" ]]; then retval="id";
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "used" ]]; then retval="id"; fi ;;
-        option)         if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "existing" ]]; then retval="id";
-                        elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "used" ]]; then retval="long-id short-id"; fi ;;
+        option)         retval="long-id short-id" ;;
         parameter)      retval="id" ;;
         project)        retval="id" ;;
         scenario)       retval="id" ;;
+        script)         retval="id" ;;
         site)           retval="id" ;;
         task)           retval="id" ;;
 

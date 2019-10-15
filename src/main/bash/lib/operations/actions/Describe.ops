@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------------------------------------
+# ============LICENSE_START=======================================================
+#  Copyright (C) 2018 Sven van der Meer. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ============LICENSE_END=========================================================
+#-------------------------------------------------------------------------------
+
+##
+## Describe - API declarations
+##
+## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
+## @version    0.0.6
+## @since      0.0.6
+##
+
+
+SF_OPERATIONS["Describe"]="shows available operations"
+
+SF_OPERATIONS["Describe%exitcode%@ID@"]="print tagline and description for exit code ID"
+
+SF_OPERATIONS["Describe%application%@ID@"]="print tagline and description for application ID"
+SF_OPERATIONS["Describe%dependency%@ID@"]="print tagline and description for dependency ID"
+SF_OPERATIONS["Describe%dirlist%@ID@"]="print tagline and description for directory list ID"
+SF_OPERATIONS["Describe%dir%@ID@"]="print tagline and description for directory ID"
+SF_OPERATIONS["Describe%filelist%@ID@"]="print tagline and description for file list ID"
+SF_OPERATIONS["Describe%file%@ID@"]="print tagline and description for file ID"
+SF_OPERATIONS["Describe%module%@ID@"]="print tagline and description for module ID"
+SF_OPERATIONS["Describe%option%@ID@"]="print tagline and description for option ID"
+SF_OPERATIONS["Describe%option%@ID@"]="print tagline and description for option ID"
+SF_OPERATIONS["Describe%parameter%@ID@"]="print tagline and description for parameter ID"
+SF_OPERATIONS["Describe%project%@ID@"]="print tagline and description for project ID"
+SF_OPERATIONS["Describe%scenario%@ID@"]="print tagline and description for scenario ID"
+SF_OPERATIONS["Describe%script%@ID@"]="print tagline and description for script ID"
+SF_OPERATIONS["Describe%site%@ID@"]="print tagline and description for site ID"
+SF_OPERATIONS["Describe%task%@ID@"]="print tagline and description for task ID"
+
+SF_OPERATIONS["Describe%format%@ID@"]="print tagline and description for format ID"
+SF_OPERATIONS["Describe%level%@ID@"]="print tagline and description for level ID"
+SF_OPERATIONS["Describe%message%@ID@"]="print tagline and description for message ID"
+SF_OPERATIONS["Describe%mode%@ID@"]="print tagline and description for mode ID"
+SF_OPERATIONS["Describe%phase%@ID@"]="print tagline and description for phase ID"
+SF_OPERATIONS["Describe%theme%@ID@"]="print tagline and description for theme ID"
+SF_OPERATIONS["Describe%themeitem%@ID@"]="print tagline and description for theme item ID"
+SF_OPERATIONS["Describe%variable%@ID@"]="print tagline and description for variable ID"
+
+SF_OPERATIONS["Describe%action%@ID@"]="print tagline and description for action ID"
+SF_OPERATIONS["Describe%element%@ID@"]="print tagline and description for element ID"
+SF_OPERATIONS["Describe%instance%@ID@"]="print tagline and description for instance ID"
+SF_OPERATIONS["Describe%object%@ID@"]="print tagline and description for object ID"
+
+SF_OPERATIONS["Describe%exit-options%@ID@"]="print tagline and description for exit options ID"
+SF_OPERATIONS["Describe%runtime-options%@ID@"]="print tagline and description for runtime options ID"
+
+
+SF_OPERATIONS["Describe%component%actions"]="print tagline and description for the component actions"
+SF_OPERATIONS["Describe%component%elements"]="print tagline and description for the component elements"
+SF_OPERATIONS["Describe%component%instances"]="print tagline and description for the component instances"
+SF_OPERATIONS["Describe%component%objects"]="print tagline and description for the component objects"
+
+
+SF_OPERATIONS["Describe%framework%authors"]="print tagline and description for framework authors"
+SF_OPERATIONS["Describe%framework%bugs"]="print tagline and description for framework bugs"
+SF_OPERATIONS["Describe%framework%copying"]="print tagline and description for framework copying"
+SF_OPERATIONS["Describe%framework%description"]="print tagline and description for framework description"
+SF_OPERATIONS["Describe%framework%exit-status"]="print tagline and description for framework exit-status"
+SF_OPERATIONS["Describe%framework%resources"]="print tagline and description for framework resources"
+SF_OPERATIONS["Describe%framework%security"]="print tagline and description for framework security"
+SF_OPERATIONS["Describe%framework%framework"]="describe the Framework component"
+

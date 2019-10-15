@@ -32,16 +32,18 @@
 function __skb_Set_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Set)            retval="app config current last log module print"
+        Set)            retval="app config current error last log module print warning"
                         retval+=" element object" ;;
 
         app)            retval="name name2" ;;
         config)         retval="file" ;;
         current)        retval="mode phase theme project scenario site task" ;;
+        error)          retval="count" ;;
         last)           retval="project scenario site task" ;;
         log)            retval="dir file format level date-arg" ;;
         module)         retval="path" ;;
         print)          retval="format format2 level" ;;
+        warning)        retval="count" ;;
 
         object)         retval="phase setting themeitem" ;;
         element)        retval="application" ;;
@@ -53,6 +55,7 @@ function __skb_Set_completions(){
         application)    retval="$(Applications has)" ;;
 
 
+        count)          retval="to" ;;
         name)           retval="to" ;;
         name2)          retval="to" ;;
         file)           retval="to" ;;
@@ -126,7 +129,7 @@ function __skb_Set_completions(){
                             retval="to"
 
                         elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "object" && "${COMP_WORDS[COMP_CWORD-2]}" == "phase" ]]; then
-                            retval="print-level log-level"
+                            retval="print-level log-level error-count warning-count"
                         elif [[ "${COMP_WORDS[COMP_CWORD-4]}" == "object" && "${COMP_WORDS[COMP_CWORD-3]}" == "phase" ]]; then
                             retval="to"
                         elif [[ "${COMP_WORDS[COMP_CWORD-5]}" == "object" && "${COMP_WORDS[COMP_CWORD-4]}" == "phase" ]]; then
