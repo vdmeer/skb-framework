@@ -51,7 +51,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Clioptions"]="Command Line Option"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Clioptions"]="CLI Options"
 FW_COMPONENTS_TABLE_DESCR["Clioptions"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Clioptions"]="Value from Command Line"
-FW_COMPONENTS_TABLE_EXTRA["Clioptions"]=""
+FW_COMPONENTS_TABLE_EXTRA["Clioptions"]="I H"
 FW_COMPONENTS_TAGLINE["Clioptions"]="instance representing CLI options for tasks"
 
 

@@ -29,8 +29,11 @@
 ##
 
 
+
+dateNow="$(date +%s.%N)"
+
 declare -r -x -g SF_VERSION="$(cat ${SF_HOME}/lib/version.skb)"
-SF_FILE_STRING="$(date +"%Y-%m-%d--%H-%M")--$$"
+SF_FILE_STRING="$(date --date=@${dateNow} +"%Y-%m-%d--%H-%M")--$$"
 
 Add object configuration    RUNTIME_CONFIG_FAST     with    "/tmp/skb-${SF_FILE_STRING}-fast"           "runtime configuration file for fast changing settings"
 Add object configuration    RUNTIME_CONFIG_MEDIUM   with    "/tmp/skb-${SF_FILE_STRING}-medium"         "runtime configuration file for medium changing settings"
@@ -53,7 +56,7 @@ Add object configuration    DEFAULT_THEME           with    "Default"           
 Add object configuration    PAR_PARA                with    "j1s0f1"                                        "options for the 'par' command to format paragraphs"
 Add object configuration    PAR_LIST                with    "P=*"                                           "options for the 'par' command to format lists"
 Add object configuration    PRIMAY_MODULE_PATH      with    "${SF_HOME}/share/modules"                      "list of directories to scan for loadable modules"
-Add object configuration    START_TIME              with    "$(date +%s.%N)"                                "time stamp when application was started"
+Add object configuration    START_TIME              with    "${dateNow}"                                    "time stamp when application was started"
 
 system="$(uname -a)"
 case ${system} in
@@ -63,4 +66,6 @@ case ${system} in
     *)              system="$(uname -s)" ;;
 esac
 Add object configuration    SYSTEM                  with    "${system}"                                     "identifier for the underlying operating system"
+
+unset dateNow
 

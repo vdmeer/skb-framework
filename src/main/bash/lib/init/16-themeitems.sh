@@ -117,7 +117,6 @@ Add object themeitem tableOriginFmt         with    "table: format for origin st
 Add object themeitem tableSourceFmt         with    "table: format for source string"
 Add object themeitem tableArgFmt            with    "table: format used for the argument (option/clioption)"
 Add object themeitem tableBgrndFmt          with    "table: format for the background"
-Add object themeitem tableReqNumberFmt      with    "table: format for number of requirements"
 
 
 Add object themeitem describeNameFmt    with    "describe: format used for the object/element name"
@@ -139,9 +138,6 @@ Add object themeitem phaLvlNotsetFmt            with    "format for level not be
     Add object themeitem phaLvlTraceSetFmt      with    "format for level 'trace' set"
     Add object themeitem phaLvlMessageSetFmt    with    "format for level 'message' set"
     Add object themeitem phaLvlTextSetFmt       with    "format for level 'text' set"
-Add object themeitem phaMsgNumberFmt            with    "format for number of messages"
-Add object themeitem phaErrNumberFmt            with    "format for number of errors"
-Add object themeitem phaWarnNumberFmt           with    "format for number of warnings"
 
 
 
@@ -184,11 +180,6 @@ Add object themeitem elementModeYesChar     with    "character for element avail
 Add object themeitem elementModeNoFmt       with    "format for element not available in mode"
 Add object themeitem elementModeNoChar      with    "character for element not available in mode"
 
-Add object themeitem elementReqYesFmt       with    "format for element requested 'yes'"
-Add object themeitem elementReqYesChar      with    "character for element requested 'yes'"
-Add object themeitem elementReqNoFmt        with    "format for element requested 'no'"
-Add object themeitem elementReqNoChar       with    "character for element requested 'no'"
-
 Add object themeitem elementDefYesFmt       with    "format for parameter default value 'yes'"
 Add object themeitem elementDefYesChar      with    "character for parameter default value 'yes'"
 Add object themeitem elementDefNoFmt        with    "format for parameter default value 'no'"
@@ -210,8 +201,9 @@ Add object themeitem repeatSepRightFmt      with    "repeat execution: right sep
 Add object themeitem repeatTextFmt          with    "repeat execution: text format"
 Add object themeitem repeatTextSepStr       with    "repeat execution: text separator string"
 Add object themeitem repeatCmdFmt           with    "repeat execution: command format"
-Add object themeitem repeatTskBgrndFmt      with    "repeat execution: background format for task execution"
 Add object themeitem repeatScnBgrndFmt      with    "repeat execution: background format for scenario execution"
+Add object themeitem repeatScrBgrndFmt      with    "repeat execution: background format for script execution"
+Add object themeitem repeatTskBgrndFmt      with    "repeat execution: background format for task execution"
 
 
 
@@ -231,9 +223,12 @@ Add object themeitem execStartRuleChar      with    "start rule character, empty
 Add object themeitem execStartRuleFmt       with    "start rule format"
 Add object themeitem execEndRuleChar        with    "end rule character, empty means no rule printed"
 Add object themeitem execEndRuleFmt         with    "end rule format"
-Add object themeitem execTskBgrndFmt        with    "background format for task execution"
-Add object themeitem execScnBgrndFmt        with    "background format for scenario execution"
+
 Add object themeitem execPrjBgrndFmt        with    "background format for project execution"
+Add object themeitem execScnBgrndFmt        with    "background format for scenario execution"
+Add object themeitem execScrBgrndFmt        with    "background format for script execution"
+Add object themeitem execSitBgrndFmt        with    "background format for site execution"
+Add object themeitem execTskBgrndFmt        with    "background format for task execution"
 
 
 
@@ -247,4 +242,48 @@ Add object themeitem explainIndent1         with    "explain: indentation for st
 Add object themeitem explainIndent2         with    "explain: indentation for commands"
 Add object themeitem explainIndent3         with    "explain: indentation for command descriptions"
 
+
+
+Add object themeitem xIsSetFmt              with    "format for (x) is set"
+Add object themeitem xIsSetChar             with    "character for (x) is set"
+Add object themeitem xIsNotSetFmt           with    "format for (x) is not set"
+Add object themeitem xIsNotSetChar          with    "character for (x) is not set"
+Add object themeitem xHasValueFmt           with    "format for (x) has (a) value"
+Add object themeitem xHasValueChar          with    "character for (x) has (a) value"
+Add object themeitem xHasNoValueFmt         with    "format for (x) has no value"
+Add object themeitem xHasNoValueChar        with    "character for (x) has no value"
+
+
+
+Add object themeitem numError0Fmt           with    "format for errors, 0"
+Add object themeitem numError1Fmt           with    "format for errors, 1 - 99"
+Add object themeitem numError100Fmt         with    "format for errors, 100 - 9999"
+Add object themeitem numError10000Fmt       with    "format for errors, > 9999"
+
+Add object themeitem numWarning0Fmt         with    "format for warnings, 0"
+Add object themeitem numWarning1Fmt         with    "format for warnings, 1 - 99"
+Add object themeitem numWarning100Fmt       with    "format for warnings, 100 - 9999"
+Add object themeitem numWarning10000Fmt     with    "format for warnings, > 9999"
+
+Add object themeitem numMessage0Fmt         with    "format for message, 0"
+Add object themeitem numMessage1Fmt         with    "format for message, 1 - 99"
+Add object themeitem numMessage100Fmt       with    "format for messages, 100 - 9999"
+Add object themeitem numMessage10000Fmt     with    "format for messages, > 9999"
+
+Add object themeitem numReqin0Fmt           with    "format for 'required by', 0"
+Add object themeitem numReqin1Fmt           with    "format for 'required by', 1 - 99"
+Add object themeitem numReqin100Fmt         with    "format for 'required by', 100 - 9999"
+Add object themeitem numReqin10000Fmt       with    "format for 'required by', > 9999"
+
+Add object themeitem numReqout0Fmt          with    "format for 'requires', 0"
+Add object themeitem numReqout1Fmt          with    "format for 'requires', 1 - 99"
+Add object themeitem numReqout100Fmt        with    "format for 'requires', 100 - 9999"
+Add object themeitem numReqout10000Fmt      with    "format for 'required by', > 9999"
+
+
+
+Add object themeitem statsFullruleChar      with    "character for statistics full rule"
+Add object themeitem statsFullruleFmt       with    "format for statistics full rule"
+Add object themeitem statsHalfruleChar      with    "character for statistics half rule"
+Add object themeitem statsHalfruleFmt       with    "format for statistics half rule"
 

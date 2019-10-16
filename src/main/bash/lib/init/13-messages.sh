@@ -97,4 +97,5 @@ Add object message E903 with    2 "unknown ##ARG1## requirement type '##ARG2##'"
 Add object message E904 with    2 "requirement ##ARG1## for ##ARG2## already set"                                    ""          "##description"
 
 Add object message W807 with    3 "##ARG1## identifier '##ARG2##' should start with '##ARG3##'"                     "API"       "##description"
+Add object message W808 with    3 "##ARG1## ##ARG2## already ##ARG3##"                                              "API"       "##description"
 

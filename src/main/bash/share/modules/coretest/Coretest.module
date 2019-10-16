@@ -105,3 +105,4 @@ Add element scenario test-debug-tasks with test ${FW_MODULE_PATH}/scenarios/test
 
 Add element scenario test-exec-app with test ${FW_MODULE_PATH}/scenarios/test YES "tests execute application in a scenario"
     Scenario test-exec-app requires application browser
+

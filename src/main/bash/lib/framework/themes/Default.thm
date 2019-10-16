@@ -124,7 +124,7 @@ Set object themeitem tableOriginFmt to          regular
 Set object themeitem tableSourceFmt to          regular
 Set object themeitem tableArgFmt to             blue-hi
 Set object themeitem tableBgrndFmt to           regular
-Set object themeitem tableReqNumberFmt to       yellow-hi,bold
+
 
 
 Set object themeitem describeNameFmt to     white,bold
@@ -146,9 +146,6 @@ Set object themeitem phaLvlNotsetFmt to             regular
     Set object themeitem phaLvlTraceSetFmt to       blue-hi,bold
     Set object themeitem phaLvlMessageSetFmt to     cyan,bold
     Set object themeitem phaLvlTextSetFmt to        cyan-hi,bold
-Set object themeitem phaMsgNumberFmt to             white-hi,bold
-Set object themeitem phaErrNumberFmt to             red-hi,bold
-Set object themeitem phaWarnNumberFmt to            yellow-hi,bold
 
 
 
@@ -191,11 +188,6 @@ Set object themeitem elementModeYesChar to      ✔
 Set object themeitem elementModeNoFmt to        red-hi
 Set object themeitem elementModeNoChar to       ✘
 
-Set object themeitem elementReqYesFmt to        green,bold
-Set object themeitem elementReqYesChar to       Y
-Set object themeitem elementReqNoFmt to         blue,bold
-Set object themeitem elementReqNoChar to        N
-
 Set object themeitem elementDefYesFmt to        green,bold
 Set object themeitem elementDefYesChar to       Y
 Set object themeitem elementDefNoFmt to         blue,bold
@@ -217,8 +209,9 @@ Set object themeitem repeatSepRightFmt to       white-hi
 Set object themeitem repeatTextFmt to           cyan-hi
 Set object themeitem repeatTextSepStr to        " -- "
 Set object themeitem repeatCmdFmt to            black,italic
-Set object themeitem repeatTskBgrndFmt to       bg-blue-hi
 Set object themeitem repeatScnBgrndFmt to       bg-yellow
+Set object themeitem repeatScrBgrndFmt to       bg-yellow
+Set object themeitem repeatTskBgrndFmt to       bg-blue-hi
 
 
 
@@ -238,9 +231,12 @@ Set object themeitem execStartRuleChar to       "░"
 Set object themeitem execStartRuleFmt to        black
 Set object themeitem execEndRuleChar to         "░"
 Set object themeitem execEndRuleFmt to          black
-Set object themeitem execTskBgrndFmt to         bg-blue-hi
-Set object themeitem execScnBgrndFmt to         bg-yellow
+
 Set object themeitem execPrjBgrndFmt to         bg-green
+Set object themeitem execScnBgrndFmt to         bg-yellow
+Set object themeitem execScrBgrndFmt to         bg-cyan
+Set object themeitem execSitBgrndFmt to         bg-purple-hi
+Set object themeitem execTskBgrndFmt to         bg-blue-hi
 
 
 
@@ -254,4 +250,47 @@ Set object themeitem explainIndent1 to          "  "
 Set object themeitem explainIndent2 to          "    "
 Set object themeitem explainIndent3 to          "      "
 
+
+Set object themeitem xIsSetFmt to               green-hi
+Set object themeitem xIsSetChar to              ✔
+Set object themeitem xIsNotSetFmt to            yellow
+Set object themeitem xIsNotSetChar to           ✘
+Set object themeitem xHasValueFmt to            green-hi
+Set object themeitem xHasValueChar to           ✔
+Set object themeitem xHasNoValueFmt to          yellow
+Set object themeitem xHasNoValueChar to         ✘
+
+
+
+Set object themeitem numError0Fmt to            regular
+Set object themeitem numError1Fmt to            red-hi
+Set object themeitem numError100Fmt to          red-hi,underline
+Set object themeitem numError10000Fmt to        red-hi,underline
+
+Set object themeitem numWarning0Fmt to          regular
+Set object themeitem numWarning1Fmt to          yellow-hi
+Set object themeitem numWarning100Fmt to        yellow-hi,underline
+Set object themeitem numWarning10000Fmt to      yellow-hi,underline
+
+Set object themeitem numMessage0Fmt to          regular
+Set object themeitem numMessage1Fmt to          white-hi,bold
+Set object themeitem numMessage100Fmt to        white-hi,bold,underline
+Set object themeitem numMessage10000Fmt to      white-hi,bold,underline
+
+Set object themeitem numReqin0Fmt to            regular
+Set object themeitem numReqin1Fmt to            white-hi,bold
+Set object themeitem numReqin100Fmt to          white-hi,bold,underline
+Set object themeitem numReqin10000Fmt to        white-hi,bold,underline
+
+Set object themeitem numReqout0Fmt to           regular
+Set object themeitem numReqout1Fmt to           white-hi,bold
+Set object themeitem numReqout100Fmt to         white-hi,bold,underline
+Set object themeitem numReqout10000Fmt to       white-hi,bold,underline
+
+
+
+Set object themeitem statsFullruleChar to       ─
+Set object themeitem statsFullruleFmt to        green-hi,bold
+Set object themeitem statsHalfruleChar to       ─
+Set object themeitem statsHalfruleFmt to        blue-hi,bold
 

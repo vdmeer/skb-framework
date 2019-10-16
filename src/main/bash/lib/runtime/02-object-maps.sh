@@ -102,7 +102,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Phases"]="Phase"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Phases"]="Phases"
 FW_COMPONENTS_TABLE_DESCR["Phases"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Phases"]="Description"
-FW_COMPONENTS_TABLE_EXTRA["Phases"]="MD/P  FEXMWIDT  FEXMWIDT  WRN ERR MSG"
+FW_COMPONENTS_TABLE_EXTRA["Phases"]="MD/P  FEXMWIDT  FEXMWIDT  #WRN #ERR #MSG"
 FW_COMPONENTS_TAGLINE["Phases"]="data object representing the framework's phases"
 
 
@@ -128,7 +128,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Themeitems"]="Theme Item"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Themeitems"]="Theme Item"
 FW_COMPONENTS_TABLE_DESCR["Themeitems"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Themeitems"]="Set Value"
-FW_COMPONENTS_TABLE_EXTRA["Themeitems"]="MD/P Source-Theme"
+FW_COMPONENTS_TABLE_EXTRA["Themeitems"]="MD/P S Source-Theme"
 FW_COMPONENTS_TAGLINE["Themeitems"]="data object representing a theme's items"
 
 

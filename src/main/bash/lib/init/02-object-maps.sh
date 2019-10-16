@@ -143,7 +143,9 @@ declare -A FW_OBJECT_TIM_DECPHA     ## [long]="declared in phase"
 declare -A FW_OBJECT_TIM_SOURCE     ## [long]=source of setting, theme long
 declare -A FW_OBJECT_TIM_VAL        ## [long]=value, item settings
 
-FW_RUNTIME_MAPS_SLOW+=" FW_OBJECT_TIM_SOURCE FW_OBJECT_TIM_VAL"
+declare -A FW_OBJECT_TIM_STATUS     ## [long]="N|E|W|S" - Not-attempted, Error, Warning, Success
+
+FW_RUNTIME_MAPS_SLOW+=" FW_OBJECT_TIM_SOURCE FW_OBJECT_TIM_VAL FW_OBJECT_TIM_STATUS"
 FW_RUNTIME_MAPS_LOAD+=" FW_OBJECT_TIM_LONG FW_OBJECT_TIM_DECMDS FW_OBJECT_TIM_DECPHA"
 
 

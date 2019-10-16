@@ -37,7 +37,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Applications"]="Application"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Applications"]="Applications"
 FW_COMPONENTS_TABLE_DESCR["Applications"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Applications"]="Command"
-FW_COMPONENTS_TABLE_EXTRA["Applications"]="MD/P A R S P"
+FW_COMPONENTS_TABLE_EXTRA["Applications"]="MD/P A RQ◀◀  S P"
 FW_COMPONENTS_TAGLINE["Applications"]="element representing (external) applications"
 
 
@@ -50,7 +50,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Dependencies"]="Dependency"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Dependencies"]="Dependencies"
 FW_COMPONENTS_TABLE_DESCR["Dependencies"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Dependencies"]="Command"
-FW_COMPONENTS_TABLE_EXTRA["Dependencies"]="MD/P REQ R S"
+FW_COMPONENTS_TABLE_EXTRA["Dependencies"]="MD/P RQ◀◀ RQ▶▶  S"
 FW_COMPONENTS_TAGLINE["Dependencies"]="element representing dependencies"
 
 
@@ -63,7 +63,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Dirlists"]="Dir List"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Dirlists"]="Dir Lists"
 FW_COMPONENTS_TABLE_DESCR["Dirlists"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Dirlists"]="Directories"
-FW_COMPONENTS_TABLE_EXTRA["Dirlists"]="MD/P R S P Modes"
+FW_COMPONENTS_TABLE_EXTRA["Dirlists"]="MD/P RQ◀◀  S P Modes"
 FW_COMPONENTS_TAGLINE["Dirlists"]="element representing directory lists"
 
 
@@ -76,7 +76,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Dirs"]="Directory"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Dirs"]="Directories"
 FW_COMPONENTS_TABLE_DESCR["Dirs"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Dirs"]="Directory"
-FW_COMPONENTS_TABLE_EXTRA["Dirs"]="MD/P R S P Modes"
+FW_COMPONENTS_TABLE_EXTRA["Dirs"]="MD/P RQ◀◀  S P Modes"
 FW_COMPONENTS_TAGLINE["Dirs"]="element representing directories"
 
 
@@ -89,7 +89,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Filelists"]="File List"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Filelists"]="File Lists"
 FW_COMPONENTS_TABLE_DESCR["Filelists"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Filelists"]="Files"
-FW_COMPONENTS_TABLE_EXTRA["Filelists"]="MD/P R S P Modes"
+FW_COMPONENTS_TABLE_EXTRA["Filelists"]="MD/P RQ◀◀  S P Modes"
 FW_COMPONENTS_TAGLINE["Filelists"]="element representing file lists"
 
 
@@ -102,7 +102,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Files"]="File"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Files"]="Files"
 FW_COMPONENTS_TABLE_DESCR["Files"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Files"]="File"
-FW_COMPONENTS_TABLE_EXTRA["Files"]="MD/P R S P Modes"
+FW_COMPONENTS_TABLE_EXTRA["Files"]="MD/P RQ◀◀  S P Modes"
 FW_COMPONENTS_TAGLINE["Files"]="element representing files"
 
 
@@ -115,7 +115,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Modules"]="Module"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Modules"]="Modules"
 FW_COMPONENTS_TABLE_DESCR["Modules"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Modules"]="Path to Module"
-FW_COMPONENTS_TABLE_EXTRA["Modules"]="SH REQ P"
+FW_COMPONENTS_TABLE_EXTRA["Modules"]="SH RQ◀◀ RQ▶▶  P"
 FW_COMPONENTS_TAGLINE["Modules"]="element representing modules"
 
 
@@ -128,7 +128,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Options"]="Option"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Options"]="Options"
 FW_COMPONENTS_TABLE_DESCR["Options"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Options"]="Value from Command Line"
-FW_COMPONENTS_TABLE_EXTRA["Options"]="Type"
+FW_COMPONENTS_TABLE_EXTRA["Options"]="I H Type"
 FW_COMPONENTS_TAGLINE["Options"]="element representing options"
 
 
@@ -142,7 +142,7 @@ FW_COMPONENTS_TITLE_SHORT_PLURAL["Parameters"]="Parameters"
 FW_COMPONENTS_TABLE_DESCR["Parameters"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Parameters"]="Value"
 FW_COMPONENTS_TABLE_DEFVAL["Parameters"]="Default Value"
-FW_COMPONENTS_TABLE_EXTRA["Parameters"]="MD/P D R S P"
+FW_COMPONENTS_TABLE_EXTRA["Parameters"]="MD/P D RQ◀◀  S P"
 FW_COMPONENTS_TAGLINE["Parameters"]="element representing parameters"
 
 
@@ -155,7 +155,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Projects"]="Project"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Projects"]="Projects"
 FW_COMPONENTS_TABLE_DESCR["Projects"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Projects"]="Path to Project"
-FW_COMPONENTS_TABLE_EXTRA["Projects"]="MD/P REQ X S T D B U"
+FW_COMPONENTS_TABLE_EXTRA["Projects"]="MD/P RQ◀◀ RQ▶▶  X S T D B U"
 FW_COMPONENTS_TAGLINE["Projects"]="element representing projects"
 
 
@@ -168,7 +168,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Scenarios"]="Scenario"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Scenarios"]="Scenarios"
 FW_COMPONENTS_TABLE_DESCR["Scenarios"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Scenarios"]="Path to Scenario"
-FW_COMPONENTS_TABLE_EXTRA["Scenarios"]="MD/P REQ X S T D B U"
+FW_COMPONENTS_TABLE_EXTRA["Scenarios"]="MD/P RQ◀◀ RQ▶▶  X S T D B U"
 FW_COMPONENTS_TAGLINE["Scenarios"]="element representing scenarios"
 
 
@@ -181,7 +181,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Scripts"]="Script"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Scripts"]="Scripts"
 FW_COMPONENTS_TABLE_DESCR["Scripts"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Scripts"]="Path to Script"
-FW_COMPONENTS_TABLE_EXTRA["Scripts"]="MD/P REQ X"
+FW_COMPONENTS_TABLE_EXTRA["Scripts"]="MD/P RQ◀◀ RQ▶▶  X S T D B U"
 FW_COMPONENTS_TAGLINE["Scripts"]="element representing sites"
 
 
@@ -194,7 +194,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Sites"]="Site"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Sites"]="Sites"
 FW_COMPONENTS_TABLE_DESCR["Sites"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Sites"]="Description"
-FW_COMPONENTS_TABLE_EXTRA["Sites"]="MD/P REQ X"
+FW_COMPONENTS_TABLE_EXTRA["Sites"]="MD/P RQ◀◀ RQ▶▶  X S T D B U"
 FW_COMPONENTS_TAGLINE["Sites"]="element representing sites"
 
 
@@ -207,7 +207,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Tasks"]="Task"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Tasks"]="Tasks"
 FW_COMPONENTS_TABLE_DESCR["Tasks"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Tasks"]="Path to Task"
-FW_COMPONENTS_TABLE_EXTRA["Tasks"]="MD/P REQ X R S T D B U"
+FW_COMPONENTS_TABLE_EXTRA["Tasks"]="MD/P RQ◀◀ RQ▶▶  X S T D B U"
 FW_COMPONENTS_TAGLINE["Tasks"]="element representing tasks"
 
 
