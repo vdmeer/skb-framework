@@ -35,4 +35,4 @@ SF_OPERATIONS["Validate%added%components"]="validates all components added at ru
 SF_OPERATIONS["Validate%everything"]="validates everything"
 SF_OPERATIONS["Validate%library%text"]="validates the text directories in the library"
 SF_OPERATIONS["Validate%framework%components"]="validates the framework components (implementation)"
-SF_OPERATIONS["Validate%runtime%settings"]="validates runtime settings, such as the current theme"
+

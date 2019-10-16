@@ -34,9 +34,10 @@ function __skb_Scenario_completions(){
     case ${COMP_WORDS[COMP_CWORD-1]} in
         Scenario)       retval="$(Scenarios has)" ;;
 
-        requires)       retval="application task" ;;
+        requires)       retval="application scenario task" ;;
 
         application)    retval="$(Applications has)" ;;
+        scenario)       retval="$(Scenarios has)" ;;
         task)           retval="$(Tasks has)" ;;
 
         ## Scenario ID1 requires ...

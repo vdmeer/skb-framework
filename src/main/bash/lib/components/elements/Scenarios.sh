@@ -32,7 +32,7 @@
 function Scenarios() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id printString="" keys
+    local id keys numberArr
     local cmd1="${1,,}" cmd2 cmdString1="${1,,}" cmdString2
     shift; case "${cmd1}" in
         has)
@@ -43,15 +43,19 @@ function Scenarios() {
                 for id in "${keys[@]}"; do
                     printf "    %s (dec: %s / %s)\n"                    "${id}" "${FW_ELEMENT_SCN_DECMDS[${id}]}" "${FW_ELEMENT_SCN_DECPHA[${id}]}"
                     printf "        status:     s: %s, c: %s\n"         "${FW_ELEMENT_SCN_STATUS[${id}]}" "${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}"
+                    IFS=" " read -a numberArr <<< "${FW_ELEMENT_SCN_REQUESTED[${id}]}"; unset IFS
+                    printf "        #req-in:    %s\n"                   "${#numberArr[@]}"
+                    printf "        req-in:     %s\n"                   "${FW_ELEMENT_SCN_REQUESTED[${id}]}"
                     printf "        modes:      %s\n"                   "${FW_ELEMENT_SCN_MODES[${id}]}"
-                    printf "        req-num:    %s\n"                   "${FW_ELEMENT_SCN_REQNUM[${id}]}"
+                    printf "        #req-out:   %s\n"                   "${FW_ELEMENT_SCN_REQOUT_NUM[${id}]}"
                     printf "        showexec:   %s\n"                   "${FW_ELEMENT_SCN_SHOW_EXEC[${id}]}"
                     printf "        path:       %s\n"                   "${FW_ELEMENT_SCN_PATH[${id}]}"
                     printf "        path-text:  %s\n"                   "${FW_ELEMENT_SCN_PATH_TEXT[${id}]}"
                     printf "        descr:      %s\n"                   "${FW_ELEMENT_SCN_LONG[${id}]}"
 
-                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_APP[${id}]:-}" ]]; then         printf "        req-app:    %s\n"   "${FW_ELEMENT_SCN_REQUIRED_APP[${id}]}"; fi
-                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]:-}" ]]; then         printf "        req-tsk:    %s\n"   "${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]}"; fi
+                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_APP[${id}]:-}" ]]; then printf "        req-app:    %s\n"   "${FW_ELEMENT_SCN_REQUIRED_APP[${id}]}"; fi
+                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_SCN[${id}]:-}" ]]; then printf "        req-scn:    %s\n"   "${FW_ELEMENT_SCN_REQUIRED_SCN[${id}]}"; fi
+                    if [[ -n "${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]:-}" ]]; then printf "        req-tsk:    %s\n"   "${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]}"; fi
                     printf "\n"
                 done
             else

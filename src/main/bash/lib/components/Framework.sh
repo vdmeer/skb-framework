@@ -30,7 +30,10 @@
 
 
 for file in ${SF_HOME}/lib/components/{actions,elements,objects,instances}/*.sh; do source ${file}; done; unset file
-source ${SF_HOME}/lib/components/internal.sh
+source ${SF_HOME}/lib/components/internal-counts.sh
+source ${SF_HOME}/lib/components/internal-format.sh
+source ${SF_HOME}/lib/components/internal-levels.sh
+source ${SF_HOME}/lib/components/internal-statistics.sh
 
 
 function Framework() {

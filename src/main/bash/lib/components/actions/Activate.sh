@@ -42,7 +42,7 @@ function Activate() {
             Test existing phase id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             Test existing level id "${level}" ; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             case "${cmd2}-${cmd3}" in
-                print-level | log-level) sf_deac_phase_level activate ${cmd2}-${cmd3} ${id} ${level} ;;
+                print-level | log-level) __skb_internal_deac_phase_level activate ${cmd2}-${cmd3} ${id} ${level} ;;
                 *)  Report process error "${FUNCNAME[0]}" "${cmdString1}" E879 "${cmd1}" "${cmd2} ${cmd3}"; return ;;
             esac ;;
 
@@ -64,7 +64,7 @@ function Activate() {
                 print-level | log-level)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
                     level="${1}"; Test existing level id "${level}" ; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                    sf_deac_phase_level activate ${cmd1}-${cmd2} ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${level} ;;
+                    __skb_internal_deac_phase_level activate ${cmd1}-${cmd2} ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${level} ;;
 
                 show-execution)
                     FW_OBJECT_SET_PHASET["SHOW_EXECUTION"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"

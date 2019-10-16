@@ -225,7 +225,7 @@ function Print() {
                     ## prepare most used characters used in extras or legend
                     if [[ "${withoutExtras}" == "no" || "${withLegend}" == "yes" ]]; then
                         case ${cmd1} in
-                            application | configuration | dependency | dir | dirlist | file | filelist | format | level | message | mode | module | parameter | phase | project | scenario | setting | site | script | task | themeitem | theme)
+                            application | configuration | clioption | dependency | dir | dirlist | file | filelist | format | level | message | mode | module | parameter | option | phase | project | scenario | setting | site | script | task | themeitem | theme)
                                 Tablechars build
                                 if [[ -n "${FW_OBJECT_SET_VAL["PRINT_FORMAT2"]:-}" ]]; then format="${FW_OBJECT_SET_VAL["PRINT_FORMAT2"]}"; else format="${FW_OBJECT_SET_VAL["PRINT_FORMAT"]}"; fi
                         esac

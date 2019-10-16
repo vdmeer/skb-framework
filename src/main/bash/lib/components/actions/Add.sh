@@ -52,7 +52,7 @@ function Add() {
                     FW_ELEMENT_MDS_ACR["${id}"]="${acronym}"
                     FW_ELEMENT_MDS_PATH["${id}"]="${elemPath}"
                     FW_ELEMENT_MDS_DECPHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]:-"Load"}"
-                    FW_ELEMENT_MDS_REQNUM["${id}"]=0
+                    FW_ELEMENT_MDS_REQOUT_NUM["${id}"]=0
                     doWriteRT=true ;;
 
 
@@ -182,7 +182,7 @@ function Add() {
                             FW_ELEMENT_DEP_DECMDS["${id}"]="${moduleId}"
                             FW_ELEMENT_DEP_DECPHA["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                             FW_ELEMENT_DEP_CMD["${id}"]="${elemCmd}"
-                            FW_ELEMENT_DEP_REQNUM["${id}"]=0
+                            FW_ELEMENT_DEP_REQOUT_NUM["${id}"]=0
                             doWriteRT=true ;;
                         dirlist)
                             if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} ${id} for module ${moduleId}" E801 3 "$#"; return; fi
@@ -258,7 +258,7 @@ function Add() {
                             FW_ELEMENT_PRJ_RDIR["${id}"]="${path}"
                             FW_ELEMENT_PRJ_TGTS["${id}"]="${value}"
                             FW_ELEMENT_PRJ_SHOW_EXEC["${id}"]="${showExecution:0:1}"
-                            FW_ELEMENT_PRJ_REQNUM["${id}"]=0
+                            FW_ELEMENT_PRJ_REQOUT_NUM["${id}"]=0
 ##TODO path exists, is dir, path and id.sh is readable file
                             doWriteRT=true ;;
                          scenario)
@@ -279,7 +279,7 @@ function Add() {
                             FW_ELEMENT_SCN_PATH["${id}"]="${elemPath}"
                             FW_ELEMENT_SCN_PATH_TEXT["${id}"]="${elemPath/$modulePath/$moduleId::}"
                             FW_ELEMENT_SCN_SHOW_EXEC["${id}"]="${showExecution:0:1}"
-                            FW_ELEMENT_SCN_REQNUM["${id}"]=0
+                            FW_ELEMENT_SCN_REQOUT_NUM["${id}"]=0
                             alias scenario-${id}="Execute scenario ${id}"
                             doWriteRT=true ;;
                         site)
@@ -295,7 +295,7 @@ function Add() {
                             FW_ELEMENT_SIT_PATH_TEXT["${id}"]="${elemPath/$modulePath/$moduleId::}"
                             FW_ELEMENT_SIT_RDIR["${id}"]="${path}"
                             FW_ELEMENT_SIT_SHOW_EXEC["${id}"]="${showExecution:0:1}"
-                            FW_ELEMENT_SIT_REQNUM["${id}"]==0
+                            FW_ELEMENT_SIT_REQOUT_NUM["${id}"]==0
 ##TODO path exists, is dir, path and id.sh is executable file
                             doWriteRT=true ;;
                         task)
@@ -319,57 +319,10 @@ function Add() {
                             FW_ELEMENT_TSK_PATH["${id}"]="${elemPath}"
                             FW_ELEMENT_TSK_PATH_TEXT["${id}"]="${elemPath/$modulePath/$moduleId::}"
                             FW_ELEMENT_TSK_SHOW_EXEC["${id}"]="${showExecution:0:1}"
-                            FW_ELEMENT_TSK_REQNUM["${id}"]=0
+                            FW_ELEMENT_TSK_REQOUT_NUM["${id}"]=0
                             alias ${id}="Execute task ${id}"
                             doWriteRT=true ;;
                     esac ;;
-
-
-                required-application | required-dependency | required-parameter | required-task | required-file | required-filelist | required-dir | required-dirlist)
-                    ## Add required [app|dep|par|tsk|file|filelist|dir|dirlist] ID(1) to [prj|scn|sit|task] ID(4)
-                    if [[ "${#}" -lt 4 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 4 "$#"; return; fi
-                    id="${4}"
-                    local reqType="${cmd2}" reqId="${1}" reqProp="${3}"
-                    case "${reqProp}" in
-                        project)    Test existing project id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
-                        scenario)   Test existing scenario id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
-                        site)       Test existing site id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
-                        task)       if [[ "${id}" == "${reqId}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} ${id} requirement" E902 "${reqProp}"; return; fi
-                                    Test existing task id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
-                        *)          Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${reqProp}"; return ;;
-                    esac
-                    case "${reqType}" in
-                        application)    Test existing application id "${reqId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
-                        dependency)     Test existing dependency id "${reqId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
-                        dirlist)        Test existing dirlist id "${reqId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
-                        dir)            Test existing dir id "${reqId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
-                        filelist)       Test existing filelist id "${reqId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
-                        file)           Test existing file id "${reqId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
-                        parameter)      Test existing parameter id "${reqId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
-                        task)           Test existing task id "${reqId}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
-                        *)              Report process error "${FUNCNAME[0]}" "${cmdString2}" E804 "requirement type" "${reqType}"; return ;;
-                    esac
-
-                    case "${reqProp}-${reqType}" in
-                        project-application)    if [[ ! -n "${FW_ELEMENT_PRJ_REQUIRED_APP["${id}"]:-}" ]];      then FW_ELEMENT_PRJ_REQUIRED_APP["${id}"]="${reqId}";       else FW_ELEMENT_PRJ_REQUIRED_APP["${id}"]+=" ${reqId}"; fi ;;
-                        project-dependency)     if [[ ! -n "${FW_ELEMENT_PRJ_REQUIRED_DEP["${id}"]:-}" ]];      then FW_ELEMENT_PRJ_REQUIRED_DEP["${id}"]="${reqId}";       else FW_ELEMENT_PRJ_REQUIRED_DEP["${id}"]+=" ${reqId}"; fi ;;
-                        project-dirlist)        if [[ ! -n "${FW_ELEMENT_PRJ_REQUIRED_DIRLIST["${id}"]:-}" ]];  then FW_ELEMENT_PRJ_REQUIRED_DIRLIST["${id}"]="${reqId}";   else FW_ELEMENT_PRJ_REQUIRED_DIRLIST["${id}"]+=" ${reqId}"; fi ;;
-                        project-dir)            if [[ ! -n "${FW_ELEMENT_PRJ_REQUIRED_DIR["${id}"]:-}" ]];      then FW_ELEMENT_PRJ_REQUIRED_DIR["${id}"]="${reqId}";       else FW_ELEMENT_PRJ_REQUIRED_DIR["${id}"]+=" ${reqId}"; fi ;;
-                        project-filelist)       if [[ ! -n "${FW_ELEMENT_PRJ_REQUIRED_FILELIST["${id}"]:-}" ]]; then FW_ELEMENT_PRJ_REQUIRED_FILELIST["${id}"]="${reqId}";  else FW_ELEMENT_PRJ_REQUIRED_FILELIST["${id}"]+=" ${reqId}"; fi ;;
-                        project-file)           if [[ ! -n "${FW_ELEMENT_PRJ_REQUIRED_FILE["${id}"]:-}" ]];     then FW_ELEMENT_PRJ_REQUIRED_FILE["${id}"]="${reqId}";      else FW_ELEMENT_PRJ_REQUIRED_FILE["${id}"]+=" ${reqId}"; fi ;;
-                        project-parameter)      if [[ ! -n "${FW_ELEMENT_PRJ_REQUIRED_PAR["${id}"]:-}" ]];      then FW_ELEMENT_PRJ_REQUIRED_PAR["${id}"]="${reqId}";       else FW_ELEMENT_PRJ_REQUIRED_PAR["${id}"]+=" ${reqId}"; fi ;;
-                        project-task)           if [[ ! -n "${FW_ELEMENT_PRJ_REQUIRED_TSK["${id}"]:-}" ]];      then FW_ELEMENT_PRJ_REQUIRED_TSK["${id}"]="${reqId}";       else FW_ELEMENT_PRJ_REQUIRED_TSK["${id}"]+=" ${reqId}"; fi ;;
-
-                        site-application)       if [[ ! -n "${FW_ELEMENT_SIT_REQUIRED_APP["${id}"]:-}" ]];      then FW_ELEMENT_SIT_REQUIRED_APP["${id}"]="${reqId}";       else FW_ELEMENT_SIT_REQUIRED_APP["${id}"]+=" ${reqId}"; fi ;;
-                        site-dependency)        if [[ ! -n "${FW_ELEMENT_SIT_REQUIRED_DEP["${id}"]:-}" ]];      then FW_ELEMENT_SIT_REQUIRED_DEP["${id}"]="${reqId}";       else FW_ELEMENT_SIT_REQUIRED_DEP["${id}"]+=" ${reqId}"; fi ;;
-                        site-dirlist)           if [[ ! -n "${FW_ELEMENT_SIT_REQUIRED_DIRLIST["${id}"]:-}" ]];  then FW_ELEMENT_SIT_REQUIRED_DIRLIST["${id}"]="${reqId}";   else FW_ELEMENT_SIT_REQUIRED_DIRLIST["${id}"]+=" ${reqId}"; fi ;;
-                        site-dir)               if [[ ! -n "${FW_ELEMENT_SIT_REQUIRED_DIR["${id}"]:-}" ]];      then FW_ELEMENT_SIT_REQUIRED_DIR["${id}"]="${reqId}";       else FW_ELEMENT_SIT_REQUIRED_DIR["${id}"]+=" ${reqId}"; fi ;;
-                        site-filelist)          if [[ ! -n "${FW_ELEMENT_SIT_REQUIRED_FILELIST["${id}"]:-}" ]]; then FW_ELEMENT_SIT_REQUIRED_FILELIST["${id}"]="${reqId}";  else FW_ELEMENT_SIT_REQUIRED_FILELIST["${id}"]+=" ${reqId}"; fi ;;
-                        site-file)              if [[ ! -n "${FW_ELEMENT_SIT_REQUIRED_FILE["${id}"]:-}" ]];     then FW_ELEMENT_SIT_REQUIRED_FILE["${id}"]="${reqId}";      else FW_ELEMENT_SIT_REQUIRED_FILE["${id}"]+=" ${reqId}"; fi ;;
-                        site-parameter)         if [[ ! -n "${FW_ELEMENT_SIT_REQUIRED_PAR["${id}"]:-}" ]];      then FW_ELEMENT_SIT_REQUIRED_PAR["${id}"]="${reqId}";       else FW_ELEMENT_SIT_REQUIRED_PAR["${id}"]+=" ${reqId}"; fi ;;
-                        site-task)              if [[ ! -n "${FW_ELEMENT_SIT_REQUIRED_TSK["${id}"]:-}" ]];      then FW_ELEMENT_SIT_REQUIRED_TSK["${id}"]="${reqId}";       else FW_ELEMENT_SIT_REQUIRED_TSK["${id}"]+=" ${reqId}"; fi ;;
-                    esac
-                    doWriteRT=true ;;
 
                 *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;

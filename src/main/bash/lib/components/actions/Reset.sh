@@ -41,7 +41,7 @@ function Reset() {
             id="${1}"; cmd2="${2}"; cmd3="${3}"
             Test existing phase id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             case "${cmd2}-${cmd3}" in
-                message-codes | error-count | warning-count) sf_alter_phase_counts reset ${cmd2}-${cmd3} ${id} ;;
+                message-codes | error-count | warning-count) __skb_internal_alter_phase_counts reset ${cmd2}-${cmd3} ${id} ;;
                 *) Report process error "${FUNCNAME[0]}" "${cmdString1}" E879 "${cmd1}" "${cmd2} ${cmd3}"; return ;;
             esac ;;
 
@@ -51,7 +51,7 @@ function Reset() {
             case "${cmd1}-${cmd2}" in
 
                 message-codes | error-count | warning-count)
-                    sf_alter_phase_counts reset ${cmd1}-${cmd2} ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ;;
+                    __skb_internal_alter_phase_counts reset ${cmd1}-${cmd2} ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ;;
 
                 *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;

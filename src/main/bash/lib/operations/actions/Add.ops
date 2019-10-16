@@ -49,51 +49,6 @@ SF_OPERATIONS["Add%element%site%@ID@%with%@PATH@%@ROOT-DIR@%@EXEX@%@DESCRIPTION@
 SF_OPERATIONS["Add%element%task%@ID@%with%@MODE@%@PATH@%@EXEX@%@DESCRIPTION@"]="adds task ID with properties: MODE, PATH, EXEX, DESCRIPTION"
 
 
-
-## Add required [app|dep|par|tsk|file|filelist|dir|dirlist] ID(1) to [prj|scn|sit|task] ID(4)
-SF_OPERATIONS["Add%required%application%@ID@%to%project%@PRJ@"]="adds required application ID to project PRJ"
-SF_OPERATIONS["Add%required%application%@ID@%to%scenario%@SCN@"]="adds required application ID to scenario SCN"
-SF_OPERATIONS["Add%required%application%@ID@%to%site%@SIT@"]="adds required application ID to site SIT"
-SF_OPERATIONS["Add%required%application%@ID@%to%task%@TSK@"]="adds required application ID to task TSK"
-
-SF_OPERATIONS["Add%required%dependency%@ID@%to%project%@PRJ@"]="adds required dependency ID to project PRJ"
-SF_OPERATIONS["Add%required%dependency%@ID@%to%scenario%@SCN@"]="adds required dependency ID to scenario SCN"
-SF_OPERATIONS["Add%required%dependency%@ID@%to%site%@SIT@"]="adds required dependency ID to site SIT"
-SF_OPERATIONS["Add%required%dependency%@ID@%to%task%@TSK@"]="adds required dependency ID to task TSK"
-
-SF_OPERATIONS["Add%required%parameter%@ID@%to%project%@PRJ@"]="adds required parameter ID to project PRJ"
-SF_OPERATIONS["Add%required%parameter%@ID@%to%scenario%@SCN@"]="adds required parameter ID to scenario SCN"
-SF_OPERATIONS["Add%required%parameter%@ID@%to%site%@SIT@"]="adds required parameter ID to site SIT"
-SF_OPERATIONS["Add%required%parameter%@ID@%to%task%@TSK@"]="adds required parameter ID to task TSK"
-
-SF_OPERATIONS["Add%required%task%@ID@%to%project%@PRJ@"]="adds required task ID to project PRJ"
-SF_OPERATIONS["Add%required%task%@ID@%to%scenario%@SCN@"]="adds required task ID to scenario SCN"
-SF_OPERATIONS["Add%required%task%@ID@%to%site%@SIT@"]="adds required task ID to site SIT"
-SF_OPERATIONS["Add%required%task%@ID@%to%task%@TSK@"]="adds required task ID to task TSK"
-
-SF_OPERATIONS["Add%required%file%@ID@%to%project%@PRJ@"]="adds required file ID to project PRJ"
-SF_OPERATIONS["Add%required%file%@ID@%to%scenario%@SCN@"]="adds required file ID to scenario SCN"
-SF_OPERATIONS["Add%required%file%@ID@%to%site%@SIT@"]="adds required file ID to site SIT"
-SF_OPERATIONS["Add%required%file%@ID@%to%task%@TSK@"]="adds required file ID to task TSK"
-
-SF_OPERATIONS["Add%required%filelist%@ID@%to%project%@PRJ@"]="adds required file list ID to project PRJ"
-SF_OPERATIONS["Add%required%filelist%@ID@%to%scenario%@SCN@"]="adds required file list ID to scenario SCN"
-SF_OPERATIONS["Add%required%filelist%@ID@%to%site%@SIT@"]="adds required file list ID to site SIT"
-SF_OPERATIONS["Add%required%filelist%@ID@%to%task%@TSK@"]="adds required file list ID to task TSK"
-
-SF_OPERATIONS["Add%required%dir%@ID@%to%project%@PRJ@"]="adds required directory ID to project PRJ"
-SF_OPERATIONS["Add%required%dir%@ID@%to%scenario%@SCN@"]="adds required directory ID to scenario SCN"
-SF_OPERATIONS["Add%required%dir%@ID@%to%site%@SIT@"]="adds required directory ID to site SIT"
-SF_OPERATIONS["Add%required%dir%@ID@%to%task%@TSK@"]="adds required directory ID to task TSK"
-
-
-SF_OPERATIONS["Add%required%dirlist%@ID@%to%project%@PRJ@"]="adds required directory list ID to project PRJ"
-SF_OPERATIONS["Add%required%dirlist%@ID@%to%scenario%@SCN@"]="adds required directory list ID to scenario SCN"
-SF_OPERATIONS["Add%required%dirlist%@ID@%to%site%@SIT@"]="adds required directory list ID to site SIT"
-SF_OPERATIONS["Add%required%dirlist%@ID@%to%task%@TSK@"]="adds required directory list ID to task TSK"
-
-
-
 ## Add object x ID(1) with(2) 3...
 SF_OPERATIONS["Add%object%configuration%@ID@%with%@VALUE@%@DESCRIPTION@"]="adds configuration ID (all upper case) with properties: VALUE, DESCRIPTION"
 SF_OPERATIONS["Add%object%format%@ID@%with%@DESCRIPTION@"]="adds format ID (all lower case) with property: DESCRIPTION"

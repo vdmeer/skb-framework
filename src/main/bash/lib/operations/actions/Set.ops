@@ -56,6 +56,9 @@ SF_OPERATIONS["Set%current%theme%to%@THEME@"]="sets current theme to THEME"
 SF_OPERATIONS["Set%current%project%to%@PROJECT@"]="sets current project to PROJECT"
 SF_OPERATIONS["Set%last%project%to%@PROJECT@"]="sets last project to PROJECT"
 
+SF_OPERATIONS["Set%current%script%to%@SCRIPT@"]="sets current script to SCRIPT"
+SF_OPERATIONS["Set%last%script%to%@SCRIPT@"]="sets last script to SCRIPT"
+
 SF_OPERATIONS["Set%current%scenario%to%@SCENARIO@"]="sets current scenario to SCENARIO"
 SF_OPERATIONS["Set%last%scenario%to%@SCENARIO@"]="sets last scenario to SCENARIO"
 

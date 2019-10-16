@@ -32,3 +32,5 @@
 SF_OPERATIONS["Verify"]="shows available operations"
 
 SF_OPERATIONS["Verify%elements"]="verifies all loaded elements against current mode and other criteria"
+SF_OPERATIONS["Verify%theme"]="verifies the runtime theme and all theme items"
+

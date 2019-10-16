@@ -32,9 +32,10 @@
 function __skb_Repeat_completions(){
     local retval="" taskName taskCompletion
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Repeat)         retval="application scenario task print" ;;
+        Repeat)         retval="application scenario script task print" ;;
 
         application)    retval="execution" ;;
+        script)         retval="execution" ;;
         scenario)       retval="execution" ;;
         task)           retval="execution" ;;
 
@@ -47,6 +48,7 @@ function __skb_Repeat_completions(){
                 case ${COMP_WORDS[COMP_CWORD-4]} in
                     application)    retval="$(Applications has)" ;;
                     scenario)       retval="$(Scenarios has)" ;;
+                    script)         retval="$(Scripts has)" ;;
                     task)           retval="$(Tasks has)" ;;
                 esac
             else

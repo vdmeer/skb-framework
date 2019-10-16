@@ -37,7 +37,7 @@ function Repeat() {
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
-        application | scenario | task | print)
+        application | scenario | script | task | print)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
@@ -48,7 +48,7 @@ function Repeat() {
                     case ${wait}   in '' | *[!0-9.]* | '.' | *.*.*) Report process error "${FUNCNAME[0]}" "${cmdString2}" E829 repeat wait "${wait}"; return ;; esac
                     Test existing ${cmd1} id ${id}; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi ;;
 
-                scenario-execution | task-execution)
+                scenario-execution | script-execution | task-execution)
                     if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 3 "$#"; return; fi
                     number="${1}"; wait="${2}"; id="${3}"; shift 3; arguments="${@}"
                     case ${number} in '' | *[!0-9.]* | '.' | *.*.*) Report process error "${FUNCNAME[0]}" "${cmdString2}" E829 repeat repetitions "${number}"; return ;; esac
@@ -63,6 +63,7 @@ function Repeat() {
                         case ${cmd1} in
                             task)       Format ansi start "${FW_OBJECT_TIM_VAL["repeatTskBgrndFmt"]}" ;;
                             scenario)   Format ansi start "${FW_OBJECT_TIM_VAL["repeatScnBgrndFmt"]}" ;;
+                            script)     Format ansi start "${FW_OBJECT_TIM_VAL["repeatScrBgrndFmt"]}" ;;
                         esac
                         Format themed text repeatLineFmt " "
                         Repeat print formatted character 4 "${FW_OBJECT_TIM_VAL["repeatLineChar"]}" repeatLineFmt

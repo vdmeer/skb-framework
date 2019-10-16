@@ -31,5 +31,6 @@
 
 SF_OPERATIONS["Scenario"]="shows available operations"
 
-SF_OPERATIONS["Scenario%@ID1@%requires%application%@ID2@"]="adds application ID2 as a required scenario to ID1"
-SF_OPERATIONS["Scenario%@ID1@%requires%task%@ID2@"]="adds task ID2 as a required scenario to ID1"
+SF_OPERATIONS["Scenario%@ID1@%requires%application%@ID2@"]="adds application ID2 as a requirement to ID1"
+SF_OPERATIONS["Scenario%@ID1@%requires%scenario%@ID2@"]="adds scenario ID2 as a requirement to ID1"
+SF_OPERATIONS["Scenario%@ID1@%requires%task%@ID2@"]="adds task ID2 as a requirement ID1"

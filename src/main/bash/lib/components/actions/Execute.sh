@@ -56,6 +56,24 @@ function Execute() {
                 ${FW_ELEMENT_APP_COMMAND[${id}]} ${text} >& /dev/null
             fi ;;
 
+        project)
+            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E802 1 "$#"; return; fi
+            id="${1}"; shift 1
+            Test existing ${cmd1} id ${id}; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+            ;;
+
+        script)
+            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E802 1 "$#"; return; fi
+            id="${1}"; shift 1
+            Test existing ${cmd1} id ${id}; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+            ;;
+
+        site)
+            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E802 1 "$#"; return; fi
+            id="${1}"; shift 1
+            Test existing ${cmd1} id ${id}; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+            ;;
+
         scenario)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E802 1 "$#"; return; fi
             id="${1}"; shift 1
@@ -97,7 +115,9 @@ function Execute() {
                 length=${#line}
                 if [[ "${line:0:1}" != "#" ]] && (( length > 1 )); then
                     case "$line" in
-                        "Execute application "*)    $line ;;
+                        "Execute application "*)    ${line} ;;
+                        "Execute scenario "*)       ${line} ;;
+                        "wait "*)                   line=${line//wait/sleep}; ${line} ;;
                         *)                          Execute task ${line}
                                                     if [[ "${FW_OBJECT_PHA_ERRCNT["Task"]}" > 0 ]]; then
                                                         Report application error E827 "task: ${line}"

@@ -36,10 +36,18 @@ function Load() {
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
+        modules)
+            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E802 1 "$#"; return; fi
+            while [[ "${#}" > 0 ]]; do
+                Load module ${1}
+                shift
+            done ;;
+
         module)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
             id="${1}"; if [[ "${id}" == "☰API☷" || "${id}" == "⫷Framework⫸" ]]; then Report process error "${FUNCNAME[0]}" "${cmd1}" E828 "module" "loaded"; return; fi
             Test known module "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+            if [[ -n "${FW_ELEMENT_MDS_LONG[${id}]:-}" ]]; then Report process warning "${FUNCNAME[0]}" "${cmd1}" W808 module "${id}" loaded; return; fi
 
             if [[ -r  "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}.cache" ]]; then
                 source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}.cache"
@@ -71,9 +79,11 @@ function Load() {
                 FW_CURRENT_THEME_NAME="${id}"
                 if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}.cache" ]]; then
                     source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}.cache"
+                    Verify theme
                 elif [[ -r "${FW_ELEMENT_MDS_PATH["${FW_OBJECT_THM_DECMDS["${id}"]}"]}/themes/${id}.thm" ]]; then
                     FW_OBJECT_SET_VAL["AUTO_WRITE"]=false
                     source "${FW_ELEMENT_MDS_PATH["${FW_OBJECT_THM_DECMDS["${id}"]}"]}/themes/${id}.thm"
+                    Verify theme
                 else
                     :
 ##TODO ERROR file not found, tried cache and std dir

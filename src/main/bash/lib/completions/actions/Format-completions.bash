@@ -32,8 +32,9 @@
 function __skb_Format_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Format)     retval="ansi available defval element exec execution help level list mode phase paragraph requested status table tagline text themed" ;;
+        Format)     retval="4d ansi available defval element exec execution has-value help is-set level list mode phase paragraph status table tagline text themed" ;;
 
+        4d)             retval="number" ;;
         ansi)           retval="end file start" ;;
         current)        retval="mode" ;;
         element)        retval="status" ;;
@@ -56,7 +57,8 @@ function __skb_Format_completions(){
         available)      retval="char" ;;
         defval)         retval="char" ;;
         exec)           retval="char" ;;
-        requested)      retval="char" ;;
+        has-value)      retval="char" ;;
+        is-set)         retval="char" ;;
         status)         retval="char" ;;
 
         for)            retval="clioption exitcode"
@@ -100,6 +102,15 @@ function __skb_Format_completions(){
                             operation)      retval="${!SF_OPERATIONS[@]}" ;;
                         esac
                     elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "for" ]]; then retval="list table"
+
+                    elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "4d" ]]; then
+                        retval="$(Themeitems has)"
+                    elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "4d" ]]; then
+                        retval="$(Themeitems has)"
+                    elif [[ "${COMP_WORDS[COMP_CWORD-4]}" == "4d" ]]; then
+                        retval="$(Themeitems has)"
+                    elif [[ "${COMP_WORDS[COMP_CWORD-5]}" == "4d" ]]; then
+                        retval="$(Themeitems has)"
 
                     fi ;;
     esac

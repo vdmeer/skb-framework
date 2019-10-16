@@ -31,4 +31,4 @@
 
 SF_OPERATIONS["Dependency"]="shows available operations"
 
-SF_OPERATIONS["Dependency%@ID1@%requires%dependency%@ID2@"]="adds ID2 as a required dependency to ID1"
+SF_OPERATIONS["Dependency%@ID1@%requires%dependency%@ID2@"]="adds dependency ID2 as a requirement to ID1"

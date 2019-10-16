@@ -39,3 +39,16 @@ SF_OPERATIONS["Execute%scenario%@ID@"]="executes scenario ID"
 SF_OPERATIONS["Execute%scenario%@ID@%-D"]="describes scenario ID"
 SF_OPERATIONS["Execute%scenario%@ID@%--describe"]="describes scenario ID"
 
+SF_OPERATIONS["Execute%site%@ID@"]="executes site ID"
+SF_OPERATIONS["Execute%site%@ID@%-D"]="describes site ID"
+SF_OPERATIONS["Execute%site%@ID@%--describe"]="describes site ID"
+
+SF_OPERATIONS["Execute%script%@ID@"]="executes script ID"
+SF_OPERATIONS["Execute%script%@ID@%-D"]="describes script ID"
+SF_OPERATIONS["Execute%script%@ID@%--describe"]="describes script ID"
+
+SF_OPERATIONS["Execute%project%@ID@"]="executes project ID"
+SF_OPERATIONS["Execute%project%@ID@%-D"]="describes project ID"
+SF_OPERATIONS["Execute%project%@ID@%--describe"]="describes project ID"
+
+

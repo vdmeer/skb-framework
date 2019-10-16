@@ -43,44 +43,48 @@ function Tablechars() {
                 *" ${format} "*)
                     ;;
                 *)
-                    FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]="$(Format themed text elementReqYesFmt "${FW_OBJECT_TIM_VAL["elementReqYesChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]="$(Format themed text elementReqNoFmt  "${FW_OBJECT_TIM_VAL["elementReqNoChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charModeSet-${format}"]="$(Format themed text elementModeYesFmt    "${FW_OBJECT_TIM_VAL["elementModeYesChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charModeNot-${format}"]="$(Format themed text elementModeNoFmt     "${FW_OBJECT_TIM_VAL["elementModeNoChar"]}")"
 
-                    FW_INSTANCE_TABLE_CHARS["charModeSet-${format}"]="$(Format themed text elementModeYesFmt "${FW_OBJECT_TIM_VAL["elementModeYesChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charModeNot-${format}"]="$(Format themed text elementModeNoFmt  "${FW_OBJECT_TIM_VAL["elementModeNoChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charStN-${format}"]="$(Format themed text elementStatusNFmt        "${FW_OBJECT_TIM_VAL["elementStatusNChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charStE-${format}"]="$(Format themed text elementStatusEFmt        "${FW_OBJECT_TIM_VAL["elementStatusEChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charStW-${format}"]="$(Format themed text elementStatusWFmt        "${FW_OBJECT_TIM_VAL["elementStatusWChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charStS-${format}"]="$(Format themed text elementStatusSFmt        "${FW_OBJECT_TIM_VAL["elementStatusSChar"]}")"
 
-                    FW_INSTANCE_TABLE_CHARS["charStN-${format}"]="$(Format themed text elementStatusNFmt "${FW_OBJECT_TIM_VAL["elementStatusNChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charStE-${format}"]="$(Format themed text elementStatusEFmt "${FW_OBJECT_TIM_VAL["elementStatusEChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charStW-${format}"]="$(Format themed text elementStatusWFmt "${FW_OBJECT_TIM_VAL["elementStatusWChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charStS-${format}"]="$(Format themed text elementStatusSFmt "${FW_OBJECT_TIM_VAL["elementStatusSChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charLvlN-${format}"]="$(Format themed text phaLvlNotsetFmt         "${FW_OBJECT_TIM_VAL["phaLvlNotsetChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charLvlF-${format}"]="$(Format themed text phaLvlFatalSetFmt       "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charLvlE-${format}"]="$(Format themed text phaLvlErrorSetFmt       "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charLvlX-${format}"]="$(Format themed text phaLvlTextSetFmt        "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charLvlM-${format}"]="$(Format themed text phaLvlMessageSetFmt     "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charLvlW-${format}"]="$(Format themed text phaLvlWarningSetFmt     "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charLvlI-${format}"]="$(Format themed text phaLvlInfoSetFmt        "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charLvlD-${format}"]="$(Format themed text phaLvlDebugSetFmt       "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charLvlT-${format}"]="$(Format themed text phaLvlTraceSetFmt       "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
 
-                    FW_INSTANCE_TABLE_CHARS["charLvlN-${format}"]="$(Format themed text phaLvlNotsetFmt     "${FW_OBJECT_TIM_VAL["phaLvlNotsetChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charLvlF-${format}"]="$(Format themed text phaLvlFatalSetFmt   "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charLvlE-${format}"]="$(Format themed text phaLvlErrorSetFmt   "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charLvlX-${format}"]="$(Format themed text phaLvlTextSetFmt    "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charLvlM-${format}"]="$(Format themed text phaLvlMessageSetFmt "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charLvlW-${format}"]="$(Format themed text phaLvlWarningSetFmt "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charLvlI-${format}"]="$(Format themed text phaLvlInfoSetFmt    "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charLvlD-${format}"]="$(Format themed text phaLvlDebugSetFmt   "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charLvlT-${format}"]="$(Format themed text phaLvlTraceSetFmt   "${FW_OBJECT_TIM_VAL["phaLvlSetChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]="$(Format themed text phaseCLIFmt           "${FW_OBJECT_TIM_VAL["phaseCLIChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]="$(Format themed text phaseDefaultFmt       "${FW_OBJECT_TIM_VAL["phaseDefaultChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]="$(Format themed text phaseEnvFmt           "${FW_OBJECT_TIM_VAL["phaseEnvChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]="$(Format themed text phaseFileFmt          "${FW_OBJECT_TIM_VAL["phaseFileChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]="$(Format themed text phaseLoadFmt          "${FW_OBJECT_TIM_VAL["phaseLoadChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]="$(Format themed text phaseProjectFmt       "${FW_OBJECT_TIM_VAL["phaseProjectChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]="$(Format themed text phaseScenarioFmt      "${FW_OBJECT_TIM_VAL["phaseScenarioChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charPhaScr-${format}"]="$(Format themed text phaseScriptFmt        "${FW_OBJECT_TIM_VAL["phaseScriptChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]="$(Format themed text phaseShellFmt         "${FW_OBJECT_TIM_VAL["phaseShellChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]="$(Format themed text phaseSiteFmt          "${FW_OBJECT_TIM_VAL["phaseSiteChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]="$(Format themed text phaseTaskFmt          "${FW_OBJECT_TIM_VAL["phaseTaskChar"]}")"
 
-                    FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]="$(Format themed text phaseCLIFmt       "${FW_OBJECT_TIM_VAL["phaseCLIChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]="$(Format themed text phaseDefaultFmt   "${FW_OBJECT_TIM_VAL["phaseDefaultChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]="$(Format themed text phaseEnvFmt       "${FW_OBJECT_TIM_VAL["phaseEnvChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]="$(Format themed text phaseFileFmt      "${FW_OBJECT_TIM_VAL["phaseFileChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]="$(Format themed text phaseLoadFmt      "${FW_OBJECT_TIM_VAL["phaseLoadChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charPhaPrj-${format}"]="$(Format themed text phaseProjectFmt   "${FW_OBJECT_TIM_VAL["phaseProjectChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charPhaScn-${format}"]="$(Format themed text phaseScenarioFmt  "${FW_OBJECT_TIM_VAL["phaseScenarioChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charPhaScr-${format}"]="$(Format themed text phaseScriptFmt    "${FW_OBJECT_TIM_VAL["phaseScriptChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charPhaShl-${format}"]="$(Format themed text phaseShellFmt     "${FW_OBJECT_TIM_VAL["phaseShellChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charPhaSit-${format}"]="$(Format themed text phaseSiteFmt      "${FW_OBJECT_TIM_VAL["phaseSiteChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charPhaTsk-${format}"]="$(Format themed text phaseTaskFmt      "${FW_OBJECT_TIM_VAL["phaseTaskChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charDefY-${format}"]="$(Format themed text elementDefYesFmt        "${FW_OBJECT_TIM_VAL["elementDefYesChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charDefN-${format}"]="$(Format themed text elementDefNoFmt         "${FW_OBJECT_TIM_VAL["elementDefNoChar"]}")"
 
-                    FW_INSTANCE_TABLE_CHARS["charDefY-${format}"]="$(Format themed text elementDefYesFmt "${FW_OBJECT_TIM_VAL["elementDefYesChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charDefN-${format}"]="$(Format themed text elementDefNoFmt  "${FW_OBJECT_TIM_VAL["elementDefNoChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charExexY-${format}"]="$(Format themed text elementExexYesFmt      "${FW_OBJECT_TIM_VAL["elementExexYesChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charExexN-${format}"]="$(Format themed text elementExexNoFmt       "${FW_OBJECT_TIM_VAL["elementExexNoChar"]}")"
 
-                    FW_INSTANCE_TABLE_CHARS["charExexY-${format}"]="$(Format themed text elementExexYesFmt "${FW_OBJECT_TIM_VAL["elementExexYesChar"]}")"
-                    FW_INSTANCE_TABLE_CHARS["charExexN-${format}"]="$(Format themed text elementExexNoFmt  "${FW_OBJECT_TIM_VAL["elementExexNoChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charXIsSet-${format}"]="$(Format themed text xIsSetFmt             "${FW_OBJECT_TIM_VAL["xIsSetChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charXIsNotSet-${format}"]="$(Format themed text xIsNotSetFmt       "${FW_OBJECT_TIM_VAL["xIsNotSetChar"]}")"
+
+                    FW_INSTANCE_TABLE_CHARS["charXHasValue-${format}"]="$(Format themed text xHasValueFmt       "${FW_OBJECT_TIM_VAL["xHasValueChar"]}")"
+                    FW_INSTANCE_TABLE_CHARS["charXHasNoValue-${format}"]="$(Format themed text xHasNoValueFmt   "${FW_OBJECT_TIM_VAL["xHasNoValueChar"]}")"
+
 
                     local legend
                     legend=" - phase:     ${FW_INSTANCE_TABLE_CHARS["charPhaCli-${format}"]} CLI, ${FW_INSTANCE_TABLE_CHARS["charPhaDef-${format}"]} Default (value), ${FW_INSTANCE_TABLE_CHARS["charPhaEnv-${format}"]} Environment, ${FW_INSTANCE_TABLE_CHARS["charPhaFil-${format}"]} File, ${FW_INSTANCE_TABLE_CHARS["charPhaLoa-${format}"]} Load\n"
@@ -93,21 +97,31 @@ function Tablechars() {
                     legend=" - mode:      ${FW_INSTANCE_TABLE_CHARS["charModeSet-${format}"]} available, ${FW_INSTANCE_TABLE_CHARS["charModeNot-${format}"]} not available\n"
                     FW_INSTANCE_TABLE_STRINGS["legend-mode-${format}"]="${legend}"
 
-                    legend=" - requested: ${FW_INSTANCE_TABLE_CHARS["charReqY-${format}"]} yes, ${FW_INSTANCE_TABLE_CHARS["charReqN-${format}"]} no\n"
-                    FW_INSTANCE_TABLE_STRINGS["legend-requested-${format}"]="${legend}"
+                    legend=" - req ◀◀:    $(Format 4d number numReqin0Fmt numReqin1Fmt numReqin100Fmt numReqin10000Fmt 0 ␣), $(Format 4d number numReqin0Fmt numReqin1Fmt numReqin100Fmt numReqin10000Fmt 10 ␣), $(Format 4d number numReqin0Fmt numReqin1Fmt numReqin100Fmt numReqin10000Fmt 500 ␣), $(Format 4d number numReqin0Fmt numReqin1Fmt numReqin100Fmt numReqin10000Fmt 10000 ␣)\n"
+                    FW_INSTANCE_TABLE_STRINGS["legend-reqin-${format}"]="${legend}"
+
+                    legend=" - req ▶▶:    $(Format 4d number numReqout0Fmt numReqout1Fmt numReqout100Fmt numReqout10000Fmt 0 ␣), $(Format 4d number numReqout0Fmt numReqout1Fmt numReqout100Fmt numReqout10000Fmt 10 ␣), $(Format 4d number numReqout0Fmt numReqout1Fmt numReqout100Fmt numReqout10000Fmt 500 ␣), $(Format 4d number numReqout0Fmt numReqout1Fmt numReqout100Fmt numReqout10000Fmt 10000 ␣)\n"
+                    FW_INSTANCE_TABLE_STRINGS["legend-reqout-${format}"]="${legend}"
 
                     legend=" - levels     ${FW_INSTANCE_TABLE_CHARS["charLvlN-${format}"]} not set, ${FW_INSTANCE_TABLE_CHARS["charLvlF-${format}"]} (F)atal error, ${FW_INSTANCE_TABLE_CHARS["charLvlE-${format}"]} (E)rror, ${FW_INSTANCE_TABLE_CHARS["charLvlX-${format}"]} te(X)t, ${FW_INSTANCE_TABLE_CHARS["charLvlM-${format}"]} (M)essage\n"
                     legend+="              ${FW_INSTANCE_TABLE_CHARS["charLvlW-${format}"]} (W)arning, ${FW_INSTANCE_TABLE_CHARS["charLvlI-${format}"]} (I)nfo, ${FW_INSTANCE_TABLE_CHARS["charLvlD-${format}"]} (D)ebug, ${FW_INSTANCE_TABLE_CHARS["charLvlT-${format}"]} (T)race\n"
                     FW_INSTANCE_TABLE_STRINGS["legend-levels-${format}"]="${legend}"
 
-                    legend=" - numbers:   $(Format themed text phaWarnNumberFmt 111) warnings, $(Format themed text phaErrNumberFmt 222) errors, $(Format themed text phaMsgNumberFmt 333) message count\n"
-                    FW_INSTANCE_TABLE_STRINGS["legend-numbers-${format}"]="${legend}"
+                    legend=" - numbers:   warnings: $(Format 4d number numWarning0Fmt numWarning1Fmt numWarning100Fmt numWarning10000Fmt 0 ␣), $(Format 4d number numWarning0Fmt numWarning1Fmt numWarning100Fmt numWarning10000Fmt 10 ␣), $(Format 4d number numWarning0Fmt numWarning1Fmt numWarning100Fmt numWarning10000Fmt 500 ␣), $(Format 4d number numWarning0Fmt numWarning1Fmt numWarning100Fmt numWarning10000Fmt 10000 ␣), errors: $(Format 4d number numError0Fmt numError1Fmt numError100Fmt numError10000Fmt 0 ␣), $(Format 4d number numError0Fmt numError1Fmt numError100Fmt numError10000Fmt 10 ␣), $(Format 4d number numError0Fmt numError1Fmt numError100Fmt numError10000Fmt 500 ␣), $(Format 4d number numError0Fmt numError1Fmt numError100Fmt numError10000Fmt 10000 ␣), messages: $(Format 4d number numMessage0Fmt numMessage1Fmt numMessage100Fmt numMessage10000Fmt 0 ␣), $(Format 4d number numMessage0Fmt numMessage1Fmt numMessage100Fmt numMessage10000Fmt 10 ␣), $(Format 4d number numMessage0Fmt numMessage1Fmt numMessage100Fmt numMessage10000Fmt 500 ␣), $(Format 4d number numMessage0Fmt numMessage1Fmt numMessage100Fmt numMessage10000Fmt 10000 ␣)\n"
+                    FW_INSTANCE_TABLE_STRINGS["legend-phase-numbers-${format}"]="${legend}"
 
                     legend=" - show exec: ${FW_INSTANCE_TABLE_CHARS["charExexY-${format}"]} yes, printf "${FW_INSTANCE_TABLE_CHARS["charExexN-${format}"]}" no\n"
                     FW_INSTANCE_TABLE_STRINGS["legend-showexec-${format}"]="${legend}"
 
                     legend=" - def value: ${FW_INSTANCE_TABLE_CHARS["charDefY-${format}"]} yes, ${FW_INSTANCE_TABLE_CHARS["charDefN-${format}"]} no\n"
                     FW_INSTANCE_TABLE_STRINGS["legend-defval-${format}"]="${legend}"
+
+                    legend=" - is set:    ${FW_INSTANCE_TABLE_CHARS["charXIsSet-${format}"]} yes, ${FW_INSTANCE_TABLE_CHARS["charXIsNotSet-${format}"]} no\n"
+                    FW_INSTANCE_TABLE_STRINGS["legend-isset-${format}"]="${legend}"
+
+                    legend=" - has value: ${FW_INSTANCE_TABLE_CHARS["charXHasValue-${format}"]} yes, ${FW_INSTANCE_TABLE_CHARS["charXHasNoValue-${format}"]} no\n"
+                    FW_INSTANCE_TABLE_STRINGS["legend-hasvalue-${format}"]="${legend}"
+
 
                     FW_INSTANCE_TABLE_CHARS_BUILT+="${format} " ;;
             esac ;;

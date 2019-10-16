@@ -32,7 +32,7 @@
 function Modules() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id printString="" errno keys
+    local id errno keys numberArr
     local cmd1="${1,,}" cmd2 cmdString1="${1,,}" cmdString2
     shift; case "${cmd1}" in
         knows)
@@ -60,9 +60,13 @@ function Modules() {
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_MDS_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
                     printf "    %s (acr: %s, dec: %s)\n"                "${id}" "${FW_ELEMENT_MDS_ACR[${id}]}" "${FW_ELEMENT_MDS_DECPHA[${id}]}"
-                    printf "        status:     s: %s, c: %s, r: %s\n"  "${FW_ELEMENT_MDS_STATUS[${id}]}" "${FW_ELEMENT_MDS_STATUS_COMMENTS[${id}]}" "${FW_ELEMENT_MDS_REQUESTED[${id}]}"
-                    printf "        req-num:    %s\n"                   "${FW_ELEMENT_MDS_REQNUM[${id}]}"
-                    printf "        req-mods:   %s\n"                   "${FW_ELEMENT_MDS_REQUIRED_MODULES[${id}]:-none}"
+                    printf "        status:     s: %s, c: %s\n"         "${FW_ELEMENT_MDS_STATUS[${id}]}" "${FW_ELEMENT_MDS_STATUS_COMMENTS[${id}]}" "${[${id}]}"
+
+                    IFS=" " read -a numberArr <<< "${FW_ELEMENT_MDS_REQUESTED[${id}]}"; unset IFS
+                    printf "        #req-in:    %s\n"                   "${#numberArr[@]}"
+                    printf "        req-in:     %s\n"                   "${FW_ELEMENT_MDS_REQUESTED[${id}]}"
+                    printf "        #req-out:   %s\n"                   "${FW_ELEMENT_MDS_REQOUT_NUM[${id}]}"
+                    printf "        req-mod:    %s\n"                   "${FW_ELEMENT_MDS_REQUIRED_MDS[${id}]:-none}"
                     printf "        path:       %s\n"                   "${FW_ELEMENT_MDS_PATH[${id}]}"
                     printf "        descr:      %s\n\n"                 "${FW_ELEMENT_MDS_LONG[${id}]}"
                 done

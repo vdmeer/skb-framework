@@ -33,38 +33,48 @@ function Scenario() {
     local writeSlow=false
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    ## Scenario ID1 requires (app|task) ID2
+    ## Scenario ID1 requires ... ID2
     if [[ "${#}" -lt 4 ]];         then Report process error "${FUNCNAME[0]}" E801 4 "$#"; return; fi
-    if [[ "${2}" != "requires" ]]; then Report process error "${FUNCNAME[0]}" "Scenario ${1} requires (application|task) ${4}" E803 "${2}"; return; fi
+    if [[ "${2}" != "requires" ]]; then Report process error "${FUNCNAME[0]}" "${1} requires 'component' ${4}" E803 "${2}"; return; fi
 
     local id1="${1}" id2="${4}"
     Test existing scenario id "${id1}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
 
     case "${3}" in
         application)
-            Test existing application id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+            Test existing ${3} id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             if [[ ! -n "${FW_ELEMENT_SCN_REQUIRED_APP["${id1}"]:-}" ]]; then
                 FW_ELEMENT_SCN_REQUIRED_APP["${id1}"]+="${id2} "; writeSlow=true
             else
                 case "${FW_ELEMENT_SCN_REQUIRED_APP["${id1}"]}" in
-                    *"${id2} "*)    Report application error "${FUNCNAME[0]}" "Module ${1} requires module ${4}" E904 "${id2}" "module ${id1}"; return ;;
+                    *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
                     *)              FW_ELEMENT_SCN_REQUIRED_APP["${id1}"]+="${id2} "; writeSlow=true ;;
                 esac
             fi ;;
+        scenario)
+            Test existing ${3} id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+            if [[ "${id1}" == "${id2}" ]]; then Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E902 "${3}"; return; fi
+            if [[ ! -n "${FW_ELEMENT_SCN_REQUIRED_SCN["${id1}"]:-}" ]]; then
+                FW_ELEMENT_SCN_REQUIRED_SCN["${id1}"]+="${id2} "; writeSlow=true
+            else
+                case "${FW_ELEMENT_SCN_REQUIRED_SCN["${id1}"]}" in
+                    *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
+                    *)              FW_ELEMENT_SCN_REQUIRED_SCN["${id1}"]+="${id2} "; writeSlow=true ;;
+                esac
+            fi ;;
         task)
-            Test existing task id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             if [[ ! -n "${FW_ELEMENT_SCN_REQUIRED_TSK["${id1}"]:-}" ]]; then
                 FW_ELEMENT_SCN_REQUIRED_TSK["${id1}"]+="${id2} "; writeSlow=true
             else
                 case "${FW_ELEMENT_SCN_REQUIRED_TSK["${id1}"]}" in
-                    *"${id2} "*)    Report application error "${FUNCNAME[0]}" "Module ${1} requires module ${4}" E904 "${id2}" "module ${id1}"; return ;;
+                    *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
                     *)              FW_ELEMENT_SCN_REQUIRED_TSK["${id1}"]+="${id2} "; writeSlow=true ;;
                 esac
             fi ;;
         *)
-            Report process error "${FUNCNAME[0]}" "Scenario ${1} requires 'component' ${4}" E803 "${3}"; return ;;
+            Report process error "${FUNCNAME[0]}" "${1} requires 'component' ${4}" E803 "${3}"; return ;;
     esac
 
-    if [[ "${writeSlow}" ]]; then FW_ELEMENT_SCN_REQNUM[${id1}]=$(( FW_ELEMENT_SCN_REQNUM[${id1}] + 1 )); fi
+    if [[ "${writeSlow}" ]]; then FW_ELEMENT_SCN_REQOUT_NUM[${id1}]=$(( FW_ELEMENT_SCN_REQOUT_NUM[${id1}] + 1 )); fi
     if [[ "${writeSlow}" == true && "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write slow config; fi
 }

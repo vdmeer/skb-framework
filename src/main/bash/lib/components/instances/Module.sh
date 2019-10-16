@@ -36,23 +36,23 @@ function Module() {
     ## Module ID1 requires module ID2
     if [[ "${#}" -lt 4 ]]; then Report process error "${FUNCNAME[0]}" E801 4 "$#"; return; fi
 
-    if [[ "${2}" != "requires" ]]; then Report process error "${FUNCNAME[0]}" "Module ${1} requires module ${4}" E803 "${2}"; return; fi
-    if [[ "${3}" != "module" ]];   then Report process error "${FUNCNAME[0]}" "Module ${1} requires module ${4}" E803 "${3}"; return; fi
+    if [[ "${2}" != "requires" ]]; then Report process error "${FUNCNAME[0]}" "${1} requires module ${4}" E803 "${2}"; return; fi
+    if [[ "${3}" != "module" ]];   then Report process error "${FUNCNAME[0]}" "${1} requires module ${4}" E803 "${3}"; return; fi
 
     local id1="${1}" id2="${4}"
-    Test existing module id "${id1}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-    Test existing module id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-    if [[ "${id1}" == "${id2}" ]]; then Report application error "${FUNCNAME[0]}" "Module ${1} requires module ${4}" E902 "module"; return; fi
+    Test existing ${3} id "${id1}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+    Test existing ${3} id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+    if [[ "${id1}" == "${id2}" ]]; then Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E902 "${3}"; return; fi
 
-    if [[ ! -n "${FW_ELEMENT_MDS_REQUIRED_MODULES["${id1}"]:-}" ]]; then
-        FW_ELEMENT_MDS_REQUIRED_MODULES["${id1}"]+="${id2} "; writeSlow=true
+    if [[ ! -n "${FW_ELEMENT_MDS_REQUIRED_MDS["${id1}"]:-}" ]]; then
+        FW_ELEMENT_MDS_REQUIRED_MDS["${id1}"]+="${id2} "; writeSlow=true
     else
-        case "${FW_ELEMENT_MDS_REQUIRED_MODULES["${id1}"]}" in
-            *"${id2} "*)    Report application error "${FUNCNAME[0]}" "Module ${1} requires module ${4}" E904 "${id2}" "module ${id1}"; return ;;
-            *)              FW_ELEMENT_MDS_REQUIRED_MODULES["${id1}"]+="${id2} "; writeSlow=true ;;
+        case "${FW_ELEMENT_MDS_REQUIRED_MDS["${id1}"]}" in
+            *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
+            *)              FW_ELEMENT_MDS_REQUIRED_MDS["${id1}"]+="${id2} "; writeSlow=true ;;
         esac
     fi
 
-    if [[ "${writeSlow}" ]]; then FW_ELEMENT_MDS_REQNUM[${id1}]=$(( FW_ELEMENT_MDS_REQNUM[${id1}] + 1 )); fi
+    if [[ "${writeSlow}" ]]; then FW_ELEMENT_MDS_REQOUT_NUM[${id1}]=$(( FW_ELEMENT_MDS_REQOUT_NUM[${id1}] + 1 )); fi
     if [[ "${writeSlow}" == true && "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write slow config; fi
 }

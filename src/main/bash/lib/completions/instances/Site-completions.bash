@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Repeat - API declarations
+## Site - auto completion
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.6
@@ -29,13 +29,28 @@
 ##
 
 
-SF_OPERATIONS["Repeat"]="shows available operations"
+function __skb_Site_completions(){
+    local retval=""
+    case ${COMP_WORDS[COMP_CWORD-1]} in
+        Site)           retval="$(Sites has)" ;;
 
-SF_OPERATIONS["Repeat%application%execution%@ID@%@NUM@%@SEC@%[%@OPTIONS@%]"]="repeats execution of application (with OPTIONS) ID NUM times, wating SEC between them"
+        requires)       retval="application dependency parameter scenario directory-list directory file-list file task" ;;
 
-SF_OPERATIONS["Repeat%scenario%execution%@NUM@%@SEC@%@ID@"]="repeats execution of scenario ID NUM times, wating SEC between them"
-SF_OPERATIONS["Repeat%script%execution%@NUM@%@SEC@%@ID@"]="repeats execution of script ID NUM times, wating SEC between them"
-SF_OPERATIONS["Repeat%task%execution%@NUM@%@SEC@%@ID@%[%@OPTIONS@%]"]="repeats execution of task ID (with OPTIONS) NUM times, wating SEC between them"
+        application)    retval="$(Applications has)" ;;
+        dependency)     retval="$(Dependencies has)" ;;
+        parameter)      retval="$(Parameters has)" ;;
+        scenario)       retval="$(Scenarios has)" ;;
+        directory-list) retval="$(Dirlists has)" ;;
+        directory)      retval="$(Dirs has)" ;;
+        file-list)      retval="$(Filelists has)" ;;
+        file)           retval="$(Files has)" ;;
+        task)           retval="$(Tasks has)" ;;
 
-SF_OPERATIONS["Repeat%print%character%@N@%@CAR@"]="prints CHAR for N times"
-SF_OPERATIONS["Repeat%print%formatted%character%@N@%@CAR@%@FMT@"]="prints CHAR for N times using format from theme item FMT"
+        ## Site ID1 requires ...
+        *)              if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Site" ]]; then
+                            retval="requires"
+                        fi ;;
+    esac
+    if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
+}
+complete -F __skb_Site_completions Site

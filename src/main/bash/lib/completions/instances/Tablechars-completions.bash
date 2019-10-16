@@ -35,6 +35,8 @@ function __skb_Tablechars_completions(){
         Tablechars) retval="build clear formats get has list" ;;
 
         clear)      retval="all format" ;;
+
+        format)     retval="$(Formats has)" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

@@ -51,10 +51,10 @@ function Set() {
                     case ${property} in
                         print-level | log-level)
                             if [[ "${value}" != "all" && "${value}" != "none" ]]; then Test existing level id "${value}"; errno=$?; fi; if [[ "${errno}" != 0 ]]; then return; fi
-                            sf_set_phase_level ${property} ${id} ${value} ;;
+                            __skb_internal_set_phase_level ${property} ${id} ${value} ;;
                         error-count | warning-count)
                             Test integer "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                            sf_alter_phase_counts set ${property} ${id} ${value} ;;
+                            __skb_internal_alter_phase_counts set ${property} ${id} ${value} ;;
                         *) Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}"; return ;;
                     esac ;;
 
@@ -66,8 +66,8 @@ function Set() {
                     Test existing setting id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     object=${id,,}; entry=${object##*_}; object=${object%%_*}
                     case ${object}-${entry} in
-                        config-file | current-mode | current-phase | current-theme | current-project | current-scenario | current-site | current-task | \
-                        last-project | last-scenario | last-site | last-task | log-date-arg | log-dir | log-file | log-format | log-level | print-format | print-format2 | print-level | module-path | \
+                        config-file | current-mode | current-phase | current-theme | current-project | current-scenario | current-script | current-site | current-task | \
+                        last-project | last-scenario | last-script | last-site | last-task | log-date-arg | log-dir | log-file | log-format | log-level | print-format | print-format2 | print-level | module-path | \
                         error-count | warning-count)
                             Set ${object} ${entry} to "${value}" ;;
                         message-codes) Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E831 setting ;;
@@ -110,7 +110,7 @@ function Set() {
 
 
                 app-name | app-name2 | config-file | current-mode | current-phase | current-theme | \
-                current-project | current-scenario | current-site | current-task | last-project | last-scenario | last-site | last-task | \
+                current-project | current-scenario | current-script | current-site | current-task | last-project | last-scenario | last-script | last-site | last-task | \
                 log-format | print-format | print-format2 | log-level | print-level | log-date-arg | log-dir | log-file | module-path | \
                 error-count | warning-count)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} cmd3" E802 1 "$#"; return; fi
@@ -160,7 +160,7 @@ function Set() {
                             FW_OBJECT_SET_PHASET["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                             doWriteFast=true ;;
 
-                        current-project-to | current-scenario-to | current-site-to | current-task-to | last-project-to | last-scenario-to | last-site-to | last-task-to)
+                        current-project-to | current-scenario-to | current-script-to | current-site-to | current-task-to | last-project-to | last-scenario-to | last-script-to | last-site-to | last-task-to)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             value="${1}"; id=${cmd1^^}_${cmd2^^}
                             Test existing ${cmd2} id "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
@@ -171,7 +171,7 @@ function Set() {
                         error-count-to | warning-count-to)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             value="${1}"; Test integer "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                            sf_alter_phase_counts set ${cmd1}-${cmd2} ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${value} ;;
+                            __skb_internal_alter_phase_counts set ${cmd1}-${cmd2} ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${value} ;;
 
                         log-format-to | print-format-to | print-format2-to)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
@@ -185,7 +185,7 @@ function Set() {
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             level="${1}"; errno=0
                             if [[ "${level}" != "all" && "${level}" != "none" ]]; then Test existing level id "${level}"; errno=$?; fi; if [[ "${errno}" != 0 ]]; then return; fi
-                            sf_set_phase_level ${cmd1}-level ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${level} ;;
+                            __skb_internal_set_phase_level ${cmd1}-level ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${level} ;;
 
                         log-date-arg-to)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi

@@ -32,15 +32,22 @@
 function __skb_Load_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Load)           retval="all module runtime settings theme" ;;
+        Load)           retval="all module modules runtime settings theme" ;;
 
         all)            retval="modules" ;;
         module)         retval="$(Modules knows)" ;;
+        modules)        retval="$(Modules knows)" ;;
         theme)          retval="$(Themes has)" ;;
 
         settings)       retval="from" ;;
         from)           retval="file environment" ;;
         file)           retval=""${FW_OBJECT_SET_VAL["CONFIG_FILE"]:-}" "${FW_OBJECT_CFG_VAL["USER_CONFIG"]:-}"" ;;
+
+        *)              case "$COMP_LINE" in
+                            "Load modules "*)
+                                retval="$(Modules knows)" ;;
+                        esac ;;
+
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

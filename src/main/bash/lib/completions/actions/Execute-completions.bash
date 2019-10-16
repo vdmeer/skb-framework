@@ -32,22 +32,39 @@
 function __skb_Execute_completions(){
     local retval="" taskName taskCompletion
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Execute)        retval="application scenario task" ;;
+        Execute)        retval="application project scenario script site task" ;;
 
         application)    retval="$(Applications has)" ;;
+        project)        retval="$(Projects has)" ;;
         scenario)       retval="$(Scenarios has)" ;;
+        script)         retval="$(Scripts has)" ;;
+        site)           retval="$(Sites has)" ;;
         task)           retval="$(Tasks has)" ;;
 
-        *)  case "$COMP_LINE" in
-                "Execute task "*)
-                    taskName="${COMP_WORDS[2]//-/_}"
-                    taskCompletion="__skb_task_${taskName}_words"
-                    if [[ -n "$(type -t $taskCompletion)" && "$(type -t $taskCompletion)" = "function" ]]; then retval="$(${taskCompletion})"; fi ;;
-                "Framework action Execute task "*)
-                    taskName="${COMP_WORDS[4]//-/_}"
-                    taskCompletion="__skb_task_${taskName}_words"
-                    if [[ -n "$(type -t $taskCompletion)" && "$(type -t $taskCompletion)" = "function" ]]; then retval="$(${taskCompletion})"; fi ;;
-            esac ;;
+        *)  if [[ "${COMP_WORDS[COMP_CWORD-3]}" == "Execute" && "${COMP_WORDS[COMP_CWORD-2]}" == "scenario" ]]; then
+                retval="-D --describe"
+            elif [[ "${COMP_WORDS[COMP_CWORD-4]}" == "Execute" && "${COMP_WORDS[COMP_CWORD-3]}" == "scenario" ]]; then
+                retval=""
+            elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "Execute" && "${COMP_WORDS[COMP_CWORD-2]}" == "site" ]]; then
+                retval="-D --describe"
+            elif [[ "${COMP_WORDS[COMP_CWORD-4]}" == "Execute" && "${COMP_WORDS[COMP_CWORD-3]}" == "site" ]]; then
+                retval=""
+            elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "Execute" && "${COMP_WORDS[COMP_CWORD-2]}" == "script" ]]; then
+                retval="-D --describe"
+            elif [[ "${COMP_WORDS[COMP_CWORD-4]}" == "Execute" && "${COMP_WORDS[COMP_CWORD-3]}" == "script" ]]; then
+                retval=""
+            else
+                case "$COMP_LINE" in
+                    "Execute task "*)
+                        taskName="${COMP_WORDS[2]//-/_}"
+                        taskCompletion="__skb_task_${taskName}_words"
+                        if [[ -n "$(type -t $taskCompletion)" && "$(type -t $taskCompletion)" = "function" ]]; then retval="$(${taskCompletion})"; fi ;;
+                    "Framework action Execute task "*)
+                        taskName="${COMP_WORDS[4]//-/_}"
+                        taskCompletion="__skb_task_${taskName}_words"
+                        if [[ -n "$(type -t $taskCompletion)" && "$(type -t $taskCompletion)" = "function" ]]; then retval="$(${taskCompletion})"; fi ;;
+                esac
+            fi ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

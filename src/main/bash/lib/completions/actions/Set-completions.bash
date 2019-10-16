@@ -37,9 +37,9 @@ function __skb_Set_completions(){
 
         app)            retval="name name2" ;;
         config)         retval="file" ;;
-        current)        retval="mode phase theme project scenario site task" ;;
+        current)        retval="mode phase theme project scenario script site task" ;;
         error)          retval="count" ;;
-        last)           retval="project scenario site task" ;;
+        last)           retval="project scenario script site task" ;;
         log)            retval="dir file format level date-arg" ;;
         module)         retval="path" ;;
         print)          retval="format format2 level" ;;
@@ -63,6 +63,7 @@ function __skb_Set_completions(){
         theme)          retval="to" ;;
         project)        retval="to" ;;
         scenario)       retval="to" ;;
+        script)         retval="to" ;;
         site)           retval="to" ;;
         task)           retval="to" ;;
         dir)            retval="to" ;;
@@ -82,6 +83,8 @@ function __skb_Set_completions(){
                             retval="$(Phases has)"
                         elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "current" && "${COMP_WORDS[COMP_CWORD-2]}" == "project" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
                             retval="$(Projects has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "current" && "${COMP_WORDS[COMP_CWORD-2]}" == "script" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Scripts has)"
                         elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "current" && "${COMP_WORDS[COMP_CWORD-2]}" == "scenario" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
                             retval="$(Scenarios has)"
                         elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "current" && "${COMP_WORDS[COMP_CWORD-2]}" == "site" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
@@ -91,6 +94,8 @@ function __skb_Set_completions(){
 
                         elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "last" && "${COMP_WORDS[COMP_CWORD-2]}" == "project" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
                             retval="$(Projects has)"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "last" && "${COMP_WORDS[COMP_CWORD-2]}" == "script" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="$(Scripts has)"
                         elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "last" && "${COMP_WORDS[COMP_CWORD-2]}" == "scenario" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
                             retval="$(Scenarios has)"
                         elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "last" && "${COMP_WORDS[COMP_CWORD-2]}" == "site" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
@@ -118,6 +123,7 @@ function __skb_Set_completions(){
                                 CURRENT_PHASE)                              retval="$(Phases has)" ;;
                                 CURRENT_THEME)                              retval="$(Themes has)" ;;
                                 CURRENT_PROJECT | LAST_PROJECT)             retval="$(Projects has)" ;;
+                                CURRENT_SCRIPT | LAST_SCRIPT)               retval="$(Scripts has)" ;;
                                 CURRENT_SCENARIO | LAST_SCENARIO)           retval="$(Scenarios has)" ;;
                                 CURRENT_SITE | LAST_SITE)                   retval="$(Sites has)" ;;
                                 CURRENT_TASK | LAST_TASK)                   retval="$(Tasks has)" ;;

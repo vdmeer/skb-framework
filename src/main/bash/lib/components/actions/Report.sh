@@ -89,14 +89,14 @@ function Report() {
                     fi
                     case ${level} in
                         fatalerror | error) if [[ "${messageID:0:1}" == "E" ]]; then
-                                                sf_alter_phase_counts increase error-count ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${messageID}
+                                                __skb_internal_alter_phase_counts increase error-count ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${messageID}
                                             else
-                                                sf_alter_phase_counts increase error-count ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}
+                                                __skb_internal_alter_phase_counts increase error-count ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}
                                             fi ;;
                         warning)            if [[ "${messageID:0:1}" == "W" ]]; then
-                                                sf_alter_phase_counts increase warning-count ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${messageID}
+                                                __skb_internal_alter_phase_counts increase warning-count ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${messageID}
                                             else
-                                                sf_alter_phase_counts increase warning-count ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}
+                                                __skb_internal_alter_phase_counts increase warning-count ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}
                                             fi
                     esac
 

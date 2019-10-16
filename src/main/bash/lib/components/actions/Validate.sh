@@ -40,11 +40,9 @@ function Validate() {
         everything)
             Validate library text
             Validate framework components
-            Validate added components
-            Validate runtime settings
-            ;;
+            Validate added components ;;
 
-        added | library | framework | runtime)
+        added | library | framework)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
@@ -194,10 +192,10 @@ function Validate() {
                                         esac
                                         case "${extension}" in
                                             adoc)   ;;
-                                            sh)     if [[ "${element}" != "tasks" ]]; then Report application strictwarning E826 "${file}" "${printDir}"; fi ;;
-                                            bash)   if [[ "${element}" != "tasks" ]]; then Report application strictwarning E826 "${file}" "${printDir}"; fi ;;
-                                            scn)    if [[ "${element}" != "scenarios" ]]; then Report application strictwarning E826 "${file}" "${printDir}"; fi ;;
-                                            thm)    if [[ "${element}" != "themes" ]]; then Report application strictwarning E826 "${file}" "${printDir}"; fi ;;
+                                            sh)     if [[ "${element}" != "tasks" ]];       then Report application strictwarning E826 "${file}" "${printDir}"; fi ;;
+                                            bash)   if [[ "${element}" != "tasks" ]];       then Report application strictwarning E826 "${file}" "${printDir}"; fi ;;
+                                            scn)    if [[ "${element}" != "scenarios" ]];   then Report application strictwarning E826 "${file}" "${printDir}"; fi ;;
+                                            thm)    if [[ "${element}" != "themes" ]];      then Report application strictwarning E826 "${file}" "${printDir}"; fi ;;
                                             *)      Report application strictwarning E826 "${file}" "${printDir}"
                                         esac
                                     done
@@ -256,10 +254,10 @@ function Validate() {
                     objects=" $(Framework has objects) "
 
                     for id in ${actions} ${elements} ${instances} ${objects}; do
-                        case ${actions} in *" ${id} "*) compType=actions ;; esac
-                        case ${elements} in *" ${id} "*) compType=elements ;; esac
-                        case ${instances} in *" ${id} "*) compType=instances ;; esac
-                        case ${objects} in *" ${id} "*) compType=objects ;; esac
+                        case ${actions} in *" ${id} "*)     compType=actions ;; esac
+                        case ${elements} in *" ${id} "*)    compType=elements ;; esac
+                        case ${instances} in *" ${id} "*)   compType=instances ;; esac
+                        case ${objects} in *" ${id} "*)     compType=objects ;; esac
 
                         Test file can read "${SF_HOME}/lib/components/${compType}/${id}.sh"                 "\$SF_HOME/lib/components/${compType}/${id}.sh"
                         Test file can read "${SF_HOME}/lib/completions/${compType}/${id}-completions.bash"  "\$SF_HOME/lib/completions/${compType}/${id}-completions.bash"
@@ -295,7 +293,7 @@ function Validate() {
                                 if [[ -z "${FW_COMPONENTS_TABLE_VALUE[${id}]:-}" ]];   then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} "table value"; fi
                                 if [[ ! -n "${FW_COMPONENTS_TABLE_VALUE[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "${compType:0:-1} ${id}" "table value"; fi
 
-                                if [[ "${id}" != "Clioptions" && "${id}" != "Exitcodes" ]]; then
+                                if [[ "${id}" != "Exitcodes" ]]; then
                                     if [[ -z "${FW_COMPONENTS_TABLE_EXTRA[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} "table extra"; fi
                                 fi ;;
                             esac
@@ -303,33 +301,6 @@ function Validate() {
 
                         if [[ -z "${SF_OPERATIONS[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} "SF_OPERATIONS entries"; fi
                     done ;;
-
-
-                runtime-settings)
-                    Report application info "validating runtime settings"
-
-                    ##
-                    ## CURRENT THEME, normal items not empty, chars only #1 (some allowed to be empty)
-                    ##
-                    Report application info "runtime settings - validating current theme (theme item settings)"
-                    if [[ "${FW_OBJECT_TIM_LONG[*]}" != "" ]]; then
-                        for id in ${!FW_OBJECT_TIM_LONG[@]}; do
-                            case ${id} in
-                                *Char)  case ${id} in
-                                            ## can be 0 (not set) or 1 (set
-                                            tabBottomruleChar | tabLegendruleChar | tabMidruleChar | tabStatusruleChar | tabTopruleChar | execEndRuleChar | execStartRuleChar | execLineChar)
-                                                if [[ "${#FW_OBJECT_TIM_VAL[${id}]}" > 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E816 "theme item" "${id}" 1 ${#FW_OBJECT_TIM_VAL[${id}]} ; fi ;;
-                                            ## can be 0 (not set) or anything (set)
-                                            tableBgrndFmt |describeBgrndFmt | listBgrndFmt | execTskBgrndFmt | execScnBgrndFmt | execPrjBgrndFmt | repeatTskBgrndFmt | repeatScnBgrndFmt)
-                                                ;;
-                                            *)
-                                                if [[ ! -n "${FW_OBJECT_TIM_VAL[${id}]}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "theme item" "${id}"; fi
-                                                if [[ "${#FW_OBJECT_TIM_VAL[${id}]}" > 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E816 "theme item" "${id}" 1 ${#FW_OBJECT_TIM_VAL[${id}]} ; fi ;;
-                                        esac ;;
-                                *)      if [[ ! -n "${FW_OBJECT_TIM_VAL[${id}]}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "theme item" "${id}"; fi ;;
-                            esac
-                        done
-                    fi ;;
 
                 *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;
             esac ;;

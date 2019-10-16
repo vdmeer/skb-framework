@@ -107,7 +107,7 @@ function Cache() {
                         echo "FW_ELEMENT_DEP_LONG[\"${elemId}\"]=\""${FW_ELEMENT_DEP_LONG["${elemId}"]}"\"" >> ${file}
                         echo "FW_ELEMENT_DEP_DECMDS[\"${elemId}\"]=\""${FW_ELEMENT_DEP_DECMDS["${elemId}"]}"\"" >> ${file}
                         echo "FW_ELEMENT_DEP_CMD[\"${elemId}\"]=\""${FW_ELEMENT_DEP_CMD["${elemId}"]}"\"" >> ${file}
-                        if [[ -n "${FW_ELEMENT_DEP_REQUIRED_DEPENDENCIES["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_DEP_REQUIRED_DEPENDENCIES[\"${elemId}\"]=\""${FW_ELEMENT_DEP_REQUIRED_DEPENDENCIES["${elemId}"]}"\"" >> ${file}; fi
+                        if [[ -n "${FW_ELEMENT_DEP_REQUIRED_DEP["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_DEP_REQUIRED_DEP[\"${elemId}\"]=\""${FW_ELEMENT_DEP_REQUIRED_DEP["${elemId}"]}"\"" >> ${file}; fi
                         echo "" >> ${file}
                     fi
                 done
@@ -193,13 +193,12 @@ function Cache() {
                         echo "FW_ELEMENT_PRJ_PATH_TEXT[\"${elemId}\"]=\""${FW_ELEMENT_PRJ_PATH_TEXT["${elemId}"]}"\"" >> ${file}
                         echo "FW_ELEMENT_PRJ_TGTS[\"${elemId}\"]=\""${FW_ELEMENT_PRJ_TGTS["${elemId}"]}"\"" >> ${file}
                         if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_APP["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_PRJ_REQUIRED_APP[\"${elemId}\"]=\""${FW_ELEMENT_PRJ_REQUIRED_APP["${elemId}"]}"\"" >> ${file}; fi
-                        if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_DEP["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_PRJ_REQUIRED_DEP[\"${elemId}\"]=\""${FW_ELEMENT_PRJ_REQUIRED_DEP["${elemId}"]}"\"" >> ${file}; fi
                         if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_PAR["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_PRJ_REQUIRED_PAR[\"${elemId}\"]=\""${FW_ELEMENT_PRJ_REQUIRED_PAR["${elemId}"]}"\"" >> ${file}; fi
                         if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_TSK["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_PRJ_REQUIRED_TSK[\"${elemId}\"]=\""${FW_ELEMENT_PRJ_REQUIRED_TSK["${elemId}"]}"\"" >> ${file}; fi
-                        if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_FILE["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_PRJ_REQUIRED_FILE[\"${elemId}\"]=\""${FW_ELEMENT_PRJ_REQUIRED_FILE["${elemId}"]}"\"" >> ${file}; fi
-                        if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_FILELIST["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_PRJ_REQUIRED_FILELIST[\"${elemId}\"]=\""${FW_ELEMENT_PRJ_REQUIRED_FILELIST["${elemId}"]}"\"" >> ${file}; fi
+                        if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_FIL["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_PRJ_REQUIRED_FIL[\"${elemId}\"]=\""${FW_ELEMENT_PRJ_REQUIRED_FIL["${elemId}"]}"\"" >> ${file}; fi
+                        if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_FLS["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_PRJ_REQUIRED_FLS[\"${elemId}\"]=\""${FW_ELEMENT_PRJ_REQUIRED_FLS["${elemId}"]}"\"" >> ${file}; fi
                         if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_DIR["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_PRJ_REQUIRED_DIR[\"${elemId}\"]=\""${FW_ELEMENT_PRJ_REQUIRED_DIR["${elemId}"]}"\"" >> ${file}; fi
-                        if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_DIRLIST["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_PRJ_REQUIRED_DIRLIST[\"${elemId}\"]=\""${FW_ELEMENT_PRJ_REQUIRED_DIRLIST["${elemId}"]}"\"" >> ${file}; fi
+                        if [[ -n "${FW_ELEMENT_PRJ_REQUIRED_DLS["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_PRJ_REQUIRED_DLS[\"${elemId}\"]=\""${FW_ELEMENT_PRJ_REQUIRED_DLS["${elemId}"]}"\"" >> ${file}; fi
                         echo "" >> ${file}
                     fi
                 done
@@ -231,13 +230,12 @@ function Cache() {
                         echo "FW_ELEMENT_SIT_PATH[\"${elemId}\"]=\""${FW_ELEMENT_SIT_PATH["${elemId}"]}"\"" >> ${file}
                         echo "FW_ELEMENT_SIT_PATH_TEXT[\"${elemId}\"]=\""${FW_ELEMENT_SIT_PATH_TEXT["${elemId}"]}"\"" >> ${file}
                         if [[ -n "${FW_ELEMENT_SIT_REQUIRED_APP["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_SIT_REQUIRED_APP[\"${elemId}\"]=\""${FW_ELEMENT_SIT_REQUIRED_APP["${elemId}"]}"\"" >> ${file}; fi
-                        if [[ -n "${FW_ELEMENT_SIT_REQUIRED_DEP["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_SIT_REQUIRED_DEP[\"${elemId}\"]=\""${FW_ELEMENT_SIT_REQUIRED_DEP["${elemId}"]}"\"" >> ${file}; fi
                         if [[ -n "${FW_ELEMENT_SIT_REQUIRED_PAR["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_SIT_REQUIRED_PAR[\"${elemId}\"]=\""${FW_ELEMENT_SIT_REQUIRED_PAR["${elemId}"]}"\"" >> ${file}; fi
                         if [[ -n "${FW_ELEMENT_SIT_REQUIRED_TSK["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_SIT_REQUIRED_TSK[\"${elemId}\"]=\""${FW_ELEMENT_SIT_REQUIRED_TSK["${elemId}"]}"\"" >> ${file}; fi
-                        if [[ -n "${FW_ELEMENT_SIT_REQUIRED_FILE["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_SIT_REQUIRED_FILE[\"${elemId}\"]=\""${FW_ELEMENT_SIT_REQUIRED_FILE["${elemId}"]}"\"" >> ${file}; fi
-                        if [[ -n "${FW_ELEMENT_SIT_REQUIRED_FILELIST["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_SIT_REQUIRED_FILELIST[\"${elemId}\"]=\""${FW_ELEMENT_SIT_REQUIRED_FILELIST["${elemId}"]}"\"" >> ${file}; fi
+                        if [[ -n "${FW_ELEMENT_SIT_REQUIRED_FIL["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_SIT_REQUIRED_FIL[\"${elemId}\"]=\""${FW_ELEMENT_SIT_REQUIRED_FIL["${elemId}"]}"\"" >> ${file}; fi
+                        if [[ -n "${FW_ELEMENT_SIT_REQUIRED_FLS["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_SIT_REQUIRED_FLS[\"${elemId}\"]=\""${FW_ELEMENT_SIT_REQUIRED_FLS["${elemId}"]}"\"" >> ${file}; fi
                         if [[ -n "${FW_ELEMENT_SIT_REQUIRED_DIR["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_SIT_REQUIRED_DIR[\"${elemId}\"]=\""${FW_ELEMENT_SIT_REQUIRED_DIR["${elemId}"]}"\"" >> ${file}; fi
-                        if [[ -n "${FW_ELEMENT_SIT_REQUIRED_DIRLIST["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_SIT_REQUIRED_DIRLIST[\"${elemId}\"]=\""${FW_ELEMENT_SIT_REQUIRED_DIRLIST["${elemId}"]}"\"" >> ${file}; fi
+                        if [[ -n "${FW_ELEMENT_SIT_REQUIRED_DLS["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_SIT_REQUIRED_DLS[\"${elemId}\"]=\""${FW_ELEMENT_SIT_REQUIRED_DLS["${elemId}"]}"\"" >> ${file}; fi
                         echo "" >> ${file}
                     fi
                 done
@@ -257,10 +255,10 @@ function Cache() {
                         if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DEP["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_TSK_REQUIRED_DEP[\"${elemId}\"]=\""${FW_ELEMENT_TSK_REQUIRED_DEP["${elemId}"]}"\"" >> ${file}; fi
                         if [[ -n "${FW_ELEMENT_TSK_REQUIRED_PAR["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_TSK_REQUIRED_PAR[\"${elemId}\"]=\""${FW_ELEMENT_TSK_REQUIRED_PAR["${elemId}"]}"\"" >> ${file}; fi
                         if [[ -n "${FW_ELEMENT_TSK_REQUIRED_TSK["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_TSK_REQUIRED_TSK[\"${elemId}\"]=\""${FW_ELEMENT_TSK_REQUIRED_TSK["${elemId}"]}"\"" >> ${file}; fi
-                        if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FILE["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_TSK_REQUIRED_FILE[\"${elemId}\"]=\""${FW_ELEMENT_TSK_REQUIRED_FILE["${elemId}"]}"\"" >> ${file}; fi
-                        if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FILELIST["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_TSK_REQUIRED_FILELIST[\"${elemId}\"]=\""${FW_ELEMENT_TSK_REQUIRED_FILELIST["${elemId}"]}"\"" >> ${file}; fi
+                        if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FIL["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_TSK_REQUIRED_FIL[\"${elemId}\"]=\""${FW_ELEMENT_TSK_REQUIRED_FIL["${elemId}"]}"\"" >> ${file}; fi
+                        if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FLS["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_TSK_REQUIRED_FLS[\"${elemId}\"]=\""${FW_ELEMENT_TSK_REQUIRED_FLS["${elemId}"]}"\"" >> ${file}; fi
                         if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DIR["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_TSK_REQUIRED_DIR[\"${elemId}\"]=\""${FW_ELEMENT_TSK_REQUIRED_DIR["${elemId}"]}"\"" >> ${file}; fi
-                        if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DIRLIST["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_TSK_REQUIRED_DIRLIST[\"${elemId}\"]=\""${FW_ELEMENT_TSK_REQUIRED_DIRLIST["${elemId}"]}"\"" >> ${file}; fi
+                        if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DLS["${elemId}"]:-}" ]]; then echo "FW_ELEMENT_TSK_REQUIRED_DLS[\"${elemId}\"]=\""${FW_ELEMENT_TSK_REQUIRED_DLS["${elemId}"]}"\"" >> ${file}; fi
                         echo "alias ${elemId}=\"Execute task ${elemId}\"" >> ${file}
                         echo "" >> ${file}
                     fi

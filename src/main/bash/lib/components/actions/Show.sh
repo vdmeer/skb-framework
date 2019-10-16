@@ -32,159 +32,94 @@
 function Show() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id i stats count1 count2 statRule statHalfRule statSource statId file time char width tsStart tsEnd
+    local id i stats count1 count2 statSource statId file timeStamp char width tsStart tsEnd
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
         statistics)
-            statRule="  ────────────────────────────────────────────────────────────────────"
-            statHalfRule="  ───────────────────────────────      ───────────────────────────────"
-
-
             stats="overview"
-            if [[ "${#}" == 1 ]]; then stats="${1}"; fi
+            if [[ "${#}" == 0 ]]; then
+                : ## nothing to do here
+            elif [[ "${#}" == 1 ]]; then
+                stats="${1}"
+            else
+                if [[ "${1}" != "for" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} ${1} ..." E803 "${2}"; return; fi
+                stats="${2}"
+            fi
+
             case ${stats} in
-                overview)
-                    printf "\n  "; Format text bold Statistics; printf "\n"
-
-                    printf "%s\n" "${statHalfRule}"
-                        count1=0; for name in ${SF_HOME}/lib/components/*/*.sh; do count1=$(( count1 + 1 )); done
-                        count2=${#SF_OPERATIONS[*]}
-                        printf "   Components:              % 4s         Operations:             % 4s\n"      "${count1}"     "${count2}"
-
-                    printf "%s\n" "${statHalfRule}"
-                        count1=0; for name in ${SF_HOME}/lib/components/elements/*.sh; do count1=$(( count1 + 1 )); done
-                        count2=0; for name in ${SF_HOME}/lib/components/objects/*.sh; do count2=$(( count2 + 1 )); done
-                        printf "   Elements:                % 4s        Objects:                 % 4s\n"      "${count1}"     "${count2}"
-
-                        count1=0; for name in ${SF_HOME}/lib/components/instances/*.sh; do count1=$(( count1 + 1 )); done
-                        count2=0; for name in ${SF_HOME}/lib/components/actions/*.sh; do count2=$(( count2 + 1 )); done
-                        printf "   Instances:              % 4s         Actions:                 % 4s\n"      "${count1}"     "${count2}"
-
-                    printf "%s\n" "${statHalfRule}"
-                        if [[ "${FW_OBJECT_CFG_LONG[*]}" != "" ]]; then count1=${#FW_OBJECT_CFG_LONG[@]}; else count1=0; fi
-                        if [[ "${FW_OBJECT_FMT_LONG[*]}" != "" ]]; then count2=${#FW_OBJECT_FMT_LONG[@]}; else count2=0; fi
-                        printf "   Configurations:          % 4s        Formats:                 % 4s\n"      "${count1}"     "${count2}"
-
-                        if [[ "${FW_OBJECT_LVL_LONG[*]}" != "" ]]; then count1=${#FW_OBJECT_LVL_LONG[@]}; else count1=0; fi
-                        if [[ "${FW_OBJECT_MSG_LONG[*]}" != "" ]]; then count2=${#FW_OBJECT_MSG_LONG[@]}; else count2=0; fi
-                        printf "   Levels:                  % 4s        Kessages:                % 4s\n"      "${count1}"     "${count2}"
-
-                        if [[ "${FW_OBJECT_MOD_LONG[*]}" != "" ]]; then count1=${#FW_OBJECT_MOD_LONG[@]}; else count1=0; fi
-                        if [[ "${FW_OBJECT_PHA_LONG[*]}" != "" ]]; then count2=${#FW_OBJECT_PHA_LONG[@]}; else count2=0; fi
-                        printf "   Modes:                   % 4s        Phases:                  % 4s\n"      "${count1}"     "${count2}"
-
-                        if [[ "${FW_OBJECT_SET_LONG[*]}" != "" ]]; then count1=${#FW_OBJECT_SET_LONG[@]}; else count1=0; fi
-                        if [[ "${FW_OBJECT_TIM_LONG[*]}" != "" ]]; then count2=${#FW_OBJECT_TIM_LONG[@]}; else count2=0; fi
-                        printf "   Settings:                % 4s        Theme items:             % 4s\n"      "${count1}"     "${count2}"
-
-                        if [[ "${FW_OBJECT_THM_LONG[*]}" != "" ]]; then count1=${#FW_OBJECT_THM_LONG[@]}; else count1=0; fi
-                        if [[ "${FW_OBJECT_VAL_LONG[*]}" != "" ]]; then count2=${#FW_OBJECT_VAL_LONG[@]}; else count2=0; fi
-                        printf "   Themes:                  % 4s        Variables:               % 4s\n"      "${count1}"     "${count2}"
-
-                    printf "%s\n" "${statHalfRule}"
-                        if [[ "${FW_ELEMENT_APP_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_APP_LONG[@]}; else count1=0; fi
-                        if [[ "${FW_ELEMENT_DEP_LONG[*]}" != "" ]]; then count2=${#FW_ELEMENT_DEP_LONG[@]}; else count2=0; fi
-                        printf "   Applications:            % 4s        Dependencies:            % 4s\n"      "${count1}"     "${count2}"
-
-                        if [[ "${FW_ELEMENT_DIR_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_DIR_LONG[@]}; else count1=0; fi
-                        if [[ "${FW_ELEMENT_DLS_LONG[*]}" != "" ]]; then count2=${#FW_ELEMENT_DLS_LONG[@]}; else count2=0; fi
-                        printf "   Directoriess:            % 4s        Directory Lists:         % 4s\n"      "${count1}"     "${count2}"
-
-                        if [[ "${FW_ELEMENT_FIL_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_FIL_LONG[@]}; else count1=0; fi
-                        if [[ "${FW_ELEMENT_FLS_LONG[*]}" != "" ]]; then count2=${#FW_ELEMENT_FLS_LONG[@]}; else count2=0; fi
-                        printf "   Files:                   % 4s        File Lists:              % 4s\n"      "${count1}"     "${count2}"
-
-                        if [[ "${FW_ELEMENT_MDS_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_MDS_LONG[@]}; else count1=0; fi
-                        if [[ "${FW_ELEMENT_OPT_LONG[*]}" != "" ]]; then count2=${#FW_ELEMENT_OPT_LONG[@]}; else count2=0; fi
-                        printf "   Modules:                 % 4s        Options:                 % 4s\n"      "${count1}"     "${count2}"
-
-
-                        if [[ "${FW_ELEMENT_PRJ_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_PRJ_LONG[@]}; else count1=0; fi
-                        if [[ "${FW_ELEMENT_PAR_LONG[*]}" != "" ]]; then count2=${#FW_ELEMENT_PAR_LONG[@]}; else count2=0; fi
-                        printf "   Projetce:                % 4s        Parameters:              % 4s\n"      "${count1}"     "${count2}"
-
-                        if [[ "${FW_ELEMENT_SCN_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_SCN_LONG[@]}; else count1=0; fi
-                        if [[ "${FW_ELEMENT_SCR_LONG[*]}" != "" ]]; then count2=${#FW_ELEMENT_SCR_LONG[@]}; else count2=0; fi
-                        printf "   Scenarios:               % 4s        Scripts:                 % 4s\n"      "${count1}"     "${count2}"
-
-                        if [[ "${FW_ELEMENT_SIT_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_SIT_LONG[@]}; else count1=0; fi
-                        if [[ "${FW_ELEMENT_TSK_LONG[*]}" != "" ]]; then count2=${#FW_ELEMENT_TSK_LONG[@]}; else count2=0; fi
-                        printf "   Sites:                   % 4s        Tasks:                   % 4s\n"      "${count1}"     "${count2}"
-
-                    printf "%s\n" "${statHalfRule}"
-                    printf "\n" ;;
-
+                overview)   __skb_internal_stats_overview ;;
+                time)       __skb_internal_stats_time ;;
 
                 applications)
                     printf "\n  "; Format text bold Applications; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_ELEMENT_APP_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_APP_LONG[@]}; else count1=0; fi
                     printf "   Declared:               % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
                         :
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 dependencies)
                     printf "\n  "; Format text bold Dependencies; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_ELEMENT_DEP_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_DEP_LONG[@]}; else count1=0; fi
                     printf "   Declared:               % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
                         :
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 dirlists)
                     printf "\n  "; Format text bold "Directory Lists"; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_ELEMENT_DLS_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_DLS_LONG[@]}; else count1=0; fi
                     printf "   Declared:               % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
                         :
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 dirs)
                     printf "\n  "; Format text bold Directories; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_ELEMENT_DIR_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_DIR_LONG[@]}; else count1=0; fi
                     printf "   Declared:               % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
                         :
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 filelists)
                     printf "\n  "; Format text bold "File Lists"; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_ELEMENT_FLS_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_FLS_LONG[@]}; else count1=0; fi
                     printf "   Declared:               % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
                         :
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 files)
                     printf "\n  "; Format text bold Files; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_ELEMENT_FIL_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_FIL_LONG[@]}; else count1=0; fi
                     printf "   Declared:               % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
                         :
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 options)
                     printf "\n  "; Format text bold Options; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_ELEMENT_OPT_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_OPT_LONG[@]}; else count1=0; fi
                     printf "   Declared:                % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
@@ -208,34 +143,34 @@ function Show() {
                         done
                         printf "   - with argument:         % 4s\n"      "${count1}"
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 parameters)
                     printf "\n  "; Format text bold Parameters; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_ELEMENT_PAR_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_PAR_LONG[@]}; else count1=0; fi
                     printf "   Declared:                % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
                         :
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 projects)
                     printf "\n  "; Format text bold Projects; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_ELEMENT_PRJ_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_PRJ_LONG[@]}; else count1=0; fi
                     printf "   Declared:                % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
                         :
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 scenarios)
                     printf "\n  "; Format text bold Scenarios; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_ELEMENT_SCN_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_SCN_LONG[@]}; else count1=0; fi
                     printf "   Declared:                % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
@@ -245,7 +180,7 @@ function Show() {
                         done
                         printf "   - tested:                % 4s\n"      "${count1}"
 
-                        printf "%s\n" "${statRule}"
+                        __skb_internal_stats_fullrule
                         count1=0; count2=0
                         for id in ${!FW_ELEMENT_SCN_LONG[@]}; do
                             case ${FW_ELEMENT_SCN_MODES[${id}]} in
@@ -263,7 +198,7 @@ function Show() {
                         done
                         printf "   - for mode dev:           % 4s        - for mode use:           % 4s\n"      "${count1}"     "${count2}"
 
-                        printf "%s\n" "${statRule}"
+                        __skb_internal_stats_fullrule
                         count1=0; count2=0
                         for id in ${!FW_ELEMENT_SCN_LONG[@]}; do
                             if [[ -n "${FW_ELEMENT_SCN_REQUIRED_APP[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
@@ -271,7 +206,7 @@ function Show() {
                         done
                         printf "   - require application:    % 4s        - require task:           % 4s\n"      "${count1}"     "${count2}"
 
-                        printf "%s\n" "${statRule}"
+                        __skb_internal_stats_fullrule
                         statSource=" "; count1=0
                         for id in ${!FW_ELEMENT_SCN_LONG[@]}; do
                             case ${statSource} in
@@ -292,23 +227,23 @@ function Show() {
                             printf "% 4s\n" "${count1}"
                         done
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 sites)
                     printf "\n  "; Format text bold Sites; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_ELEMENT_SIT_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_SIT_LONG[@]}; else count1=0; fi
                     printf "   Declared:                % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
                         :
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 tasks)
                     printf "\n  "; Format text bold Tasks; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_ELEMENT_TSK_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_TSK_LONG[@]}; else count1=0; fi
                     printf "   Declared:                 % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
@@ -319,7 +254,7 @@ function Show() {
                         done
                         printf "   - tested:                 % 4s        - requested:              % 4s\n"      "${count1}"     "${count2}"
 
-                        printf "%s\n" "${statRule}"
+                        __skb_internal_stats_fullrule
                         count1=0; count2=0
                         for id in ${!FW_ELEMENT_TSK_LONG[@]}; do
                             case ${FW_ELEMENT_TSK_MODES[${id}]} in
@@ -337,7 +272,7 @@ function Show() {
                         done
                         printf "   - for mode dev:           % 4s        - for mode use:           % 4s\n"      "${count1}"     "${count2}"
 
-                        printf "%s\n" "${statRule}"
+                        __skb_internal_stats_fullrule
                         count1=0; count2=0
                         for id in ${!FW_ELEMENT_TSK_LONG[@]}; do
                             if [[ -n "${FW_ELEMENT_TSK_REQUIRED_APP[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
@@ -352,18 +287,18 @@ function Show() {
                         printf "   - require parameter:      % 4s        - require task:           % 4s\n"      "${count1}"     "${count2}"
                         count1=0; count2=0
                         for id in ${!FW_ELEMENT_TSK_LONG[@]}; do
-                            if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FILE[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
-                            if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FILELIST[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
+                            if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FIL[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
+                            if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FLS[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
                         done
                         printf "   - require file:           % 4s        - require file list:      % 4s\n"      "${count1}"     "${count2}"
                         count1=0; count2=0
                         for id in ${!FW_ELEMENT_TSK_LONG[@]}; do
                             if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DIR[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
-                            if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DIRLIST[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
+                            if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DLS[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
                         done
                         printf "   - require directory:      % 4s        - require directory list: % 4s\n"      "${count1}"     "${count2}"
 
-                        printf "%s\n" "${statRule}"
+                        __skb_internal_stats_fullrule
                         statSource=" "; count1=0
                         for id in ${!FW_ELEMENT_TSK_LONG[@]}; do
                             case ${statSource} in
@@ -384,12 +319,12 @@ function Show() {
                             printf "% 4s\n" "${count1}"
                         done
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 messages)
                     printf "\n  "; Format text bold Messages; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_OBJECT_MSG_LONG[*]}" != "" ]]; then count1=${#FW_OBJECT_MSG_LONG[@]}; else count1=0; fi
                     printf "   Declared:                 % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
@@ -414,7 +349,7 @@ function Show() {
                         done
                         printf "   - type debug:             % 4s        - type trace:             % 4s\n"      "${count1}"     "${count2}"
 
-                        printf "%s\n" "${statRule}"
+                        __skb_internal_stats_fullrule
                         count1=0; count2=0
                         for id in ${!FW_OBJECT_MSG_LONG[@]}; do
                             if [[ "${FW_OBJECT_MSG_ARGS[${id}]}" == 0 ]]; then count1=$((count1 + 1)); fi
@@ -442,12 +377,12 @@ function Show() {
                         done
                         printf "   - more than 5 arguments:  % 4s\n"      "${count1}"
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 phases)
                     printf "\n  "; Format text bold Phases; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_OBJECT_PHA_LONG[*]}" != "" ]]; then count1=${#FW_OBJECT_PHA_LONG[@]}; else count1=0; fi
                     printf "   Declared:                 % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
@@ -458,7 +393,7 @@ function Show() {
                         done
                         printf "   - with warnings:          % 4s        - with errors:            % 4s\n"      "${count1}"     "${count2}"
 
-                        printf "%s\n" "${statRule}"
+                        __skb_internal_stats_fullrule
                         printf "   by print level\n"
                         count1=0; count2=0
                         for id in ${!FW_OBJECT_PHA_LONG[@]}; do
@@ -485,7 +420,7 @@ function Show() {
                         done
                         printf "   - for level debug:        % 4s        - for level trace:        % 4s\n"      "${count1}"     "${count2}"
 
-                        printf "%s\n" "${statRule}"
+                        __skb_internal_stats_fullrule
                         printf "   by log level\n"
                         count1=0; count2=0
                         for id in ${!FW_OBJECT_PHA_LONG[@]}; do
@@ -512,12 +447,12 @@ function Show() {
                         done
                         printf "   - for level debug:        % 4s        - for level trace:        % 4s\n"      "${count1}"     "${count2}"
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 settings)
                     printf "\n  "; Format text bold Settings; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_OBJECT_SET_LONG[*]}" != "" ]]; then count1=${#FW_OBJECT_SET_LONG[@]}; else count1=0; fi
                     printf "   Declared:                 % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
@@ -530,7 +465,7 @@ function Show() {
                         done
                         printf "   - from sources:           % 4s\n" "${count1}"
 
-                        printf "%s\n" "${statRule}"
+                        __skb_internal_stats_fullrule
                         printf "   by source:\n"
                         for statId in ${statSource}; do
                             count1=0
@@ -544,12 +479,12 @@ function Show() {
                             printf "% 4s\n" "${count1}"
                         done
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
 
                 themeitems)
                     printf "\n  "; Format text bold "Theme Items"; printf "\n"
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     if [[ "${FW_OBJECT_TIM_LONG[*]}" != "" ]]; then count1=${#FW_OBJECT_TIM_LONG[@]}; else count1=0; fi
                     printf "   Declared:                 % 4s\n" "${count1}"
                     if (( count1 > 0 )); then
@@ -562,7 +497,7 @@ function Show() {
                         done
                         printf "   - from sources:           % 4s\n" "${count1}"
 
-                        printf "%s\n" "${statRule}"
+                        __skb_internal_stats_fullrule
                         printf "   by source:\n"
                         for statId in ${statSource}; do
                             count1=0
@@ -576,12 +511,15 @@ function Show() {
                             printf "% 4s\n" "${count1}"
                         done
                     fi
-                    printf "%s\n" "${statRule}"
+                    __skb_internal_stats_fullrule
                     printf "\n" ;;
+
+                *)
+                    Report process error "${FUNCNAME[0]}" "${cmdString1} for" E803 "${stats}"; return
             esac ;;
 
         cache | log | fast | load | medium | slow | \
-        project | scenario | site | task)
+        project | scenario | script | site | task)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
@@ -603,50 +541,54 @@ function Show() {
                     esac
                     if [[ -r "${file}" ]]; then tput smcup; less -C -f -M -d ${file}; tput rmcup; fi ;;
 
-                project-execution | scenario-execution | site-execution | task-execution)
+                project-execution | scenario-execution | script-execution | site-execution | task-execution)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} cmd3" E802 1 "$#"; return; fi
                     cmd3=${1,,}; shift; cmdString3="${cmd1} ${cmd2} ${cmd3}"
                     case "${cmd1}-${cmd2}-${cmd3}" in
 
-                        project-execution-start | scenario-execution-start | site-execution-start | task-execution-start)
+                        project-execution-start | scenario-execution-start | script-execution-start | site-execution-start | task-execution-start)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             id="${1}"; width=$(tput cols)
 
                             printf "\n"
                             case ${cmd1} in
                                 project)    Format ansi start "${FW_OBJECT_TIM_VAL["execPrjBgrndFmt"]}" ;;
-                                task)       Format ansi start "${FW_OBJECT_TIM_VAL["execTskBgrndFmt"]}" ;;
                                 scenario)   Format ansi start "${FW_OBJECT_TIM_VAL["execScnBgrndFmt"]}" ;;
+                                script)     Format ansi start "${FW_OBJECT_TIM_VAL["execScrBgrndFmt"]}" ;;
+                                site)       Format ansi start "${FW_OBJECT_TIM_VAL["execSitBgrndFmt"]}" ;;
+                                task)       Format ansi start "${FW_OBJECT_TIM_VAL["execTskBgrndFmt"]}" ;;
                             esac
                             Format execution line ${width} execLine; printf "\n"
                             Format themed text execStartNameFmt "  ${id} "
-                            time=$(date +"%T")
-                            Format themed text execStartTimeFmt " ${time} "
+                            timeStamp=$(date +"%T")
+                            Format themed text execStartTimeFmt " ${timeStamp} "
                             Format themed text execStartTextFmt " executing ${cmd1}"
-                            lineLength=$(( 7 + ${#id} + ${#time} + 9 + ${#cmd1} ))
+                            lineLength=$(( 7 + ${#id} + ${#timeStamp} + 9 + ${#cmd1} ))
 
                             Repeat print formatted character $(( width - lineLength )) " " execStartTextFmt
                             printf "\n"
                             Format execution line ${width} execStartRule; Format ansi end
                             printf "\n\n" ;;
 
-                        project-execution-end | scenario-execution-end | site-execution-end | task-execution-end)
+                        project-execution-end | scenario-execution-end | script-execution-end | site-execution-end | task-execution-end)
                             if [[ "${#}" -lt 3 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 3 "$#"; return; fi
                             id="${1}"; width=$(tput cols)
                             tsStart="${2}"; tsEnd="${3}"
 
-                            time=$(date +"%T")
+                            timeStamp=$(date +"%T")
                             runtime="$(Calculate runtime ${tsStart} ${tsEnd})"
                             printf "\n\n"
                             case ${cmd1} in
                                 project)    Format ansi start "${FW_OBJECT_TIM_VAL["execPrjBgrndFmt"]}" ;;
-                                task)       Format ansi start "${FW_OBJECT_TIM_VAL["execTskBgrndFmt"]}" ;;
                                 scenario)   Format ansi start "${FW_OBJECT_TIM_VAL["execScnBgrndFmt"]}" ;;
+                                script)     Format ansi start "${FW_OBJECT_TIM_VAL["execScrBgrndFmt"]}" ;;
+                                site)       Format ansi start "${FW_OBJECT_TIM_VAL["execSitBgrndFmt"]}" ;;
+                                task)       Format ansi start "${FW_OBJECT_TIM_VAL["execTskBgrndFmt"]}" ;;
                             esac
                             Format execution line ${width} execEndRule; printf "\n"
-                            Format themed text execEndDoneFmt "  done (${cmd1}): ${id}";    lineLength=$(( 11 + ${#cmd1} + ${#id} ))
-                            Format themed text execEndTimeFmt "  ${time} (${runtime}) ";    lineLength=$(( lineLength + 6 + ${#time} + ${#runtime} ))
-                            Format themed text execEndStatusFmt " -  status: ";             lineLength=$(( lineLength + 12 ))
+                            Format themed text execEndDoneFmt "  done (${cmd1}): ${id}";        lineLength=$(( 11 + ${#cmd1} + ${#id} ))
+                            Format themed text execEndTimeFmt "  ${timeStamp} (${runtime}) ";   lineLength=$(( lineLength + 6 + ${#timeStamp} + ${#runtime} ))
+                            Format themed text execEndStatusFmt " -  status: ";                 lineLength=$(( lineLength + 12 ))
                             if [[ "${FW_OBJECT_PHA_ERRCNT[${cmd1^}]}" > 0 ]]; then
                                 Format themed text execEndErrorFmt "error "
                                 case ${FW_OBJECT_PHA_ERRCNT[${cmd1^}]} in

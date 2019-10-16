@@ -31,6 +31,9 @@
 
 SF_OPERATIONS["Format"]="shows available operations"
 
+SF_OPERATIONS["Format%4d%number%@FMT0@%@FMT1@%@FMT100@%@FMT10000@%@INT@%[%@PAD_CHAR@%]"]="formats INT with 4 digits, formats for 0, 1-99, 100-9999, > 10000"
+SF_OPERATIONS["Format%4d%number%@FMT0@%@FMT1@%@FMT100@%@FMT10000@%@ARR@%[%@PAD_CHAR@%]"]="formats size of ARR with 4 digits, formats for 0, 1-99, 100-9999, > 10000"
+
 SF_OPERATIONS["Format%text%@FMT@%@TEXT@"]="formats TEXT according to FMT"
 SF_OPERATIONS["Format%themed%text%@ITEM@%@TEXT@"]="formats TEXT using theme item ITEM"
 
@@ -59,11 +62,12 @@ SF_OPERATIONS["Format%help%indentation%3"]="formats help indentation using theme
 
 
 SF_OPERATIONS["Format%available%char%@MODES@%@MODE@"]="prints the mode availability for MODE tested in MODES"
-SF_OPERATIONS["Format%defval%char%@STRING@"]="prints the default value character"
+SF_OPERATIONS["Format%defval%char%[%@STRING@%]"]="prints the default value character"
 SF_OPERATIONS["Format%exec%char%@STATUS@"]="prints the 'show extras' characters"
-SF_OPERATIONS["Format%phase%char%@CHAR@"]="prints phase character"
-SF_OPERATIONS["Format%requested%char%@STRING@"]="prints the requested character"
-SF_OPERATIONS["Format%status%char%@CHAR@"]="prints status character"
+SF_OPERATIONS["Format%has-value%char%[%@STATUS@%]"]="prints the 'has value' characters"
+SF_OPERATIONS["Format%is-set%char%@STATUS@"]="prints the 'is set' characters"
+SF_OPERATIONS["Format%phase%char%@CHAR@"]="prints phase characters"
+SF_OPERATIONS["Format%status%char%@CHAR@"]="prints status characters"
 
 
 

@@ -31,4 +31,4 @@
 
 SF_OPERATIONS["Module"]="shows available operations"
 
-SF_OPERATIONS["Module%@ID1@%requires%module%@ID2@"]="adds ID2 as a required module to ID1"
+SF_OPERATIONS["Module%@ID1@%requires%module%@ID2@"]="adds module ID2 as a requirement to ID1"

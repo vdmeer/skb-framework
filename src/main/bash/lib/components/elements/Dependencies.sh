@@ -32,7 +32,7 @@
 function Dependencies() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id printString="" modid modpath keys
+    local id keys numberArr
     local cmd1="${1,,}" cmdString1="${1,,}"
     shift; case "${cmd1}" in
         has)
@@ -42,10 +42,13 @@ function Dependencies() {
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_DEP_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
                     printf "    %s (dec: %s / %s)\n"                    "${id}" "${FW_ELEMENT_DEP_DECMDS[${id}]}" "${FW_ELEMENT_DEP_DECPHA[${id}]}"
-                    printf "        status:     s: %s, c: %s, r: %s\n"  "${FW_ELEMENT_DEP_STATUS[${id}]}" "${FW_ELEMENT_DEP_STATUS_COMMENTS[${id}]}" "${FW_ELEMENT_DEP_REQUESTED[${id}]}"
+                    printf "        status:     s: %s, c: %s\n"         "${FW_ELEMENT_DEP_STATUS[${id}]}" "${FW_ELEMENT_DEP_STATUS_COMMENTS[${id}]}"
+                    IFS=" " read -a numberArr <<< "${FW_ELEMENT_DEP_REQUESTED[${id}]}"; unset IFS
+                    printf "        #req-in:    %s\n"                   "${#numberArr[@]}"
+                    printf "        req-in:     %s\n"                   "${FW_ELEMENT_DEP_REQUESTED[${id}]}"
                     printf "        command:    %s\n"                   "${FW_ELEMENT_DEP_CMD[${id}]}"
-                    printf "        req-num:    %s\n"                   "${FW_ELEMENT_DEP_REQNUM[${id}]}"
-                    printf "        req-dep:    %s\n"                   "${FW_ELEMENT_DEP_REQUIRED_DEPENDENCIES[${id}]:-none}"
+                    printf "        #req-dep:   %s\n"                   "${FW_ELEMENT_DEP_REQOUT_NUM[${id}]}"
+                    printf "        req-dep:    %s\n"                   "${FW_ELEMENT_DEP_REQUIRED_DEP[${id}]:-none}"
                     printf "        descr:      %s\n\n"                 "${FW_ELEMENT_DEP_LONG[${id}]}"
                 done
             else

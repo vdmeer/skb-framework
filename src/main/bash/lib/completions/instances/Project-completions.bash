@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Validate - auto completion
+## Project - auto completion
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.6
@@ -29,15 +29,30 @@
 ##
 
 
-function __skb_Validate_completions(){
+function __skb_Project_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Validate)   retval="added everything library framework" ;;
+        Project)        retval="$(Projects has)" ;;
 
-        added)      retval="components" ;;
-        library)    retval="text" ;;
-        framework)  retval="components" ;;
+        requires)       retval="application dependency parameter project scenario site directory-list directory file-list file task" ;;
+
+        application)    retval="$(Applications has)" ;;
+        dependency)     retval="$(Dependencies has)" ;;
+        parameter)      retval="$(Parameters has)" ;;
+        project)        retval="$(Projects has)" ;;
+        scenario)       retval="$(Scenarios has)" ;;
+        site)           retval="$(Sites has)" ;;
+        directory-list) retval="$(Dirlists has)" ;;
+        directory)      retval="$(Dirs has)" ;;
+        file-list)      retval="$(Filelists has)" ;;
+        file)           retval="$(Files has)" ;;
+        task)           retval="$(Tasks has)" ;;
+
+        ## Project ID1 requires ...
+        *)              if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "Project" ]]; then
+                            retval="requires"
+                        fi ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }
-complete -F __skb_Validate_completions Validate
+complete -F __skb_Project_completions Project

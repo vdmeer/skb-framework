@@ -41,7 +41,7 @@ function __skb_Get_completions(){
         default)        retval="theme" ;;
         primary)        retval="module" ;;
 
-        element)        retval="application dependency dirlist dir filelist file module option parameter project scenario site task" ;;
+        element)        retval="application dependency dirlist dir filelist file module option parameter project scenario script site task" ;;
         object)         retval="configuration format level message mode phase setting theme themeitem variable" ;;
 
         configuration)  retval="$(Configurations has)" ;;
@@ -72,6 +72,8 @@ function __skb_Get_completions(){
                         if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "phase" ]]; then  retval="print description error log warning"; fi ;;
         scenario)       if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "element" ]]; then retval="$(Scenarios has)"; fi
                         if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "phase" ]]; then  retval="print description error log warning"; fi ;;
+        script)         if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "element" ]]; then retval="$(Scripts has)"; fi
+                        if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "phase" ]]; then  retval="print description error log warning"; fi ;;
         site)           if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "element" ]]; then retval="$(Sites has)"; fi
                         if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "phase" ]]; then  retval="print description error log warning"; fi ;;
         task)           if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "element" ]]; then retval="$(Tasks has)"; fi
@@ -85,13 +87,13 @@ function __skb_Get_completions(){
         app)            retval="name name2" ;;
         cache)          retval="dir" ;;
         config)         retval="file" ;;
-        current)        retval="mode phase theme project scenario site task" ;;
+        current)        retval="mode phase theme project script scenario site task" ;;
         home)           retval="dir" ;;
 
         error)          if [[ "${COMP_WORDS[COMP_CWORD-3]}" == "object" ]]; then retval="description path character theme-string"
                         else retval="count"
                         fi ;;
-        last)           retval="project scenario site task" ;;
+        last)           retval="project script scenario site task" ;;
         log)            if [[ "${COMP_WORDS[COMP_CWORD-3]}" == "phase" ]]; then retval="level"; else retval="dir file format level date-arg"; fi ;;
         print)          if [[ "${COMP_WORDS[COMP_CWORD-3]}" == "phase" ]]; then retval="level"; else retval="format format2 level"; fi ;;
         show)           retval="execution execution2" ;;
@@ -138,12 +140,14 @@ function __skb_Get_completions(){
                            retval="description short argument category length set value"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "parameter" ]]; then
                            retval="description origin default-value phase value status status-comments requested"
-                                elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "project" ]]; then
-                           retval="description origin modes path path-text root-dir targets status status-comments required-applications required-dependencies required-parameters required-tasks required-files required-filelists required-directories required-dirlists"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "project" ]]; then
+                           retval="description origin modes path path-text root-dir targets status status-comments required-applications required-dependencies required-parameters required-projects required-scenarios required-sites required-tasks required-files required-filelists required-directories required-dirlists"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "script" ]]; then
+                           retval="description origin modes path path-text root-dir targets status status-comments required-applications required-dependencies required-parameters required-projects required-scripts required-scenarios required-sites required-tasks required-files required-filelists required-directories required-dirlists"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "scenario" ]]; then
-                           retval="description origin modes path path-text status status-comments required-applications required-tasks"
+                           retval="description origin modes path path-text status status-comments required-applications required-scenarios required-tasks"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "site" ]]; then
-                           retval="description origin path path-text file status status-comments required-applications required-dependencies required-parameters required-tasks required-files required-filelists required-directories required-dirlists"
+                           retval="description origin path path-text file status status-comments required-applications required-dependencies required-parameters required-scenarios required-tasks required-files required-filelists required-directories required-dirlists"
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "task" ]]; then
                            retval="description origin modes path path-text status status-comments required-applications required-dependencies required-parameters required-tasks required-files required-filelists required-directories required-dirlists"
 

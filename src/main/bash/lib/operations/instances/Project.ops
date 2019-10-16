@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Repeat - API declarations
+## Project - API declarations
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.6
@@ -29,13 +29,16 @@
 ##
 
 
-SF_OPERATIONS["Repeat"]="shows available operations"
+SF_OPERATIONS["Project"]="shows available operations"
 
-SF_OPERATIONS["Repeat%application%execution%@ID@%@NUM@%@SEC@%[%@OPTIONS@%]"]="repeats execution of application (with OPTIONS) ID NUM times, wating SEC between them"
-
-SF_OPERATIONS["Repeat%scenario%execution%@NUM@%@SEC@%@ID@"]="repeats execution of scenario ID NUM times, wating SEC between them"
-SF_OPERATIONS["Repeat%script%execution%@NUM@%@SEC@%@ID@"]="repeats execution of script ID NUM times, wating SEC between them"
-SF_OPERATIONS["Repeat%task%execution%@NUM@%@SEC@%@ID@%[%@OPTIONS@%]"]="repeats execution of task ID (with OPTIONS) NUM times, wating SEC between them"
-
-SF_OPERATIONS["Repeat%print%character%@N@%@CAR@"]="prints CHAR for N times"
-SF_OPERATIONS["Repeat%print%formatted%character%@N@%@CAR@%@FMT@"]="prints CHAR for N times using format from theme item FMT"
+SF_OPERATIONS["Project%@ID1@%requires%application%@ID2@"]="adds application ID2 as a requirement to ID1"
+SF_OPERATIONS["Project%@ID1@%requires%dependency%@ID2@"]="adds dependency ID2 as a requirement to ID1"
+SF_OPERATIONS["Project%@ID1@%requires%parameter%@ID2@"]="adds parameter ID2 as a requirement to ID1"
+SF_OPERATIONS["Project%@ID1@%requires%project%@ID2@"]="adds project ID2 as a requirement to ID1"
+SF_OPERATIONS["Project%@ID1@%requires%scenario%@ID2@"]="adds scenario ID2 as a requirement to ID1"
+SF_OPERATIONS["Project%@ID1@%requires%site%@ID2@"]="adds site ID2 as a requirement to ID1"
+SF_OPERATIONS["Project%@ID1@%requires%task%@ID2@"]="adds task ID2 as a requirement to ID1"
+SF_OPERATIONS["Project%@ID1@%requires%directory-list%@ID2@"]="adds directory list ID2 as a requirement to ID1"
+SF_OPERATIONS["Project%@ID1@%requires%directory%@ID2@"]="adds directory ID2 as a requirement to ID1"
+SF_OPERATIONS["Project%@ID1@%requires%file-list%@ID2@"]="adds file list ID2 as a requirement to ID1"
+SF_OPERATIONS["Project%@ID1@%requires%file%@ID2@"]="adds file ID2 as a requirement to ID1"

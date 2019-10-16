@@ -32,21 +32,35 @@
 function __skb_Show_completions(){
     local retval="" list file dir
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Show)  retval="cache log statistics fast load medium slow project scenario site task" ;;
+        Show)       retval="cache log statistics fast load medium slow project scenario script site task" ;;
 
-        cache | log)                        retval="file" ;;
-        file)                               if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "cache" ]]; then
-                                                dir="$(Get cache dir)"
-                                                for file in ${dir}/*.cache ${dir}/**/*.cache; do file=${file//"${dir}/"/}; retval+=" ${file//.cache/}"; done
-                                            fi ;;
+        cache)      retval="file" ;;
+        log)        retval="file" ;;
+        file)       if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "cache" ]]; then
+                        dir="$(Get cache dir)"
+                        for file in ${dir}/**/*.cache; do
+                            if [[ "${file}" == "${dir}/**/*.cache" ]]; then break; fi
+                            file=${file//"${dir}/"/}; retval+=" ${file//.cache/}"
+                        done
+                    fi ;;
 
-        fast | load | medium | slow)        retval="runtime" ;;
-        statistics)                         retval="overview"
-                                            retval+=" applications dependencies dirlists dirs filelists files options parameters projects scenarios sites tasks"
-                                            retval+=" messages phases settings themeitems" ;;
+        fast)       retval="runtime" ;;
+        load)       retval="runtime" ;;
+        medium)     retval="runtime" ;;
+        slow)       retval="runtime" ;;
 
-        project | scenario | site | task)   retval="execution" ;;
-        execution)                          retval="start end" ;;
+        statistics) retval="overview for" ;;
+        for)        retval="applications dependencies dirlists dirs filelists files options parameters projects scenarios sites tasks"
+                    retval+=" messages phases settings themeitems"
+                    retval+=" time" ;;
+
+        project)    retval="execution" ;;
+        scenario)   retval="execution" ;;
+        script)     retval="execution" ;;
+        site)       retval="execution" ;;
+        task)       retval="execution" ;;
+
+        execution)  retval="start end" ;;
 
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi

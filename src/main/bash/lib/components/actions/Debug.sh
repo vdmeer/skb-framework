@@ -82,9 +82,9 @@ function Debug() {
                     printf "\n"
                 fi
 
-            if [[ -n "${FW_ELEMENT_DEP_REQUIRED_DEPENDENCIES[${id}]:-}" ]]; then
+            if [[ -n "${FW_ELEMENT_DEP_REQUIRED_DEP[${id}]:-}" ]]; then
                 printf "\n    "; Format text regular,italic "Dependencies"; printf "\n"
-                for tmpString in ${FW_ELEMENT_DEP_REQUIRED_DEPENDENCIES[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
+                for tmpString in ${FW_ELEMENT_DEP_REQUIRED_DEP[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
             fi ;;
 
 
@@ -204,9 +204,9 @@ function Debug() {
                     printf "\n"
                 fi
 
-            if [[ -n "${FW_ELEMENT_MDS_REQUIRED_MODULES[${id}]:-}" ]]; then
+            if [[ -n "${FW_ELEMENT_MDS_REQUIRED_MDS[${id}]:-}" ]]; then
                 printf "\n    "; Format text regular,italic "Modules"; printf "\n"
-                for tmpString in ${FW_ELEMENT_MDS_REQUIRED_MODULES[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
+                for tmpString in ${FW_ELEMENT_MDS_REQUIRED_MDS[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
             fi ;;
 
 
@@ -352,10 +352,6 @@ function Debug() {
                     printf "%s applications:\n" "${listIndent}"
                     for tmpString in ${FW_ELEMENT_SIT_REQUIRED_APP[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
                 fi
-                if [[ -n "${FW_ELEMENT_SIT_REQUIRED_DEP[${id}]:-}" ]]; then
-                    printf "%s dependencies:\n" "${listIndent}"
-                    for tmpString in ${FW_ELEMENT_SIT_REQUIRED_DEP[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
-                fi
                 if [[ -n "${FW_ELEMENT_SIT_REQUIRED_PAR[${id}]:-}" ]]; then
                     printf "%s parameters:\n" "${listIndent}"
                     for tmpString in ${FW_ELEMENT_SIT_REQUIRED_PAR[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
@@ -364,21 +360,21 @@ function Debug() {
                     printf "%s tasks:\n" "${listIndent}"
                     for tmpString in ${FW_ELEMENT_SIT_REQUIRED_TSK[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
                 fi
-                if [[ -n "${FW_ELEMENT_SIT_REQUIRED_FILE[${id}]:-}" ]]; then
+                if [[ -n "${FW_ELEMENT_SIT_REQUIRED_FIL[${id}]:-}" ]]; then
                     printf "%s files:\n" "${listIndent}"
-                    for tmpString in ${FW_ELEMENT_SIT_REQUIRED_FILE[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
+                    for tmpString in ${FW_ELEMENT_SIT_REQUIRED_FIL[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
                 fi
-                if [[ -n "${FW_ELEMENT_SIT_REQUIRED_FILELIST[${id}]:-}" ]]; then
+                if [[ -n "${FW_ELEMENT_SIT_REQUIRED_FLS[${id}]:-}" ]]; then
                     printf "%s file lists:\n" "${listIndent}"
-                    for tmpString in ${FW_ELEMENT_SIT_REQUIRED_FILELIST[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
+                    for tmpString in ${FW_ELEMENT_SIT_REQUIRED_FLS[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
                 fi
                 if [[ -n "${FW_ELEMENT_SIT_REQUIRED_DIR[${id}]:-}" ]]; then
                     printf "%s directories:\n" "${listIndent}"
                     for tmpString in ${FW_ELEMENT_SIT_REQUIRED_DIR[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
                 fi
-                if [[ -n "${FW_ELEMENT_SIT_REQUIRED_DIRLIST[${id}]:-}" ]]; then
+                if [[ -n "${FW_ELEMENT_SIT_REQUIRED_DLS[${id}]:-}" ]]; then
                     printf "%s directory lists:\n" "${listIndent}"
-                    for tmpString in ${FW_ELEMENT_SIT_REQUIRED_DIRLIST[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
+                    for tmpString in ${FW_ELEMENT_SIT_REQUIRED_DLS[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
                 fi
             ;;
 
@@ -422,21 +418,21 @@ function Debug() {
                     printf "%s tasks:\n" "${listIndent}"
                     for tmpString in ${FW_ELEMENT_TSK_REQUIRED_TSK[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
                 fi
-                if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FILE[${id}]:-}" ]]; then
+                if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FIL[${id}]:-}" ]]; then
                     printf "%s files:\n" "${listIndent}"
-                    for tmpString in ${FW_ELEMENT_TSK_REQUIRED_FILE[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
+                    for tmpString in ${FW_ELEMENT_TSK_REQUIRED_FIL[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
                 fi
-                if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FILELIST[${id}]:-}" ]]; then
+                if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FLS[${id}]:-}" ]]; then
                     printf "%s file lists:\n" "${listIndent}"
-                    for tmpString in ${FW_ELEMENT_TSK_REQUIRED_FILELIST[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
+                    for tmpString in ${FW_ELEMENT_TSK_REQUIRED_FLS[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
                 fi
                 if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DIR[${id}]:-}" ]]; then
                     printf "%s directories:\n" "${listIndent}"
                     for tmpString in ${FW_ELEMENT_TSK_REQUIRED_DIR[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
                 fi
-                if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DIRLIST[${id}]:-}" ]]; then
+                if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DLS[${id}]:-}" ]]; then
                     printf "%s directory lists:\n" "${listIndent}"
-                    for tmpString in ${FW_ELEMENT_TSK_REQUIRED_DIRLIST[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
+                    for tmpString in ${FW_ELEMENT_TSK_REQUIRED_DLS[${id}]}; do printf "        %s %s\n" "-" "${tmpString}"; done
                 fi ;;
 
         *)  Report process error "${FUNCNAME[0]}" E803 "${cmdString1}"; return ;;
