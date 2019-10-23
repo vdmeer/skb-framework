@@ -47,7 +47,7 @@ function __Framework_component_completions(){
                 object)     COMPREPLY=($(compgen -W "$(Framework has objects)" --                       "${COMP_WORDS[2]}")) ;;
                 task)       COMPREPLY=($(compgen -W "$(Tasks has)" --                                   "${COMP_WORDS[2]}")) ;;
             esac ;;
-        4)  case "${COMP_LINE}" in
+        *)  case "${COMP_LINE}" in
                 "Framework has "*)  ;;
                 "Framework task "*) taskName="${COMP_WORDS[2]//-/_}"
                                     taskCompletion="__skb_task_${taskName}_words"
@@ -55,7 +55,6 @@ function __Framework_component_completions(){
                                     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi ;;
                 *)                  __skb_${COMP_WORDS[2]}_completions
             esac ;;
-        *)  __skb_${COMP_WORDS[2]}_completions ;;
     esac
 }
 complete -F __Framework_component_completions Framework

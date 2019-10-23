@@ -43,8 +43,8 @@ Parse cli "" ${FW_START_CLI}
 if [[ "${FW_ELEMENT_OPT_SET["config-file"]}" == yes ]]; then Set config file to "${FW_ELEMENT_OPT_VAL["config-file"]}"; fi
 if [[ "${FW_ELEMENT_OPT_SET["strict-mode"]}" == yes ]]; then Activate strict mode; fi
 
-if [[ "${FW_ELEMENT_OPT_SET["all-mode"]}" == yes ]]; then
-    Set current mode to all
+if [[ "${FW_ELEMENT_OPT_SET["test-mode"]}" == yes ]]; then
+    Set current mode to test
 elif [[ "${FW_ELEMENT_OPT_SET["dev-mode"]}" == yes ]]; then
     Set current mode to dev
 elif [[ "${FW_ELEMENT_OPT_SET["build-mode"]}" == yes ]]; then

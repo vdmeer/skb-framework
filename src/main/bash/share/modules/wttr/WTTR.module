@@ -34,5 +34,5 @@ if [[ ! -n "${FW_MODULE_PATH:-}" ]]; then printf "  skb-framework: module \e[97m
 Add element module WTTR WT ${FW_MODULE_PATH} "weather reports using wttr.in"
     Module WTTR requires module Core
 
-Add element task wttr with all ${FW_MODULE_PATH}/tasks NO "uses CURL to get weather reports from wttr.in"
+Add element task wttr with "dev build use" ${FW_MODULE_PATH}/tasks NO "uses CURL to get weather reports from wttr.in"
     Task wttr requires dependency curl

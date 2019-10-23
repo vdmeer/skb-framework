@@ -63,8 +63,8 @@ function Ask() {
                             if [[ "${mode}" == "test" ]]; then
                                 printf "yes"
                             else
-                                case ${FW_ELEMENT_PRJ_MODES[${id}]} in
-                                    all | ${mode})  printf "yes" ;;
+                                case "${FW_ELEMENT_PRJ_MODES[${id}]}" in
+                                    *"${mode}"*)    printf "yes" ;;
                                     *)              printf "no" ;;
                                 esac
                             fi;;
@@ -75,8 +75,8 @@ function Ask() {
                             if [[ "${mode}" == "test" ]]; then
                                  printf "yes"
                             else
-                                case ${FW_ELEMENT_TSK_MODES[${id}]} in
-                                    all | ${mode})  printf "yes" ;;
+                                case "${FW_ELEMENT_TSK_MODES[${id}]}" in
+                                    *"${mode}"*)    printf "yes" ;;
                                     *)              printf "no" ;;
                                 esac
                             fi ;;
@@ -87,8 +87,8 @@ function Ask() {
                             if [[ "${mode}" == "test" ]]; then
                                  printf "yes"
                             else
-                                case ${FW_ELEMENT_SCN_MODES[${id}]} in
-                                    all | ${mode})  printf "yes" ;;
+                                case "${FW_ELEMENT_SCN_MODES[${id}]}" in
+                                    *"${mode}"*)    printf "yes" ;;
                                     *)              printf "no" ;;
                                 esac
                             fi ;;
@@ -99,8 +99,8 @@ function Ask() {
                             if [[ "${mode}" == "test" ]]; then
                                  printf "yes"
                             else
-                                case ${FW_ELEMENT_TCR_MODES[${id}]} in
-                                    all | ${mode})  printf "yes" ;;
+                                case "${FW_ELEMENT_SCR_MODES[${id}]}" in
+                                    *"${mode}"*)    printf "yes" ;;
                                     *)              printf "no" ;;
                                 esac
                             fi ;;

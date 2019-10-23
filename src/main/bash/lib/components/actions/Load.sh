@@ -49,8 +49,9 @@ function Load() {
             Test known module "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             if [[ -n "${FW_ELEMENT_MDS_LONG[${id}]:-}" ]]; then Report process warning "${FUNCNAME[0]}" "${cmd1}" W808 module "${id}" loaded; return; fi
 
-            if [[ -r  "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}.cache" ]]; then
-                source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}.cache"
+            if [[ -r  "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}-elements.cache" ]]; then
+                if [[ -r  "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}-objects.cache" ]]; then source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}-objects.cache"; fi
+                source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}-elements.cache"
             else
                 local modFile="${FW_ELEMENT_MDS_KNOWN["${id}"]}" modPath
                 modPath="${modFile%/*}"
@@ -60,26 +61,26 @@ function Load() {
                 source "${modFile}"
                 unset -v FW_MODULE_PATH
                 Reload task completions
-                Activate auto write
-                Write slow config
+                if [[ "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" != "Load" ]]; then Write slow config; Activate auto write; fi
             fi
             if [[ "${FW_OBJECT_SET_VAL["AUTO_VERIFY"]}" != false ]]; then Verify elements; fi ;;
 
         runtime)
-            source ${FW_RUNTIME_CONFIG_FAST}
-            source "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_MEDIUM"]}"
-            source "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_SLOW"]}"
-            source "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_LOAD"]}" ;;
+            file="${FW_RUNTIME_CONFIG_FAST}-tmp"
+            sed -e "s/declare -A/declare -A -g/g" <<< cat ${FW_RUNTIME_CONFIG_FAST} "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_MEDIUM"]}" "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_SLOW"]}" "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_LOAD"]}" > "${file}"
+            source "${file}"
+            rm "${file}" ;;
 
         theme)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1}" E801 1 "$#"; return; fi
             id="${1}"; Test existing theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             if [[ "${id}" != "☰API☷" && "${id}" != "⫷Framework⫸" ]]; then
-                Tablechars clear all
+                Stores clear all
                 FW_CURRENT_THEME_NAME="${id}"
                 if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}.cache" ]]; then
                     source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}.cache"
                     Verify theme
+                    if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}-stores.cache" ]]; then source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}-stores.cache"; fi
                 elif [[ -r "${FW_ELEMENT_MDS_PATH["${FW_OBJECT_THM_DECMDS["${id}"]}"]}/themes/${id}.thm" ]]; then
                     FW_OBJECT_SET_VAL["AUTO_WRITE"]=false
                     source "${FW_ELEMENT_MDS_PATH["${FW_OBJECT_THM_DECMDS["${id}"]}"]}/themes/${id}.thm"
@@ -88,7 +89,10 @@ function Load() {
                     :
 ##TODO ERROR file not found, tried cache and std dir
                 fi
-                if [[ "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" != "Load" ]]; then Write slow config; Activate auto write; fi
+                if [[ "${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}" != "Load" ]]; then
+                    Stores clear all; Stores build all
+                    Write slow config; Activate auto write
+                fi
                 unset FW_CURRENT_THEME_NAME
             else
                 Report process error "${FUNCNAME[0]}" "${cmd1}" E828 "theme" "loaded"

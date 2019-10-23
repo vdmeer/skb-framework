@@ -149,28 +149,28 @@ Set object themeitem phaLvlNotsetFmt to             regular
 
 
 
-Set object themeitem phaseCLIChar to            ◆
-Set object themeitem phaseCLIFmt to             blue-hi
-Set object themeitem phaseDefaultChar to        ◆
+Set object themeitem phaseCLIChar to            Ⓒ
+Set object themeitem phaseCLIFmt to             yellow
+Set object themeitem phaseDefaultChar to        Ⓓ
 Set object themeitem phaseDefaultFmt to         yellow-hi
-Set object themeitem phaseEnvChar to            ◆
-Set object themeitem phaseEnvFmt to             green
-Set object themeitem phaseFileChar to           ◆
+Set object themeitem phaseEnvChar to            Ⓔ
+Set object themeitem phaseEnvFmt to             green-hi
+Set object themeitem phaseFileChar to           Ⓕ
 Set object themeitem phaseFileFmt to            green-hi
-Set object themeitem phaseLoadChar to           ◆
-Set object themeitem phaseLoadFmt to            blue
-Set object themeitem phaseProjectChar to        ◆
-Set object themeitem phaseProjectFmt to         yellow
-Set object themeitem phaseScenarioChar to       ◆
+Set object themeitem phaseLoadChar to           Ⓛ
+Set object themeitem phaseLoadFmt to            yellow-hi
+Set object themeitem phaseProjectChar to        ⒫
+Set object themeitem phaseProjectFmt to         purple-hi
+Set object themeitem phaseScenarioChar to       ⒮
 Set object themeitem phaseScenarioFmt to        purple-hi
-Set object themeitem phaseScriptChar to         ◆
+Set object themeitem phaseScriptChar to         ⓢ
 Set object themeitem phaseScriptFmt to          purple
-Set object themeitem phaseShellChar to          ◆
-Set object themeitem phaseShellFmt to           cyan
-Set object themeitem phaseSiteChar to           ◆
+Set object themeitem phaseShellChar to          Ⓢ
+Set object themeitem phaseShellFmt to           cyan-hi
+Set object themeitem phaseSiteChar to           s
 Set object themeitem phaseSiteFmt to            purple
-Set object themeitem phaseTaskChar to           ◆
-Set object themeitem phaseTaskFmt to            cyan-hi
+Set object themeitem phaseTaskChar to           ⒯
+Set object themeitem phaseTaskFmt to            purple-hi
 
 
 
@@ -189,14 +189,14 @@ Set object themeitem elementModeNoFmt to        red-hi
 Set object themeitem elementModeNoChar to       ✘
 
 Set object themeitem elementDefYesFmt to        green,bold
-Set object themeitem elementDefYesChar to       Y
+Set object themeitem elementDefYesChar to       ✅
 Set object themeitem elementDefNoFmt to         blue,bold
-Set object themeitem elementDefNoChar to        N
+Set object themeitem elementDefNoChar to        ─
 
 Set object themeitem elementExexYesFmt to       green,bold
-Set object themeitem elementExexYesChar to      Y
+Set object themeitem elementExexYesChar to      ✅
 Set object themeitem elementExexNoFmt to        yellow,bold
-Set object themeitem elementExexNoChar to       N
+Set object themeitem elementExexNoChar to       ─
 
 
 

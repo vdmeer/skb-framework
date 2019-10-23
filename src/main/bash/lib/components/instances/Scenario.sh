@@ -43,38 +43,38 @@ function Scenario() {
     case "${3}" in
         application)
             Test existing ${3} id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            if [[ ! -n "${FW_ELEMENT_SCN_REQUIRED_APP["${id1}"]:-}" ]]; then
-                FW_ELEMENT_SCN_REQUIRED_APP["${id1}"]+="${id2} "; writeSlow=true
+            if [[ ! -n "${FW_ELEMENT_SCN_REQOUT_APP["${id1}"]:-}" ]]; then
+                FW_ELEMENT_SCN_REQOUT_APP["${id1}"]+="${id2} "; writeSlow=true
             else
-                case "${FW_ELEMENT_SCN_REQUIRED_APP["${id1}"]}" in
+                case "${FW_ELEMENT_SCN_REQOUT_APP["${id1}"]}" in
                     *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
-                    *)              FW_ELEMENT_SCN_REQUIRED_APP["${id1}"]+="${id2} "; writeSlow=true ;;
+                    *)              FW_ELEMENT_SCN_REQOUT_APP["${id1}"]+="${id2} "; writeSlow=true ;;
                 esac
             fi ;;
         scenario)
             Test existing ${3} id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             if [[ "${id1}" == "${id2}" ]]; then Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E902 "${3}"; return; fi
-            if [[ ! -n "${FW_ELEMENT_SCN_REQUIRED_SCN["${id1}"]:-}" ]]; then
-                FW_ELEMENT_SCN_REQUIRED_SCN["${id1}"]+="${id2} "; writeSlow=true
+            if [[ ! -n "${FW_ELEMENT_SCN_REQOUT_SCN["${id1}"]:-}" ]]; then
+                FW_ELEMENT_SCN_REQOUT_SCN["${id1}"]+="${id2} "; writeSlow=true
             else
-                case "${FW_ELEMENT_SCN_REQUIRED_SCN["${id1}"]}" in
+                case "${FW_ELEMENT_SCN_REQOUT_SCN["${id1}"]}" in
                     *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
-                    *)              FW_ELEMENT_SCN_REQUIRED_SCN["${id1}"]+="${id2} "; writeSlow=true ;;
+                    *)              FW_ELEMENT_SCN_REQOUT_SCN["${id1}"]+="${id2} "; writeSlow=true ;;
                 esac
             fi ;;
         task)
-            if [[ ! -n "${FW_ELEMENT_SCN_REQUIRED_TSK["${id1}"]:-}" ]]; then
-                FW_ELEMENT_SCN_REQUIRED_TSK["${id1}"]+="${id2} "; writeSlow=true
+            if [[ ! -n "${FW_ELEMENT_SCN_REQOUT_TSK["${id1}"]:-}" ]]; then
+                FW_ELEMENT_SCN_REQOUT_TSK["${id1}"]+="${id2} "; writeSlow=true
             else
-                case "${FW_ELEMENT_SCN_REQUIRED_TSK["${id1}"]}" in
+                case "${FW_ELEMENT_SCN_REQOUT_TSK["${id1}"]}" in
                     *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
-                    *)              FW_ELEMENT_SCN_REQUIRED_TSK["${id1}"]+="${id2} "; writeSlow=true ;;
+                    *)              FW_ELEMENT_SCN_REQOUT_TSK["${id1}"]+="${id2} "; writeSlow=true ;;
                 esac
             fi ;;
         *)
             Report process error "${FUNCNAME[0]}" "${1} requires 'component' ${4}" E803 "${3}"; return ;;
     esac
 
-    if [[ "${writeSlow}" ]]; then FW_ELEMENT_SCN_REQOUT_NUM[${id1}]=$(( FW_ELEMENT_SCN_REQOUT_NUM[${id1}] + 1 )); fi
+    if [[ "${writeSlow}" ]]; then FW_ELEMENT_SCN_REQOUT_COUNT[${id1}]=$(( FW_ELEMENT_SCN_REQOUT_COUNT[${id1}] + 1 )); fi
     if [[ "${writeSlow}" == true && "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write slow config; fi
 }

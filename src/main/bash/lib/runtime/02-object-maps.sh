@@ -120,6 +120,19 @@ FW_COMPONENTS_TAGLINE["Settings"]="data object representing the framework's sett
 
 
 
+#FW_COMPONENTS_SINGULAR["Stores"]="stores"
+#FW_COMPONENTS_PLURAL["Stores"]="stores"
+#FW_COMPONENTS_TITLE_LONG_SINGULAR["Stores"]="Store"
+#FW_COMPONENTS_TITLE_LONG_PLURAL["Stores"]="Stores"
+#FW_COMPONENTS_TITLE_SHORT_SINGULAR["Stores"]="Store"
+#FW_COMPONENTS_TITLE_SHORT_PLURAL["Stores"]="Stores"
+#FW_COMPONENTS_TABLE_DESCR["Stores"]="Description"
+#FW_COMPONENTS_TABLE_VALUE["Stores"]="Value"
+#FW_COMPONENTS_TABLE_EXTRA["Stores"]=""
+FW_COMPONENTS_TAGLINE["Stores"]="data object representing the framework's stores"
+
+
+
 FW_COMPONENTS_SINGULAR["Themeitems"]="themeitem"
 FW_COMPONENTS_PLURAL["Themeitems"]="themeitems"
 FW_COMPONENTS_TITLE_LONG_SINGULAR["Themeitems"]="Theme Item"

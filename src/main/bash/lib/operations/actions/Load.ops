@@ -34,6 +34,7 @@ SF_OPERATIONS["Load"]="shows available operations"
 SF_OPERATIONS["Load%module%@ID@"]="loads module ID"
 SF_OPERATIONS["Load%modules%@ID1@%[%@ID2@%...%]"]="load modules ID1, ID2, ..."
 SF_OPERATIONS["Load%theme%@ID@"]="loads them ID"
+
 SF_OPERATIONS["Load%runtime"]="loads all runtime configuration files (fast, medium, slow, load)"
 
 SF_OPERATIONS["Load%all%modules"]="calls module search, then loads all found modules"

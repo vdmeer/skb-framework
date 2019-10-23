@@ -36,6 +36,8 @@ Add element module Coretest CT ${FW_MODULE_PATH} "essential elements for the fra
 
 
 Add element scenario test-simple with test ${FW_MODULE_PATH}/scenarios/test YES "simple scenario for testing API functions"
+    Scenario test-simple requires task list-configuration
+    Scenario test-simple requires task debug-tasks
 
 Add element scenario test-task-help with test ${FW_MODULE_PATH}/scenarios/test YES "runs all tasks with '--help'"
     Scenario test-task-help requires task debug-tasks

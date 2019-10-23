@@ -46,7 +46,7 @@ function Activate() {
                 *)  Report process error "${FUNCNAME[0]}" "${cmdString1}" E879 "${cmd1}" "${cmd2} ${cmd3}"; return ;;
             esac ;;
 
-        auto | log | print | show | strict)
+        auto | log | print | retest | show | strict)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
             case "${cmd1}-${cmd2}" in
@@ -65,6 +65,16 @@ function Activate() {
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E801 1 "$#"; return; fi
                     level="${1}"; Test existing level id "${level}" ; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                     __skb_internal_deac_phase_level activate ${cmd1}-${cmd2} ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ${level} ;;
+
+                retest-commands)
+                    FW_OBJECT_SET_VAL["RETEST_COMMANDS"]=yes
+                    FW_OBJECT_SET_PHASET["RETEST_COMMANDS"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                    doWriteFast=true ;;
+
+                retest-fs)
+                    FW_OBJECT_SET_VAL["RETEST_FS"]=yes
+                    FW_OBJECT_SET_PHASET["RETEST_FS"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                    doWriteFast=true ;;
 
                 show-execution)
                     FW_OBJECT_SET_PHASET["SHOW_EXECUTION"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"

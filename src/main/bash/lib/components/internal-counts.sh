@@ -35,18 +35,30 @@ function __skb_internal_alter_phase_counts () {
         increase)
             case "${type}" in
                 error-count)    FW_OBJECT_PHA_ERRCNT[${phase}]=$(( FW_OBJECT_PHA_ERRCNT[${phase}] + 1 ))
-                                if [[ "${value}" != "0" ]]; then FW_OBJECT_PHA_MSGCOD[${phase}]+=" ${value}"; fi
+                                if [[ "${value}" != "0" ]]; then
+                                    FW_OBJECT_PHA_MSGCOD[${phase}]+=" ${value}"
+                                    FW_OBJECT_PHA_MSGCODCNT[${phase}]=$(( FW_OBJECT_PHA_MSGCODCNT[${phase}] + 1 ))
+                                fi
                                 if [[ "${phase}" == ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ]]; then
                                     FW_OBJECT_SET_PHASET["ERROR_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                                     FW_OBJECT_SET_VAL["ERROR_COUNT"]=$(( FW_OBJECT_SET_VAL["ERROR_COUNT"] + 1 ))
-                                    if [[ "${value}" != "0" ]]; then FW_OBJECT_SET_VAL["MESSAGE_CODES"]+=" ${value}"; fi
+                                    if [[ "${value}" != "0" ]]; then
+                                        FW_OBJECT_SET_VAL["MESSAGE_CODES"]+=" ${value}"; FW_OBJECT_SET_PHASET["MESSAGE_CODES"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                                        FW_OBJECT_SET_VAL["MESSAGE_CODE_COUNT"]=$(( FW_OBJECT_SET_VAL["MESSAGE_CODE_COUNT"] + 1 )); FW_OBJECT_SET_PHASET["MESSAGE_CODE_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                                    fi
                                 fi ;;
                 warning-count)  FW_OBJECT_PHA_WRNCNT[${phase}]=$(( FW_OBJECT_PHA_WRNCNT[${phase}] + 1 ))
-                                if [[ "${value}" != "0" ]]; then FW_OBJECT_PHA_MSGCOD[${phase}]+=" ${value}"; fi
+                                if [[ "${value}" != "0" ]]; then
+                                    FW_OBJECT_PHA_MSGCOD[${phase}]+=" ${value}"
+                                    FW_OBJECT_PHA_MSGCODCNT[${phase}]=$(( FW_OBJECT_PHA_MSGCODCNT[${phase}] + 1 ))
+                                fi
                                 if [[ "${phase}" == ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ]]; then
                                     FW_OBJECT_SET_PHASET["WARNING_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                                     FW_OBJECT_SET_VAL["WARNING_COUNT"]=$(( FW_OBJECT_SET_VAL["WARNING_COUNT"] + 1 ))
-                                    if [[ "${value}" != "0" ]]; then FW_OBJECT_SET_VAL["MESSAGE_CODES"]+=" ${value}"; fi
+                                    if [[ "${value}" != "0" ]]; then
+                                        FW_OBJECT_SET_VAL["MESSAGE_CODES"]+=" ${value}"; FW_OBJECT_SET_PHASET["MESSAGE_CODES"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                                        FW_OBJECT_SET_VAL["MESSAGE_CODE_COUNT"]=$(( FW_OBJECT_SET_VAL["MESSAGE_CODE_COUNT"] + 1 )); FW_OBJECT_SET_PHASET["MESSAGE_CODE_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                                    fi
                                 fi ;;
             esac ;;
         decrease)
@@ -72,6 +84,8 @@ function __skb_internal_alter_phase_counts () {
                                 if [[ "${phase}" == ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ]]; then
                                     FW_OBJECT_SET_PHASET["MESSAGE_CODES"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                                     FW_OBJECT_SET_VAL["MESSAGE_CODES"]=""
+                                    FW_OBJECT_SET_PHASET["MESSAGE_CODE_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                                    FW_OBJECT_SET_VAL["MESSAGE_CODE_COUNT"]=0
                                 fi ;;
                 error-count)    FW_OBJECT_PHA_MSGCOD[${phase}]=""
                                 FW_OBJECT_PHA_ERRCNT[${phase}]=0
@@ -80,11 +94,15 @@ function __skb_internal_alter_phase_counts () {
                                     FW_OBJECT_SET_VAL["ERROR_COUNT"]=0
                                     FW_OBJECT_SET_PHASET["MESSAGE_CODES"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                                     FW_OBJECT_SET_VAL["MESSAGE_CODES"]=""
+                                    FW_OBJECT_SET_PHASET["MESSAGE_CODE_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                                    FW_OBJECT_SET_VAL["MESSAGE_CODE_COUNT"]=0
                                 fi ;;
                 warning-count)  FW_OBJECT_PHA_WRNCNT[${phase}]=0
                                 if [[ "${phase}" == ${FW_OBJECT_SET_VAL["CURRENT_PHASE"]} ]]; then
                                     FW_OBJECT_SET_PHASET["WARNING_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
                                     FW_OBJECT_SET_VAL["WARNING_COUNT"]=0
+                                    FW_OBJECT_SET_PHASET["MESSAGE_CODE_COUNT"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                                    FW_OBJECT_SET_VAL["MESSAGE_CODE_COUNT"]=0
                                 fi ;;
             esac ;;
         set)

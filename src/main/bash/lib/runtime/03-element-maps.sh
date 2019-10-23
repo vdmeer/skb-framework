@@ -155,7 +155,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Projects"]="Project"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Projects"]="Projects"
 FW_COMPONENTS_TABLE_DESCR["Projects"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Projects"]="Path to Project"
-FW_COMPONENTS_TABLE_EXTRA["Projects"]="MD/P RQ◀◀ RQ▶▶  X S T D B U"
+FW_COMPONENTS_TABLE_EXTRA["Projects"]="MD/P RQ◀◀ RQ▶▶  S T D B U  X"
 FW_COMPONENTS_TAGLINE["Projects"]="element representing projects"
 
 
@@ -168,7 +168,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Scenarios"]="Scenario"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Scenarios"]="Scenarios"
 FW_COMPONENTS_TABLE_DESCR["Scenarios"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Scenarios"]="Path to Scenario"
-FW_COMPONENTS_TABLE_EXTRA["Scenarios"]="MD/P RQ◀◀ RQ▶▶  X S T D B U"
+FW_COMPONENTS_TABLE_EXTRA["Scenarios"]="MD/P RQ◀◀ RQ▶▶  S T D B U  X"
 FW_COMPONENTS_TAGLINE["Scenarios"]="element representing scenarios"
 
 
@@ -181,7 +181,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Scripts"]="Script"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Scripts"]="Scripts"
 FW_COMPONENTS_TABLE_DESCR["Scripts"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Scripts"]="Path to Script"
-FW_COMPONENTS_TABLE_EXTRA["Scripts"]="MD/P RQ◀◀ RQ▶▶  X S T D B U"
+FW_COMPONENTS_TABLE_EXTRA["Scripts"]="MD/P RQ◀◀ RQ▶▶  S T D B U  X"
 FW_COMPONENTS_TAGLINE["Scripts"]="element representing sites"
 
 
@@ -194,7 +194,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Sites"]="Site"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Sites"]="Sites"
 FW_COMPONENTS_TABLE_DESCR["Sites"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Sites"]="Description"
-FW_COMPONENTS_TABLE_EXTRA["Sites"]="MD/P RQ◀◀ RQ▶▶  X S T D B U"
+FW_COMPONENTS_TABLE_EXTRA["Sites"]="MD/P RQ◀◀ RQ▶▶  S T D B U  X"
 FW_COMPONENTS_TAGLINE["Sites"]="element representing sites"
 
 
@@ -207,7 +207,7 @@ FW_COMPONENTS_TITLE_SHORT_SINGULAR["Tasks"]="Task"
 FW_COMPONENTS_TITLE_SHORT_PLURAL["Tasks"]="Tasks"
 FW_COMPONENTS_TABLE_DESCR["Tasks"]="Description"
 FW_COMPONENTS_TABLE_VALUE["Tasks"]="Path to Task"
-FW_COMPONENTS_TABLE_EXTRA["Tasks"]="MD/P RQ◀◀ RQ▶▶  X S T D B U"
+FW_COMPONENTS_TABLE_EXTRA["Tasks"]="MD/P RQ◀◀ RQ▶▶  S T D B U  X"
 FW_COMPONENTS_TAGLINE["Tasks"]="element representing tasks"
 
 

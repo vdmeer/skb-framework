@@ -78,12 +78,14 @@ function __skb_internal_stats_overview () {
         printf "   Modes:                   % 4s        Phases:                  % 4s\n"      "${count1}"     "${count2}"
 
         if [[ "${FW_OBJECT_SET_LONG[*]}" != "" ]]; then count1=${#FW_OBJECT_SET_LONG[@]}; else count1=0; fi
-        if [[ "${FW_OBJECT_TIM_LONG[*]}" != "" ]]; then count2=${#FW_OBJECT_TIM_LONG[@]}; else count2=0; fi
-        printf "   Settings:                % 4s        Theme items:             % 4s\n"      "${count1}"     "${count2}"
+        printf "   Settings:                % 4s        Stores:                  % 4s\n"      "${count1}"     "$(Stores count)"
 
-        if [[ "${FW_OBJECT_THM_LONG[*]}" != "" ]]; then count1=${#FW_OBJECT_THM_LONG[@]}; else count1=0; fi
-        if [[ "${FW_OBJECT_VAL_LONG[*]}" != "" ]]; then count2=${#FW_OBJECT_VAL_LONG[@]}; else count2=0; fi
-        printf "   Themes:                  % 4s        Variables:               % 4s\n"      "${count1}"     "${count2}"
+        if [[ "${FW_OBJECT_TIM_LONG[*]}" != "" ]]; then count1=${#FW_OBJECT_TIM_LONG[@]}; else count1=0; fi
+        if [[ "${FW_OBJECT_THM_LONG[*]}" != "" ]]; then count2=${#FW_OBJECT_THM_LONG[@]}; else count2=0; fi
+        printf "   Theme Items:             % 4s        Themes:                  % 4s\n"      "${count1}"     "${count2}"
+
+        if [[ "${FW_OBJECT_VAR_LONG[*]}" != "" ]]; then count1=${#FW_OBJECT_VAR_LONG[@]}; else count1=0; fi
+        printf "   Variables:               % 4s\n"      "${count1}"
 
     __skb_internal_stats_halfrule
         if [[ "${FW_ELEMENT_APP_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_APP_LONG[@]}; else count1=0; fi
@@ -92,7 +94,7 @@ function __skb_internal_stats_overview () {
 
         if [[ "${FW_ELEMENT_DIR_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_DIR_LONG[@]}; else count1=0; fi
         if [[ "${FW_ELEMENT_DLS_LONG[*]}" != "" ]]; then count2=${#FW_ELEMENT_DLS_LONG[@]}; else count2=0; fi
-        printf "   Directoriess:            % 4s        Directory Lists:         % 4s\n"      "${count1}"     "${count2}"
+        printf "   Directories:             % 4s        Directory Lists:         % 4s\n"      "${count1}"     "${count2}"
 
         if [[ "${FW_ELEMENT_FIL_LONG[*]}" != "" ]]; then count1=${#FW_ELEMENT_FIL_LONG[@]}; else count1=0; fi
         if [[ "${FW_ELEMENT_FLS_LONG[*]}" != "" ]]; then count2=${#FW_ELEMENT_FLS_LONG[@]}; else count2=0; fi

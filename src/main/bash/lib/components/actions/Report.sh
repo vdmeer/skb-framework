@@ -32,7 +32,9 @@
 function Report() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id i message messageID level strictString themeItem nameString typeString template arr str logFile logString t1 t2 t3
+    local id i message messageID level format strictString themeItem nameString typeString template arr str logFile logString t1 t2 t3
+    if [[ -n "${FW_OBJECT_SET_VAL["PRINT_FORMAT2"]:-}" ]]; then format="${FW_OBJECT_SET_VAL["PRINT_FORMAT2"]}"; else format="${FW_OBJECT_SET_VAL["PRINT_FORMAT"]}"; fi
+
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
@@ -111,24 +113,12 @@ function Report() {
                         read -r -a arr <<< "${template}"
                         for str in "${arr[@]}"; do
                             case "${str}" in
-                                *"##APPNAME##"*)    printf " %s" "${str%"##APPNAME##"*}"
-                                                    printf "%s"  "${nameString}"
-                                                    printf "%s"  "${str#*"##APPNAME##"}"
-                                                    ;;
-                                *"##LEVEL##"*)      printf " %s" "${str%"##LEVEL##"*}"
-                                                    if [[ "${cmd1}" == "process" ]]; then
-                                                        Format themed text rpt${themeItem}LvlFmt ${level^}
-                                                    else
-                                                        Format themed text rpt${themeItem}LvlFmt ${level}
-                                                    fi
-                                                    printf "%s" "${strictString}${str#*"##LEVEL##"}"
-                                                    ;;
+                                *"##APPNAME##"*)    printf " %s%s%s" "${str%"##APPNAME##"*}" "${nameString}" "${str#*"##APPNAME##"}" ;;
+                                *"##LEVEL##"*)      printf " %s%s%s" "${str%"##LEVEL##"*}" "${FW_OBJECT_STO_SET["level-${level}-${cmd1}-${format}"]}" "${strictString}${str#*"##LEVEL##"}" ;;
                                 *"##TEXT##"*)       printf " %s" "${str%"##TEXT##"*}"
                                                     Format themed text rpt${themeItem}TextFmt "${message}"
-                                                    printf "%s" "${str#*"##TEXT##"}"
-                                                    ;;
-                                *)                  printf " %s" "${str}"
-                                                    ;;
+                                                    printf "%s" "${str#*"##TEXT##"}" ;;
+                                *)                  printf " %s" "${str}" ;;
                             esac
                         done
                         printf "\n" ;;
@@ -145,24 +135,12 @@ function Report() {
                         read -r -a arr <<< "${template}"
                         for str in "${arr[@]}"; do
                             case "${str}" in
-                                *"##APPNAME##"*)    printf " %s" "${str%"##APPNAME##"*}" >> ${logFile}
-                                                    printf "%s"  "${nameString}" >> ${logFile}
-                                                    printf "%s"  "${str#*"##APPNAME##"}" >> ${logFile}
-                                                    ;;
-                                *"##LEVEL##"*)      printf " %s" "${str%"##LEVEL##"*}" >> ${logFile}
-                                                    if [[ "${cmd1}" == "process" ]]; then
-                                                        Format themed text rpt${themeItem}LvlFmt ${level^} >> ${logFile}
-                                                    else
-                                                        Format themed text rpt${themeItem}LvlFmt ${level} >> ${logFile}
-                                                    fi
-                                                    printf "%s" "${strictString}${str#*"##LEVEL##"}" >> ${logFile}
-                                                    ;;
+                                *"##APPNAME##"*)    printf " %s%s%s" "${str%"##APPNAME##"*}" "${nameString}" "${str#*"##APPNAME##"}" >> ${logFile} ;;
+                                *"##LEVEL##"*)      printf " %s%s%s" "${str%"##LEVEL##"*}" "${FW_OBJECT_STO_SET["level-${level}-${cmd1}-${format}"]}" "${strictString}${str#*"##LEVEL##"}" >> ${logFile} ;;
                                 *"##TEXT##"*)       printf " %s" "${str%"##TEXT##"*}" >> ${logFile}
                                                     Format themed text rpt${themeItem}TextFmt "${message}" >> ${logFile}
-                                                    printf "%s" "${str#*"##TEXT##"}" >> ${logFile}
-                                                    ;;
-                                *)                  printf " %s" "${str}" >> ${logFile}
-                                                    ;;
+                                                    printf "%s" "${str#*"##TEXT##"}" >> ${logFile} ;;
+                                *)                  printf " %s" "${str}" >> ${logFile} ;;
                             esac
                         done
                         printf "\n" >> ${logFile}

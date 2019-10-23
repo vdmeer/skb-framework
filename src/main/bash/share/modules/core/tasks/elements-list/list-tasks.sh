@@ -153,8 +153,8 @@ for id in $arr; do
         if [[ "${mode}" == "test" ]]; then
             : # always available in test mode
         else
-            case ${FW_ELEMENT_TSK_MODES[${id}]} in
-                all | ${mode})  ;;
+            case "${FW_ELEMENT_TSK_MODES[${id}]}" in
+                *"${mode}"*)    ;;
                 *)              remove+=" "$id ;;
             esac
         fi
@@ -166,8 +166,8 @@ for id in $arr; do
     fi
     if [[ -n "${requested}" ]]; then
         case "${requested}" in
-            y)  if [[ ! -n "${FW_ELEMENT_TSK_REQUESTED[${id}]:-}" ]]; then remove+=" "$id; fi ;;
-            n)  if [[   -n "${FW_ELEMENT_TSK_REQUESTED[${id}]:-}" ]]; then remove+=" "$id; fi ;;
+            y)  if [[ ! -n "${FW_ELEMENT_TSK_REQIN[${id}]:-}" ]]; then remove+=" "$id; fi ;;
+            n)  if [[   -n "${FW_ELEMENT_TSK_REQIN[${id}]:-}" ]]; then remove+=" "$id; fi ;;
         esac
     fi
     if [[ -n "${status}" ]]; then

@@ -32,11 +32,10 @@
 function __skb_Format_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Format)     retval="4d ansi available defval element exec execution has-value help is-set level list mode phase paragraph status table tagline text themed" ;;
+        Format)     retval="4d ansi available defval element exec execution has-value help is-set list phase paragraph status table tagline text themed" ;;
 
         4d)             retval="number" ;;
         ansi)           retval="end file start" ;;
-        current)        retval="mode" ;;
         element)        retval="status" ;;
         execution)      retval="line" ;;
         help)           retval="indentation" ;;

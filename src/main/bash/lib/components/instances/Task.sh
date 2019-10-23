@@ -43,89 +43,89 @@ function Task() {
     case "${3}" in
         application)
             Test existing ${3} id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            if [[ ! -n "${FW_ELEMENT_TSK_REQUIRED_APP["${id1}"]:-}" ]]; then
-                FW_ELEMENT_TSK_REQUIRED_APP["${id1}"]+="${id2} "; writeSlow=true
+            if [[ ! -n "${FW_ELEMENT_TSK_REQOUT_APP["${id1}"]:-}" ]]; then
+                FW_ELEMENT_TSK_REQOUT_APP["${id1}"]+="${id2} "; writeSlow=true
             else
-                case "${FW_ELEMENT_TSK_REQUIRED_APP["${id1}"]}" in
+                case "${FW_ELEMENT_TSK_REQOUT_APP["${id1}"]}" in
                     *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
-                    *)              FW_ELEMENT_TSK_REQUIRED_APP["${id1}"]+="${id2} "; writeSlow=true ;;
+                    *)              FW_ELEMENT_TSK_REQOUT_APP["${id1}"]+="${id2} "; writeSlow=true ;;
                 esac
             fi ;;
         dependency)
             Test existing ${3} id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            if [[ ! -n "${FW_ELEMENT_TSK_REQUIRED_DEP["${id1}"]:-}" ]]; then
-                FW_ELEMENT_TSK_REQUIRED_DEP["${id1}"]+="${id2} "; writeSlow=true
+            if [[ ! -n "${FW_ELEMENT_TSK_REQOUT_DEP["${id1}"]:-}" ]]; then
+                FW_ELEMENT_TSK_REQOUT_DEP["${id1}"]+="${id2} "; writeSlow=true
             else
-                case "${FW_ELEMENT_TSK_REQUIRED_DEP["${id1}"]}" in
+                case "${FW_ELEMENT_TSK_REQOUT_DEP["${id1}"]}" in
                     *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
-                    *)              FW_ELEMENT_TSK_REQUIRED_DEP["${id1}"]+="${id2} "; writeSlow=true ;;
+                    *)              FW_ELEMENT_TSK_REQOUT_DEP["${id1}"]+="${id2} "; writeSlow=true ;;
                 esac
             fi ;;
         parameter)
             Test existing ${3} id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            if [[ ! -n "${FW_ELEMENT_TSK_REQUIRED_PAR["${id1}"]:-}" ]]; then
-                FW_ELEMENT_TSK_REQUIRED_PAR["${id1}"]+="${id2} "; writeSlow=true
+            if [[ ! -n "${FW_ELEMENT_TSK_REQOUT_PAR["${id1}"]:-}" ]]; then
+                FW_ELEMENT_TSK_REQOUT_PAR["${id1}"]+="${id2} "; writeSlow=true
             else
-                case "${FW_ELEMENT_TSK_REQUIRED_PAR["${id1}"]}" in
+                case "${FW_ELEMENT_TSK_REQOUT_PAR["${id1}"]}" in
                     *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
-                    *)              FW_ELEMENT_TSK_REQUIRED_PAR["${id1}"]+="${id2} "; writeSlow=true ;;
+                    *)              FW_ELEMENT_TSK_REQOUT_PAR["${id1}"]+="${id2} "; writeSlow=true ;;
                 esac
             fi ;;
         directory-list)
             Test existing dirlist id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            if [[ ! -n "${FW_ELEMENT_TSK_REQUIRED_DLS["${id1}"]:-}" ]]; then
-                FW_ELEMENT_TSK_REQUIRED_DLS["${id1}"]+="${id2} "; writeSlow=true
+            if [[ ! -n "${FW_ELEMENT_TSK_REQOUT_DLS["${id1}"]:-}" ]]; then
+                FW_ELEMENT_TSK_REQOUT_DLS["${id1}"]+="${id2} "; writeSlow=true
             else
-                case "${FW_ELEMENT_TSK_REQUIRED_DLS["${id1}"]}" in
+                case "${FW_ELEMENT_TSK_REQOUT_DLS["${id1}"]}" in
                     *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
-                    *)              FW_ELEMENT_TSK_REQUIRED_DLS["${id1}"]+="${id2} "; writeSlow=true ;;
+                    *)              FW_ELEMENT_TSK_REQOUT_DLS["${id1}"]+="${id2} "; writeSlow=true ;;
                 esac
             fi ;;
         directory)
             Test existing dir id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            if [[ ! -n "${FW_ELEMENT_TSK_REQUIRED_DIR["${id1}"]:-}" ]]; then
-                FW_ELEMENT_TSK_REQUIRED_DIR["${id1}"]+="${id2} "; writeSlow=true
+            if [[ ! -n "${FW_ELEMENT_TSK_REQOUT_DIR["${id1}"]:-}" ]]; then
+                FW_ELEMENT_TSK_REQOUT_DIR["${id1}"]+="${id2} "; writeSlow=true
             else
-                case "${FW_ELEMENT_TSK_REQUIRED_DIR["${id1}"]}" in
+                case "${FW_ELEMENT_TSK_REQOUT_DIR["${id1}"]}" in
                     *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
-                    *)              FW_ELEMENT_TSK_REQUIRED_DIR["${id1}"]+="${id2} "; writeSlow=true ;;
+                    *)              FW_ELEMENT_TSK_REQOUT_DIR["${id1}"]+="${id2} "; writeSlow=true ;;
                 esac
             fi ;;
         file-list)
             Test existing filelist id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            if [[ ! -n "${FW_ELEMENT_TSK_REQUIRED_FLS["${id1}"]:-}" ]]; then
-                FW_ELEMENT_TSK_REQUIRED_FLS["${id1}"]+="${id2} "; writeSlow=true
+            if [[ ! -n "${FW_ELEMENT_TSK_REQOUT_FLS["${id1}"]:-}" ]]; then
+                FW_ELEMENT_TSK_REQOUT_FLS["${id1}"]+="${id2} "; writeSlow=true
             else
-                case "${FW_ELEMENT_TSK_REQUIRED_FLS["${id1}"]}" in
+                case "${FW_ELEMENT_TSK_REQOUT_FLS["${id1}"]}" in
                     *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
-                    *)              FW_ELEMENT_TSK_REQUIRED_FLS["${id1}"]+="${id2} "; writeSlow=true ;;
+                    *)              FW_ELEMENT_TSK_REQOUT_FLS["${id1}"]+="${id2} "; writeSlow=true ;;
                 esac
             fi ;;
         file)
             Test existing ${3} id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-            if [[ ! -n "${FW_ELEMENT_TSK_REQUIRED_FIL["${id1}"]:-}" ]]; then
-                FW_ELEMENT_TSK_REQUIRED_FIL["${id1}"]+="${id2} "; writeSlow=true
+            if [[ ! -n "${FW_ELEMENT_TSK_REQOUT_FIL["${id1}"]:-}" ]]; then
+                FW_ELEMENT_TSK_REQOUT_FIL["${id1}"]+="${id2} "; writeSlow=true
             else
-                case "${FW_ELEMENT_TSK_REQUIRED_FIL["${id1}"]}" in
+                case "${FW_ELEMENT_TSK_REQOUT_FIL["${id1}"]}" in
                     *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
-                    *)              FW_ELEMENT_TSK_REQUIRED_FIL["${id1}"]+="${id2} "; writeSlow=true ;;
+                    *)              FW_ELEMENT_TSK_REQOUT_FIL["${id1}"]+="${id2} "; writeSlow=true ;;
                 esac
             fi ;;
         task)
             Test existing ${3} id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
             if [[ "${id1}" == "${id2}" ]]; then Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E902 "${3}"; return; fi
-            if [[ ! -n "${FW_ELEMENT_TSK_REQUIRED_TSK["${id1}"]:-}" ]]; then
-                FW_ELEMENT_TSK_REQUIRED_TSK["${id1}"]+="${id2} "; writeSlow=true
+            if [[ ! -n "${FW_ELEMENT_TSK_REQOUT_TSK["${id1}"]:-}" ]]; then
+                FW_ELEMENT_TSK_REQOUT_TSK["${id1}"]+="${id2} "; writeSlow=true
             else
-                case "${FW_ELEMENT_TSK_REQUIRED_TSK["${id1}"]}" in
+                case "${FW_ELEMENT_TSK_REQOUT_TSK["${id1}"]}" in
                     *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
-                    *)              FW_ELEMENT_TSK_REQUIRED_TSK["${id1}"]+="${id2} "; writeSlow=true ;;
+                    *)              FW_ELEMENT_TSK_REQOUT_TSK["${id1}"]+="${id2} "; writeSlow=true ;;
                 esac
             fi ;;
         *)
             Report process error "${FUNCNAME[0]}" "${1} requires 'component' ${4}" E803 "${3}"; return ;;
     esac
 
-    if [[ "${writeSlow}" ]]; then FW_ELEMENT_TSK_REQOUT_NUM[${id1}]=$(( FW_ELEMENT_TSK_REQOUT_NUM[${id1}] + 1 )); fi
+    if [[ "${writeSlow}" ]]; then FW_ELEMENT_TSK_REQOUT_COUNT[${id1}]=$(( FW_ELEMENT_TSK_REQOUT_COUNT[${id1}] + 1 )); fi
     if [[ "${writeSlow}" == true && "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write slow config; fi
 }

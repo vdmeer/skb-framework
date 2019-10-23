@@ -103,8 +103,9 @@ declare -A FW_OBJECT_PHA_LOG_LVL    ## [long]=" log levels "
 declare -A FW_OBJECT_PHA_ERRCNT     ## [long]="error count, integer"
 declare -A FW_OBJECT_PHA_WRNCNT     ## [long]="warning count, integer"
 declare -A FW_OBJECT_PHA_MSGCOD     ## [long]="list of recorded messages codes"
+declare -A FW_OBJECT_PHA_MSGCODCNT  ## [long]="count of recorded messages codes"
 
-FW_RUNTIME_MAPS_FAST+=" FW_OBJECT_PHA_PRT_LVL FW_OBJECT_PHA_LOG_LVL FW_OBJECT_PHA_ERRCNT FW_OBJECT_PHA_WRNCNT FW_OBJECT_PHA_MSGCOD"
+FW_RUNTIME_MAPS_FAST+=" FW_OBJECT_PHA_PRT_LVL FW_OBJECT_PHA_LOG_LVL FW_OBJECT_PHA_ERRCNT FW_OBJECT_PHA_WRNCNT FW_OBJECT_PHA_MSGCOD FW_OBJECT_PHA_MSGCODCNT"
 FW_RUNTIME_MAPS_SLOW+=" FW_OBJECT_PHA_LONG FW_OBJECT_PHA_DECMDS FW_OBJECT_PHA_DECPHA"
 
 
@@ -112,11 +113,7 @@ FW_RUNTIME_MAPS_SLOW+=" FW_OBJECT_PHA_LONG FW_OBJECT_PHA_DECMDS FW_OBJECT_PHA_DE
 ##
 ## SETTINGS Maps - SET
 ##
-declare -A FW_OBJECT_SET_LONG       ## [long]="description"
-declare -A FW_OBJECT_SET_DECMDS     ## [long]="declared in module"
-declare -A FW_OBJECT_SET_DECPHA     ## [long]="declared in phase"
-declare -A FW_OBJECT_SET_PHASET     ## [long]="phase that did set the value"
-declare -A FW_OBJECT_SET_VAL        ## [long]="the value"
+## maps are set in 00-current-phase
 
 FW_RUNTIME_MAPS_FAST+=" FW_OBJECT_SET_PHASET FW_OBJECT_SET_VAL"
 FW_RUNTIME_MAPS_SLOW+=" FW_OBJECT_SET_LONG FW_OBJECT_SET_DECMDS FW_OBJECT_SET_DECPHA"
@@ -131,6 +128,20 @@ declare -A FW_OBJECT_THM_DECMDS     ## [long]="declared in module"
 declare -A FW_OBJECT_THM_DECPHA     ## [long]="declared in phase"
 
 FW_RUNTIME_MAPS_SLOW+=" FW_OBJECT_THM_LONG FW_OBJECT_THM_DECMDS FW_OBJECT_THM_DECPHA"
+
+
+
+##
+## STORE Maps - STO
+##
+declare -A FW_OBJECT_STO_CHARS      ## [id-format]="formatted char"
+declare -A FW_OBJECT_STO_LEGENDS    ## [type-format]="formatted legends"
+declare -A FW_OBJECT_STO_SET        ## [id-format]="formatted strings for settings"
+declare -A FW_OBJECT_STO_TEMPLATES  ## [type-format]="formatted templates"
+export FW_OBJECT_STO_STORED=" "     ## string with stored formats
+export FW_OBJECT_STO_COUNT=4
+
+FW_RUNTIME_MAPS_SLOW+=" FW_OBJECT_STO_CHARS FW_OBJECT_STO_SET FW_OBJECT_STO_LEGENDS FW_OBJECT_STO_TEMPLATES"
 
 
 

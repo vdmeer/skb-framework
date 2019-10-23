@@ -102,8 +102,8 @@ else
         fi
         if [[ -n "${requested}" ]]; then
             case "${requested}" in
-                y)  if [[ ! -n "${FW_ELEMENT_DEP_REQUESTED[${id}]:-}" ]]; then remove+=" "$id; fi ;;
-                n)  if [[   -n "${FW_ELEMENT_DEP_REQUESTED[${id}]:-}" ]]; then remove+=" "$id; fi ;;
+                y)  if [[ ! -n "${FW_ELEMENT_DEP_REQIN[${id}]:-}" ]]; then remove+=" "$id; fi ;;
+                n)  if [[   -n "${FW_ELEMENT_DEP_REQIN[${id}]:-}" ]]; then remove+=" "$id; fi ;;
             esac
         fi
         if [[ -n "${status}" ]]; then

@@ -265,7 +265,7 @@ function Validate() {
                         if [[ -z "${FW_COMPONENTS_TAGLINE[${id}]:-}" ]];   then Report process error "${FUNCNAME[0]}" "${cmdString2}" E817 ${compType:0:-1} ${id} tagline; fi
                         if [[ ! -n "${FW_COMPONENTS_TAGLINE[${id}]:-}" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2}" E815 "${compType:0:-1} ${id}" tagline; fi
 
-                        excludeIDs=" Module Dependency Project Scenario Script Site Task Tablechars "
+                        excludeIDs=" Module Dependency Project Scenario Script Site Task Stores "
                         if [[ "${compType}" != "actions" ]]; then
                         case ${excludeIDs} in
                             *" ${id} "*) ;;

@@ -32,7 +32,7 @@
 function __skb_Cache_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Cache)  retval="formats framework levels messages modes module options phases themeitems theme" ;;
+        Cache)  retval="framework module theme" ;;
 
         module) retval="$(Modules has)" ;;
         theme)  retval="$(Themes has)" ;;

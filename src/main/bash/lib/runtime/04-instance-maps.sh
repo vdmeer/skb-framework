@@ -69,13 +69,6 @@ FW_COMPONENTS_TAGLINE["Exitcodes"]="instance representing the framework's exit c
 
 
 
-declare -A FW_INSTANCE_TABLE_CHARS      ## [id-format]="formatted char"
-declare -A FW_INSTANCE_TABLE_STRINGS    ## [legend-type-format]="formatted legend strings"
-FW_INSTANCE_TABLE_CHARS_BUILT=" "       ## string with characters for built formats, with leading and trailing space
-
-FW_COMPONENTS_TAGLINE["Tablechars"]="instance that maintains cached table characters"
-
-
 FW_COMPONENTS_TAGLINE["Module"]="instance to manage module requirements"
 FW_COMPONENTS_TAGLINE["Dependency"]="instance to manage dependency requirements"
 FW_COMPONENTS_TAGLINE["Project"]="instance to manage project requirements"

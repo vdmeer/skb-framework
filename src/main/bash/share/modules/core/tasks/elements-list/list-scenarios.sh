@@ -104,8 +104,8 @@ for id in $arr; do
         if [[ "${mode}" == "test" ]]; then
             : # always available in test mode
         else
-            case ${FW_ELEMENT_TSK_MODES[${id}]} in
-                all | ${mode})  ;;
+            case "${FW_ELEMENT_TSK_MODES[${id}]}" in
+                *"${mode}"*)    ;;
                 *)              remove+=" "$id ;;
             esac
         fi

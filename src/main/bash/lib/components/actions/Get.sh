@@ -39,7 +39,7 @@ function Get() {
         system)     printf "%s" "${FW_OBJECT_CFG_VAL["SYSTEM"]}" ;;
         version)    printf "%s" "${FW_OBJECT_CFG_VAL["VERSION"]}" ;;
 
-        app | auto | cache | config | current | default | error | file | home | last | log | message | module | option | primary | print | show | start | status | strict | user | warning | \
+        app | auto | cache | config | current | default | error | file | home | last | log | message | module | option | primary | print | retest | show | start | status | strict | user | warning | \
         element | object)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
@@ -48,7 +48,7 @@ function Get() {
                 cache-dir | default-theme | file-string | home-dir | start-time | user-config)
                     printf "%s" "${FW_OBJECT_CFG_VAL["${cmd1^^}_${cmd2^^}"]}" ;;
 
-                app-name | app-name2 | auto-verify | auto-write | config-file | \
+                app-name | app-name2 | auto-verify | auto-write | config-file | retest-commands | retest-fs | \
                 current-mode | current-phase | current-theme | current-project | current-scenario | current-script | current-site | current-task | \
                 last-project | last-scenario | last-script | last-site | last-task | \
                 log-dir | log-file | log-format | log-level | log-date-arg | \
@@ -129,6 +129,7 @@ function Get() {
                         print-level)    printf "%s" "${FW_OBJECT_PHA_PRT_LVL[${id}]}" ;;
                         log-level)      printf "%s" "${FW_OBJECT_PHA_LOG_LVL[${id}]}" ;;
                         message-codes)  printf "%s" "${FW_OBJECT_PHA_MSGCOD[${id}]}" ;;
+                        message-count)  printf "%s" "${FW_OBJECT_PHA_MSGCODCNT[${id}]}" ;;
                         error-count)    printf "%s" "${FW_OBJECT_PHA_ERRCNT[${id}]}" ;;
                         warning-count)  printf "%s" "${FW_OBJECT_PHA_WRNCNT[${id}]}" ;;
                         *)              Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
@@ -188,7 +189,7 @@ function Get() {
                         arguments)          printf "%s" "${FW_ELEMENT_APP_ARGS[${id}]}" ;;
                         status)             printf "%s" "${FW_ELEMENT_APP_STATUS[${id}]}" ;;
                         status-comments)    printf "%s" "${FW_ELEMENT_APP_STATUS_COMMENTS[${id}]}" ;;
-                        requested)          printf "%s" "${FW_ELEMENT_APP_REQUESTED[${id}]}" ;;
+                        requested)          printf "%s" "${FW_ELEMENT_APP_REQIN[${id}]}" ;;
                         *)                  Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 element-dependency)
@@ -198,11 +199,11 @@ function Get() {
                     case "${property}" in
                         description)        printf "%s" "${FW_ELEMENT_DEP_LONG[${id}]}" ;;
                         origin)             printf "%s" "${FW_ELEMENT_DEP_DECMDS[${id}]}" ;;
-                        command)            printf "%s" "${FW_ELEMENT_DEP_CMD[${id}]}" ;;
-                        requirements)       printf "%s" "${FW_ELEMENT_DEP_REQUIRED_DEP[${id}]:-}" ;;
+                        command)            printf "%s" "${FW_ELEMENT_DEP_COMMAND[${id}]}" ;;
+                        requirements)       printf "%s" "${FW_ELEMENT_DEP_REQOUT_DEP[${id}]:-}" ;;
                         status)             printf "%s" "${FW_ELEMENT_DEP_STATUS[${id}]}" ;;
                         status-comments)    printf "%s" "${FW_ELEMENT_DEP_STATUS_COMMENTS[${id}]}" ;;
-                        requested)          printf "%s" "${FW_ELEMENT_DEP_REQUESTED[${id}]}" ;;
+                        requested)          printf "%s" "${FW_ELEMENT_DEP_REQIN[${id}]}" ;;
                         *)                  Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 element-dirlist)
@@ -217,7 +218,7 @@ function Get() {
                         mode)               printf "%s" "${FW_ELEMENT_DLS_MOD[${id}]:-}" ;;
                         status)             printf "%s" "${FW_ELEMENT_DLS_STATUS[${id}]}" ;;
                         status-comments)    printf "%s" "${FW_ELEMENT_DLS_STATUS_COMMENTS[${id}]}" ;;
-                        requested)          printf "%s" "${FW_ELEMENT_DLS_REQUESTED[${id}]}" ;;
+                        requested)          printf "%s" "${FW_ELEMENT_DLS_REQIN[${id}]}" ;;
                         *)                  Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 element-dir)
@@ -232,7 +233,7 @@ function Get() {
                         mode)               printf "%s" "${FW_ELEMENT_DIR_MOD[${id}]:-}" ;;
                         status)             printf "%s" "${FW_ELEMENT_DIR_STATUS[${id}]}" ;;
                         status-comments)    printf "%s" "${FW_ELEMENT_DIR_STATUS_COMMENTS[${id}]}" ;;
-                        requested)          printf "%s" "${FW_ELEMENT_DIR_REQUESTED[${id}]}" ;;
+                        requested)          printf "%s" "${FW_ELEMENT_DIR_REQIN[${id}]}" ;;
                         *)                  Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 element-filelist)
@@ -247,7 +248,7 @@ function Get() {
                         mode)               printf "%s" "${FW_ELEMENT_FLS_MOD[${id}]:-}" ;;
                         status)             printf "%s" "${FW_ELEMENT_FLS_STATUS[${id}]}" ;;
                         status-comments)    printf "%s" "${FW_ELEMENT_FLS_STATUS_COMMENTS[${id}]}" ;;
-                        requested)          printf "%s" "${FW_ELEMENT_FLS_REQUESTED[${id}]}" ;;
+                        requested)          printf "%s" "${FW_ELEMENT_FLS_REQIN[${id}]}" ;;
                         *)                  Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 element-file)
@@ -262,7 +263,7 @@ function Get() {
                         mode)               printf "%s" "${FW_ELEMENT_FIL_MOD[${id}]:-}" ;;
                         status)             printf "%s" "${FW_ELEMENT_FIL_STATUS[${id}]}" ;;
                         status-comments)    printf "%s" "${FW_ELEMENT_FIL_STATUS_COMMENTS[${id}]}" ;;
-                        requested)          printf "%s" "${FW_ELEMENT_FIL_REQUESTED[${id}]}" ;;
+                        requested)          printf "%s" "${FW_ELEMENT_FIL_REQIN[${id}]}" ;;
                         *)                  Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 element-module)
@@ -274,10 +275,10 @@ function Get() {
                         acronym)            printf "%s" "${FW_ELEMENT_MDS_ACR[${id}]}" ;;
                         path)               printf "%s" "${FW_ELEMENT_MDS_PATH[${id}]}" ;;
                         phase)              printf "%s" "${FW_ELEMENT_MDS_ORIG[${id}]}" ;;
-                        requirements)       printf "%s" "${FW_ELEMENT_MDS_REQUIRED_MDS[${id}]:-}" ;;
+                        requirements)       printf "%s" "${FW_ELEMENT_MDS_REQOUT_MDS[${id}]:-}" ;;
                         status)             printf "%s" "${FW_ELEMENT_MDS_STATUS[${id}]}" ;;
                         status-comments)    printf "%s" "${FW_ELEMENT_MDS_STATUS_COMMENTS[${id}]}" ;;
-                        requested)          printf "%s" "${FW_ELEMENT_MDS_REQUESTED[${id}]}" ;;
+                        requested)          printf "%s" "${FW_ELEMENT_MDS_REQIN[${id}]}" ;;
                         *)                  Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 element-option)
@@ -307,7 +308,7 @@ function Get() {
                         value)              printf "%s" "${FW_ELEMENT_PAR_VAL[${id}]}" ;;
                         status)             printf "%s" "${FW_ELEMENT_PAR_STATUS[${id}]}" ;;
                         status-comments)    printf "%s" "${FW_ELEMENT_PAR_STATUS_COMMENTS[${id}]}" ;;
-                        requested)          printf "%s" "${FW_ELEMENT_PAR_REQUESTED[${id}]}" ;;
+                        requested)          printf "%s" "${FW_ELEMENT_PAR_REQIN[${id}]}" ;;
                         *)                  Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 element-project)
@@ -324,17 +325,17 @@ function Get() {
                         targets)                printf "%s" "${FW_ELEMENT_PRJ_TGTS[${id}]:-}" ;;
                         status)                 printf "%s" "${FW_ELEMENT_PRJ_STATUS[${id}]}" ;;
                         status-comments)        printf "%s" "${FW_ELEMENT_PRJ_STATUS_COMMENTS[${id}]}" ;;
-                        required-applications)  printf "%s" "${FW_ELEMENT_PRJ_REQUIRED_APP[${id}]:-}" ;;
-                        required-parameters)    printf "%s" "${FW_ELEMENT_PRJ_REQUIRED_PAR[${id}]:-}" ;;
-                        required-dependencies)  printf "%s" "${FW_ELEMENT_PRJ_REQUIRED_DEP[${id}]:-}" ;;
-                        required-projects)      printf "%s" "${FW_ELEMENT_PRJ_REQUIRED_PRJ[${id}]:-}" ;;
-                        required-scenarios)     printf "%s" "${FW_ELEMENT_PRJ_REQUIRED_SCN[${id}]:-}" ;;
-                        required-sites)         printf "%s" "${FW_ELEMENT_PRJ_REQUIRED_SIT[${id}]:-}" ;;
-                        required-tasks)         printf "%s" "${FW_ELEMENT_PRJ_REQUIRED_TSK[${id}]:-}" ;;
-                        required-files)         printf "%s" "${FW_ELEMENT_PRJ_REQUIRED_FIL[${id}]:-}" ;;
-                        required-filelists)     printf "%s" "${FW_ELEMENT_PRJ_REQUIRED_FLS[${id}]:-}" ;;
-                        required-directories)   printf "%s" "${FW_ELEMENT_PRJ_REQUIRED_DIR[${id}]:-}" ;;
-                        required-dirlists)      printf "%s" "${FW_ELEMENT_PRJ_REQUIRED_DLS[${id}]:-}" ;;
+                        required-applications)  printf "%s" "${FW_ELEMENT_PRJ_REQOUT_APP[${id}]:-}" ;;
+                        required-parameters)    printf "%s" "${FW_ELEMENT_PRJ_REQOUT_PAR[${id}]:-}" ;;
+                        required-dependencies)  printf "%s" "${FW_ELEMENT_PRJ_REQOUT_DEP[${id}]:-}" ;;
+                        required-projects)      printf "%s" "${FW_ELEMENT_PRJ_REQOUT_PRJ[${id}]:-}" ;;
+                        required-scenarios)     printf "%s" "${FW_ELEMENT_PRJ_REQOUT_SCN[${id}]:-}" ;;
+                        required-sites)         printf "%s" "${FW_ELEMENT_PRJ_REQOUT_SIT[${id}]:-}" ;;
+                        required-tasks)         printf "%s" "${FW_ELEMENT_PRJ_REQOUT_TSK[${id}]:-}" ;;
+                        required-files)         printf "%s" "${FW_ELEMENT_PRJ_REQOUT_FIL[${id}]:-}" ;;
+                        required-filelists)     printf "%s" "${FW_ELEMENT_PRJ_REQOUT_FLS[${id}]:-}" ;;
+                        required-directories)   printf "%s" "${FW_ELEMENT_PRJ_REQOUT_DIR[${id}]:-}" ;;
+                        required-dirlists)      printf "%s" "${FW_ELEMENT_PRJ_REQOUT_DLS[${id}]:-}" ;;
                         *)                      Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 element-scenario)
@@ -349,9 +350,9 @@ function Get() {
                         path-text)              printf "%s" "${FW_ELEMENT_SCN_PATH_TEXT[${id}]}" ;;
                         status)                 printf "%s" "${FW_ELEMENT_SCN_STATUS[${id}]}" ;;
                         status-comments)        printf "%s" "${FW_ELEMENT_SCN_STATUS_COMMENTS[${id}]}" ;;
-                        required-applications)  printf "%s" "${FW_ELEMENT_SCN_REQUIRED_APP[${id}]:-}" ;;
-                        required-scenarios)     printf "%s" "${FW_ELEMENT_SCN_REQUIRED_SCN[${id}]:-}" ;;
-                        required-tasks)         printf "%s" "${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]:-}" ;;
+                        required-applications)  printf "%s" "${FW_ELEMENT_SCN_REQOUT_APP[${id}]:-}" ;;
+                        required-scenarios)     printf "%s" "${FW_ELEMENT_SCN_REQOUT_SCN[${id}]:-}" ;;
+                        required-tasks)         printf "%s" "${FW_ELEMENT_SCN_REQOUT_TSK[${id}]:-}" ;;
                         *)                      Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 element-script)
@@ -367,18 +368,18 @@ function Get() {
                         root-dir)               printf "%s" "${FW_ELEMENT_SCR_RDIR[${id}]}" ;;
                         status)                 printf "%s" "${FW_ELEMENT_SCR_STATUS[${id}]}" ;;
                         status-comments)        printf "%s" "${FW_ELEMENT_SCR_STATUS_COMMENTS[${id}]}" ;;
-                        required-applications)  printf "%s" "${FW_ELEMENT_SCR_REQUIRED_APP[${id}]:-}" ;;
-                        required-parameters)    printf "%s" "${FW_ELEMENT_SCR_REQUIRED_PAR[${id}]:-}" ;;
-                        required-dependencies)  printf "%s" "${FW_ELEMENT_SCR_REQUIRED_DEP[${id}]:-}" ;;
-                        required-projects)      printf "%s" "${FW_ELEMENT_SCR_REQUIRED_PRJ[${id}]:-}" ;;
-                        required-scenarios)     printf "%s" "${FW_ELEMENT_SCR_REQUIRED_SCN[${id}]:-}" ;;
-                        required-scripts)       printf "%s" "${FW_ELEMENT_SCR_REQUIRED_SCR[${id}]:-}" ;;
-                        required-sites)         printf "%s" "${FW_ELEMENT_SCR_REQUIRED_SIT[${id}]:-}" ;;
-                        required-tasks)         printf "%s" "${FW_ELEMENT_SCR_REQUIRED_TSK[${id}]:-}" ;;
-                        required-files)         printf "%s" "${FW_ELEMENT_SCR_REQUIRED_FIL[${id}]:-}" ;;
-                        required-filelists)     printf "%s" "${FW_ELEMENT_SCR_REQUIRED_FLS[${id}]:-}" ;;
-                        required-directories)   printf "%s" "${FW_ELEMENT_SCR_REQUIRED_DIR[${id}]:-}" ;;
-                        required-dirlists)      printf "%s" "${FW_ELEMENT_SCR_REQUIRED_DLS[${id}]:-}" ;;
+                        required-applications)  printf "%s" "${FW_ELEMENT_SCR_REQOUT_APP[${id}]:-}" ;;
+                        required-parameters)    printf "%s" "${FW_ELEMENT_SCR_REQOUT_PAR[${id}]:-}" ;;
+                        required-dependencies)  printf "%s" "${FW_ELEMENT_SCR_REQOUT_DEP[${id}]:-}" ;;
+                        required-projects)      printf "%s" "${FW_ELEMENT_SCR_REQOUT_PRJ[${id}]:-}" ;;
+                        required-scenarios)     printf "%s" "${FW_ELEMENT_SCR_REQOUT_SCN[${id}]:-}" ;;
+                        required-scripts)       printf "%s" "${FW_ELEMENT_SCR_REQOUT_SCR[${id}]:-}" ;;
+                        required-sites)         printf "%s" "${FW_ELEMENT_SCR_REQOUT_SIT[${id}]:-}" ;;
+                        required-tasks)         printf "%s" "${FW_ELEMENT_SCR_REQOUT_TSK[${id}]:-}" ;;
+                        required-files)         printf "%s" "${FW_ELEMENT_SCR_REQOUT_FIL[${id}]:-}" ;;
+                        required-filelists)     printf "%s" "${FW_ELEMENT_SCR_REQOUT_FLS[${id}]:-}" ;;
+                        required-directories)   printf "%s" "${FW_ELEMENT_SCR_REQOUT_DIR[${id}]:-}" ;;
+                        required-dirlists)      printf "%s" "${FW_ELEMENT_SCR_REQOUT_DLS[${id}]:-}" ;;
                         *)                      Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 element-site)
@@ -393,15 +394,15 @@ function Get() {
                         root-dir)               printf "%s" "${FW_ELEMENT_SIT_RDIR[${id}]}" ;;
                         status)                 printf "%s" "${FW_ELEMENT_SIT_STATUS[${id}]}" ;;
                         status-comments)        printf "%s" "${FW_ELEMENT_SIT_STATUS_COMMENTS[${id}]}" ;;
-                        required-applications)  printf "%s" "${FW_ELEMENT_SIT_REQUIRED_APP[${id}]:-}" ;;
-                        required-parameters)    printf "%s" "${FW_ELEMENT_SIT_REQUIRED_PAR[${id}]:-}" ;;
-                        required-dependencies)  printf "%s" "${FW_ELEMENT_SIT_REQUIRED_DEP[${id}]:-}" ;;
-                        required-scenarios)     printf "%s" "${FW_ELEMENT_SIT_REQUIRED_SCN[${id}]:-}" ;;
-                        required-tasks)         printf "%s" "${FW_ELEMENT_SIT_REQUIRED_TSK[${id}]:-}" ;;
-                        required-files)         printf "%s" "${FW_ELEMENT_SIT_REQUIRED_FIL[${id}]:-}" ;;
-                        required-filelists)     printf "%s" "${FW_ELEMENT_SIT_REQUIRED_FLS[${id}]:-}" ;;
-                        required-directories)   printf "%s" "${FW_ELEMENT_SIT_REQUIRED_DIR[${id}]:-}" ;;
-                        required-dirlists)      printf "%s" "${FW_ELEMENT_SIT_REQUIRED_DLS[${id}]:-}" ;;
+                        required-applications)  printf "%s" "${FW_ELEMENT_SIT_REQOUT_APP[${id}]:-}" ;;
+                        required-parameters)    printf "%s" "${FW_ELEMENT_SIT_REQOUT_PAR[${id}]:-}" ;;
+                        required-dependencies)  printf "%s" "${FW_ELEMENT_SIT_REQOUT_DEP[${id}]:-}" ;;
+                        required-scenarios)     printf "%s" "${FW_ELEMENT_SIT_REQOUT_SCN[${id}]:-}" ;;
+                        required-tasks)         printf "%s" "${FW_ELEMENT_SIT_REQOUT_TSK[${id}]:-}" ;;
+                        required-files)         printf "%s" "${FW_ELEMENT_SIT_REQOUT_FIL[${id}]:-}" ;;
+                        required-filelists)     printf "%s" "${FW_ELEMENT_SIT_REQOUT_FLS[${id}]:-}" ;;
+                        required-directories)   printf "%s" "${FW_ELEMENT_SIT_REQOUT_DIR[${id}]:-}" ;;
+                        required-dirlists)      printf "%s" "${FW_ELEMENT_SIT_REQOUT_DLS[${id}]:-}" ;;
                         *)                      Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
                 element-task)
@@ -416,14 +417,14 @@ function Get() {
                         path-text)              printf "%s" "${FW_ELEMENT_TSK_PATH_TEXT[${id}]}" ;;
                         status)                 printf "%s" "${FW_ELEMENT_TSK_STATUS[${id}]}" ;;
                         status-comments)        printf "%s" "${FW_ELEMENT_TSK_STATUS_COMMENTS[${id}]}" ;;
-                        required-applications)  printf "%s" "${FW_ELEMENT_TSK_REQUIRED_APP[${id}]:-}" ;;
-                        required-dependencies)  printf "%s" "${FW_ELEMENT_TSK_REQUIRED_DEP[${id}]:-}" ;;
-                        required-parameters)    printf "%s" "${FW_ELEMENT_TSK_REQUIRED_PAR[${id}]:-}" ;;
-                        required-tasks)         printf "%s" "${FW_ELEMENT_TSK_REQUIRED_TSK[${id}]:-}" ;;
-                        required-files)         printf "%s" "${FW_ELEMENT_TSK_REQUIRED_FIL[${id}]:-}" ;;
-                        required-filelists)     printf "%s" "${FW_ELEMENT_TSK_REQUIRED_FLS[${id}]:-}" ;;
-                        required-directories)   printf "%s" "${FW_ELEMENT_TSK_REQUIRED_DIR[${id}]:-}" ;;
-                        required-dirlists)      printf "%s" "${FW_ELEMENT_TSK_REQUIRED_DLS[${id}]:-}" ;;
+                        required-applications)  printf "%s" "${FW_ELEMENT_TSK_REQOUT_APP[${id}]:-}" ;;
+                        required-dependencies)  printf "%s" "${FW_ELEMENT_TSK_REQOUT_DEP[${id}]:-}" ;;
+                        required-parameters)    printf "%s" "${FW_ELEMENT_TSK_REQOUT_PAR[${id}]:-}" ;;
+                        required-tasks)         printf "%s" "${FW_ELEMENT_TSK_REQOUT_TSK[${id}]:-}" ;;
+                        required-files)         printf "%s" "${FW_ELEMENT_TSK_REQOUT_FIL[${id}]:-}" ;;
+                        required-filelists)     printf "%s" "${FW_ELEMENT_TSK_REQOUT_FLS[${id}]:-}" ;;
+                        required-directories)   printf "%s" "${FW_ELEMENT_TSK_REQOUT_DIR[${id}]:-}" ;;
+                        required-dirlists)      printf "%s" "${FW_ELEMENT_TSK_REQOUT_DLS[${id}]:-}" ;;
                         *)                      Report process error "${FUNCNAME[0]}" "${cmdString2}" E879 "${cmd2}" "${property}" ;;
                     esac ;;
 

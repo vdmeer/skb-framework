@@ -32,7 +32,7 @@
 function __skb_Set_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Set)            retval="app config current error last log module print warning"
+        Set)            retval="app config current error last log module print retest warning"
                         retval+=" element object" ;;
 
         app)            retval="name name2" ;;
@@ -48,6 +48,8 @@ function __skb_Set_completions(){
         object)         retval="phase setting themeitem" ;;
         element)        retval="application" ;;
 
+        retest)         retval="commands fs" ;;
+
         phase)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "object" ]]; then retval="$(Phases has)"; fi
                         if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "current" ]]; then retval="to"; fi ;;
         setting)        retval="$(Settings has)" ;;
@@ -55,6 +57,7 @@ function __skb_Set_completions(){
         application)    retval="$(Applications has)" ;;
 
 
+        commands)       retval="to" ;;
         count)          retval="to" ;;
         name)           retval="to" ;;
         name2)          retval="to" ;;
@@ -107,6 +110,11 @@ function __skb_Set_completions(){
                             retval="$(Formats has)"
                         elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "log" && "${COMP_WORDS[COMP_CWORD-2]}" == "level" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
                             retval="$(Levels has)"
+
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "retest" && "${COMP_WORDS[COMP_CWORD-2]}" == "commands" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="yes no"
+                        elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "retest" && "${COMP_WORDS[COMP_CWORD-2]}" == "fs" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
+                            retval="yes no"
 
                         elif [[ "${COMP_WORDS[COMP_CWORD-3]}" == "print" && "${COMP_WORDS[COMP_CWORD-2]}" == "format" && "${COMP_WORDS[COMP_CWORD-1]}" == "to" ]]; then
                             retval="$(Formats has)"

@@ -33,7 +33,7 @@ function __skb_Get_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
         Get)            retval="pid system version"
-                        retval+=" app cache config current default error file home message last log module option primary print show start status strict user warning"
+                        retval+=" app cache config current default error file home message last log module option primary print retest show start status strict user warning"
                         retval+=" auto element object"
                         ;;
 
@@ -90,6 +90,8 @@ function __skb_Get_completions(){
         current)        retval="mode phase theme project script scenario site task" ;;
         home)           retval="dir" ;;
 
+        retest)         retval="commands fs" ;;
+
         error)          if [[ "${COMP_WORDS[COMP_CWORD-3]}" == "object" ]]; then retval="description path character theme-string"
                         else retval="count"
                         fi ;;
@@ -117,7 +119,7 @@ function __skb_Get_completions(){
                            retval="description"
 
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "phase" ]]; then
-                           retval="print-level description error-count message-codes log-level warning-count"
+                           retval="print-level description error-count message-codes message-count log-level warning-count"
 
                         elif [[ "${COMP_WORDS[COMP_CWORD-2]}" == "setting" ]]; then
                            retval="description phase value"

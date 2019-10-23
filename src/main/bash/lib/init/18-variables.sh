@@ -29,19 +29,18 @@
 ##
 
 
-FW_OBJECT_VAR_LONG["SF_HOME"]="contains the home directory of the framework"
-    FW_OBJECT_VAR_CAT["SF_HOME"]="External"
-FW_OBJECT_VAR_LONG["SF_DEBUG_LOAD"]="if set. load will print dbug messages"
-    FW_OBJECT_VAR_CAT["SF_DEBUG_LOAD"]="Start"
-FW_OBJECT_VAR_LONG["SF_START_TESTS"]="if set, start will test requirements, e.g. getopt"
-    FW_OBJECT_VAR_CAT["SF_START_TESTS"]="Start"
+FW_OBJECT_VAR_LONG["SF_HOME"]="home directory of the framework";                    FW_OBJECT_VAR_CAT["SF_HOME"]="External"
+
+FW_OBJECT_VAR_LONG["SF_DEBUG_START"]="print debug messages for start";              FW_OBJECT_VAR_CAT["SF_DEBUG_START"]="Start"
+FW_OBJECT_VAR_LONG["SF_DEBUG_LOAD"]="print debug messages for init and load";       FW_OBJECT_VAR_CAT["SF_DEBUG_LOAD"]="Start"
+
+FW_OBJECT_VAR_LONG["SF_TEST_COMMANDS"]="test required commands";                    FW_OBJECT_VAR_CAT["SF_TEST_COMMANDS"]="Start"
 
 #SF_FILE_STRING
 #SF_VERSINFO
 #SF_VERSION
 
-FW_OBJECT_VAR_LONG["FW_CURRENT_MODULE_NAME"]="current module name, for loading modules"
-    FW_OBJECT_VAR_CAT["FW_CURRENT_MODULE_NAME"]="Internal"
+FW_OBJECT_VAR_LONG["FW_CURRENT_MODULE_NAME"]="current module name, for loading modules"     FW_OBJECT_VAR_CAT["FW_CURRENT_MODULE_NAME"]="Internal"
 
 
 #FW_LOADED
@@ -55,3 +54,4 @@ FW_OBJECT_VAR_LONG["FW_CURRENT_MODULE_NAME"]="current module name, for loading m
 #FW_RUNTIME_MAPS_SLOW
 
 #SF_OPERATIONS
+#FW_ELEMENT_OPT_EXTRA

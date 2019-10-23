@@ -1,2 +1,0 @@
-Prints lines with ANSI colors.
-This can be used to test the ANSI capabilities of a console or terminal.

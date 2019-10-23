@@ -32,7 +32,7 @@
 function Write() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id errno dir file sedFile str map mapsToWrite path line itemId itemVal count moduleId elemId
+    local id errno dir file str map mapsToWrite path line itemId itemVal count moduleId elemId
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
@@ -49,9 +49,8 @@ function Write() {
                         load)   file="${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_LOAD"]}";     mapsToWrite="${FW_RUNTIME_MAPS_LOAD}"   ;;
                     esac
                     if [[ -w "${file}" ]]; then
-                        rm ${file}; sedFile="${file}-sed"
-                        for map in ${mapsToWrite}; do declare -p ${map} >> ${sedFile}; echo "" >> ${sedFile}; done
-                        sed -e "s/declare -A/declare -A -g/g" -e "s/declare --/declare -g/g" ${sedFile} > ${file}; rm ${sedFile}
+                        rm ${file}
+                        for map in ${mapsToWrite}; do declare -p ${map} >> ${file}; echo "" >> ${file}; done
                     fi ;;
 
                 *)  Report process error "${FUNCNAME[0]}" "cmd2" E803 "${cmdString2}"; return ;;

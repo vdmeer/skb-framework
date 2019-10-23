@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Tablechars - auto completion
+## Stores - auto completion
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.6
@@ -29,15 +29,15 @@
 ##
 
 
-function __skb_Tablechars_completions(){
-    local retval=""
+function __skb_Stores_completions(){
+    local retval="" key
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Tablechars) retval="build clear formats get has list" ;;
+        Stores) retval="has count build clear show" ;;
 
-        clear)      retval="all format" ;;
-
-        format)     retval="$(Formats has)" ;;
+        build)  retval="all $(Stores has)" ;;
+        clear)  retval="all format" ;;
+        show)   retval="all $(Stores has)" ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }
-complete -F __skb_Tablechars_completions Tablechars
+complete -F __skb_Stores_completions Stores

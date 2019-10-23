@@ -57,6 +57,7 @@ function Prepare() {
                     FW_OBJECT_PHA_WRNCNT[${cmd1^}]=0
                     FW_OBJECT_SET_VAL["WARNING_COUNT"]=0
                     FW_OBJECT_PHA_MSGCOD[${cmd1^}]=""
+                    FW_OBJECT_PHA_MSGCODCNT[${cmd1^}]=""0
 ##TODO ADD SETTING PHASE FOR VALUES
                     Activate auto write ;;
 

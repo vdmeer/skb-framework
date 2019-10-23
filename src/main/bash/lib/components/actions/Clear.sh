@@ -62,16 +62,11 @@ function Clear() {
                     for id in $(Themes has); do
                         Clear cache for theme $id
                     done
-                    if [[ -d ${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes ]]; then rmdir ${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes; fi
-                    ;;
+                    if [[ -d ${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes ]]; then rmdir ${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes; fi ;;
 
                 framework-cache)
-                    dir="${FW_OBJECT_CFG_VAL["CACHE_DIR"]}"
-                    for file in ${dir}/*.cache; do
-                        if [[ "${file}" != "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/*.cache" ]]; then
-                            rm $file
-                        fi
-                    done ;;
+                    Clear cache for module ⫷Framework⫸
+                    Clear cache for theme Default ;;
 
                 cache-for)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} cmd3" E802 1 "$#"; return; fi
@@ -79,24 +74,16 @@ function Clear() {
                     case "${cmd1}-${cmd2}-${cmd3}" in
                         cache-for-module)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
-                            id="${1}"
-
-                            if [[ "${id}" != "☰API☷" && "${id}" != "⫷Framework⫸" ]]; then
-                                Test existing module id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                                file="${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}.cache"
-                                if [[ -w "${file}" ]]; then rm "${file}"; fi
-                            fi ;;
+                            id="${1}"; Test existing module id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                            if [[ -w "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}-objects.cache" ]]; then rm "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}-objects.cache"; fi
+                            if [[ -w "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}-elements.cache" ]]; then rm "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}-elements.cache"; fi
+                            if [[ -w "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}-options.cache" ]]; then rm "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/${id}-options.cache"; fi ;;
 
                         cache-for-theme)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
-                            id="${1}"
-
-                            if [[ "${id}" != "☰API☷" && "${id}" != "⫷Framework⫸" ]]; then
-                                Test existing theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                                file="${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}.cache"
-                                if [[ -w "${file}" ]]; then rm "${file}"; fi
-                            fi ;;
-
+                            id="${1}"; Test existing theme id "${id}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                            if [[ -w "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}.cache" ]]; then rm "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}.cache"; fi
+                            if [[ -w "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}-stores.cache" ]]; then rm "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes/${id}-stores.cache"; fi ;;
 
                         *)  Report process error "${FUNCNAME[0]}" "cmd3" E803 "${cmdString3}"; return ;;
                     esac ;;

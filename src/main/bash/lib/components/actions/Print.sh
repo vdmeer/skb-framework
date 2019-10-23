@@ -109,6 +109,17 @@ function Print() {
                     printf "\n  Some used UTF-8 characters"
                     printf "\n    ✓ ✔ ✕ ✖ ✗ ✘ 🗷 🗶 🗸 🗹 🗙 ◆  ■ ═ ─ ▮ ░ ▒ ▓"
                     printf "\n    ✅ ␣ ⎵ ▀ ⛔ ○ ● ◍ ⬒ ⬓ ⬛ ⬜ ⬤ ⭕ ⬮ ⬯ ⭙ ⮽ ⮾ ⮿ ︽ ︾ ︿ ﹀ ｟ ｠"
+
+                    printf "\n    ⓪ ① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳"
+                    printf "\n    ⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾"
+                    printf "\n    ⓿ ⓫ ⓬ ⓭ ⓮ ⓯ ⓰ ⓱ ⓲ ⓳ ⓴"
+                    printf "\n    ⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇"
+                    printf "\n    ⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵"
+                    printf "\n    Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ"
+                    printf "\n    ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ"
+                    printf "\n    ❶ ❷ ❸ ❹ ❺ ❻ ❼ ❽ ❾ ❿"
+                    printf "\n    ➀ ➁ ➂ ➃ ➄ ➅ ➆ ➇ ➈ ➉"
+                    printf "\n    ➊ ➋ ➌ ➍ ➎ ➏ ➐ ➑ ➒ ➓"
                     printf "\n" ;;
                 test-terminal)
                     Print test colors
@@ -226,7 +237,8 @@ function Print() {
                     if [[ "${withoutExtras}" == "no" || "${withLegend}" == "yes" ]]; then
                         case ${cmd1} in
                             application | configuration | clioption | dependency | dir | dirlist | file | filelist | format | level | message | mode | module | parameter | option | phase | project | scenario | setting | site | script | task | themeitem | theme)
-                                Tablechars build
+                                Stores build characters
+                                Stores build legends
                                 if [[ -n "${FW_OBJECT_SET_VAL["PRINT_FORMAT2"]:-}" ]]; then format="${FW_OBJECT_SET_VAL["PRINT_FORMAT2"]}"; else format="${FW_OBJECT_SET_VAL["PRINT_FORMAT"]}"; fi
                         esac
                     fi
@@ -265,7 +277,7 @@ function Print() {
                             application)    case ${showValues} in yes) col2StringLen=$(( ${#FW_ELEMENT_APP_COMMAND[${id}]} + 1 + ${#FW_ELEMENT_APP_ARGS[${id}]} )) ;; *) col2StringLen=${#FW_ELEMENT_APP_LONG[${id}]} ;; esac ;;
                             clioption)      case ${showValues} in yes) col2StringLen=${#FW_INSTANCE_CLI_SET[${id}]} ;;      *) col2StringLen=${#FW_INSTANCE_CLI_LONG[${id}]} ;; esac ;;
                             configuration)  case ${showValues} in yes) col2StringLen=${#FW_OBJECT_CFG_VAL[${id}]} ;;        *) col2StringLen=${#FW_OBJECT_CFG_LONG[${id}]}  ;; esac ;;
-                            dependency)     case ${showValues} in yes) col2StringLen=${#FW_ELEMENT_DEP_CMD[${id}]} ;;       *) col2StringLen=${#FW_ELEMENT_DEP_LONG[${id}]} ;; esac ;;
+                            dependency)     case ${showValues} in yes) col2StringLen=${#FW_ELEMENT_DEP_COMMAND[${id}]} ;;       *) col2StringLen=${#FW_ELEMENT_DEP_LONG[${id}]} ;; esac ;;
                             dirlist)        case ${showValues} in yes) col2StringLen=${#FW_ELEMENT_DLS_VAL[${id}]} ;;       *) col2StringLen=${#FW_ELEMENT_DLS_LONG[${id}]} ;; esac ;;
                             dir)            case ${showValues} in yes) col2StringLen=${#FW_ELEMENT_DIR_VAL[${id}]} ;;       *) col2StringLen=${#FW_ELEMENT_DIR_LONG[${id}]} ;; esac ;;
                             exitcode)       col2StringLen=${#FW_INSTANCE_EXC_LONG[${id}]} ;;

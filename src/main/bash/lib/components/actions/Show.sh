@@ -41,7 +41,7 @@ function Show() {
             if [[ "${#}" == 0 ]]; then
                 : ## nothing to do here
             elif [[ "${#}" == 1 ]]; then
-                stats="${1}"
+                Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E801 2 "$#"; return
             else
                 if [[ "${1}" != "for" ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} ${1} ..." E803 "${2}"; return; fi
                 stats="${2}"
@@ -201,8 +201,8 @@ function Show() {
                         __skb_internal_stats_fullrule
                         count1=0; count2=0
                         for id in ${!FW_ELEMENT_SCN_LONG[@]}; do
-                            if [[ -n "${FW_ELEMENT_SCN_REQUIRED_APP[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
-                            if [[ -n "${FW_ELEMENT_SCN_REQUIRED_TSK[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
+                            if [[ -n "${FW_ELEMENT_SCN_REQOUT_APP[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
+                            if [[ -n "${FW_ELEMENT_SCN_REQOUT_TSK[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
                         done
                         printf "   - require application:    % 4s        - require task:           % 4s\n"      "${count1}"     "${count2}"
 
@@ -250,7 +250,7 @@ function Show() {
                         count1=0; count2=0
                         for id in ${!FW_ELEMENT_TSK_LONG[@]}; do
                             if [[ "${FW_ELEMENT_TSK_STATUS[${id}]}" != "N" ]]; then count1=$((count1 + 1)); fi
-                            if [[ -n "${FW_ELEMENT_TSK_REQUESTED[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
+                            if [[ -n "${FW_ELEMENT_TSK_REQIN[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
                         done
                         printf "   - tested:                 % 4s        - requested:              % 4s\n"      "${count1}"     "${count2}"
 
@@ -275,26 +275,26 @@ function Show() {
                         __skb_internal_stats_fullrule
                         count1=0; count2=0
                         for id in ${!FW_ELEMENT_TSK_LONG[@]}; do
-                            if [[ -n "${FW_ELEMENT_TSK_REQUIRED_APP[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
-                            if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DEP[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
+                            if [[ -n "${FW_ELEMENT_TSK_REQOUT_APP[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
+                            if [[ -n "${FW_ELEMENT_TSK_REQOUT_DEP[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
                         done
                         printf "   - require application:    % 4s        - require dependency:     % 4s\n"      "${count1}"     "${count2}"
                         count1=0; count2=0
                         for id in ${!FW_ELEMENT_TSK_LONG[@]}; do
-                            if [[ -n "${FW_ELEMENT_TSK_REQUIRED_PAR[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
-                            if [[ -n "${FW_ELEMENT_TSK_REQUIRED_TSK[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
+                            if [[ -n "${FW_ELEMENT_TSK_REQOUT_PAR[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
+                            if [[ -n "${FW_ELEMENT_TSK_REQOUT_TSK[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
                         done
                         printf "   - require parameter:      % 4s        - require task:           % 4s\n"      "${count1}"     "${count2}"
                         count1=0; count2=0
                         for id in ${!FW_ELEMENT_TSK_LONG[@]}; do
-                            if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FIL[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
-                            if [[ -n "${FW_ELEMENT_TSK_REQUIRED_FLS[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
+                            if [[ -n "${FW_ELEMENT_TSK_REQOUT_FIL[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
+                            if [[ -n "${FW_ELEMENT_TSK_REQOUT_FLS[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
                         done
                         printf "   - require file:           % 4s        - require file list:      % 4s\n"      "${count1}"     "${count2}"
                         count1=0; count2=0
                         for id in ${!FW_ELEMENT_TSK_LONG[@]}; do
-                            if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DIR[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
-                            if [[ -n "${FW_ELEMENT_TSK_REQUIRED_DLS[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
+                            if [[ -n "${FW_ELEMENT_TSK_REQOUT_DIR[${id}]:-}" ]]; then count1=$((count1 + 1)); fi
+                            if [[ -n "${FW_ELEMENT_TSK_REQOUT_DLS[${id}]:-}" ]]; then count2=$((count2 + 1)); fi
                         done
                         printf "   - require directory:      % 4s        - require directory list: % 4s\n"      "${count1}"     "${count2}"
 
@@ -532,7 +532,7 @@ function Show() {
 
                 log-file)
                     file="${FW_OBJECT_SET_VAL["LOG_DIR"]}/${FW_OBJECT_SET_VAL["LOG_FILE"]}"
-                    if [[ -r "${file}" ]]; then  tput smcup; less -r -C -f -M -d ${file}; tput rmcup; fi ;;
+                    if [[ -r "${file}" ]]; then tput smcup; less -R -C -f -M -d <<< "$(Format ansi file ${file})"; tput rmcup; fi ;;
 
                 fast-runtime | load-runtime | medium-runtime | slow-runtime)
                     case ${cmd1} in

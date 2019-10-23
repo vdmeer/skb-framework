@@ -108,8 +108,8 @@ for id in $arr; do
         fi
     fi
         case "${requested}" in
-            y)  if [[ ! -n "${FW_ELEMENT_APP_REQUESTED[${id}]:-}" ]]; then remove+=" "$id; fi ;;
-            n)  if [[   -n "${FW_ELEMENT_APP_REQUESTED[${id}]:-}" ]]; then remove+=" "$id; fi ;;
+            y)  if [[ ! -n "${FW_ELEMENT_APP_REQIN[${id}]:-}" ]]; then remove+=" "$id; fi ;;
+            n)  if [[   -n "${FW_ELEMENT_APP_REQIN[${id}]:-}" ]]; then remove+=" "$id; fi ;;
         esac
     if [[ -n "${status}" ]]; then
         if [[ "${status}" != "${FW_ELEMENT_APP_STATUS[${id}]}" ]]; then

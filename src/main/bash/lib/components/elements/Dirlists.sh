@@ -32,23 +32,18 @@
 function Dirlists() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id keys numberArr
+    local id keys width
     local cmd1="${1,,}" cmdString1="${1,,}"
     shift; case "${cmd1}" in
         has)
             echo " ${!FW_ELEMENT_DLS_LONG[@]} " ;;
         list)
             if [[ "${FW_ELEMENT_DLS_LONG[*]}" != "" ]]; then
+                width=$(tput cols)
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_DLS_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s (dec: %s / %s, set: %s)\n"           "${id}" "${FW_ELEMENT_DLS_DECMDS[${id}]}" "${FW_ELEMENT_DLS_DECPHA[${id}]}" "${FW_ELEMENT_DLS_PHA[${id}]}"
-                    printf "        status:     s: %s, c: %s\n"         "${FW_ELEMENT_DLS_STATUS[${id}]}" "${FW_ELEMENT_DLS_STATUS_COMMENTS[${id}]}"
-                    IFS=" " read -a numberArr <<< "${FW_ELEMENT_DLS_REQUESTED[${id}]}"; unset IFS
-                    printf "        #req-in:    %s\n"                   "${#numberArr[@]}"
-                    printf "        req-in:     %s\n"                   "${FW_ELEMENT_DLS_REQUESTED[${id}]}"
-                    printf "        value:      %s\n"                   "${FW_ELEMENT_DLS_VAL[${id}]}"
-                    printf "        mode:       %s\n"                   "${FW_ELEMENT_DLS_MOD[${id}]}"
-                    printf "        descr:      %s\n\n"                 "${FW_ELEMENT_DLS_LONG[${id}]}"
+                    Debug dirlist "${id}" "${width}"
+                    printf "\n"
                 done
             else
                 printf "    %s\n" "{}"

@@ -44,3 +44,7 @@ SF_OPERATIONS["Deactivate%strict%mode"]="deactivates strict mode"
 
 SF_OPERATIONS["Deactivate%show%execution"]="deactivates show execution"
 SF_OPERATIONS["Deactivate%show%execution2"]="deactivates show execution2"
+
+SF_OPERATIONS["Deactivate%retest%commands"]="deactivates retest commands"
+SF_OPERATIONS["Deactivate%retest%fs"]="deactivates retest directories/files"
+

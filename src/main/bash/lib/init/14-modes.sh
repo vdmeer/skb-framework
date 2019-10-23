@@ -29,7 +29,8 @@
 ##
 
 
-Add object mode all             with    "all modes are active"
+#Add object mode all             with    "all modes are active"
+
 Add object mode test            with    "mode for testing framework and modules"
 Add object mode dev             with    "mode for development tasks"
 Add object mode build           with    "mode for build tasks"

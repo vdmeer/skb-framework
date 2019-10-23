@@ -32,24 +32,18 @@
 function Applications() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id keys numberArr
+    local id keys width
     local cmd1="${1,,}" cmd2 cmdString1="${1,,}" cmdString2
     shift; case "${cmd1}" in
         has)
             echo " ${!FW_ELEMENT_APP_LONG[@]} " ;;
         list)
             if [[ "${FW_ELEMENT_APP_LONG[*]}" != "" ]]; then
+                width=$(tput cols)
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_APP_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s (dec: %s / %s, set: %s)\n"           "${id}" "${FW_ELEMENT_APP_DECMDS[${id}]}" "${FW_ELEMENT_APP_DECPHA[${id}]}" "${FW_ELEMENT_APP_PHA[${id}]}"
-                    printf "        status:     s: %s, c: %s\n"         "${FW_ELEMENT_APP_STATUS[${id}]}" "${FW_ELEMENT_APP_STATUS_COMMENTS[${id}]}"
-                    IFS=" " read -a numberArr <<< "${FW_ELEMENT_APP_REQUESTED[${id}]}"; unset IFS
-                    printf "        #req-in:    %s\n"                   "${#numberArr[@]}"
-                    printf "        req-in:     %s\n"                   "${FW_ELEMENT_APP_REQUESTED[${id}]}"
-                    printf "        command:    %s\n"                   "${FW_ELEMENT_APP_COMMAND[${id}]}"
-                    printf "        argnum:     %s\n"                   "${FW_ELEMENT_APP_ARGNUM[${id}]}"
-                    printf "        args:       %s\n"                   "${FW_ELEMENT_APP_ARGS[${id}]}"
-                    printf "        descr:      %s\n\n"                 "${FW_ELEMENT_APP_LONG[${id}]}"
+                    Debug application "${id}" "${width}"
+                    printf "\n"
                 done
             else
                 printf "    %s\n" "{}"

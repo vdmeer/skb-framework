@@ -32,7 +32,8 @@
 function __skb_Debug_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Debug)      retval="application dependency dirlist dir filelist file module option parameter project scenario site task" ;;
+        Debug)      retval="application dependency dirlist dir filelist file module option parameter project scenario script site task"
+                    retval+=" verification";;
 
         application)    retval="$(Applications has)" ;;
         dependency)     retval="$(Dependencies has)" ;;
@@ -45,6 +46,7 @@ function __skb_Debug_completions(){
         parameter)      retval="$(Parameters has)" ;;
         project)        retval="$(Projects has)" ;;
         scenario)       retval="$(Scenarios has)" ;;
+        script)         retval="$(Scripts has)" ;;
         site)           retval="$(Sites has)" ;;
         task)           retval="$(Tasks has)" ;;
     esac

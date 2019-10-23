@@ -32,7 +32,7 @@
 function Phases() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id keys numberArr
+    local id keys
     local cmd1="${1,,}" cmdString1="${1,,}"
     shift; case "${cmd1}" in
         has)
@@ -41,9 +41,8 @@ function Phases() {
             if [[ "${FW_OBJECT_PHA_LONG[*]}" != "" ]]; then
                 IFS=" " read -a keys <<< "${!FW_OBJECT_PHA_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    IFS=" " read -a numberArr <<< "${FW_OBJECT_PHA_MSGCOD[${id}]}"; unset IFS
                     printf "    %s (dec: %s / %s)\n"                    "${id}" "${FW_OBJECT_PHA_DECMDS[${id}]}" "${FW_OBJECT_PHA_DECPHA[${id}]}"
-                    printf "        #e/w/m:     %s, %s, %s\n"           "${FW_OBJECT_PHA_ERRCNT[${id}]}" "${FW_OBJECT_PHA_WRNCNT[${id}]}" "${#numberArr[@]}"
+                    printf "        #e/w/m:     %s, %s, %s\n"           "${FW_OBJECT_PHA_ERRCNT[${id}]}" "${FW_OBJECT_PHA_WRNCNT[${id}]}" "${FW_OBJECT_PHA_MSGCODCNT[${id}]}"
                     printf "        msg-codes:  %s\n"                   "${FW_OBJECT_PHA_MSGCOD[${id}]}"
                     printf "        print:      %s\n"                   "${FW_OBJECT_PHA_PRT_LVL[${id}]}"
                     printf "        log:        %s\n"                   "${FW_OBJECT_PHA_LOG_LVL[${id}]}"

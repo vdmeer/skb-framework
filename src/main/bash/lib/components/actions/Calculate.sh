@@ -32,7 +32,7 @@
 function Calculate() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local longest=0 startTime endTime execTime bcalc
+    local longest=0 startTime endTime execTime
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
@@ -42,14 +42,11 @@ function Calculate() {
 
             execTime=$(echo "scale=0;(${endTime}-${startTime})/1" | bc -l)
             if (( execTime == 0 )); then
-                bcalc=$(echo "scale=4;(${endTime}-${startTime})/1" | bc -l)
-                printf "0%s seconds\n" "$bcalc"
+                printf "0%s seconds\n" "$(bc -l <<< "scale=4;(${endTime}-${startTime})/1")"
             elif (( execTime < 60 )); then
-                bcalc=$(echo "scale=4;(${endTime}-${startTime})/1" | bc -l)
-                printf "%s seconds\n" "$bcalc"
+                printf "%s seconds\n" "$(bc -l <<< "scale=4;(${endTime}-${startTime})/1")"
             else
-                local bcalc=$(echo "scale=2;(${endTime}-${startTime})/60" | bc -l)
-                printf "%s minutes\n" "$bcalc"
+                printf "%s minutes\n" "$(bc -l <<< "scale=2;(${endTime}-${startTime})/60")"
             fi ;;
 
         longest)

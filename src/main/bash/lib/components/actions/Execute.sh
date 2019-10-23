@@ -82,8 +82,8 @@ function Execute() {
             if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" == "test" ]]; then
                 : # always available in test mode
             else
-                case ${FW_ELEMENT_SCN_MODES[${id}]} in
-                    all | ${FW_OBJECT_SET_VAL["CURRENT_MODE"]}) ;;
+                case "${FW_ELEMENT_SCN_MODES[${id}]}" in
+                    *"${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"*) ;;
                     *) Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 ${cmd1} "${id}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"; return ;;
                 esac
             fi
@@ -141,8 +141,8 @@ function Execute() {
             if [[ "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}" == "test" ]]; then
                 : # always available in test mode
             else
-                case ${FW_ELEMENT_TSK_MODES[${id}]} in
-                    all | ${FW_OBJECT_SET_VAL["CURRENT_MODE"]}) ;;
+                case "${FW_ELEMENT_TSK_MODES[${id}]}" in
+                    *"${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"*) ;;
                     *) Report application error "${FUNCNAME[0]}" "${cmdString1}" E856 ${cmd1} "${id}" "${FW_OBJECT_SET_VAL["CURRENT_MODE"]}"; return ;;
                 esac
             fi

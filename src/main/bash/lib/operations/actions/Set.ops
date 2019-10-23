@@ -83,3 +83,7 @@ SF_OPERATIONS["Set%log%dir%to%@DIR@"]="sets log dir to DIR"
 SF_OPERATIONS["Set%log%file%to%@FILE@"]="sets log file to FILE"
 
 SF_OPERATIONS["Set%module%path%to%@PATH@"]="sets module path to PATH"
+
+SF_OPERATIONS["Set%retest%commands%to%@YES|NO@"]="sets retest commands to yes or no"
+SF_OPERATIONS["Set%retest%fs%to%@YES|NO@"]="sets retest directories/files to yes or no"
+

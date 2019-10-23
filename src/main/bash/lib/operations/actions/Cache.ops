@@ -31,15 +31,7 @@
 
 SF_OPERATIONS["Cache"]="shows available operations"
 
-SF_OPERATIONS["Cache%framework"]="creates all cache files for the framework"
+SF_OPERATIONS["Cache%framework"]="creates the framework cache"
 
-SF_OPERATIONS["Cache%formats"]="creates cache for the framework: formats"
-SF_OPERATIONS["Cache%levels"]="creates cache for the framework: levels"
-SF_OPERATIONS["Cache%messages"]="creates cache for the framework: messages"
-SF_OPERATIONS["Cache%modes"]="creates cache for the framework: modes"
-SF_OPERATIONS["Cache%options"]="creates cache for the framework: options"
-SF_OPERATIONS["Cache%phases"]="creates cache for the framework: phases"
-SF_OPERATIONS["Cache%themeitems"]="creates cache for the framework: theme items"
-
-SF_OPERATIONS["Cache%%module%@ID@"]="cache module ID"
-SF_OPERATIONS["Cache%%theme%@ID@"]="cache theme ID"
+SF_OPERATIONS["Cache%module%@ID@"]="cache module ID"
+SF_OPERATIONS["Cache%theme%@ID@"]="cache theme ID"

@@ -32,7 +32,7 @@
 function Options() {
     if [[ -z "${1:-}" ]]; then Explain component "${FUNCNAME[0]}"; return; fi
 
-    local id shortId printString="" retval category keys
+    local id shortId retval keys width
     local cmd1="${1,,}" cmd2 cmdString1="${1,,}" cmdString2
     shift; case "${cmd1}" in
 
@@ -40,15 +40,11 @@ function Options() {
         shorts) echo " ${!FW_ELEMENT_OPT_SHORT[@]} " ;;
         list)
             if [[ "${FW_ELEMENT_OPT_LONG[*]}" != "" ]]; then
+                width=$(tput cols)
                 IFS=" " read -a keys <<< "${!FW_ELEMENT_OPT_LONG[@]}"; IFS=$'\n' keys=($(sort <<<"${keys[*]}")); unset IFS
                 for id in "${keys[@]}"; do
-                    printf "    %s (len: %s, short: %s)\n"              "${id}" "${FW_ELEMENT_OPT_LEN[${id}]}" "${FW_ELEMENT_OPT_LS[${id}]}"
-                    printf "        arg:        %s\n"                   "${FW_ELEMENT_OPT_ARG[${id}]}"
-                    printf "        sort:       %s\n"                   "${FW_ELEMENT_OPT_SORT[${id}]}"
-                    printf "        cat:        %s\n"                   "${FW_ELEMENT_OPT_CAT[${id}]}"
-                    printf "        set:        %s\n"                   "${FW_ELEMENT_OPT_SET[${id}]}"
-                    printf "        value:      %s\n"                   "${FW_ELEMENT_OPT_VAL[${id}]}"
-                    printf "        descr:      %s\n\n"                 "${FW_ELEMENT_OPT_LONG[${id}]}"
+                    Debug option "${id}" "${width}"
+                    printf "\n"
                 done
             else
                 printf "    %s\n" "{}"

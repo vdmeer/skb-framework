@@ -36,7 +36,7 @@ function Set() {
     local cmd1="${1,,}" cmd2 cmd3 cmdString1="${1,,}" cmdString2 cmdString3
     shift; case "${cmd1}" in
 
-        app | config | current | error | last | log | module | print | warning | \
+        app | config | current | error | last | log | module | print | retest | warning | \
         element | object)
             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString1} cmd2" E802 1 "$#"; return; fi
             cmd2=${1,,}; shift; cmdString2="${cmd1} ${cmd2}"
@@ -68,7 +68,7 @@ function Set() {
                     case ${object}-${entry} in
                         config-file | current-mode | current-phase | current-theme | current-project | current-scenario | current-script | current-site | current-task | \
                         last-project | last-scenario | last-script | last-site | last-task | log-date-arg | log-dir | log-file | log-format | log-level | print-format | print-format2 | print-level | module-path | \
-                        error-count | warning-count)
+                        error-count | warning-count | retest-commands | retest-fs)
                             Set ${object} ${entry} to "${value}" ;;
                         message-codes) Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E831 setting ;;
                         auto-verify | auto-write) Report process error "${FUNCNAME[0]}" "${cmdString2} ${1}" E832 setting ${object} ;;
@@ -112,7 +112,7 @@ function Set() {
                 app-name | app-name2 | config-file | current-mode | current-phase | current-theme | \
                 current-project | current-scenario | current-script | current-site | current-task | last-project | last-scenario | last-script | last-site | last-task | \
                 log-format | print-format | print-format2 | log-level | print-level | log-date-arg | log-dir | log-file | module-path | \
-                error-count | warning-count)
+                error-count | warning-count | retest-commands | retest-fs)
                     if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString2} cmd3" E802 1 "$#"; return; fi
                     cmd3=${1,,}; shift; cmdString3="${cmd1} ${cmd2} ${cmd3}"
                     case "${cmd1}-${cmd2}-${cmd3}" in
@@ -144,12 +144,13 @@ function Set() {
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             value="${1}"; id=${cmd1^^}_${cmd2^^}
                             Test existing phase id "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
-                            FW_OBJECT_SET_VAL["${id}"]="${value}";                                     FW_OBJECT_SET_PHASET["${id}"]="${value}"
-                            FW_OBJECT_SET_VAL["PRINT_LEVEL"]="${FW_OBJECT_PHA_PRT_LVL["${value}"]}";   FW_OBJECT_SET_PHASET["PRINT_LEVEL"]="${value}"
-                            FW_OBJECT_SET_VAL["LOG_LEVEL"]="${FW_OBJECT_PHA_LOG_LVL["${value}"]}";     FW_OBJECT_SET_PHASET["LOG_LEVEL"]="${value}"
-                            FW_OBJECT_SET_VAL["ERROR_COUNT"]="${FW_OBJECT_PHA_ERRCNT["${value}"]}";    FW_OBJECT_SET_PHASET["ERROR_COUNT"]="${value}"
-                            FW_OBJECT_SET_VAL["MESSAGE_CODES"]="${FW_OBJECT_PHA_MSGCOD["${value}"]}";  FW_OBJECT_SET_PHASET["MESSAGE_CODES"]="${value}"
-                            FW_OBJECT_SET_VAL["WARNING_COUNT"]="${FW_OBJECT_PHA_WRNCNT["${value}"]}";  FW_OBJECT_SET_PHASET["WARNING_COUNT"]="${value}"
+                            FW_OBJECT_SET_VAL["${id}"]="${value}";                                              FW_OBJECT_SET_PHASET["${id}"]="${value}"
+                            FW_OBJECT_SET_VAL["PRINT_LEVEL"]="${FW_OBJECT_PHA_PRT_LVL["${value}"]}";            FW_OBJECT_SET_PHASET["PRINT_LEVEL"]="${value}"
+                            FW_OBJECT_SET_VAL["LOG_LEVEL"]="${FW_OBJECT_PHA_LOG_LVL["${value}"]}";              FW_OBJECT_SET_PHASET["LOG_LEVEL"]="${value}"
+                            FW_OBJECT_SET_VAL["ERROR_COUNT"]="${FW_OBJECT_PHA_ERRCNT["${value}"]}";             FW_OBJECT_SET_PHASET["ERROR_COUNT"]="${value}"
+                            FW_OBJECT_SET_VAL["MESSAGE_CODES"]="${FW_OBJECT_PHA_MSGCOD["${value}"]}";           FW_OBJECT_SET_PHASET["MESSAGE_CODES"]="${value}"
+                            FW_OBJECT_SET_VAL["MESSAGE_CODE_COUNT"]="${FW_OBJECT_PHA_MSGCODCNT["${value}"]}";   FW_OBJECT_SET_PHASET["MESSAGE_CODE_COUNT"]="${value}"
+                            FW_OBJECT_SET_VAL["WARNING_COUNT"]="${FW_OBJECT_PHA_WRNCNT["${value}"]}";           FW_OBJECT_SET_PHASET["WARNING_COUNT"]="${value}"
                             doWriteFast=true ;;
 
                         current-theme-to)
@@ -179,6 +180,7 @@ function Set() {
                             Test ${cmd1} format "${value}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
                             FW_OBJECT_SET_VAL["${id}"]="${value}"
                             FW_OBJECT_SET_PHASET["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            Stores build all
                             doWriteFast=true ;;
 
                         log-level-to | print-level-to)
@@ -199,6 +201,30 @@ function Set() {
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
                             value="${1}"
                             FW_OBJECT_SET_VAL["LOG_FILE"]="${value}"; doWriteFast=true ;;
+
+                        retest-commands-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            value="${1}"; Test yesno "${value}" "retest command"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                            id=${cmd1^^}_${cmd2^^}
+                            case "${value,,}" in
+                                y | yes) value="yes" ;;
+                                n | no)  value="no" ;;
+                            esac
+                            FW_OBJECT_SET_VAL["${id}"]="${value}"
+                            FW_OBJECT_SET_PHASET["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            doWriteFast=true ;;
+
+                        retest-fs-to)
+                            if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi
+                            value="${1}"; Test yesno "${value}" "retest fs"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
+                            id=${cmd1^^}_${cmd2^^}
+                            case "${value,,}" in
+                                y | yes) value="yes" ;;
+                                n | no)  value="no" ;;
+                            esac
+                            FW_OBJECT_SET_VAL["${id}"]="${value}"
+                            FW_OBJECT_SET_PHASET["${id}"]="${FW_OBJECT_SET_VAL["CURRENT_PHASE"]}"
+                            doWriteFast=true ;;
 
                         module-path-to)
                             if [[ "${#}" -lt 1 ]]; then Report process error "${FUNCNAME[0]}" "${cmdString3}" E801 1 "$#"; return; fi

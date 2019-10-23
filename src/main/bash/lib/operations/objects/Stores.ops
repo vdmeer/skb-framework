@@ -21,7 +21,7 @@
 #-------------------------------------------------------------------------------
 
 ##
-## Tablechars - API declarations
+## Stores - API declarations
 ##
 ## @author     Sven van der Meer <vdmeer.sven@mykolab.com>
 ## @version    0.0.6
@@ -29,15 +29,23 @@
 ##
 
 
-SF_OPERATIONS["Tablechars"]="shows available operations"
+SF_OPERATIONS["Stores"]="shows available operations"
 
-SF_OPERATIONS["Tablechars%has"]="prints name of all table characters"
-SF_OPERATIONS["Tablechars%list"]="prints a raw list of table characters, strings, and settings"
+SF_OPERATIONS["Stores%has"]="prints name of all variables"
+SF_OPERATIONS["Stores%count"]="returns the number of stores"
 
-SF_OPERATIONS["Tablechars%build"]="builds all table characters/strings for current PRINT_FORMAT"
-SF_OPERATIONS["Tablechars%clear%all"]="clears all table characters/ strings"
-SF_OPERATIONS["Tablechars%clear%format"]="clears table characters/strings for current print format"
+SF_OPERATIONS["Stores%clear%all"]="clears all stores"
+SF_OPERATIONS["Stores%clear%format"]="clears stores for the current format"
 
-SF_OPERATIONS["Tablechars%formats"]="lists formats for which table characters have been built"
+SF_OPERATIONS["Stores%build%all"]="builds all stores"
+SF_OPERATIONS["Stores%build%characters"]="builds store for characters"
+SF_OPERATIONS["Stores%build%legends"]="builds store for legends"
+SF_OPERATIONS["Stores%build%settings"]="builds store for settings"
+SF_OPERATIONS["Stores%build%templates"]="builds store for templates"
 
-SF_OPERATIONS["Tablechars%get%@CHAR@"]="returns built table character, empty if none built or known"
+SF_OPERATIONS["Stores%show%all"]="shows all stores"
+SF_OPERATIONS["Stores%show%characters"]="shows store for characters"
+SF_OPERATIONS["Stores%show%legends"]="shows store for legends"
+SF_OPERATIONS["Stores%show%settings"]="shows store for settings"
+SF_OPERATIONS["Stores%show%templates"]="shows store for templates"
+

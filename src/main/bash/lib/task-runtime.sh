@@ -31,11 +31,15 @@
 
 if [[ ! -n "${SF_HOME:-}" || "${FW_LOADED:-no}" != yes ]]; then printf " task-runtime: please run from skb-framework\n\n"; exit 10; fi
 
-
 source ${SF_HOME}/lib/runtime.sh
 source ${SF_HOME}/lib/components/Framework.sh
 source ${SF_HOME}/lib/operations/operations.sh
-Load runtime
+
+source ${FW_RUNTIME_CONFIG_FAST}
+source "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_MEDIUM"]}"
+source "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_SLOW"]}"
+source "${FW_OBJECT_CFG_VAL["RUNTIME_CONFIG_LOAD"]}"
+
 IFS="." read -r -a SF_VERSINFO <<< "${SF_VERSION}"
 
 set -o pipefail -o noclobber -o nounset -o errexit

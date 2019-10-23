@@ -32,10 +32,11 @@
 function __skb_Deactivate_completions(){
     local retval=""
     case ${COMP_WORDS[COMP_CWORD-1]} in
-        Deactivate) retval="print log phase show strict auto" ;;
+        Deactivate) retval="print log phase retest show strict auto" ;;
 
         print)      retval="level" ;;
         log)        retval="level" ;;
+        retest)     retval="commands fs" ;;
         show)       retval="execution execution2" ;;
         strict)     retval="mode" ;;
         auto)       retval="verify write" ;;
@@ -44,9 +45,9 @@ function __skb_Deactivate_completions(){
 
         phase)      retval="$(Phases has)" ;;
 
-        *)              if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "phase" ]]; then
-                            retval="print log"
-                        fi ;;
+        *)          if [[ "${COMP_WORDS[COMP_CWORD-2]}" == "phase" ]]; then
+                        retval="print log"
+                    fi ;;
     esac
     if [[ -n "${retval}" ]]; then COMPREPLY=($(compgen -W "${retval}" -- "${COMP_WORDS[COMP_CWORD]}")); fi
 }

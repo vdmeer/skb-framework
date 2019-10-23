@@ -44,15 +44,15 @@ function Dependency() {
     Test existing ${3} id "${id2}"; errno=$?; if [[ "${errno}" != 0 ]]; then return; fi
     if [[ "${id1}" == "${id2}" ]]; then Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E902 "${3}"; return; fi
 
-    if [[ ! -n "${FW_ELEMENT_DEP_REQUIRED_DEP["${id1}"]:-}" ]]; then
-        FW_ELEMENT_DEP_REQUIRED_DEP["${id1}"]+="${id2} "; writeSlow=true
+    if [[ ! -n "${FW_ELEMENT_DEP_REQOUT_DEP["${id1}"]:-}" ]]; then
+        FW_ELEMENT_DEP_REQOUT_DEP["${id1}"]+="${id2} "; writeSlow=true
     else
-        case "${FW_ELEMENT_DEP_REQUIRED_DEP["${id1}"]}" in
+        case "${FW_ELEMENT_DEP_REQOUT_DEP["${id1}"]}" in
             *"${id2} "*)    Report application error "${FUNCNAME[0]}" "${1} requires ${3} ${4}" E904 "${id2}" "${3} ${id1}"; return ;;
-            *)              FW_ELEMENT_DEP_REQUIRED_DEP["${id1}"]+="${id2} "; writeSlow=true
+            *)              FW_ELEMENT_DEP_REQOUT_DEP["${id1}"]+="${id2} "; writeSlow=true
         esac
     fi
 
-    if [[ "${writeSlow}" ]]; then FW_ELEMENT_DEP_REQOUT_NUM[${id1}]=$(( FW_ELEMENT_DEP_REQOUT_NUM[${id1}] + 1 )); fi
+    if [[ "${writeSlow}" ]]; then FW_ELEMENT_DEP_REQOUT_COUNT[${id1}]=$(( FW_ELEMENT_DEP_REQOUT_COUNT[${id1}] + 1 )); fi
     if [[ "${writeSlow}" == true && "${FW_OBJECT_SET_VAL["AUTO_WRITE"]:-false}" != false ]]; then Write slow config; fi
 }

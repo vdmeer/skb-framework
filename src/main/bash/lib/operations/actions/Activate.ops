@@ -44,3 +44,7 @@ SF_OPERATIONS["Activate%strict%mode"]="activates strict mode"
 
 SF_OPERATIONS["Activate%show%execution"]="activates show execution"
 SF_OPERATIONS["Activate%show%execution2"]="activates show execution2"
+
+SF_OPERATIONS["Activate%retest%commands"]="activates retest commands"
+SF_OPERATIONS["Activate%retest%fs"]="activates retest directories/files"
+

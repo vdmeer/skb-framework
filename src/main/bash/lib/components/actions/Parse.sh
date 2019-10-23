@@ -87,15 +87,12 @@ function Parse() {
                         for id in "${!FW_INSTANCE_CLI_LEN[@]}"; do FW_ELEMENT_OPT_LEN[${id}]="${FW_INSTANCE_CLI_LEN[${id}]}"; done
                         for id in "${!FW_INSTANCE_CLI_SET[@]}"; do FW_ELEMENT_OPT_SET[${id}]="${FW_INSTANCE_CLI_SET[${id}]}"; done
                         for id in "${!FW_INSTANCE_CLI_VAL[@]}"; do FW_ELEMENT_OPT_VAL[${id}]="${FW_INSTANCE_CLI_VAL[${id}]}"; done
-                        FW_ELEMENT_OPT_EXTRA="${FW_INSTANCE_CLI_EXTRA}"
+                        declare -g -x FW_ELEMENT_OPT_EXTRA="${FW_INSTANCE_CLI_EXTRA}"
 
                         if [[ "${FW_ELEMENT_OPT_SET["format"]}" == "yes" ]];            then Set print format to "${FW_ELEMENT_OPT_VAL["format"]}"; fi
                         if [[ "${FW_ELEMENT_OPT_SET["help"]}" == "yes" ]];              then Print framework help; Terminate framework 0; fi
                         if [[ "${FW_ELEMENT_OPT_SET["version"]}" == "yes" ]];           then Print framework version; Terminate framework 0; fi
                         if [[ "${FW_ELEMENT_OPT_SET["option"]}" == "yes" ]];            then printf "\n"; Describe option "${FW_ELEMENT_OPT_VAL["option"]}"; Terminate framework 0; fi
-                        if [[ "${FW_ELEMENT_OPT_SET["test-colors"]}" == "yes" ]];       then Print test colors; Terminate framework 0; fi
-                        if [[ "${FW_ELEMENT_OPT_SET["test-effects"]}" == "yes" ]];      then Print test effects; Terminate framework 0; fi
-                        if [[ "${FW_ELEMENT_OPT_SET["test-characters"]}" == "yes" ]];   then Print test characters; Terminate framework 0; fi
                         if [[ "${FW_ELEMENT_OPT_SET["test-terminal"]}" == "yes" ]];     then Print test terminal; Terminate framework 0; fi ;;
 
                 Task)   if [[ "${FW_INSTANCE_CLI_SET["format"]}" == "yes" ]];     then FW_OBJECT_SET_VAL["PRINT_FORMAT2"]="${FW_INSTANCE_CLI_VAL["format"]}"; fi

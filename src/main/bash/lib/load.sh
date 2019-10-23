@@ -34,151 +34,134 @@ set -o pipefail -o noclobber -o nounset
 shopt -s globstar
 
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] source components\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] source components\n"; fi
 source ${SF_HOME}/lib/components/Framework.sh
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] source rt maps\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] preset current phase\n"; fi
+source ${SF_HOME}/lib/init/00-current-phase.sh
+
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] 01-rt-maps\n"; fi
 source ${SF_HOME}/lib/init/01-rt-maps.sh
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] source object maps\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] 02-object-maps\n"; fi
 source ${SF_HOME}/lib/init/02-object-maps.sh
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] source element maps\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] 03-element-maps\n"; fi
 source ${SF_HOME}/lib/init/03-element-maps.sh
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] set essential modules: Framework, API\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] 04-fw-modules\n"; fi
 source ${SF_HOME}/lib/init/04-fw-modules.sh
 
 FW_CURRENT_MODULE_NAME="⫷Framework⫸"
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] initialize configuration\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] 10-config\n"; fi
 source ${SF_HOME}/lib/init/10-config.sh
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] load formats\n"; fi
-if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/formats.cache" ]]; then
-    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/formats.cache"
+if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/⫷Framework⫸-objects.cache" ]]; then
+    if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] found object cache, load from here\n"; fi
+    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/⫷Framework⫸-objects.cache"
 else
+    if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] no object cache\n"; fi
+    if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init]     11-formats\n"; fi
     source ${SF_HOME}/lib/init/11-formats.sh
-fi
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] load levels\n"; fi
-if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/levels.cache" ]]; then
-    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/levels.cache"
-else
+    if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init]     12-levels\n"; fi
     source ${SF_HOME}/lib/init/12-levels.sh
-fi
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] load messages\n"; fi
-if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/messages.cache" ]]; then
-    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/messages.cache"
-else
+    if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init]     13-messages\n"; fi
     source ${SF_HOME}/lib/init/13-messages.sh
-fi
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] load modes\n"; fi
-if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modes.cache" ]]; then
-    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modes.cache"
-else
+    if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init]     14-modes\n"; fi
     source ${SF_HOME}/lib/init/14-modes.sh
-fi
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] load phases\n"; fi
-if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modes.cache" ]]; then
-    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/phases.cache"
-else
+    if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init]     15-phases\n"; fi
     source ${SF_HOME}/lib/init/15-phases.sh
-fi
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] load themeitems\n"; fi
-if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themeitems.cache" ]]; then
-    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themeitems.cache"
-else
+    if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init]     16-themeitems\n"; fi
     source ${SF_HOME}/lib/init/16-themeitems.sh
 fi
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] load temes\n"; fi
-if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes.cache" ]]; then
-    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/themes.cache"
-else
-    source ${SF_HOME}/lib/init/17-themes.sh
-fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] 17-themes\n"; fi
+source ${SF_HOME}/lib/init/17-themes.sh
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] load variables\n"; fi
-if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/variables.cache" ]]; then
-    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/variables.cache"
-else
-    source ${SF_HOME}/lib/init/18-variables.sh
-fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] 18-variables\n"; fi
+source ${SF_HOME}/lib/init/18-variables.sh
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] load settings\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] 19-settings\n"; fi
 source ${SF_HOME}/lib/init/19-settings.sh
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-init] load options\n"; fi
 declare -A FW_INSTANCE_CLI_LONG FW_INSTANCE_CLI_SHORT FW_INSTANCE_CLI_LS FW_INSTANCE_CLI_SORT FW_INSTANCE_CLI_ARG FW_INSTANCE_CLI_CAT FW_INSTANCE_CLI_LEN FW_INSTANCE_CLI_SET FW_INSTANCE_CLI_VAL
 declare -A FW_INSTANCE_CLI_EXTRA
-if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/options.cache" ]]; then
-    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/options.cache"
+if [[ -r "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/⫷Framework⫸-options.cache" ]]; then
+    if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] found option cache, load from here\n"; fi
+    source "${FW_OBJECT_CFG_VAL["CACHE_DIR"]}/modules/⫷Framework⫸-options.cache"
 else
+    if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] no option cache\n"; fi
+    if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init]     20-options\n"; fi
     source ${SF_HOME}/lib/init/20-options.sh
 fi
 
 unset FW_CURRENT_MODULE_NAME
 
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[init] DONE\n"; fi
 Report process message "framework initialized"
 printf "\n"
 
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-load] parse cli\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[load] 01-cli (parse)\n"; fi
 if [[ -z "${FW_START_CLI:-}" ]]; then declare -x FW_START_CLI="$*"; fi
 source ${SF_HOME}/lib/load/01-cli.sh
 if (( ${FW_OBJECT_SET_VAL["ERROR_COUNT"]} > 0 )); then printf "\n"; Terminate framework 1; fi
-
-
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-load] set env, aliases, traps\n"; fi
-source ${SF_HOME}/lib/load/02-settings.sh
-
-
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-load] change to phase mode\n"; fi
 Set current phase to Load
 
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[load] 02-settings\n"; fi
+source ${SF_HOME}/lib/load/02-settings.sh
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-load] load modules: Framework, API, Core\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[load] 03-modules\n"; fi
 source ${SF_HOME}/lib/load/03-modules.sh
 
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-load] read config file\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[load] 04-file (read config file)\n"; fi
 source ${SF_HOME}/lib/load/04-file.sh
 
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-load] read environment\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[load] 05-env (read environment)\n"; fi
 source ${SF_HOME}/lib/load/05-env.sh
-
-
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-load] verify\n"; fi
-Verify elements
 Set current phase to Load
+
+
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[load] building stores\n"; fi
+Stores build all
+
+
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[load] verify elements\n"; fi
+Verify elements
 
 
 Report process message "framework loaded"
 export FW_LOADED=yes
 
+
 IFS="." read -r -a SF_VERSINFO <<< "${SF_VERSION}"
 source ${SF_HOME}/lib/completions/*.bash
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-load] writing runtime config files\n"; fi
-Write load config; Write fast config; Write medium config; Write slow config
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[load] writing config files (all)\n"; fi
+Write load config; Write medium config; Write slow config; Write fast config
 
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-load] cli exit options\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[load] 10-cli2 (remaining exit options)\n"; fi
 source ${SF_HOME}/lib/load/10-cli2.sh
 
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-load] runtime maps\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[load] runtime (load maps)\n"; fi
 source ${SF_HOME}/lib/runtime.sh
 
 
-if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[debug-load] last settings\n"; fi
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[load] last settings\n"; fi
 source ${SF_HOME}/lib/operations/operations.sh
 Report process message "framework started, ready to go"
 Set current phase to Shell
 FW_OBJECT_SET_VAL["AUTO_VERIFY"]=true
 Activate auto write
+
+if [[ -n "${SF_DEBUG_LOAD:-}" ]]; then printf "[load] DONE\n"; fi
+
