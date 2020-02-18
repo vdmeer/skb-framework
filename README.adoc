@@ -9,11 +9,11 @@
 // ============LICENSE_END=========================================================
 //
 // @author     Sven van der Meer (vdmeer.sven@mykolab.com)
-// @version    0.0.5
+// @version    0.0.6
 //
 
 
-:release-version: 0.0.5
+:release-version: 0.0.6
 = SKB Framework
 v{release-version}
 :page-layout: base
@@ -102,6 +102,7 @@ It also defines some scenarios to build its own deployment artifacts.
 This software package also provides an application named `skb-framework` as a standard application utilizing the framework's features and tasks.
 
 For more information on the framework, how to use it, how to build software artifacts, and how develop your own application with it, please visit the SKB-Framework website at https://vdmeer.github.io/skb/framework/.
+
 
 
 
